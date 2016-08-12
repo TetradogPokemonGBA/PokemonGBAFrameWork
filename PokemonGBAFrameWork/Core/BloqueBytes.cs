@@ -62,18 +62,18 @@ namespace PokemonGBAFrameWork
 				
 			}
 		}
-		public static BloqueBytes GetBytes(RomPokemon rom, Hex inicio, Hex longitud)
+		public static BloqueBytes GetBytes(RomPokemon rom, Hex offsetInicio, Hex longitud)
 		{
 		
-			if (inicio < 0 || longitud < 0 || rom.Datos.Length < inicio + longitud)
+			if (offsetInicio < 0 || longitud < 0 || rom.Datos.Length < offsetInicio + longitud)
 				throw new ArgumentOutOfRangeException();
 			byte[] bytes = new byte[longitud];
 			unsafe {
 				fixed(byte* bytesRom=rom.Datos)
-					for (int i = inicio, f = i + longitud, pos = 0; i < f; i++,pos++)
+					for (int i = offsetInicio, f = i + longitud, pos = 0; i < f; i++,pos++)
 						bytes[pos] = bytesRom[i];
 			}
-			return new BloqueBytes(inicio,bytes);
+			return new BloqueBytes(offsetInicio,bytes);
 		
 		}
 	}
