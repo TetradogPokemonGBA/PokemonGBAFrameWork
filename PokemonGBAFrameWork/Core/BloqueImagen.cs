@@ -72,6 +72,30 @@ namespace PokemonGBAFrameWork
 		{
 			return paletas[index];
 		}
+		/// <summary>
+		/// Pone la paleta al final a no ser que se diga la posición
+		/// </summary>
+		/// <param name="paleta"></param>
+		/// <param name="index">si es negativo se pondrá al final</param>
+		/// <returns></returns>
+		public void AddPaleta(Color[] paleta,int index=-1)
+		{
+			if(paleta==null||paleta.Length!=TAMAÑOPALETA)throw new ArgumentException("Paleta incorrecta");
+			if(index>paletas.Count)index=-1;
+			if(index<0)
+				paletas.Insert(paletas.Count,paleta);
+			else paletas.Insert(index,paleta);
+		}
+		public void ReplacePaleta(Color[] paletaNueva,int indexPaletaAReemplazar)
+		{
+			if(paletas.Count<indexPaletaAReemplazar||indexPaletaAReemplazar<0)throw new ArgumentOutOfRangeException();
+			if(paletaNueva==null||paletaNueva.Length!=TAMAÑOPALETA)throw  new ArgumentException("Paleta incorrecta");
+			paletas.RemoveAt(indexPaletaAReemplazar);
+			paletas.Insert(indexPaletaAReemplazar,paletaNueva);
+		}
+		public void RemovePaleta(int indexPaletaAEliminar){
+			paletas.RemoveAt(indexPaletaAEliminar);
+		}
 		
 		public byte[] DatosImagenComprimida{
 			get{return datosImagenComprimida;}
@@ -91,6 +115,28 @@ namespace PokemonGBAFrameWork
 			throw new NotImplementedException();
 		}
 		public static Bitmap GenerarImagen(byte[] datosImagenComprimida, Color[] color)
+		{
+			throw new NotImplementedException();
+		}
+		public static BloqueImagen GetImage(RomPokemon rom,Hex offsetInicioDatos,params Hex[] offsetInicioPaletas)
+		{
+			if(rom==null||offsetInicioPaletas==null)throw new ArgumentNullException();
+			if(offsetInicioDatos<0)throw new ArgumentOutOfRangeException(" offset datos imagen fuera de rango ");
+			if(offsetInicioPaletas.Length==0)throw new ArgumentException("se necesita direcciones para obtener las paletas");
+			for(int i=0;i<offsetInicioPaletas.Length;i++)
+				if(offsetInicioPaletas[i]<0)
+					throw new ArgumentOutOfRangeException("offset Paleta fuera de indice");
+			List<Color[]> paletas=new List<Color[]>();
+			for(int i=0;i<offsetInicioPaletas.Length;i++)
+				paletas.Add(GetPaleta(rom,offsetInicioPaletas[i]));
+			return new BloqueImagen(offsetInicioDatos,GetDatosComprimidosImagen(rom,offsetInicioDatos),paletas.ToArray());
+			
+		}
+		public static byte[] GetDatosComprimidosImagen(RomPokemon rom,Hex offsetInicioDatos)
+		{
+			throw new NotImplementedException();
+		}
+	    public static Color[] GetPaleta(RomPokemon rom,Hex offsetInicioPaleta)
 		{
 			throw new NotImplementedException();
 		}

@@ -57,15 +57,17 @@
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BloqueImagen.cs" />
     <Compile Include="Core\RomPokemon.cs" />
     <Compile Include="Core\BloqueBytes.cs" />
-    <Compile Include="Core\TratarString.cs" />
+    <Compile Include="Core\BloqueString" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
