@@ -34,6 +34,11 @@ namespace PokemonGBAFrameWork
 			get{
 				return datosRom;
 			}
+			set{
+				if(value==null)throw new ArgumentNullException();
+				datosRom=value;
+			
+			}
 		}
 		public string PathRom{
 			get{
