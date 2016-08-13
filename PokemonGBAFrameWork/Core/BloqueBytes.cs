@@ -88,7 +88,13 @@ namespace PokemonGBAFrameWork
 				
 			}
 		}
-		public static void CambiarTamañoRom(RomPokemon rom,int tamañoATener,byte byteEnBlanco=0xFF){
+		/// <summary>
+		/// Cambia el tamaño de la rom, hay que tener en cuenta que se pueden perder datos i/o dejar inutilizable la rom al reducirla.
+		/// </summary>
+		/// <param name="rom">no puede ser null</param>
+		/// <param name="tamañoATener">el tamaño tiene que estar entre el minimo y el maximo</param>
+		/// <param name="byteEnBlanco">byte a poner en lugar de los que hay</param>
+		public static void CambiarTamañoRom(RomPokemon rom,int tamañoATener,byte byteEnBlanco=0x00){
 			if(rom==null||tamañoATener<TamañoMinimoRom||tamañoATener>TamañoMaximoRom)throw new ArgumentException();
 			byte[] romExpandida=new byte[tamañoATener];
 			
