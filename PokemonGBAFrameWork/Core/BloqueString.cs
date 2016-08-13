@@ -48,21 +48,38 @@ namespace PokemonGBAFrameWork
             EspN,//'\\n'
             Vacio,//''
         }
+		
+		public const int MAXIMODECARACTERESDESHABILITADO=0;
+		int maxCaracteres;
 		Hex offsetInicio;
 		string texto;
-		public BloqueString(string texto):this(0,texto){}
-		public BloqueString(Hex offsetInicio,string texto)
+		public BloqueString(string texto):this(0,texto,MAXIMODECARACTERESDESHABILITADO){}
+		public BloqueString(string texto,int maxCaracteres):this(0,texto,maxCaracteres){}
+		public BloqueString(Hex offsetInicio,string texto):this(offsetInicio,texto,MAXIMODECARACTERESDESHABILITADO){}
+		public BloqueString(Hex offsetInicio,string texto,int maxCaracteres)
 		{
+			this.maxCaracteres=maxCaracteres;
 			Texto=texto;
 			OffsetInicio=offsetInicio;
 		}
 
+		public int MaxCaracteres {
+			get {
+				return maxCaracteres;
+			}
+			set {
+				if(value<MAXIMODECARACTERESDESHABILITADO)value=MAXIMODECARACTERESDESHABILITADO;
+				maxCaracteres = value;
+			}
+		}
 		public string Texto {
 			get {
 				return texto;
 			}
 			set {
 				if(value==null)value="";
+				if(maxCaracteres!=MAXIMODECARACTERESDESHABILITADO&&value.Length>maxCaracteres)
+					throw new ArgumentOutOfRangeException();
 				texto = value;
 			}
 		}
