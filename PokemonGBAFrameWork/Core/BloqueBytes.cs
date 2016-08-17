@@ -17,7 +17,10 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class BloqueBytes
 	{
-		public static readonly int TamañoMinimoRom=1,TamañoMaximoRom=64*1024*1024*1024;//el minimo y el maximo se tienen que estudiar :)
+		//el minimo y el maximo se tienen que estudiar :)
+		public static readonly int TamañoMinimoRom = 1;
+		public static readonly int TamañoMaximoRom = 67108864;
+
 		Hex offset;
 		byte[] bytes;
 		public BloqueBytes(Hex offset, byte[] bytesAPoner)
@@ -173,7 +176,7 @@ namespace PokemonGBAFrameWork
 		public static BloqueBytes LoadFile(FileInfo file)
 		{
 			const int bytesInt=4;
-			Stream str;
+			Stream str=null;
 			byte[] bytesBloque;
 			try{
 				str=file.OpenRead();
@@ -184,7 +187,7 @@ namespace PokemonGBAFrameWork
 			catch{
 				throw new FormatException("el archivo no es valido");
 			}
-			return new BloqueBytes((str.Read(4)),bytesBloque);
+			return new BloqueBytes((Hex)str.Read(4),bytesBloque);
 		}
 		public static BloqueBytes LoadFile(string filePath){
 			
