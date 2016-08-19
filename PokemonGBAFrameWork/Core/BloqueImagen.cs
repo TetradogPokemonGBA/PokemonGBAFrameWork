@@ -460,12 +460,13 @@ namespace PokemonGBAFrameWork
 			return new BloqueImagen(offsetInicioDatos, GetDatosDescomprimidos(rom, offsetInicioDatos), paletas);
 		}
 
-		public static void SetBloqueImagen(RomPokemon rom, BloqueImagen img)
+		public static void SetBloqueImagen(RomPokemon rom, BloqueImagen img,bool añadirPaletasImg=true)
 		{
 			
 			if (rom == null || img == null)
 				throw new ArgumentNullException();
 			BloqueBytes.SetBytes(rom, img.OffsetInicio, ComprimirDatosLZ77(img.DatosImagenDescomprimida));
+            if(añadirPaletasImg)
 			for (int i = 0; i < img.paletas.Count; i++)
 				Paleta.SetPaleta(rom, img.paletas[i]);
 		}
