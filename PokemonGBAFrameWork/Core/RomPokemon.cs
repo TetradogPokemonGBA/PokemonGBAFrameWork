@@ -20,7 +20,8 @@ namespace PokemonGBAFrameWork
 		DirectoryInfo dirRom;
 		DirectoryInfo dirBackUpRom;
 		string nombreRom;
-		
+		//para las zonas tiene que ser algo de clase para que no se este cargando en cada rom.
+		//la version viene aqui y solo se cambia con un metodo que primero mira si con la version y el idioma puede saber la compilacion y la edicion si puede porque las zonas cargan bien entonces ya se tiene esos datos y si no funciona se busca cual es la que coincide sin dar error y si no esta da error!!
 		byte[] datosRom;
 		public RomPokemon(FileInfo archivo)
 		{

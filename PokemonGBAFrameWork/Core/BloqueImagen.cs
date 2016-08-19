@@ -269,6 +269,7 @@ namespace PokemonGBAFrameWork
 		/// Convert Bitmap To 4BPP Byte Array
 		/// </summary>
 		/// <param name="img"></param>
+		/// <param name="paleta"></param>
 		/// <returns></returns>
 		static byte[] GetDatosDescomprimidosImagen(Bitmap img, Paleta paleta)
 		{
