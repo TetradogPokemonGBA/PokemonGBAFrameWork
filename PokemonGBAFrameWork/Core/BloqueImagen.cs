@@ -36,36 +36,7 @@ namespace PokemonGBAFrameWork
 				OffsetInicio = offsetInicio;
 				ColoresPaleta = paleta;
 			}
-			public Paleta(Bitmap img)
-				: this(0, img)
-			{
-			}
-			public Paleta(Hex offsetInicio, Bitmap img)
-			{
-				if (img == null)
-					throw new ArgumentNullException();
-				SortedList<int,Color> coloresImg = new SortedList<int, Color>();
-				Color color;
-				OffsetInicio = offsetInicio;
-				//creo la paleta con la img
-				unsafe {
-					img.TrataBytes(((Gabriel.Cat.Extension.MetodoTratarBytePointer)((bytesImg) => {
-					                                                                	
-						for (int i = 0, f = img.LengthBytes(); i < f; i += 3) {
-							color = Color.FromArgb(bytesImg[i], bytesImg[i + 1], bytesImg[i + 2]);
-							if (!coloresImg.ContainsKey(color.ToArgb()))
-								coloresImg.Add(color.ToArgb(), color);
-						}
-					                                                                	
-					                                                                	
-					                                                                	
-					})));
-					
-				}
-				if (coloresImg.Count > TAMAÑOPALETA)
-					throw new ArgumentException("la imagen supera el maximo de calores para crear la paleta");
-				ColoresPaleta = TrataPaleta(coloresImg.ValuesToArray());
-			}
+
 
 			Color[] TrataPaleta(Color[] paletaATratar)
 			{
@@ -105,16 +76,12 @@ namespace PokemonGBAFrameWork
 			public  Bitmap SetPaleta(Bitmap img)
 			{
 				//le pongo la paleta
-				return BloqueImagen.GetImage(BloqueImagen.GetDatosDescomprimidosImagen(img), this);
+				return BloqueImagen.GetImage(BloqueImagen.GetDatosDescomprimidosImagen(img,this), this);
 
 			}
 			public static Paleta GetPaletaEmpty()
 			{
 				return new Paleta(new Color[TAMAÑOPALETA]);
-			}
-			public static Paleta GetPaleta(Bitmap img)
-			{
-				return new Paleta(img);
 			}
 
 			
@@ -194,7 +161,7 @@ namespace PokemonGBAFrameWork
 			this.paletas = new List<Paleta>(paletas);
 		}
 		public BloqueImagen(Hex offsetInicio, Bitmap img, params Paleta[] paletas)
-			: this(offsetInicio, BloqueImagen.GetDatosDescomprimidosImagen(img), paletas)
+			: this(offsetInicio, BloqueImagen.GetDatosDescomprimidosImagen(img,paletas[0]), paletas)
 		{
 		}
 
@@ -226,8 +193,7 @@ namespace PokemonGBAFrameWork
 				if (index >= paletas.Count)
 					throw new ArgumentOutOfRangeException("index");
 				//la valido
-				datosImagenComprimida = GetDatosDescomprimidosImagen(value);
-				paletas[index] = new Paleta(value);//saco la paleta :)
+				datosImagenComprimida = GetDatosDescomprimidosImagen(value,paletas[index]);
 
 			}
 		}
@@ -288,11 +254,13 @@ namespace PokemonGBAFrameWork
 		/// </summary>
 		/// <param name="img"></param>
 		/// <returns></returns>
-		public static byte[] GetDatosDescomprimidosImagen(Bitmap img)
+		public static byte[] GetDatosDescomprimidosImagen(Bitmap img,Paleta paleta)
 		{
 			if (img == null)
 				throw new ArgumentNullException("img");
-			Paleta paleta = new Paleta(img);
+			if(paleta==null)
+				throw new ArgumentNullException("paleta");
+			
 			byte[] toReturn = new byte[(img.Height * img.Width) >> 1];
 			int index = 0;
 			Color temp;
@@ -471,22 +439,22 @@ namespace PokemonGBAFrameWork
 		{
 			SetImage(rom, offsetInicio, img, new Paleta[]{ });
 		}
-		public static void SetImage(RomPokemon rom, Hex offsetInicio, Bitmap img, params Paleta[] masPaletas)
+		public static void SetImage(RomPokemon rom, Hex offsetInicio, Bitmap img, params Paleta[] paletas)
 		{
-			if (img == null || masPaletas == null)
+			if (img == null || paletas == null)
 				throw new ArgumentNullException();
-			SetImage(rom, new BloqueImagen(offsetInicio, GetDatosDescomprimidosImagen(img), masPaletas));
+			SetImage(rom, new BloqueImagen(offsetInicio, GetDatosDescomprimidosImagen(img,paletas[0]), paletas));
 		}
 		public static void SetImage(RomPokemon rom, Hex offsetInicio, byte[] datosImg, params Paleta[] paletas)
 		{
 			SetImage(rom, new BloqueImagen(offsetInicio, datosImg, paletas));
 		}
 		
-		public static byte[] ComprimirDatosLZ77(BloqueImagen bloqueImg)
+		 static byte[] ComprimirDatosLZ77(BloqueImagen bloqueImg)
 		{
 			return ComprimirDatosLZ77(bloqueImg.DatosImagenDescomprimida);
 		}
-		public static byte[] ComprimirDatosLZ77(byte[] datosImagenDescomprimida)
+		 static byte[] ComprimirDatosLZ77(byte[] datosImagenDescomprimida)
 		{
 			if (datosImagenDescomprimida == null)
 				throw new ArgumentNullException();
