@@ -36,16 +36,20 @@ namespace PokemonGBAFrameWork
 				OffsetInicio = offsetInicio;
 				ColoresPaleta = paleta;
 			}
+            public Color this[int index]
+            {
+                get { return paleta[index]; }
+                set { paleta[index] = value; }
+            }
 
+            public static void ReemplazaColores(Paleta paletaAReemplazarColores, Paleta paletaCogerColores)
+            {
+                if (paletaAReemplazarColores == null || paletaCogerColores == null) throw new ArgumentNullException();
+                for (int i = 0; i < TAMAÑOPALETA; i++)
+                    paletaAReemplazarColores.paleta[i] = paletaCogerColores.paleta[i];
+            }
 
-			Color[] TrataPaleta(Color[] paletaATratar)
-			{
-				Color[] paletaValida = new Color[TAMAÑOPALETA];
-				for (int i = 0; i < paletaATratar.Length && i < paletaValida.Length; i++)
-					paletaValida[i] = paletaATratar[i];
-				return paletaValida;
-			}
-			public Hex OffsetInicio {
+            public Hex OffsetInicio {
 				get {
 					return offsetInicio;
 				}
@@ -76,7 +80,7 @@ namespace PokemonGBAFrameWork
 			public  Bitmap SetPaleta(Bitmap img)
 			{
 				//le pongo la paleta
-				return BloqueImagen.GetImage(BloqueImagen.GetDatosDescomprimidosImagen(img, this), this);
+				return BloqueImagen.GetImagen(BloqueImagen.GetDatosDescomprimidosImagen(img, this), this);
 
 			}
 			public static Paleta GetPaletaEmpty()
@@ -143,22 +147,24 @@ namespace PokemonGBAFrameWork
 			L16 = 16,
 			L8 = 8
 		}
-		public const byte BYTELZ77TYPE = 0x10;
+		const byte BYTELZ77TYPE = 0x10;
 		Hex offsetInicio;
 		byte[] datosImagenComprimida;
 		List<Paleta> paletas;
-		public BloqueImagen(Hex offsetInicio, byte[] datosImagenComprimida, params Paleta[] paletas)
+        int totalDatosComprimidos;
+		public BloqueImagen(Hex offsetInicio, byte[] datosImagenDesomprimida, params Paleta[] paletas)
 		{
-			if (datosImagenComprimida == null || paletas == null)
+			if (datosImagenDesomprimida == null || paletas == null)
 				throw new ArgumentNullException();
 			if (paletas.Length == 0)
 				throw new ArgumentException("Se necesita al menos una paleta");
-			if (!ValidarDatosImagenDescomprimida(datosImagenComprimida))
+			if (!ValidarDatosImagenDescomprimida(datosImagenDesomprimida))
 				throw new ArgumentException("Los bytes no son de una imagen correcta");
 			
 			OffsetInicio = offsetInicio;
-			this.datosImagenComprimida = datosImagenComprimida;
+			this.datosImagenComprimida = datosImagenDesomprimida;
 			this.paletas = new List<Paleta>(paletas);
+            totalDatosComprimidos = -1;
 		}
 		public BloqueImagen(Hex offsetInicio, Bitmap img, params Paleta[] paletas)
 			: this(offsetInicio, BloqueImagen.GetDatosDescomprimidosImagen(img, paletas[0]), paletas)
@@ -176,7 +182,12 @@ namespace PokemonGBAFrameWork
 			}
 		}
 		public Hex OffsetFin {
-			get{ return OffsetInicio + DatosImagenDescomprimida.Length; }
+			get{
+                if (totalDatosComprimidos == -1)
+                    totalDatosComprimidos = ComprimirDatosLZ77(DatosImagenDescomprimida).Length;
+
+
+                return OffsetInicio + totalDatosComprimidos; }
 		}
 		/// <summary>
 		/// Obtener la imagen con la paleta del index /establecer la imagen y añadir(al final de la lista) o reemplazar la paleta que sea
@@ -185,7 +196,7 @@ namespace PokemonGBAFrameWork
 			get {
 				if (index < 0 || paletas.Count < index)
 					throw new ArgumentOutOfRangeException("index");
-				return GetImage(datosImagenComprimida, paletas[index]);
+				return GetImagen(datosImagenComprimida, paletas[index]);
 			}
 			set {
 				if (value == null)
@@ -194,11 +205,14 @@ namespace PokemonGBAFrameWork
 					throw new ArgumentOutOfRangeException("index");
 				//la valido
 				datosImagenComprimida = GetDatosDescomprimidosImagen(value, paletas[index]);
+                totalDatosComprimidos = -1;
 
 			}
 		}
 		public Paleta GetPaleta(int index)
 		{
+            if (index<0||index >= paletas.Count)
+                throw new ArgumentOutOfRangeException("index");
 			return paletas[index];
 		}
 		/// <summary>
@@ -238,11 +252,13 @@ namespace PokemonGBAFrameWork
 				if (!ValidarDatosImagenDescomprimida(value))
 					throw new ArgumentException("Los datos no son validos!!");
 				datosImagenComprimida = value;
-				
-			}
+                totalDatosComprimidos = -1;
+
+            }
 		}
 
-		public static bool ValidarDatosImagenDescomprimida(byte[] datosImagenDescomprimida)
+        //de momento no se como validar asi que lo tendré private
+		static bool ValidarDatosImagenDescomprimida(byte[] datosImagenDescomprimida)
 		{
 			if (datosImagenDescomprimida == null)
 				throw new ArgumentNullException("datosImagenDescomprimida");
@@ -254,7 +270,7 @@ namespace PokemonGBAFrameWork
 		/// </summary>
 		/// <param name="img"></param>
 		/// <returns></returns>
-		public static byte[] GetDatosDescomprimidosImagen(Bitmap img, Paleta paleta)
+		static byte[] GetDatosDescomprimidosImagen(Bitmap img, Paleta paleta)
 		{
 			if (img == null)
 				throw new ArgumentNullException("img");
@@ -289,7 +305,7 @@ namespace PokemonGBAFrameWork
 
 			return toReturn;
 		}
-		public static Bitmap GetImage(byte[] datosImagenDescomprimida, Paleta paleta, LongitudImagen longitudLadoImagen = LongitudImagen.L64)
+		static Bitmap GetImagen(byte[] datosImagenDescomprimida, Paleta paleta, LongitudImagen longitudLadoImagen = LongitudImagen.L64)
 		{
 			if (datosImagenDescomprimida == null || paleta == null)
 				throw new ArgumentNullException();
@@ -343,7 +359,23 @@ namespace PokemonGBAFrameWork
 
 			return bmpTiles;
 		}
-
+        public static BloqueImagen GetBloqueImagen(byte[] datosImagenDescomprimida, Paleta paleta, LongitudImagen longitudLadoImagen = LongitudImagen.L64)
+        {
+            return GetBloqueImagen(0, datosImagenDescomprimida, paleta, longitudLadoImagen);
+        }
+        public static BloqueImagen GetBloqueImagen(Hex offsetInicio, byte[] datosImagenDescomprimida, Paleta paleta, LongitudImagen longitudLadoImagen = LongitudImagen.L64)
+        {
+            return GetBloqueImagen(offsetInicio, datosImagenDescomprimida, new Paleta[] { paleta }, longitudLadoImagen);
+        }
+        public static BloqueImagen GetBloqueImagen( byte[] datosImagenDescomprimida, IEnumerable<Paleta> paletas, LongitudImagen longitudLadoImagen = LongitudImagen.L64)
+        {
+            return GetBloqueImagen(0, datosImagenDescomprimida, paletas, longitudLadoImagen);
+        }
+        public static BloqueImagen GetBloqueImagen(Hex offsetInicio,byte[] datosImagenDescomprimida,IEnumerable<Paleta> paletas,LongitudImagen longitudLadoImagen=LongitudImagen.L64)
+        {
+            Paleta[] paletasArray = paletas.ToTaula();
+            return new BloqueImagen(offsetInicio, GetImagen(datosImagenDescomprimida, paletasArray[0], longitudLadoImagen), paletasArray);
+        }
 		static byte[] GetDatosDescomprimidos(RomPokemon rom, Hex offsetInicio)
 		{
 			if (rom == null || offsetInicio < 0)
@@ -445,9 +477,9 @@ namespace PokemonGBAFrameWork
 				throw new ArgumentException("paletas");
 			SetBloqueImagen(rom, new BloqueImagen(offsetInicio, GetDatosDescomprimidosImagen(img, paletas[0]), paletas));
 		}
-		public static void SetBloqueImagen(RomPokemon rom, Hex offsetInicio, byte[] datosImg, params Paleta[] paletas)
+		public static void SetBloqueImagen(RomPokemon rom, Hex offsetInicio, byte[] datosImgDescomprimida, params Paleta[] paletas)
 		{
-			SetBloqueImagen(rom, new BloqueImagen(offsetInicio, datosImg, paletas));
+			SetBloqueImagen(rom, new BloqueImagen(offsetInicio, datosImgDescomprimida, paletas));
 		}
 		//codigo sacado de internet creditos:Jambo
 		static byte[] ComprimirDatosLZ77(BloqueImagen bloqueImg)
