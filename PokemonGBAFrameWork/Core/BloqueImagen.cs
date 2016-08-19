@@ -76,7 +76,7 @@ namespace PokemonGBAFrameWork
 			public  Bitmap SetPaleta(Bitmap img)
 			{
 				//le pongo la paleta
-				return BloqueImagen.GetImage(BloqueImagen.GetDatosDescomprimidosImagen(img,this), this);
+				return BloqueImagen.GetImage(BloqueImagen.GetDatosDescomprimidosImagen(img, this), this);
 
 			}
 			public static Paleta GetPaletaEmpty()
@@ -89,7 +89,7 @@ namespace PokemonGBAFrameWork
 			{
 				if (rom == null || offsetInicioPaleta < 0)
 					throw new ArgumentException();
-				byte[] bytesPaletaDescomprimidos = BloqueImagen.GetDatosDescomprimidosLZ77(rom, offsetInicioPaleta);
+				byte[] bytesPaletaDescomprimidos = BloqueImagen.GetDatosDescomprimidos(rom, offsetInicioPaleta);
 				Color[] paletteColours = new Color[TAMAÑOPALETA];
 				int startPoint = showBackgroundColor ? 0 : 1;
 				ushort tempValue, r, g, b;
@@ -161,7 +161,7 @@ namespace PokemonGBAFrameWork
 			this.paletas = new List<Paleta>(paletas);
 		}
 		public BloqueImagen(Hex offsetInicio, Bitmap img, params Paleta[] paletas)
-			: this(offsetInicio, BloqueImagen.GetDatosDescomprimidosImagen(img,paletas[0]), paletas)
+			: this(offsetInicio, BloqueImagen.GetDatosDescomprimidosImagen(img, paletas[0]), paletas)
 		{
 		}
 
@@ -193,7 +193,7 @@ namespace PokemonGBAFrameWork
 				if (index >= paletas.Count)
 					throw new ArgumentOutOfRangeException("index");
 				//la valido
-				datosImagenComprimida = GetDatosDescomprimidosImagen(value,paletas[index]);
+				datosImagenComprimida = GetDatosDescomprimidosImagen(value, paletas[index]);
 
 			}
 		}
@@ -254,11 +254,11 @@ namespace PokemonGBAFrameWork
 		/// </summary>
 		/// <param name="img"></param>
 		/// <returns></returns>
-		public static byte[] GetDatosDescomprimidosImagen(Bitmap img,Paleta paleta)
+		public static byte[] GetDatosDescomprimidosImagen(Bitmap img, Paleta paleta)
 		{
 			if (img == null)
 				throw new ArgumentNullException("img");
-			if(paleta==null)
+			if (paleta == null)
 				throw new ArgumentNullException("paleta");
 			
 			byte[] toReturn = new byte[(img.Height * img.Width) >> 1];
@@ -277,9 +277,9 @@ namespace PokemonGBAFrameWork
 						buscandoPaleta = true;
 						for (int l = 0; l < paleta.ColoresPaleta.Length && buscandoPaleta; l++)
 							if (temp == paleta.ColoresPaleta[l]) {
-								outValue = (byte)(index2 << (k * 4));
-								buscandoPaleta = false;
-							}
+							outValue = (byte)(index2 << (k * 4));
+							buscandoPaleta = false;
+						}
 						index2++;
 					}
 					toReturn[index] = (byte)(toReturn[index] | outValue);
@@ -307,57 +307,51 @@ namespace PokemonGBAFrameWork
 
 				bmpTiles.TrataBytes((MetodoTratarBytePointer)((bytesBmp) => {
 				                                              	
-					for (int y1 = 0; y1 < longitudLado; y1 += NUM)
-						for (int x1 = 0; x1 < longitudLado; x1 += NUM)
-							for (int y2 = 0; y2 < NUM; y2++)
-								for (int x2 = 0; x2 < NUM; x2 += 2, posByteImgArray++) {
-									temp = datosImagenDescomprimida[posByteImgArray];
-									//pongo los pixels de dos en dos porque se leen diferente de la paleta
-									//pixel izquierdo
+				                                              	for (int y1 = 0; y1 < longitudLado; y1 += NUM)
+				                                              		for (int x1 = 0; x1 < longitudLado; x1 += NUM)
+				                                              			for (int y2 = 0; y2 < NUM; y2++)
+				                                              				for (int x2 = 0; x2 < NUM; x2 += 2, posByteImgArray++) {
+				                                              		temp = datosImagenDescomprimida[posByteImgArray];
+				                                              		//pongo los pixels de dos en dos porque se leen diferente de la paleta
+				                                              		//pixel izquierdo
 				                                              		
-									pos = (x1 + x2) * BYTESPERPIXEL + (y1 + y2) * bytesPorLado;
-									color = paleta.ColoresPaleta[temp & 0xF];
+				                                              		pos = (x1 + x2) * BYTESPERPIXEL + (y1 + y2) * bytesPorLado;
+				                                              		color = paleta.ColoresPaleta[temp & 0xF];
 
-									bytesBmp[pos] = color.B;
-									bytesBmp[pos + 1] = color.G;
-									bytesBmp[pos + 2] = color.R;
-									bytesBmp[pos + 3] = SINTRANSPARENCIA;
+				                                              		bytesBmp[pos] = color.B;
+				                                              		bytesBmp[pos + 1] = color.G;
+				                                              		bytesBmp[pos + 2] = color.R;
+				                                              		bytesBmp[pos + 3] = SINTRANSPARENCIA;
 				                                              		
-									//pixel derecho
-									pos += BYTESPERPIXEL;
+				                                              		//pixel derecho
+				                                              		pos += BYTESPERPIXEL;
 				                                              		
-									color = paleta.ColoresPaleta[(temp & 0xF0) >> 4];
-									bytesBmp[pos] = color.B;
-									bytesBmp[pos + 1] = color.G;
-									bytesBmp[pos + 2] = color.R;
-									bytesBmp[pos + 3] = SINTRANSPARENCIA;
+				                                              		color = paleta.ColoresPaleta[(temp & 0xF0) >> 4];
+				                                              		bytesBmp[pos] = color.B;
+				                                              		bytesBmp[pos + 1] = color.G;
+				                                              		bytesBmp[pos + 2] = color.R;
+				                                              		bytesBmp[pos + 3] = SINTRANSPARENCIA;
 
 
 
-								}
+				                                              	}
 				                                              	
-				}));
+				                                              }));
 
 			}
 
 
 			return bmpTiles;
 		}
-		// descompresion sacada de https://gist.github.com/Prof9/872e67a08e17081ca00e
-		/// <summary>
-		/// Lee y devuelve los datos comprimidos LZ77 de la rom descomprimidos
-		/// </summary>
-		/// <param name="rom"></param>
-		/// <param name="offsetInicioDatos"></param>
-		/// <returns></returns>
-		public static byte[] GetDatosDescomprimidosLZ77(RomPokemon rom, Hex offsetInicioDatos)
+
+		static byte[] GetDatosDescomprimidos(RomPokemon rom, Hex offsetInicio)
 		{
-			if (rom == null || offsetInicioDatos < 0)
+			if (rom == null || offsetInicio < 0)
 				throw new ArgumentException();
-			if (rom.Datos[offsetInicioDatos] != BYTELZ77TYPE)
-				throw new ArgumentException("La direccion no pertenece al inicio de los datos de la imagen!", "offsetInicioDatos");
+			if (rom.Datos[offsetInicio] != BYTELZ77TYPE)
+				throw new ArgumentException("La direccion no pertenece al inicio de los datos de la imagen!", "offsetInicio");
 			BinaryReader brRom = new BinaryReader(new MemoryStream(rom.Datos));
-			MemoryStream msImgDescomprimida;
+			MemoryStream msDatosDescomprimidos;
 			int size;
 			int flagByte;
 			ushort block;
@@ -367,24 +361,24 @@ namespace PokemonGBAFrameWork
 			long copyPos;
 			byte b;
 			
-			brRom.BaseStream.Position = offsetInicioDatos + 1;
+			brRom.BaseStream.Position = offsetInicio + 1;
 			size = brRom.ReadUInt16() | (brRom.ReadByte() << 16);
 			
 			
 			
-			msImgDescomprimida = new MemoryStream(size);
+			msDatosDescomprimidos = new MemoryStream(size);
 
 			// Begin decompression.
-			while (msImgDescomprimida.Length < size) {
+			while (msDatosDescomprimidos.Length < size) {
 				// Load flags for the next 8 blocks.
 				flagByte = brRom.ReadByte();
 
 				// Process the next 8 blocks.
-				for (int i = 0; i < 8 && msImgDescomprimida.Length < size/* If all data has been decompressed, stop.*/; i++) {
+				for (int i = 0; i < 8 && msDatosDescomprimidos.Length < size/* If all data has been decompressed, stop.*/; i++) {
 					// Check if the block is compressed.
 					if ((flagByte & (0x80 >> i)) == 0) {
 						// Uncompressed block; copy single byte.
-						msImgDescomprimida.WriteByte((byte)brRom.ReadByte());
+						msDatosDescomprimidos.WriteByte((byte)brRom.ReadByte());
 					} else {
 						// Compressed block; read block.
 						block = brRom.ReadUInt16();
@@ -394,18 +388,18 @@ namespace PokemonGBAFrameWork
 						disp = ((block & 0xF) << 8) | ((block >> 8) & 0xFF);
 
 						// Save current position and copying position.
-						outPos = msImgDescomprimida.Position;
+						outPos = msDatosDescomprimidos.Position;
 						copyPos = outPos - disp - 1;
 
 						// Copy all bytes.
 						for (int j = 0; j < count; j++) {
 							// Read byte to be copied.
-							msImgDescomprimida.Position = copyPos++;
-							b = (byte)msImgDescomprimida.ReadByte();
+							msDatosDescomprimidos.Position = copyPos++;
+							b = (byte)msDatosDescomprimidos.ReadByte();
 
 							// Write byte to be copied.
-							msImgDescomprimida.Position = outPos++;
-							msImgDescomprimida.WriteByte(b);
+							msDatosDescomprimidos.Position = outPos++;
+							msDatosDescomprimidos.WriteByte(b);
 						}
 					}
 
@@ -415,18 +409,26 @@ namespace PokemonGBAFrameWork
 				
 			}
 			brRom.Close();
-			return msImgDescomprimida.GetAllBytes();
+			return msDatosDescomprimidos.GetAllBytes();
 		}
-		public static BloqueImagen GetImage(RomPokemon rom, Hex offsetInicioDatos, params Paleta[] paletas)
+
+		// descompresion sacada de https://gist.github.com/Prof9/872e67a08e17081ca00e
+		/// <summary>
+		/// Lee y devuelve los datos comprimidos LZ77 de la rom descomprimidos
+		/// </summary>
+		/// <param name="rom"></param>
+		/// <param name="offsetInicioDatos"></param>
+		/// <param name="paletas"></param>
+		/// <returns></returns>
+		public static BloqueImagen GetBloqueImagen(RomPokemon rom, Hex offsetInicioDatos, params Paleta[] paletas)
 		{
-			if (rom == null || paletas == null)
-				throw new ArgumentNullException();
-			if (offsetInicioDatos < 0)
-				throw new ArgumentOutOfRangeException("offsetInicioDatos");
-			return new BloqueImagen(offsetInicioDatos, GetDatosDescomprimidosLZ77(rom, offsetInicioDatos), paletas);
+			if (paletas == null || paletas.Length == 0)
+				throw new ArgumentException();
 			
+			return new BloqueImagen(offsetInicioDatos, GetDatosDescomprimidos(rom, offsetInicioDatos), paletas);
 		}
-		public static void SetImage(RomPokemon rom, BloqueImagen img)
+
+		public static void SetBloqueImagen(RomPokemon rom, BloqueImagen img)
 		{
 			
 			if (rom == null || img == null)
@@ -435,26 +437,25 @@ namespace PokemonGBAFrameWork
 			for (int i = 0; i < img.paletas.Count; i++)
 				Paleta.SetPaleta(rom, img.paletas[i]);
 		}
-		public static void SetImage(RomPokemon rom, Hex offsetInicio, Bitmap img)
-		{
-			SetImage(rom, offsetInicio, img, new Paleta[]{ });
-		}
-		public static void SetImage(RomPokemon rom, Hex offsetInicio, Bitmap img, params Paleta[] paletas)
+		public static void SetBloqueImagen(RomPokemon rom, Hex offsetInicio, Bitmap img, params Paleta[] paletas)
 		{
 			if (img == null || paletas == null)
 				throw new ArgumentNullException();
-			SetImage(rom, new BloqueImagen(offsetInicio, GetDatosDescomprimidosImagen(img,paletas[0]), paletas));
+			if (paletas.Length == 0)
+				throw new ArgumentException("paletas");
+			SetBloqueImagen(rom, new BloqueImagen(offsetInicio, GetDatosDescomprimidosImagen(img, paletas[0]), paletas));
 		}
-		public static void SetImage(RomPokemon rom, Hex offsetInicio, byte[] datosImg, params Paleta[] paletas)
+		public static void SetBloqueImagen(RomPokemon rom, Hex offsetInicio, byte[] datosImg, params Paleta[] paletas)
 		{
-			SetImage(rom, new BloqueImagen(offsetInicio, datosImg, paletas));
+			SetBloqueImagen(rom, new BloqueImagen(offsetInicio, datosImg, paletas));
 		}
-		
-		 static byte[] ComprimirDatosLZ77(BloqueImagen bloqueImg)
+		//codigo sacado de internet creditos:Jambo
+		static byte[] ComprimirDatosLZ77(BloqueImagen bloqueImg)
 		{
 			return ComprimirDatosLZ77(bloqueImg.DatosImagenDescomprimida);
 		}
-		 static byte[] ComprimirDatosLZ77(byte[] datosImagenDescomprimida)
+		//codigo sacado de internet creditos:Jambo
+		static byte[] ComprimirDatosLZ77(byte[] datosImagenDescomprimida)
 		{
 			if (datosImagenDescomprimida == null)
 				throw new ArgumentNullException();
@@ -488,7 +489,7 @@ namespace PokemonGBAFrameWork
 
 						oldLength = Math.Min(readBytes, 0x1000);
 						offsetAndLenght = LZUtil.GetOccurrenceLength(instart + readBytes, (int)Math.Min(datosImagenDescomprimida.Length - readBytes, 0x12),
-							instart + readBytes - oldLength, oldLength);
+						                                             instart + readBytes - oldLength, oldLength);
 						if (offsetAndLenght.Lenght < 3) {
 							outbuffer[bufferlength++] = *(instart + (readBytes++));
 						} else {
@@ -515,7 +516,7 @@ namespace PokemonGBAFrameWork
 			return  outstream.GetAllBytes();
 
 		}
-		
+		//codigo sacado de internet creditos:Jambo
 		static class LZUtil
 		{
 			public struct OffsetAndLenght
