@@ -28,40 +28,30 @@ namespace PokemonGBAFrameWork
 			Normal,
 			Maximo
 		}
-		public enum PasosEclosion
-		{
-			AlInstante=0,
-			P1280=5,
-			P2560= 10, 
-			P3840= 15,
-			P5120= 20,
-			P6400= 25,
-			P7680= 30,
-			P8960= 35,
-			P10240= 40,
-			P20480= 80,
-			P30720= 120
-		}
+
 		public enum RatioCrecimiento
 		{
-			Exp1000000,//si fuesen nombres mejor pero como no hay nada CANON de momento se queda asi...lleva Exp porque las enumeraciones no aceptan empezar por numero
+			Exp1000000,
 			Exp600000,
 			Exp1640000,
 			Exp1059860,
 			Exp800000,
 			Exp1250000
 		}
-		public enum RatioGenero{
-			Macho100= 0,//no se puede poner el caracter %
-			Macho87= 31,
-			Macho75= 63,
-			Macho65= 89,
-			Macho50Hembra= 127,
-			Hembra65= 165,
-			Hembra75= 191,
-			Hembra87= 223,
-			Hembra100= 254,
-			SinGenero= 255
+
+		public enum RatioGenero
+		{
+			Macho100 = 0,
+			//no se puede poner el caracter %
+			Macho87 = 31,
+			Macho75 = 63,
+			Macho65 = 89,
+			Macho50Hembra = 127,
+			Hembra65 = 165,
+			Hembra75 = 191,
+			Hembra87 = 223,
+			Hembra100 = 254,
+			SinGenero = 255
 		}
 		public enum Felicidad
 		{
@@ -88,6 +78,8 @@ namespace PokemonGBAFrameWork
 			Rosa
 
 		}
+		const int PASOSCICLOECLOSION = 256, MAXIMOSPASOSECLOSION = PASOSCICLOECLOSION * PASOSCICLOECLOSION;
+		const int LENGTHNIVELEVS = 4;
 		const byte FACELEFT = 128;
 		//forma parte de un stat junto con la de color en el mismo byte numero 25
 
@@ -199,310 +191,76 @@ namespace PokemonGBAFrameWork
 				stats[9] = value;
 			}
 		}
-		//hacer enumeracion Evs porque en 2 bytes estan todos!!
-		public byte EvsParte1 {
-			get { return stats[10]; }//se pone la posicion en la tabla 
-/*{
-"Nothing",
-"1 HP", 
-"2 HP", 
-"3 HP",
- "1 Atk", 
-"1 HP, 1 Atk",
- "2 HP, 1 Atk",
- "3 HP, 1 Atk", 
-"2 Atk",
- "1 HP, 2 Atk",
- "2 HP, 2 Atk", 
-"3 HP, 2 Atk", 
-"3 Atk",
- "1 HP, 3 Atk",
- "2 HP, 3 Atk", 
-"3 HP, 3 Atk",
- "1 Def", 
-"1 Def, 1 HP",
- "1 Def, 2 HP",
- "1 Def, 3 HP",
- "1 Def, 1 Atk",
- "1 Def, 1 HP, 1 Atk",
- "1 Def, 2 HP, 1 Atk",
- "1 Def, 3 HP, 1 Atk",
- "1 Def, 2 Atk",
- "1 Def, 1 HP, 2 Atk",
- "1 Def, 2 HP, 2 Atk",
- "1 Def, 3 HP, 2 Atk",
- "1 Def, 3 Atk",
- "1 Def, 1 HP, 3 Atk",
- "1 Def, 2 HP, 3 Atk", 
-"1 Def, 3 HP, 3 Atk",
- "2 Def", 
-"2 Def, 1 HP",
- "2 Def, 2 HP",
- "2 Def, 3 HP",
- "2 Def, 1 Atk",
- "2 Def, 1 HP, 1 Atk",
- "2 Def, 2 HP, 1 Atk",
- "2 Def, 3 HP, 1 Atk",
- "2 Def, 2 Atk", 
-"2 Def, 1 HP, 2 Atk", 
-"2 Def, 2 HP, 2 Atk",
- "2 Def, 3 HP, 2 Atk",
- "2 Def, 3 Atk",
- "2 Def, 1 HP, 3 Atk",
- "2 Def, 2 HP, 3 Atk",
- "2 Def, 3 HP, 3 Atk",
- "3 Def", "3 Def, 1 HP",
- "3 Def, 2 HP", 
-"3 Def, 3 Hp",
- "3 Def, 1 Atk",
- "3 Def, 1 HP, 1 Atk",
- "3 Def, 2 HP, 1 Atk",
- "3 Def, 3 HP, 1 Atk",
- "3 Def, 2 Atk",
- "3 Def, 1 HP, 2 Atk",
- "3 Def, 2 HP, 2 Atk", 
-"3 Def, 3 HP, 2 Atk", 
-"3 Def, 3 Atk",
- "3 Def, 1 HP, 3 Atk",
- "3 Def, 2 HP, 3 Atk",
- "3 Def, 3 HP, 3 Atk",
- "1 Spe", "1 Spe, 1 HP",
- "1 Spe, 2 HP",
- "1 Spe, 3 HP", 
-"1 Spe, 1 Atk", 
-"1 Spe, 1 HP, 1 Atk",
- "1 Spe, 2 HP, 1 Atk",
- "1 Spe, 3 HP, 1 Atk",
- "1 Spe, 2 Atk",
- "1 Spe, 1 HP, 2 Atk",
- "1 Spe, 2 HP, 2 Atk",
- "1 Spe, 3 HP, 2 Atk",
- "1 Spe, 3 Atk", 
-"1 Spe, 1 HP, 3 Atk", 
-"1 Spe, 2 HP, 3 Atk",
- "1 Spe, 3 HP, 3 Atk",
- "1 Spe, 1 Def",
- "1 Spe, 1 HP, 1 Def", 
-"1 Spe, 2 HP, 1 Def", 
-"1 Spe, 3 HP, 1 Def",
- "1 Spe, 1 Atk, 1 Def", 
-"1 Spe, 1 HP, 1 Atk, 1 Def", 
-"1 Spe, 2 HP, 1 Atk, 1 Def",
- "1 Spe, 3 HP, 1 Atk, 1 Def",
- "1 Spe, 2 Atk, 1 Def",
- "1 Spe, 1 HP, 2 Atk, 1 Def",
- "1 Spe, 2 HP, 2 Atk, 1 Def", 
-"1 Spe, 3 HP, 2 Atk, 1 Def", "" +
-"1 Spe, 3 Atk, 1 Def", 
-"1 Spe, 1 HP, 3 Atk, 1 Def", 
-"1 Spe, 2 HP, 3 Atk, 1 Def", 
-"1 Spe, 3 HP, 3 Atk, 1 Def", 
-"1 Spe, 2 Def", 
-"1 Spe, 1 HP, 2 Def",
- "1 Spe, 2 HP, 2 Def",
- "1 Spe, 3 HP, 2 Def",
- "1 Spe, 1 Atk, 2 Def",
- "1 Spe, 1 HP, 1 Atk, 2 Def",
- "1 Spe, 2 HP, 1 Atk, 2 Def",
- "1 Spe, 3 HP, 1 Atk, 2 Def",
- "1 Spe, 2 Atk, 2 Def", 
-"1 Spe, 1 HP, 2 Atk, 2 Def",
- "1 Spe, 2 HP, 2 Atk, 2 Def", 
-"1 Spe, 3 HP, 2 Atk, 2 Def", 
-"1 Spe, 3 Atk, 2 Def",
- "1 Spe, 1 HP, 3 Atk, 2 Def",
- "1 Spe, 2 HP, 3 Atk, 2 Def",
- "1 Spe, 3 HP, 3 Atk, 2 Def",
- "1 Spe, 3 Def", 
-"1 Spe, 1 HP, 3 Def", 
-"1 Spe, 2 HP, 3 Def", 
-"1 Spe, 3 HP, 3 Def", 
-"1 Spe, 1 Atk, 3 Def",
- "1 Spe, 1 HP, 1 Atk, 3 Def", 
-"1 Spe, 2 HP, 1 Atk, 3 Def", 
-"1 Spe, 3 HP, 1 Atk, 3 Def", 
-"1 Spe, 2 Atk, 3 Def", 
-"1 Spe, 1 HP, 2 Atk, 3 Def", 
-"1 Spe, 2 HP, 2 Atk, 3 Def", 
-"1 Spe, 3 HP, 2 Atk, 3 Def", 
-"1 Spe, 3 Atk, 3 Def",
- "1 Spe, 1 HP, 3 Atk, 3 Def", 
-"1 Spe, 2 HP, 3 Atk, 3 Def", 
-"1 Spe, 3 HP, 3 Atk, 3 Def", 
-"2 Spe", "2 Spe, 1 HP", 
-"2 Spe, 2 HP", 
-"2 Spe, 3 HP", 
-"2 Spe, 1 Atk",
- "2 Spe, 1 HP, 1 Atk",
- "2 Spe, 2 HP, 1 Atk",
- "2 Spe, 3 HP, 1 Atk",
- "2 Spe, 2 Atk",
- "2 Spe, 1 HP, 2 Atk", 
-"2 Spe, 2 HP, 2 Atk", 
-"2 Spe, 3 HP, 2 Atk", 
-"2 Spe, 3 Atk", 
-"2 Spe, 1 HP, 3 Atk",
- "2 Spe, 2 HP, 3 Atk",
- "2 Spe, 3 HP, 3 Atk",
- "2 Spe, 1 Def",
- "2 Spe, 1 HP, 1 Def",
- "2 Spe, 2 HP, 1 Def", 
-"2 Spe, 3 HP, 1 Def", 
-"2 Spe, 1 Atk, 1 Def",
- "2 Spe, 1 HP, 1 Atk, 1 Def",
- "2 Spe, 2 HP, 1 Atk, 1 Def",
- "2 Spe, 3 HP, 1 Atk, 1 Def",
- "2 SPe, 2 Atk, 1 Def",
- "2 Spe, 1 HP, 2 Atk, 1 Def",
- "2 Spe, 2 HP, 2 Atk, 1 Def", 
-"2 Spe, 3 HP, 2 Atk, 1 Def",
- "2 Spe, 3 Atk, 1 Def",
- "2 Spe, 1 HP, 3 Atk, 1 Def",
- "2 Spe, 2 HP, 3 Atk, 1 Def",
- "2 Spe, 3 HP, 3 Atk, 1 Def",
- "2 Spe, 2 Def",
- "2 Spe, 1 HP, 2 Def",
- "2 Spe, 2 HP, 2 Def",
- "2 Spe, 3 HP, 2 Def",
- "2 Spe, 1 Atk, 2 Def",
- "2 Spe, 1 HP, 1 Atk, 2 Def",
- "2 Spe, 2 HP, 1 Atk, 2 Def",
- "2 Spe, 3 HP, 1 Atk, 2 Def",
- "2 Spe, 2 Atk, 2 Def",
- "2 Spe, 1 HP, 2 Atk, 2 Def",
- "2 Spe, 2 HP, 2 Atk, 2 Def",
- "2 Spe, 3 HP, 2 Atk, 2 Def",
- "2 Spe, 3 Atk, 2 Def",
- "2 Spe, 1 HP, 3 Atk, 2 Def",
- "2 Spe, 2 HP, 3 Atk, 2 Def",
- "2 Spe, 3 HP, 3 Atk, 2 Def",
- "2 Spe, 3 Def",
- "2 Spe, 1 HP, 3 Def",
- "2 Spe, 2 HP, 3 Def",
- "2 Spe, 3 HP, 3 Def",
- "2 Spe, 1 Atk, 3 Def",
- "2 Spe, 1 HP, 1 Atk, 3 Def",
- "2 Spe, 2 HP, 1 Atk, 3 Def",
- "2 Spe, 3 HP, 1 Atk, 3 Def",
- "2 Spe, 2 Atk, 3 Def",
- "2 Spe, 1 HP, 2 Atk, 3 Def",
- "2 Spe, 2 HP, 2 Atk, 3 Def",
- "2 Spe, 3 HP, 2 Atk, 3 Def",
- "2 Spe, 3 Atk, 3 Def", 
-"2 Spe, 1 HP, 3 Atk, 3 Def",
- "2 Spe, 2 HP, 3 Atk, 3 Def",
- "2 Spe, 3 HP, 3 Atk, 3 Def",
- "3 Spe", "3 Spe, 1 HP",
- "3 Spe, 2 HP", "3 Spe, 3 HP",
- "3 Spe, 1 Atk", 
-"3 Spe, 1 HP, 1 Atk",
- "3 Spe, 2 HP, 1 Atk",
- "3 Spe, 3 HP, 1 Atk",
- "3 Spe, 2 Atk",
- "3 Spe, 1 HP, 2 Atk",
- "3 Spe, 2 HP, 2 Atk", 
-"3 Spe, 3 HP, 2 Atk",
- "3 Spe, 3 Atk",
- "3 Spe, 1 HP, 3 Atk",
- "3 Spe, 2 HP, 3 Atk", 
-"3 Spe, 3 HP, 3 Atk", 
-"3 Spe, 1 Def", 
-"3 Spe, 1 HP, 1 Def",
- "3 Spe, 2 HP, 1 Def",
- "3 Spe, 3 HP, 1 Def",
- "3 Spe, 1 Atk, 1 Def", 
-"3 Spe, 1 HP, 1 Atk, 1 Def",
- "3 Spe, 2 HP, 1 Atk, 1 Def",
- "3 Spe, 3 HP, 1 Atk, 1 Def",
- "3 Spe, 2 Atk, 1 Def",
- "3 Spe, 1 HP, 2 Atk, 1 Def",
- "3 Spe, 2 HP, 2 Atk, 1 Def",
- "3 Spe, 3 HP, 2 Atk, 1 Def", 
-"3 Spe, 3 Atk, 1 Def", 
-"3 Spe, 1 HP, 3 Atk, 1 Def",
- "3 Spe, 2 HP, 3 Atk, 1 Def",
- "3 Spe, 3 HP, 3 Atk, 1 Def",
- "3 Spe, 2 Def",
- "3 Spe, 1 HP, 2 Def", 
-"3 Spe, 2 HP, 2 Def",
- "3 Spe, 3 HP, 2 Def",
- "3 Spe, 1 Atk, 2 Def",
- "3 Spe, 1 HP, 1 Atk, 2 Def",
- "3 Spe, 2 HP, 1 Atk, 2 Def",
- "3 Spe, 3 HP, 1 Atk, 2 Def",
- "3 Spe, 2 Atk, 2 Def",
- "3 Spe, 1 HP, 2 Atk, 2 Def",
- "3 Spe, 2 HP, 2 Atk, 2 Def",
- "3 Spe, 3 HP, 2 Atk, 2 Def",
- "3 Spe, 3 Atk, 2 Def",
- "3 Spe, 1 HP, 3 Atk, 2 Def",
- "3 Spe, 2 HP, 3 Atk, 2 Def", 
-"3 Spe, 3 HP, 3 Atk, 2 Def",
- "3 Spe, 3 Def",
- "3 Spe, 1 HP, 3 Def",
- "3 Spe, 2 HP, 3 Def", 
-"3 Spe, 3 HP, 3 Def",
- "3 Spe, 1 Atk, 3 Def", 
-"3 Spe, 1 HP, 1 Atk, 3 Def", 
-"3 Spe, 2 HP, 1 Atk, 3 Def",
- "3 Spe, 3 HP, 1 ATk, 3 Def", 
-"3 Spe, 2 Atk, 3 Def", 
-"3 Spe, 1 HP, 2 Atk, 3 Def", 
-"3 Spe, 2 HP, 2 Atk, 3 Def", 
-"3 Spe, 3 HP, 2 ATk, 3 Def", 
-"3 Spe, 3 Atk, 3 Def", 
-"3 Spe, 1 HP, 3 Atk, 3 Def", 
-"3 Spe, 2 HP, 3 Atk, 3 Def",
-"3 Spe, 3 HP, 3 Atk, 3 Def"}//hp,atk,def,spe
-			 */
+
+		//SPE,DEF,ATK,HP
+		#region EvsStats se tiene que testear :)
+		public NivelEvs HpEvs {
+			get {
+				int posicion = (stats[10] - ((int)DefensaEspecialEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) - ((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) - ((int)AtaqueEspecialEvs) * LENGTHNIVELEVS) / LENGTHNIVELEVS;//le quito lo anterior
+				return (NivelEvs)posicion;
+			}
 			set {
-				stats[10] = value;
+				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+					throw new ArgumentOutOfRangeException("value");
+				stats[11] = (byte)(((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)AtaqueEvs) * LENGTHNIVELEVS + (int)value);
+			
 			}
 		}
-		public byte EvsParte2 {
-			get { return stats[11]; }//se pone la posicion en la tabla 
-/*		
- {"Nothing",
- "1 SpA",
- "2 SpA",
- "3 SpA",
- "1 SpD",
- "1 SpD, 1 SpA",
- "1 SpD, 2 SpA",
- "1 SpD, 3 SpA",
- "2 SpD",
- "2 SpD, 1 SpA",
- "2 SpD, 2 SpA", 
-"2 SpD, 3 SpA",
- "3 SpD",
- "3 SpD, 1 SpA",
- "3 SpD, 2 SpA",
- "3 SpD, 3 SpA"//spa,spd
-}*/
+		public NivelEvs AtaqueEvs {
+			get {
+				int posicion = ((stats[10] - (((int)DefensaEspecialEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)))) - ((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3))) / LENGTHNIVELEVS;//le quito lo anterior
+				return (NivelEvs)posicion;
+			}
 			set {
-				stats[11] = value;
+				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+					throw new ArgumentOutOfRangeException("value");
+				stats[11] = (byte)(((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)value) * LENGTHNIVELEVS + (int)HpEvs);
+			
+			}
+			
+		}
+		public NivelEvs DefensaEvs {
+			get {
+				int posicion = (stats[10] - (((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)))) / Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2));//le quito lo anterior
+				return (NivelEvs)posicion;
+			}
+			set {
+				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+					throw new ArgumentOutOfRangeException("value");
+				stats[11] = (byte)(((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)value) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)AtaqueEvs) * LENGTHNIVELEVS + (int)HpEvs);
+			
+			}
+			
+		}
+		public NivelEvs VelocidadEvs {
+			get {
+				int posicion = stats[10] / Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3));//le quito lo anterior
+				return (NivelEvs)posicion;
+			}
+			set {
+				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+					throw new ArgumentOutOfRangeException("value");
+				stats[11] = (byte)(((int)value) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)AtaqueEvs) * LENGTHNIVELEVS + (int)HpEvs);
+			
+			}
+			
+		}
+		public NivelEvs AtaqueEspecialEvs {
+			get {
+				int posicion = stats[11] - ((int)DefensaEspecialEvs) * LENGTHNIVELEVS;
+				return (NivelEvs)posicion;
+			}
+			set {
+				stats[11] = (byte)(((int)DefensaEspecialEvs) * LENGTHNIVELEVS + (int)value);
 			}
 		}
-		#region EvsStats
-		public NivelEvs HpEvs
-		{
-			get{
-			 return (NivelEvs)(stats[10]%4);
+		public NivelEvs DefensaEspecialEvs {
+			get {
+				int posicion = stats[11] / LENGTHNIVELEVS;
+				return (NivelEvs)posicion;
 			}
-		}
-		public NivelEvs AtaqueEvs
-		{
-			get{
-			 int cicloActual=stats[10]/4;
-			 int posicion=stats[10]%4;
-			 return (NivelEvs)posicion;//de momento no se como calcularlo pero se tiene que calcular sin depender de ninguno!!! para el set si pero para el get no porque sino habria recursividad infinita...
-			}
-		}
-		
-		public NivelEvs AtaqueEspecialEvs
-		{
-			get{
-			 return (NivelEvs)(stats[11]%4);
+			set {
+				stats[11] = (byte)(((int)value) * LENGTHNIVELEVS + (int)AtaqueEspecialEvs);
 			}
 		}
 		#endregion
@@ -533,16 +291,20 @@ namespace PokemonGBAFrameWork
 		public RatioGenero RatioSexo {
 			get { return (RatioGenero)(int)stats[16]; }
 			set {
-				if((int)value>byte.MaxValue||(int)value<byte.MinValue)throw new ArgumentOutOfRangeException("el valor se guarda en un byte!");
-				stats[16] =(byte)(int)value;
+				if ((int)value > byte.MaxValue || (int)value < byte.MinValue)
+					throw new ArgumentOutOfRangeException("value", "el valor se guarda en un byte!");
+				stats[16] = (byte)(int)value;
 			}
 		}
-
-		public PasosEclosion PasosParaEclosionarHuevo {
-			get { return (PasosEclosion)(int)stats[17]; }
+		/// <summary>
+		/// Se usan multiplos de 256 ya que se guarda en un byte
+		/// </summary>
+		public int PasosParaEclosionarHuevo {
+			get { return (int)stats[17] * PASOSCICLOECLOSION; }
 			set {
-				if((int)value>byte.MaxValue||(int)value<byte.MinValue)throw new ArgumentOutOfRangeException("el valor se guarda en un byte!");
-				stats[17] = (byte)(int)value;
+				if ((int)value > MAXIMOSPASOSECLOSION || (int)value < 0)
+					throw new ArgumentOutOfRangeException("value", "el valor no puede más pequeño que 0 o ser más grande que " + MAXIMOSPASOSECLOSION);
+				stats[17] = (byte)(value / PASOSCICLOECLOSION);
 			}
 		}
 		/// <summary>
@@ -551,14 +313,16 @@ namespace PokemonGBAFrameWork
 		public Felicidad BaseAmistad {
 			get { return (Felicidad)(int)stats[18]; }
 			set {
-				if((int)value>byte.MaxValue||(int)value<byte.MinValue)throw new ArgumentOutOfRangeException("el valor se guarda en un byte!");
+				if ((int)value > byte.MaxValue || (int)value < byte.MinValue)
+					throw new ArgumentOutOfRangeException("value", "el valor se guarda en un byte!");
 				stats[18] = (byte)(int)value;
 			}
 		}
 		public RatioCrecimiento Crecimiento {
 			get { return (RatioCrecimiento)(int)stats[19]; }//solo se usa la posicion de la enumeracion para determinar su crecimiento
 			set {
-				if(value<RatioCrecimiento.Exp1000000||value>RatioCrecimiento.Exp800000)throw new ArgumentOutOfRangeException(String.Format("el valor no puede superar el numero {0} y tiene que ser positivo",Enum.GetName(typeof(RatioCrecimiento)).Length-1));
+				if (value < RatioCrecimiento.Exp1000000 || value > RatioCrecimiento.Exp1250000)
+					throw new ArgumentOutOfRangeException(String.Format("el valor no puede superar el numero {0} y tiene que ser positivo", Enum.GetName(typeof(RatioCrecimiento)).Length - 1));
 				stats[19] = (byte)(int)value;
 			}
 		}
@@ -597,6 +361,8 @@ namespace PokemonGBAFrameWork
 		public Color ColorBaseStat {//Hex(128 + Clr1.SelectedIndex) FaceLeft se el suma 128 al stat del color...si no esta es FaceRight
 			get { return IsFaceRight ? (Color)(int)stats[25] : (Color)(int)(FACELEFT - stats[25]); }
 			set {
+				if (value < Color.Rojo || value > Color.Rosa)
+					throw new ArgumentOutOfRangeException();
 				bool isFaceLeft = !IsFaceRight;
 				stats[25] = (byte)(int)value;
 				if (isFaceLeft)
@@ -619,10 +385,12 @@ namespace PokemonGBAFrameWork
 		}
 		//PadBase 26,27??que es eso?? no se usa???
 		public ushort PadBase {
-			get { return Gabriel.Cat.Serializar.ToUShort(new byte[] {
-			                                             	stats[26],
-			                                             	stats[27]
-			                                             }); }
+			get {
+				return Gabriel.Cat.Serializar.ToUShort(new byte[] {
+					stats[26],
+					stats[27]
+				});
+			}
 			set {
 				byte[] bytesPadBase = Gabriel.Cat.Serializar.GetBytes(value);
 				stats[26] = bytesPadBase[0];
