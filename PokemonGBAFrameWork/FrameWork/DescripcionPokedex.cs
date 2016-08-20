@@ -16,6 +16,7 @@ namespace PokemonGBAFrameWork
 	public class DescripcionPokedex
 	{
 		//en construccion
+		BloqueString nombreEspecie;//tiene un tamaño maximo en todas las versiones de 0xC
 		BloqueString descripcion;
 		//falta proporcion con entrenador y peso
 		public DescripcionPokedex()
