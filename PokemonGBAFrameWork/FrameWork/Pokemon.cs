@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using Gabriel.Cat;
 //informacion de stats sacada de Pokemon Game Editor ->Créditos a Gamer2020
 namespace PokemonGBAFrameWork
 {
@@ -23,10 +24,10 @@ namespace PokemonGBAFrameWork
 		}
 		public enum NivelEvs
 		{
-			Ninguno,
-			Bajo,
-			Normal,
-			Maximo
+			Cero,
+			Uno,
+			Dos,
+			Tres
 		}
 
 		public enum RatioCrecimiento
@@ -55,7 +56,7 @@ namespace PokemonGBAFrameWork
 		}
 		public enum Felicidad
 		{
-			LaMasBaja = 0,
+			Minima = 0,
 			Baja = 35,
 			Normal = 70,
 			MediAlta = 90,
@@ -80,23 +81,81 @@ namespace PokemonGBAFrameWork
 		}
 		const int PASOSCICLOECLOSION = 256, MAXIMOSPASOSECLOSION = PASOSCICLOECLOSION * PASOSCICLOECLOSION;
 		const int LENGTHNIVELEVS = 4;
+		/// <summary>
+		/// forma parte de un stat junto con la de color en el mismo byte numero 25
+		/// </summary>
 		const byte FACELEFT = 128;
-		//forma parte de un stat junto con la de color en el mismo byte numero 25
+		
 
 		BloqueString nombre;
 		byte[] stats;
 		int objeto1, objeto2;
-		//me falta saber el total para poder hacerlo...
 		int ordenPokedexLocal;
 		int ordenPokedexNacional;
 		DescripcionPokedex descripcion;
 		Sprite sprites;
+		/*por desarrollar
 		//falta huella
 		//falts miniSprites
 		//falta Cry
 		//falta ataques, mt y mo
+		*/
+		public BloqueString Nombre {
+			get {
+				return nombre;
+			}
+			set {
+				if (value == null)
+					throw new ArgumentNullException();
+				if (value.Texto.Length > (int)LongitudCampos.Nombre)
+					throw new ArgumentOutOfRangeException("value", "el nombre no puede superar el maximo de caracteres que es " + (int)LongitudCampos.Nombre);
+				nombre = value;
+				nombre.MaxCaracteres = (int)LongitudCampos.Nombre;//por si tiene otro
+			}
+		}
+		public int OrdenPokedexLocal {
+			get {
+				return ordenPokedexLocal;
+			}
+			set {
+				ordenPokedexLocal = value;
+			}
+		}
+		public int OrdenPokedexNacional {
+			get {
+				return ordenPokedexNacional;
+			}
+			set {
+				ordenPokedexNacional = value;
+			}
+		}
+		public DescripcionPokedex Descripcion {
+			get {
+				return descripcion;
+			}
+			set {
+				if (value == null)
+					throw new ArgumentNullException();
+				descripcion = value;
+			}
+		}
 
-		
+		public Sprite Sprites {
+			get {
+				return sprites;
+			}
+			set {
+				if (value == null)
+					throw new ArgumentNullException();
+				sprites = value;
+			}
+		}
+
+
+		//para poder hacer el set necesito saber el total de objetos para poder guardar los objetos que puede llevar...
+		/// <summary>
+		/// para obtener y asignar todos los stats de golpe :)
+		/// </summary>
 		public byte[] Stats {
 			get {
 				return stats;
@@ -134,6 +193,8 @@ namespace PokemonGBAFrameWork
 				stats[1] = value;
 			}
 		}
+
+
 		public byte Defensa {
 			get { return Stats[2]; }
 			set {
@@ -200,7 +261,7 @@ namespace PokemonGBAFrameWork
 				return (NivelEvs)posicion;
 			}
 			set {
-				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+				if (value < NivelEvs.Uno || value > NivelEvs.Tres)
 					throw new ArgumentOutOfRangeException("value");
 				stats[11] = (byte)(((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)AtaqueEvs) * LENGTHNIVELEVS + (int)value);
 			
@@ -212,7 +273,7 @@ namespace PokemonGBAFrameWork
 				return (NivelEvs)posicion;
 			}
 			set {
-				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+				if (value < NivelEvs.Uno || value > NivelEvs.Tres)
 					throw new ArgumentOutOfRangeException("value");
 				stats[11] = (byte)(((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)value) * LENGTHNIVELEVS + (int)HpEvs);
 			
@@ -225,7 +286,7 @@ namespace PokemonGBAFrameWork
 				return (NivelEvs)posicion;
 			}
 			set {
-				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+				if (value < NivelEvs.Uno || value > NivelEvs.Tres)
 					throw new ArgumentOutOfRangeException("value");
 				stats[11] = (byte)(((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)value) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)AtaqueEvs) * LENGTHNIVELEVS + (int)HpEvs);
 			
@@ -238,7 +299,7 @@ namespace PokemonGBAFrameWork
 				return (NivelEvs)posicion;
 			}
 			set {
-				if (value < NivelEvs.Bajo || value > NivelEvs.Maximo)
+				if (value < NivelEvs.Uno || value > NivelEvs.Tres)
 					throw new ArgumentOutOfRangeException("value");
 				stats[11] = (byte)(((int)value) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) + ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) + ((int)AtaqueEvs) * LENGTHNIVELEVS + (int)HpEvs);
 			
@@ -399,5 +460,8 @@ namespace PokemonGBAFrameWork
 		}
 		#endregion
 		#endregion
+
+		public static Pokemon GetPokemon (RomPokemon rom,Hex )
+
 	}
 }

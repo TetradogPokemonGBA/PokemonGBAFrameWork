@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
         BloqueImagen.Paleta paletaShiny;
         BloqueImagen imagenFrontal;
         BloqueImagen imagenTrasera;
-
+		//no se usan los bloques de imagen para que las paletas esten controladas y sean estas 
         public Sprite(BloqueImagen.Paleta paletaNormal, BloqueImagen.Paleta paletaShiny,Hex offsetImagenFrontal, Bitmap imagenFrontal,Hex offsetImagenTrasera, Bitmap imagenTrasera)
         {
             this.paletaNormal = paletaNormal;
