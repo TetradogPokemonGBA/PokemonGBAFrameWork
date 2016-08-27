@@ -383,7 +383,7 @@ namespace PokemonGBAFrameWork
 			get { return (RatioCrecimiento)(int)stats[19]; }//solo se usa la posicion de la enumeracion para determinar su crecimiento
 			set {
 				if (value < RatioCrecimiento.Exp1000000 || value > RatioCrecimiento.Exp1250000)
-					throw new ArgumentOutOfRangeException(String.Format("el valor no puede superar el numero {0} y tiene que ser positivo", Enum.GetName(typeof(RatioCrecimiento)).Length - 1));
+					throw new ArgumentOutOfRangeException(String.Format("el valor no puede superar el numero {0} y tiene que ser positivo", Enum.GetNames(typeof(RatioCrecimiento)).Length - 1));
 				stats[19] = (byte)(int)value;
 			}
 		}
@@ -461,7 +461,6 @@ namespace PokemonGBAFrameWork
 		#endregion
 		#endregion
 
-		public static Pokemon GetPokemon (RomPokemon rom,Hex )
 
 	}
 }
