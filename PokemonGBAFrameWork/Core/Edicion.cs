@@ -33,21 +33,32 @@ namespace PokemonGBAFrameWork
 			Ingles,
 			Otro
 		}
-		public const string ROJOFUEGO = "BPR";
-		public const string VERDEHOJA = "BPG";
-		public const string ESMERALDA = "BPE";
-		public const string RUBI = "AXV";
-		public const string ZAFIRO = "AXP";
+		public enum EdicionesPokemon{
+		RojoFuego,VerdeHoja,Esmeralda,Rubi,Zafiro
+		}
+		public const string ABREVIACIONROJOFUEGO = "BPR";
+		public const string ABREVIACIONVERDEHOJA = "BPG";
+		public const string ABREVIACIONESMERALDA = "BPE";
+		public const string ABREVIACIONRUBI = "AXV";
+		public const string ABREVIACIONZAFIRO = "AXP";
 		
+       	public const string NOMBRECOMPLETOROJOFUEGO = "BPR";
+		public const string NOMBRECOMPLETOVERDEHOJA = "BPG";
+		public const string NOMBRECOMPLETOESMERALDA = "BPE";
+		public const string NOMBRECOMPLETORUBI = "AXV";
+		public const string NOMBRECOMPLETOZAFIRO = "AXP";
 		string nombreCompleto;
 		string abreviacion;
 		char inicialIdioma;
+		
 		public Edicion(string nombreCompleto, string abreviacion, char inicialIdioma)
 		{
 			NombreCompleto = nombreCompleto;
 			Abreviacion = abreviacion;
 			InicialIdioma = inicialIdioma;
 		}
+		
+
 		public string NombreCompleto {
 			get {
 				return nombreCompleto;
@@ -119,6 +130,32 @@ namespace PokemonGBAFrameWork
 		}
 
 		#endregion
+		public static Edicion GetEdicionCanon(EdicionesPokemon edicion,Idioma idioma)
+		{
+			char inicialIdioma=char.ToLower(idioma.ToString()[0]);
+			Edicion edicionCanon=null;
+			switch (edicion) {
+				case EdicionesPokemon.RojoFuego:
+					edicionCanon=new Edicion(NOMBRECOMPLETOROJOFUEGO,ABREVIACIONROJOFUEGO,inicialIdioma);
+					break;
+				case EdicionesPokemon.VerdeHoja:
+					edicionCanon=new Edicion(NOMBRECOMPLETOVERDEHOJA,ABREVIACIONVERDEHOJA,inicialIdioma);
+					break;
+				case EdicionesPokemon.Esmeralda:
+					edicionCanon=new Edicion(NOMBRECOMPLETOESMERALDA,ABREVIACIONESMERALDA,inicialIdioma);
+					break;
+				case EdicionesPokemon.Rubi:
+					edicionCanon=new Edicion(NOMBRECOMPLETORUBI,ABREVIACIONRUBI,inicialIdioma);
+					break;
+				case EdicionesPokemon.Zafiro:
+					edicionCanon=new Edicion(NOMBRECOMPLETOZAFIRO,ABREVIACIONZAFIRO,inicialIdioma);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			return edicionCanon;
+			
+		}
 		public static Edicion GetEdicion(RomPokemon rom)
 		{
 			if (rom == null)
