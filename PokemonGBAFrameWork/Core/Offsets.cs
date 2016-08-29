@@ -212,6 +212,8 @@ namespace PokemonGBAFrameWork
 		{
 			if (rom == null || zona == null || edicion == null)
 				throw new ArgumentNullException();
+			else if(!zona.diccionarioZonas.Existeix(edicion)||zona.diccionarioZonas[edicion].Length<(int)compilacion)throw new RomInvestigacionExcepcion();
+
 			return GetOffset(rom, zona[edicion, compilacion]);
 		}
 		public static Hex GetOffset(RomPokemon rom, Hex offsetZona)

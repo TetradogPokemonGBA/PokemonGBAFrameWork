@@ -35,18 +35,19 @@ namespace PokemonGBAFrameWork
 		}
 		public enum EdicionesPokemon
 		{
+			Rubi,
+			Zafiro,
 			RojoFuego,
-VerdeHoja,
-Esmeralda,
-Rubi,
-Zafiro
+			VerdeHoja,
+			Esmeralda
+				
 		}
 		public const string ABREVIACIONROJOFUEGO = "BPR";
 		public const string ABREVIACIONVERDEHOJA = "BPG";
 		public const string ABREVIACIONESMERALDA = "BPE";
 		public const string ABREVIACIONRUBI = "AXV";
 		public const string ABREVIACIONZAFIRO = "AXP";
-		
+		//falta ponerlos
 		public const string NOMBRECOMPLETOROJOFUEGO = "BPR";
 		public const string NOMBRECOMPLETOVERDEHOJA = "BPG";
 		public const string NOMBRECOMPLETOESMERALDA = "BPE";
@@ -55,7 +56,7 @@ Zafiro
 		string nombreCompleto;
 		string abreviacion;
 		char inicialIdioma;
-		
+
 		public Edicion(string nombreCompleto, string abreviacion, char inicialIdioma)
 		{
 			NombreCompleto = nombreCompleto;
@@ -161,23 +162,78 @@ Zafiro
 			return edicionCanon;
 			
 		}
+
+		public static Edicion[] ObtenerTodasLasEdicionesCanon()
+		{
+			EdicionesPokemon[] ediciones = (EdicionesPokemon[])Enum.GetValues(typeof(EdicionesPokemon));
+			Idioma[] idiomas = (Idioma[])Enum.GetValues(typeof(Idioma));
+			Edicion[] edicionesCanon = new Edicion[ediciones.Length * idiomas.Length];
+			//las pondré en el orden que toque para detectar que edicion mirando la descripcionPokedex   :)
+			for (int i = 0; i < ediciones.Length; i++)
+				for (int j = 0; j < idiomas.Length; j++)
+					edicionesCanon[i * idiomas.Length + j] = GetEdicionCanon(ediciones[i], idiomas[j]);
+			return edicionesCanon;
+		}
+
 		public static Edicion GetEdicion(RomPokemon rom)
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
 			Edicion edicion = new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
+			Edicion aux=edicion;
 			//ahora detecto si tiene bien el formato mirando la compilacion
-			CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
-		
+			//como de momento no se puede cambiar el formato para crear una edicion noOficial pues tiene que ser una oficial
+			bool valida;
+			Edicion[] edicionesCanon;
+			int indice;
+			try {
+				CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
+				valida = true;
+			} catch {
+				valida = false;
+			}
+			if (!valida) {
+				edicionesCanon = ObtenerTodasLasEdicionesCanon();
+				indice = 0;
+				edicion = edicionesCanon[indice++];
+				while (!valida && indice < edicionesCanon.Length) {
+					
+					try {
+						CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
+						valida = true;
+					} catch {
+						valida = false;
+						//pongo la siguiente edicion
+						edicion = edicionesCanon[indice++];
+					}
+					
+				}
+				if (indice == edicionesCanon.Length)
+					throw new InvalidRomFormat();//si no es ninguna edicion canon es que no tiene el formato correcto
+				if (edicion.Abreviacion != ABREVIACIONRUBI) {
+					//como Rubi/Zafiro  no se pueden diferenciar lo hago aqui
+					
+					//puede ser zafiro pero no se detectarla...
+					
+				}
+				edicion.NombreCompleto=aux.NombreCompleto;//como no implica nada para escoger zonas pues lo conservo
+			}
+			
+			return edicion;
 		}
-		/*de momento no se puede cambiar porque exige mas cosas aparte de lo que hay actualmente
-		static void SetEdicion(RomPokemon rom, Edicion edicion)
+		/*de momento sera simple  se tiene que poder exportar zonas con la edicion que han dicho que es*/
+		/// <summary>
+		/// Permite cambiar la edicion, pero si se cambia la Abreviacion luego si no se carga la informacion para leerla originará en el GetEdicion una RomInvestigacionExcepcion.
+		/// </summary>
+		/// <param name="rom"></param>
+		/// <param name="edicion"></param>
+		public static void SetEdicion(RomPokemon rom, Edicion edicion)
 		{
 			if (rom == null || edicion == null)
 				throw new ArgumentNullException();
 			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.NombreCompleto, Serializar.GetBytes(edicion.NombreCompleto.PadRight((int)LongitudCampos.NombreCompleto)));
 			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.Abreviacion, Serializar.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
 			rom.Datos[(int)OffsetsCampos.Idioma] = (byte)edicion.InicialIdioma;
-		}*/
+		}
 	}
 }
