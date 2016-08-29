@@ -37,10 +37,24 @@ namespace PokemonGBAFrameWork
 		}
 		public static Compilacion GetCompilacion(RomPokemon rom, Edicion edicion)
 		{
+			Compilacion compilacion = GetCompilacion(rom, edicion, false);
+			if (compilacion == Compilacion.Segunda)
+				GetCompilacion(rom, edicion, true);//si no es correcta orignia una excepcion de formato
+			return compilacion;
+		
+		}
+		static Compilacion GetCompilacion(RomPokemon rom, Edicion edicion, bool comprovarQueEsSegunda)
+		{
 			Compilacion compilacion;
 			if (rom == null || edicion == null)
 				throw new ArgumentNullException();
-			compilacion = Compilacion.Primera;//necesito mas desarrollo para determinar la segunda
+			compilacion = !comprovarQueEsSegunda ? Compilacion.Primera : Compilacion.Segunda;
+			if (!DescripcionPokedex.Validar(rom, edicion, compilacion)) {
+				if (comprovarQueEsSegunda)
+					throw new InvalidRomFormat();
+				else//si no es valida es que es la segunda
+					compilacion = Compilacion.Segunda;
+			}
 			return compilacion;
 		}
 	}
@@ -160,17 +174,31 @@ namespace PokemonGBAFrameWork
 		#endregion
 
 		#endregion
+		public static Hex GetOffset(RomPokemon rom, string variableZona)
+		{
+			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom));
+		}
+		public static Hex GetOffset(RomPokemon rom, string variableZona, CompilacionRom.Compilacion compilacion)
+		{
+			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion);
+		}
+		public static Hex GetOffset(RomPokemon rom, string variableZona, Edicion edicion)
+		{
+			return GetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion));
+		}
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="rom"></param>
+		/// <param name="edicion"></param>
+		/// <param name="compilacion"></param>
 		/// <param name="variableZona">Usa el diccionario para obtener la zona </param>
 		/// <returns></returns>
-		public static Hex GetOffset(RomPokemon rom, string variableZona)
+		public static Hex GetOffset(RomPokemon rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
 			if (string.IsNullOrEmpty(variableZona))
 				throw new ArgumentNullException();
-			return GetOffset(rom, DiccionarioOffsetsZonas[variableZona]);
+			return GetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion);
 		}
 		public static Hex GetOffset(RomPokemon rom, Zona zona)
 		{
@@ -195,17 +223,31 @@ namespace PokemonGBAFrameWork
 				bytesPointer[0]
 			})) + (bytesPointer[3] == 9 ? (int)Longitud.DieciseisMegas : 0);
 		}
+		public static void SetOffset(RomPokemon rom, string variableZona, Hex offsetToSave)
+		{
+			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), offsetToSave);
+		}
+		public static void SetOffset(RomPokemon rom, string variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+		{
+			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion, offsetToSave);
+		}
+		public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, Hex offsetToSave)
+		{
+			SetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
+		}
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="rom"></param>
+		/// <param name="edicion"></param>
+		/// <param name="compilacion"></param>
 		/// <param name="variableZona">Usa el diccionario para obtener la zona </param>
 		/// <param name="offsetToSave"></param>
-		public static void SetOffset(RomPokemon rom, string variableZona, Hex offsetToSave)
+		public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
 		{
 			if (string.IsNullOrEmpty(variableZona))
 				throw new ArgumentNullException();
-			SetOffset(rom, DiccionarioOffsetsZonas[variableZona], offsetToSave);
+			SetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion, offsetToSave);
 		}
 		/// <summary>
 		/// Actualiza el pointer de todas las zonas donde estaba el anterior

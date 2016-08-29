@@ -33,8 +33,13 @@ namespace PokemonGBAFrameWork
 			Ingles,
 			Otro
 		}
-		public enum EdicionesPokemon{
-		RojoFuego,VerdeHoja,Esmeralda,Rubi,Zafiro
+		public enum EdicionesPokemon
+		{
+			RojoFuego,
+VerdeHoja,
+Esmeralda,
+Rubi,
+Zafiro
 		}
 		public const string ABREVIACIONROJOFUEGO = "BPR";
 		public const string ABREVIACIONVERDEHOJA = "BPG";
@@ -42,7 +47,7 @@ namespace PokemonGBAFrameWork
 		public const string ABREVIACIONRUBI = "AXV";
 		public const string ABREVIACIONZAFIRO = "AXP";
 		
-       	public const string NOMBRECOMPLETOROJOFUEGO = "BPR";
+		public const string NOMBRECOMPLETOROJOFUEGO = "BPR";
 		public const string NOMBRECOMPLETOVERDEHOJA = "BPG";
 		public const string NOMBRECOMPLETOESMERALDA = "BPE";
 		public const string NOMBRECOMPLETORUBI = "AXV";
@@ -130,25 +135,25 @@ namespace PokemonGBAFrameWork
 		}
 
 		#endregion
-		public static Edicion GetEdicionCanon(EdicionesPokemon edicion,Idioma idioma)
+		public static Edicion GetEdicionCanon(EdicionesPokemon edicion, Idioma idioma)
 		{
-			char inicialIdioma=char.ToLower(idioma.ToString()[0]);
-			Edicion edicionCanon=null;
+			char inicialIdioma = char.ToLower(idioma.ToString()[0]);
+			Edicion edicionCanon = null;
 			switch (edicion) {
 				case EdicionesPokemon.RojoFuego:
-					edicionCanon=new Edicion(NOMBRECOMPLETOROJOFUEGO,ABREVIACIONROJOFUEGO,inicialIdioma);
+					edicionCanon = new Edicion(NOMBRECOMPLETOROJOFUEGO, ABREVIACIONROJOFUEGO, inicialIdioma);
 					break;
 				case EdicionesPokemon.VerdeHoja:
-					edicionCanon=new Edicion(NOMBRECOMPLETOVERDEHOJA,ABREVIACIONVERDEHOJA,inicialIdioma);
+					edicionCanon = new Edicion(NOMBRECOMPLETOVERDEHOJA, ABREVIACIONVERDEHOJA, inicialIdioma);
 					break;
 				case EdicionesPokemon.Esmeralda:
-					edicionCanon=new Edicion(NOMBRECOMPLETOESMERALDA,ABREVIACIONESMERALDA,inicialIdioma);
+					edicionCanon = new Edicion(NOMBRECOMPLETOESMERALDA, ABREVIACIONESMERALDA, inicialIdioma);
 					break;
 				case EdicionesPokemon.Rubi:
-					edicionCanon=new Edicion(NOMBRECOMPLETORUBI,ABREVIACIONRUBI,inicialIdioma);
+					edicionCanon = new Edicion(NOMBRECOMPLETORUBI, ABREVIACIONRUBI, inicialIdioma);
 					break;
 				case EdicionesPokemon.Zafiro:
-					edicionCanon=new Edicion(NOMBRECOMPLETOZAFIRO,ABREVIACIONZAFIRO,inicialIdioma);
+					edicionCanon = new Edicion(NOMBRECOMPLETOZAFIRO, ABREVIACIONZAFIRO, inicialIdioma);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -160,15 +165,19 @@ namespace PokemonGBAFrameWork
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
-			return new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
+			Edicion edicion = new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
+			//ahora detecto si tiene bien el formato mirando la compilacion
+			CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
+		
 		}
-		public static void SetEdicion(RomPokemon rom, Edicion edicion)
+		/*de momento no se puede cambiar porque exige mas cosas aparte de lo que hay actualmente
+		static void SetEdicion(RomPokemon rom, Edicion edicion)
 		{
 			if (rom == null || edicion == null)
 				throw new ArgumentNullException();
 			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.NombreCompleto, Serializar.GetBytes(edicion.NombreCompleto.PadRight((int)LongitudCampos.NombreCompleto)));
 			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.Abreviacion, Serializar.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
 			rom.Datos[(int)OffsetsCampos.Idioma] = (byte)edicion.InicialIdioma;
-		}
+		}*/
 	}
 }
