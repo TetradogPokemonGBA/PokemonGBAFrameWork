@@ -97,7 +97,7 @@ namespace PokemonGBAFrameWork
 				return inicialIdioma;
 			}
 			set {
-				inicialIdioma = value;
+				inicialIdioma =Char.ToUpper(value);
 			}
 		}
 		public Idioma IdiomaRom {
@@ -182,16 +182,17 @@ namespace PokemonGBAFrameWork
 			Edicion edicion = new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
 			Edicion aux=edicion;
 			//ahora detecto si tiene bien el formato mirando la compilacion
-			//como de momento no se puede cambiar el formato para crear una edicion noOficial pues tiene que ser una oficial
+			
 			bool valida;
 			Edicion[] edicionesCanon;
 			int indice;
 			try {
-				CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
+				CompilacionRom.GetCompilacion(rom, edicion);//en un futuro si origina una excepcion es que tiene que ver con el formato, de momento es que no se corresponde con la edicion que tiene el formato.
 				valida = true;
 			} catch {
 				valida = false;
 			}
+			//como de momento no se puede cambiar el formato para crear una edicion noOficial pues tiene que ser una oficial
 			if (!valida) {
 				edicionesCanon = ObtenerTodasLasEdicionesCanon();
 				indice = 0;
@@ -202,7 +203,6 @@ namespace PokemonGBAFrameWork
 						CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
 						valida = true;
 					} catch {
-						valida = false;
 						//pongo la siguiente edicion
 						edicion = edicionesCanon[indice++];
 					}
