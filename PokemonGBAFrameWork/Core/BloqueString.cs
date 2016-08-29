@@ -53,6 +53,7 @@ namespace PokemonGBAFrameWork
 		int maxCaracteres;
 		Hex offsetInicio;
 		string texto;
+		public BloqueString(int maxCaracteres):this("",maxCaracteres){}
 		public BloqueString(string texto):this(0,texto,MAXIMODECARACTERESDESHABILITADO){}
 		public BloqueString(string texto,int maxCaracteres):this(0,texto,maxCaracteres){}
 		public BloqueString(Hex offsetInicio,string texto):this(offsetInicio,texto,MAXIMODECARACTERESDESHABILITADO){}

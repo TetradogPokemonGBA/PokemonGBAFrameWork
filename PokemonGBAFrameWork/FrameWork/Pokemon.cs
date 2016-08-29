@@ -79,6 +79,13 @@ namespace PokemonGBAFrameWork
 			Rosa
 
 		}
+		public enum Variables
+		{
+			OrdenLocal,
+			OrdenNacional,
+			Nombre,
+			Stats
+		}
 		const int PASOSCICLOECLOSION = 256, MAXIMOSPASOSECLOSION = PASOSCICLOECLOSION * PASOSCICLOECLOSION;
 		const int LENGTHNIVELEVS = 4;
 		/// <summary>
@@ -100,6 +107,77 @@ namespace PokemonGBAFrameWork
 		//falta Cry
 		//falta ataques, mt y mo
 		*/
+		static Pokemon()
+		{
+			Zona zonaOrdenLocal = new Zona(Variables.OrdenLocal.ToString());
+			Zona zonaOrdenNacional = new Zona(Variables.OrdenNacional.ToString());
+			Zona zonaNombre = new Zona(Variables.Nombre.ToString());
+			Zona zonaStats = new Zona(Variables.Stats.ToString());
+			
+			//orden local
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x3F98BC);
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x3F98BC);
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x3F7F0);
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x3F7F0);
+		 
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x430DC);		
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x430DC);
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x431F0, 0x43204);
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x431F0, 0x43204);
+			
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x6d3fc);
+			zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x6d3fc);
+			//orden nacional
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x3FA08);
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x3FA08);
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x3F83C);
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x3F83C);
+		 
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x43128);		
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x43128);
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x4323C, 0x43250);
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x4323C, 0x43250);
+			
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x6D448);
+			zonaOrdenNacional.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x6D448);
+		
+			//nombre
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x144);
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x144);
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xFA58);
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xFA58);
+			
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x144);		
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x144);
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x144);
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x144);
+			
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x144);
+			zonaNombre.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x144);
+
+			
+			//stats
+			zonaStats.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x1BC);
+			zonaStats.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x1BC);
+			zonaStats.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x10B64);
+			zonaStats.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x10B64);
+			
+			zonaStats.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x1BC);		
+			zonaStats.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x1BC);
+			zonaStats.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x1BC);
+			zonaStats.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x1BC);
+			
+			zonaStats.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1BC);
+			zonaStats.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1BC);
+
+			//añado las zonas
+			Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] {
+				zonaNombre,
+				zonaOrdenLocal,
+				zonaOrdenNacional,
+				zonaStats
+			});
+		}
 		public BloqueString Nombre {
 			get {
 				return nombre;
@@ -118,6 +196,8 @@ namespace PokemonGBAFrameWork
 				return ordenPokedexLocal;
 			}
 			set {
+				if (value < 0 || value > short.MaxValue)
+					throw new ArgumentOutOfRangeException();
 				ordenPokedexLocal = value;
 			}
 		}
@@ -126,6 +206,8 @@ namespace PokemonGBAFrameWork
 				return ordenPokedexNacional;
 			}
 			set {
+				if (value < 0 || value > short.MaxValue)
+					throw new ArgumentOutOfRangeException();
 				ordenPokedexNacional = value;
 			}
 		}
@@ -159,7 +241,7 @@ namespace PokemonGBAFrameWork
 		public byte[] Stats {
 			get {
 				return stats;
-				;
+			
 			}
 
 			set {
@@ -167,6 +249,10 @@ namespace PokemonGBAFrameWork
 					throw new ArgumentException();
 				stats = value;
 			}
+		}
+		public	int PosicionTabla {
+			get;
+			set;
 		}
 		#region Interpreta	Stats
 		public int TotalStatsBase {
@@ -348,7 +434,22 @@ namespace PokemonGBAFrameWork
 				objeto2 = value;
 			}
 		}
-
+		public void SetObjetosEnLosStats(int totalObjetos)
+		{
+			if (totalObjetos < 0 || totalObjetos > short.MaxValue)
+				throw new ArgumentOutOfRangeException();
+			
+			stats[12] = (byte)(Objeto1 % totalObjetos);
+			stats[14] = (byte)(Objeto2 % totalObjetos);
+			
+			stats[13] = (byte)(Objeto1 / totalObjetos);
+			stats[13] = (byte)(Objeto2 / totalObjetos);
+		}
+		public void GetObjetosDeLosStats()
+		{
+			Objeto1 = stats[12] + stats[13] * 256;
+			Objeto2 = stats[14] + stats[15] * 256;
+		}
 		public RatioGenero RatioSexo {
 			get { return (RatioGenero)(int)stats[16]; }
 			set {
@@ -405,6 +506,9 @@ namespace PokemonGBAFrameWork
 				stats[22] = value;
 			}
 		}
+
+
+
 		public byte Habilidad2 {
 			get { return stats[23]; }
 			set {
@@ -460,6 +564,51 @@ namespace PokemonGBAFrameWork
 		}
 		#endregion
 		#endregion
+		
+		//aun falta acabar pero de momento pongo lo que tengo
+		public static void SetPokemon(RomPokemon rom, Pokemon pokemon)
+		{
+			SetPokemon(rom, pokemon, Objeto.TotalObjetos(rom));
+		}
+		public static void SetPokemon(RomPokemon rom, Pokemon pokemon, int totalObjetos)
+		{
+			SetPokemon(rom, Edicion.GetEdicion(rom), pokemon, totalObjetos);
+		}
+		public static void SetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+		{
+			SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, Objeto.TotalObjetos(rom));
+		}
+		public static void SetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon, int totalObjetos)
+		{
+			SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, totalObjetos);
+		}
+		public static void SetPokemon(RomPokemon rom, Edicion edicion, Pokemon pokemon)
+		{
+			SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, Objeto.TotalObjetos(rom));
+		}
+		public static void SetPokemon(RomPokemon rom, Edicion edicion, Pokemon pokemon, int totalObjetos)
+		{
+			SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, totalObjetos);
+		}
+		public static void SetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+		{
+			SetPokemon(rom, edicion, compilacion, pokemon, Objeto.TotalObjetos(rom));
+		}
+		public static void SetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon, int totalObjetos)
+		{
+			pokemon.SetObjetosEnLosStats(totalObjetos);
+			Sprite.SetSprite(rom, pokemon.Sprites);
+			BloqueBytes.SetBytes(rom, Zona.GetOffset(rom, Variables.Stats.ToString(), edicion, compilacion) + pokemon.PosicionTabla * (int)LongitudCampos.TotalStats, pokemon.Stats);
+			pokemon.Nombre.OffsetInicio = Zona.GetOffset(rom, Variables.Nombre.ToString(), edicion, compilacion) + pokemon.PosicionTabla * (int)LongitudCampos.Nombre;
+			BloqueString.SetString(rom, pokemon.Nombre);
+			DescripcionPokedex.SetDescripcionPokedex(rom, edicion, compilacion, pokemon.PosicionTabla, pokemon.Descripcion);
+			//pongo el orden local y nacional...
+			Word.SetWord(rom,Convert.ToUInt32(Zona.GetOffset(rom, Variables.OrdenLocal.ToString(), edicion, compilacion) - 2 + pokemon.PosicionTabla * 2), pokemon.OrdenPokedexLocal);
+			Word.SetWord(rom,Convert.ToUInt32(Zona.GetOffset(rom, Variables.OrdenNacional.ToString(), edicion, compilacion) - 2 + pokemon.PosicionTabla * 2), pokemon.OrdenPokedexNacional);
+
+		}
+		//falta ponerlo donde toca
+
 
 
 	}

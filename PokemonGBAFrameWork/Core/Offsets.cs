@@ -17,6 +17,7 @@ namespace PokemonGBAFrameWork
 	public enum Longitud
 	{
 		Offset = 4,
+		Word=4,
 		DieciseisMegas = 0xFFFFFF,
 		TrentaYDosMegas = DieciseisMegas * 2
 			
@@ -56,6 +57,16 @@ namespace PokemonGBAFrameWork
 					compilacion = Compilacion.Segunda;
 			}
 			return compilacion;
+		}
+	}
+	public static class Word{
+		public static void SetWord(RomPokemon rom,Hex offset,Hex word)
+		{
+			if(offset<0||offset+(int)Longitud.Word||word<0||word>ushort.MaxValue) throw new ArgumentOutOfRangeException();
+			int zonaWord=offset;
+			int wordAux=word;
+			rom.Datos[zonaWord++] = Convert.ToByte((wordAux & 0xff));
+			rom.Datos[zonaWord] = Convert.ToByte(((wordAux >> 8) & 0xff));
 		}
 	}
 	/// <summary>

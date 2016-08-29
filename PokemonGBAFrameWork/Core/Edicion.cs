@@ -53,6 +53,18 @@ namespace PokemonGBAFrameWork
 		public const string NOMBRECOMPLETOESMERALDA = "BPE";
 		public const string NOMBRECOMPLETORUBI = "AXV";
 		public const string NOMBRECOMPLETOZAFIRO = "AXP";
+		//valores fijos
+		public static readonly Edicion RubiUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.Ingles);
+		public static readonly Edicion ZafiroUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.Ingles);
+		public static readonly Edicion EsmeraldaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.Ingles);
+		public static readonly Edicion RojoFuegoUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.Ingles);
+		public static readonly Edicion VerdeHojaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.Ingles);
+			
+		public static readonly Edicion RubiEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.Español);
+		public static readonly Edicion ZafiroEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.Español);
+		public static readonly Edicion EsmeraldaEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.Español);
+		public static readonly Edicion RojoFuegoEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.Español);
+		public static readonly Edicion VerdeHojaEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.Español);
 		string nombreCompleto;
 		string abreviacion;
 		char inicialIdioma;
@@ -97,7 +109,7 @@ namespace PokemonGBAFrameWork
 				return inicialIdioma;
 			}
 			set {
-				inicialIdioma =Char.ToUpper(value);
+				inicialIdioma = Char.ToUpper(value);
 			}
 		}
 		public Idioma IdiomaRom {
@@ -180,7 +192,7 @@ namespace PokemonGBAFrameWork
 			if (rom == null)
 				throw new ArgumentNullException();
 			Edicion edicion = new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
-			Edicion aux=edicion;
+			Edicion aux = edicion;
 			//ahora detecto si tiene bien el formato mirando la compilacion
 			
 			bool valida;
@@ -216,7 +228,7 @@ namespace PokemonGBAFrameWork
 					//puede ser zafiro pero no se detectarla...
 					
 				}
-				edicion.NombreCompleto=aux.NombreCompleto;//como no implica nada para escoger zonas pues lo conservo
+				edicion.NombreCompleto = aux.NombreCompleto;//como no implica nada para escoger zonas pues lo conservo
 			}
 			
 			return edicion;
