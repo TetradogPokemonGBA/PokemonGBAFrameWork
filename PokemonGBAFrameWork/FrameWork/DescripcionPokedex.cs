@@ -15,6 +15,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class DescripcionPokedex
 	{
+		//por revisar...de momento esta mal que Rojo/Verde tengan una pagina si tienen 24 bytes...
 		public enum LongitudCampos{
 		TotalGeneral=24,TotalEsmeralda=20,
 		NombreEspecie= 12,DescripcionRubiZafiro,DescipcionEsmeralda,DescripcionRojoFuegoVerdeHoja,
@@ -50,11 +51,9 @@ namespace PokemonGBAFrameWork
 		public static bool Validar(RomPokemon rom, Edicion edicion,CompilacionRom.Compilacion compilacion)
 		{
 			byte byteDescripcion;
-			bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.Ingles;
+			bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.Ingles;//esta pensado para las ediciones USA y ESP las demas no...de momento
 			bool valido;
 			if (tieneMasCompilaciones) {
-                    
-
 				byteDescripcion = rom.Datos[Convert.ToInt32(Zona.GetOffset(rom, Variables.Descripcion.ToString(), edicion, compilacion) + LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1)];
 				//si lo que se ha leido no es el fin de un pointer es que no es la compilación que toca i/o tambien la edicion...
 				valido= (byteDescripcion != 0x8 && byteDescripcion != 0x9);
