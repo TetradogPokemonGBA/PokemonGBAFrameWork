@@ -197,14 +197,15 @@ namespace PokemonGBAFrameWork
         {
             if (colors.Length != BloqueImagen.Paleta.TAMAÑOPALETA)
                 throw new ArgumentException("paleta incorrecta");
-            return BloqueImagen.GetBloqueImagen(imagenFrontal.DatosImagenDescomprimida, new BloqueImagen.Paleta(colors))[0];
+
+            return imagenFrontal.GetBitmap(colors);
         }
 
         public Bitmap GetCustomImagenTrasera(Color[] colors)
         {
             if (colors.Length != BloqueImagen.Paleta.TAMAÑOPALETA)
                 throw new ArgumentException("paleta incorrecta");
-            return BloqueImagen.GetBloqueImagen(imagenTrasera.DatosImagenDescomprimida, new BloqueImagen.Paleta(colors))[0];
+            return imagenTrasera.GetBitmap(colors);
         }
         public static void SetSprite(RomPokemon rom, Sprite sprite)
 		{
@@ -254,7 +255,7 @@ namespace PokemonGBAFrameWork
                 GetCustomImagenFrontal(paletaAnimacion2),
                 isShiny?ImagenFrontalShiny: ImagenFrontalNormal
             };
-            BitmapAnimated bmpAnimated = gifAnimated.ToAnimatedBitmap(false,0, 100, 100, 500);
+            BitmapAnimated bmpAnimated = gifAnimated.ToAnimatedBitmap(false,0, 200,200, 500);
             return bmpAnimated;
         }
 
@@ -383,7 +384,7 @@ namespace PokemonGBAFrameWork
         {
             if (colors.Length != BloqueImagen.Paleta.TAMAÑOPALETA)
                 throw new ArgumentException("paleta incorrecta");
-            return BloqueImagen.GetBloqueImagen(imagenFrontal2.DatosImagenDescomprimida, new BloqueImagen.Paleta(colors))[0];
+            return imagenFrontal2.GetBitmap(colors);
         }
         //tener en cuenta a la hora de poner las imagenes frontales que van seguidas y como una sola imagen
     }

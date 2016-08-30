@@ -36,6 +36,15 @@ namespace PokemonGBAFrameWork
             Dos,
             Tres
         }
+        public enum StatEvs
+        {
+            Hp,
+            Ataque,
+            Velocidad,
+            Defensa,
+            AtaqueEspecial,
+            DefensaEspecial
+        }
 
         public enum RatioCrecimiento
         {
@@ -407,7 +416,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                int posicion = (stats[10] - ((int)DefensaEspecialEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) - ((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) - ((int)AtaqueEspecialEvs) * LENGTHNIVELEVS) / LENGTHNIVELEVS;//le quito lo anterior
+                int posicion = (stats[10] - ((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)) - ((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3)) - ((int)AtaqueEvs) * LENGTHNIVELEVS) / LENGTHNIVELEVS;//le quito lo anterior
                 return (NivelEvs)posicion;
             }
             set
@@ -422,7 +431,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                int posicion = ((stats[10] - (((int)DefensaEspecialEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)))) - ((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3))) / LENGTHNIVELEVS;//le quito lo anterior
+                int posicion = ((stats[10] - (((int)DefensaEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 2)))) - ((int)VelocidadEvs) * Convert.ToInt32(Math.Pow(LENGTHNIVELEVS, 3))) / LENGTHNIVELEVS;//le quito lo anterior
                 return (NivelEvs)posicion;
             }
             set
@@ -678,6 +687,36 @@ namespace PokemonGBAFrameWork
             Objeto1 = stats[12] + stats[13] * 256;
             Objeto2 = stats[14] + stats[15] * 256;
         }
+        public NivelEvs GetEvs(StatEvs stat)
+        {
+            NivelEvs nivel;
+            switch (stat)
+            {
+                case StatEvs.Hp:nivel = HpEvs;break;
+                case StatEvs.Ataque: nivel = AtaqueEvs; break;
+                case StatEvs.Defensa: nivel = DefensaEspecialEvs; break;
+                case StatEvs.Velocidad: nivel = VelocidadEvs; break;
+                case StatEvs.AtaqueEspecial: nivel = AtaqueEspecialEvs; break;
+                case StatEvs.DefensaEspecial: nivel = DefensaEspecialEvs; break;
+                default:throw new ArgumentOutOfRangeException();
+            }
+            return nivel;
+        }
+        public void SetEvs(StatEvs stat,NivelEvs nivel)
+        {
+
+            switch (stat)
+            {
+                case StatEvs.Hp:   HpEvs= nivel; break;
+                case StatEvs.Ataque:AtaqueEvs= nivel; break;
+                case StatEvs.Defensa: DefensaEspecialEvs = nivel; break;
+                case StatEvs.Velocidad:  VelocidadEvs = nivel; break;
+                case StatEvs.AtaqueEspecial:  AtaqueEspecialEvs = nivel; break;
+                case StatEvs.DefensaEspecial:  DefensaEspecialEvs = nivel; break;
+
+            }
+     
+        }
         #endregion
         #endregion
         public int CompareTo(object obj)
@@ -758,10 +797,10 @@ namespace PokemonGBAFrameWork
         }
         public static int TotalPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            int total = 0;
+            int total = 440;
             try
             {
-                while (true)//en un futuro optimizarlo un poco mas
+                while (false)//en un futuro optimizarlo un poco mas
                 {
                     Sprite.GetSprite(rom, edicion, compilacion, total);
                     total++;

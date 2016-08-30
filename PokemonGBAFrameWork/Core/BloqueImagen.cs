@@ -245,7 +245,13 @@ namespace PokemonGBAFrameWork
 			paletas.RemoveAt(indexPaletaAReemplazar);
 			paletas.Insert(indexPaletaAReemplazar, paletaNueva);
 		}
-		public void RemovePaleta(int indexPaletaAEliminar)
+
+        public Bitmap GetBitmap(Color[] colors)
+        {
+            return GetImagen(datosImagenComprimida,new Paleta(colors));
+        }
+
+        public void RemovePaleta(int indexPaletaAEliminar)
 		{
 			paletas.RemoveAt(indexPaletaAEliminar);
 		}
