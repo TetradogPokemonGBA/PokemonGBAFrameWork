@@ -33,7 +33,7 @@ namespace PokemonGBAFrameWork
 		//etc
 		static Objeto()
 		{
-			Zona zonaObjeto = new Zona(Variables.Objeto.ToString());
+			Zona zonaObjeto = new Zona(Variables.Objeto);
 
 			
 			//nombre
@@ -48,6 +48,7 @@ namespace PokemonGBAFrameWork
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1C8);
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x1C8);
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x1C8);
+            Zona.DiccionarioOffsetsZonas.Añadir(zonaObjeto);
 		}
 		public Objeto(BloqueString nombre)
 		{
@@ -64,8 +65,11 @@ namespace PokemonGBAFrameWork
 				nombre = value;
 			}
 		}
-
-		public static int TotalObjetos(RomPokemon rom)
+        public override string ToString()
+        {
+            return Nombre;
+        }
+        public static int TotalObjetos(RomPokemon rom)
 		{
 			return TotalObjetos(rom, Edicion.GetEdicion(rom));
 		}
@@ -89,17 +93,36 @@ namespace PokemonGBAFrameWork
 			return totalItems;
 		}
 		//de momento solo se cargar el nombre
-		public static Objeto GetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,int index)
+		public static Objeto GetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex index)
 		{
-			Hex offsetObjeto=Zona.GetOffset(rom,Variables.Objeto.ToString(),edicion,compilacion)+index*(int)LongitudCampos.Total;
+			Hex offsetObjeto=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
 			return new Objeto(BloqueString.GetString(rom,offsetObjeto,(int)LongitudCampos.Nombre));
 		}
 		//de momento solo guarda el nombre
-		public static void SetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto,int index)
+		public static void SetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto, Hex index)
 		{
 			objeto.Nombre.Texto=objeto.Nombre.Texto.PadRight((int)LongitudCampos.Nombre);
-			objeto.Nombre.OffsetInicio=Zona.GetOffset(rom,Variables.Objeto.ToString(),edicion,compilacion)+index*(int)LongitudCampos.Total;
+			objeto.Nombre.OffsetInicio=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
 			BloqueString.SetString(rom,objeto.Nombre);
 		}
-	}
+        public static Objeto[] GetObjetos(RomPokemon rom)
+        {
+            return GetObjetos(rom, Edicion.GetEdicion(rom));
+        }
+        public static Objeto[] GetObjetos(RomPokemon rom, Edicion edicion)
+        {
+            return GetObjetos(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion));
+        }
+        public static Objeto[] GetObjetos(RomPokemon rom, CompilacionRom.Compilacion compilacion)
+        {
+            return GetObjetos(rom, Edicion.GetEdicion(rom), compilacion);
+        }
+        public static Objeto[] GetObjetos(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        {
+            Objeto[] objetos = new Objeto[TotalObjetos(rom, edicion)];
+            for (int i = 0; i < objetos.Length; i++)
+                objetos[i] = GetObjeto(rom, edicion, compilacion, i);
+            return objetos;
+        }
+    }
 }

@@ -97,7 +97,11 @@ namespace PokemonGBAFrameWork
 		public Hex OffsetFin{
 			get{return OffsetInicio+Texto.Length;}
 		}
-		public static void SetString(RomPokemon rom,Hex offsetInicio,string str){
+        public override string ToString()
+        {
+            return Texto;
+        }
+        public static void SetString(RomPokemon rom,Hex offsetInicio,string str){
 			SetString(rom,new BloqueString(offsetInicio,str));
 		}
 		public static void SetString(RomPokemon rom,BloqueString str){
@@ -1166,5 +1170,9 @@ namespace PokemonGBAFrameWork
             return textoParseado.ToString();
         }
         #endregion
+        public static implicit operator string(BloqueString bloque)
+        {
+            return bloque.Texto;
+        }
 	}
 }

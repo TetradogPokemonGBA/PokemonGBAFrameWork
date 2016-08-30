@@ -137,6 +137,10 @@ namespace PokemonGBAFrameWork
 				BloqueBytes.SetBytes(rom, paleta.OffsetInicio, paletaComprimida);
 				
 			}
+            public static implicit operator Color[] (Paleta paleta)
+            {
+                return paleta.paleta;
+            }
 		}
 		public enum LongitudImagen
 		{

@@ -29,9 +29,9 @@ namespace PokemonGBAFrameWork
 		}
 		public enum Idioma
 		{
-			Español,
-			Ingles,
-			Otro
+			Spanish,
+			English,
+			Other
 		}
 		public enum EdicionesPokemon
 		{
@@ -54,17 +54,17 @@ namespace PokemonGBAFrameWork
 		public const string NOMBRECOMPLETORUBI = "AXV";
 		public const string NOMBRECOMPLETOZAFIRO = "AXP";
 		//valores fijos
-		public static readonly Edicion RubiUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.Ingles);
-		public static readonly Edicion ZafiroUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.Ingles);
-		public static readonly Edicion EsmeraldaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.Ingles);
-		public static readonly Edicion RojoFuegoUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.Ingles);
-		public static readonly Edicion VerdeHojaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.Ingles);
+		public static readonly Edicion RubiUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.English);
+		public static readonly Edicion ZafiroUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.English);
+		public static readonly Edicion EsmeraldaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.English);
+		public static readonly Edicion RojoFuegoUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.English);
+		public static readonly Edicion VerdeHojaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.English);
 			
-		public static readonly Edicion RubiEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.Español);
-		public static readonly Edicion ZafiroEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.Español);
-		public static readonly Edicion EsmeraldaEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.Español);
-		public static readonly Edicion RojoFuegoEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.Español);
-		public static readonly Edicion VerdeHojaEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.Español);
+		public static readonly Edicion RubiEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.Spanish);
+		public static readonly Edicion ZafiroEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.Spanish);
+		public static readonly Edicion EsmeraldaEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.Spanish);
+		public static readonly Edicion RojoFuegoEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.Spanish);
+		public static readonly Edicion VerdeHojaEsp = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.Spanish);
 		string nombreCompleto;
 		string abreviacion;
 		char inicialIdioma;
@@ -117,13 +117,13 @@ namespace PokemonGBAFrameWork
 				Idioma idioma;
 				switch (InicialIdioma) {
 					case 'S':
-						idioma = Idioma.Español;
+						idioma = Idioma.Spanish;
 						break;
 					case 'E':
-						idioma = Idioma.Ingles;
+						idioma = Idioma.English;
 						break;
 					default:
-						idioma = Idioma.Otro;
+						idioma = Idioma.Other;
 						break;
 				}
 				return idioma;

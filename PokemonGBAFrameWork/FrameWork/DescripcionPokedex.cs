@@ -42,7 +42,7 @@ namespace PokemonGBAFrameWork
 		//falta proporcion con entrenador y peso aun no lo acabo de entender como va...
 		static DescripcionPokedex()
 		{
-			Zona zonaDescripcion = new Zona(Variables.Descripcion.ToString());
+			Zona zonaDescripcion = new Zona(Variables.Descripcion);
 			
 			//aqui van las zonas ya descubiertas
 
@@ -94,10 +94,10 @@ namespace PokemonGBAFrameWork
 		internal static bool Validar(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
 			byte byteDescripcion;
-			bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.Ingles;//esta pensado para las ediciones USA y ESP las demas no...de momento
+			bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.English;//esta pensado para las ediciones USA y ESP las demas no...de momento
 			bool valido;
 			if (tieneMasCompilaciones) {
-				byteDescripcion = rom.Datos[Convert.ToInt32(Zona.GetOffset(rom, Variables.Descripcion.ToString(), edicion, compilacion) + LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1)];
+				byteDescripcion = rom.Datos[Convert.ToInt32(Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1)];
 				//si lo que se ha leido no es el fin de un pointer es que no es la compilación que toca i/o tambien la edicion...
 				valido = (byteDescripcion != 0x8 && byteDescripcion != 0x9);
 				
@@ -105,9 +105,14 @@ namespace PokemonGBAFrameWork
 				valido = compilacion == CompilacionRom.Compilacion.Primera;
 			return valido;
 		}
-		public static void SetDescripcionPokedex(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,int index,DescripcionPokedex descripcion)
+		public static void SetDescripcionPokedex(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameFreak, DescripcionPokedex descripcion)
 		{
 			
 		}
-	}
+
+        public static DescripcionPokedex GetDescripcionPokedex(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
