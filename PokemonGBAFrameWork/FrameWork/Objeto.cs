@@ -37,8 +37,8 @@ namespace PokemonGBAFrameWork
 
 			
 			//nombre
-			zonaObjeto.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x1C8);
-			zonaObjeto.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x1C8);
+			zonaObjeto.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA9B3C);
+			zonaObjeto.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA9B3C);
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x1C8);
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x1C8);
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1C8);

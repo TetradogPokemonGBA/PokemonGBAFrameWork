@@ -153,7 +153,7 @@ namespace PokemonGBAFrameWork
 		}
 		const byte BYTELZ77TYPE = 0x10;
 		Hex offsetInicio;
-		byte[] datosImagenComprimida;
+		byte[] datosImagenDescomprimida;
 		List<Paleta> paletas;
         int totalDatosComprimidos;
 		public BloqueImagen(Hex offsetInicio, byte[] datosImagenDesomprimida, params Paleta[] paletas)
@@ -166,7 +166,7 @@ namespace PokemonGBAFrameWork
 				throw new ArgumentException("Los bytes no son de una imagen correcta");
 			
 			OffsetInicio = offsetInicio;
-			this.datosImagenComprimida = datosImagenDesomprimida;
+			this.datosImagenDescomprimida = datosImagenDesomprimida;
 			this.paletas = new List<Paleta>(paletas);
             totalDatosComprimidos = -1;
 		}
@@ -200,7 +200,7 @@ namespace PokemonGBAFrameWork
 			get {
 				if (index < 0 || paletas.Count < index)
 					throw new ArgumentOutOfRangeException("index");
-				return GetImagen(datosImagenComprimida, paletas[index]);
+				return GetImagen(datosImagenDescomprimida, paletas[index]);
 			}
 			set {
 				if (value == null)
@@ -208,7 +208,7 @@ namespace PokemonGBAFrameWork
 				if (index >= paletas.Count)
 					throw new ArgumentOutOfRangeException("index");
 				//la valido
-				datosImagenComprimida = GetDatosDescomprimidosImagen(value, paletas[index]);
+				datosImagenDescomprimida = GetDatosDescomprimidosImagen(value, paletas[index]);
                 totalDatosComprimidos = -1;
 
 			}
@@ -248,7 +248,7 @@ namespace PokemonGBAFrameWork
 
         public Bitmap GetBitmap(Color[] colors)
         {
-            return GetImagen(datosImagenComprimida,new Paleta(colors));
+            return GetImagen(datosImagenDescomprimida,new Paleta(colors));
         }
 
         public void RemovePaleta(int indexPaletaAEliminar)
@@ -257,11 +257,11 @@ namespace PokemonGBAFrameWork
 		}
 		
 		public byte[] DatosImagenDescomprimida {
-			get{ return datosImagenComprimida; }
+			get{ return datosImagenDescomprimida; }
 			set {
 				if (!ValidarDatosImagenDescomprimida(value))
 					throw new ArgumentException("Los datos no son validos!!");
-				datosImagenComprimida = value;
+				datosImagenDescomprimida = value;
                 totalDatosComprimidos = -1;
 
             }

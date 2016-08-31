@@ -15,11 +15,11 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class DescripcionPokedex
 	{
-		//por revisar...de momento esta mal que Rojo/Verde tengan una pagina si tienen 24 bytes...
+
 		public enum LongitudCampos
 		{
-			TotalGeneral = 24,
-			TotalEsmeralda = 20,
+			TotalGeneral = 36,
+			TotalEsmeralda = 32,
 			NombreEspecie = 12,
 			DescripcionRubiZafiro,
 			DescipcionEsmeralda,
@@ -91,21 +91,46 @@ namespace PokemonGBAFrameWork
 			return OffsetInicio + (esEsmeralda ? (int)LongitudCampos.TotalEsmeralda : (int)LongitudCampos.TotalGeneral);
 		}
 
-		internal static bool Validar(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+		internal static bool ValidarZona(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
-			byte byteDescripcion;
 			bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.English;//esta pensado para las ediciones USA y ESP las demas no...de momento
 			bool valido;
 			if (tieneMasCompilaciones) {
-				byteDescripcion = rom.Datos[Convert.ToInt32(Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1)];
-				//si lo que se ha leido no es el fin de un pointer es que no es la compilación que toca i/o tambien la edicion...
-				valido = (byteDescripcion != 0x8 && byteDescripcion != 0x9);
+                valido = ValidarOffset(rom,edicion,Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion));
 				
 			} else
 				valido = compilacion == CompilacionRom.Compilacion.Primera;
 			return valido;
 		}
-		public static void SetDescripcionPokedex(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameFreak, DescripcionPokedex descripcion)
+        internal static bool ValidarOffset(RomPokemon rom, Edicion edicion, Hex offsetInicioDescripcion)
+        {
+            Hex offsetByteValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1;
+            byte byteValidador = rom.Datos[offsetByteValidador];
+            bool valido= (byteValidador == 0x8 || byteValidador == 0x9);
+            if (valido&&(edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO || edicion.Abreviacion == Edicion.ABREVIACIONRUBI))
+            {
+                offsetByteValidador += (int)Longitud.Offset;
+                byteValidador = rom.Datos[offsetByteValidador];
+                valido = (byteValidador == 0x8 || byteValidador == 0x9);
+            }
+            return valido;
+
+        }
+        internal static bool ValidarIndicePokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        {
+            return ValidarOffset(rom,edicion,Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion));
+        }
+
+        private static int DameTotal(Edicion edicion)
+        {
+            int total;
+            if (edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA)
+                total = (int)LongitudCampos.TotalGeneral;
+            else total = (int)LongitudCampos.TotalEsmeralda;
+            return total;
+        }
+
+        public static void SetDescripcionPokedex(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameFreak, DescripcionPokedex descripcion)
 		{
 			
 		}

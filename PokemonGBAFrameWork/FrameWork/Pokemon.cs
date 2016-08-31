@@ -133,8 +133,8 @@ namespace PokemonGBAFrameWork
             Zona zonaStats = new Zona(Variables.Stats);
 
             //orden local
-            zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x3F98BC);
-            zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x3F98BC);
+            zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x3F9BC);
+            zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x3F9BC);
             zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x3F7F0);
             zonaOrdenLocal.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x3F7F0);
 
@@ -175,8 +175,8 @@ namespace PokemonGBAFrameWork
 
 
             //stats
-            zonaStats.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x1BC);
-            zonaStats.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x1BC);
+            zonaStats.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x10D30);
+            zonaStats.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x10D30);
             zonaStats.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x10B64);
             zonaStats.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x10B64);
 
@@ -797,17 +797,14 @@ namespace PokemonGBAFrameWork
         }
         public static int TotalPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            int total = 440;
-            try
-            {
-                while (false)//en un futuro optimizarlo un poco mas
-                {
-                    Sprite.GetSprite(rom, edicion, compilacion, total);
-                    total++;
-                }
-            }
-            catch { }
-            return total;
+            int total =0;
+           
+                while (DescripcionPokedex.ValidarIndicePokemon(rom, edicion, compilacion, total))//en un futuro optimizarlo un poco mas
+                       total++;
+                
+            
+
+            return total;//no cuenta con los ?? 387 tengo que contarlos de alguna forma...
         }
         public static Pokemon GetPokemon(RomPokemon rom, Hex ordenGameFreak)
         {

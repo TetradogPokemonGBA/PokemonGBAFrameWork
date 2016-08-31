@@ -50,7 +50,7 @@ namespace PokemonGBAFrameWork
 			if (rom == null || edicion == null)
 				throw new ArgumentNullException();
 			compilacion = !comprovarQueEsSegunda ? Compilacion.Primera : Compilacion.Segunda;
-			if (!DescripcionPokedex.Validar(rom, edicion, compilacion)) {
+			if (!DescripcionPokedex.ValidarZona(rom, edicion, compilacion)) {
 				if (comprovarQueEsSegunda)
 					throw new InvalidRomFormat();
 				else//si no es valida es que es la segunda
