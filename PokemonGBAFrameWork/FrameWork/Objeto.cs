@@ -106,7 +106,7 @@ namespace PokemonGBAFrameWork
             if (objeto.Nombre.Texto.Length > (int)LongitudCampos.Nombre)
                 objeto.Nombre.Texto = objeto.Nombre.Texto.Substring(0, (int)LongitudCampos.Nombre);
 			objeto.Nombre.OffsetInicio=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
-			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.Nombre? objeto.Nombre.Texto: objeto.Nombre.Texto,true);
+			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.Nombre? objeto.Nombre.Texto: objeto.Nombre.Texto);
 		}
         public static Objeto[] GetObjetos(RomPokemon rom)
         {

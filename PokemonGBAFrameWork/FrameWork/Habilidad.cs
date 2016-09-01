@@ -77,7 +77,7 @@ namespace PokemonGBAFrameWork
         {
             if (rom == null || edicion == null || habilidad == null || habilidad.Nombre.Texto.Length > (int)LongitudCampo.Nombre || posicion < 0) throw new ArgumentException();
             Hex offset = Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre;
-            BloqueString.SetString(rom, offset, habilidad.Nombre,true);
+            BloqueString.SetString(rom, offset, habilidad.Nombre);
 
         }
     }

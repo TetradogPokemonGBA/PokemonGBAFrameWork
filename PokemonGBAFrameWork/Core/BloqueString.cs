@@ -61,7 +61,7 @@ namespace PokemonGBAFrameWork
         public BloqueString(string texto) : this(0, texto, MAXIMODECARACTERESDESHABILITADO) { }
         public BloqueString(string texto, int maxCaracteres) : this(0, texto, maxCaracteres) { }
         public BloqueString(Hex offsetInicio, string texto) : this(offsetInicio, texto, MAXIMODECARACTERESDESHABILITADO) { }
-        public BloqueString(Hex offsetInicio, string texto, int maxCaracteres):this(offsetInicio,texto,maxCaracteres,false)
+        public BloqueString(Hex offsetInicio, string texto, int maxCaracteres):this(offsetInicio,texto,maxCaracteres,true)
         { }
 
         public BloqueString(int maxCaracteres,bool acabaEnFFByte):this("",maxCaracteres,acabaEnFFByte){}
@@ -129,7 +129,7 @@ namespace PokemonGBAFrameWork
         {
             return Texto;
         }
-        public static void SetString(RomPokemon rom,Hex offsetInicio,string str,bool acabaEnFFByte=false){
+        public static void SetString(RomPokemon rom,Hex offsetInicio,string str,bool acabaEnFFByte=true){
 			SetString(rom,new BloqueString(offsetInicio,str,acabaEnFFByte));
 		}
 		public static void SetString(RomPokemon rom,BloqueString str){
@@ -139,11 +139,11 @@ namespace PokemonGBAFrameWork
             if(str.AcabaEnFFByte)
                rom.Datos[bytesString.OffsetFin] = MARCAFIN;
 		}
-		public static BloqueString GetString(RomPokemon rom,Hex offsetInicio,Hex longitud,bool acabaEnFFByte =false){
+		public static BloqueString GetString(RomPokemon rom,Hex offsetInicio,Hex longitud,bool acabaEnFFByte =true){
 		
 			return new BloqueString(offsetInicio,GetText(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes),acabaEnFFByte );
 		}
-        public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud,bool acabaEnFFByte =false)
+        public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud,bool acabaEnFFByte =true)
         {
             if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0) throw new ArgumentException();
             return new BloqueString(blBytes.OffsetInicio + offsetInicio, GetText(blBytes.Bytes.SubArray(offsetInicio, longitud)),acabaEnFFByte );
