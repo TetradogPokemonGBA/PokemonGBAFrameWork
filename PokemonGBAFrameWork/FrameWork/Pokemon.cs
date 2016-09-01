@@ -102,7 +102,7 @@ namespace PokemonGBAFrameWork
             Nombre,
             Stats
         }
-        public static OrdenPokemon Orden = OrdenPokemon.Local;
+        public static OrdenPokemon Orden = OrdenPokemon.Nacional;
         const int PASOSCICLOECLOSION = 256, MAXIMOSPASOSECLOSION = PASOSCICLOECLOSION * PASOSCICLOECLOSION;
         const int LENGTHNIVELEVS = 4;
         /// <summary>

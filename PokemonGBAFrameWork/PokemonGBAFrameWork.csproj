@@ -72,9 +72,11 @@
     <Compile Include="Core\RomPokemon.cs" />
     <Compile Include="Core\BloqueBytes.cs" />
     <Compile Include="FrameWork\DescripcionPokedex.cs" />
+    <Compile Include="FrameWork\Habilidad.cs" />
     <Compile Include="FrameWork\Objeto.cs" />
     <Compile Include="FrameWork\Pokemon.cs" />
     <Compile Include="FrameWork\Sprite.cs" />
+    <Compile Include="FrameWork\Tipo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
