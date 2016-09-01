@@ -59,6 +59,54 @@ namespace PokemonGBAFrameWork
 			return compilacion;
 		}
 	}
+    public static class Offset {
+        public static Hex GetOffset(RomPokemon rom, Hex offsetInicio)
+        {
+            return GetOffset(rom.Datos, offsetInicio);
+        }
+        public static Hex GetOffset(BloqueBytes bl, Hex offsetInicio)
+        {
+            return GetOffset(bl.Bytes, offsetInicio);
+        }
+        public static Hex GetOffset(byte[] bytes, Hex offsetInicio)
+        {
+            //los bytes estan permutados
+            byte[] bytesPointer = bytes.SubArray(offsetInicio, (int)Longitud.Offset);
+            return ((Hex)(new byte[] {
+                bytesPointer[2],
+                bytesPointer[1],
+                bytesPointer[0]
+            })) + (bytesPointer[3] == 9 ? (int)Longitud.DieciseisMegas : 0);
+        }
+        /// <summary>
+        /// convierte el offset en un pointer y lo pasa a byteArray
+        /// </summary>
+        /// <param name="offsetToSave"></param>
+        /// <returns></returns>
+        public static byte[] ToBytesRom(Hex offsetToSave)
+        {
+            uint offset = offsetToSave;
+            bool esNueve = offset > (int)Longitud.DieciseisMegas;
+            byte[] bytesPointer = new byte[(int)Longitud.Offset];
+            int posicion = 0;
+
+            if (esNueve)
+                offset -= (int)Longitud.DieciseisMegas;
+            bytesPointer[posicion++] = Convert.ToByte((offset & 0xff));
+            bytesPointer[posicion++] = Convert.ToByte(((offset >> 8) & 0xff));
+            bytesPointer[posicion++] = Convert.ToByte(((offset >> 0x10) & 0xff));
+            if (esNueve)
+                bytesPointer[posicion] = 0x9;
+            else
+                bytesPointer[posicion] = 0x8;
+            return bytesPointer;
+        }
+        public static void SetOffset(RomPokemon rom, Hex offsetInicio, Hex offsetToSave)
+        {
+            if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length||offsetToSave>(int)Longitud.TrentaYDosMegas) throw new ArgumentException();
+            BloqueBytes.SetBytes(rom, offsetInicio, ToBytesRom(offsetToSave));
+        }
+    }
 	public static class Word
 	{
 		public static void SetWord(RomPokemon rom, Hex offset, Hex word)
@@ -266,17 +314,9 @@ namespace PokemonGBAFrameWork
 			else if (!zona.diccionarioZonas.Existeix(edicion) || zona.diccionarioZonas[edicion].Length < (int)compilacion)
 				throw new RomInvestigacionExcepcion();
 
-			return GetOffset(rom, zona[edicion, compilacion]);
+			return Offset.GetOffset(rom, zona[edicion, compilacion]);
 		}
-		public static Hex GetOffset(RomPokemon rom, Hex offsetZona)
-		{
-			byte[] bytesPointer = BloqueBytes.GetBytes(rom, offsetZona, (int)Longitud.Offset).Bytes;
-			return ((Hex)(new byte[] {
-				bytesPointer[2],
-				bytesPointer[1],
-				bytesPointer[0]
-			})) + (bytesPointer[3] == 9 ? (int)Longitud.DieciseisMegas : 0);
-		}
+
 		public static void SetOffset(RomPokemon rom, string variableZona, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), offsetToSave);
@@ -342,22 +382,10 @@ namespace PokemonGBAFrameWork
 			
 			Hex offsetZonaAActualizar = 0;//buscar el minimo real porque no hay pointers en el byte 4 (ya que 0+(int)Offsets.Longitud.Offset)
 			byte[] bytesOffsetOld;
-			uint offset = offsetToSave;
-			bool esNueve = offset > (int)Longitud.DieciseisMegas;
-			byte[] bytesPointer = new byte[(int)Longitud.Offset];
-			int posicion = 0;
-			
-			if (esNueve)
-				offset -= (int)Longitud.DieciseisMegas;
-			bytesPointer[posicion++] = Convert.ToByte((offset & 0xff));
-			bytesPointer[posicion++] = Convert.ToByte(((offset >> 8) & 0xff));
-			bytesPointer[posicion++] = Convert.ToByte(((offset >> 0x10) & 0xff));
-			if (esNueve)
-				bytesPointer[posicion] = 0x9;
-			else
-				bytesPointer[posicion] = 0x8;
+            byte[] bytesPointer = Offset.ToBytesRom(offsetToSave);
 
-			bytesOffsetOld = BloqueBytes.GetBytes(rom, offsetZona, (int)Longitud.Offset).Bytes;//los bytes del offset a cambiar por el nuevo
+
+            bytesOffsetOld = BloqueBytes.GetBytes(rom, offsetZona, (int)Longitud.Offset).Bytes;//los bytes del offset a cambiar por el nuevo
 			//busco todos los offsets que tengan los bytes viejos y los sustituyo (desde el principio)
 			do {
 				offsetZonaAActualizar =	BloqueBytes.SearchBytes(rom, offsetZonaAActualizar + (int)Longitud.Offset, bytesOffsetOld);

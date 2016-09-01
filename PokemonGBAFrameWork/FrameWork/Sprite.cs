@@ -120,7 +120,7 @@ namespace PokemonGBAFrameWork
             this.paletaNormal = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaNormal);
             this.paletaShiny = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaShiny);
             imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, paletaNormal).DatosImagenDescomprimida;
-            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0, TAMAÑOIMAGEN) : imgBytes, paletaNormal, paletaShiny);
+            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0,TAMAÑOIMAGEN) : imgBytes, paletaNormal, paletaShiny);
 
             this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, paletaNormal).DatosImagenDescomprimida, paletaNormal, paletaShiny);
         }
@@ -361,21 +361,8 @@ namespace PokemonGBAFrameWork
             : base(rom, offsetImagenFrontal, offsetImagenTrasera, offsetPaletaNormal, offsetPaletaShiny)
         {
             //tener en cuenta a la hora de poner las imagenes frontales que van seguidas y como una sola imagen
-            byte[] imgTotal = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, PaletaNormal).DatosImagenDescomprimida;
-            //tengo que dividir la imagen en dos
-            byte[] imgBytes;
-            imgBytes = new byte[TAMAÑOIMAGEN];
-            unsafe
-            {
-                fixed (byte* ptrImgBytes = imgBytes)
-                    fixed (byte* ptrImg2 = imgTotal)
-                        for (int i = TAMAÑOIMAGEN, j = 0; j < TAMAÑOIMAGEN; i++, j++)
-                    ptrImgBytes[j] = ptrImg2[i];
-            }
             //pongo la imagen 2 sola :D
-            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, imgBytes, PaletaNormal, PaletaShiny);
-
-
+            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, PaletaNormal).DatosImagenDescomprimida.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN), PaletaNormal, PaletaShiny);
         }
 
         public Bitmap ImagenFrontal2Normal

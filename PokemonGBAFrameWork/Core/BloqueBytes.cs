@@ -193,7 +193,10 @@ namespace PokemonGBAFrameWork
 			
 			return LoadFile(new FileInfo(filePath));
 		}
-		
-		
-	}
+
+        public static Hex SearchEmptyBytes(RomPokemon rom, Hex length)
+        {
+            return SearchBytes(rom, new byte[length]);//como por defecto es 0x0 ya me va bien aunque tambien se usa el 0xFF...
+        }
+    }
 }

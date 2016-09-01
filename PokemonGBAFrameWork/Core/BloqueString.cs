@@ -9,6 +9,8 @@
 using System;
 using System.Text;
 using Gabriel.Cat;
+using Gabriel.Cat.Extension;
+
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -113,6 +115,11 @@ namespace PokemonGBAFrameWork
 		
 			return new BloqueString(offsetInicio,GetText(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes));
 		}
+        public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud)
+        {
+            if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0) throw new ArgumentException();
+            return new BloqueString(blBytes.OffsetInicio + offsetInicio, GetText(blBytes.Bytes.SubArray(offsetInicio, longitud)));
+        }
 		#region Tratar String Pokemon
         private static string GetText(byte[] bytesGBA)
         {
@@ -606,7 +613,7 @@ namespace PokemonGBAFrameWork
                         texto .Append( "\\n");
                         break;
                     case 255:
-                        texto .Append( "");
+                        texto .Append((char)255);
                         break;
                     default:
                         texto .Append( " ");
@@ -1114,6 +1121,7 @@ namespace PokemonGBAFrameWork
                         bytesTexto[i] = 254;
                         break;
                     case (char)CaracteresEspeciales.Vacio:
+                    case (char)255:
                         bytesTexto[i] = 255;
                         break;
                     default:
