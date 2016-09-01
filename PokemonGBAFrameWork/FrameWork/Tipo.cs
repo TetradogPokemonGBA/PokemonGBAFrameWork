@@ -38,6 +38,7 @@ namespace PokemonGBAFrameWork
 
         public Tipo(BloqueString nombre)
         {
+            if (nombre == null) throw new ArgumentNullException();
             this.nombre = nombre;
             Nombre.MaxCaracteres = (int)LongitudCampo.Nombre;
         }

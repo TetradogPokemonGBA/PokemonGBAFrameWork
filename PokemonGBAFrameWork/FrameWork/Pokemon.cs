@@ -36,6 +36,8 @@ namespace PokemonGBAFrameWork
             Dos,
             Tres
         }
+        public enum GrupoHuevo
+        { Ninguno,Monstruo, Agua1, Bicho, Volador, Campo, Hada, Hierba, FormaHumana, Agua3, Mineral, Amorfo, Agua2, Ditto, Dragón, Desconocido }
         public enum StatEvs
         {
             Hp,
@@ -576,20 +578,20 @@ namespace PokemonGBAFrameWork
                 stats[19] = (byte)(int)value;
             }
         }
-        public byte GrupoHuevo1
+        public GrupoHuevo GrupoHuevo1
         {
-            get { return stats[20]; }
+            get { return (GrupoHuevo)stats[20]; }
             set
             {
-                stats[20] = value;
+                stats[20] = (byte)value;
             }
         }
-        public byte GrupoHuevo2
+        public GrupoHuevo GrupoHuevo2
         {
-            get { return stats[21]; }
+            get { return (GrupoHuevo)stats[21]; }
             set
             {
-                stats[21] = value;
+                stats[21] =(byte) value;
             }
         }
         public byte Habilidad1
