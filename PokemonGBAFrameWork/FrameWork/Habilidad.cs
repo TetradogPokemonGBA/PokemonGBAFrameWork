@@ -25,8 +25,8 @@ namespace PokemonGBAFrameWork
             zonaNombre.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x1C0);
             zonaNombre.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x1C0);
             zonaNombre.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1C0);
-            zonaNombre.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x1C0);
-            zonaNombre.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x1C0);
+            zonaNombre.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA0098);
+            zonaNombre.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA0098);
 
             Zona.DiccionarioOffsetsZonas.Añadir(zonaNombre);
 
@@ -56,10 +56,8 @@ namespace PokemonGBAFrameWork
         }
         public static Habilidad GetHabilidad(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
-            const char MARCAFI = (char)255;
-            BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre, (int)LongitudCampo.Nombre);
-            if (blNombre.Texto.Contains(MARCAFI + ""))
-                blNombre.Texto = blNombre.Texto.Substring(0, blNombre.Texto.IndexOf(MARCAFI));
+            if (rom == null || edicion == null || posicion < 0) throw new ArgumentException();
+            BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre);
             return new Habilidad(blNombre);
         }
         public static Hex GetTotal(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
@@ -69,6 +67,7 @@ namespace PokemonGBAFrameWork
         }
         public static Habilidad[] GetHabilidades(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
+            if (rom == null || edicion == null ) throw new ArgumentException();
             Habilidad[] habilidades = new Habilidad[GetTotal(rom, edicion, compilacion)];
             for (int i = 0; i < habilidades.Length; i++)
                 habilidades[i] = GetHabilidad(rom, edicion, compilacion, i);
@@ -76,11 +75,9 @@ namespace PokemonGBAFrameWork
         }
         public static void SetHabilidad(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Habilidad habilidad, Hex posicion)
         {
-            const char MARCAFI = (char)255;
+            if (rom == null || edicion == null || habilidad == null || habilidad.Nombre.Texto.Length > (int)LongitudCampo.Nombre || posicion < 0) throw new ArgumentException();
             Hex offset = Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre;
-            if (habilidad.Nombre.Texto.Length > (int)LongitudCampo.Nombre)
-                habilidad.Nombre.Texto = habilidad.Nombre.Texto.Substring(0, (int)LongitudCampo.Nombre);
-            BloqueString.SetString(rom, offset, habilidad.Nombre + MARCAFI);
+            BloqueString.SetString(rom, offset, habilidad.Nombre,true);
 
         }
     }

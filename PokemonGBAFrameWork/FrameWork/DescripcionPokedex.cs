@@ -251,13 +251,12 @@ namespace PokemonGBAFrameWork
 
             //luego va la descripcion que es un pointer
             offsetPagina = Offset.GetOffset(bytesDescripcion, (int)LongitudCampos.NombreEspecie + 4);
-            longitudString = rom.Datos.IndexByte(offsetPagina, MarcaFinMensaje)-offsetPagina;
-            descripcion = BloqueString.GetString(rom, offsetPagina, longitudString);
+            
+            descripcion = BloqueString.GetString(rom, offsetPagina);
             if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)
             {
                 offsetPagina = Offset.GetOffset(bytesDescripcion, (int)LongitudCampos.NombreEspecie + 4 + (int)Longitud.Offset);
-                longitudString = rom.Datos.IndexByte(offsetPagina, MarcaFinMensaje) - offsetPagina;
-                descripcion2 = BloqueString.GetString(rom,offsetPagina, longitudString);
+                descripcion2 = BloqueString.GetString(rom,offsetPagina);
 
 
                 descripcionPokedex = new DescripcionPokedexRubiZafiro(nombreEspecie, descripcion, descripcion2);

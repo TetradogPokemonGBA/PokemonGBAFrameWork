@@ -51,17 +51,29 @@ namespace PokemonGBAFrameWork
             Vacio,//''
         }
 		
-		public const int MAXIMODECARACTERESDESHABILITADO=0;
+	 	public const int MAXIMODECARACTERESDESHABILITADO=0;
+        static readonly string MARCAFIN = ((char)255) + "";
 		int maxCaracteres;
 		Hex offsetInicio;
 		string texto;
-		public BloqueString(int maxCaracteres):this("",maxCaracteres){}
-		public BloqueString(string texto):this(0,texto,MAXIMODECARACTERESDESHABILITADO){}
-		public BloqueString(string texto,int maxCaracteres):this(0,texto,maxCaracteres){}
-		public BloqueString(Hex offsetInicio,string texto):this(offsetInicio,texto,MAXIMODECARACTERESDESHABILITADO){}
-		public BloqueString(Hex offsetInicio,string texto,int maxCaracteres)
-		{
+        bool acabaEnFFByte;
+        public BloqueString(int maxCaracteres) : this("", maxCaracteres) { }
+        public BloqueString(string texto) : this(0, texto, MAXIMODECARACTERESDESHABILITADO) { }
+        public BloqueString(string texto, int maxCaracteres) : this(0, texto, maxCaracteres) { }
+        public BloqueString(Hex offsetInicio, string texto) : this(offsetInicio, texto, MAXIMODECARACTERESDESHABILITADO) { }
+        public BloqueString(Hex offsetInicio, string texto, int maxCaracteres):this(offsetInicio,texto,maxCaracteres,false)
+        { }
+
+        public BloqueString(int maxCaracteres,bool acabaEnFFByte):this("",maxCaracteres,acabaEnFFByte){}
+		public BloqueString(string texto, bool acabaEnFFByte) : this(0,texto,MAXIMODECARACTERESDESHABILITADO, acabaEnFFByte) { }
+        public BloqueString(string texto,int maxCaracteres, bool acabaEnFFByte) : this(0,texto,maxCaracteres, acabaEnFFByte) { }
+        public BloqueString(Hex offsetInicio,string texto, bool acabaEnFFByte) : this(offsetInicio,texto,MAXIMODECARACTERESDESHABILITADO, acabaEnFFByte) { }
+        public BloqueString(Hex offsetInicio,string texto,int maxCaracteres, bool acabaEnFFByte)
+        {
+            this.acabaEnFFByte = acabaEnFFByte;
 			this.maxCaracteres=maxCaracteres;
+            if (texto.Contains(MARCAFIN))
+                texto = texto.Substring(0, texto.IndexOf(MARCAFIN));
 			Texto=texto;
 			OffsetInicio=offsetInicio;
 		}
@@ -99,26 +111,42 @@ namespace PokemonGBAFrameWork
 		public Hex OffsetFin{
 			get{return OffsetInicio+Texto.Length;}
 		}
+
+        public bool AcabaEnFFByte
+        {
+            get
+            {
+                return acabaEnFFByte;
+            }
+
+            set
+            {
+                acabaEnFFByte = value;
+            }
+        }
+
         public override string ToString()
         {
             return Texto;
         }
-        public static void SetString(RomPokemon rom,Hex offsetInicio,string str){
-			SetString(rom,new BloqueString(offsetInicio,str));
+        public static void SetString(RomPokemon rom,Hex offsetInicio,string str,bool acabaEnFFByte=false){
+			SetString(rom,new BloqueString(offsetInicio,str,acabaEnFFByte));
 		}
 		public static void SetString(RomPokemon rom,BloqueString str){
-		
+            const byte MARCAFIN = 0xFF;
 			BloqueBytes bytesString=new BloqueBytes(str.OffsetInicio,GetBytes(str.Texto));
 			BloqueBytes.SetBytes(rom,bytesString);
+            if(str.AcabaEnFFByte)
+               rom.Datos[bytesString.OffsetFin] = MARCAFIN;
 		}
-		public static BloqueString GetString(RomPokemon rom,Hex offsetInicio,Hex longitud){
+		public static BloqueString GetString(RomPokemon rom,Hex offsetInicio,Hex longitud,bool acabaEnFFByte =false){
 		
-			return new BloqueString(offsetInicio,GetText(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes));
+			return new BloqueString(offsetInicio,GetText(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes),acabaEnFFByte );
 		}
-        public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud)
+        public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud,bool acabaEnFFByte =false)
         {
             if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0) throw new ArgumentException();
-            return new BloqueString(blBytes.OffsetInicio + offsetInicio, GetText(blBytes.Bytes.SubArray(offsetInicio, longitud)));
+            return new BloqueString(blBytes.OffsetInicio + offsetInicio, GetText(blBytes.Bytes.SubArray(offsetInicio, longitud)),acabaEnFFByte );
         }
 		#region Tratar String Pokemon
         private static string GetText(byte[] bytesGBA)
@@ -625,6 +653,12 @@ namespace PokemonGBAFrameWork
             texto.Replace("\\v", "\v");
             return texto.ToString();
         }
+
+        public static BloqueString GetString(RomPokemon rom, Hex offsetInicio,byte marcaFin=0xFF)
+        {
+         return GetString(rom,offsetInicio,rom.Datos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
+        }
+
         private static byte[] GetBytes(string texto)
         {
             if (texto == null)

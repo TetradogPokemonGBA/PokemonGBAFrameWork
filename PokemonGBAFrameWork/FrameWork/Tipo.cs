@@ -20,8 +20,8 @@ namespace PokemonGBAFrameWork
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x2E574);
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x2E574);
 
-            zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x309C8);
-            zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x309C8);
+            zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x2E3A8);
+            zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x2E3A8);
 
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x166F4);
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x166F4);
@@ -61,10 +61,8 @@ namespace PokemonGBAFrameWork
         }
         public static Tipo GetTipo(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
-            const char MARCAFI = (char)255;
-            BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreTipo, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre, (int)LongitudCampo.Nombre);
-            if (blNombre.Texto.Contains(MARCAFI + ""))
-                blNombre.Texto = blNombre.Texto.Substring(0, blNombre.Texto.IndexOf(MARCAFI));
+            if (rom == null || edicion == null ||  posicion < 0) throw new ArgumentException();
+            BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreTipo, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre);
             return new Tipo(blNombre);
         }
         public static Hex GetTotal(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
@@ -81,11 +79,10 @@ namespace PokemonGBAFrameWork
         }
         public static void SetTipo(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Tipo tipo, Hex posicion)
         {
-            const char MARCAFI = (char)255;
+            if (rom == null || edicion == null || tipo == null || tipo.Nombre.Texto.Length > (int)LongitudCampo.Nombre || posicion < 0) throw new ArgumentException();
             Hex offset = Zona.GetOffset(rom, Variables.NombreTipo, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre;
-            if (tipo.Nombre.Texto.Length > (int)LongitudCampo.Nombre)
-                tipo.Nombre.Texto = tipo.Nombre.Texto.Substring(0, (int)LongitudCampo.Nombre);
-            BloqueString.SetString(rom, offset, tipo.Nombre + MARCAFI);
+           
+            BloqueString.SetString(rom, offset, tipo.Nombre,true);
 
         }
 

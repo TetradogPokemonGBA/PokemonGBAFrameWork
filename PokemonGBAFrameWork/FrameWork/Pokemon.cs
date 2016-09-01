@@ -37,7 +37,7 @@ namespace PokemonGBAFrameWork
             Tres
         }
         public enum GrupoHuevo
-        { Ninguno,Monstruo, Agua1, Bicho, Volador, Campo, Hada, Hierba, FormaHumana, Agua3, Mineral, Amorfo, Agua2, Ditto, Dragón, Desconocido }
+        { Ninguno, Monstruo, Agua1, Bicho, Volador, Campo, Hada, Hierba, FormaHumana, Agua3, Mineral, Amorfo, Agua2, Ditto, Dragón, Desconocido }
         public enum StatEvs
         {
             Hp,
@@ -591,7 +591,7 @@ namespace PokemonGBAFrameWork
             get { return (GrupoHuevo)stats[21]; }
             set
             {
-                stats[21] =(byte) value;
+                stats[21] = (byte)value;
             }
         }
         public byte Habilidad1
@@ -694,30 +694,30 @@ namespace PokemonGBAFrameWork
             NivelEvs nivel;
             switch (stat)
             {
-                case StatEvs.Hp:nivel = HpEvs;break;
+                case StatEvs.Hp: nivel = HpEvs; break;
                 case StatEvs.Ataque: nivel = AtaqueEvs; break;
                 case StatEvs.Defensa: nivel = DefensaEspecialEvs; break;
                 case StatEvs.Velocidad: nivel = VelocidadEvs; break;
                 case StatEvs.AtaqueEspecial: nivel = AtaqueEspecialEvs; break;
                 case StatEvs.DefensaEspecial: nivel = DefensaEspecialEvs; break;
-                default:throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
             return nivel;
         }
-        public void SetEvs(StatEvs stat,NivelEvs nivel)
+        public void SetEvs(StatEvs stat, NivelEvs nivel)
         {
 
             switch (stat)
             {
-                case StatEvs.Hp:   HpEvs= nivel; break;
-                case StatEvs.Ataque:AtaqueEvs= nivel; break;
+                case StatEvs.Hp: HpEvs = nivel; break;
+                case StatEvs.Ataque: AtaqueEvs = nivel; break;
                 case StatEvs.Defensa: DefensaEspecialEvs = nivel; break;
-                case StatEvs.Velocidad:  VelocidadEvs = nivel; break;
-                case StatEvs.AtaqueEspecial:  AtaqueEspecialEvs = nivel; break;
-                case StatEvs.DefensaEspecial:  DefensaEspecialEvs = nivel; break;
+                case StatEvs.Velocidad: VelocidadEvs = nivel; break;
+                case StatEvs.AtaqueEspecial: AtaqueEspecialEvs = nivel; break;
+                case StatEvs.DefensaEspecial: DefensaEspecialEvs = nivel; break;
 
             }
-     
+
         }
         #endregion
         #endregion
@@ -793,13 +793,13 @@ namespace PokemonGBAFrameWork
         {
             return TotalPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
-        private static int TotalPokemon(RomPokemon rom,  CompilacionRom.Compilacion compilacion)
+        private static int TotalPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion)
         {
             return TotalPokemon(rom, Edicion.GetEdicion(rom), compilacion);
         }
         public static int TotalPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            int total =DescripcionPokedex.TotalEntradas(rom,edicion,compilacion);
+            int total = DescripcionPokedex.TotalEntradas(rom, edicion, compilacion);
             total += 25;//poner metodo para detectar los NOPOKEMON ??
             return total;//no cuenta con los ?? 387 tengo que contarlos de alguna forma...
         }
@@ -817,40 +817,36 @@ namespace PokemonGBAFrameWork
         }
         public static Pokemon GetPokemon(RomPokemon rom, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            return GetPokemon(rom, Edicion.GetEdicion(rom), ordenGameFreak,totalEntradasPokedex);
+            return GetPokemon(rom, Edicion.GetEdicion(rom), ordenGameFreak, totalEntradasPokedex);
         }
         public static Pokemon GetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            return GetPokemon(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak,totalEntradasPokedex);
+            return GetPokemon(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak, totalEntradasPokedex);
         }
         public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            return GetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak,totalEntradasPokedex);
+            return GetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak, totalEntradasPokedex);
         }
         public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
             return GetPokemon(rom, edicion, compilacion, ordenGameFreak, DescripcionPokedex.TotalEntradas(rom, edicion, compilacion));
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak,Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            const char MARCAFINNOMBRE = (char)0xFF;
+
             Pokemon pokemon = new Pokemon();
             pokemon.OrdenGameFreak = ordenGameFreak;
-            pokemon.Sprites=Sprite.GetSprite(rom,edicion,compilacion,ordenGameFreak);
-            pokemon.Stats=  BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variables.Stats, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.TotalStats, (int)LongitudCampos.TotalStats).Bytes;
+            pokemon.Sprites = Sprite.GetSprite(rom, edicion, compilacion, ordenGameFreak);
+            pokemon.Stats = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variables.Stats, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.TotalStats, (int)LongitudCampos.TotalStats).Bytes;
             pokemon.GetObjetosDeLosStats();
-            pokemon.Nombre= BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado, (int)LongitudCampos.NombreCompilado);
+            pokemon.Nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado);
             pokemon.Nombre.MaxCaracteres = (int)LongitudCampos.Nombre;
-            if (pokemon.Nombre.Texto.Contains(MARCAFINNOMBRE + ""))
-                pokemon.Nombre.Texto = pokemon.Nombre.Texto.Substring(0, pokemon.Nombre.Texto.IndexOf(MARCAFINNOMBRE));
-
-            
             //pongo el orden local y nacional...
-            pokemon.OrdenPokedexLocal=  Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
-            pokemon.OrdenPokedexNacional= Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
+            pokemon.OrdenPokedexLocal = Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
+            pokemon.OrdenPokedexNacional = Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
             //pongo la pokedex
-                if(pokemon.OrdenPokedexNacional<totalEntradasPokedex)
-                   pokemon.Descripcion = DescripcionPokedex.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
+            if (pokemon.OrdenPokedexNacional < totalEntradasPokedex)
+                pokemon.Descripcion = DescripcionPokedex.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
 
             return pokemon;
         }
@@ -876,7 +872,7 @@ namespace PokemonGBAFrameWork
 
         }
 
-    
+
 
         //falta ponerlo donde toca
 

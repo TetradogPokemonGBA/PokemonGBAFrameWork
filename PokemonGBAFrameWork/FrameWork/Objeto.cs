@@ -95,22 +95,18 @@ namespace PokemonGBAFrameWork
 		//de momento solo se cargar el nombre
 		public static Objeto GetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex index)
         {
-            const char MARCAFIN = (char)255;
             Hex offsetObjeto=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
-            BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto, (int)LongitudCampos.Nombre);
-            if (bloqueNombre.Texto.Contains(MARCAFIN + ""))
-                bloqueNombre.Texto = bloqueNombre.Texto.Substring(0, bloqueNombre.Texto.IndexOf(MARCAFIN));
+            BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto);
             return new Objeto(bloqueNombre);
 		}
 		//de momento solo guarda el nombre
 		public static void SetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto, Hex index)
 		{
-            const char MARCAFIN = (char)255;
 			objeto.Nombre.Texto=objeto.Nombre.Texto;
             if (objeto.Nombre.Texto.Length > (int)LongitudCampos.Nombre)
                 objeto.Nombre.Texto = objeto.Nombre.Texto.Substring(0, (int)LongitudCampos.Nombre);
 			objeto.Nombre.OffsetInicio=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
-			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.Nombre? objeto.Nombre.Texto: objeto.Nombre.Texto+ MARCAFIN);
+			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.Nombre? objeto.Nombre.Texto: objeto.Nombre.Texto,true);
 		}
         public static Objeto[] GetObjetos(RomPokemon rom)
         {
