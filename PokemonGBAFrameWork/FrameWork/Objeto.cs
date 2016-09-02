@@ -8,6 +8,9 @@
  */
 using System;
 using Gabriel.Cat;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -22,9 +25,12 @@ namespace PokemonGBAFrameWork
 		public enum LongitudCampos
 		{
 			Total=44,
-			Nombre=13,
+            Nombre=25,
+			NombreCompilado=13,
+            BytesNoInterpretados=Total-NombreCompilado,
 		}
 		BloqueString nombre;
+        byte[] bytesNoInterpretados;
 		/*por saber como va*/
 		//imagen
 		//descripcion
@@ -50,11 +56,14 @@ namespace PokemonGBAFrameWork
 			zonaObjeto.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x1C8);
             Zona.DiccionarioOffsetsZonas.Añadir(zonaObjeto);
 		}
-		public Objeto(BloqueString nombre)
+        public Objeto(BloqueString nombre) : this(nombre, new byte[(int)LongitudCampos.BytesNoInterpretados]) { }
+
+        public Objeto(BloqueString nombre,byte[] bytesNoInterpretados)
 		{
 			this.nombre = nombre;
 			nombre.MaxCaracteres=(int)LongitudCampos.Nombre;
-
+            this.bytesNoInterpretados = new byte[(int)LongitudCampos.BytesNoInterpretados];
+            BytesNoInterpretados = bytesNoInterpretados;
 		}
 
 		public BloqueString Nombre {
@@ -65,6 +74,21 @@ namespace PokemonGBAFrameWork
 				nombre = value;
 			}
 		}
+
+        public byte[] BytesNoInterpretados
+        {
+            get
+            {
+                return bytesNoInterpretados;
+            }
+
+            set
+            {
+                if (value == null || value.Length != bytesNoInterpretados.Length) throw new ArgumentException();
+                bytesNoInterpretados = value;
+            }
+        }
+
         public override string ToString()
         {
             return Nombre;
@@ -97,17 +121,34 @@ namespace PokemonGBAFrameWork
         {
             Hex offsetObjeto=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
             BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto);
-            return new Objeto(bloqueNombre);
+            return new Objeto(bloqueNombre,BloqueBytes.GetBytes(rom,bloqueNombre.OffsetFin+1,(int)LongitudCampos.BytesNoInterpretados).Bytes);
 		}
 		//de momento solo guarda el nombre
 		public static void SetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto, Hex index)
 		{
 			objeto.Nombre.Texto=objeto.Nombre.Texto;
-            if (objeto.Nombre.Texto.Length > (int)LongitudCampos.Nombre)
-                objeto.Nombre.Texto = objeto.Nombre.Texto.Substring(0, (int)LongitudCampos.Nombre);
+            if (objeto.Nombre.Texto.Length > (int)LongitudCampos.NombreCompilado)
+                objeto.Nombre.Texto = objeto.Nombre.Texto.Substring(0, (int)LongitudCampos.NombreCompilado);
 			objeto.Nombre.OffsetInicio=Zona.GetOffset(rom,Variables.Objeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
-			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.Nombre? objeto.Nombre.Texto: objeto.Nombre.Texto);
+			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.NombreCompilado? objeto.Nombre.Texto: objeto.Nombre.Texto);
+            BloqueBytes.SetBytes(rom, objeto.Nombre.OffsetFin + 1, objeto.BytesNoInterpretados);
 		}
+
+        public static void SetObjetos(RomPokemon rom, IEnumerable<Objeto> objetos)
+        {
+            if (rom == null || objetos == null) throw new ArgumentNullException();
+            Objeto[] objetosArray = objetos.ToArray();
+            Edicion edicion = Edicion.GetEdicion(rom);
+            CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
+            if (objetosArray.Length != TotalObjetos(rom, edicion))
+            {
+                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.Objeto, edicion, compilacion), TotalObjetos(rom, edicion) * (int)LongitudCampos.Total);
+                Zona.SetOffset(rom, Variables.Objeto, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, objetosArray.Length * (int)LongitudCampos.Total));//actualizo el offset
+            }
+            for (int i = 0; i < objetosArray.Length; i++)
+                SetObjeto(rom, edicion, compilacion, objetosArray[i], i);
+        }
+
         public static Objeto[] GetObjetos(RomPokemon rom)
         {
             return GetObjetos(rom, Edicion.GetEdicion(rom));

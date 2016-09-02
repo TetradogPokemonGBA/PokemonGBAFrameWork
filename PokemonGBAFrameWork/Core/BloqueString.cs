@@ -78,7 +78,11 @@ namespace PokemonGBAFrameWork
 			OffsetInicio=offsetInicio;
 		}
 
-		public int MaxCaracteres {
+        public BloqueString():this(0)
+        {
+        }
+
+        public int MaxCaracteres {
 			get {
 				return maxCaracteres;
 			}
@@ -109,7 +113,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 		public Hex OffsetFin{
-			get{return OffsetInicio+Texto.Length;}
+			get{return OffsetInicio+Texto.Length-1;}
 		}
 
         public bool AcabaEnFFByte
@@ -658,7 +662,10 @@ namespace PokemonGBAFrameWork
         {
          return GetString(rom,offsetInicio,rom.Datos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
         }
-
+        public static BloqueString GetString(BloqueBytes blDatos, Hex offsetInicio, byte marcaFin = 0xFF)
+        {
+            return GetString(blDatos, offsetInicio,blDatos.Bytes.IndexByte(offsetInicio, marcaFin) - offsetInicio);
+        }
         private static byte[] GetBytes(string texto)
         {
             if (texto == null)

@@ -43,7 +43,8 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gabriel.Cat.Utilitats">
+    <Reference Include="Gabriel.Cat.Utilitats, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\pc\Desktop\Programas\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\bin\Release\Gabriel.Cat.Utilitats.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
@@ -75,6 +76,7 @@
     <Compile Include="FrameWork\Habilidad.cs" />
     <Compile Include="FrameWork\Objeto.cs" />
     <Compile Include="FrameWork\Pokemon.cs" />
+    <Compile Include="FrameWork\RomData.cs" />
     <Compile Include="FrameWork\Sprite.cs" />
     <Compile Include="FrameWork\Tipo.cs" />
     <Compile Include="Program.cs" />

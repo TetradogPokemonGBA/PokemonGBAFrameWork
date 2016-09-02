@@ -29,7 +29,6 @@ namespace PokemonGBAFrameWork
         {
             Descripcion
         }
-        static readonly byte MarcaFinMensaje = 255;
         //en construccion
         Hex offsetInicio;
         BloqueString nombreEspecie;
@@ -180,25 +179,27 @@ namespace PokemonGBAFrameWork
         /// <param name="borrarPaginasAnteriores">Se usa la direccion de los bloqueString para encontrar los bytes de la anterior pagina</param>
         public static void SetDescripcionPokedex(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
         {
-         /*   DescripcionPokedexRubiZafiro descripcionRZ;
+            const byte MarcaFinMensaje = 0xFF;
+            DescripcionPokedexRubiZafiro descripcionRZ;
             long index;
             Hex posicion;
             Hex offsetDescripcion = Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion);
             //borro el nombre de la especie
             BloqueBytes.RemoveBytes(rom, offsetDescripcion, (int)LongitudCampos.NombreEspecie, 0x0);
             //pongo el nombre de la especie
-            BloqueString.SetString(rom, offsetDescripcion, descripcion.NombreEspecie + (char)MarcaFinMensaje);
+            BloqueString.SetString(rom, offsetDescripcion, descripcion.NombreEspecie);
             //quito las paginas si estan
             //borro pagina1
             if (borrarPaginasAnteriores && descripcion.Descripcion.OffsetInicio != 0)
             {
+                
                 index = rom.Datos.IndexByte(descripcion.Descripcion.OffsetInicio, MarcaFinMensaje);
 
-                BloqueBytes.RemoveBytes(rom, descripcion.Descripcion.OffsetInicio, index - descripcion.Descripcion.OffsetInicio > DameTamañoDescripcion(edicion) ? DameTamañoDescripcion(edicion) : index - descripcion.Descripcion.OffsetInicio);
+                BloqueBytes.RemoveBytes(rom, descripcion.Descripcion.OffsetInicio, index - descripcion.Descripcion.OffsetInicio);
             }
             //pongo pagina1
-            posicion = BloqueBytes.SearchEmptyBytes(rom, (descripcion.Descripcion.Texto.Length + 1 > (int)DameTamañoDescripcion(edicion)) ? (int)DameTamañoDescripcion(edicion) : descripcion.Descripcion.Texto.Length + 1);
-            BloqueString.SetString(rom, posicion, descripcion.Descripcion.Texto + (char)MarcaFinMensaje);
+            posicion = BloqueBytes.SearchEmptyBytes(rom, descripcion.Descripcion.Texto.Length + 1);
+            BloqueString.SetString(rom, posicion, descripcion.Descripcion.Texto);
             descripcion.Descripcion.OffsetInicio = posicion;
             if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)
             {
@@ -214,16 +215,16 @@ namespace PokemonGBAFrameWork
                 {
                     index = rom.Datos.IndexByte(descripcionRZ.Descripcion2.OffsetInicio, MarcaFinMensaje);
 
-                    BloqueBytes.RemoveBytes(rom, descripcionRZ.Descripcion2.OffsetInicio, index - descripcionRZ.Descripcion2.OffsetInicio > DameTamañoDescripcion(edicion) ? DameTamañoDescripcion(edicion) : index - descripcionRZ.Descripcion2.OffsetInicio);
+                    BloqueBytes.RemoveBytes(rom, descripcionRZ.Descripcion2.OffsetInicio, index - descripcionRZ.Descripcion2.OffsetInicio);
 
                 }
                 //pongo pagina2
-                posicion = BloqueBytes.SearchEmptyBytes(rom, (descripcionRZ.Descripcion2.Texto.Length + 1 > (int)DameTamañoDescripcion(edicion)) ? (int)DameTamañoDescripcion(edicion) : descripcionRZ.Descripcion2.Texto.Length + 1);
-                BloqueString.SetString(rom, posicion, descripcionRZ.Descripcion2.Texto + (char)MarcaFinMensaje);
+                posicion = BloqueBytes.SearchEmptyBytes(rom, descripcionRZ.Descripcion2.Texto.Length + 1);
+                BloqueString.SetString(rom, posicion, descripcionRZ.Descripcion2.Texto);
                 descripcionRZ.Descripcion2.OffsetInicio = posicion;
             }
             //falta poner el resto de datos...
-            */
+      
         }
         public static DescripcionPokedex GetDescripcionPokedex(RomPokemon rom, Hex ordenGameFreak)
         { return GetDescripcionPokedex(rom, Edicion.GetEdicion(rom), ordenGameFreak); }
@@ -236,7 +237,6 @@ namespace PokemonGBAFrameWork
             if (rom == null || edicion == null || ordenGameFreak < 0) throw new ArgumentException();
             BloqueBytes bytesDescripcion;
             BloqueString nombreEspecie;
-            long longitudString;
             Hex offsetPagina;
             BloqueString descripcion;
             BloqueString descripcion2;
@@ -244,10 +244,7 @@ namespace PokemonGBAFrameWork
 
             bytesDescripcion = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion), DameTotal(edicion));
             //primero va la especie y acaba en FF si es mas corto que el tamaño maximo
-            longitudString = bytesDescripcion.Bytes.IndexByte(MarcaFinMensaje);
-            if (longitudString < 0 || longitudString > (int)LongitudCampos.NombreEspecie)
-                longitudString = (int)LongitudCampos.NombreEspecie;
-            nombreEspecie = BloqueString.GetString(bytesDescripcion, 0, longitudString);
+            nombreEspecie = BloqueString.GetString(bytesDescripcion,0);
 
             //luego va la descripcion que es un pointer
             offsetPagina = Offset.GetOffset(bytesDescripcion, (int)LongitudCampos.NombreEspecie + 4);
@@ -274,6 +271,31 @@ namespace PokemonGBAFrameWork
             while (DescripcionPokedex.ValidarIndicePokemon(rom, edicion, compilacion, total))//en un futuro optimizarlo un poco mas
                 total++;
             return total;
+        }
+
+        public static int GetTotalBytes(Edicion edicion)
+        {
+            int total;
+            if (edicion.Abreviacion == Edicion.ABREVIACIONESMERALDA)
+                total = (int)LongitudCampos.TotalEsmeralda;
+            else total = (int)LongitudCampos.TotalGeneral;
+            return total;
+        }
+        /// <summary>
+        /// Crea donde toca la descripcion
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="edicion"></param>
+        /// <param name="compilacion"></param>
+        /// <param name="pokemon"></param>
+        public static void CreateDescripcionPokedex(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+        {
+            DescripcionPokedex descripcion;
+            if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)
+                descripcion = new DescripcionPokedexRubiZafiro(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString(), new BloqueString());
+            else
+                descripcion = new DescripcionPokedex(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString());
+            SetDescripcionPokedex(rom, pokemon.OrdenPokedexNacional, descripcion, false);
         }
     }
     public class DescripcionPokedexRubiZafiro : DescripcionPokedex

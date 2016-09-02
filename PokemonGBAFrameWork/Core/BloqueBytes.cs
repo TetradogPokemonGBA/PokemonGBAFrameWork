@@ -103,7 +103,7 @@ namespace PokemonGBAFrameWork
 			return new BloqueBytes(offsetInicio, bytes);
 			
 		}
-		public static void RemoveBytes(RomPokemon rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0xFF)
+		public static void RemoveBytes(RomPokemon rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0x00)
 		{
 			unsafe {
 				fixed(byte* bytesRom=rom.Datos)
@@ -143,6 +143,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static Hex SearchBytes(RomPokemon rom,Hex offsetInicio, byte[] bytesAEncontrar)
 		{
+            if (bytesAEncontrar.Length == 1) System.Diagnostics.Debugger.Break();
 			if (bytesAEncontrar == null)
 				throw new ArgumentNullException("bytesAEncontrar");
 			if (offsetInicio + bytesAEncontrar.Length > rom.Datos.Length)
@@ -163,7 +164,7 @@ namespace PokemonGBAFrameWork
 						{
 							if (posibleDireccion == DIRECCIONNOENCONTRADO)//si es la primera vez que entra
 								posibleDireccion = i;//le pongo el inicio
-							else if (posicionBytesAEncontrar == bytesAEncontrar.Length)//si es la ultima vez
+							else if (posicionBytesAEncontrar >= bytesAEncontrar.Length)//si es la ultima vez
 								direccionBytes = posibleDireccion;//le pongo el resultado para poder salir del bucle
 						}
 						else { posibleDireccion = DIRECCIONNOENCONTRADO;posicionBytesAEncontrar = 0; }

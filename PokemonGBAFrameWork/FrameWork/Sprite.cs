@@ -212,6 +212,33 @@ namespace PokemonGBAFrameWork
                 imagenTrasera[SHINY] = value;
             }
         }
+
+        internal BloqueImagen ImagenFrontal
+        {
+            get
+            {
+                return imagenFrontal;
+            }
+
+          private  set
+            {
+                imagenFrontal = value;
+            }
+        }
+
+        internal BloqueImagen ImagenTrasera
+        {
+            get
+            {
+                return imagenTrasera;
+            }
+
+          private  set
+            {
+                imagenTrasera = value;
+            }
+        }
+
         public void SetSprite(RomPokemon rom)
         {
             SetSprite(rom, this);
@@ -295,10 +322,10 @@ namespace PokemonGBAFrameWork
         public static Sprite GetSprite(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             Sprite sprite;
-            Hex offsetSpriteFrontal = DamePosicion(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
-            Hex offsetSpriteTrasero = DamePosicion(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
-            Hex offsetPaletaNormal = DamePosicion(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);
-            Hex offsetPaletaShiny = DamePosicion(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
+            Hex offsetSpriteFrontal = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
+            Hex offsetSpriteTrasero = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
+            Hex offsetPaletaNormal = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
+            Hex offsetPaletaShiny = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
             try
             {
                 if (edicion.Abreviacion == Edicion.ABREVIACIONESMERALDA)
@@ -320,7 +347,7 @@ namespace PokemonGBAFrameWork
         }
         #region por entender
         /*falta entender que hace y ponerlos en su sitio!!!*/
-        static Hex DamePosicion(RomPokemon rom, Hex offset, Hex posicion)
+        internal   static Hex GetOffsetImg(RomPokemon rom, Hex offset, Hex posicion)
         {
             return ParseWord(Convert.ToInt32((posicion << 3)) + offset, rom) - 0x08000000;//puede que el -0x80...sea para quitarle el ultimo byte que es 0x8...pero tambien podria ser 0x9???
         }
@@ -392,12 +419,12 @@ namespace PokemonGBAFrameWork
         public override BitmapAnimated GetAnimacionImagenFrontal(bool isShiny = false)
         {
             Bitmap[] gifAnimated = new Bitmap[] {
-                isShiny?ImagenFrontalShiny:ImagenFrontalNormal,
-                GetCustomImagenFrontal(paletaAnimacion1),
                 GetCustomImagenFrontal(paletaAnimacion2),
+                isShiny?ImagenFrontalShiny:ImagenFrontalNormal,
                 isShiny?ImagenFrontal2Shiny:ImagenFrontal2Normal
             };
-            BitmapAnimated bmpAnimated = gifAnimated.ToAnimatedBitmap(false, 500, 100, 100, 500);
+            BitmapAnimated bmpAnimated = gifAnimated.ToAnimatedBitmap(false,500, 500,500);
+            bmpAnimated.FrameAlAcabar = 1;
             return bmpAnimated;
         }
         public Bitmap GetCustomImagenFrontal2(Color[] colors)

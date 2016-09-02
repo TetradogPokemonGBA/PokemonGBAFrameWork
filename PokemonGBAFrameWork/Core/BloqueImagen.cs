@@ -102,12 +102,14 @@ namespace PokemonGBAFrameWork
 					paletteColours[0] = BackgroundColorDefault;
 				}
 				for (int i = startPoint; i < TAMAÑOPALETA; i++) {
-					tempValue = (ushort)(bytesPaletaDescomprimidos[i * 2] + (bytesPaletaDescomprimidos[i * 2 + 1] << 8));
-					r = (ushort)((tempValue & 0x1F) << 3);
-					g = (ushort)((tempValue & 0x3E0) >> 2);
-					b = (ushort)((tempValue & 0x7C00) >> 7);
-					colorPaleta = Color.FromArgb(0xFF, r, g, b);
-					paletteColours[i] = colorPaleta;
+            
+                        tempValue = (ushort)(bytesPaletaDescomprimidos[i * 2] + (bytesPaletaDescomprimidos[i * 2 + 1] << 8));
+                        r = (ushort)((tempValue & 0x1F) << 3);
+                        g = (ushort)((tempValue & 0x3E0) >> 2);
+                        b = (ushort)((tempValue & 0x7C00) >> 7);
+                        colorPaleta = Color.FromArgb(0xFF, r, g, b);
+                        paletteColours[i] = colorPaleta;
+   
 				}
 				return new Paleta(offsetInicioPaleta, paletteColours);
 			}
@@ -128,10 +130,11 @@ namespace PokemonGBAFrameWork
 					g = (coloresPaleta[i].G << 2);
 					b = (coloresPaleta[i].B << 7);
 					value = (uint)(b | g | r);
+                        for (int j = 0; i < LENGHT; j++)
+                        {
+                            paletaComprimida[index + j] = Convert.ToByte(value.ToString("X8").Substring(6 - (2 * j), 2), 16);
+                        }
 
-					for (int j = 0; i < LENGHT; j++) {
-						paletaComprimida[index + j] = Convert.ToByte(value.ToString("X8").Substring(6 - (2 * j), 2), 16);
-					}
 					index += 2;
 				}
 				BloqueBytes.SetBytes(rom, paleta.OffsetInicio, paletaComprimida);
@@ -186,12 +189,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 		public Hex OffsetFin {
-			get{
-                if (totalDatosComprimidos == -1)
-                    totalDatosComprimidos = ComprimirDatosLZ77(DatosImagenDescomprimida).Length;
-
-
-                return OffsetInicio + totalDatosComprimidos; }
+			get{ return OffsetInicio + TotalDatosComprimidos; }
 		}
 		/// <summary>
 		/// Obtener la imagen con la paleta del index /establecer la imagen y añadir(al final de la lista) o reemplazar la paleta que sea
@@ -267,8 +265,23 @@ namespace PokemonGBAFrameWork
             }
 		}
 
+        internal int TotalDatosComprimidos
+        {
+            get
+            {
+                if (totalDatosComprimidos == -1)
+                    totalDatosComprimidos = ComprimirDatosLZ77(DatosImagenDescomprimida).Length;
+                return totalDatosComprimidos;
+            }
+
+          private  set
+            {
+                totalDatosComprimidos = value;
+            }
+        }
+
         //de momento no se como validar asi que lo tendré private
-		static bool ValidarDatosImagenDescomprimida(byte[] datosImagenDescomprimida)
+        static bool ValidarDatosImagenDescomprimida(byte[] datosImagenDescomprimida)
 		{
 			if (datosImagenDescomprimida == null)
 				throw new ArgumentNullException("datosImagenDescomprimida");

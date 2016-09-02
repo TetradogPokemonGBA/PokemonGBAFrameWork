@@ -316,28 +316,46 @@ namespace PokemonGBAFrameWork
 
 			return Offset.GetOffset(rom, zona[edicion, compilacion]);
 		}
+        public static void SetOffset(RomPokemon rom, Enum variableZona, Hex offsetToSave)
+        {
+            SetOffset(rom, variableZona.ToString(), offsetToSave);
+        }
 
-		public static void SetOffset(RomPokemon rom, string variableZona, Hex offsetToSave)
+        public static void SetOffset(RomPokemon rom, string variableZona, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), offsetToSave);
 		}
-		public static void SetOffset(RomPokemon rom, string variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        public static void SetOffset(RomPokemon rom, Enum variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        {
+            SetOffset(rom, variableZona.ToString(), compilacion, offsetToSave);
+        }
+
+        public static void SetOffset(RomPokemon rom, string variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion, offsetToSave);
 		}
-		public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, Hex offsetToSave)
+        public static void SetOffset(RomPokemon rom, Enum variableZona, Edicion edicion, Hex offsetToSave)
+        {
+            SetOffset(rom, variableZona.ToString(), edicion, offsetToSave);
+        }
+
+        public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
 		}
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="rom"></param>
-		/// <param name="edicion"></param>
-		/// <param name="compilacion"></param>
-		/// <param name="variableZona">Usa el diccionario para obtener la zona </param>
-		/// <param name="offsetToSave"></param>
-		public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        public static void SetOffset(RomPokemon rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        {
+            SetOffset(rom, variableZona.ToString(), edicion, compilacion, offsetToSave);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="edicion"></param>
+        /// <param name="compilacion"></param>
+        /// <param name="variableZona">Usa el diccionario para obtener la zona </param>
+        /// <param name="offsetToSave"></param>
+        public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
 		{
 			if (string.IsNullOrEmpty(variableZona))
 				throw new ArgumentNullException();
@@ -377,7 +395,7 @@ namespace PokemonGBAFrameWork
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
-			if (offsetZona < 0 || offsetToSave < 0 || offsetToSave > (int)Longitud.TrentaYDosMegas || offsetZona + (int)Longitud.Offset > rom.Datos.Length)
+			if (offsetZona < 0 || offsetToSave < 0 || offsetToSave > (int)Longitud.TrentaYDosMegas || offsetToSave + (int)Longitud.Offset > rom.Datos.Length)
 				throw new ArgumentOutOfRangeException();
 			
 			Hex offsetZonaAActualizar = 0;//buscar el minimo real porque no hay pointers en el byte 4 (ya que 0+(int)Offsets.Longitud.Offset)
