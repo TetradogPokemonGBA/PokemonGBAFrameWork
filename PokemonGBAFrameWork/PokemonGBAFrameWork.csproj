@@ -75,6 +75,7 @@
     <Compile Include="FrameWork\DescripcionPokedex.cs" />
     <Compile Include="FrameWork\Habilidad.cs" />
     <Compile Include="FrameWork\Objeto.cs" />
+    <Compile Include="FrameWork\Pokeball.cs" />
     <Compile Include="FrameWork\Pokemon.cs" />
     <Compile Include="FrameWork\RomData.cs" />
     <Compile Include="FrameWork\Sprite.cs" />

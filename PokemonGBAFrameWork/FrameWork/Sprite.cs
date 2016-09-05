@@ -110,8 +110,8 @@ namespace PokemonGBAFrameWork
         {
             this.paletaNormal = paletaNormal;
             this.paletaShiny = paletaShiny;
-            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imagenFrontal, paletaNormal, paletaShiny);
-            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, imagenTrasera, paletaNormal, paletaShiny);
+            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imagenFrontal, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
+            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, imagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
 
         }
         public Sprite(RomPokemon rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
@@ -119,10 +119,10 @@ namespace PokemonGBAFrameWork
             byte[] imgBytes;
             this.paletaNormal = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaNormal);
             this.paletaShiny = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaShiny);
-            imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, paletaNormal).DatosImagenDescomprimida;
-            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0,TAMAÑOIMAGEN) : imgBytes, paletaNormal, paletaShiny);
+            imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64 ,paletaNormal).DatosImagenDescomprimida;
+            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0,TAMAÑOIMAGEN) : imgBytes, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
 
-            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, paletaNormal).DatosImagenDescomprimida, paletaNormal, paletaShiny);
+            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal).DatosImagenDescomprimida, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
         }
 
         public BloqueImagen.Paleta PaletaNormal
@@ -322,10 +322,10 @@ namespace PokemonGBAFrameWork
         public static Sprite GetSprite(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             Sprite sprite;
-            Hex offsetSpriteFrontal = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
-            Hex offsetSpriteTrasero = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
-            Hex offsetPaletaNormal = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
-            Hex offsetPaletaShiny = GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
+            Hex offsetSpriteFrontal =BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
+            Hex offsetSpriteTrasero = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
+            Hex offsetPaletaNormal = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
+            Hex offsetPaletaShiny = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
             try
             {
                 if (edicion.Abreviacion == Edicion.ABREVIACIONESMERALDA)
@@ -345,33 +345,7 @@ namespace PokemonGBAFrameWork
             }
             return sprite;
         }
-        #region por entender
-        /*falta entender que hace y ponerlos en su sitio!!!*/
-        internal   static Hex GetOffsetImg(RomPokemon rom, Hex offset, Hex posicion)
-        {
-            return ParseWord(Convert.ToInt32((posicion << 3)) + offset, rom) - 0x08000000;//puede que el -0x80...sea para quitarle el ultimo byte que es 0x8...pero tambien podria ser 0x9???
-        }
-        static Hex ParseWord(int baseLocation, RomPokemon rom)
-        {
-            if (baseLocation < 0)
-                throw new ArgumentException();
-            return ParseLoop(4, baseLocation, rom);
-        }
 
-
-        static uint ParseLoop(int length, int baseLocation, RomPokemon rom)
-        {
-            if (length < 0 || rom.Datos.Length < length + baseLocation)
-                throw new ArgumentException();
-            uint newValue = 0;
-            for (int i = 0; i < length; i++)
-            {
-                newValue += (uint)(rom.Datos[baseLocation + i] << (i * 8));
-            }
-            return newValue;
-        }
-
-        #endregion
     }
     public class SpriteEsmeralda : Sprite
     {
@@ -381,7 +355,7 @@ namespace PokemonGBAFrameWork
         public SpriteEsmeralda(BloqueImagen.Paleta paletaNormal, BloqueImagen.Paleta paletaShiny, Hex offsetImagenFrontal, Bitmap imagenFrontal, Bitmap imagenFrontal2, Hex offsetImagenTrasera, Bitmap imagenTrasera)
             : base(paletaNormal, paletaShiny, offsetImagenFrontal, imagenFrontal, offsetImagenTrasera, imagenTrasera)
         {
-            this.imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, imagenFrontal2, paletaNormal, paletaShiny);
+            this.imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, imagenFrontal2, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
 
         }
         public SpriteEsmeralda(RomPokemon rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
@@ -389,7 +363,7 @@ namespace PokemonGBAFrameWork
         {
             //tener en cuenta a la hora de poner las imagenes frontales que van seguidas y como una sola imagen
             //pongo la imagen 2 sola :D
-            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, PaletaNormal).DatosImagenDescomprimida.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN), PaletaNormal, PaletaShiny);
+            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64, PaletaNormal).DatosImagenDescomprimida.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN), BloqueImagen.LongitudImagen.L64, PaletaNormal, PaletaShiny);
         }
 
         public Bitmap ImagenFrontal2Normal
