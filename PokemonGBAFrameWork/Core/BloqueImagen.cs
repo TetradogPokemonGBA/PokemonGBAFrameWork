@@ -269,6 +269,13 @@ namespace PokemonGBAFrameWork
                 throw new ArgumentOutOfRangeException("index");
             return paletas[index];
         }
+
+        public static BloqueImagen GetBloqueImagen(RomPokemon rom, Hex offsetDatos, Paleta paleta)
+        {
+            byte[] datosImg = GetDatosDescomprimidos(rom, offsetDatos); 
+            return GetBloqueImagen(rom, offsetDatos, DameLongitud(datosImg, new Paleta[] { paleta }),paleta);
+        }
+
         /// <summary>
         /// Pone la paleta al final a no ser que se diga la posición
         /// </summary>

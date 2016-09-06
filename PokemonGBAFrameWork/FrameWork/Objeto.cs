@@ -122,6 +122,18 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+        public BloqueImagen ImagenObjeto
+        {
+            get
+            {
+                return imagenObjeto;
+            }
+
+            set
+            {
+                imagenObjeto = value;
+            }
+        }
 
         public override string ToString()
         {
@@ -186,16 +198,17 @@ namespace PokemonGBAFrameWork
             BloqueImagen bloqueImg=null;
             byte[] bytesDesconocidosAntes=BloqueBytes.GetBytes(rom,offsetDescripcion- (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes, bytesDesconocidosDespues= BloqueBytes.GetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes;
             if (edicion.Abreviacion != Edicion.ABREVIACIONRUBI && edicion.Abreviacion != Edicion.ABREVIACIONZAFIRO) {
-                pointersImg  = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion) + (index * (int)Longitud.Offset * 2);
+                pointersImg = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion);
+                pointersImg += (index * (int)Longitud.Offset * 2);
                 //ahora hay pointers y tengo que obtener los offsets
                 try
                 {
-                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, Offset.GetOffset(rom, pointersImg), BloqueImagen.LongitudImagen.L32, BloqueImagen.Paleta.GetPaleta(rom, Offset.GetOffset(rom, pointersImg + (int)Longitud.Offset)));
+                    
+                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, Offset.GetOffset(rom, pointersImg), BloqueImagen.Paleta.GetPaleta(rom, Offset.GetOffset(rom, pointersImg + (int)Longitud.Offset)));
 
                 }
                 catch {
-                    if(System.Diagnostics.Debugger.IsAttached)
-                       System.Diagnostics.Debugger.Break();//hay un error al cargar la imagen
+               //si origina una excepcion es que usa la imagen 0 :D
                 }
              }
 
@@ -263,6 +276,9 @@ namespace PokemonGBAFrameWork
             Objeto[] objetos = new Objeto[TotalObjetos(rom, edicion,compilacion)];
             for (int i = 0; i < objetos.Length; i++)
                 objetos[i] = GetObjeto(rom, edicion, compilacion, i);
+            for (int i = 0; i < objetos.Length; i++)
+                if (objetos[i].imagenObjeto == null)
+                    objetos[i].imagenObjeto = objetos[0].imagenObjeto;
             return objetos;
         }
     }
