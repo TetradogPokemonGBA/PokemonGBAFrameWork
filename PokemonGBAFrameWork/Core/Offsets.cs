@@ -68,15 +68,25 @@ namespace PokemonGBAFrameWork
         {
             return GetOffset(bl.Bytes, offsetInicio);
         }
+        /// <summary>
+        /// Obtiene el offset de la ROM
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="offsetInicio"></param>
+        /// <returns>si el pointer no tiene bien el formato correcto devuelve -1</returns>
         public static Hex GetOffset(byte[] bytes, Hex offsetInicio)
         {
             //los bytes estan permutados
-            byte[] bytesPointer = bytes.SubArray(offsetInicio, (int)Longitud.Offset);
-            return ((Hex)(new byte[] {
-                bytesPointer[2],
-                bytesPointer[1],
-                bytesPointer[0]
-            })) + (bytesPointer[3] == 9 ? (int)Longitud.DieciseisMegas : 0);
+            int posicion = offsetInicio;
+            Hex offset;
+            if (bytes[posicion + 3] == 8 || bytes[posicion + 3] == 9)
+                offset = ((Hex)(new byte[] {
+                bytes[posicion+2],
+                bytes[posicion+1],
+                bytes[posicion]
+            })) + (bytes[posicion + 3] == 9 ? (int)Longitud.DieciseisMegas : 0);
+            else offset = -1;
+            return offset;
         }
         /// <summary>
         /// convierte el offset en un pointer y lo pasa a byteArray

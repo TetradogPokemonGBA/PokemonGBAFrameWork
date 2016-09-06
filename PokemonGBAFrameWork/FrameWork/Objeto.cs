@@ -37,10 +37,11 @@ namespace PokemonGBAFrameWork
             BytesDesconocidosDespuesDelPointerDesconocido=4,
             PointerDatosDesconocidos2=4,
             BytesDesconocidosDespuesDelPointerDesconocido2 = 4,
+           
         }
 		BloqueString nombre;//acaba en FF y como maximo son 13 bytes
         byte byteNoInterpretado;//no se que hace...//1 byte
-        short posicion;//una posicion...no es unica porque los ????? tienen todos la posicion 0//2 bytes que son la poscion
+        ushort posicion;//una posicion...no es unica porque los ????? tienen todos la posicion 0//2 bytes que son la poscion
         byte[] bytesNoInterpretadosAntesDescripcion;//son 4 bytes
         BloqueString descripcion;//es un puntero a la descripcion que son 4 bytes
         byte[] bytesNoInterpretadosDespuesDescripcion;//4 bytes+1 pointer+4 bytes+pointer+4bytes desconocidos
@@ -73,21 +74,43 @@ namespace PokemonGBAFrameWork
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x98970, 0x98984);
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1294bc);
 
-            zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1290d4);
+            zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1290d4);
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x98B74);
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x98b48);
             //añado las zonas al diccionario
             Zona.DiccionarioOffsetsZonas.Añadir(zonaObjeto);
             Zona.DiccionarioOffsetsZonas.Añadir(zonaImagenesObjetos);
 		}
-        public Objeto(BloqueString nombre) : this(nombre, null) { }
+        public Objeto(ushort posicion,BloqueString nombre,BloqueString descripcion,BloqueImagen icono) : this(nombre,0x0,posicion,null,descripcion,null,icono) { }
 
-        public Objeto(BloqueString nombre,byte[] bytesNoInterpretados)
+        public Objeto( BloqueString nombre,byte byteDesconocido,ushort posicion,byte[] bytesAntesDeDescripcion ,BloqueString descripcion,byte[] bytesDespuesDeDescripcion, BloqueImagen icono)
 		{
+            this.byteNoInterpretado = byteDesconocido;
 			this.nombre = nombre;
 			nombre.MaxCaracteres=(int)LongitudCampos.Nombre;
-           // this.bytesNoInterpretados = new byte[(int)LongitudCampos.BytesNoInterpretados];
-            //BytesNoInterpretados = bytesNoInterpretados;
+            this.posicion = posicion;
+            this.descripcion = descripcion;
+            this.imagenObjeto = icono;
+            this.bytesNoInterpretadosAntesDescripcion = new byte[(int)LongitudCampos.BytesDesconocidosAntesDescripcion];
+            this.bytesNoInterpretadosDespuesDescripcion = new byte[
+                                                                    (int)LongitudCampos.BytesDesconocidosDespuesDescripcion+
+                                                                    (int)LongitudCampos.PointerDatosDesconocidos+
+                                                                    (int)LongitudCampos.BytesDesconocidosDespuesDelPointerDesconocido +
+                                                                    (int)LongitudCampos.PointerDatosDesconocidos2+
+                                                                    (int)LongitudCampos.BytesDesconocidosDespuesDelPointerDesconocido2 
+                                                                    ];
+            if (bytesAntesDeDescripcion != null)
+            {
+                for (int i = 0; i < this.bytesNoInterpretadosAntesDescripcion.Length && i < bytesAntesDeDescripcion.Length; i++)
+                    this.bytesNoInterpretadosAntesDescripcion[i] = bytesAntesDeDescripcion[i];
+
+            }
+            if (bytesDespuesDeDescripcion != null)
+            {
+                for (int i = 0; i < this.bytesNoInterpretadosDespuesDescripcion.Length && i < bytesDespuesDeDescripcion.Length; i++)
+                    this.bytesNoInterpretadosDespuesDescripcion[i] = bytesDespuesDeDescripcion[i];
+               
+            }
 		}
 
 		public BloqueString Nombre {
@@ -106,54 +129,117 @@ namespace PokemonGBAFrameWork
         }
         public static int TotalObjetos(RomPokemon rom)
 		{
-			return TotalObjetos(rom, Edicion.GetEdicion(rom));
+            Edicion edicion = Edicion.GetEdicion(rom);
+            return TotalObjetos(rom, edicion,CompilacionRom.GetCompilacion(rom,edicion));
 		}
-		public static int TotalObjetos(RomPokemon rom, Edicion edicion)
+		public static int TotalObjetos(RomPokemon rom, Edicion edicion,CompilacionRom.Compilacion compilacion)
 		{
-			//en  un futuro sacarlos de la rom!!
+            Hex POSICIONDESCRIPCION = (int)LongitudCampos.NombreCompilado +(int)LongitudCampos.ByteDesconocido +(int)LongitudCampos.Posicion +(int)LongitudCampos.BytesDesconocidosAntesDescripcion;
+            const byte MARCAFINNOMBRE = 0xFF,EMPTYBYTENAME=0x0;
 			int totalItems = 0;
-			switch (edicion.Abreviacion) {
-				case Edicion.ABREVIACIONESMERALDA:
-					totalItems = 0x179;
-					break;
-				case Edicion.ABREVIACIONRUBI:
-				case Edicion.ABREVIACIONZAFIRO:
-					totalItems = 0x15D;
-					break;
-				case Edicion.ABREVIACIONROJOFUEGO:
-				case Edicion.ABREVIACIONVERDEHOJA:
-					totalItems = 0x177;
-					break;
-			} 
-			return totalItems;
+            Hex offsetInicio = Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion);
+            Hex offsetActual = offsetInicio;
+            BloqueBytes datosItem;
+            //cada objeto como minimo tiene un pointer si no lo tiene es que no tiene el formato bien :) ademas el nombre si no llega al final acaba en FF :D
+            bool acabado = false;
+            bool nombreComprobadoCorrectamente;
+            do
+            {
+                datosItem = BloqueBytes.GetBytes(rom, offsetActual, (int)LongitudCampos.Total);
+                //miro que el nombre acaba bien :)
+                nombreComprobadoCorrectamente = false;
+                for (int i = 0; i < (int)LongitudCampos.NombreCompilado && !acabado; i++)
+                {
+                    if (datosItem.Bytes[i] == MARCAFINNOMBRE)
+                    {
+                        if (!nombreComprobadoCorrectamente) nombreComprobadoCorrectamente = true;
+
+                    }
+                    
+                    else if (nombreComprobadoCorrectamente&& datosItem.Bytes[i] !=EMPTYBYTENAME)
+                        acabado = true;//si continua es que esta mal :D
+                }
+                //miro el pointer
+                if (!acabado)
+                {
+                    if (Offset.GetOffset(datosItem.Bytes, POSICIONDESCRIPCION) != -1)
+                    {
+                        totalItems++;//lo ha leido bien :D
+                        offsetActual += (int)LongitudCampos.Total;
+                    }
+                    else acabado = true;
+                }
+            } while (!acabado);
+            return totalItems;
 		}
 		//de momento solo se cargar el nombre
 		public static Objeto GetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex index)
         {
             Hex offsetObjeto=Zona.GetOffset(rom,Variables.DatosObjeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
+            Hex offsetByteDesconocido = offsetObjeto + (int)LongitudCampos.NombreCompilado;
+            Hex offsetPosicion = offsetByteDesconocido + (int)LongitudCampos.ByteDesconocido;
+            Hex offsetDescripcion = offsetPosicion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion;
+            Hex pointersImg;
             BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto);
-            return new Objeto(bloqueNombre);
+            BloqueString bloqueDescripcion = BloqueString.GetString(rom, offsetDescripcion);
+            ushort posicion = Serializar.ToUShort(BloqueBytes.GetBytes(rom, offsetPosicion, 2).Bytes);
+            BloqueImagen bloqueImg=null;
+            byte[] bytesDesconocidosAntes=BloqueBytes.GetBytes(rom,offsetDescripcion- (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes, bytesDesconocidosDespues= BloqueBytes.GetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes;
+            if (edicion.Abreviacion != Edicion.ABREVIACIONRUBI && edicion.Abreviacion != Edicion.ABREVIACIONZAFIRO) {
+                pointersImg  = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion) + (index * (int)Longitud.Offset * 2);
+                //ahora hay pointers y tengo que obtener los offsets
+                try
+                {
+                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, Offset.GetOffset(rom, pointersImg), BloqueImagen.LongitudImagen.L32, BloqueImagen.Paleta.GetPaleta(rom, Offset.GetOffset(rom, pointersImg + (int)Longitud.Offset)));
+
+                }
+                catch {
+                    if(System.Diagnostics.Debugger.IsAttached)
+                       System.Diagnostics.Debugger.Break();//hay un error al cargar la imagen
+                }
+             }
+
+
+            return new Objeto(bloqueNombre,rom.Datos[offsetByteDesconocido], posicion,bytesDesconocidosAntes,bloqueDescripcion,bytesDesconocidosDespues,bloqueImg);
 		}
-		//de momento solo guarda el nombre
 		public static void SetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto, Hex index)
 		{
-			objeto.Nombre.Texto=objeto.Nombre.Texto;
-            if (objeto.Nombre.Texto.Length > (int)LongitudCampos.NombreCompilado)
-                objeto.Nombre.Texto = objeto.Nombre.Texto.Substring(0, (int)LongitudCampos.NombreCompilado);
-			objeto.Nombre.OffsetInicio=Zona.GetOffset(rom,Variables.DatosObjeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
-			BloqueString.SetString(rom,objeto.Nombre.OffsetInicio,objeto.Nombre.Texto.Length+1== (int)LongitudCampos.NombreCompilado? objeto.Nombre.Texto: objeto.Nombre.Texto);
-          //  BloqueBytes.SetBytes(rom, objeto.Nombre.OffsetFin + 1, objeto.BytesNoInterpretados);
-		}
+
+            Hex offsetObjeto = Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion) + index * (int)LongitudCampos.Total;
+            Hex offsetByteDesconocido = offsetObjeto + (int)LongitudCampos.NombreCompilado;
+            Hex offsetPosicion = offsetByteDesconocido + (int)LongitudCampos.ByteDesconocido;
+            Hex offsetDescripcion = offsetPosicion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion;
+            Hex offsetImg = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion) + (index * (int)Longitud.Offset * 2);
+            BloqueString.SetString(rom, offsetObjeto,objeto.Nombre.Texto);
+            BloqueString.SetString(rom, offsetDescripcion,objeto.descripcion.Texto);
+            //pongo la posicion
+            BloqueBytes.SetBytes(rom, offsetPosicion, Serializar.GetBytes(objeto.posicion));
+            //pongo los bytes que no se interpretar
+            rom.Datos[offsetByteDesconocido] = objeto.byteNoInterpretado;
+            BloqueBytes.SetBytes(rom, offsetDescripcion - (int)LongitudCampos.BytesDesconocidosAntesDescripcion, objeto.bytesNoInterpretadosAntesDescripcion);
+            BloqueBytes.SetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion,objeto.bytesNoInterpretadosDespuesDescripcion);
+            if (objeto.imagenObjeto != null && edicion.Abreviacion != Edicion.ABREVIACIONRUBI && edicion.Abreviacion != Edicion.ABREVIACIONZAFIRO)
+            {
+                //pongo la imagen y la paleta :D
+                BloqueImagen.SetBloqueImagen(rom, offsetImg, objeto.imagenObjeto.DatosImagenDescomprimida, new BloqueImagen.Paleta(offsetImg + (int)Longitud.Offset, objeto.imagenObjeto.GetPaleta(0)));
+            }
+         
+
+
+
+        }
 
         public static void SetObjetos(RomPokemon rom, IEnumerable<Objeto> objetos)
         {
             if (rom == null || objetos == null) throw new ArgumentNullException();
+     
             Objeto[] objetosArray = objetos.ToArray();
             Edicion edicion = Edicion.GetEdicion(rom);
             CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
-            if (objetosArray.Length != TotalObjetos(rom, edicion))
+            int totalObjetosRom = TotalObjetos(rom, edicion, compilacion);
+            if (objetosArray.Length != totalObjetosRom)
             {
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion), TotalObjetos(rom, edicion) * (int)LongitudCampos.Total);
+                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion), totalObjetosRom * (int)LongitudCampos.Total);
                 Zona.SetOffset(rom, Variables.DatosObjeto, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, objetosArray.Length * (int)LongitudCampos.Total));//actualizo el offset
             }
             for (int i = 0; i < objetosArray.Length; i++)
@@ -174,7 +260,7 @@ namespace PokemonGBAFrameWork
         }
         public static Objeto[] GetObjetos(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
         {
-            Objeto[] objetos = new Objeto[TotalObjetos(rom, edicion)];
+            Objeto[] objetos = new Objeto[TotalObjetos(rom, edicion,compilacion)];
             for (int i = 0; i < objetos.Length; i++)
                 objetos[i] = GetObjeto(rom, edicion, compilacion, i);
             return objetos;
