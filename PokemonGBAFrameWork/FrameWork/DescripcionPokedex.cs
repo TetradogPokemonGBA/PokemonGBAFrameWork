@@ -17,6 +17,7 @@ namespace PokemonGBAFrameWork
     public class DescripcionPokedex
     {
         /*
+	 la altura y el peso pasados a kg y metros solo se tienen que dividir entre 10
          [CD BF BF BE FF 00 00 00 00 00 00 00=>NombreEspecie]
          [0A 00 =>Altura]
          [82 00 =>Peso]
