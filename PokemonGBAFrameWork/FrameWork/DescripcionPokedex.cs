@@ -16,7 +16,18 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public class DescripcionPokedex
     {
-
+        /*
+         [CD BF BF BE FF 00 00 00 00 00 00 00=>NombreEspecie]
+         [0A 00 =>Altura]
+         [82 00 =>Peso]
+         [1C 4D 44 08]
+         [8B 4D 44 08=>descripcionPokedex]
+         [00 00=>No se]
+         [4C 01=>escala pokemon]
+         [0B 00=>Against offset1??]
+         [00 01=> escala entrenador]
+         [FE FF 00 00=>Against offset2??]
+             */
         public enum LongitudCampos
         {
             TotalGeneral = 36,

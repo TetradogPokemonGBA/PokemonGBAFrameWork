@@ -138,22 +138,22 @@ namespace PokemonGBAFrameWork
 		}
 		public static void SetString(RomPokemon rom,BloqueString str){
             const byte MARCAFIN = 0xFF;
-			BloqueBytes bytesString=new BloqueBytes(str.OffsetInicio,GetBytes(str.Texto));
+			BloqueBytes bytesString=new BloqueBytes(str.OffsetInicio,ToByteArray(str.Texto));
 			BloqueBytes.SetBytes(rom,bytesString);
             if(str.AcabaEnFFByte)
                rom.Datos[bytesString.OffsetFin] = MARCAFIN;
 		}
 		public static BloqueString GetString(RomPokemon rom,Hex offsetInicio,Hex longitud,bool acabaEnFFByte =true){
 		
-			return new BloqueString(offsetInicio,GetText(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes),acabaEnFFByte );
+			return new BloqueString(offsetInicio,ToString(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes),acabaEnFFByte );
 		}
         public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud,bool acabaEnFFByte =true)
         {
             if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0) throw new ArgumentException();
-            return new BloqueString(blBytes.OffsetInicio + offsetInicio, GetText(blBytes.Bytes.SubArray(offsetInicio, longitud)),acabaEnFFByte );
+            return new BloqueString(blBytes.OffsetInicio + offsetInicio, ToString(blBytes.Bytes.SubArray(offsetInicio, longitud)),acabaEnFFByte );
         }
 		#region Tratar String Pokemon
-        private static string GetText(byte[] bytesGBA)
+        public static string ToString(byte[] bytesGBA)
         {
             StringBuilder texto = new StringBuilder();
             for (int i = 0; i < bytesGBA.Length; i++)
@@ -666,7 +666,7 @@ namespace PokemonGBAFrameWork
         {
             return GetString(blDatos, offsetInicio,blDatos.Bytes.IndexByte(offsetInicio, marcaFin) - offsetInicio);
         }
-        private static byte[] GetBytes(string texto)
+        public static byte[] ToByteArray(string texto)
         {
             if (texto == null)
                 throw new ArgumentNullException();
