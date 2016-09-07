@@ -95,7 +95,7 @@ namespace PokemonGBAFrameWork
             }
 
 
-            public static Paleta GetPaleta(RomPokemon rom, Hex offsetInicioPaleta, bool showBackgroundColor = false)
+            public static Paleta GetPaleta(RomGBA rom, Hex offsetInicioPaleta, bool showBackgroundColor = false)
             {
                 if (rom == null || offsetInicioPaleta < 0)
                     throw new ArgumentException();
@@ -123,7 +123,7 @@ namespace PokemonGBAFrameWork
             }
 
 
-            public static void SetPaleta(RomPokemon rom, Paleta paleta)
+            public static void SetPaleta(RomGBA rom, Paleta paleta)
             {
                 if (rom == null || paleta == null)
                     throw new ArgumentNullException();
@@ -270,7 +270,7 @@ namespace PokemonGBAFrameWork
             return paletas[index];
         }
 
-        public static BloqueImagen GetBloqueImagen(RomPokemon rom, Hex offsetDatos, Paleta paleta)
+        public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetDatos, Paleta paleta)
         {
             byte[] datosImg = GetDatosDescomprimidos(rom, offsetDatos); 
             return GetBloqueImagen(rom, offsetDatos, DameLongitud(datosImg, new Paleta[] { paleta }),paleta);
@@ -482,7 +482,7 @@ namespace PokemonGBAFrameWork
             Paleta[] paletasArray = paletas.ToTaula();
             return new BloqueImagen(offsetInicio, GetImagen(datosImagenDescomprimida, paletasArray[0], longitudLadoImagen), paletasArray);
         }
-        static byte[] GetDatosDescomprimidos(RomPokemon rom, Hex offsetInicio)
+        static byte[] GetDatosDescomprimidos(RomGBA rom, Hex offsetInicio)
         {
             if (rom == null || offsetInicio < 0)
                 throw new ArgumentException();
@@ -564,7 +564,7 @@ namespace PokemonGBAFrameWork
         /// <param name="offsetInicioDatos"></param>
         /// <param name="paletas"></param>
         /// <returns></returns>
-        public static BloqueImagen GetBloqueImagen(RomPokemon rom, Hex offsetInicioDatos, LongitudImagen longitudLadoImagen = LongitudImagen.L64, params Paleta[] paletas)
+        public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetInicioDatos, LongitudImagen longitudLadoImagen = LongitudImagen.L64, params Paleta[] paletas)
         {
             if (paletas == null || paletas.Length == 0)
                 throw new ArgumentException();
@@ -572,7 +572,7 @@ namespace PokemonGBAFrameWork
             return new BloqueImagen(offsetInicioDatos, GetDatosDescomprimidos(rom, offsetInicioDatos),longitudLadoImagen, paletas);
         }
 
-        public static void SetBloqueImagen(RomPokemon rom, BloqueImagen img, bool añadirPaletasImg = true)
+        public static void SetBloqueImagen(RomGBA rom, BloqueImagen img, bool añadirPaletasImg = true)
         {
 
             if (rom == null || img == null)
@@ -582,7 +582,7 @@ namespace PokemonGBAFrameWork
                 for (int i = 0; i < img.paletas.Count; i++)
                     Paleta.SetPaleta(rom, img.paletas[i]);
         }
-        public static void SetBloqueImagen(RomPokemon rom, Hex offsetInicio, Bitmap img, params Paleta[] paletas)
+        public static void SetBloqueImagen(RomGBA rom, Hex offsetInicio, Bitmap img, params Paleta[] paletas)
         {
             if (img == null || paletas == null)
                 throw new ArgumentNullException();
@@ -590,7 +590,7 @@ namespace PokemonGBAFrameWork
                 throw new ArgumentException("paletas");
             SetBloqueImagen(rom, new BloqueImagen(offsetInicio, GetDatosDescomprimidosImagen(img, paletas[0]), paletas));
         }
-        public static void SetBloqueImagen(RomPokemon rom, Hex offsetInicio, byte[] datosImgDescomprimida, params Paleta[] paletas)
+        public static void SetBloqueImagen(RomGBA rom, Hex offsetInicio, byte[] datosImgDescomprimida, params Paleta[] paletas)
         {
             SetBloqueImagen(rom, new BloqueImagen(offsetInicio, datosImgDescomprimida, paletas));
         }
@@ -676,11 +676,11 @@ namespace PokemonGBAFrameWork
         }
         #region por entender
         /*falta entender que hace y ponerlos en su sitio!!!*/
-        internal static Hex GetOffsetImg(RomPokemon rom, Hex offset, Hex posicion)
+        internal static Hex GetOffsetImg(RomGBA rom, Hex offset, Hex posicion)
         {
             return ParseWord(Convert.ToInt32((posicion << 3)) + offset, rom) - 0x08000000;//puede que el -0x80...sea para quitarle el ultimo byte que es 0x8...pero tambien podria ser 0x9???
         }
-        static Hex ParseWord(int baseLocation, RomPokemon rom)
+        static Hex ParseWord(int baseLocation, RomGBA rom)
         {
             if (baseLocation < 0)
                 throw new ArgumentException();
@@ -688,7 +688,7 @@ namespace PokemonGBAFrameWork
         }
 
 
-        static uint ParseLoop(int length, int baseLocation, RomPokemon rom)
+        static uint ParseLoop(int length, int baseLocation, RomGBA rom)
         {
             if (length < 0 || rom.Datos.Length < length + baseLocation)
                 throw new ArgumentException();

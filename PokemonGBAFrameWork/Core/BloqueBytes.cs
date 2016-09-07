@@ -74,11 +74,11 @@ namespace PokemonGBAFrameWork
 					str.Close();
 			}
 		}
-		public static void SetBytes(RomPokemon rom, Hex offsetInicio, byte[] bytes)
+		public static void SetBytes(RomGBA rom, Hex offsetInicio, byte[] bytes)
 		{
 			SetBytes(rom, new BloqueBytes(offsetInicio, bytes));
 		}
-		public static void SetBytes(RomPokemon rom, BloqueBytes bytes)
+		public static void SetBytes(RomGBA rom, BloqueBytes bytes)
 		{
 			if (bytes.OffsetFin >= rom.Datos.Length)
 				throw new ArgumentOutOfRangeException();
@@ -89,7 +89,7 @@ namespace PokemonGBAFrameWork
 				
 			}
 		}
-		public static BloqueBytes GetBytes(RomPokemon rom, Hex offsetInicio, Hex longitud)
+		public static BloqueBytes GetBytes(RomGBA rom, Hex offsetInicio, Hex longitud)
 		{
 			
 			if (offsetInicio < 0 || longitud < 0 || rom.Datos.Length < offsetInicio + longitud)
@@ -103,7 +103,7 @@ namespace PokemonGBAFrameWork
 			return new BloqueBytes(offsetInicio, bytes);
 			
 		}
-		public static void RemoveBytes(RomPokemon rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0x00)
+		public static void RemoveBytes(RomGBA rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0x00)
 		{
 			unsafe {
 				fixed(byte* bytesRom=rom.Datos)
@@ -118,7 +118,7 @@ namespace PokemonGBAFrameWork
 		/// <param name="rom">no puede ser null</param>
 		/// <param name="tamañoATener">el tamaño tiene que estar entre el minimo y el maximo</param>
 		/// <param name="byteEnBlanco">byte a poner en lugar de los que hay</param>
-		public static void RomSizeChange(RomPokemon rom,int tamañoATener,byte byteEnBlanco=0x00){
+		public static void RomSizeChange(RomGBA rom,int tamañoATener,byte byteEnBlanco=0x00){
 			if(rom==null||tamañoATener<TamañoMinimoRom||tamañoATener>TamañoMaximoRom)throw new ArgumentException();
 			byte[] romExpandida=new byte[tamañoATener];
 			
@@ -138,10 +138,10 @@ namespace PokemonGBAFrameWork
 			}
 			rom.Datos=romExpandida;
 		}
-		public static Hex SearchBytes(RomPokemon rom,byte[] bytesAEncontrar){
+		public static Hex SearchBytes(RomGBA rom,byte[] bytesAEncontrar){
 			return SearchBytes(rom,0,bytesAEncontrar);
 		}
-		public static Hex SearchBytes(RomPokemon rom,Hex offsetInicio, byte[] bytesAEncontrar)
+		public static Hex SearchBytes(RomGBA rom,Hex offsetInicio, byte[] bytesAEncontrar)
 		{
             if (bytesAEncontrar.Length == 1) System.Diagnostics.Debugger.Break();
 			if (bytesAEncontrar == null)
@@ -195,7 +195,7 @@ namespace PokemonGBAFrameWork
 			return LoadFile(new FileInfo(filePath));
 		}
 
-        public static Hex SearchEmptyBytes(RomPokemon rom, Hex length)
+        public static Hex SearchEmptyBytes(RomGBA rom, Hex length)
         {
             return SearchBytes(rom, new byte[length]);//como por defecto es 0x0 ya me va bien aunque tambien se usa el 0xFF...
         }

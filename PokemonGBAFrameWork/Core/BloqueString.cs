@@ -133,17 +133,17 @@ namespace PokemonGBAFrameWork
         {
             return Texto;
         }
-        public static void SetString(RomPokemon rom,Hex offsetInicio,string str,bool acabaEnFFByte=true){
+        public static void SetString(RomGBA rom,Hex offsetInicio,string str,bool acabaEnFFByte=true){
 			SetString(rom,new BloqueString(offsetInicio,str,acabaEnFFByte));
 		}
-		public static void SetString(RomPokemon rom,BloqueString str){
+		public static void SetString(RomGBA rom,BloqueString str){
             const byte MARCAFIN = 0xFF;
 			BloqueBytes bytesString=new BloqueBytes(str.OffsetInicio,ToByteArray(str.Texto));
 			BloqueBytes.SetBytes(rom,bytesString);
             if(str.AcabaEnFFByte)
                rom.Datos[bytesString.OffsetFin] = MARCAFIN;
 		}
-		public static BloqueString GetString(RomPokemon rom,Hex offsetInicio,Hex longitud,bool acabaEnFFByte =true){
+		public static BloqueString GetString(RomGBA rom,Hex offsetInicio,Hex longitud,bool acabaEnFFByte =true){
 		
 			return new BloqueString(offsetInicio,ToString(BloqueBytes.GetBytes(rom,offsetInicio,longitud).Bytes),acabaEnFFByte );
 		}
@@ -658,7 +658,7 @@ namespace PokemonGBAFrameWork
             return texto.ToString();
         }
 
-        public static BloqueString GetString(RomPokemon rom, Hex offsetInicio,byte marcaFin=0xFF)
+        public static BloqueString GetString(RomGBA rom, Hex offsetInicio,byte marcaFin=0xFF)
         {
          return GetString(rom,offsetInicio,rom.Datos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
         }

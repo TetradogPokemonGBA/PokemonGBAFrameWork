@@ -14,7 +14,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Es una clase para tener el archivo cargado y poderlo modificar comodamente por las demas clases
 	/// </summary>
-	public class RomPokemon
+	public class RomGBA
 	{
 		//hacer un historial con los cambios para poder ir atrás...
 		DirectoryInfo dirRom;
@@ -25,7 +25,7 @@ namespace PokemonGBAFrameWork
 		//para las zonas tiene que ser algo de clase para que no se este cargando en cada rom.
 		//la version viene aqui y solo se cambia con un metodo que primero mira si con la version y el idioma puede saber la compilacion y la edicion si puede porque las zonas cargan bien entonces ya se tiene esos datos y si no funciona se busca cual es la que coincide sin dar error y si no esta da error!!
 		byte[] datosRom;
-		public RomPokemon(FileInfo archivo)
+		public RomGBA(FileInfo archivo)
 		{
 			if(archivo==null)throw new ArgumentNullException();
 			

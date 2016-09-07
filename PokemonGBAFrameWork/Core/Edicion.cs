@@ -187,7 +187,7 @@ namespace PokemonGBAFrameWork
 			return edicionesCanon;
 		}
 
-		public static Edicion GetEdicion(RomPokemon rom)
+		public static Edicion GetEdicion(RomGBA rom)
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
@@ -239,7 +239,7 @@ namespace PokemonGBAFrameWork
 		/// </summary>
 		/// <param name="rom"></param>
 		/// <param name="edicion"></param>
-		public static void SetEdicion(RomPokemon rom, Edicion edicion)
+		public static void SetEdicion(RomGBA rom, Edicion edicion)
 		{
 			if (rom == null || edicion == null)
 				throw new ArgumentNullException();

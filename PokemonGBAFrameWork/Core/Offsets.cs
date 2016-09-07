@@ -32,11 +32,11 @@ namespace PokemonGBAFrameWork
 			Segunda
 			//si hay mas se ponen cuando sean necesarias
 		}
-		public static Compilacion GetCompilacion(RomPokemon rom)
+		public static Compilacion GetCompilacion(RomGBA rom)
 		{
 			return GetCompilacion(rom, Edicion.GetEdicion(rom));
 		}
-		public static Compilacion GetCompilacion(RomPokemon rom, Edicion edicion)
+		public static Compilacion GetCompilacion(RomGBA rom, Edicion edicion)
 		{
 			Compilacion compilacion = GetCompilacion(rom, edicion, false);
 			if (compilacion == Compilacion.Segunda)
@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork
 			return compilacion;
 		
 		}
-		static Compilacion GetCompilacion(RomPokemon rom, Edicion edicion, bool comprovarQueEsSegunda)
+		static Compilacion GetCompilacion(RomGBA rom, Edicion edicion, bool comprovarQueEsSegunda)
 		{
 			Compilacion compilacion;
 			if (rom == null || edicion == null)
@@ -60,7 +60,7 @@ namespace PokemonGBAFrameWork
 		}
 	}
     public static class Offset {
-        public static Hex GetOffset(RomPokemon rom, Hex offsetInicio)
+        public static Hex GetOffset(RomGBA rom, Hex offsetInicio)
         {
             return GetOffset(rom.Datos, offsetInicio);
         }
@@ -111,7 +111,7 @@ namespace PokemonGBAFrameWork
                 bytesPointer[posicion] = 0x8;
             return bytesPointer;
         }
-        public static void SetOffset(RomPokemon rom, Hex offsetInicio, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, Hex offsetInicio, Hex offsetToSave)
         {
             if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length||offsetToSave>(int)Longitud.TrentaYDosMegas) throw new ArgumentException();
             BloqueBytes.SetBytes(rom, offsetInicio, ToBytesRom(offsetToSave));
@@ -119,7 +119,7 @@ namespace PokemonGBAFrameWork
     }
 	public static class Word
 	{
-		public static void SetWord(RomPokemon rom, Hex offset, Hex word)
+		public static void SetWord(RomGBA rom, Hex offset, Hex word)
 		{
 			if (offset < 0 || offset + (int)Longitud.Word>rom.Datos.Length || word < 0 || word > ushort.MaxValue)
 				throw new ArgumentOutOfRangeException();
@@ -129,7 +129,7 @@ namespace PokemonGBAFrameWork
 			rom.Datos[zonaWord] = Convert.ToByte(((wordAux >> 8) & 0xff));
 		}
 
-        public static Hex GetWord(RomPokemon rom, Hex offsetWord)
+        public static Hex GetWord(RomGBA rom, Hex offsetWord)
         {
             if (offsetWord + (int)Longitud.Word > rom.Datos.Length)
                 throw new ArgumentOutOfRangeException();
@@ -266,32 +266,32 @@ namespace PokemonGBAFrameWork
         #endregion
 
         #endregion
-        public static Hex GetOffset(RomPokemon rom, Enum variableZona)
+        public static Hex GetOffset(RomGBA rom, Enum variableZona)
         {
             return GetOffset(rom, variableZona.ToString());
         }
 
-        public static Hex GetOffset(RomPokemon rom, string variableZona)
+        public static Hex GetOffset(RomGBA rom, string variableZona)
 		{
 			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom));
 		}
-        public static Hex GetOffset(RomPokemon rom, Enum variableZona, CompilacionRom.Compilacion compilacion)
+        public static Hex GetOffset(RomGBA rom, Enum variableZona, CompilacionRom.Compilacion compilacion)
         {
             return GetOffset(rom, variableZona.ToString(),compilacion);
         }
-        public static Hex GetOffset(RomPokemon rom, string variableZona, CompilacionRom.Compilacion compilacion)
+        public static Hex GetOffset(RomGBA rom, string variableZona, CompilacionRom.Compilacion compilacion)
 		{
 			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion);
 		}
-        public static Hex GetOffset(RomPokemon rom, Enum variableZona, Edicion edicion)
+        public static Hex GetOffset(RomGBA rom, Enum variableZona, Edicion edicion)
         {
             return GetOffset(rom, variableZona.ToString(), edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
-        public static Hex GetOffset(RomPokemon rom, string variableZona, Edicion edicion)
+        public static Hex GetOffset(RomGBA rom, string variableZona, Edicion edicion)
 		{
 			return GetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion));
 		}
-        public static Hex GetOffset(RomPokemon rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Hex GetOffset(RomGBA rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             return GetOffset(rom, variableZona.ToString(), edicion, compilacion);
         }
@@ -303,21 +303,21 @@ namespace PokemonGBAFrameWork
         /// <param name="compilacion"></param>
         /// <param name="variableZona">Usa el diccionario para obtener la zona </param>
         /// <returns></returns>
-        public static Hex GetOffset(RomPokemon rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Hex GetOffset(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
 			if (string.IsNullOrEmpty(variableZona))
 				throw new ArgumentNullException();
 			return GetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion);
 		}
-		public static Hex GetOffset(RomPokemon rom, Zona zona)
+		public static Hex GetOffset(RomGBA rom, Zona zona)
 		{
 			return GetOffset(rom, zona, Edicion.GetEdicion(rom));
 		}
-		public static Hex GetOffset(RomPokemon rom, Zona zona, Edicion edicion)
+		public static Hex GetOffset(RomGBA rom, Zona zona, Edicion edicion)
 		{
 			return GetOffset(rom, zona[edicion, CompilacionRom.GetCompilacion(rom, edicion)]);
 		}
-		public static Hex GetOffset(RomPokemon rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion)
+		public static Hex GetOffset(RomGBA rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
 			if (rom == null || zona == null || edicion == null)
 				throw new ArgumentNullException();
@@ -326,34 +326,34 @@ namespace PokemonGBAFrameWork
 
 			return Offset.GetOffset(rom, zona[edicion, compilacion]);
 		}
-        public static void SetOffset(RomPokemon rom, Enum variableZona, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, Enum variableZona, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), offsetToSave);
         }
 
-        public static void SetOffset(RomPokemon rom, string variableZona, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, string variableZona, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), offsetToSave);
 		}
-        public static void SetOffset(RomPokemon rom, Enum variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, Enum variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), compilacion, offsetToSave);
         }
 
-        public static void SetOffset(RomPokemon rom, string variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, string variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion, offsetToSave);
 		}
-        public static void SetOffset(RomPokemon rom, Enum variableZona, Edicion edicion, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, Enum variableZona, Edicion edicion, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), edicion, offsetToSave);
         }
 
-        public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, string variableZona, Edicion edicion, Hex offsetToSave)
 		{
 			SetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
 		}
-        public static void SetOffset(RomPokemon rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), edicion, compilacion, offsetToSave);
         }
@@ -365,7 +365,7 @@ namespace PokemonGBAFrameWork
         /// <param name="compilacion"></param>
         /// <param name="variableZona">Usa el diccionario para obtener la zona </param>
         /// <param name="offsetToSave"></param>
-        public static void SetOffset(RomPokemon rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        public static void SetOffset(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
 		{
 			if (string.IsNullOrEmpty(variableZona))
 				throw new ArgumentNullException();
@@ -377,19 +377,19 @@ namespace PokemonGBAFrameWork
 		/// <param name="rom"></param>
 		/// <param name="zona"></param>
 		/// <param name="offsetToSave"></param>
-		public static void SetOffset(RomPokemon rom, Zona zona, Hex offsetToSave)
+		public static void SetOffset(RomGBA rom, Zona zona, Hex offsetToSave)
 		{
 			if (zona == null)
 				throw new ArgumentNullException();
 			SetOffset(rom, zona, Edicion.GetEdicion(rom), offsetToSave);
 		}
-		public static void SetOffset(RomPokemon rom, Zona zona, Edicion edicion, Hex offsetToSave)
+		public static void SetOffset(RomGBA rom, Zona zona, Edicion edicion, Hex offsetToSave)
 		{
 			if (zona == null)
 				throw new ArgumentNullException();
 			SetOffset(rom, zona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
 		}
-		public static void SetOffset(RomPokemon rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+		public static void SetOffset(RomGBA rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
 		{
 			if (zona == null)
 				throw new ArgumentNullException();
@@ -401,7 +401,7 @@ namespace PokemonGBAFrameWork
 		/// <param name="rom"></param>
 		/// <param name="offsetZona"></param>
 		/// <param name="offsetToSave"></param>
-		public static void SetOffset(RomPokemon rom, Hex offsetZona, Hex offsetToSave)
+		public static void SetOffset(RomGBA rom, Hex offsetZona, Hex offsetToSave)
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
