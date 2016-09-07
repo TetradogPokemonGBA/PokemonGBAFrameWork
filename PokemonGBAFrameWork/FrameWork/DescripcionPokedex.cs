@@ -111,7 +111,7 @@ namespace PokemonGBAFrameWork
             return OffsetInicio + (esEsmeralda ? (int)LongitudCampos.TotalEsmeralda : (int)LongitudCampos.TotalGeneral);
         }
 
-        internal static bool ValidarZona(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        internal static bool ValidarZona(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.English;//esta pensado para las ediciones USA y ESP las demas no...de momento
             bool valido;
@@ -124,7 +124,7 @@ namespace PokemonGBAFrameWork
                 valido = compilacion == CompilacionRom.Compilacion.Primera;
             return valido;
         }
-        internal static bool ValidarOffset(RomPokemon rom, Edicion edicion, Hex offsetInicioDescripcion)
+        internal static bool ValidarOffset(RomGBA rom, Edicion edicion, Hex offsetInicioDescripcion)
         {
             Hex offsetByteValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1;
             byte byteValidador = rom.Datos[offsetByteValidador];
@@ -138,7 +138,7 @@ namespace PokemonGBAFrameWork
             return valido;
 
         }
-        internal static bool ValidarIndicePokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        internal static bool ValidarIndicePokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
             return ValidarOffset(rom, edicion, Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion));
         }
@@ -158,7 +158,7 @@ namespace PokemonGBAFrameWork
         /// <param name="ordenGameFreak"></param>
         /// <param name="descripcion">actualiza las descripciones en las nuevas posiciones</param>
         /// <param name="borrarPaginasAnteriores">Se usa la direccion de los bloqueString para encontrar los bytes de la anterior pagina</param>
-        public static void SetDescripcionPokedex(RomPokemon rom, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
+        public static void SetDescripcionPokedex(RomGBA rom, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
         { SetDescripcionPokedex(rom, Edicion.GetEdicion(rom), ordenGameFreak, descripcion, borrarPaginasAnteriores); }
         /// <summary>
         /// 
@@ -168,7 +168,7 @@ namespace PokemonGBAFrameWork
         /// <param name="ordenGameFreak"></param>
         /// <param name="descripcion">actualiza las descripciones en las nuevas posiciones</param>
         /// <param name="borrarPaginasAnteriores">Se usa la direccion de los bloqueString para encontrar los bytes de la anterior pagina</param>
-        public static void SetDescripcionPokedex(RomPokemon rom, Edicion edicion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
+        public static void SetDescripcionPokedex(RomGBA rom, Edicion edicion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
         { SetDescripcionPokedex(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak, descripcion, borrarPaginasAnteriores); }
         /// <summary>
         /// 
@@ -178,7 +178,7 @@ namespace PokemonGBAFrameWork
         /// <param name="ordenGameFreak"></param>
         /// <param name="descripcion">actualiza las descripciones en las nuevas posiciones</param>
         /// <param name="borrarPaginasAnteriores">Se usa la direccion de los bloqueString para encontrar los bytes de la anterior pagina</param>
-        public static void SetDescripcionPokedex(RomPokemon rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
+        public static void SetDescripcionPokedex(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
         { SetDescripcionPokedex(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak, descripcion, borrarPaginasAnteriores); }
         /// <summary>
         /// 
@@ -189,7 +189,7 @@ namespace PokemonGBAFrameWork
         /// <param name="ordenGameFreak"></param>
         /// <param name="descripcion">actualiza las descripciones en las nuevas posiciones</param>
         /// <param name="borrarPaginasAnteriores">Se usa la direccion de los bloqueString para encontrar los bytes de la anterior pagina</param>
-        public static void SetDescripcionPokedex(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
+        public static void SetDescripcionPokedex(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, DescripcionPokedex descripcion, bool borrarPaginasAnteriores = true)
         {
             const byte MarcaFinMensaje = 0xFF;
             DescripcionPokedexRubiZafiro descripcionRZ;
@@ -238,13 +238,13 @@ namespace PokemonGBAFrameWork
             //falta poner el resto de datos...
       
         }
-        public static DescripcionPokedex GetDescripcionPokedex(RomPokemon rom, Hex ordenGameFreak)
+        public static DescripcionPokedex GetDescripcionPokedex(RomGBA rom, Hex ordenGameFreak)
         { return GetDescripcionPokedex(rom, Edicion.GetEdicion(rom), ordenGameFreak); }
-        public static DescripcionPokedex GetDescripcionPokedex(RomPokemon rom, Edicion edicion, Hex ordenGameFreak)
+        public static DescripcionPokedex GetDescripcionPokedex(RomGBA rom, Edicion edicion, Hex ordenGameFreak)
         { return GetDescripcionPokedex(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak); }
-        public static DescripcionPokedex GetDescripcionPokedex(RomPokemon rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        public static DescripcionPokedex GetDescripcionPokedex(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         { return GetDescripcionPokedex(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak); }
-        public static DescripcionPokedex GetDescripcionPokedex(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        public static DescripcionPokedex GetDescripcionPokedex(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
             if (rom == null || edicion == null || ordenGameFreak < 0) throw new ArgumentException();
             BloqueBytes bytesDescripcion;
@@ -277,7 +277,7 @@ namespace PokemonGBAFrameWork
             return descripcionPokedex;
         }
 
-        public static int TotalEntradas(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static int TotalEntradas(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             int total=0;
             while (DescripcionPokedex.ValidarIndicePokemon(rom, edicion, compilacion, total))//en un futuro optimizarlo un poco mas
@@ -300,7 +300,7 @@ namespace PokemonGBAFrameWork
         /// <param name="edicion"></param>
         /// <param name="compilacion"></param>
         /// <param name="pokemon"></param>
-        public static void CreateDescripcionPokedex(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+        public static void CreateDescripcionPokedex(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
         {
             DescripcionPokedex descripcion;
             if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)

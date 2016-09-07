@@ -114,7 +114,7 @@ namespace PokemonGBAFrameWork
             this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, imagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
 
         }
-        public Sprite(RomPokemon rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
+        public Sprite(RomGBA rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
         {
             byte[] imgBytes;
             this.paletaNormal = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaNormal);
@@ -239,7 +239,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public void SetSprite(RomPokemon rom)
+        public void SetSprite(RomGBA rom)
         {
             SetSprite(rom, this);
         }
@@ -258,7 +258,7 @@ namespace PokemonGBAFrameWork
                 throw new ArgumentException("paleta incorrecta");
             return imagenTrasera.GetBitmap(colors);
         }
-        public static void SetSprite(RomPokemon rom, Sprite sprite)
+        public static void SetSprite(RomGBA rom, Sprite sprite)
         {
             if (rom == null || sprite == null)
                 throw new ArgumentNullException();
@@ -294,11 +294,11 @@ namespace PokemonGBAFrameWork
             }
 
         }
-        public static Sprite GetSprite(RomPokemon rom, Hex posicion)
+        public static Sprite GetSprite(RomGBA rom, Hex posicion)
         {
             return GetSprite(rom, Edicion.GetEdicion(rom), posicion);
         }
-        public static Sprite GetSprite(RomPokemon rom, CompilacionRom.Compilacion compilacion, Hex posicion)
+        public static Sprite GetSprite(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             return GetSprite(rom, Edicion.GetEdicion(rom), compilacion, posicion);
         }
@@ -315,11 +315,11 @@ namespace PokemonGBAFrameWork
             return bmpAnimated;
         }
 
-        public static Sprite GetSprite(RomPokemon rom, Edicion edicion, Hex posicion)
+        public static Sprite GetSprite(RomGBA rom, Edicion edicion, Hex posicion)
         {
             return GetSprite(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), posicion);
         }
-        public static Sprite GetSprite(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
+        public static Sprite GetSprite(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             Sprite sprite;
             Hex offsetSpriteFrontal =BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
@@ -358,7 +358,7 @@ namespace PokemonGBAFrameWork
             this.imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, imagenFrontal2, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
 
         }
-        public SpriteEsmeralda(RomPokemon rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
+        public SpriteEsmeralda(RomGBA rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
             : base(rom, offsetImagenFrontal, offsetImagenTrasera, offsetPaletaNormal, offsetPaletaShiny)
         {
             //tener en cuenta a la hora de poner las imagenes frontales que van seguidas y como una sola imagen

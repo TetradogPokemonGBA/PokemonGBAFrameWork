@@ -59,25 +59,25 @@ namespace PokemonGBAFrameWork
         {
             return Nombre;
         }
-        public static Tipo GetTipo(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
+        public static Tipo GetTipo(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             if (rom == null || edicion == null ||  posicion < 0) throw new ArgumentException();
             BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreTipo, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre);
             return new Tipo(blNombre);
         }
-        public static Hex GetTotal(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Hex GetTotal(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             //de momento no se...mas adelante
             return 18;
         }
-        public static Tipo[] GetTipos(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Tipo[] GetTipos(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             Tipo[] tipos = new Tipo[GetTotal(rom, edicion, compilacion)];
             for (int i = 0; i < tipos.Length;i++)
                 tipos[i] = GetTipo(rom, edicion, compilacion, i);
             return tipos;
         }
-        public static void SetTipo(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Tipo tipo, Hex posicion)
+        public static void SetTipo(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Tipo tipo, Hex posicion)
         {
             if (rom == null || edicion == null || tipo == null || tipo.Nombre.Texto.Length > (int)LongitudCampo.Nombre || posicion < 0) throw new ArgumentException();
             Hex offset = Zona.GetOffset(rom, Variables.NombreTipo, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre;
@@ -86,7 +86,7 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetTipos(RomPokemon rom, IEnumerable<Tipo> tipos)
+        public static void SetTipos(RomGBA rom, IEnumerable<Tipo> tipos)
         {
             if (rom == null || tipos == null) throw new ArgumentNullException();
             Tipo[] tiposArray = tipos.ToArray();

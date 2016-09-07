@@ -115,13 +115,13 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public static RomData GetRomData(RomPokemon rom)
+        public static RomData GetRomData(RomGBA rom)
         {
             Edicion edicion = Edicion.GetEdicion(rom);
             CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
             return new RomData(Habilidad.GetHabilidades(rom, edicion, compilacion), Tipo.GetTipos(rom, edicion, compilacion), Objeto.GetObjetos(rom, edicion, compilacion), Pokemon.GetPokemons(rom, edicion, compilacion), edicion, compilacion);
         }
-        public static void SetRomData(RomPokemon rom, RomData romData)
+        public static void SetRomData(RomGBA rom, RomData romData)
         {
             Habilidad.SetHabilidades(rom, romData.Habilidades);
             Tipo.SetTipos(rom, romData.Tipos);

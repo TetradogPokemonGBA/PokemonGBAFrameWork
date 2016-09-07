@@ -752,35 +752,35 @@ namespace PokemonGBAFrameWork
             return Nombre;
         }
         //aun falta acabar pero de momento pongo lo que tengo
-        public static void SetPokemon(RomPokemon rom, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, Pokemon pokemon)
         {
             SetPokemon(rom, pokemon, Objeto.TotalObjetos(rom));
         }
-        public static void SetPokemon(RomPokemon rom, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, Pokemon pokemon, Hex totalObjetos)
         {
             SetPokemon(rom, Edicion.GetEdicion(rom), pokemon, totalObjetos);
         }
-        public static void SetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
         {
             SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, Objeto.TotalObjetos(rom));
         }
-        public static void SetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos)
         {
             SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, totalObjetos);
         }
-        public static void SetPokemon(RomPokemon rom, Edicion edicion, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, Pokemon pokemon)
         {
             SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, Objeto.TotalObjetos(rom));
         }
-        public static void SetPokemon(RomPokemon rom, Edicion edicion, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, Pokemon pokemon, Hex totalObjetos)
         {
             SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, totalObjetos);
         }
-        public static void SetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
         {
             SetPokemon(rom, edicion, compilacion, pokemon, Objeto.TotalObjetos(rom));
         }
-        public static void SetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos)
         {
             pokemon.SetObjetosEnLosStats(totalObjetos);
             Sprite.SetSprite(rom, pokemon.Sprites);
@@ -796,7 +796,7 @@ namespace PokemonGBAFrameWork
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, pokemon.OrdenPokedexNacional);
 
         }
-        public static void SetPokedex(RomPokemon rom, IEnumerable<Pokemon> pokedex)
+        public static void SetPokedex(RomGBA rom, IEnumerable<Pokemon> pokedex)
         {
             if (rom == null || pokedex == null) throw new ArgumentNullException();
             OrdenPokemon orden =Pokemon.Orden;
@@ -852,53 +852,53 @@ namespace PokemonGBAFrameWork
                 SetPokemon(rom, edicion, compilacion, pokemons[i]);
             }
         }
-        public static int TotalPokemon(RomPokemon rom)
+        public static int TotalPokemon(RomGBA rom)
         {
             return TotalPokemon(rom, Edicion.GetEdicion(rom));
         }
-        private static int TotalPokemon(RomPokemon rom, Edicion edicion)
+        private static int TotalPokemon(RomGBA rom, Edicion edicion)
         {
             return TotalPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
-        private static int TotalPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion)
+        private static int TotalPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion)
         {
             return TotalPokemon(rom, Edicion.GetEdicion(rom), compilacion);
         }
-        public static int TotalPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static int TotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             int total = DescripcionPokedex.TotalEntradas(rom, edicion, compilacion);
             total += 25;//poner metodo para detectar los NOPOKEMON ??
             return total;//no cuenta con los ?? 387 tengo que contarlos de alguna forma...
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, Hex ordenGameFreak)
         {
             return GetPokemon(rom, Edicion.GetEdicion(rom), ordenGameFreak);
         }
-        public static Pokemon GetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
             return GetPokemon(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak);
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, Hex ordenGameFreak)
         {
             return GetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak);
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
             return GetPokemon(rom, Edicion.GetEdicion(rom), ordenGameFreak, totalEntradasPokedex);
         }
-        public static Pokemon GetPokemon(RomPokemon rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
             return GetPokemon(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak, totalEntradasPokedex);
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
             return GetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak, totalEntradasPokedex);
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
             return GetPokemon(rom, edicion, compilacion, ordenGameFreak, DescripcionPokedex.TotalEntradas(rom, edicion, compilacion));
         }
-        public static Pokemon GetPokemon(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
 
             Pokemon pokemon = new Pokemon();
@@ -917,19 +917,19 @@ namespace PokemonGBAFrameWork
 
             return pokemon;
         }
-        public static Pokemon[] GetPokemons(RomPokemon rom)
+        public static Pokemon[] GetPokemons(RomGBA rom)
         {
             return GetPokemons(rom, Edicion.GetEdicion(rom));
         }
-        public static Pokemon[] GetPokemons(RomPokemon rom, CompilacionRom.Compilacion compilacion)
+        public static Pokemon[] GetPokemons(RomGBA rom, CompilacionRom.Compilacion compilacion)
         {
             return GetPokemons(rom, Edicion.GetEdicion(rom), compilacion);
         }
-        public static Pokemon[] GetPokemons(RomPokemon rom, Edicion edicion)
+        public static Pokemon[] GetPokemons(RomGBA rom, Edicion edicion)
         {
             return GetPokemons(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
-        public static Pokemon[] GetPokemons(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Pokemon[] GetPokemons(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             Pokemon[] pokemons = new Pokemon[TotalPokemon(rom, edicion, compilacion)];
             Hex total = DescripcionPokedex.TotalEntradas(rom, edicion, compilacion);

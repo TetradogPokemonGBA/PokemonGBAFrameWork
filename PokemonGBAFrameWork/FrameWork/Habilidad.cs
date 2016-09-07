@@ -54,18 +54,18 @@ namespace PokemonGBAFrameWork
         {
             return Nombre;
         }
-        public static Habilidad GetHabilidad(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
+        public static Habilidad GetHabilidad(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             if (rom == null || edicion == null || posicion < 0) throw new ArgumentException();
             BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre);
             return new Habilidad(blNombre);
         }
-        public static Hex GetTotal(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Hex GetTotal(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             //de momento no se...mas adelante
             return 78;
         }
-        public static Habilidad[] GetHabilidades(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Habilidad[] GetHabilidades(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             if (rom == null || edicion == null ) throw new ArgumentException();
             Habilidad[] habilidades = new Habilidad[GetTotal(rom, edicion, compilacion)];
@@ -73,7 +73,7 @@ namespace PokemonGBAFrameWork
                 habilidades[i] = GetHabilidad(rom, edicion, compilacion, i);
             return habilidades;
         }
-        public static void SetHabilidad(RomPokemon rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Habilidad habilidad, Hex posicion)
+        public static void SetHabilidad(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Habilidad habilidad, Hex posicion)
         {
             if (rom == null || edicion == null || habilidad == null || habilidad.Nombre.Texto.Length > (int)LongitudCampo.Nombre || posicion < 0) throw new ArgumentException();
             Hex offset = Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre;
@@ -81,7 +81,7 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetHabilidades(RomPokemon rom, IEnumerable<Habilidad> habilidades)
+        public static void SetHabilidades(RomGBA rom, IEnumerable<Habilidad> habilidades)
         {
             if (rom == null || habilidades == null) throw new ArgumentNullException();
             Habilidad[] habilidadesArray = habilidades.ToArray();

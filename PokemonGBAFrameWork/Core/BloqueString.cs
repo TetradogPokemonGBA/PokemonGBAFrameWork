@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class BloqueString
 	{
-		enum CaracteresEspeciales
+        enum CaracteresEspeciales
         {
             Lv,//[Lv]
             pk,//'[pk]'
@@ -50,8 +50,8 @@ namespace PokemonGBAFrameWork
             EspN,//'\\n'
             Vacio,//''
         }
-		
-	 	public const int MAXIMODECARACTERESDESHABILITADO=0;
+
+        public const int MAXIMODECARACTERESDESHABILITADO=0;
         static readonly string MARCAFIN = ((char)255) + "";
 		int maxCaracteres;
 		Hex offsetInicio;

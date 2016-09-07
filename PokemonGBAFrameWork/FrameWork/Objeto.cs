@@ -139,12 +139,12 @@ namespace PokemonGBAFrameWork
         {
             return Nombre;
         }
-        public static int TotalObjetos(RomPokemon rom)
+        public static int TotalObjetos(RomGBA rom)
 		{
             Edicion edicion = Edicion.GetEdicion(rom);
             return TotalObjetos(rom, edicion,CompilacionRom.GetCompilacion(rom,edicion));
 		}
-		public static int TotalObjetos(RomPokemon rom, Edicion edicion,CompilacionRom.Compilacion compilacion)
+		public static int TotalObjetos(RomGBA rom, Edicion edicion,CompilacionRom.Compilacion compilacion)
 		{
             Hex POSICIONDESCRIPCION = (int)LongitudCampos.NombreCompilado +(int)LongitudCampos.ByteDesconocido +(int)LongitudCampos.Posicion +(int)LongitudCampos.BytesDesconocidosAntesDescripcion;
             const byte MARCAFINNOMBRE = 0xFF,EMPTYBYTENAME=0x0;
@@ -185,7 +185,7 @@ namespace PokemonGBAFrameWork
             return totalItems;
 		}
 		//de momento solo se cargar el nombre
-		public static Objeto GetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex index)
+		public static Objeto GetObjeto(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex index)
         {
             Hex offsetObjeto=Zona.GetOffset(rom,Variables.DatosObjeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
             Hex offsetByteDesconocido = offsetObjeto + (int)LongitudCampos.NombreCompilado;
@@ -215,7 +215,7 @@ namespace PokemonGBAFrameWork
 
             return new Objeto(bloqueNombre,rom.Datos[offsetByteDesconocido], posicion,bytesDesconocidosAntes,bloqueDescripcion,bytesDesconocidosDespues,bloqueImg);
 		}
-		public static void SetObjeto(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto, Hex index)
+		public static void SetObjeto(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Objeto objeto, Hex index)
 		{
 
             Hex offsetObjeto = Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion) + index * (int)LongitudCampos.Total;
@@ -242,7 +242,7 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetObjetos(RomPokemon rom, IEnumerable<Objeto> objetos)
+        public static void SetObjetos(RomGBA rom, IEnumerable<Objeto> objetos)
         {
             if (rom == null || objetos == null) throw new ArgumentNullException();
      
@@ -259,19 +259,19 @@ namespace PokemonGBAFrameWork
                 SetObjeto(rom, edicion, compilacion, objetosArray[i], i);
         }
 
-        public static Objeto[] GetObjetos(RomPokemon rom)
+        public static Objeto[] GetObjetos(RomGBA rom)
         {
             return GetObjetos(rom, Edicion.GetEdicion(rom));
         }
-        public static Objeto[] GetObjetos(RomPokemon rom, Edicion edicion)
+        public static Objeto[] GetObjetos(RomGBA rom, Edicion edicion)
         {
             return GetObjetos(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
-        public static Objeto[] GetObjetos(RomPokemon rom, CompilacionRom.Compilacion compilacion)
+        public static Objeto[] GetObjetos(RomGBA rom, CompilacionRom.Compilacion compilacion)
         {
             return GetObjetos(rom, Edicion.GetEdicion(rom), compilacion);
         }
-        public static Objeto[] GetObjetos(RomPokemon rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        public static Objeto[] GetObjetos(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
         {
             Objeto[] objetos = new Objeto[TotalObjetos(rom, edicion,compilacion)];
             for (int i = 0; i < objetos.Length; i++)
