@@ -78,13 +78,14 @@ namespace PokemonGBAFrameWork
         {
             //los bytes estan permutados
             int posicion = offsetInicio;
+            byte byteComprobador = bytes[posicion + 3];
             Hex offset;
-            if (bytes[posicion + 3] == 8 || bytes[posicion + 3] == 9)
+            if (byteComprobador == 8 || byteComprobador == 9)
                 offset = ((Hex)(new byte[] {
                 bytes[posicion+2],
                 bytes[posicion+1],
                 bytes[posicion]
-            })) + (bytes[posicion + 3] == 9 ? (int)Longitud.DieciseisMegas : 0);
+            })) + (byteComprobador== 9 ? (int)Longitud.DieciseisMegas : 0);
             else offset = -1;
             return offset;
         }
@@ -266,57 +267,125 @@ namespace PokemonGBAFrameWork
         #endregion
 
         #endregion
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, Enum variableZona)
         {
             return GetOffset(rom, variableZona.ToString());
         }
-
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona)
 		{
 			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom));
 		}
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <param name="compilacion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, Enum variableZona, CompilacionRom.Compilacion compilacion)
         {
             return GetOffset(rom, variableZona.ToString(),compilacion);
         }
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <param name="compilacion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona, CompilacionRom.Compilacion compilacion)
 		{
 			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion);
 		}
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <param name="edicion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, Enum variableZona, Edicion edicion)
         {
             return GetOffset(rom, variableZona.ToString(), edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <param name="edicion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona, Edicion edicion)
 		{
 			return GetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion));
 		}
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="variableZona"></param>
+        /// <param name="edicion"></param>
+        /// <param name="compilacion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             return GetOffset(rom, variableZona.ToString(), edicion, compilacion);
         }
         /// <summary>
-        /// 
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>
         /// <param name="rom"></param>
         /// <param name="edicion"></param>
         /// <param name="compilacion"></param>
         /// <param name="variableZona">Usa el diccionario para obtener la zona </param>
-        /// <returns></returns>
+        /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
 			if (string.IsNullOrEmpty(variableZona))
 				throw new ArgumentNullException();
 			return GetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion);
 		}
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="zona"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
 		public static Hex GetOffset(RomGBA rom, Zona zona)
 		{
 			return GetOffset(rom, zona, Edicion.GetEdicion(rom));
 		}
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="zona"></param>
+        /// <param name="edicion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
 		public static Hex GetOffset(RomGBA rom, Zona zona, Edicion edicion)
 		{
-			return GetOffset(rom, zona[edicion, CompilacionRom.GetCompilacion(rom, edicion)]);
+            return GetOffset(rom, zona[edicion, CompilacionRom.GetCompilacion(rom, edicion)]);
 		}
+        /// <summary>
+        /// Obtiene el Offset leido de la ROM escrito como POINTER
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="zona"></param>
+        /// <param name="edicion"></param>
+        /// <param name="compilacion"></param>
+        /// <returns>Si no es valido devuelve -1</returns>
 		public static Hex GetOffset(RomGBA rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion)
 		{
 			if (rom == null || zona == null || edicion == null)
