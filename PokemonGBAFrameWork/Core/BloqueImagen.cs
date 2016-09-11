@@ -21,6 +21,7 @@ namespace PokemonGBAFrameWork
     {
         public class Paleta
         {
+            public const int TAMAÑOPALETACOMPRIMIDA = 32;
             public static Color BackgroundColorDefault = Color.White;
             public const int TAMAÑOPALETA = 16;
             Hex offsetInicio;
@@ -62,7 +63,8 @@ namespace PokemonGBAFrameWork
                     offsetInicio = value;
                 }
             }
-
+            public Hex OffsetFin
+            { get { return OffsetInicio + TAMAÑOPALETACOMPRIMIDA; } }
 
 
             public Color[] ColoresPaleta
@@ -676,29 +678,11 @@ namespace PokemonGBAFrameWork
         }
         #region por entender
         /*falta entender que hace y ponerlos en su sitio!!!*/
-        internal static Hex GetOffsetImg(RomGBA rom, Hex offset, Hex posicion)
+        public static Hex GetOffsetImg(RomGBA rom, Hex offset, Hex posicion)
         {
-            return ParseWord(Convert.ToInt32((posicion << 3)) + offset, rom) - 0x08000000;//puede que el -0x80...sea para quitarle el ultimo byte que es 0x8...pero tambien podria ser 0x9???
+            return Offset.GetOffset(rom,(posicion << 3) + offset);
         }
-        static Hex ParseWord(int baseLocation, RomGBA rom)
-        {
-            if (baseLocation < 0)
-                throw new ArgumentException();
-            return ParseLoop(4, baseLocation, rom);
-        }
-
-
-        static uint ParseLoop(int length, int baseLocation, RomGBA rom)
-        {
-            if (length < 0 || rom.Datos.Length < length + baseLocation)
-                throw new ArgumentException();
-            uint newValue = 0;
-            for (int i = 0; i < length; i++)
-            {
-                newValue += (uint)(rom.Datos[baseLocation + i] << (i * 8));
-            }
-            return newValue;
-        }
+      
 
         #endregion
         //codigo sacado de internet creditos:Jambo
