@@ -328,7 +328,7 @@ namespace PokemonGBAFrameWork
             Hex offsetPaletaShiny = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
             try
             {
-                if (edicion.Abreviacion == Edicion.ABREVIACIONESMERALDA)
+                if (edicion.AbreviacionRom == Edicion.ABREVIACIONESMERALDA)
                 {
                     //leer sprite esmeralda
                     sprite = new SpriteEsmeralda(rom, offsetSpriteFrontal, offsetSpriteTrasero, offsetPaletaNormal, offsetPaletaShiny);

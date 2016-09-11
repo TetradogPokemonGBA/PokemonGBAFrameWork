@@ -68,12 +68,16 @@ namespace PokemonGBAFrameWork
 		string nombreCompleto;
 		string abreviacion;
 		char inicialIdioma;
-
-		public Edicion(string nombreCompleto, string abreviacion, char inicialIdioma)
+        string abreviacionOffetsRom;
+        Idioma idiomaOffsetsRom;
+        string abreviacionMasIdiomaOffsetRom;
+        public Edicion(string nombreCompleto, string abreviacion, char inicialIdioma)
 		{
 			NombreCompleto = nombreCompleto;
 			Abreviacion = abreviacion;
 			InicialIdioma = inicialIdioma;
+            abreviacionOffetsRom = "";
+            idiomaOffsetsRom = Idioma.Other;
 		}
 		
 
@@ -87,9 +91,7 @@ namespace PokemonGBAFrameWork
 				nombreCompleto = value;
 			}
 		}
-		/// <summary>
-		/// Se usará para obtener los offsets rápidamente
-		/// </summary>
+		
 		public string Abreviacion {
 			get {
 				return abreviacion;
@@ -101,6 +103,17 @@ namespace PokemonGBAFrameWork
 				abreviacion = value;
 			}
 		}
+        /// <summary>
+		/// Se usará para obtener los offsets rápidamente
+		/// </summary>
+        public string AbreviacionRom
+        {
+            get { return abreviacionOffetsRom; }
+            private set {
+                abreviacionOffetsRom = value;
+                abreviacionMasIdiomaOffsetRom = AbreviacionRom + idiomaOffsetsRom.ToString()[0];
+            }
+        }
 		/// <summary>
 		/// Se usará para obtener los offsets rápidamente
 		/// </summary>
@@ -128,9 +141,30 @@ namespace PokemonGBAFrameWork
 				}
 				return idioma;
 			}
+            set
+            {
+                if (value < Idioma.Spanish || value > Idioma.Other) throw new ArgumentOutOfRangeException();
+                InicialIdioma = value.ToString()[0];
+            }
 		}
-		#region IComparable implementation
-		public int CompareTo(object obj)
+        /// <summary>
+		/// Se usará para obtener los offsets rápidamente
+		/// </summary>
+        public Idioma IdiomaOffsets
+        {
+            get
+            {
+                return idiomaOffsetsRom;
+            }
+
+          private  set
+            {
+                idiomaOffsetsRom = value;
+                abreviacionMasIdiomaOffsetRom = AbreviacionRom + idiomaOffsetsRom.ToString()[0];
+            }
+        }
+        #region IComparable implementation
+        public int CompareTo(object obj)
 		{
 			return CompareTo(obj as Edicion);
 		}
@@ -141,7 +175,7 @@ namespace PokemonGBAFrameWork
 		{
 			int compareTo;
 			if (other != null)
-				compareTo = string.Compare((Abreviacion + InicialIdioma), (other.Abreviacion + other.InicialIdioma), StringComparison.Ordinal);
+				compareTo = string.Compare(abreviacionMasIdiomaOffsetRom, other.abreviacionMasIdiomaOffsetRom, StringComparison.Ordinal);
 			else
 				compareTo = -1;
 			return compareTo;
@@ -150,7 +184,7 @@ namespace PokemonGBAFrameWork
 		#endregion
 		public static Edicion GetEdicionCanon(EdicionesPokemon edicion, Idioma idioma)
 		{
-			char inicialIdioma = char.ToLower(idioma.ToString()[0]);
+			char inicialIdioma = char.ToUpper(idioma.ToString()[0]);
 			Edicion edicionCanon = null;
 			switch (edicion) {
 				case EdicionesPokemon.RojoFuego:
@@ -192,7 +226,7 @@ namespace PokemonGBAFrameWork
 			if (rom == null)
 				throw new ArgumentNullException();
 			Edicion edicion = new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
-			Edicion aux = edicion;
+			Edicion aux;
 			//ahora detecto si tiene bien el formato mirando la compilacion
 			
 			bool valida;
@@ -201,6 +235,9 @@ namespace PokemonGBAFrameWork
 			try {
 				CompilacionRom.GetCompilacion(rom, edicion);//en un futuro si origina una excepcion es que tiene que ver con el formato, de momento es que no se corresponde con la edicion que tiene el formato.
 				valida = true;
+                //como es valida le pongo los datos correctos :)
+                edicion.IdiomaOffsets = edicion.IdiomaRom;
+                edicion.AbreviacionRom = edicion.Abreviacion;
 			} catch {
 				valida = false;
 			}
@@ -208,34 +245,34 @@ namespace PokemonGBAFrameWork
 			if (!valida) {
 				edicionesCanon = ObtenerTodasLasEdicionesCanon();
 				indice = 0;
-				edicion = edicionesCanon[indice++];
+                aux = edicionesCanon[indice++];
 				while (!valida && indice < edicionesCanon.Length) {
 					
 					try {
-						CompilacionRom.GetCompilacion(rom, edicion);//si origina una excepcion es que tiene que ver con el formato
+						CompilacionRom.GetCompilacion(rom, aux);//si origina una excepcion es que tiene que ver con el formato
 						valida = true;
 					} catch {
-						//pongo la siguiente edicion
-						edicion = edicionesCanon[indice++];
+                        //pongo la siguiente edicion
+                        aux = edicionesCanon[indice++];
 					}
 					
 				}
 				if (indice == edicionesCanon.Length)
 					throw new InvalidRomFormat();//si no es ninguna edicion canon es que no tiene el formato correcto
-				if (edicion.Abreviacion != ABREVIACIONRUBI) {
+				if (aux.Abreviacion != ABREVIACIONRUBI) {
 					//como Rubi/Zafiro  no se pueden diferenciar lo hago aqui
 					
 					//puede ser zafiro pero no se detectarla...
 					
 				}
-				edicion.NombreCompleto = aux.NombreCompleto;//como no implica nada para escoger zonas pues lo conservo
+				edicion.AbreviacionRom = aux.AbreviacionRom;
+                edicion.IdiomaOffsets = aux.IdiomaRom;
 			}
 			
 			return edicion;
 		}
-		/*de momento sera simple  se tiene que poder exportar zonas con la edicion que han dicho que es*/
 		/// <summary>
-		/// Permite cambiar la edicion, pero si se cambia la Abreviacion luego si no se carga la informacion para leerla originará en el GetEdicion una RomInvestigacionExcepcion.
+		/// Permite cambiar la Edicion en apariencia porque implica muchos cambios un cambio de edicion completo y no se puede todavia 
 		/// </summary>
 		/// <param name="rom"></param>
 		/// <param name="edicion"></param>

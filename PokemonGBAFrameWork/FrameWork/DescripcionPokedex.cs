@@ -113,7 +113,7 @@ namespace PokemonGBAFrameWork
 
         internal static bool ValidarZona(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            bool tieneMasCompilaciones = edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaRom == Edicion.Idioma.English;//esta pensado para las ediciones USA y ESP las demas no...de momento
+            bool tieneMasCompilaciones = edicion.AbreviacionRom != Edicion.ABREVIACIONESMERALDA && edicion.IdiomaOffsets == Edicion.Idioma.English;//esta pensado para las ediciones USA y ESP las demas no...de momento
             bool valido;
             if (tieneMasCompilaciones)
             {
@@ -133,7 +133,7 @@ namespace PokemonGBAFrameWork
             {
                 byteValidador = rom.Datos[offsetByteValidador];
                 valido = (byteValidador == 0x8 || byteValidador == 0x9);
-                if (valido && (edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO || edicion.Abreviacion == Edicion.ABREVIACIONRUBI))
+                if (valido && (edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO || edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI))
                 {
                     offsetByteValidador += (int)Longitud.Offset;
                     byteValidador = rom.Datos[offsetByteValidador];
@@ -151,7 +151,7 @@ namespace PokemonGBAFrameWork
         private static int DameTotal(Edicion edicion)
         {
             int total;
-            if (edicion.Abreviacion != Edicion.ABREVIACIONESMERALDA)
+            if (edicion.AbreviacionRom != Edicion.ABREVIACIONESMERALDA)
                 total = (int)LongitudCampos.TotalGeneral;
             else total = (int)LongitudCampos.TotalEsmeralda;
             return total;
@@ -218,7 +218,7 @@ namespace PokemonGBAFrameWork
             posicion = BloqueBytes.SearchEmptyBytes(rom, descripcion.Descripcion.Texto.Length + 1);
             BloqueString.SetString(rom, posicion, descripcion.Descripcion.Texto);
             descripcion.Descripcion.OffsetInicio = posicion;
-            if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)
+            if (edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI || edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO)
             {
 
                 descripcionRZ = descripcion as DescripcionPokedexRubiZafiro;
@@ -267,7 +267,7 @@ namespace PokemonGBAFrameWork
             offsetPagina = Offset.GetOffset(bytesDescripcion, (int)LongitudCampos.NombreEspecie + 4);
             
             descripcion = BloqueString.GetString(rom, offsetPagina);
-            if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)
+            if (edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI || edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO)
             {
                 offsetPagina = Offset.GetOffset(bytesDescripcion, (int)LongitudCampos.NombreEspecie + 4 + (int)Longitud.Offset);
                 descripcion2 = BloqueString.GetString(rom,offsetPagina);
@@ -293,7 +293,7 @@ namespace PokemonGBAFrameWork
         public static int GetTotalBytes(Edicion edicion)
         {
             int total;
-            if (edicion.Abreviacion == Edicion.ABREVIACIONESMERALDA)
+            if (edicion.AbreviacionRom == Edicion.ABREVIACIONESMERALDA)
                 total = (int)LongitudCampos.TotalEsmeralda;
             else total = (int)LongitudCampos.TotalGeneral;
             return total;
@@ -308,7 +308,7 @@ namespace PokemonGBAFrameWork
         public static void CreateDescripcionPokedex(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
         {
             DescripcionPokedex descripcion;
-            if (edicion.Abreviacion == Edicion.ABREVIACIONRUBI || edicion.Abreviacion == Edicion.ABREVIACIONZAFIRO)
+            if (edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI || edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO)
                 descripcion = new DescripcionPokedexRubiZafiro(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString(), new BloqueString());
             else
                 descripcion = new DescripcionPokedex(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString());

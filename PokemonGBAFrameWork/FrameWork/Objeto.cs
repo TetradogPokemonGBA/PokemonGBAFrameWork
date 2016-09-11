@@ -197,7 +197,7 @@ namespace PokemonGBAFrameWork
             ushort posicion = Serializar.ToUShort(BloqueBytes.GetBytes(rom, offsetPosicion, 2).Bytes);
             BloqueImagen bloqueImg=null;
             byte[] bytesDesconocidosAntes=BloqueBytes.GetBytes(rom,offsetDescripcion- (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes, bytesDesconocidosDespues= BloqueBytes.GetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes;
-            if (edicion.Abreviacion != Edicion.ABREVIACIONRUBI && edicion.Abreviacion != Edicion.ABREVIACIONZAFIRO) {
+            if (edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO) {
                 pointersImg = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion);
                 pointersImg += (index * (int)Longitud.Offset * 2);
                 //ahora hay pointers y tengo que obtener los offsets
@@ -231,7 +231,7 @@ namespace PokemonGBAFrameWork
             rom.Datos[offsetByteDesconocido] = objeto.byteNoInterpretado;
             BloqueBytes.SetBytes(rom, offsetDescripcion - (int)LongitudCampos.BytesDesconocidosAntesDescripcion, objeto.bytesNoInterpretadosAntesDescripcion);
             BloqueBytes.SetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion,objeto.bytesNoInterpretadosDespuesDescripcion);
-            if (objeto.imagenObjeto != null && edicion.Abreviacion != Edicion.ABREVIACIONRUBI && edicion.Abreviacion != Edicion.ABREVIACIONZAFIRO)
+            if (objeto.imagenObjeto != null && edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO)
             {
                 //pongo la imagen y la paleta :D
                 BloqueImagen.SetBloqueImagen(rom, offsetImg, objeto.imagenObjeto.DatosImagenDescomprimida, new BloqueImagen.Paleta(offsetImg + (int)Longitud.Offset, objeto.imagenObjeto.GetPaleta(0)));
