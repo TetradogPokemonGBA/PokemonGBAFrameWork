@@ -78,6 +78,7 @@ namespace PokemonGBAFrameWork
 			InicialIdioma = inicialIdioma;
             abreviacionOffetsRom = "";
             idiomaOffsetsRom = Idioma.Other;
+            abreviacionMasIdiomaOffsetRom = MiRandom.Next() + "";//los que no se saquen de una rom que puedan ponerse en listas ordenadas :D
 		}
 		
 
