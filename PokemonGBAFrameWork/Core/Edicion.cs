@@ -206,6 +206,8 @@ namespace PokemonGBAFrameWork
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+            edicionCanon.AbreviacionRom = edicionCanon.Abreviacion;
+            edicionCanon.IdiomaOffsets = edicionCanon.IdiomaRom;
 			return edicionCanon;
 			
 		}
