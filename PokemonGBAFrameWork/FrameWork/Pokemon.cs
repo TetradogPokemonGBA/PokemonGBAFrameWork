@@ -830,7 +830,7 @@ namespace PokemonGBAFrameWork
                 Zona.SetOffset(rom, DescripcionPokedex.Variables.Descripcion, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)DescripcionPokedex.GetTotalBytes(Edicion.GetEdicion(rom))));
                 totalBytesImgs = 0;
                 for (int i = 0; i < pokemons.Length; i++)
-                    totalBytesImgs += pokemons[i].Sprites.ImagenTrasera.TotalDatosComprimidos;
+                    totalBytesImgs += pokemons[i].Sprites.ImagenTrasera.TamañoImgComprimida;
                 Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
             }
             //imagenesFrontales
@@ -840,10 +840,10 @@ namespace PokemonGBAFrameWork
             totalBytesImgs = 0;
             //cambiar offsets para que quepan todos los datos :)
             for (int i = 0; i < pokemons.Length; i++)
-                totalBytesImgs += pokemons[i].Sprites.ImagenFrontal.TotalDatosComprimidos;
+                totalBytesImgs += pokemons[i].Sprites.ImagenFrontal.TamañoImgComprimida;
             if (edicion.AbreviacionRom == Edicion.ABREVIACIONESMERALDA)
                 for (int i = 0; i < pokemons.Length; i++)
-                    totalBytesImgs += ((SpriteEsmeralda)pokemons[i].Sprites).imagenFrontal2.TotalDatosComprimidos;
+                    totalBytesImgs += ((SpriteEsmeralda)pokemons[i].Sprites).imagenFrontal2.TamañoImgComprimida;
             Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
             //ahora toca poner los datos
             for (int i = 0; i < pokemons.Length; i++)

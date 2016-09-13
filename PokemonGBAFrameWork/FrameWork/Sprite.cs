@@ -25,8 +25,8 @@ namespace PokemonGBAFrameWork
         protected static readonly Color[] paletaAnimacion1;
         protected static readonly Color[] paletaAnimacion2;
         protected int NORMAL = 0, SHINY = 1;
-        BloqueImagen.Paleta paletaNormal;
-        BloqueImagen.Paleta paletaShiny;
+        Paleta paletaNormal;
+        Paleta paletaShiny;
         BloqueImagen imagenFrontal;
         BloqueImagen imagenTrasera;
         static Sprite()
@@ -95,9 +95,9 @@ namespace PokemonGBAFrameWork
             });
             //parte animacion
 
-            paletaAnimacion1 = new Color[BloqueImagen.Paleta.TAMAÑOPALETA];
-            paletaAnimacion2 = new Color[BloqueImagen.Paleta.TAMAÑOPALETA];
-            for (int i = 1; i < BloqueImagen.Paleta.TAMAÑOPALETA; i++)
+            paletaAnimacion1 = new Color[Paleta.TAMAÑOPALETA];
+            paletaAnimacion2 = new Color[Paleta.TAMAÑOPALETA];
+            for (int i = 1; i < Paleta.TAMAÑOPALETA; i++)
             {
                 paletaAnimacion1[i] = Color.White;
                 paletaAnimacion2[i] = Color.Black;
@@ -106,26 +106,26 @@ namespace PokemonGBAFrameWork
             paletaAnimacion2[0] = Color.White;
         }
         //no se usan los bloques de imagen para que las paletas esten controladas y sean estas
-        public Sprite(BloqueImagen.Paleta paletaNormal, BloqueImagen.Paleta paletaShiny, Hex offsetImagenFrontal, Bitmap imagenFrontal, Hex offsetImagenTrasera, Bitmap imagenTrasera)
+        public Sprite(Paleta paletaNormal,Paleta paletaShiny, Hex offsetImagenFrontal, Bitmap imagenFrontal, Hex offsetImagenTrasera, Bitmap imagenTrasera)
         {
             this.paletaNormal = paletaNormal;
             this.paletaShiny = paletaShiny;
-            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imagenFrontal, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
-            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, imagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
+            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imagenFrontal,  paletaNormal, paletaShiny);
+            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, imagenTrasera,  paletaNormal, paletaShiny);
 
         }
         public Sprite(RomGBA rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
         {
             byte[] imgBytes;
-            this.paletaNormal = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaNormal);
-            this.paletaShiny = BloqueImagen.Paleta.GetPaleta(rom, offsetPaletaShiny);
-            imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64 ,paletaNormal).DatosImagenDescomprimida;
+            this.paletaNormal = Paleta.GetPaleta(rom, offsetPaletaNormal);
+            this.paletaShiny = Paleta.GetPaleta(rom, offsetPaletaShiny);
+            imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64 ,paletaNormal).DatosDescomprimidos;
             this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0,TAMAÑOIMAGEN) : imgBytes, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
 
-            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal).DatosImagenDescomprimida, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
+            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal).DatosDescomprimidos, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
         }
 
-        public BloqueImagen.Paleta PaletaNormal
+        public Paleta PaletaNormal
         {
             get
             {
@@ -136,11 +136,11 @@ namespace PokemonGBAFrameWork
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                BloqueImagen.Paleta.ReemplazaColores(paletaNormal, value);
+                Paleta.ReemplazaColores(paletaNormal, value);
             }
         }
 
-        public BloqueImagen.Paleta PaletaShiny
+        public Paleta PaletaShiny
         {
             get
             {
@@ -151,7 +151,7 @@ namespace PokemonGBAFrameWork
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                BloqueImagen.Paleta.ReemplazaColores(paletaShiny, value);
+                Paleta.ReemplazaColores(paletaShiny, value);
             }
         }
         public Hex OffsetImagenFrontal
@@ -168,7 +168,7 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                imagenFrontal[NORMAL] = value;
+                imagenFrontal = new BloqueImagen(imagenFrontal.OffsetInicio, value, imagenFrontal.Paletas.ToArray());
             }
         }
         public Bitmap ImagenFrontalShiny
@@ -180,7 +180,7 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                imagenFrontal[SHINY] = value;
+                imagenFrontal = new BloqueImagen(imagenFrontal.OffsetInicio, value, imagenFrontal.Paletas.ToArray());
             }
         }
         public Hex OffsetImagenTrasera
@@ -197,7 +197,7 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                imagenTrasera[NORMAL] = value;
+                imagenTrasera = new BloqueImagen(imagenTrasera.OffsetInicio, value, imagenTrasera.Paletas.ToArray());
             }
         }
         public Bitmap ImagenTraseraShiny
@@ -209,7 +209,7 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                imagenTrasera[SHINY] = value;
+                imagenTrasera = new BloqueImagen(imagenTrasera.OffsetInicio, value, imagenTrasera.Paletas.ToArray());
             }
         }
 
@@ -244,19 +244,14 @@ namespace PokemonGBAFrameWork
             SetSprite(rom, this);
         }
 
-        public Bitmap GetCustomImagenFrontal(Color[] colors)
+        public Bitmap GetCustomImagenFrontal(Paleta colors)
         {
-            if (colors.Length != BloqueImagen.Paleta.TAMAÑOPALETA)
-                throw new ArgumentException("paleta incorrecta");
-
-            return imagenFrontal.GetBitmap(colors);
+            return BloqueImagen.BuildBitmap(imagenFrontal.DatosDescomprimidos, colors);
         }
 
-        public Bitmap GetCustomImagenTrasera(Color[] colors)
+        public Bitmap GetCustomImagenTrasera(Paleta colors)
         {
-            if (colors.Length != BloqueImagen.Paleta.TAMAÑOPALETA)
-                throw new ArgumentException("paleta incorrecta");
-            return imagenTrasera.GetBitmap(colors);
+            return BloqueImagen.BuildBitmap(ImagenTrasera.DatosDescomprimidos, colors);
         }
         public static void SetSprite(RomGBA rom, Sprite sprite)
         {
@@ -265,23 +260,23 @@ namespace PokemonGBAFrameWork
             SpriteEsmeralda spriteEsmeralda = sprite as SpriteEsmeralda;
             byte[] imgEsmeraldaArray;
             //guardo las paletas
-            BloqueImagen.Paleta.SetPaleta(rom, sprite.PaletaNormal);
-            BloqueImagen.Paleta.SetPaleta(rom, sprite.PaletaShiny);
+            Paleta.SetPaleta(rom, sprite.PaletaNormal);
+            Paleta.SetPaleta(rom, sprite.PaletaShiny);
             //guardo la imagen trasera
             BloqueImagen.SetBloqueImagen(rom, sprite.imagenTrasera, false);
             //guardo la imagen frontal
             if (spriteEsmeralda != null)
             {
-                imgEsmeraldaArray = new byte[spriteEsmeralda.imagenFrontal.DatosImagenDescomprimida.Length * 2];
+                imgEsmeraldaArray = new byte[spriteEsmeralda.imagenFrontal.DatosDescomprimidos.Length * 2];
                 unsafe
                 {
                     fixed (byte* ptrImgEsmeralda = imgEsmeraldaArray)
                     {
-                        fixed (byte* ptrImgParte1 = spriteEsmeralda.imagenFrontal.DatosImagenDescomprimida)
-                            for (int i = 0; i < spriteEsmeralda.imagenFrontal.DatosImagenDescomprimida.Length; i++)
+                        fixed (byte* ptrImgParte1 = spriteEsmeralda.imagenFrontal.DatosDescomprimidos)
+                            for (int i = 0; i < spriteEsmeralda.imagenFrontal.DatosDescomprimidos.Length; i++)
                             ptrImgEsmeralda[i] = ptrImgParte1[i];
-                        fixed (byte* ptrImgParte2 = spriteEsmeralda.imagenFrontal2.DatosImagenDescomprimida)
-                            for (int i = spriteEsmeralda.imagenFrontal.DatosImagenDescomprimida.Length, j = 0; i < imgEsmeraldaArray.Length; i++, j++)
+                        fixed (byte* ptrImgParte2 = spriteEsmeralda.imagenFrontal2.DatosDescomprimidos)
+                            for (int i = spriteEsmeralda.imagenFrontal.DatosDescomprimidos.Length, j = 0; i < imgEsmeraldaArray.Length; i++, j++)
                             ptrImgEsmeralda[i] = ptrImgParte2[j];
                     }
                 }
@@ -352,10 +347,10 @@ namespace PokemonGBAFrameWork
 
         const int FOTOGRAMA1 = 0, FOTOGRAMA2 = 1;
         internal BloqueImagen imagenFrontal2;
-        public SpriteEsmeralda(BloqueImagen.Paleta paletaNormal, BloqueImagen.Paleta paletaShiny, Hex offsetImagenFrontal, Bitmap imagenFrontal, Bitmap imagenFrontal2, Hex offsetImagenTrasera, Bitmap imagenTrasera)
+        public SpriteEsmeralda(Paleta paletaNormal,Paleta paletaShiny, Hex offsetImagenFrontal, Bitmap imagenFrontal, Bitmap imagenFrontal2, Hex offsetImagenTrasera, Bitmap imagenTrasera)
             : base(paletaNormal, paletaShiny, offsetImagenFrontal, imagenFrontal, offsetImagenTrasera, imagenTrasera)
         {
-            this.imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, imagenFrontal2, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
+            this.imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, imagenFrontal2, paletaNormal, paletaShiny);
 
         }
         public SpriteEsmeralda(RomGBA rom, Hex offsetImagenFrontal, Hex offsetImagenTrasera, Hex offsetPaletaNormal, Hex offsetPaletaShiny)
@@ -363,7 +358,7 @@ namespace PokemonGBAFrameWork
         {
             //tener en cuenta a la hora de poner las imagenes frontales que van seguidas y como una sola imagen
             //pongo la imagen 2 sola :D
-            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64, PaletaNormal).DatosImagenDescomprimida.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN), BloqueImagen.LongitudImagen.L64, PaletaNormal, PaletaShiny);
+            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64, PaletaNormal).DatosDescomprimidos.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN), BloqueImagen.LongitudImagen.L64, PaletaNormal, PaletaShiny);
         }
 
         public Bitmap ImagenFrontal2Normal
@@ -375,7 +370,8 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                imagenFrontal2[NORMAL] = value;
+                imagenFrontal2 = new BloqueImagen(imagenFrontal2.OffsetInicio, value, imagenFrontal2.Paletas.ToArray());
+
             }
         }
         public Bitmap ImagenFrontal2Shiny
@@ -387,7 +383,7 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                imagenFrontal2[SHINY] = value;
+                imagenFrontal2 = new BloqueImagen(imagenFrontal2.OffsetInicio, value, imagenFrontal2.Paletas.ToArray());
             }
         }
         public override BitmapAnimated GetAnimacionImagenFrontal(bool isShiny = false)
@@ -401,11 +397,10 @@ namespace PokemonGBAFrameWork
             bmpAnimated.FrameAlAcabar = 1;
             return bmpAnimated;
         }
-        public Bitmap GetCustomImagenFrontal2(Color[] colors)
+        public Bitmap GetCustomImagenFrontal2(Paleta colors)
         {
-            if (colors.Length != BloqueImagen.Paleta.TAMAÑOPALETA)
-                throw new ArgumentException("paleta incorrecta");
-            return imagenFrontal2.GetBitmap(colors);
+
+            return BloqueImagen.BuildBitmap(imagenFrontal2.DatosDescomprimidos, colors);
         }
 
     }

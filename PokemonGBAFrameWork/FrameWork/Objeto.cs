@@ -72,9 +72,11 @@ namespace PokemonGBAFrameWork
             //datos imagen y paleta
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x9899C, 0x989B0);
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x98970, 0x98984);
-            zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1294bc);
+            zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1B0034);
+          //  zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1294bc);//objetos base secreta
 
-            zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1290d4);
+            zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1AFC54);
+            //zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1290d4);//objetos base secreta
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x98B74);
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x98b48);
             //añado las zonas al diccionario
@@ -146,7 +148,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static int TotalObjetos(RomGBA rom, Edicion edicion,CompilacionRom.Compilacion compilacion)
 		{
-            Hex POSICIONDESCRIPCION = (int)LongitudCampos.NombreCompilado +(int)LongitudCampos.ByteDesconocido +(int)LongitudCampos.Posicion +(int)LongitudCampos.BytesDesconocidosAntesDescripcion;
+            Hex posicionDesripcionObjeto = (int)LongitudCampos.NombreCompilado +(int)LongitudCampos.ByteDesconocido +(int)LongitudCampos.Posicion +(int)LongitudCampos.BytesDesconocidosAntesDescripcion;
             const byte MARCAFINNOMBRE = 0xFF,EMPTYBYTENAME=0x0;
 			int totalItems = 0;
             Hex offsetInicio = Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion);
@@ -174,7 +176,7 @@ namespace PokemonGBAFrameWork
                 //miro el pointer
                 if (!acabado)
                 {
-                    if (Offset.GetOffset(datosItem.Bytes, POSICIONDESCRIPCION) != -1)
+                    if (Offset.GetOffset(datosItem.Bytes, posicionDesripcionObjeto) != -1)
                     {
                         totalItems++;//lo ha leido bien :D
                         offsetActual += (int)LongitudCampos.Total;
@@ -184,7 +186,6 @@ namespace PokemonGBAFrameWork
             } while (!acabado);
             return totalItems;
 		}
-		//de momento solo se cargar el nombre
 		public static Objeto GetObjeto(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex index)
         {
             Hex offsetObjeto=Zona.GetOffset(rom,Variables.DatosObjeto,edicion,compilacion)+index*(int)LongitudCampos.Total;
@@ -192,11 +193,12 @@ namespace PokemonGBAFrameWork
             Hex offsetPosicion = offsetByteDesconocido + (int)LongitudCampos.ByteDesconocido;
             Hex offsetDescripcion = offsetPosicion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion;
             Hex pointersImg;
-            BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto);
+            BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto,(int)LongitudCampos.NombreCompilado);
             BloqueString bloqueDescripcion = BloqueString.GetString(rom, offsetDescripcion);
             ushort posicion = Serializar.ToUShort(BloqueBytes.GetBytes(rom, offsetPosicion, 2).Bytes);
             BloqueImagen bloqueImg=null;
             byte[] bytesDesconocidosAntes=BloqueBytes.GetBytes(rom,offsetDescripcion- (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes, bytesDesconocidosDespues= BloqueBytes.GetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes;
+            bloqueNombre.MaxCaracteres = (int)LongitudCampos.Nombre;
             if (edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO) {
                 pointersImg = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion);
                 pointersImg += (index * (int)Longitud.Offset * 2);
@@ -204,7 +206,7 @@ namespace PokemonGBAFrameWork
                 try
                 {
                     
-                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, Offset.GetOffset(rom, pointersImg), BloqueImagen.Paleta.GetPaleta(rom, Offset.GetOffset(rom, pointersImg + (int)Longitud.Offset)));
+                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, Offset.GetOffset(rom, pointersImg),BloqueImagen.LongitudImagen.L24, Paleta.GetPaleta(rom, Offset.GetOffset(rom, pointersImg + (int)Longitud.Offset)));
 
                 }
                 catch {
@@ -234,7 +236,8 @@ namespace PokemonGBAFrameWork
             if (objeto.imagenObjeto != null && edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO)
             {
                 //pongo la imagen y la paleta :D
-                BloqueImagen.SetBloqueImagen(rom, offsetImg, objeto.imagenObjeto.DatosImagenDescomprimida, new BloqueImagen.Paleta(offsetImg + (int)Longitud.Offset, objeto.imagenObjeto.GetPaleta(0)));
+                BloqueImagen.SetBloqueImagen(rom, offsetImg, objeto.imagenObjeto.DatosDescomprimidos);
+                Paleta.SetPaleta(rom, new Paleta(offsetImg + (int)Longitud.Offset, objeto.imagenObjeto.Paletas[0]));
             }
          
 
@@ -258,7 +261,7 @@ namespace PokemonGBAFrameWork
             for (int i = 0; i < objetosArray.Length; i++)
                 SetObjeto(rom, edicion, compilacion, objetosArray[i], i);
         }
-
+        #region SobreCarga Get
         public static Objeto[] GetObjetos(RomGBA rom)
         {
             return GetObjetos(rom, Edicion.GetEdicion(rom));
@@ -271,6 +274,7 @@ namespace PokemonGBAFrameWork
         {
             return GetObjetos(rom, Edicion.GetEdicion(rom), compilacion);
         }
+        #endregion
         public static Objeto[] GetObjetos(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
         {
             Objeto[] objetos = new Objeto[TotalObjetos(rom, edicion,compilacion)];

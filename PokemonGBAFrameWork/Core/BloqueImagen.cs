@@ -16,7 +16,9 @@ namespace PokemonGBAFrameWork
         {
             //mirar de poner los tamaños que hay
             L64 = 64,
+            L48=48,//a ver si se usa :D
             L32 = 32,
+            L24=24,
             L16 = 16,
             L8 = 8
         }
@@ -36,12 +38,12 @@ namespace PokemonGBAFrameWork
         }
         BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos, IEnumerable<Paleta> paletas, bool aux)
         {
-            bloqueDatosDescomprimidos = new BloqueBytes(OffsetInicio, datosDescomprimidos);
+            bloqueDatosDescomprimidos = new BloqueBytes(offsetInicio, datosDescomprimidos);
             this.paletas = new Llista<Paleta>(paletas);
         }
         public BloqueImagen(BloqueBytes bloqueDatosComprimidos, params Paleta[] paletas):this(bloqueDatosComprimidos,paletas,false)
         {
-            this.longitud = CalculaLado(bloqueDatosDescomprimidos.Bytes,paletas[0]);
+            this.longitud = CalculaLado(bloqueDatosDescomprimidos.Bytes);
 
         }
         public BloqueImagen(BloqueBytes bloqueDatosComprimidos, LongitudImagen longitud, params Paleta[] paletas) : this(bloqueDatosComprimidos, paletas,false)
@@ -51,12 +53,16 @@ namespace PokemonGBAFrameWork
 
         public BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos, params Paleta[] paletas) : this(offsetInicio,datosDescomprimidos, paletas, false)
         {
-            this.longitud = CalculaLado(bloqueDatosDescomprimidos.Bytes, paletas[0]);
+
+            this.longitud = CalculaLado(bloqueDatosDescomprimidos.Bytes);
 
         }
         public BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos, LongitudImagen longitud, params Paleta[] paletas) : this(offsetInicio, datosDescomprimidos, paletas, false)
         {
             this.longitud = longitud;
+        }
+        public BloqueImagen(byte[] bytesImgDescomprimida) : this(0, bytesImgDescomprimida)
+        {
         }
         /*cuando no sea necesario longitudImagen quitarlo de todos los lados :D */
         public BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos,LongitudImagen longitud) : this(offsetInicio, datosDescomprimidos,longitud, new Paleta[] { })
@@ -69,6 +75,9 @@ namespace PokemonGBAFrameWork
             longitud = CalculaLado(bmp);
             this.paletas = new Llista<Paleta>(paletas);
         }
+
+
+
         public Hex OffsetInicio
         {
             get
@@ -160,7 +169,6 @@ namespace PokemonGBAFrameWork
         {
             if (datosImagenDescomprimida == null || paleta == null)
                 throw new ArgumentNullException();
-            const byte SINTRANSPARENCIA = 255;//no puede tener
             const int BYTESPERPIXEL = 4;
             const int NUM = 8;//poner algo mas descriptivo
 
@@ -187,21 +195,21 @@ namespace PokemonGBAFrameWork
                                     //pixel izquierdo
 
                                     pos = (x1 + x2) * BYTESPERPIXEL + (y1 + y2) * bytesPorLado;
-                                    color = paleta.ColoresPaleta[temp & 0xF];
+                                    color = paleta.Colores[temp & 0xF];
 
                                     bytesBmp[pos] = color.B;
                                     bytesBmp[pos + 1] = color.G;
                                     bytesBmp[pos + 2] = color.R;
-                                    bytesBmp[pos + 3] = SINTRANSPARENCIA;
+                                    bytesBmp[pos + 3] = color.A;
 
                                     //pixel derecho
                                     pos += BYTESPERPIXEL;
 
-                                    color = paleta.ColoresPaleta[(temp & 0xF0) >> 4];
+                                    color = paleta.Colores[(temp & 0xF0) >> 4];
                                     bytesBmp[pos] = color.B;
                                     bytesBmp[pos + 1] = color.G;
                                     bytesBmp[pos + 2] = color.R;
-                                    bytesBmp[pos + 3] = SINTRANSPARENCIA;
+                                    bytesBmp[pos + 3] = color.A;
 
 
 
@@ -244,8 +252,8 @@ namespace PokemonGBAFrameWork
                         temp = img.GetPixel((j * 2) + k, i);
 
                         buscandoPaleta = true;
-                        for (int l = 0; l < paleta.ColoresPaleta.Length && buscandoPaleta; l++)
-                            if (temp == paleta.ColoresPaleta[l])
+                        for (int l = 0; l < paleta.Colores.Length && buscandoPaleta; l++)
+                            if (temp == paleta.Colores[l])
                             {
                                 outValue = (byte)(index2 << (k * 4));
                                 buscandoPaleta = false;
@@ -290,10 +298,11 @@ namespace PokemonGBAFrameWork
         {
             return (LongitudImagen)img.Width;
         }
-        public static LongitudImagen CalculaLado(byte[] datosImagenDesomprimida, Paleta paleta)
+        public static LongitudImagen CalculaLado(byte[] datosImagenDesomprimida)
         {//tiene que ser una campo calculado...de momento se queda pero provisional!!! cuando sea rapido ya no lo pediré porque seria una tonteria para el usuario
             LongitudImagen[] longitudes = (LongitudImagen[])Enum.GetValues(typeof(LongitudImagen));
             LongitudImagen longitud = LongitudImagen.L64;
+            Paleta paleta = Paleta.GetPaletaEmpty();
             bool encontrado = false;
             for (int i = longitudes.Length - 1; i >= 0 && !encontrado; i--)
             {
@@ -576,7 +585,7 @@ namespace PokemonGBAFrameWork
     public class Paleta
     {
         public const int TAMAÑOPALETACOMPRIMIDA = 32;
-        public static Color BackgroundColorDefault = Color.White;
+        public static Color BackgroundColorDefault = Color.Transparent;
         public const int TAMAÑOPALETA = 16;
 
         Hex offsetInicio;
