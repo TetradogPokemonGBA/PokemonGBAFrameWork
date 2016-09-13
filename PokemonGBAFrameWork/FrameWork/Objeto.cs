@@ -162,6 +162,7 @@ namespace PokemonGBAFrameWork
                 datosItem = BloqueBytes.GetBytes(rom, offsetActual, (int)LongitudCampos.Total);
                 //miro que el nombre acaba bien :)
                 nombreComprobadoCorrectamente = false;
+                acabado = datosItem.Bytes[3] == 8 || datosItem.Bytes[3] == 9;//si lo que leo no es un pointer continuo
                 for (int i = 0; i < (int)LongitudCampos.NombreCompilado && !acabado; i++)
                 {
                     if (datosItem.Bytes[i] == MARCAFINNOMBRE)

@@ -89,6 +89,7 @@ namespace PokemonGBAFrameWork
 			set {
 				if(value<MAXIMODECARACTERESDESHABILITADO)value=MAXIMODECARACTERESDESHABILITADO;
 				maxCaracteres = value;
+                if (texto.Length > maxCaracteres) texto = texto.Substring(0, maxCaracteres);
 			}
 		}
 		public string Texto {
