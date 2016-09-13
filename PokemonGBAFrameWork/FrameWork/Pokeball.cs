@@ -34,6 +34,16 @@ namespace PokemonGBAFrameWork
             zonaIcono.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1D0);
             zonaPaletas.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1D4);
 
+            zonaIcono.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x477DC);
+            zonaIcono.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x477DC);
+            zonaIcono.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x473BC, 0x473DC, 0x473DC);
+            zonaIcono.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x473BC, 0x473DC, 0x473DC);
+
+            zonaPaletas.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x477E0);
+            zonaPaletas.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x477E0);
+            zonaPaletas.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x473C0, 0x473E0, 0x473E0);
+            zonaPaletas.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x473C0, 0x473E0, 0x473E0);
+
             Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] { zonaPaletas, zonaIcono });
         }
         BloqueImagen icono;
