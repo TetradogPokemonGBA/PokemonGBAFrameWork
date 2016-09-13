@@ -213,7 +213,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        internal BloqueImagen ImagenFrontal
+        public BloqueImagen ImagenFrontal
         {
             get
             {
@@ -226,7 +226,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        internal BloqueImagen ImagenTrasera
+        public BloqueImagen ImagenTrasera
         {
             get
             {
@@ -238,6 +238,8 @@ namespace PokemonGBAFrameWork
                 imagenTrasera = value;
             }
         }
+
+  
 
         public void SetSprite(RomGBA rom)
         {
@@ -275,7 +277,7 @@ namespace PokemonGBAFrameWork
                         fixed (byte* ptrImgParte1 = spriteEsmeralda.imagenFrontal.DatosDescomprimidos)
                             for (int i = 0; i < spriteEsmeralda.imagenFrontal.DatosDescomprimidos.Length; i++)
                             ptrImgEsmeralda[i] = ptrImgParte1[i];
-                        fixed (byte* ptrImgParte2 = spriteEsmeralda.imagenFrontal2.DatosDescomprimidos)
+                        fixed (byte* ptrImgParte2 = spriteEsmeralda.ImagenFrontal2.DatosDescomprimidos)
                             for (int i = spriteEsmeralda.imagenFrontal.DatosDescomprimidos.Length, j = 0; i < imgEsmeraldaArray.Length; i++, j++)
                             ptrImgEsmeralda[i] = ptrImgParte2[j];
                     }
@@ -346,7 +348,7 @@ namespace PokemonGBAFrameWork
     {
 
         const int FOTOGRAMA1 = 0, FOTOGRAMA2 = 1;
-        internal BloqueImagen imagenFrontal2;
+        private BloqueImagen imagenFrontal2;
         public SpriteEsmeralda(Paleta paletaNormal,Paleta paletaShiny, Hex offsetImagenFrontal, Bitmap imagenFrontal, Bitmap imagenFrontal2, Hex offsetImagenTrasera, Bitmap imagenTrasera)
             : base(paletaNormal, paletaShiny, offsetImagenFrontal, imagenFrontal, offsetImagenTrasera, imagenTrasera)
         {
@@ -386,6 +388,20 @@ namespace PokemonGBAFrameWork
                 imagenFrontal2 = new BloqueImagen(imagenFrontal2.OffsetInicio, value, imagenFrontal2.Paletas.ToArray());
             }
         }
+
+        public BloqueImagen ImagenFrontal2
+        {
+            get
+            {
+                return imagenFrontal2;
+            }
+
+           private set
+            {
+                imagenFrontal2 = value;
+            }
+        }
+
         public override BitmapAnimated GetAnimacionImagenFrontal(bool isShiny = false)
         {
             Bitmap[] gifAnimated = new Bitmap[] {

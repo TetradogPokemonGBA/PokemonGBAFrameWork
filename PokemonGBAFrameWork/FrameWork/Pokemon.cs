@@ -859,7 +859,7 @@ namespace PokemonGBAFrameWork
                 totalBytesImgs += pokemons[i].Sprites.ImagenFrontal.TamañoImgComprimida;
             if (edicion.AbreviacionRom == Edicion.ABREVIACIONESMERALDA)
                 for (int i = 0; i < pokemons.Length; i++)
-                    totalBytesImgs += ((SpriteEsmeralda)pokemons[i].Sprites).imagenFrontal2.TamañoImgComprimida;
+                    totalBytesImgs += ((SpriteEsmeralda)pokemons[i].Sprites).ImagenFrontal2.TamañoImgComprimida;
             Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
             //ahora toca poner los datos
             for (int i = 0; i < pokemons.Length; i++)
