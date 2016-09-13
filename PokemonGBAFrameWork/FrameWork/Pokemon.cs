@@ -123,9 +123,10 @@ namespace PokemonGBAFrameWork
         int ordenGameFreak;
         DescripcionPokedex descripcion;
         Sprite sprites;
+        Huella huella;
         /*por desarrollar
-		//falta huella
-		//falts miniSprites
+		
+		//falts miniSprites 64x32 por mirar :D
 		//falta Cry
 		//falta ataques, mt y mo
 		*/
@@ -678,6 +679,19 @@ namespace PokemonGBAFrameWork
             }
         }
 
+        public Huella Huella
+        {
+            get
+            {
+                return huella;
+            }
+
+            set
+            {
+                huella = value;
+            }
+        }
+
         public void SetObjetosEnLosStats(int totalObjetos)
         {
             if (totalObjetos < 0 || totalObjetos > short.MaxValue)
@@ -787,6 +801,8 @@ namespace PokemonGBAFrameWork
             BloqueBytes.SetBytes(rom, Zona.GetOffset(rom, Variables.Stats, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.TotalStats, pokemon.Stats);
             pokemon.Nombre.OffsetInicio = Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado;
             BloqueString.SetString(rom, pokemon.Nombre);
+            if(pokemon.Huella!=null)
+            Huella.SetHuella(rom, pokemon.Huella, pokemon.OrdenGameFreak);
             if (pokemon.Descripcion != null)
                 DescripcionPokedex.SetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.Descripcion);
             else DescripcionPokedex.CreateDescripcionPokedex(rom, edicion, compilacion, pokemon);
@@ -797,7 +813,7 @@ namespace PokemonGBAFrameWork
 
         }
         public static void SetPokedex(RomGBA rom, IEnumerable<Pokemon> pokedex)
-        {
+        {//por rehacer!!!cada cosa en su sitio!!!
             if (rom == null || pokedex == null) throw new ArgumentNullException();
             OrdenPokemon orden =Pokemon.Orden;
             Pokemon.Orden = OrdenPokemon.GameFreak;
@@ -913,8 +929,12 @@ namespace PokemonGBAFrameWork
             pokemon.OrdenPokedexNacional = Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
             //pongo la pokedex
             if (pokemon.OrdenPokedexNacional < totalEntradasPokedex)
+            {
                 pokemon.Descripcion = DescripcionPokedex.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
-
+               
+            }
+            if(pokemon.OrdenGameFreak>0)
+            pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
             return pokemon;
         }
         public static Pokemon[] GetPokemons(RomGBA rom)

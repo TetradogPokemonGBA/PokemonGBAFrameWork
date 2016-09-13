@@ -35,11 +35,13 @@ namespace PokemonGBAFrameWork
         {
             bloqueDatosDescomprimidos = new BloqueBytes(bloqueDatosComprimidos.OffsetInicio, UtilsImage.DescomprimirDatosLZ77(bloqueDatosComprimidos.Bytes, 0));
             this.paletas = new Llista<Paleta>(paletas);
+            DatosDescomprimidos = bloqueDatosDescomprimidos.Bytes;
         }
         BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos, IEnumerable<Paleta> paletas, bool aux)
         {
             bloqueDatosDescomprimidos = new BloqueBytes(offsetInicio, datosDescomprimidos);
             this.paletas = new Llista<Paleta>(paletas);
+            DatosDescomprimidos = bloqueDatosDescomprimidos.Bytes;
         }
         public BloqueImagen(BloqueBytes bloqueDatosComprimidos, params Paleta[] paletas):this(bloqueDatosComprimidos,paletas,false)
         {
@@ -253,7 +255,7 @@ namespace PokemonGBAFrameWork
 
                         buscandoPaleta = true;
                         for (int l = 0; l < paleta.Colores.Length && buscandoPaleta; l++)
-                            if (temp == paleta.Colores[l])
+                            if (temp.ToArgb().Equals(paleta.Colores[l].ToArgb()))
                             {
                                 outValue = (byte)(index2 << (k * 4));
                                 buscandoPaleta = false;
