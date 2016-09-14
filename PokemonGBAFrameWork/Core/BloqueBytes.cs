@@ -74,7 +74,19 @@ namespace PokemonGBAFrameWork
 					str.Close();
 			}
 		}
-		public static void SetBytes(RomGBA rom, Hex offsetInicio, byte[] bytes)
+        /// <summary>
+        /// Guarda donde quepan los datos y devuelve el offset donde se han puesto
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static Hex SetBytes(RomGBA rom, byte[] bytes)
+        {
+            Hex posicion = SearchEmptyBytes(rom, bytes.Length);
+            SetBytes(rom, posicion, bytes);
+            return posicion;
+        }
+        public static void SetBytes(RomGBA rom, Hex offsetInicio, byte[] bytes)
 		{
 			SetBytes(rom, new BloqueBytes(offsetInicio, bytes));
 		}
@@ -199,5 +211,6 @@ namespace PokemonGBAFrameWork
         {
             return SearchBytes(rom, new byte[length]);//como por defecto es 0x0 ya me va bien aunque tambien se usa el 0xFF...
         }
+
     }
 }

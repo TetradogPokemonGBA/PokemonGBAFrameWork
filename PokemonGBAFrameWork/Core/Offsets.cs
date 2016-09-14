@@ -112,10 +112,41 @@ namespace PokemonGBAFrameWork
                 bytesPointer[posicion] = 0x8;
             return bytesPointer;
         }
+        /// <summary>
+        /// Convierte de Pointer a Offset
+        /// </summary>
+        /// <param name="pointer"></param>
+        /// <returns></returns>
+        public static Hex GetOffset(Hex pointer)
+        {
+            string pointerString = pointer.ToString();
+            Hex resultado = pointerString.Substring(4, 2) + pointerString.Substring(2, 2) + pointerString.Substring(0, 2);
+            if (pointerString.Substring(6, 2) == "09")
+                resultado += (int)Longitud.DieciseisMegas;
+            return resultado;
+
+        }
         public static void SetOffset(RomGBA rom, Hex offsetInicio, Hex offsetToSave)
         {
             if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length||offsetToSave>(int)Longitud.TrentaYDosMegas) throw new ArgumentException();
             BloqueBytes.SetBytes(rom, offsetInicio, ToBytesRom(offsetToSave));
+        }
+
+        public static Hex ToPointer(Hex offset)
+        {
+            string offsetString = offset.ToString();
+            bool esNueve = offset > (int)Longitud.DieciseisMegas;
+            Hex resultado;
+            if (esNueve)
+            {
+                offset-= (int)Longitud.DieciseisMegas;
+                offsetString = offset.ToString();
+            }
+            resultado = offsetString.Substring(4, 2) + offsetString.Substring(2, 2) + offsetString.Substring(0, 2);
+            if (esNueve)
+                resultado = resultado.ToString() + "09";
+            else resultado = resultado.ToString() + "08";
+            return resultado;
         }
     }
 	public static class Word
