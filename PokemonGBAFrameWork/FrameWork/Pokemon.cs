@@ -837,7 +837,7 @@ namespace PokemonGBAFrameWork
                 //ordenNacional
                 BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion), totalPokes * 2);
                 //imagenTrasera
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), totalPokes - 1) - BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), 0));
+                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), totalPokes - 1) - BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), 0));
                 //cambiar offsets para que quepan todos los datos :)
                 Zona.SetOffset(rom, Variables.Nombre, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)LongitudCampos.NombreCompilado));
                 Zona.SetOffset(rom, Variables.Stats, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)LongitudCampos.TotalStats));
@@ -850,7 +850,7 @@ namespace PokemonGBAFrameWork
                 Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
             }
             //imagenesFrontales
-            BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), totalPokes - 1) - BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), 0));
+            BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), totalPokes - 1) - BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), 0));
             //y lo que falta...
 
             totalBytesImgs = 0;

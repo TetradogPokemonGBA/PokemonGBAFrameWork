@@ -119,10 +119,10 @@ namespace PokemonGBAFrameWork
             byte[] imgBytes;
             this.paletaNormal = Paleta.GetPaleta(rom, offsetPaletaNormal);
             this.paletaShiny = Paleta.GetPaleta(rom, offsetPaletaShiny);
-            imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64 ,paletaNormal).DatosDescomprimidos;
-            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0,TAMAÑOIMAGEN) : imgBytes, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
+            imgBytes = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,paletaNormal,paletaShiny).DatosDescomprimidos;
+            this.imagenFrontal = new BloqueImagen(offsetImagenFrontal, imgBytes.Length > TAMAÑOIMAGEN ? imgBytes.SubArray(0,TAMAÑOIMAGEN) : imgBytes, paletaNormal, paletaShiny);
 
-            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, BloqueImagen.LongitudImagen.L64, paletaNormal).DatosDescomprimidos, BloqueImagen.LongitudImagen.L64, paletaNormal, paletaShiny);
+            this.imagenTrasera = new BloqueImagen(offsetImagenTrasera, BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera,paletaNormal,paletaShiny).DatosDescomprimidos, paletaNormal, paletaShiny);
         }
 
         public Paleta PaletaNormal
@@ -319,10 +319,10 @@ namespace PokemonGBAFrameWork
         public static Sprite GetSprite(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             Sprite sprite;
-            Hex offsetSpriteFrontal =BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
-            Hex offsetSpriteTrasero = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
-            Hex offsetPaletaNormal = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
-            Hex offsetPaletaShiny = BloqueImagen.GetOffsetImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
+            Hex offsetSpriteFrontal =BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
+            Hex offsetSpriteTrasero = BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
+            Hex offsetPaletaNormal = BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
+            Hex offsetPaletaShiny = BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
             try
             {
                 if (edicion.AbreviacionRom == Edicion.ABREVIACIONESMERALDA)
@@ -360,7 +360,7 @@ namespace PokemonGBAFrameWork
         {
             //tener en cuenta a la hora de poner las imagenes frontales que van seguidas y como una sola imagen
             //pongo la imagen 2 sola :D
-            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,BloqueImagen.LongitudImagen.L64, PaletaNormal).DatosDescomprimidos.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN), BloqueImagen.LongitudImagen.L64, PaletaNormal, PaletaShiny);
+            imagenFrontal2 = new BloqueImagen(offsetImagenFrontal, BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal,PaletaNormal,PaletaShiny).DatosDescomprimidos.SubArray(TAMAÑOIMAGEN,TAMAÑOIMAGEN),PaletaNormal, PaletaShiny);
         }
 
         public Bitmap ImagenFrontal2Normal

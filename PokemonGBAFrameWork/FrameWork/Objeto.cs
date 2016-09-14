@@ -193,7 +193,7 @@ namespace PokemonGBAFrameWork
             Hex offsetByteDesconocido = offsetObjeto + (int)LongitudCampos.NombreCompilado;
             Hex offsetPosicion = offsetByteDesconocido + (int)LongitudCampos.ByteDesconocido;
             Hex offsetDescripcion = offsetPosicion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion;
-            Hex pointersImg;
+            Hex offsetPointersImg;
             BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto,(int)LongitudCampos.NombreCompilado);
             BloqueString bloqueDescripcion = BloqueString.GetString(rom, offsetDescripcion);
             ushort posicion = Serializar.ToUShort(BloqueBytes.GetBytes(rom, offsetPosicion, 2).Bytes);
@@ -201,13 +201,13 @@ namespace PokemonGBAFrameWork
             byte[] bytesDesconocidosAntes=BloqueBytes.GetBytes(rom,offsetDescripcion- (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes, bytesDesconocidosDespues= BloqueBytes.GetBytes(rom, offsetDescripcion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion, (int)LongitudCampos.BytesDesconocidosAntesDescripcion).Bytes;
             bloqueNombre.MaxCaracteres = (int)LongitudCampos.Nombre;
             if (edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO) {
-                pointersImg = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion);
-                pointersImg += (index * (int)Longitud.Offset * 2);
+                offsetPointersImg = Zona.GetOffset(rom, Variables.ImagenYPaletaObjeto, edicion, compilacion);
+                offsetPointersImg += (index * (int)Longitud.Offset * 2);
                 //ahora hay pointers y tengo que obtener los offsets
                 try
                 {
                     
-                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, Offset.GetOffset(rom, pointersImg),BloqueImagen.LongitudImagen.L24, Paleta.GetPaleta(rom, Offset.GetOffset(rom, pointersImg + (int)Longitud.Offset)));
+                    bloqueImg = BloqueImagen.GetBloqueImagen(rom, offsetPointersImg,offsetPointersImg+(int)Longitud.Offset);
 
                 }
                 catch {

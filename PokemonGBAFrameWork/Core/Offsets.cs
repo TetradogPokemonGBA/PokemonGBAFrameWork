@@ -148,6 +148,24 @@ namespace PokemonGBAFrameWork
             else resultado = resultado.ToString() + "08";
             return resultado;
         }
+        public static Hex GetPointer(RomGBA rom, Hex offsetPointer)
+        { return GetPointer(rom.Datos, offsetPointer); }
+        public static Hex GetPointer(byte[] bytes, Hex offsetPointer)
+        {
+            //los bytes estan permutados
+            int posicion = offsetPointer;
+            byte byteComprobador = bytes[posicion + 3];
+            Hex offset;
+            if (byteComprobador == 8 || byteComprobador == 9)
+                offset = ((Hex)(new byte[] {
+                bytes[posicion],
+                bytes[posicion+1],
+                bytes[posicion+2],
+                byteComprobador
+            }));
+            else offset = -1;
+            return offset;
+        }
     }
 	public static class Word
 	{

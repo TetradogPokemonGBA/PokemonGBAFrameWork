@@ -12,25 +12,14 @@ namespace PokemonGBAFrameWork
 {
     public class BloqueImagen
     {
-        public enum LongitudImagen
-        {
-            //mirar de poner los tamaños que hay
-            L64 = 64,
-            L48=48,//a ver si se usa :D
-            L32 = 32,
-            L24=24,
-            L16 = 16,
-            L8 = 8
-        }
 
         Hex offsetPointerImg;
         byte[] datosDescomprimidos;
         Llista<Paleta> paletas;//poder crear una imagen sin paletas porque a veces no hay...cuando estas investigando a veces falta la paleta y hay que ir probando
         //campos calculados para ahorrar computación
-        LongitudImagen longitud;
         int tamañoImgComprimida;
-        private byte[] v;
-        private Paleta[] paletas1;
+
+
 
         //zona constructores
         //hacer el basico y luego la sobrecarga
@@ -42,10 +31,6 @@ namespace PokemonGBAFrameWork
             DatosDescomprimidos = datosDescomprimidos;
         }
 
-        public BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos, LongitudImagen longitud, params Paleta[] paletas) : this(offsetInicio, datosDescomprimidos, paletas, false)
-        {
-            this.longitud = longitud;
-        }
         public BloqueImagen(Hex offsetPointerImg, byte[] bytesImgDescomprimida,params Paleta[] paletas):this(offsetPointerImg,bytesImgDescomprimida,paletas,false)
         {
 
@@ -54,15 +39,12 @@ namespace PokemonGBAFrameWork
         {
         }
         /*cuando no sea necesario longitudImagen quitarlo de todos los lados :D */
-        public BloqueImagen(Hex offsetInicio, byte[] datosDescomprimidos,LongitudImagen longitud) : this(offsetInicio, datosDescomprimidos,longitud, new Paleta[] { })
-        { }
         public BloqueImagen(Bitmap bmp, params Paleta[] paletas) : this(0, bmp, paletas)
         { }
         public BloqueImagen(Hex offsetInicio,Bitmap bmp,params Paleta[] paletas)
         {
             OffsetPointerImg = offsetInicio;
             DatosDescomprimidos= GetDatosDescomprimidos(bmp, paletas[0]);
-            longitud = CalculaLado(bmp);
             this.paletas = new Llista<Paleta>(paletas);
         }
 
@@ -99,16 +81,11 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public LongitudImagen Longitud
+        public int Longitud
         {
             get
             {
-                return longitud;
-            }
-
-           private set
-            {
-                longitud = value;
+                return Convert.ToInt32(Math.Sqrt(datosDescomprimidos.Length / 32)) * 8;
             }
         }
 
@@ -164,14 +141,13 @@ namespace PokemonGBAFrameWork
             }
         }
 
+
         public Bitmap this[int indexPaleta]
-        { get { return this[indexPaleta, Longitud]; } }
-        public Bitmap this[int indexPaleta, LongitudImagen lado]
         {
-            get { return BuildBitmap(DatosDescomprimidos,Paletas[indexPaleta],lado); }
+            get { return BuildBitmap(DatosDescomprimidos,Paletas[indexPaleta],Longitud); }
         }
 
-       public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta, LongitudImagen longitudLadoImagen = LongitudImagen.L64)
+       public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta, int longitudLadoImagen = 64)
         {
             if (datosImagenDescomprimida == null || paleta == null)
                 throw new ArgumentNullException();
@@ -275,21 +251,15 @@ namespace PokemonGBAFrameWork
         }
         /*primero hare el que tiene todos los datos y luego la sobrecarga*/
         //poner los get para RomGBA
-        public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg,params Hex[] paletas)
-        {
-            return GetBloqueImagen(rom, offsetPointerImg, Paleta.GetPaletas(rom, paletas));
-        }
+
         public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg, params Paleta[] paletas)
         {
             return new BloqueImagen(offsetPointerImg, UtilsImage.DescomprimirDatosLZ77(rom.Datos, Offset.GetOffset(rom, offsetPointerImg)), paletas);
         }
-        public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg, LongitudImagen lado, params Hex[] paletas)
+
+        public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg, params Hex[] pointersPaletas)
         {
-            return GetBloqueImagen(rom, offsetPointerImg, lado, Paleta.GetPaletas(rom,paletas));
-        }
-        public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg, LongitudImagen lado, params Paleta[] paletas)
-        {
-            return new  BloqueImagen(offsetPointerImg, UtilsImage.DescomprimirDatosLZ77(rom.Datos,Offset.GetOffset(rom,offsetPointerImg)), lado, paletas);
+            return GetBloqueImagen(rom, offsetPointerImg, Paleta.GetPaletas(rom, pointersPaletas));
         }
         //poner los set para ROMGBA
         public static void SetBloqueImagen(RomGBA rom, BloqueImagen bloqueImg,bool hacerTambienSetPaletas=false)
@@ -307,7 +277,7 @@ namespace PokemonGBAFrameWork
             byte[] datosNuevos = UtilsImage.ComprimirDatosLZ77(datosDescomprimidosImg);
             if (inicioDatos > -1)//si hay datos 
             {
-                lenghtBytesAnteriores = UtilsImage.ComprimirDatosLZ77(UtilsImage.DescomprimirDatosLZ77(rom.Datos, inicioDatos)).Length;
+                lenghtBytesAnteriores = UtilsImage.LongitudDatosLZ77(rom.Datos, inicioDatos);
                 if (lenghtBytesAnteriores != datosNuevos.Length)
                     throw new ArgumentException("La nueva imagen tiene que tener las medidas de la anterior");
                 BloqueBytes.RemoveBytes(rom, inicioDatos, lenghtBytesAnteriores);
@@ -316,37 +286,12 @@ namespace PokemonGBAFrameWork
             //actualizo pointer
             Offset.SetOffset(rom, offsetPointerImg, BloqueBytes.SetBytes(rom, datosNuevos));
         }
-        //para poder tener rapidamente el lado
-        public static LongitudImagen CalculaLado(Bitmap img)
-        {
-            return (LongitudImagen)img.Width;
-        }
-        public static LongitudImagen CalculaLado(byte[] datosImagenDesomprimida)
-        {//tiene que ser una campo calculado...de momento se queda pero provisional!!! cuando sea rapido ya no lo pediré porque seria una tonteria para el usuario
-            LongitudImagen[] longitudes = (LongitudImagen[])Enum.GetValues(typeof(LongitudImagen));
-            LongitudImagen longitud = LongitudImagen.L64;
-            Paleta paleta = Paleta.GetPaletaEmpty();
-            bool encontrado = false;
-            for (int i = longitudes.Length - 1; i >= 0 && !encontrado; i--)
-            {
-                try
-                {
-                    BuildBitmap(datosImagenDesomprimida, paleta, longitudes[i]);
-                    longitud = longitudes[i];
-                    encontrado = true;
-                }
-                catch { }//si se pasa hace una excepcion
-
-            }
-            return longitud;
-        }
-
-        
+      
 
         //obtener offsets a los datos de la imagen
-        public static Hex GetOffsetImg(RomGBA rom, Hex offset, Hex posicion)
+        public static Hex GetOffsetPointerImg(RomGBA rom, Hex offset, Hex posicion)
         {
-            return Offset.GetOffset(rom, (posicion << 3) + offset);
+            return  (posicion << 3) + offset;
         }
 
         //para ir rapido :)
@@ -513,6 +458,12 @@ namespace PokemonGBAFrameWork
             brDatos.Close();
             return msDatosDescomprimidos.GetAllBytes();
         }
+        //creditos autor NSE
+        public static int LongitudDatosLZ77(byte[] datos, Hex inicioDatos)
+        {
+            return (Hex)new Byte[] { datos[inicioDatos+1], datos[inicioDatos+2], datos[inicioDatos+3], 0x0 };
+        }
+
         //codigo sacado de internet creditos:Jambo
         static class LZUtil
         {

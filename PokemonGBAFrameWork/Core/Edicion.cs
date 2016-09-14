@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 		}
 		public enum LongitudCampos
 		{
-			NombreCompleto = 11,
+			NombreCompleto = 12,
 			Abreviacion = 3,
 			Idioma = 1
 		}
