@@ -303,11 +303,18 @@ namespace PokemonGBAFrameWork
         {
             //borro los anteriores datos
             Hex inicioDatos = Offset.GetOffset(rom, offsetPointerImg);
-            int lenghtBytesAnteriores = UtilsImage.ComprimirDatosLZ77(UtilsImage.DescomprimirDatosLZ77(rom.Datos, inicioDatos)).Length;
-            BloqueBytes.RemoveBytes(rom, inicioDatos, lenghtBytesAnteriores);
+            int lenghtBytesAnteriores;
+            byte[] datosNuevos = UtilsImage.ComprimirDatosLZ77(datosDescomprimidosImg);
+            if (inicioDatos > -1)//si hay datos 
+            {
+                lenghtBytesAnteriores = UtilsImage.ComprimirDatosLZ77(UtilsImage.DescomprimirDatosLZ77(rom.Datos, inicioDatos)).Length;
+                if (lenghtBytesAnteriores != datosNuevos.Length)
+                    throw new ArgumentException("La nueva imagen tiene que tener las medidas de la anterior");
+                BloqueBytes.RemoveBytes(rom, inicioDatos, lenghtBytesAnteriores);
+            }
             //pongo los nuevos donde quepan
             //actualizo pointer
-            Offset.SetOffset(rom, offsetPointerImg, BloqueBytes.SetBytes(rom, UtilsImage.ComprimirDatosLZ77(datosDescomprimidosImg)));
+            Offset.SetOffset(rom, offsetPointerImg, BloqueBytes.SetBytes(rom, datosNuevos));
         }
         //para poder tener rapidamente el lado
         public static LongitudImagen CalculaLado(Bitmap img)
@@ -704,6 +711,7 @@ namespace PokemonGBAFrameWork
         {
             if (rom == null || paleta == null)
                 throw new ArgumentNullException();
+            Hex offset;
             const int LENGHT = 2;
             Color[] coloresPaleta = paleta.Colores;
             byte[] paletaComprimida = new byte[TAMAÑOPALETA << 1];
@@ -723,8 +731,10 @@ namespace PokemonGBAFrameWork
 
                 index += 2;
             }
+            offset = Offset.GetOffset(rom, paleta.OffsetPointerPaleta);
+            if(offset>-1)
             //borro los datos de la paleta ant
-            BloqueBytes.RemoveBytes(rom, Offset.GetOffset(rom, paleta.OffsetPointerPaleta), paletaComprimida.Length);
+            BloqueBytes.RemoveBytes(rom, offset, paletaComprimida.Length);
             //busco y actualizo el pointer
              Offset.SetOffset(rom,paleta.OffsetPointerPaleta, BloqueBytes.SetBytes(rom, paletaComprimida));
 

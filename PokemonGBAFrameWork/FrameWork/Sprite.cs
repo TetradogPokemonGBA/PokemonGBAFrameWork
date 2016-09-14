@@ -282,7 +282,7 @@ namespace PokemonGBAFrameWork
                             ptrImgEsmeralda[i] = ptrImgParte2[j];
                     }
                 }
-                BloqueImagen.SetBloqueImagen(rom, new BloqueImagen(sprite.OffsetImagenFrontal, imgEsmeraldaArray, spriteEsmeralda.PaletaNormal), false);
+                BloqueImagen.SetBloqueImagen(rom, sprite.OffsetImagenFrontal, imgEsmeraldaArray);
 
             }
             else
