@@ -47,12 +47,11 @@ namespace PokemonGBAFrameWork
 		public const string ABREVIACIONESMERALDA = "BPE";
 		public const string ABREVIACIONRUBI = "AXV";
 		public const string ABREVIACIONZAFIRO = "AXP";
-		//falta ponerlos
-		public const string NOMBRECOMPLETOROJOFUEGO = "BPR";
-		public const string NOMBRECOMPLETOVERDEHOJA = "BPG";
-		public const string NOMBRECOMPLETOESMERALDA = "BPE";
-		public const string NOMBRECOMPLETORUBI = "AXV";
-		public const string NOMBRECOMPLETOZAFIRO = "AXP";
+		public const string NOMBRECOMPLETOROJOFUEGO = "POKEMON FIRE";
+		public const string NOMBRECOMPLETOVERDEHOJA = "POKEMON LEAF";
+		public const string NOMBRECOMPLETOESMERALDA = "POKEMON EMER";
+		public const string NOMBRECOMPLETORUBI = "POKEMON RUBY";
+		public const string NOMBRECOMPLETOZAFIRO = "POKEMON SAPP";
 		//valores fijos
 		public static readonly Edicion RubiUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.English);
 		public static readonly Edicion ZafiroUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.English);

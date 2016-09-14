@@ -11,12 +11,13 @@ namespace PokemonGBAFrameWork
   public  class Tipo
     {
         public enum Variables
-        { NombreTipo}
+        { NombreTipo,ImagenTipo}
         public enum LongitudCampo
         { Nombre=7 }
         static Tipo()
         {
             Zona zonaNombreTipo = new Zona(Variables.NombreTipo);
+            Zona zonaImagenTipo = new Zona(Variables.ImagenTipo);
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x2E574);
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x2E574);
 
@@ -31,6 +32,16 @@ namespace PokemonGBAFrameWork
 
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x309C8, 0x309DC);
             zonaNombreTipo.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x309C8, 0x309DC);
+
+            //añado las imagenes son algo pero no se que son...
+            zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x107d88, 0x107e00);
+            zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x107db0, 0x107e28);
+            zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x19a340);
+
+            zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x107f30);
+            zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x107f58);
+            zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x199F44);
+            Zona.DiccionarioOffsetsZonas.Añadir(zonaImagenTipo);
             Zona.DiccionarioOffsetsZonas.Añadir(zonaNombreTipo);
         }
         BloqueString nombre;
