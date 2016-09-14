@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork
         public BloqueImagen(Hex offsetInicio,Bitmap bmp,params Paleta[] paletas)
         {
             OffsetPointerImg = offsetInicio;
-            DatosDescomprimidos= GetDatosDescomprimidos(bmp, paletas[0]);
+            DatosDescomprimidos= GetDatosDescomprimidos(bmp);
             this.paletas = new Llista<Paleta>(paletas);
         }
 
@@ -81,13 +81,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public int Longitud
-        {
-            get
-            {
-                return Convert.ToInt32(Math.Sqrt(datosDescomprimidos.Length / 32)) * 8;
-            }
-        }
+
 
         public Llista<Paleta> Paletas
         {
@@ -103,11 +97,11 @@ namespace PokemonGBAFrameWork
         }
         public byte[] DatosComprimidos
         {
-            get { return UtilsImage.ComprimirDatosLZ77(datosDescomprimidos); }
+            get { return UtilsImage.ComprimirDatosLZ77(datosDescomprimidos); }//puede que vaya mal
             set {
                 try
                 {
-                    datosDescomprimidos = UtilsImage.DescomprimirDatosLZ77(value, 0);
+                    datosDescomprimidos = UtilsImage.DescomprimirDatosLZ77(value,0);
                     tamañoImgComprimida = value.Length;
                 }
                 catch { throw new ArgumentException("Los datos no son validos!", "value"); }
@@ -144,17 +138,17 @@ namespace PokemonGBAFrameWork
 
         public Bitmap this[int indexPaleta]
         {
-            get { return BuildBitmap(DatosDescomprimidos,Paletas[indexPaleta],Longitud); }
+            get { return BuildBitmap(DatosDescomprimidos,Paletas[indexPaleta]); }
         }
 
-       public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta, int longitudLadoImagen = 64)
+       public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta)
         {
             if (datosImagenDescomprimida == null || paleta == null)
                 throw new ArgumentNullException();
             const int BYTESPERPIXEL = 4;
             const int NUM = 8;//poner algo mas descriptivo
 
-            int longitudLado = (int)longitudLadoImagen;
+            int longitudLado = Convert.ToInt32(Math.Sqrt(datosImagenDescomprimida.Length / 32)) * 8;//sacado de NSE creditos a Link12552
             int bytesPorLado = BYTESPERPIXEL * longitudLado;
             Bitmap bmpTiles = new Bitmap(longitudLado, longitudLado, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Color color;
@@ -210,13 +204,11 @@ namespace PokemonGBAFrameWork
         /// <param name="img"></param>
         /// <param name="paleta"></param>
         /// <returns></returns>
-       public static byte[] GetDatosDescomprimidos(Bitmap img, Paleta paleta)
-        {//por testear...
+       public static byte[] GetDatosDescomprimidos(Bitmap img)
+        {//por testear
             if (img == null)
                 throw new ArgumentNullException("img");
-            if (paleta == null)
-                throw new ArgumentNullException("paleta");
-
+            Paleta paleta = Paleta.GetPaletaEmpty();
             byte[] toReturn = new byte[(img.Height * img.Width) >> 1];
             int index = 0;
             Color temp;
@@ -302,7 +294,7 @@ namespace PokemonGBAFrameWork
         //para ir rapido :) a ver como se ve a al practica :D
         public static Bitmap operator +(BloqueImagen bloqueImg,Paleta paleta)
         {
-            return BuildBitmap(bloqueImg.DatosDescomprimidos,paleta,bloqueImg.Longitud);
+            return BuildBitmap(bloqueImg.DatosDescomprimidos,paleta);
         }
     }
     /// <summary>
@@ -314,7 +306,7 @@ namespace PokemonGBAFrameWork
 
         //codigo sacado de internet creditos:Jambo
         public static byte[] ComprimirDatosLZ77(byte[] datosDescomprimidos)
-        {
+        {//puede que este mal...
             if (datosDescomprimidos == null)
                 throw new ArgumentNullException();
 
