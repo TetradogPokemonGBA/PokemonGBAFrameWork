@@ -312,15 +312,16 @@ namespace PokemonGBAFrameWork
 
             int compressedLength = 4;
             int oldLength, bufferlength, readBytes, bufferedBlocks;
-            Stream outstream;
             byte[] inData, outbuffer;
             LZUtil.OffsetAndLenght offsetAndLenght;
-            outstream = new MemoryStream();
+            byte[] datosComprimidos = new byte[LongitudDatosLZ77(datosDescomprimidos, 0)];
+            int posicion = 0;
+            
             inData = new byte[datosDescomprimidos.Length];
-            outstream.WriteByte(BYTELZ77TYPE);
-            outstream.WriteByte((byte)(datosDescomprimidos.Length & 0xFF));
-            outstream.WriteByte((byte)((datosDescomprimidos.Length >> 8) & 0xFF));
-            outstream.WriteByte((byte)((datosDescomprimidos.Length >> 16) & 0xFF));
+            datosComprimidos[posicion++] = BYTELZ77TYPE;
+            datosComprimidos[posicion++] = (byte)(datosDescomprimidos.Length & 0xFF);
+            datosComprimidos[posicion++] = (byte)((datosDescomprimidos.Length >> 8) & 0xFF);
+            datosComprimidos[posicion++] = (byte)((datosDescomprimidos.Length >> 16) & 0xFF);
             unsafe
             {
                 fixed (byte* instart = &inData[0])
@@ -334,7 +335,8 @@ namespace PokemonGBAFrameWork
                     {
                         if (bufferedBlocks == 8)
                         {
-                            outstream.Write(outbuffer, 0, bufferlength);
+                            outbuffer.CopyTo(datosComprimidos, posicion);
+                            posicion += outbuffer.Length;
                             compressedLength += bufferlength;
                             outbuffer[0] = 0;
                             bufferlength = 1;
@@ -362,22 +364,23 @@ namespace PokemonGBAFrameWork
                     }
                     if (bufferedBlocks > 0)
                     {
-                        outstream.Write(outbuffer, 0, bufferlength);
+                        outbuffer.CopyTo(datosComprimidos, posicion);
+                        posicion += outbuffer.Length;
                         compressedLength += bufferlength;
                         while ((compressedLength % 4) != 0)
                         {
-                            outstream.WriteByte(0);
+                            datosComprimidos[posicion++] = 0x0;
                             compressedLength++;
                         }
                     }
                 }
             }
-            return outstream.GetAllBytes();
+            return datosComprimidos;
 
         }
         // descompresion sacada de https://gist.github.com/Prof9/872e67a08e17081ca00e
         public static byte[] DescomprimirDatosLZ77(byte[] datos, Hex offsetInicio)
-        {
+        {//usar *byte[] en vez de MemoryStream :)
             if (datos == null || offsetInicio < 0)
                 throw new ArgumentException();
             if (datos[offsetInicio] != BYTELZ77TYPE)
