@@ -31,24 +31,24 @@ namespace PokemonGBAFrameWork
             DatosDescomprimidos = datosDescomprimidos;
         }
 
-        public BloqueImagen(Hex offsetPointerImg, byte[] bytesImgDescomprimida,params Paleta[] paletas):this(offsetPointerImg,bytesImgDescomprimida,paletas,false)
+        public BloqueImagen(Hex offsetPointerImg, byte[] bytesImgDescomprimida, params Paleta[] paletas) : this(offsetPointerImg, bytesImgDescomprimida, paletas, false)
         {
 
         }
-        public BloqueImagen(byte[] bytesImgDescomprimida) : this(0,bytesImgDescomprimida,new Paleta[] { },false)
+        public BloqueImagen(byte[] bytesImgDescomprimida) : this(0, bytesImgDescomprimida, new Paleta[] { }, false)
         {
         }
-        /*cuando no sea necesario longitudImagen quitarlo de todos los lados :D */
+
         public BloqueImagen(Bitmap bmp, params Paleta[] paletas) : this(0, bmp, paletas)
         { }
-        public BloqueImagen(Hex offsetInicio,Bitmap bmp,params Paleta[] paletas)
+        public BloqueImagen(Hex offsetInicio, Bitmap bmp, params Paleta[] paletas)
         {
             OffsetPointerImg = offsetInicio;
-            DatosDescomprimidos= GetDatosDescomprimidos(bmp);
+            DatosDescomprimidos = GetDatosDescomprimidos(bmp);
             this.paletas = new Llista<Paleta>(paletas);
         }
 
-        
+
 
         public Hex OffsetInicio
         {
@@ -75,7 +75,7 @@ namespace PokemonGBAFrameWork
                 return tamañoImgComprimida;
             }
 
-           private set
+            private set
             {
                 tamañoImgComprimida = value;
             }
@@ -90,33 +90,35 @@ namespace PokemonGBAFrameWork
                 return paletas;
             }
 
-           private set
+            private set
             {
                 paletas = value;
             }
         }
         public byte[] DatosComprimidos
         {
-            get { return UtilsImage.ComprimirDatosLZ77(datosDescomprimidos); }//puede que vaya mal
-            set {
+            get { return Lz77.ComprimirDatosLZ77(datosDescomprimidos); }
+            set
+            {
                 try
                 {
-                    datosDescomprimidos = UtilsImage.DescomprimirDatosLZ77(value,0);
+                    datosDescomprimidos = Lz77.DescomprimirDatosLZ77(value, 0);
                     tamañoImgComprimida = value.Length;
                 }
                 catch { throw new ArgumentException("Los datos no son validos!", "value"); }
-        }
+            }
         }
         public byte[] DatosDescomprimidos
         {
             get { return datosDescomprimidos; }
-            set {
+            set
+            {
                 try
                 {
-                    tamañoImgComprimida = UtilsImage.ComprimirDatosLZ77(value).Length;
+                    tamañoImgComprimida = Lz77.ComprimirDatosLZ77(value).Length;
                     datosDescomprimidos = value;
                 }
-                catch { throw new ArgumentException("Los datos no son validos!","value"); }
+                catch { throw new ArgumentException("Los datos no son validos!", "value"); }
             }
         }
         /// <summary>
@@ -138,10 +140,10 @@ namespace PokemonGBAFrameWork
 
         public Bitmap this[int indexPaleta]
         {
-            get { return BuildBitmap(DatosDescomprimidos,Paletas[indexPaleta]); }
+            get { return BuildBitmap(DatosDescomprimidos, Paletas[indexPaleta]); }
         }
 
-       public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta)
+        public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta)
         {
             if (datosImagenDescomprimida == null || paleta == null)
                 throw new ArgumentNullException();
@@ -204,7 +206,7 @@ namespace PokemonGBAFrameWork
         /// <param name="img"></param>
         /// <param name="paleta"></param>
         /// <returns></returns>
-       public static byte[] GetDatosDescomprimidos(Bitmap img)
+        public static byte[] GetDatosDescomprimidos(Bitmap img)
         {//por testear
             if (img == null)
                 throw new ArgumentNullException("img");
@@ -246,7 +248,7 @@ namespace PokemonGBAFrameWork
 
         public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg, params Paleta[] paletas)
         {
-            return new BloqueImagen(offsetPointerImg, UtilsImage.DescomprimirDatosLZ77(rom.Datos, Offset.GetOffset(rom, offsetPointerImg)), paletas);
+            return new BloqueImagen(offsetPointerImg, Lz77.DescomprimirDatosLZ77(rom.Datos, Offset.GetOffset(rom, offsetPointerImg)), paletas);
         }
 
         public static BloqueImagen GetBloqueImagen(RomGBA rom, Hex offsetPointerImg, params Hex[] pointersPaletas)
@@ -254,7 +256,7 @@ namespace PokemonGBAFrameWork
             return GetBloqueImagen(rom, offsetPointerImg, Paleta.GetPaletas(rom, pointersPaletas));
         }
         //poner los set para ROMGBA
-        public static void SetBloqueImagen(RomGBA rom, BloqueImagen bloqueImg,bool hacerTambienSetPaletas=false)
+        public static void SetBloqueImagen(RomGBA rom, BloqueImagen bloqueImg, bool hacerTambienSetPaletas = false)
         {
             SetBloqueImagen(rom, bloqueImg.OffsetPointerImg, bloqueImg.DatosDescomprimidos);
             if (hacerTambienSetPaletas)
@@ -266,10 +268,10 @@ namespace PokemonGBAFrameWork
             //borro los anteriores datos
             Hex inicioDatos = Offset.GetOffset(rom, offsetPointerImg);
             int lenghtBytesAnteriores;
-            byte[] datosNuevos = UtilsImage.ComprimirDatosLZ77(datosDescomprimidosImg);
+            byte[] datosNuevos = Lz77.ComprimirDatosLZ77(datosDescomprimidosImg);
             if (inicioDatos > -1)//si hay datos 
             {
-                lenghtBytesAnteriores = UtilsImage.LongitudDatosLZ77(rom.Datos, inicioDatos);
+                lenghtBytesAnteriores = Lz77.LongitudDatosLZ77(rom.Datos, inicioDatos);
                 if (lenghtBytesAnteriores != datosNuevos.Length)
                     throw new ArgumentException("La nueva imagen tiene que tener las medidas de la anterior");
                 BloqueBytes.RemoveBytes(rom, inicioDatos, lenghtBytesAnteriores);
@@ -278,12 +280,12 @@ namespace PokemonGBAFrameWork
             //actualizo pointer
             Offset.SetOffset(rom, offsetPointerImg, BloqueBytes.SetBytes(rom, datosNuevos));
         }
-      
+
 
         //obtener offsets a los datos de la imagen
         public static Hex GetOffsetPointerImg(RomGBA rom, Hex offset, Hex posicion)
         {
-            return  (posicion << 3) + offset;
+            return (posicion << 3) + offset;
         }
 
         //para ir rapido :)
@@ -292,262 +294,399 @@ namespace PokemonGBAFrameWork
             return bloqueImg[0];
         }
         //para ir rapido :) a ver como se ve a al practica :D
-        public static Bitmap operator +(BloqueImagen bloqueImg,Paleta paleta)
+        public static Bitmap operator +(BloqueImagen bloqueImg, Paleta paleta)
         {
-            return BuildBitmap(bloqueImg.DatosDescomprimidos,paleta);
+            return BuildBitmap(bloqueImg.DatosDescomprimidos, paleta);
         }
     }
-    /// <summary>
-    /// Es una clase para manejar la parte en comun entre una imagen y una paleta :)
-    /// </summary>
-    public static class UtilsImage
+
+
+    //codigo sacado de NSE_Framework.Data 2.0
+    public static class Lz77
     {
-        public const byte BYTELZ77TYPE = 0x10;
+        // For picking what type of Compression Look-up we want
+        public enum CompressionMode
+        {
+            Old, // Good
+            New  // Perfect!
+        }
 
-        //codigo sacado de internet creditos:Jambo
-        public static byte[] ComprimirDatosLZ77(byte[] datosDescomprimidos)
-        {//puede que este mal...
-            if (datosDescomprimidos == null)
-                throw new ArgumentNullException();
-
-            int compressedLength = 4;
-            int oldLength, bufferlength, readBytes, bufferedBlocks;
-            byte[] inData, outbuffer;
-            LZUtil.OffsetAndLenght offsetAndLenght;
-            byte[] datosComprimidos = new byte[LongitudDatosLZ77(datosDescomprimidos, 0)];
-            int posicion = 0;
-            
-            inData = new byte[datosDescomprimidos.Length];
-            datosComprimidos[posicion++] = BYTELZ77TYPE;
-            datosComprimidos[posicion++] = (byte)(datosDescomprimidos.Length & 0xFF);
-            datosComprimidos[posicion++] = (byte)((datosDescomprimidos.Length >> 8) & 0xFF);
-            datosComprimidos[posicion++] = (byte)((datosDescomprimidos.Length >> 16) & 0xFF);
-            unsafe
+        public static byte[] DescomprimirDatosLZ77(byte[] datos, Hex offsetInicio)
+        {
+            const byte BYTECOMPRESSIONLZ77 = 0x10;
+            byte[] data;
+            StringBuilder strWatch = new StringBuilder();
+            int dataLength;
+            int offset;
+            int i, pos;
+            byte[] r;
+            int length;
+            int start;
+            if (datos[offsetInicio] == BYTECOMPRESSIONLZ77)
             {
-                fixed (byte* instart = &inData[0])
-                {
-                    outbuffer = new byte[8 * 2 + 1];
-                    outbuffer[0] = 0;
-                    bufferlength = 1;
-                    bufferedBlocks = 0;
-                    readBytes = 0;
-                    while (readBytes < datosDescomprimidos.Length)
-                    {
-                        if (bufferedBlocks == 8)
-                        {
-                            outbuffer.CopyTo(datosComprimidos, posicion);
-                            posicion += outbuffer.Length;
-                            compressedLength += bufferlength;
-                            outbuffer[0] = 0;
-                            bufferlength = 1;
-                            bufferedBlocks = 0;
-                        }
+                dataLength = LongitudDatosLZ77(datos, offsetInicio);
+                data = new byte[dataLength];
 
-                        oldLength = Math.Min(readBytes, 0x1000);
-                        offsetAndLenght = LZUtil.GetOccurrenceLength(instart + readBytes, (int)Math.Min(datosDescomprimidos.Length - readBytes, 0x12),
-                                                                     instart + readBytes - oldLength, oldLength);
-                        if (offsetAndLenght.Lenght < 3)
-                        {
-                            outbuffer[bufferlength++] = *(instart + (readBytes++));
-                        }
-                        else
-                        {
-                            readBytes += offsetAndLenght.Lenght;
-                            outbuffer[0] |= (byte)(1 << (7 - bufferedBlocks));
-                            outbuffer[bufferlength] = (byte)(((offsetAndLenght.Lenght - 3) << 4) & 0xF0);
-                            outbuffer[bufferlength] |= (byte)(((offsetAndLenght.Offset - 1) >> 8) & 0x0F);
-                            bufferlength++;
-                            outbuffer[bufferlength] = (byte)((offsetAndLenght.Offset - 1) & 0xFF);
-                            bufferlength++;
-                        }
-                        bufferedBlocks++;
-                    }
-                    if (bufferedBlocks > 0)
+                offset = offsetInicio + 4;
+                i = 0;
+                pos = 8;
+                unsafe
+                {
+                    fixed (byte* ptrDatosComprimidos = datos)
                     {
-                        outbuffer.CopyTo(datosComprimidos, posicion);
-                        posicion += outbuffer.Length;
-                        compressedLength += bufferlength;
-                        while ((compressedLength % 4) != 0)
+                        fixed (byte* ptrDatosDescomprimidos = data)
                         {
-                            datosComprimidos[posicion++] = 0x0;
-                            compressedLength++;
+                            while (i < dataLength)
+                            {
+                                if (pos != 8)
+                                {
+                                    if (strWatch[pos] == '0')
+                                    {
+
+                                        ptrDatosDescomprimidos[i] = ptrDatosComprimidos[offset];
+                                    }
+                                    else
+                                    {
+
+                                        r = new byte[] { ptrDatosComprimidos[offset], ptrDatosComprimidos[offset + 1] };
+                                        length = r[0] >> 4;
+                                        start = ((r[0] - ((r[0] >> 4) << 4)) << 8) + r[1];
+                                        i = AmmendArray(data, i, i - start - 1, length + 3);
+                                        offset++;
+                                    }
+                                    offset++;
+                                    i++;
+                                    pos++;
+
+                                }
+                                else
+                                {
+                                    strWatch.Clear();
+                                    strWatch.Append(Convert.ToString(datos[offset], 2));
+                                    if (strWatch.Length < 8)
+                                    {
+                                        strWatch.Insert(0, "0", 8 - strWatch.Length);
+                                    }
+                                    offset++;
+                                    pos = 0;
+                                }
+                            }
+
+
                         }
                     }
                 }
+
             }
-            return datosComprimidos;
-
-        }
-        // descompresion sacada de https://gist.github.com/Prof9/872e67a08e17081ca00e
-        public static byte[] DescomprimirDatosLZ77(byte[] datos, Hex offsetInicio)
-        {//usar *byte[] en vez de MemoryStream :)
-            if (datos == null || offsetInicio < 0)
-                throw new ArgumentException();
-            if (datos[offsetInicio] != BYTELZ77TYPE)
-                throw new ArgumentException("La direccion no pertenece al inicio de los datos comprimidos con LZ77!", "offsetInicio");
-            BinaryReader brDatos;
-            MemoryStream msDatosDescomprimidos;
-            int size;
-            int flagByte;
-            ushort block;
-            int count;
-            int disp;
-            long outPos;
-            long copyPos;
-            byte b;
-
-            brDatos = new BinaryReader(new MemoryStream(datos));
-            brDatos.BaseStream.Position = offsetInicio + 1;//salto el primer byte que sirve para comprovar si esta comprimido :)
-            size = brDatos.ReadUInt16() | (brDatos.ReadByte() << 16);
-
-
-
-            msDatosDescomprimidos = new MemoryStream(size);
-
-            // Begin decompression.
-            while (msDatosDescomprimidos.Length < size)
+            else
             {
-                // Load flags for the next 8 blocks.
-                flagByte = brDatos.ReadByte();
+                throw new Exception("This data is not Lz77 compressed!");
+            }
 
-                // Process the next 8 blocks.
-                for (int i = 0; i < 8 && msDatosDescomprimidos.Length < size/* If all data has been decompressed, stop.*/; i++)
+            return data;
+        }
+
+        public static int LongitudDatosLZ77(byte[] datos, Hex offsetInicio)
+        {
+            return Serializar.ToInt(new Byte[] { datos[offsetInicio + 1], datos[offsetInicio + 2], datos[offsetInicio + 3], 0x0 });
+        }
+
+        static int AmmendArray(byte[] bytes, int index, int start, int length)
+        {
+            int a = 0; // Act
+            int r = 0; // Rel
+            byte backup = 0;
+
+            unsafe
+            {
+                fixed (byte* ptrBytes = bytes)
                 {
-                    // Check if the block is compressed.
-                    if ((flagByte & (0x80 >> i)) == 0)
+                    if (index > 0)
                     {
-                        // Uncompressed block; copy single byte.
-                        msDatosDescomprimidos.WriteByte((byte)brDatos.ReadByte());
+                        backup = ptrBytes[index - 1];
+                    }
+
+                    while (a != length)
+                    {
+                        if (index + r >= 0 && start + r >= 0 && index + a < bytes.Length)
+                        {
+                            if (start + r >= index)
+                            {
+                                r = 0;
+                                ptrBytes[index + a] = ptrBytes[start + r];
+                            }
+                            else
+                            {
+                                ptrBytes[index + a] = ptrBytes[start + r];
+                                backup = ptrBytes[index + r];
+                            }
+                        }
+                        a++;
+                        r++;
+                    }
+                }
+            }
+            index += length - 1;
+            return index;
+        }
+
+
+
+
+        public static byte[] ComprimirDatosLZ77(byte[] datos, CompressionMode Mode = CompressionMode.New)
+        {
+            const byte BYTECOMPRESSLZ77= 0x10;
+            byte[] header = BitConverter.GetBytes(datos.Length);
+            List<byte> bytesComprimidos = new List<byte>();
+            List<byte> PreBytes = new List<byte>();
+            byte Watch = 0;
+            byte ShortPosition = 2;
+            int ActualPosition = 2;
+            int match = -1;
+
+            int BestLength = 0;
+
+            // Adds the Lz77 header to the bytes 0x10 3 bytes size reversed
+            bytesComprimidos.Add(BYTECOMPRESSLZ77);
+            bytesComprimidos.Add(header[0]);
+            bytesComprimidos.Add(header[1]);
+            bytesComprimidos.Add(header[2]);
+
+            // Lz77 Compression requires SOME starting data, so we provide the first 2 bytes
+            PreBytes.Add(datos[0]);
+            PreBytes.Add(datos[1]);
+
+            // Compress everything
+            while (ActualPosition < datos.Length)
+            {
+                //If we've compressed 8 of 8 bytes
+                if (ShortPosition == 8)
+                {
+                    // Add the Watch Mask
+                    // Add the 8 steps in PreBytes
+                    bytesComprimidos.Add(Watch);
+                    bytesComprimidos.AddRange(PreBytes);
+
+                    Watch = 0;
+                    PreBytes.Clear();
+
+                    // Back to 0 of 8 compressed bytes
+                    ShortPosition = 0;
+                }
+                else
+                {
+                    // If we are approaching the end
+                    if (ActualPosition + 1 < datos.Length)
+                    {
+                        // Old NSE 1.x compression lookup
+                        if (Mode == CompressionMode.Old)
+                        {
+                            match = SearchBytesOld(
+                                datos,
+                                ActualPosition,
+                                Math.Min(4096, ActualPosition));
+                        }
+                        else
+                        {
+                            // New NSE 2.x compression lookup
+                            match = SearchBytes(
+                                        datos,
+                                        ActualPosition,
+                                        Math.Min(4096, ActualPosition), out BestLength);
+                        }
                     }
                     else
                     {
-                        // Compressed block; read block.
-                        block = brDatos.ReadUInt16();
-                        // Get byte count.
-                        count = ((block >> 4) & 0xF) + 3;
-                        // Get displacement.
-                        disp = ((block & 0xF) << 8) | ((block >> 8) & 0xFF);
+                        match = -1;
+                    }
 
-                        // Save current position and copying position.
-                        outPos = msDatosDescomprimidos.Position;
-                        copyPos = outPos - disp - 1;
+                    // If we have NOT found a match in the compression lookup
+                    if (match == -1)
+                    {
+                        // Add the byte
+                        PreBytes.Add(datos[ActualPosition]);
+                        // Add a 0 to the mask
+                        Watch = BitConverter.GetBytes((int)Watch << 1)[0];
 
-                        // Copy all bytes.
-                        for (int j = 0; j < count; j++)
+                        ActualPosition++;
+                    }
+                    else
+                    {
+                        // How many bytes match
+                        int length = -1;
+
+                        int start = match;
+                        if (Mode == CompressionMode.Old || BestLength == -1)
                         {
-                            // Read byte to be copied.
-                            msDatosDescomprimidos.Position = copyPos++;
-                            b = (byte)msDatosDescomprimidos.ReadByte();
+                            // Old look-up technique
+                            #region GetLength_Old
+                            start = match;
 
-                            // Write byte to be copied.
-                            msDatosDescomprimidos.Position = outPos++;
-                            msDatosDescomprimidos.WriteByte(b);
+                            bool Compatible = true;
+
+                            while (Compatible == true && length < 18 && length + ActualPosition < datos.Length - 1)
+                            {
+                                length++;
+                                if (datos[ActualPosition + length] != datos[ActualPosition - start + length])
+                                {
+                                    Compatible = false;
+                                }
+                            }
+                            #endregion
                         }
-                    }
-
-
-
-                }
-
-            }
-            brDatos.Close();
-            return msDatosDescomprimidos.GetAllBytes();
-        }
-        //creditos autor NSE
-        public static int LongitudDatosLZ77(byte[] datos, Hex inicioDatos)
-        {
-            return (Hex)new Byte[] { datos[inicioDatos+1], datos[inicioDatos+2], datos[inicioDatos+3], 0x0 };
-        }
-
-        //codigo sacado de internet creditos:Jambo
-        static class LZUtil
-        {
-            public struct OffsetAndLenght
-            {
-                int offset;
-                int lenght;
-
-                public OffsetAndLenght(int offset, int lenght)
-                {
-                    this.offset = offset;
-                    this.lenght = lenght;
-                }
-                public int Offset
-                {
-                    get
-                    {
-                        return offset;
-                    }
-
-                }
-
-                public int Lenght
-                {
-                    get
-                    {
-                        return lenght;
-                    }
-
-                }
-            }
-            /// <summary>
-            /// Determine the maximum size of a LZ-compressed block starting at newPtr, using the already compressed data
-            /// starting at oldPtr. Takes O(inLength * oldLength) = O(n^2) time.
-            /// </summary>
-            /// <param name="newPtr">The start of the data that needs to be compressed.</param>
-            /// <param name="newLength">The number of bytes that still need to be compressed.
-            /// (or: the maximum number of bytes that _may_ be compressed into one block)</param>
-            /// <param name="oldPtr">The start of the raw file.</param>
-            /// <param name="oldLength">The number of bytes already compressed.</param>
-            /// <param name="disp">The offset of the start of the longest block to refer to.</param>
-            /// <param name="minDisp">The minimum allowed value for 'disp'.</param>
-            /// <returns>The length of the longest sequence of bytes that can be copied from the already decompressed data.</returns>
-            public static unsafe OffsetAndLenght GetOccurrenceLength(byte* newPtr, int newLength, byte* oldPtr, int oldLength, int minDisp = 1)
-            {
-                int disp;
-                bool continua = newLength != 0;
-                int maxLength = 0;
-                byte* currentOldStart;
-                int currentLength;
-                disp = 0;
-
-                // try every possible 'disp' value (disp = oldLength - i)
-                for (int i = 0; i < oldLength - minDisp && continua; i++)
-                {
-                    // work from the start of the old data to the end, to mimic the original implementation's behaviour
-                    // (and going from start to end or from end to start does not influence the compression ratio anyway)
-                    currentOldStart = oldPtr + i;
-                    currentLength = 0;
-                    continua = true;
-                    // determine the length we can copy if we go back (oldLength - i) bytes
-                    // always check the next 'newLength' bytes, and not just the available 'old' bytes,
-                    // as the copied data can also originate from what we're currently trying to compress.
-                    for (int j = 0; j < newLength && continua; j++)
-                    {
-
-                        // stop when the bytes are no longer the same
-                        if (*(currentOldStart + j) != *(newPtr + j))
-                            continua = false;
                         else
-                            currentLength++;
+                        {
+                            // New lookup (Perfect Compression!)
+                            length = BestLength;
+                        }
+
+                        // Add the rel-compression pointer (P) and length of bytes to copy (L)
+                        // Format: L P P P
+                        byte[] b = BitConverter.GetBytes(((length - 3) << 12) + (start - 1));
+
+                        b = new byte[] { b[1], b[0] };
+                        PreBytes.AddRange(b);
+
+                        // Move to the next position
+                        ActualPosition += length;
+
+                        // Add a 1 to the bit Mask
+                        Watch = BitConverter.GetBytes(((int)Watch << 1) + 1)[0];
                     }
 
-                    // update the optimal value
-                    if (currentLength > maxLength)
-                    {
-                        maxLength = currentLength;
-                        disp = oldLength - i;
+                    // We've just compressed 1 more 8
+                    ShortPosition++;
+                }
 
-                        // if we cannot do better anyway, stop trying.
-                        if (maxLength == newLength)
-                            continua = false;
+
+            }
+
+            // Finnish off the compression
+            if (ShortPosition != 0)
+            {
+                //Tyeing up any left-over data compression
+                Watch = BitConverter.GetBytes((int)Watch << (8 - ShortPosition))[0];
+
+                bytesComprimidos.Add(Watch);
+                bytesComprimidos.AddRange(PreBytes);
+            }
+
+            // Return the Compressed bytes as an array!
+            return bytesComprimidos.ToArray();
+        }
+
+        static int SearchBytesOld(byte[] Data, int Index, int Length)
+        {
+            int found = -1;
+            int pos = 2;
+
+            if (Index + 2 < Data.Length)
+            {
+                while (pos < Length + 1 && found == -1)
+                {
+                    if (Data[Index - pos] == Data[Index] && Data[Index - pos + 1] == Data[Index + 1])
+                    {
+
+                        if (Index > 2)
+                        {
+                            if (Data[Index - pos + 2] == Data[Index + 2])
+                            {
+                                found = pos;
+                            }
+                            else
+                            {
+                                pos++;
+                            }
+                        }
+                        else
+                        {
+                            found = pos;
+                        }
+
+
+                    }
+                    else
+                    {
+                        pos++;
                     }
                 }
-                return new OffsetAndLenght(disp, maxLength);
+
+                return found;
+            }
+            else
+            {
+                return -1;
             }
 
         }
+
+        static int SearchBytes(byte[] Data, int Index, int Length, out int match)
+        {
+
+            int pos = 2;
+            match = 0;
+            int found = -1;
+
+            if (Index + 2 < Data.Length)
+            {
+                while (pos < Length + 1 && match != 18)
+                {
+                    if (Data[Index - pos] == Data[Index] && Data[Index - pos + 1] == Data[Index + 1])
+                    {
+
+                        if (Index > 2)
+                        {
+                            if (Data[Index - pos + 2] == Data[Index + 2])
+                            {
+                                int _match = 2;
+                                bool Compatible = true;
+                                while (Compatible == true && _match < 18 && _match + Index < Data.Length - 1)
+                                {
+                                    _match++;
+                                    if (Data[Index + _match] != Data[Index - pos + _match])
+                                    {
+                                        Compatible = false;
+                                    }
+                                }
+                                if (_match > match)
+                                {
+                                    match = _match;
+                                    found = pos;
+                                }
+
+                            }
+                            pos++;
+                        }
+                        else
+                        {
+                            found = pos;
+                            match = -1;
+                            pos++;
+                        }
+
+
+                    }
+                    else
+                    {
+                        pos++;
+                    }
+                }
+
+                return found;
+            }
+            else
+            {
+                return -1;
+            }
+
+        }
+
+
+
+
+
     }
+
     public class Paleta
     {
         public const int TAMAÑOPALETACOMPRIMIDA = 32;
@@ -629,7 +768,7 @@ namespace PokemonGBAFrameWork
         {
             if (rom == null || offsetPointerPaleta < 0)
                 throw new ArgumentException();
-            byte[] bytesPaletaDescomprimidos = UtilsImage.DescomprimirDatosLZ77(rom.Datos,Offset.GetOffset(rom, offsetPointerPaleta));
+            byte[] bytesPaletaDescomprimidos = Lz77.DescomprimirDatosLZ77(rom.Datos, Offset.GetOffset(rom, offsetPointerPaleta));
             Color[] paletteColours = new Color[TAMAÑOPALETA];
             int startPoint = showBackgroundColor ? 0 : 1;
             ushort tempValue, r, g, b;
@@ -678,11 +817,11 @@ namespace PokemonGBAFrameWork
                 index += 2;
             }
             offset = Offset.GetOffset(rom, paleta.OffsetPointerPaleta);
-            if(offset>-1)
-            //borro los datos de la paleta ant
-            BloqueBytes.RemoveBytes(rom, offset, paletaComprimida.Length);
+            if (offset > -1)
+                //borro los datos de la paleta ant
+                BloqueBytes.RemoveBytes(rom, offset, paletaComprimida.Length);
             //busco y actualizo el pointer
-             Offset.SetOffset(rom,paleta.OffsetPointerPaleta, BloqueBytes.SetBytes(rom, paletaComprimida));
+            Offset.SetOffset(rom, paleta.OffsetPointerPaleta, BloqueBytes.SetBytes(rom, paletaComprimida));
 
         }
 
