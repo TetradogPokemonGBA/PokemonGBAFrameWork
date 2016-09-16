@@ -80,12 +80,15 @@ namespace PokemonGBAFrameWork
         /// <param name="rom"></param>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static Hex SetBytes(RomGBA rom, byte[] bytes)
+        public static Hex SetBytes(RomGBA rom, byte[] bytes,bool ends048C=false)
         {
-            Hex posicion = SearchEmptyBytes(rom, bytes.Length);
+            Hex posicion = SearchEmptyBytes(rom, bytes.Length,ends048C);
+            if (posicion == -1) throw new ArgumentOutOfRangeException("No se ha encontrado lugar para los datos");
             SetBytes(rom, posicion, bytes);
             return posicion;
         }
+
+     
         public static void SetBytes(RomGBA rom, Hex offsetInicio, byte[] bytes)
 		{
 			SetBytes(rom, new BloqueBytes(offsetInicio, bytes));
@@ -206,11 +209,35 @@ namespace PokemonGBAFrameWork
 			
 			return LoadFile(new FileInfo(filePath));
 		}
-
-        public static Hex SearchEmptyBytes(RomGBA rom, Hex length)
+        public static Hex SearchEmptyBytes(RomGBA rom,Hex length)
+        { return SearchEmptyBytes(rom, 0, length); }
+        public static Hex SearchEmptyBytes(RomGBA rom,Hex inicio, Hex length)
         {
-            return SearchBytes(rom, new byte[length]);//como por defecto es 0x0 ya me va bien aunque tambien se usa el 0xFF...
+            return SearchBytes(rom,inicio, new byte[length]);//como por defecto es 0x0 ya me va bien aunque tambien se usa el 0xFF...
         }
 
+        public static Hex SearchEmptyBytes(RomGBA rom, int length, bool ends048C)
+        {
+            return SearchEmptyBytes(rom, 0, length, ends048C);
+        }
+        public static Hex SearchEmptyBytes(RomGBA rom, Hex offsetInicio, Hex length, bool ends048C)
+        {
+            string posicionString;
+            bool acabado = false;
+            Hex posicion = SearchEmptyBytes(rom, offsetInicio, length);
+            if (ends048C)
+            {
+                posicionString = posicion;
+                //busco la posicion valida si no hay lanzo excepcion por falta de espacio
+                while (posicionString[posicionString.Length - 1] != '0' && posicionString[posicionString.Length - 1] != '4' && posicionString[posicionString.Length - 1] != '8' && posicionString[posicionString.Length - 1] != 'C' && !acabado)
+                {
+                    posicion = SearchEmptyBytes(rom, posicion + 1, length);
+                    posicionString = posicion;
+                    acabado = posicion < 0;
+                }
+
+            }
+            return posicion;
+        }
     }
 }

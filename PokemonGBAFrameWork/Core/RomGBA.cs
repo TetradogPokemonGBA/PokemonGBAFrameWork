@@ -86,7 +86,20 @@ namespace PokemonGBAFrameWork
 				nombreRom = value;
 			}
 		}
-
+        public bool SePuedeModificar
+        {
+            get
+            {
+                bool sePuede = false;
+                try
+                {
+                    new FileInfo(PathRom).OpenWrite().Close();
+                    sePuede = true;
+                }
+                catch { }
+                return sePuede;
+            }
+        }
 		public void Guardar(bool sobreEscribirExistente=true,bool actualizarPathSiNoSobreEscribe=false)
 		{
 			string path;

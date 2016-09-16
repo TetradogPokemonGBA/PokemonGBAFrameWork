@@ -380,6 +380,14 @@ namespace PokemonGBAFrameWork
 		{
 			return GetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion));
 		}
+        public static Hex GetVariable(RomGBA rom,Enum variableZona,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        {
+            return GetVariable(rom, variableZona.ToString(), edicion, compilacion);
+        }
+        public static Hex GetVariable(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        {
+            return DiccionarioOffsetsZonas[variableZona][edicion,compilacion];
+        }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>

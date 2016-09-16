@@ -740,6 +740,20 @@ namespace PokemonGBAFrameWork
         }
         #endregion
         #endregion
+
+
+        #region Calculo de Stats a un nivel
+        public int CalculoHp(byte evs, byte ivs, byte nivel)
+        {
+            if (evs > 255 || ivs > 31 || nivel > 100)
+                throw new ArgumentOutOfRangeException();
+            return Convert.ToInt32(((ivs + 2 * Hp + (evs / 4.0)) * (nivel / 100.0)) + 10);
+        }
+        public int HpMaxima(byte nivel = 100)
+        {
+            return CalculoHp(255, 31, nivel);
+        }
+        #endregion
         public int CompareTo(object obj)
         {
             return CompareTo(obj as Pokemon);
@@ -959,6 +973,14 @@ namespace PokemonGBAFrameWork
                     pokemons[i] = GetPokemon(rom, edicion, compilacion, i, total);
                 }catch { System.Diagnostics.Debugger.Break(); }
             return pokemons;
+
+
+        }
+        public static Pokemon[] FiltroSinNoPokes(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion,IEnumerable<Pokemon> pokemons)
+        {
+            int total = DescripcionPokedex.TotalEntradas(rom, edicion, compilacion);
+            return pokemons.Filtra((pokemon) => { return pokemon.OrdenPokedexNacional < total; }).ToTaula();
+            
 
 
         }

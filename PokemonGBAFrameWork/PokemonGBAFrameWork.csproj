@@ -77,6 +77,7 @@
     <Compile Include="FrameWork\Objeto.cs" />
     <Compile Include="FrameWork\Pokeball.cs" />
     <Compile Include="FrameWork\Pokemon.cs" />
+    <Compile Include="FrameWork\PokemonErrante.cs" />
     <Compile Include="FrameWork\RomData.cs" />
     <Compile Include="FrameWork\Sprite.cs" />
     <Compile Include="FrameWork\Tipo.cs" />
