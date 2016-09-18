@@ -66,7 +66,7 @@ namespace PokemonGBAFrameWork
         }
         public static PokeballBattle GetPokeballBattle(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion,Hex index)
         {
-          return new PokeballBattle(BloqueImagen.GetBloqueImagen(rom, BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.IconoPokeball, edicion, compilacion), index), BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.PaletaPokeball, edicion, compilacion), index)));
+          return new PokeballBattle(BloqueImagen.GetBloqueImagen(rom, BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Variables.IconoPokeball, edicion, compilacion), index), BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Variables.PaletaPokeball, edicion, compilacion), index)));
         }
         public static PokeballBattle[] GetPokeballsBattle(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {

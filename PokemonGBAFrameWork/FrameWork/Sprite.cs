@@ -172,7 +172,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                return imagenFrontal[NORMAL];
+                return imagenFrontal[0][NORMAL];
             }
 
             set
@@ -184,7 +184,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                return imagenFrontal[SHINY];
+                return imagenFrontal[0][SHINY];
             }
 
             set
@@ -201,7 +201,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                return imagenTrasera[NORMAL];
+                return imagenTrasera[0][NORMAL];
             }
 
             set
@@ -213,7 +213,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                return imagenTrasera[SHINY];
+                return imagenTrasera[0][SHINY];
             }
 
             set
@@ -273,8 +273,26 @@ namespace PokemonGBAFrameWork
         }
         public static void SetSprite(RomGBA rom, Sprite sprite)
         {
-               //como va diferente lo tendré que hacer otra vez :D
+            byte[] bytesImg=new byte[0];
+            //pongo la primeraImg
+            bytesImg = bytesImg.AddArray(GetArrays(sprite.ImagenFrontal));
+            BloqueImagen.SetBloqueImagen(rom, sprite.ImagenFrontal[0].OffsetInicio, bytesImg);
+            bytesImg = new byte[0];
+            //pongo la segundaImg
+            bytesImg = bytesImg.AddArray(GetArrays(sprite.ImagenTrasera));
+            BloqueImagen.SetBloqueImagen(rom, sprite.ImagenTrasera[0].OffsetInicio, bytesImg);
+            Paleta.SetPaleta(rom, sprite.PaletaNormal);
+            Paleta.SetPaleta(rom, sprite.PaletaShiny);
         }
+
+        private static byte[][] GetArrays(BloqueImagen[] imgs)
+        {
+            List<byte[]> arrays = new List<byte[]>();
+            for (int i = 0; i < imgs.Length; i++)
+                arrays.Add(imgs[i].DatosDescomprimidos);
+            return arrays.ToArray();
+        }
+
         public static Sprite GetSprite(RomGBA rom, Hex posicion)
         {
             return GetSprite(rom, Edicion.GetEdicion(rom), posicion);
@@ -308,10 +326,10 @@ namespace PokemonGBAFrameWork
         public static Sprite GetSprite(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             Sprite sprite;
-            Hex offsetSpriteFrontal =BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
-            Hex offsetSpriteTrasero = BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
-            Hex offsetPaletaNormal = BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
-            Hex offsetPaletaShiny = BloqueImagen.GetOffsetPointerImg(rom, Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
+            Hex offsetSpriteFrontal =BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Variables.SpriteFrontal, edicion, compilacion), posicion);
+            Hex offsetSpriteTrasero = BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Variables.SpriteTrasero, edicion, compilacion), posicion);
+            Hex offsetPaletaNormal = BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Variables.PaletaNormal, edicion, compilacion), posicion);//al parecer no guardo bien la direccion de las paletas...y peta...
+            Hex offsetPaletaShiny = BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Variables.PaletaShiny, edicion, compilacion), posicion);
             try
             {
                     sprite = new Sprite(rom, offsetSpriteFrontal, offsetSpriteTrasero, offsetPaletaNormal, offsetPaletaShiny);     

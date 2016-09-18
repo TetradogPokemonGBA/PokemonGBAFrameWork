@@ -98,9 +98,21 @@ namespace PokemonGBAFrameWork
 			if (bytes.OffsetFin >= rom.Datos.Length)
 				throw new ArgumentOutOfRangeException();
 			unsafe {
-				fixed(byte* bytesRom=rom.Datos)
-					for (int i = bytes.OffsetInicio, f = bytes.OffsetFin, pos = 0; i < f; i++,pos++)
-					bytesRom[i] = bytes.bytes[pos];
+				fixed(byte* ptrBytesDatos = rom.Datos)
+                {
+                    fixed (byte* ptrBytesSet = bytes.Bytes)
+                    {
+                        byte* ptBytesDatos = ptrBytesDatos;
+                        byte* ptBytesSet = ptrBytesDatos;
+                        ptBytesDatos += bytes.OffsetInicio;
+                        for (int i = bytes.OffsetInicio, f = bytes.OffsetFin, pos = 0; i < f; i++, pos++)
+                        {
+                            *ptBytesDatos = *ptBytesSet;
+                            ptBytesSet++;
+                            ptBytesDatos++;
+                        }
+                    }
+                }
 				
 			}
 		}
@@ -111,19 +123,40 @@ namespace PokemonGBAFrameWork
 				throw new ArgumentOutOfRangeException();
 			byte[] bytes = new byte[longitud];
 			unsafe {
-				fixed(byte* bytesRom=rom.Datos)
-					for (int i = offsetInicio, f = i + longitud, pos = 0; i < f; i++,pos++)
-					bytes[pos] = bytesRom[i];
+				fixed(byte* ptrBytesRom = rom.Datos)
+                {
+                    fixed (byte* ptrOut = bytes)
+                    {
+                        byte* ptBytesRom = ptrBytesRom;
+                        byte* ptOut = ptrOut;
+                        ptBytesRom += offsetInicio;
+                        for (int i = offsetInicio, f = i + longitud, pos = 0; i < f; i++, pos++)
+                        {
+                            *ptOut = *ptBytesRom;
+                            ptBytesRom++;
+                            ptOut++;
+                        }
+                    }
+                }
 			}
 			return new BloqueBytes(offsetInicio, bytes);
 			
 		}
 		public static void RemoveBytes(RomGBA rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0x00)
 		{
+            if (rom.Datos.Length < offsetInicio + longitud)
+                throw new ArgumentOutOfRangeException();
 			unsafe {
-				fixed(byte* bytesRom=rom.Datos)
-					for (int i = 0, f = longitud, pos = offsetInicio; i < f; i++,pos++)
-					bytesRom[pos] = byteEnBlanco;
+				fixed(byte* ptrbytesRom = rom.Datos)
+                {
+                    byte* ptbytesRom = ptrbytesRom;
+                    ptbytesRom += offsetInicio;
+                    for (int i = 0, f = longitud, pos = offsetInicio; i < f; i++, pos++)
+                    {
+                        *ptbytesRom = byteEnBlanco;
+                        ptbytesRom++;
+                    }
+                }
 				
 			}
 		}
@@ -138,15 +171,24 @@ namespace PokemonGBAFrameWork
 			byte[] romExpandida=new byte[tamañoATener];
 			
 			unsafe{
-				fixed(byte* bytesRomExpandida=romExpandida){
-					fixed(byte* bytesRom=rom.Datos){
-						for(int i=0;i<rom.Datos.Length&&i<romExpandida.Length;i++)
-							bytesRomExpandida[i]=bytesRom[i];
+				fixed(byte* ptrBytesRomExpandida=romExpandida){
+					fixed(byte* ptrBytesRom=rom.Datos){
+                        byte* ptBytesRomExpandida = ptrBytesRomExpandida;
+                        byte* ptBytesRom = ptrBytesRom;
+                        for (int i = 0; i < rom.Datos.Length && i < romExpandida.Length; i++)
+                        {
+                            *ptBytesRomExpandida = *ptBytesRom;
+                            ptBytesRom++;
+                            ptBytesRomExpandida++;
+                        }
 						if(byteEnBlanco!=byte.MinValue)//asi evito el ponerle el valor por defecto que ya tiene :)
 							for(int i=rom.Datos.Length;i<romExpandida.Length;i++)
-								bytesRomExpandida[i]=byteEnBlanco;
-						
-					}
+                            {
+                                *ptBytesRomExpandida = byteEnBlanco;
+                                ptBytesRomExpandida++;
+                            }
+
+                    }
 					
 				}
 				
@@ -173,9 +215,11 @@ namespace PokemonGBAFrameWork
 				fixed(byte* prtBytesDatos=rom.Datos)
 					fixed (byte* ptrBytesAEcontrar = bytesAEncontrar)
 				{
-					for (int i = offsetInicio; i < rom.Datos.Length && direccionBytes == DIRECCIONNOENCONTRADO&&i+(bytesAEncontrar.Length-posicionBytesAEncontrar)<rom.Datos.Length/*si los bytes que quedan por ver se pueden llegar a ver continuo sino paro*/; i++)
+                    byte* ptBytesDatos = prtBytesDatos;
+                    byte* ptBytesAEcontrar = ptrBytesAEcontrar;
+                    for (int i = offsetInicio; i < rom.Datos.Length && direccionBytes == DIRECCIONNOENCONTRADO&&i+(bytesAEncontrar.Length-posicionBytesAEncontrar)<rom.Datos.Length/*si los bytes que quedan por ver se pueden llegar a ver continuo sino paro*/; i++)
 					{
-						if (prtBytesDatos[i] == ptrBytesAEcontrar[posicionBytesAEncontrar++])
+						if (*ptBytesDatos == *ptBytesAEcontrar)
 						{
 							if (posibleDireccion == DIRECCIONNOENCONTRADO)//si es la primera vez que entra
 								posibleDireccion = i;//le pongo el inicio
@@ -183,6 +227,11 @@ namespace PokemonGBAFrameWork
 								direccionBytes = posibleDireccion;//le pongo el resultado para poder salir del bucle
 						}
 						else { posibleDireccion = DIRECCIONNOENCONTRADO;posicionBytesAEncontrar = 0; }
+                        if (i < rom.Datos.Length)
+                        {
+                            ptBytesAEcontrar++;
+                            ptBytesDatos++;
+                        }
 					}
 				}
 			}

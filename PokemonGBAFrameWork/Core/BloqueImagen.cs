@@ -65,13 +65,19 @@ namespace PokemonGBAFrameWork
         }
         public Hex OffsetFin
         {
-            get { return OffsetInicio + tamañoImgComprimida; }
+            get {
+               
+                return OffsetInicio + TamañoImgComprimida; }
         }
 
         public int TamañoImgComprimida
         {
             get
             {
+                if (tamañoImgComprimida == -1)
+                {
+                    tamañoImgComprimida = Lz77.ComprimirDatosLZ77(DatosDescomprimidos).Length;
+                }
                 return tamañoImgComprimida;
             }
 
@@ -115,7 +121,7 @@ namespace PokemonGBAFrameWork
             {
                 try
                 {
-                    tamañoImgComprimida = Lz77.ComprimirDatosLZ77(value).Length;
+                    tamañoImgComprimida = -1;
                     datosDescomprimidos = value;
                 }
                 catch { throw new ArgumentException("Los datos no son validos!", "value"); }
@@ -283,7 +289,7 @@ namespace PokemonGBAFrameWork
 
 
         //obtener offsets a los datos de la imagen
-        public static Hex GetOffsetPointerImg(RomGBA rom, Hex offset, Hex posicion)
+        public static Hex GetOffsetPointerImg(Hex offset, Hex posicion)
         {
             return (posicion << 3) + offset;
         }
@@ -318,8 +324,9 @@ namespace PokemonGBAFrameWork
             StringBuilder strWatch = new StringBuilder();
             int dataLength;
             int offset;
-            int i, pos;
+            int i,iAux, pos;
             byte[] r;
+            byte rPart1;
             int length;
             int start;
             if (datos[offsetInicio] == BYTECOMPRESSIONLZ77)
@@ -334,8 +341,12 @@ namespace PokemonGBAFrameWork
                 {
                     fixed (byte* ptrDatosComprimidos = datos)
                     {
+                        byte* ptDatosDescomprimidos;
+                        byte* ptDatosComprimidos = ptrDatosComprimidos;
+                        ptDatosComprimidos += offset;
                         fixed (byte* ptrDatosDescomprimidos = data)
                         {
+                            ptDatosDescomprimidos = ptrDatosDescomprimidos;
                             while (i < dataLength)
                             {
                                 if (pos != 8)
@@ -343,18 +354,21 @@ namespace PokemonGBAFrameWork
                                     if (strWatch[pos] == '0')
                                     {
 
-                                        ptrDatosDescomprimidos[i] = ptrDatosComprimidos[offset];
+                                        *ptDatosDescomprimidos = *ptDatosComprimidos;
                                     }
                                     else
                                     {
-
-                                        r = new byte[] { ptrDatosComprimidos[offset], ptrDatosComprimidos[offset + 1] };
+                                        rPart1 = *ptDatosComprimidos;
+                                        ptDatosComprimidos++;
+                                        r = new byte[] { rPart1, *ptDatosComprimidos };
                                         length = r[0] >> 4;
                                         start = ((r[0] - ((r[0] >> 4) << 4)) << 8) + r[1];
-                                        i = AmmendArray(data, i, i - start - 1, length + 3);
-                                        offset++;
+                                        iAux = AmmendArray(data, i, i - start - 1, length + 3);
+                                        ptDatosDescomprimidos += iAux - i;
+                                        i = iAux;
                                     }
-                                    offset++;
+                                    ptDatosComprimidos++;
+                                    ptDatosDescomprimidos++;
                                     i++;
                                     pos++;
 
@@ -362,12 +376,12 @@ namespace PokemonGBAFrameWork
                                 else
                                 {
                                     strWatch.Clear();
-                                    strWatch.Append(Convert.ToString(datos[offset], 2));
+                                    strWatch.Append(Convert.ToString(*ptDatosComprimidos, 2));
                                     if (strWatch.Length < 8)
                                     {
                                         strWatch.Insert(0, "0", 8 - strWatch.Length);
                                     }
-                                    offset++;
+                                    ptDatosComprimidos++;
                                     pos = 0;
                                 }
                             }
@@ -390,7 +404,7 @@ namespace PokemonGBAFrameWork
         {
             return Serializar.ToInt(new Byte[] { datos[offsetInicio + 1], datos[offsetInicio + 2], datos[offsetInicio + 3], 0x0 });
         }
-
+        //metodo usado para descomprimir
         static int AmmendArray(byte[] bytes, int index, int start, int length)
         {
             int a = 0; // Act
