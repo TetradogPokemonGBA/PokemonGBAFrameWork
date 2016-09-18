@@ -970,8 +970,6 @@ namespace PokemonGBAFrameWork
             for (int i = 0; i < pokemons.Length; i++)
                 try
                 {
-                    if (i == 350+25)
-                        System.Diagnostics.Debugger.Break();
                     pokemons[i] = GetPokemon(rom, edicion, compilacion, i, total);
                 }catch { System.Diagnostics.Debugger.Break(); }
             return pokemons;
