@@ -438,13 +438,16 @@ namespace PokemonGBAFrameWork
             const byte BYTECOMPRESSLZ77= 0x10;
             byte[] header = BitConverter.GetBytes(datos.Length);
             List<byte> bytesComprimidos = new List<byte>();
-            List<byte> PreBytes = new List<byte>();
-            byte Watch = 0;
-            byte ShortPosition = 2;
-            int ActualPosition = 2;
+            List<byte> preBytes = new List<byte>();
+            byte watch = 0;
+            byte shortPosition = 2;
+            int actualPosition = 2;
             int match = -1;
-
-            int BestLength = 0;
+            int start;
+            int bestLength = 0;
+            int length;
+            bool compatible;
+            byte[] b;
 
             // Adds the Lz77 header to the bytes 0x10 3 bytes size reversed
             bytesComprimidos.Add(BYTECOMPRESSLZ77);
@@ -453,46 +456,46 @@ namespace PokemonGBAFrameWork
             bytesComprimidos.Add(header[2]);
 
             // Lz77 Compression requires SOME starting data, so we provide the first 2 bytes
-            PreBytes.Add(datos[0]);
-            PreBytes.Add(datos[1]);
+            preBytes.Add(datos[0]);
+            preBytes.Add(datos[1]);
 
             // Compress everything
-            while (ActualPosition < datos.Length)
+            while (actualPosition < datos.Length)
             {
                 //If we've compressed 8 of 8 bytes
-                if (ShortPosition == 8)
+                if (shortPosition == 8)
                 {
                     // Add the Watch Mask
                     // Add the 8 steps in PreBytes
-                    bytesComprimidos.Add(Watch);
-                    bytesComprimidos.AddRange(PreBytes);
+                    bytesComprimidos.Add(watch);
+                    bytesComprimidos.AddRange(preBytes);
 
-                    Watch = 0;
-                    PreBytes.Clear();
+                    watch = 0;
+                    preBytes.Clear();
 
                     // Back to 0 of 8 compressed bytes
-                    ShortPosition = 0;
+                    shortPosition = 0;
                 }
                 else
                 {
                     // If we are approaching the end
-                    if (ActualPosition + 1 < datos.Length)
+                    if (actualPosition + 1 < datos.Length)
                     {
                         // Old NSE 1.x compression lookup
                         if (Mode == CompressionMode.Old)
                         {
                             match = SearchBytesOld(
                                 datos,
-                                ActualPosition,
-                                Math.Min(4096, ActualPosition));
+                                actualPosition,
+                                Math.Min(4096, actualPosition));
                         }
                         else
                         {
                             // New NSE 2.x compression lookup
                             match = SearchBytes(
                                         datos,
-                                        ActualPosition,
-                                        Math.Min(4096, ActualPosition), out BestLength);
+                                        actualPosition,
+                                        Math.Min(4096, actualPosition), out bestLength);
                         }
                     }
                     else
@@ -504,32 +507,32 @@ namespace PokemonGBAFrameWork
                     if (match == -1)
                     {
                         // Add the byte
-                        PreBytes.Add(datos[ActualPosition]);
+                        preBytes.Add(datos[actualPosition]);
                         // Add a 0 to the mask
-                        Watch = BitConverter.GetBytes((int)Watch << 1)[0];
+                        watch = BitConverter.GetBytes((int)watch << 1)[0];
 
-                        ActualPosition++;
+                        actualPosition++;
                     }
                     else
                     {
                         // How many bytes match
-                        int length = -1;
+                         length = -1;
 
-                        int start = match;
-                        if (Mode == CompressionMode.Old || BestLength == -1)
+                         start = match;
+                        if (Mode == CompressionMode.Old || bestLength == -1)
                         {
                             // Old look-up technique
                             #region GetLength_Old
                             start = match;
 
-                            bool Compatible = true;
+                            compatible = true;
 
-                            while (Compatible == true && length < 18 && length + ActualPosition < datos.Length - 1)
+                            while (compatible == true && length < 18 && length + actualPosition < datos.Length - 1)
                             {
                                 length++;
-                                if (datos[ActualPosition + length] != datos[ActualPosition - start + length])
+                                if (datos[actualPosition + length] != datos[actualPosition - start + length])
                                 {
-                                    Compatible = false;
+                                    compatible = false;
                                 }
                             }
                             #endregion
@@ -537,38 +540,38 @@ namespace PokemonGBAFrameWork
                         else
                         {
                             // New lookup (Perfect Compression!)
-                            length = BestLength;
+                            length = bestLength;
                         }
 
                         // Add the rel-compression pointer (P) and length of bytes to copy (L)
                         // Format: L P P P
-                        byte[] b = BitConverter.GetBytes(((length - 3) << 12) + (start - 1));
+                        b = BitConverter.GetBytes(((length - 3) << 12) + (start - 1));
 
                         b = new byte[] { b[1], b[0] };
-                        PreBytes.AddRange(b);
+                        preBytes.AddRange(b);
 
                         // Move to the next position
-                        ActualPosition += length;
+                        actualPosition += length;
 
                         // Add a 1 to the bit Mask
-                        Watch = BitConverter.GetBytes(((int)Watch << 1) + 1)[0];
+                        watch = BitConverter.GetBytes(((int)watch << 1) + 1)[0];
                     }
 
                     // We've just compressed 1 more 8
-                    ShortPosition++;
+                    shortPosition++;
                 }
 
 
             }
 
             // Finnish off the compression
-            if (ShortPosition != 0)
+            if (shortPosition != 0)
             {
                 //Tyeing up any left-over data compression
-                Watch = BitConverter.GetBytes((int)Watch << (8 - ShortPosition))[0];
+                watch = BitConverter.GetBytes((int)watch << (8 - shortPosition))[0];
 
-                bytesComprimidos.Add(Watch);
-                bytesComprimidos.AddRange(PreBytes);
+                bytesComprimidos.Add(watch);
+                bytesComprimidos.AddRange(preBytes);
             }
 
             // Return the Compressed bytes as an array!

@@ -860,7 +860,8 @@ namespace PokemonGBAFrameWork
                 Zona.SetOffset(rom, DescripcionPokedex.Variables.Descripcion, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)DescripcionPokedex.GetTotalBytes(Edicion.GetEdicion(rom))));
                 totalBytesImgs = 0;
                 for (int i = 0; i < pokemons.Length; i++)
-                    totalBytesImgs += pokemons[i].Sprites.ImagenTrasera.TamañoImgComprimida;
+                    for (int j = 0; j < pokemons[i].Sprites.ImagenTrasera.Length; j++)
+                        totalBytesImgs += pokemons[i].Sprites.ImagenTrasera[j].TamañoImgComprimida;
                 Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
             }
             //imagenesFrontales
@@ -870,10 +871,9 @@ namespace PokemonGBAFrameWork
             totalBytesImgs = 0;
             //cambiar offsets para que quepan todos los datos :)
             for (int i = 0; i < pokemons.Length; i++)
-                totalBytesImgs += pokemons[i].Sprites.ImagenFrontal.TamañoImgComprimida;
-            if (edicion.AbreviacionRom == Edicion.ABREVIACIONESMERALDA)
-                for (int i = 0; i < pokemons.Length; i++)
-                    totalBytesImgs += ((SpriteEsmeralda)pokemons[i].Sprites).ImagenFrontal2.TamañoImgComprimida;
+                for (int j = 0; j < pokemons[i].Sprites.ImagenFrontal.Length; j++)
+                    totalBytesImgs += pokemons[i].Sprites.ImagenFrontal[j].TamañoImgComprimida;
+
             Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
             //ahora toca poner los datos
             for (int i = 0; i < pokemons.Length; i++)
@@ -970,6 +970,8 @@ namespace PokemonGBAFrameWork
             for (int i = 0; i < pokemons.Length; i++)
                 try
                 {
+                    if (i == 350+25)
+                        System.Diagnostics.Debugger.Break();
                     pokemons[i] = GetPokemon(rom, edicion, compilacion, i, total);
                 }catch { System.Diagnostics.Debugger.Break(); }
             return pokemons;
