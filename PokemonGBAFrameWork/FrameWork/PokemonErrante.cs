@@ -62,7 +62,7 @@ namespace PokemonGBAFrameWork
             public static void SetRutas(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, IEnumerable<Ruta> rutasDondeAparece)
             {
                 Ruta[] rutas = rutasDondeAparece.ToArray();
-                int columnas = Zona.GetVariable(rom, Variables.PokemonErranteColumnasFilaRuta, edicion, compilacion);
+                int columnas = (int)Zona.GetVariable(rom, Variables.PokemonErranteColumnasFilaRuta, edicion, compilacion);
                 byte[] bytesRutas = new byte[rutas.Length * columnas];
                 if (rutas.Length==0||rutas.Length > MAXIMODERUTAS) throw new ArgumentOutOfRangeException(); //como maximo 255 rutas
                 //borro la tabla anterior
@@ -72,14 +72,32 @@ namespace PokemonGBAFrameWork
                 rom.Datos[Zona.GetVariable(rom, Variables.PokemonErranteOffSetRutina2, edicion, compilacion)] = (byte)rutas.Length;
                 rom.Datos[Zona.GetVariable(rom, Variables.PokemonErranteOffSetRutina3, edicion, compilacion)] = (byte)(rutas.Length-1);//numero de filas-1 en el offset3
                 //guardo la nueva tabla //el offset de la tabla tiene que acabar en '0', '4', '8', 'C' 
-                for (int i = 0; i < rutas.Length; i++)
-                    for (int j = 0; j < columnas; j++)
-                        bytesRutas[i * rutas.Length + j] = rutas[i].Rutas[j];
+                unsafe
+                {
+                    fixed(byte* ptrBytesRutas = bytesRutas)
+                    {
+                        byte* ptBytesRutas = ptrBytesRutas,ptBytesRuta;
+                        for (int i = 0; i < rutas.Length; i++)
+                        {
+                            fixed(byte* ptrBytesRuta=rutas[i].Rutas)
+                            {
+                                ptBytesRuta = ptrBytesRuta;   
+                                for (int j = 0; j < columnas; j++)
+                                {
+                                    *ptBytesRutas = *ptBytesRuta;
+                                    ptBytesRutas++;
+                                    ptBytesRuta++;
+                                }
+                            }
+                        }
+                    }
+                }
+               
                 Offset.SetOffset(rom, Zona.GetOffset(rom, Variables.PokemonErranteOffsetTablaFilasRuta, edicion, compilacion), BloqueBytes.SetBytes(rom, bytesRutas,true));
             }
             public static Ruta[] GetRutas(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
             {
-                int columnas = Zona.GetVariable(rom, Variables.PokemonErranteColumnasFilaRuta, edicion, compilacion);
+                int columnas = (int)Zona.GetVariable(rom, Variables.PokemonErranteColumnasFilaRuta, edicion, compilacion);
                 Ruta[] rutas = new Ruta[rom.Datos[Zona.GetVariable(rom, Variables.PokemonErranteOffSetRutina1, edicion, compilacion)]];
                 BloqueBytes bloqueDatos = BloqueBytes.GetBytes(rom, Zona.GetVariable(rom, Variables.PokemonErranteOffsetTablaFilasRuta, edicion, compilacion), columnas * rutas.Length);
                 for (int i = 0; i < rutas.Length; i++)

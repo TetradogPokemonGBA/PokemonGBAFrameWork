@@ -281,7 +281,6 @@ namespace PokemonGBAFrameWork
             }
             return descripcionPokedex;
         }
-
         public static int TotalEntradas(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             int total=0;

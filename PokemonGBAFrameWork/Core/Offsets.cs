@@ -77,7 +77,7 @@ namespace PokemonGBAFrameWork
         public static Hex GetOffset(byte[] bytes, Hex offsetInicio)
         {
             //los bytes estan permutados
-            int posicion = offsetInicio;
+            int posicion = (int)offsetInicio;
             byte byteComprobador = bytes[posicion + 3];
             Hex offset;
             if (byteComprobador == 8 || byteComprobador == 9)
@@ -96,7 +96,7 @@ namespace PokemonGBAFrameWork
         /// <returns></returns>
         public static byte[] ToBytesRom(Hex offsetToSave)
         {
-            uint offset = offsetToSave;
+            uint offset = (uint)offsetToSave;
             bool esNueve = offset > (int)Longitud.DieciseisMegas;
             byte[] bytesPointer = new byte[(int)Longitud.Offset];
             int posicion = 0;
@@ -153,7 +153,7 @@ namespace PokemonGBAFrameWork
         public static Hex GetPointer(byte[] bytes, Hex offsetPointer)
         {
             //los bytes estan permutados
-            int posicion = offsetPointer;
+            int posicion = (int)offsetPointer;
             byte byteComprobador = bytes[posicion + 3];
             Hex offset;
             if (byteComprobador == 8 || byteComprobador == 9)
@@ -173,8 +173,8 @@ namespace PokemonGBAFrameWork
 		{
 			if (offset < 0 || offset + (int)Longitud.Word>rom.Datos.Length || word < 0 || word > ushort.MaxValue)
 				throw new ArgumentOutOfRangeException();
-			int zonaWord = offset;
-			int wordAux = word;
+			int zonaWord = (int)offset;
+			int wordAux = (int)word;
 			rom.Datos[zonaWord++] = Convert.ToByte((wordAux & 0xff));
 			rom.Datos[zonaWord] = Convert.ToByte(((wordAux >> 8) & 0xff));
 		}
@@ -184,11 +184,8 @@ namespace PokemonGBAFrameWork
             if (offsetWord + (int)Longitud.Word > rom.Datos.Length)
                 throw new ArgumentOutOfRangeException();
             ushort num;
-            uint offsetWordP2 = offsetWord + 1;
-            unsafe
-            {
-                num = Convert.ToUInt16(rom.Datos[offsetWord] | (rom.Datos[offsetWordP2] << 8));
-            }
+            uint offsetWordP2 = (uint)offsetWord + 1;
+            num = Convert.ToUInt16(rom.Datos[offsetWord] | (rom.Datos[offsetWordP2] << 8)); 
             return (Hex)(int)num;
         }
     }

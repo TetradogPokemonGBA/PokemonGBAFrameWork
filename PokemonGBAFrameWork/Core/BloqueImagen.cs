@@ -334,7 +334,7 @@ namespace PokemonGBAFrameWork
                 dataLength = LongitudDatosLZ77(datos, offsetInicio);
                 data = new byte[dataLength];
 
-                offset = offsetInicio + 4;
+                offset = (int)offsetInicio + 4;
                 i = 0;
                 pos = 8;
                 unsafe
