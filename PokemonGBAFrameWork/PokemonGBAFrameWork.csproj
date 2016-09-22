@@ -68,6 +68,7 @@
     <Compile Include="Core\Edicion.cs" />
     <Compile Include="Core\BloqueBytes.cs" />
     <Compile Include="Core\RomGBA.cs" />
+    <Compile Include="FrameWork\Ataque.cs" />
     <Compile Include="FrameWork\DescripcionPokedex.cs" />
     <Compile Include="FrameWork\Habilidad.cs" />
     <Compile Include="FrameWork\Huella.cs" />
