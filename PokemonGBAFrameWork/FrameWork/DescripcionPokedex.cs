@@ -21,7 +21,7 @@ namespace PokemonGBAFrameWork
          [CD BF BF BE FF 00 00 00 00 00 00 00=>NombreEspecie]
          [0A 00 =>Altura]
          [82 00 =>Peso]
-         [1C 4D 44 08]
+         [1C 4D 44 08]//no se que es...
          [8B 4D 44 08=>descripcionPokedex]
          [00 00=>No se]
          [4C 01=>escala pokemon]
@@ -46,6 +46,15 @@ namespace PokemonGBAFrameWork
         BloqueString nombreEspecie;
         //tiene un tamaño maximo en todas las versiones de 0xC
         BloqueString descripcion;
+        ushort peso;
+        ushort altura;
+        ushort escalaPokemon;
+        ushort escalaEntrenador;
+        //datos que desconozco
+        Hex pointer;
+        ushort numero;
+        ushort againstOffset1;
+        uint againstOffset2;
         //falta proporcion con entrenador y peso aun no lo acabo de entender como va...
         static DescripcionPokedex()
         {
@@ -70,12 +79,23 @@ namespace PokemonGBAFrameWork
         {
             nombreEspecie = new BloqueString((int)LongitudCampos.NombreEspecie);
             descripcion = new BloqueString("");
+            //pongo los datos que no se...
+            pointer = "0";
+            numero = 0;
+            againstOffset1 = 0;
+            againstOffset2 = 0;
+
+            
         }
-        public DescripcionPokedex(BloqueString nombreEspecie, BloqueString descripcion) : this()
+        public DescripcionPokedex(BloqueString nombreEspecie, BloqueString descripcion ,ushort peso,ushort altura,ushort escalaPokemon,ushort escalaEntrenador) : this()
         {
             //asi controlo los maximos
             this.nombreEspecie.Texto = nombreEspecie.Texto;
             this.descripcion.Texto = descripcion.Texto;
+            Peso = peso;
+            Altura = altura;
+            EscalaEntrenador = escalaEntrenador;
+            EscalaPokemon = escalaPokemon;
         }
         //calcular OffsetInicio con el offset de la descripcion
 
@@ -106,6 +126,59 @@ namespace PokemonGBAFrameWork
                 return descripcion;
             }
         }
+
+        public ushort Peso
+        {
+            get
+            {
+                return peso;
+            }
+
+            set
+            {
+                peso = value;
+            }
+        }
+
+        public ushort Altura
+        {
+            get
+            {
+                return altura;
+            }
+
+            set
+            {
+                altura = value;
+            }
+        }
+
+        public ushort EscalaPokemon
+        {
+            get
+            {
+                return escalaPokemon;
+            }
+
+            set
+            {
+                escalaPokemon = value;
+            }
+        }
+
+        public ushort EscalaEntrenador
+        {
+            get
+            {
+                return escalaEntrenador;
+            }
+
+            set
+            {
+                escalaEntrenador = value;
+            }
+        }
+
         public Hex OffsetFin(bool esEsmeralda = false)
         {
             return OffsetInicio + (esEsmeralda ? (int)LongitudCampos.TotalEsmeralda : (int)LongitudCampos.TotalGeneral);
@@ -200,9 +273,18 @@ namespace PokemonGBAFrameWork
             DescripcionPokedexRubiZafiro descripcionRZ;
             long index;
             Hex posicion;
+            Hex posicionDescripcion;
             Hex offsetDescripcion = Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion);
+            posicionDescripcion = offsetDescripcion;
             //borro el nombre de la especie
-            BloqueBytes.RemoveBytes(rom, offsetDescripcion, (int)LongitudCampos.NombreEspecie, 0x0);
+            BloqueBytes.RemoveBytes(rom, posicionDescripcion, (int)LongitudCampos.NombreEspecie, 0x0);
+            posicionDescripcion += (int)LongitudCampos.NombreEspecie;
+            Word.SetWord(rom, posicionDescripcion, (int)descripcion.Altura);
+            posicionDescripcion += 2;
+            Word.SetWord(rom, posicionDescripcion, (int)descripcion.Peso);
+            posicionDescripcion += 2;
+            Offset.SetOffset(rom, posicionDescripcion, descripcion.pointer);
+            posicionDescripcion += 4;
             //pongo el nombre de la especie
             BloqueString.SetString(rom, offsetDescripcion, descripcion.NombreEspecie);
             //quito las paginas si estan
@@ -218,6 +300,8 @@ namespace PokemonGBAFrameWork
             posicion = BloqueBytes.SearchEmptyBytes(rom, descripcion.Descripcion.Texto.Length + 1);
             BloqueString.SetString(rom, posicion, descripcion.Descripcion.Texto);
             descripcion.Descripcion.OffsetInicio = posicion;
+            Offset.SetOffset(rom,posicionDescripcion, posicion);
+            posicionDescripcion += 4;
             if (edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI || edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO)
             {
 
@@ -239,9 +323,19 @@ namespace PokemonGBAFrameWork
                 posicion = BloqueBytes.SearchEmptyBytes(rom, descripcionRZ.Descripcion2.Texto.Length + 1);
                 BloqueString.SetString(rom, posicion, descripcionRZ.Descripcion2.Texto);
                 descripcionRZ.Descripcion2.OffsetInicio = posicion;
+                Offset.SetOffset(rom, posicionDescripcion, posicion);
+                posicionDescripcion += 4;
             }
-            //falta poner el resto de datos...
-      
+
+            Word.SetWord(rom, posicionDescripcion, (int)descripcion.EscalaPokemon);
+            posicionDescripcion += 2;
+            Word.SetWord(rom, posicionDescripcion, (int)descripcion.againstOffset1);
+            posicionDescripcion += 2;
+            Word.SetWord(rom,posicionDescripcion, (int)descripcion.EscalaEntrenador);
+            posicionDescripcion += 2;
+            BloqueBytes.SetBytes(rom, posicionDescripcion, Serializar.GetBytes(descripcion.againstOffset2));
+          
+           
         }
         public static DescripcionPokedex GetDescripcionPokedex(RomGBA rom, Hex ordenGameFreak)
         { return GetDescripcionPokedex(rom, Edicion.GetEdicion(rom), ordenGameFreak); }
@@ -251,6 +345,7 @@ namespace PokemonGBAFrameWork
         { return GetDescripcionPokedex(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak); }
         public static DescripcionPokedex GetDescripcionPokedex(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
+
             if (rom == null || edicion == null || ordenGameFreak < 0) throw new ArgumentException();
             BloqueBytes bytesDescripcion;
             BloqueString nombreEspecie;
@@ -258,11 +353,22 @@ namespace PokemonGBAFrameWork
             BloqueString descripcion;
             BloqueString descripcion2;
             DescripcionPokedex descripcionPokedex;
-
+            ushort peso, altura, tamañoPokemon, tamañoEntrenador,numero,againstOffset1;
+            uint againstOffset2;
+            Hex pointer;
             bytesDescripcion = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion), DameTotal(edicion));
             //primero va la especie y acaba en FF si es mas corto que el tamaño maximo
+            //no funciona bien de momento...
             nombreEspecie = BloqueString.GetString(bytesDescripcion,0);
-
+            nombreEspecie.MaxCaracteres = (int)LongitudCampos.NombreEspecie;
+            peso = Convert.ToUInt16((long)Word.GetWord(rom,bytesDescripcion.OffsetInicio+ nombreEspecie.OffsetFin + 2));
+            pointer = Offset.GetOffset(rom, bytesDescripcion.OffsetInicio + nombreEspecie.OffsetFin + 4);
+            altura = Convert.ToUInt16((long)Word.GetWord(rom, bytesDescripcion.OffsetInicio + nombreEspecie.OffsetFin));
+            numero = Convert.ToUInt16((long)Word.GetWord(rom, bytesDescripcion.OffsetInicio + nombreEspecie.OffsetFin +12 ));
+            tamañoPokemon = Convert.ToUInt16((long)Word.GetWord(rom, bytesDescripcion.OffsetFin -10));
+            againstOffset1= Convert.ToUInt16((long)Word.GetWord(rom, bytesDescripcion.OffsetFin - 8));
+            tamañoEntrenador = Convert.ToUInt16((long)Word.GetWord(rom, bytesDescripcion.OffsetFin - 6));
+            againstOffset2 = Serializar.ToUInt(BloqueBytes.GetBytes(rom, bytesDescripcion.OffsetFin - 4,4).Bytes);
             //luego va la descripcion que es un pointer
             offsetPagina = Offset.GetOffset(bytesDescripcion, (int)LongitudCampos.NombreEspecie + 4);
             
@@ -273,12 +379,17 @@ namespace PokemonGBAFrameWork
                 descripcion2 = BloqueString.GetString(rom,offsetPagina);
 
 
-                descripcionPokedex = new DescripcionPokedexRubiZafiro(nombreEspecie, descripcion, descripcion2);
+                descripcionPokedex = new DescripcionPokedexRubiZafiro(nombreEspecie, descripcion, descripcion2,peso,altura,tamañoPokemon,tamañoEntrenador);
             }
             else
             {
-                descripcionPokedex = new DescripcionPokedex(nombreEspecie, descripcion);//mas adelante poner todos los campos
+                descripcionPokedex = new DescripcionPokedex(nombreEspecie, descripcion,peso,altura,tamañoPokemon,tamañoEntrenador);//mas adelante poner todos los campos
             }
+            //pongo los datos que aun no se que son...
+            descripcionPokedex.againstOffset1 = againstOffset1;
+            descripcionPokedex.againstOffset2 = againstOffset2;
+            descripcionPokedex.numero = numero;
+            descripcionPokedex.pointer = pointer;
             return descripcionPokedex;
         }
         public static int TotalEntradas(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
@@ -308,16 +419,19 @@ namespace PokemonGBAFrameWork
         {
             DescripcionPokedex descripcion;
             if (edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI || edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO)
-                descripcion = new DescripcionPokedexRubiZafiro(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString(), new BloqueString());
+                descripcion = new DescripcionPokedexRubiZafiro();
             else
-                descripcion = new DescripcionPokedex(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString());
+                descripcion = new DescripcionPokedex();
+            pokemon.Descripcion = descripcion;
             SetDescripcionPokedex(rom, pokemon.OrdenPokedexNacional, descripcion, false);
         }
     }
     public class DescripcionPokedexRubiZafiro : DescripcionPokedex
     {
         BloqueString pagina2;
-        public DescripcionPokedexRubiZafiro(BloqueString nombreEspecie, BloqueString pagina1, BloqueString pagina2) : base(nombreEspecie, pagina1)
+        public DescripcionPokedexRubiZafiro():this(new BloqueString((int)LongitudCampos.NombreEspecie), new BloqueString(), new BloqueString(), 0, 0, 0, 0)
+        {}
+        public DescripcionPokedexRubiZafiro(BloqueString nombreEspecie, BloqueString pagina1, BloqueString pagina2, ushort peso, ushort altura, ushort escalaPokemon, ushort escalaEntrenador) : base(nombreEspecie, pagina1,peso,altura,escalaPokemon,escalaEntrenador)
         {
             this.pagina2 = new BloqueString(pagina2.OffsetInicio, pagina2.Texto);
         }

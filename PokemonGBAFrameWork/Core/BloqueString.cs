@@ -114,7 +114,19 @@ namespace PokemonGBAFrameWork
 			}
 		}
 		public Hex OffsetFin{
-			get{return OffsetInicio+Texto.Length-1;}
+			get{
+                //si tiene marca fin
+                //si tiene tamaño fijo
+                Hex offsetFin = offsetInicio;
+                if (maxCaracteres != MAXIMODECARACTERESDESHABILITADO)
+                    offsetFin += MAXIMODECARACTERESDESHABILITADO;
+                else 
+                {
+                    offsetFin += Texto.Length ;
+                    if (acabaEnFFByte)
+                        offsetFin++;
+                }
+                return offsetFin;}
 		}
 
         public bool AcabaEnFFByte

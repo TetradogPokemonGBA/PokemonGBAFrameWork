@@ -994,7 +994,7 @@ namespace PokemonGBAFrameWork
                 try
                 {
                     pokemons[i] = GetPokemon(rom, edicion, compilacion, i, total);
-                }catch { System.Diagnostics.Debugger.Break(); }
+                }catch(Exception ex) { System.Diagnostics.Debugger.Break(); }
 
             return pokemons;
 

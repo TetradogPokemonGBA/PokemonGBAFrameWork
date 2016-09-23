@@ -186,7 +186,7 @@ namespace PokemonGBAFrameWork
             ushort num;
             uint offsetWordP2 = (uint)offsetWord + 1;
             num = Convert.ToUInt16(rom.Datos[offsetWord] | (rom.Datos[offsetWordP2] << 8)); 
-            return (Hex)(int)num;
+            return (Hex)(uint)num;
         }
     }
 	/// <summary>
