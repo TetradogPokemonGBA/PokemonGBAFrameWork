@@ -33,12 +33,12 @@ namespace PokemonGBAFrameWork
             Zona zonaScriptBatalla = new Zona(Variables.ScriptBatalla);
             Zona zonaAnimacion = new Zona(Variables.Animacion);
             //añado las zonas al diccionario
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaAnimacion);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaScriptBatalla);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaDescripcion);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaEfectoAtaque);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaDatosAtaques);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaNombresAtaques);
+            Zona.DiccionarioOffsetsZonas.Add(zonaAnimacion);
+            Zona.DiccionarioOffsetsZonas.Add(zonaScriptBatalla);
+            Zona.DiccionarioOffsetsZonas.Add(zonaDescripcion);
+            Zona.DiccionarioOffsetsZonas.Add(zonaEfectoAtaque);
+            Zona.DiccionarioOffsetsZonas.Add(zonaDatosAtaques);
+            Zona.DiccionarioOffsetsZonas.Add(zonaNombresAtaques);
             //nombres
             zonaNombresAtaques.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x148);
             zonaNombresAtaques.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x148);

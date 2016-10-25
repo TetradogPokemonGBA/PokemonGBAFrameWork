@@ -41,8 +41,8 @@ namespace PokemonGBAFrameWork
             zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x107f30);
             zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x107f58);
             zonaImagenTipo.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x199F44);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaImagenTipo);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaNombreTipo);
+            Zona.DiccionarioOffsetsZonas.Add(zonaImagenTipo);
+            Zona.DiccionarioOffsetsZonas.Add(zonaNombreTipo);
         }
         BloqueString nombre;
 

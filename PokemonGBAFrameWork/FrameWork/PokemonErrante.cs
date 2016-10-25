@@ -50,7 +50,7 @@ namespace PokemonGBAFrameWork
                 zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x161a82);
                 zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x141eae);
 
-                Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] { zonaBancoMapaRutaValido, zonaColumnasFilaRuta, zonaOffsetTablaFilasRuta, zonaOffSetRutina1, zonaOffSetRutina2, zonaOffSetRutina3 });
+                Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] { zonaBancoMapaRutaValido, zonaColumnasFilaRuta, zonaOffsetTablaFilasRuta, zonaOffSetRutina1, zonaOffSetRutina2, zonaOffSetRutina3 });
 
             }
             public byte[] Rutas { get; private set; }
@@ -148,7 +148,7 @@ namespace PokemonGBAFrameWork
 
                 zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x5F29);
                 zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x5071);
-                Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] {zonaDisponibleVar,zonaNivelYEstadoVar,zonaPokemonErranteVar,zonaSpecialPokemonErrante,zonaVitalidadVar });
+                Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] {zonaDisponibleVar,zonaNivelYEstadoVar,zonaPokemonErranteVar,zonaSpecialPokemonErrante,zonaVitalidadVar });
             }
             PokemonGBAFrameWork.Pokemon pokemon;
             int vida;

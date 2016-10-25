@@ -73,7 +73,7 @@ namespace PokemonGBAFrameWork
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x8F508, 0x8F528, 0x8F528);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x8F508, 0x8F528, 0x8F528);
             //añado la zona al diccionario
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaDescripcion);
+            Zona.DiccionarioOffsetsZonas.Add(zonaDescripcion);
         }
         public DescripcionPokedex()
         {

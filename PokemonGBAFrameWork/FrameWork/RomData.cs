@@ -20,10 +20,10 @@ namespace PokemonGBAFrameWork
         CompilacionRom.Compilacion compilacion;
         public RomData(IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
-            this.habilidades.AfegirMolts(habilidades);
-            this.tipos.AfegirMolts(tipos);
-            this.objetos.AfegirMolts(objetos);
-            this.pokedex.AfegirMolts(pokedex);
+            this.habilidades.AddRange(habilidades);
+            this.tipos.AddRange(tipos);
+            this.objetos.AddRange(objetos);
+            this.pokedex.AddRange(pokedex);
             this.edicion = edicion;
             this.compilacion = compilacion;
         }

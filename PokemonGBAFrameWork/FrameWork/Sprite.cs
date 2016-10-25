@@ -87,7 +87,7 @@ namespace PokemonGBAFrameWork
             zonaPaletaShiny.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x134);
             zonaPaletaShiny.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x134);
 
-            Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] {
+            Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] {
                 zonaPaletaNormal,
                 zonaPaletaShiny,
                 zonaSpriteFrontal,

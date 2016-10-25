@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork
             zonaNombre.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA0098);
             zonaNombre.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA0098);
 
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaNombre);
+            Zona.DiccionarioOffsetsZonas.Add(zonaNombre);
 
         }
         BloqueString nombre;

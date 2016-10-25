@@ -222,14 +222,14 @@ namespace PokemonGBAFrameWork
 		}
 		public Hex[] this[Edicion edicionZona] {
 			get {
-				if (!diccionarioZonas.Existeix(edicionZona))
+				if (!diccionarioZonas.ContainsKey(edicionZona))
 					throw new RomInvestigacionExcepcion();
 				return diccionarioZonas[edicionZona];
 			}
 			set {
 				if (value == null || value.Length == 0)
 					throw new ArgumentException();
-				if (!diccionarioZonas.Existeix(edicionZona))
+				if (!diccionarioZonas.ContainsKey(edicionZona))
 					throw new RomInvestigacionExcepcion();
 				diccionarioZonas[edicionZona] = value;
 			}
@@ -267,7 +267,7 @@ namespace PokemonGBAFrameWork
 			if(zonasOffset.Length==0)
 				throw new ArgumentException("Se tiene que pasar como minimo una zonaOffset","zonasOffset");
 			if (zonasOffset.Length > NumeroCompilaciones)
-				zonasAPoner = zonasOffset.SubArray(0, NumeroCompilaciones);
+				zonasAPoner = zonasOffset.SubArray(0, NumeroCompilaciones).ToTaula();
 			else if (zonasOffset.Length < NumeroCompilaciones) {
 				zonasAPoner = new Hex[NumeroCompilaciones];
 				for (int i = 0; i < NumeroCompilaciones; i++)
@@ -277,19 +277,22 @@ namespace PokemonGBAFrameWork
 						zonasAPoner[i] = zonasOffset[zonasOffset.Length - 1];
 			} else
 				zonasAPoner = (Hex[])zonasOffset.Clone();//asi evito que modifiquen la array desde fuera sin control
-			diccionarioZonas.AfegirORemplaçar(edicion, zonasAPoner);
+			diccionarioZonas.AddOrReplace(edicion, zonasAPoner);
 		}
 		public bool RemoveZonaOffset(Edicion edicion)
 		{
 			if (edicion == null)
 				throw new ArgumentNullException("edicion");
-			return diccionarioZonas.Elimina(edicion);
+			return diccionarioZonas.Remove(edicion);
 		}
 
 		#region IClauUnicaPerObjecte implementation
-		public IComparable Clau()
+		public IComparable Clau
 		{
-			return variable;
+            get
+            {
+                return variable;
+            }
 		}
 		#endregion
 		#region IComparable implementation
@@ -444,7 +447,7 @@ namespace PokemonGBAFrameWork
 		{
 			if (rom == null || zona == null || edicion == null)
 				throw new ArgumentNullException();
-			else if (!zona.diccionarioZonas.Existeix(edicion) || zona.diccionarioZonas[edicion].Length < (int)compilacion)
+			else if (!zona.diccionarioZonas.ContainsKey(edicion) || zona.diccionarioZonas[edicion].Length < (int)compilacion)
 				throw new RomInvestigacionExcepcion();
 
 			return Offset.GetOffset(rom, zona[edicion, compilacion]);

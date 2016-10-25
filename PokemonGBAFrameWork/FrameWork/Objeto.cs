@@ -80,8 +80,8 @@ namespace PokemonGBAFrameWork
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x98B74);
             zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x98b48);
             //añado las zonas al diccionario
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaObjeto);
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaImagenesObjetos);
+            Zona.DiccionarioOffsetsZonas.Add(zonaObjeto);
+            Zona.DiccionarioOffsetsZonas.Add(zonaImagenesObjetos);
 		}
         public Objeto(ushort posicion,BloqueString nombre,BloqueString descripcion,BloqueImagen icono) : this(nombre,0x0,posicion,null,descripcion,null,icono) { }
 

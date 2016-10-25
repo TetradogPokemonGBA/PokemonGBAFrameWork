@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork
             zonaHuellas.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x919F8);
             zonaHuellas.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x919F8);
 
-            Zona.DiccionarioOffsetsZonas.Añadir(zonaHuellas);
+            Zona.DiccionarioOffsetsZonas.Add(zonaHuellas);
 
 
         }

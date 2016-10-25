@@ -194,7 +194,7 @@ namespace PokemonGBAFrameWork
             zonaStats.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1BC);
 
             //añado las zonas
-            Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] {
+            Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] {
                 zonaNombre,
                 zonaOrdenLocal,
                 zonaOrdenNacional,

@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork
             zonaPaletas.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x473C0, 0x473E0, 0x473E0);
             zonaPaletas.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x473C0, 0x473E0, 0x473E0);
 
-            Zona.DiccionarioOffsetsZonas.Añadir(new Zona[] { zonaPaletas, zonaIcono });
+            Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] { zonaPaletas, zonaIcono });
         }
         BloqueImagen icono;
 
