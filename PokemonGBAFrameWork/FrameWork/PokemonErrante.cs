@@ -267,7 +267,7 @@ namespace PokemonGBAFrameWork
             }
 
         }
-
+        //mirar de abstraer un poco mas y ponerlo en otro sitio mas comun porque creo que se usa en mas sitios
         public static bool ValidaDireccion(RomGBA rom, Hex offset, Hex length)
         {
             //si no acaba en 048C no es valida y si en esa direccion no hay esos bytes como minimo tampoco

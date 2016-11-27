@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork
 	{
 		public static void Main(string[] args)
 		{
-			//para hacer testing
-			string path=args.Length!=0?args[0]:"Pokémon  Verde Hoja.gba";
-			new RomGBA(new System.IO.FileInfo(path)).BackUp();
+            //para hacer testing
+            Console.WriteLine("Se usa para el testing :)");
+            Console.ReadKey();
 		}
 	}
 }

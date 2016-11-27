@@ -81,19 +81,18 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetHabilidades(RomGBA rom, IEnumerable<Habilidad> habilidades)
+        public static void SetHabilidades(RomGBA rom, IList<Habilidad> habilidades)
         {
             if (rom == null || habilidades == null) throw new ArgumentNullException();
-            Habilidad[] habilidadesArray = habilidades.ToArray();
             Edicion edicion = Edicion.GetEdicion(rom);
             CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
-            if (habilidadesArray.Length != GetTotal(rom, edicion, compilacion))
+            if (habilidades.Count != GetTotal(rom, edicion, compilacion))
             {
                 BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion), GetTotal(rom, edicion, compilacion) * (int)LongitudCampo.Nombre);
-                Zona.SetOffset(rom, Variables.NombreHabilidad, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, habilidadesArray.Length * (int)LongitudCampo.Nombre));//actualizo el offset
+                Zona.SetOffset(rom, Variables.NombreHabilidad, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, habilidades.Count * (int)LongitudCampo.Nombre));//actualizo el offset
             }
-            for (int i = 0; i < habilidadesArray.Length; i++)
-                SetHabilidad(rom, edicion, compilacion, habilidadesArray[i], i);
+            for (int i = 0; i < habilidades.Count; i++)
+                SetHabilidad(rom, edicion, compilacion, habilidades[i], i);
         }
     }
 }

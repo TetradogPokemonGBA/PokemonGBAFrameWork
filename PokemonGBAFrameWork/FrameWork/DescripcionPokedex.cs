@@ -199,11 +199,12 @@ namespace PokemonGBAFrameWork
         }
         internal static bool ValidarOffset(RomGBA rom, Edicion edicion, Hex offsetInicioDescripcion)
         {
-            Hex offsetByteValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1;
+            Hex offsetByteValidador;
             byte byteValidador;
             bool valido=offsetInicioDescripcion>-1;//si el offset no es valido devuelve -1 
             if (valido)
             {
+                offsetByteValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1;
                 byteValidador = rom.Datos[offsetByteValidador];
                 valido = (byteValidador == 0x8 || byteValidador == 0x9);
                 if (valido && (edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO || edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI))

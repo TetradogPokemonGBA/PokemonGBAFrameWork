@@ -1000,9 +1000,9 @@ namespace PokemonGBAFrameWork
 
 
         }
-        public static Pokemon[] FiltroSinNoPokes(IEnumerable<Pokemon> pokemons)
+        public static IReadOnlyList<Pokemon> FiltroSinNoPokes(IEnumerable<Pokemon> pokemons)
         {
-            return pokemons.Filtra((pokemon) => pokemon.EsUnPokemonValido).ToTaula();
+            return pokemons.Filtra((pokemon) => pokemon.EsUnPokemonValido);
         }
 
 

@@ -267,7 +267,7 @@ namespace PokemonGBAFrameWork
 			if(zonasOffset.Length==0)
 				throw new ArgumentException("Se tiene que pasar como minimo una zonaOffset","zonasOffset");
 			if (zonasOffset.Length > NumeroCompilaciones)
-				zonasAPoner = zonasOffset.SubArray(0, NumeroCompilaciones).ToTaula();
+				zonasAPoner = zonasOffset.SubList(0, NumeroCompilaciones).ToTaula();
 			else if (zonasOffset.Length < NumeroCompilaciones) {
 				zonasAPoner = new Hex[NumeroCompilaciones];
 				for (int i = 0; i < NumeroCompilaciones; i++)

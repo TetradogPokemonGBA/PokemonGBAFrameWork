@@ -302,22 +302,7 @@ namespace PokemonGBAFrameWork
             return GetSprite(rom, Edicion.GetEdicion(rom), compilacion, posicion);
         }
 
-        public virtual BitmapAnimated GetAnimacionImagenFrontal(bool isShiny = false)
-        {
-            Bitmap[] gifAnimated = new Bitmap[imagenFrontal.Length + 2];
-            int[] delay = new int[gifAnimated.Length];
-            Paleta paleta = isShiny ? PaletaShiny : PaletaNormal;
-            gifAnimated[1] = GetCustomImagenFrontal(paletaAnimacion);
-            delay[1] = 200;
-            for (int i = 2, j = 0; i < gifAnimated.Length; i++, j++)
-            {
-                gifAnimated[i] = imagenFrontal[j] + paleta;
-                delay[i] = 500;
-            }
-            gifAnimated[0] = gifAnimated[2];
-            BitmapAnimated bmpAnimated = gifAnimated.ToAnimatedBitmap(false, delay);
-            return bmpAnimated;
-        }
+
 
         public static Sprite GetSprite(RomGBA rom, Edicion edicion, Hex posicion)
         {
@@ -340,6 +325,21 @@ namespace PokemonGBAFrameWork
             }
             return sprite;
         }
-
+        public virtual BitmapAnimated GetAnimacionImagenFrontal(bool isShiny = false)
+        {
+            Bitmap[] gifAnimated = new Bitmap[imagenFrontal.Length + 2];
+            int[] delay = new int[gifAnimated.Length];
+            Paleta paleta = isShiny ? PaletaShiny : PaletaNormal;
+            gifAnimated[1] = GetCustomImagenFrontal(paletaAnimacion);
+            delay[1] = 200;
+            for (int i = 2, j = 0; i < gifAnimated.Length; i++, j++)
+            {
+                gifAnimated[i] = imagenFrontal[j] + paleta;
+                delay[i] = 500;
+            }
+            gifAnimated[0] = gifAnimated[2];
+            BitmapAnimated bmpAnimated = gifAnimated.ToAnimatedBitmap(false, delay);
+            return bmpAnimated;
+        }
     }
 }

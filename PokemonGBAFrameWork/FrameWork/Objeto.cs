@@ -246,21 +246,20 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetObjetos(RomGBA rom, IEnumerable<Objeto> objetos)
+        public static void SetObjetos(RomGBA rom, IList<Objeto> objetos)
         {
             if (rom == null || objetos == null) throw new ArgumentNullException();
      
-            Objeto[] objetosArray = objetos.ToArray();
             Edicion edicion = Edicion.GetEdicion(rom);
             CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
             int totalObjetosRom = TotalObjetos(rom, edicion, compilacion);
-            if (objetosArray.Length != totalObjetosRom)
+            if (objetos.Count != totalObjetosRom)
             {
                 BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.DatosObjeto, edicion, compilacion), totalObjetosRom * (int)LongitudCampos.Total);
-                Zona.SetOffset(rom, Variables.DatosObjeto, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, objetosArray.Length * (int)LongitudCampos.Total));//actualizo el offset
+                Zona.SetOffset(rom, Variables.DatosObjeto, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, objetos.Count * (int)LongitudCampos.Total));//actualizo el offset
             }
-            for (int i = 0; i < objetosArray.Length; i++)
-                SetObjeto(rom, edicion, compilacion, objetosArray[i], i);
+            for (int i = 0; i < objetos.Count; i++)
+                SetObjeto(rom, edicion, compilacion, objetos[i], i);
         }
         #region SobreCarga Get
         public static Objeto[] GetObjetos(RomGBA rom)

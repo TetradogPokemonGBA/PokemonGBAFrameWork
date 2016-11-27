@@ -97,19 +97,18 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetTipos(RomGBA rom, IEnumerable<Tipo> tipos)
+        public static void SetTipos(RomGBA rom, IList<Tipo> tipos)
         {
             if (rom == null || tipos == null) throw new ArgumentNullException();
-            Tipo[] tiposArray = tipos.ToArray();
             Edicion edicion = Edicion.GetEdicion(rom);
             CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
-            if (tiposArray.Length != GetTotal(rom, edicion, compilacion))
+            if (tipos.Count != GetTotal(rom, edicion, compilacion))
             {
                 BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.NombreTipo, edicion, compilacion), GetTotal(rom, edicion, compilacion) * (int)LongitudCampo.Nombre);
-                Zona.SetOffset(rom, Variables.NombreTipo, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, tiposArray.Length * (int)LongitudCampo.Nombre));//actualizo el offset
+                Zona.SetOffset(rom, Variables.NombreTipo, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, tipos.Count * (int)LongitudCampo.Nombre));//actualizo el offset
             }
-            for (int i = 0; i < tiposArray.Length; i++)
-                SetTipo(rom, edicion, compilacion, tiposArray[i], i);
+            for (int i = 0; i < tipos.Count; i++)
+                SetTipo(rom, edicion, compilacion, tipos[i], i);
         }
     }
 }
