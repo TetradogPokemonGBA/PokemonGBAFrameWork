@@ -228,7 +228,7 @@ namespace PokemonGBAFrameWork
                 //mas adelante pasarlo a la zona de scripts
                 byte[] bytes;
                 string[] campos;
-                campos = BytesScriptString(rom,edicion,compilacion,pokemonErrante).Replace("\r\n", ",").Replace(" ", ",").Split(',');
+                campos = BytesScriptString(rom,edicion,compilacion,pokemonErrante).Replace("\r\n", ",").Replace("  ", ",").Replace(" ",",").Split(',');
                 bytes = new byte[campos.Length];
                 for (int i = 0; i < bytes.Length; i++)
                     bytes[i] = Convert.ToByte((int)(Hex)campos[i]);

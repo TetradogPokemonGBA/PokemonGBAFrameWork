@@ -227,7 +227,7 @@ namespace PokemonGBAFrameWork
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
-			Edicion edicion = new Edicion(Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), Serializar.ToString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
+			Edicion edicion = new Edicion(System.Text.ASCIIEncoding.ASCII.GetString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.NombreCompleto, (int)LongitudCampos.NombreCompleto).Bytes), System.Text.ASCIIEncoding.ASCII.GetString(BloqueBytes.GetBytes(rom, (int)OffsetsCampos.Abreviacion, (int)LongitudCampos.Abreviacion).Bytes), (char)rom.Datos[(int)OffsetsCampos.Idioma]);
 			Edicion aux;
 			//ahora detecto si tiene bien el formato mirando la compilacion
 			
