@@ -282,8 +282,8 @@ namespace PokemonGBAFrameWork
 		{
 			if (rom == null || edicion == null)
 				throw new ArgumentNullException();
-			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.NombreCompleto, Serializar.GetBytes(edicion.NombreCompleto.PadRight((int)LongitudCampos.NombreCompleto)));
-			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.Abreviacion, Serializar.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
+			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.NombreCompleto, System.Text.ASCIIEncoding.ASCII.GetBytes(edicion.NombreCompleto.PadRight((int)LongitudCampos.NombreCompleto)));
+			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.Abreviacion, System.Text.ASCIIEncoding.ASCII.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
 			rom.Datos[(int)OffsetsCampos.Idioma] = (byte)edicion.InicialIdioma;
 		}
 	}
