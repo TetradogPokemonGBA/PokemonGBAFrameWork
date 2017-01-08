@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
 	{
 		//el minimo y el maximo se tienen que estudiar :)
 		public static readonly int TamañoMinimoRom = 1;
-		public static readonly int TamañoMaximoRom = 67108864;
+		public static readonly int TamañoMaximoRom = (int)Longitud.TreintaYDosMegas;
 
 		Hex offset;
 		byte[] bytes;
@@ -43,6 +43,12 @@ namespace PokemonGBAFrameWork
 		}
 		public Hex OffsetFin {
 			get{ return OffsetInicio + bytes.Length; }
+            set
+            {
+                if (value - Bytes.Length < 0)
+                    throw new ArgumentOutOfRangeException();
+                OffsetInicio = value - bytes.Length;
+            }
 		}
 		public byte[] Bytes {
 			get {
@@ -54,7 +60,7 @@ namespace PokemonGBAFrameWork
 					bytes = new byte[0];
 			}
 		}
-		public void SaveFile(string pathFileWithNameAndExtension)
+		public void SaveBlockToFile(string pathFileWithNameAndExtension)
 		{
 			if(String.IsNullOrEmpty(pathFileWithNameAndExtension))
 				throw new ArgumentException();
@@ -64,8 +70,8 @@ namespace PokemonGBAFrameWork
 				str=new FileStream(pathFileWithNameAndExtension,FileMode.Create);
 				
 				strW=new StreamWriter(str,System.Text.Encoding.UTF8);
-				strW.Write((int)OffsetInicio);
-				strW.Write(Bytes);
+				strW.Write((int)OffsetInicio);//guardo el inicio del bloque de bytes
+				strW.Write(Bytes);//guardo el bloque de bytes :D
 			}catch{throw;}finally{
 				if(strW!=null)
 					strW.Close();
@@ -143,20 +149,20 @@ namespace PokemonGBAFrameWork
             return rom.Datos.BuscarArray(offsetInicio,bytesAEncontrar);
 		}
 		public static BloqueBytes LoadFile(FileInfo file)
-		{
-			const int bytesInt=4;
+        { 
 			Stream str=null;
 			byte[] bytesBloque;
+            Hex posicion;
 			try{
 				str=file.OpenRead();
 				
-				bytesBloque=new byte[str.Length-bytesInt];
-				str.Position=bytesInt;
-				str.Read(bytesBloque,0,bytesBloque.Length);}
+				bytesBloque=new byte[str.Length- (int)Longitud.Offset];
+                posicion = (Hex)str.Read((int)Longitud.Offset);
+				str.Read(bytesBloque, (int)Longitud.Offset, bytesBloque.Length);}
 			catch{
 				throw new FormatException("el archivo no es valido");
 			}
-			return new BloqueBytes((Hex)str.Read(4),bytesBloque);
+			return new BloqueBytes(posicion,bytesBloque);
 		}
 		public static BloqueBytes LoadFile(string filePath){
 			
@@ -179,16 +185,24 @@ namespace PokemonGBAFrameWork
             bool acabado = false;
             byte[] bytesEmpty = new byte[length];
             Hex posicion = SearchBytes(rom, offsetInicio, bytesEmpty);
+            char caracterFin;
             if (ends048C)
             {
                 posicionString = posicion;
                 //busco la posicion valida si no hay lanzo excepcion por falta de espacio
-                while (posicionString[posicionString.Length - 1] != '0' && posicionString[posicionString.Length - 1] != '4' && posicionString[posicionString.Length - 1] != '8' && posicionString[posicionString.Length - 1] != 'C' && !acabado)
+                caracterFin = posicionString[posicionString.Length - 1];
+                while (caracterFin != '0' && caracterFin != '4' && caracterFin != '8' && caracterFin != 'C' && !acabado)
                 {
                     posicion = SearchBytes(rom, posicion + 1, bytesEmpty);
-                    posicionString = posicion;
                     acabado = posicion < 0;
-                }
+                    if (!acabado)
+                    {
+                        posicionString = posicion;
+                        caracterFin = posicionString[posicionString.Length - 1];
+                    }
+
+
+                    }
 
             }
             return posicion;

@@ -65,9 +65,16 @@ namespace PokemonGBAFrameWork
         }
         public Hex OffsetFin
         {
-            get {
-               
-                return OffsetInicio + TamañoImgComprimida; }
+            get
+            {
+
+                return OffsetInicio + TamañoImgComprimida;
+            }
+            set
+            {
+                if (value - TamañoImgComprimida < 0) throw new ArgumentOutOfRangeException();
+                OffsetInicio = value - TamañoImgComprimida;
+            }
         }
 
         public int TamañoImgComprimida
@@ -175,10 +182,10 @@ namespace PokemonGBAFrameWork
                                 for (int x2 = 0; x2 < NUM; x2 += 2, posByteImgArray++)
                                 {
                                     temp = datosImagenDescomprimida[posByteImgArray];
-                                    //pongo los pixels de dos en dos porque se leen diferente de la paleta
-                                    //pixel izquierdo
+                                        //pongo los pixels de dos en dos porque se leen diferente de la paleta
+                                        //pixel izquierdo
 
-                                    pos = (x1 + x2) * BYTESPERPIXEL + (y1 + y2) * bytesPorLado;
+                                        pos = (x1 + x2) * BYTESPERPIXEL + (y1 + y2) * bytesPorLado;
                                     color = paleta.Colores[temp & 0xF];
 
                                     bytesBmp[pos] = color.B;
@@ -186,8 +193,8 @@ namespace PokemonGBAFrameWork
                                     bytesBmp[pos + 2] = color.R;
                                     bytesBmp[pos + 3] = color.A;
 
-                                    //pixel derecho
-                                    pos += BYTESPERPIXEL;
+                                        //pixel derecho
+                                        pos += BYTESPERPIXEL;
 
                                     color = paleta.Colores[(temp & 0xF0) >> 4];
                                     bytesBmp[pos] = color.B;
@@ -324,7 +331,7 @@ namespace PokemonGBAFrameWork
             StringBuilder strWatch = new StringBuilder();
             int dataLength;
             int offset;
-            int i,iAux, pos;
+            int i, iAux, pos;
             byte[] r;
             byte rPart1;
             int length;
@@ -339,10 +346,11 @@ namespace PokemonGBAFrameWork
                 pos = 8;
                 unsafe
                 {
+                    byte* ptDatosDescomprimidos;
+                    byte* ptDatosComprimidos;
                     fixed (byte* ptrDatosComprimidos = datos)
                     {
-                        byte* ptDatosDescomprimidos;
-                        byte* ptDatosComprimidos = ptrDatosComprimidos;
+                        ptDatosComprimidos = ptrDatosComprimidos;
                         ptDatosComprimidos += offset;
                         fixed (byte* ptrDatosDescomprimidos = data)
                         {
@@ -402,7 +410,13 @@ namespace PokemonGBAFrameWork
 
         public static int LongitudDatosLZ77(byte[] datos, Hex offsetInicio)
         {
-            return Serializar.ToInt(new Byte[] { datos[offsetInicio + 1], datos[offsetInicio + 2], datos[offsetInicio + 3], 0x0 });
+            int longitud;
+            unsafe
+            {
+                fixed(byte* ptrDatos=datos)
+                    longitud = Serializar.ToInt(new byte[] { ptrDatos[offsetInicio + 1], ptrDatos[offsetInicio + 2], ptrDatos[offsetInicio + 3], 0x0 });
+            }
+            return longitud;
         }
         //metodo usado para descomprimir
         static int AmmendArray(byte[] bytes, int index, int start, int length)
@@ -449,7 +463,8 @@ namespace PokemonGBAFrameWork
 
         public static byte[] ComprimirDatosLZ77(byte[] datos, CompressionMode Mode = CompressionMode.New)
         {
-            const byte BYTECOMPRESSLZ77= 0x10;
+            const byte BYTECOMPRESSLZ77 = 0x10;
+            const int BYTESHEADER = 3;
             byte[] header = BitConverter.GetBytes(datos.Length);
             List<byte> bytesComprimidos = new List<byte>();
             List<byte> preBytes = new List<byte>();
@@ -462,239 +477,266 @@ namespace PokemonGBAFrameWork
             int length;
             bool compatible;
             byte[] b;
-
-            // Adds the Lz77 header to the bytes 0x10 3 bytes size reversed
-            bytesComprimidos.Add(BYTECOMPRESSLZ77);
-            bytesComprimidos.Add(header[0]);
-            bytesComprimidos.Add(header[1]);
-            bytesComprimidos.Add(header[2]);
-
-            // Lz77 Compression requires SOME starting data, so we provide the first 2 bytes
-            preBytes.Add(datos[0]);
-            preBytes.Add(datos[1]);
-
-            // Compress everything
-            while (actualPosition < datos.Length)
+            unsafe
             {
-                //If we've compressed 8 of 8 bytes
-                if (shortPosition == 8)
+                byte* ptrHeader;
+                fixed (byte* ptHeader = header)
+                 fixed (byte* ptrDatos = datos)
                 {
-                    // Add the Watch Mask
-                    // Add the 8 steps in PreBytes
-                    bytesComprimidos.Add(watch);
-                    bytesComprimidos.AddRange(preBytes);
-
-                    watch = 0;
-                    preBytes.Clear();
-
-                    // Back to 0 of 8 compressed bytes
-                    shortPosition = 0;
-                }
-                else
-                {
-                    // If we are approaching the end
-                    if (actualPosition + 1 < datos.Length)
+           
+                    ptrHeader = ptHeader;
+                    // Adds the Lz77 header to the bytes 0x10 3 bytes size reversed
+                    bytesComprimidos.Add(BYTECOMPRESSLZ77);
+                    for (int i = 0; i < BYTESHEADER; i++)
                     {
-                        // Old NSE 1.x compression lookup
-                        if (Mode == CompressionMode.Old)
+                        bytesComprimidos.Add(*ptrHeader);
+                        ptrHeader++;
+                    }
+        
+
+                    // Lz77 Compression requires SOME starting data, so we provide the first 2 bytes
+                    preBytes.Add(*ptrDatos);
+                    preBytes.Add(ptrDatos[1]);
+
+                    // Compress everything
+                    while (actualPosition < datos.Length)
+                    {
+                        //If we've compressed 8 of 8 bytes
+                        if (shortPosition == 8)
                         {
-                            match = SearchBytesOld(
-                                datos,
-                                actualPosition,
-                                Math.Min(4096, actualPosition));
+                            // Add the Watch Mask
+                            // Add the 8 steps in PreBytes
+                            bytesComprimidos.Add(watch);
+                            bytesComprimidos.AddRange(preBytes);
+
+                            watch = 0;
+                            preBytes.Clear();
+
+                            // Back to 0 of 8 compressed bytes
+                            shortPosition = 0;
                         }
                         else
                         {
-                            // New NSE 2.x compression lookup
-                            match = SearchBytes(
+                            // If we are approaching the end
+                            if (actualPosition + 1 < datos.Length)
+                            {
+                                // Old NSE 1.x compression lookup
+                                if (Mode == CompressionMode.Old)
+                                {
+                                    match = SearchBytesOld(
                                         datos,
                                         actualPosition,
-                                        Math.Min(4096, actualPosition), out bestLength);
-                        }
-                    }
-                    else
-                    {
-                        match = -1;
-                    }
-
-                    // If we have NOT found a match in the compression lookup
-                    if (match == -1)
-                    {
-                        // Add the byte
-                        preBytes.Add(datos[actualPosition]);
-                        // Add a 0 to the mask
-                        watch = BitConverter.GetBytes((int)watch << 1)[0];
-
-                        actualPosition++;
-                    }
-                    else
-                    {
-                        // How many bytes match
-                         length = -1;
-
-                         start = match;
-                        if (Mode == CompressionMode.Old || bestLength == -1)
-                        {
-                            // Old look-up technique
-                            #region GetLength_Old
-                            start = match;
-
-                            compatible = true;
-
-                            while (compatible == true && length < 18 && length + actualPosition < datos.Length - 1)
-                            {
-                                length++;
-                                if (datos[actualPosition + length] != datos[actualPosition - start + length])
+                                        Math.Min(4096, actualPosition));
+                                }
+                                else
                                 {
-                                    compatible = false;
+                                    // New NSE 2.x compression lookup
+                                    match = SearchBytes(
+                                                datos,
+                                                actualPosition,
+                                                Math.Min(4096, actualPosition), out bestLength);
                                 }
                             }
-                            #endregion
+                            else
+                            {
+                                match = -1;
+                            }
+
+                            // If we have NOT found a match in the compression lookup
+                            if (match == -1)
+                            {
+                                // Add the byte
+                                preBytes.Add(ptrDatos[actualPosition]);
+                                // Add a 0 to the mask
+                                watch = BitConverter.GetBytes((int)watch << 1)[0];
+
+                                actualPosition++;
+                            }
+                            else
+                            {
+                                // How many bytes match
+                                length = -1;
+
+                                start = match;
+                                if (Mode == CompressionMode.Old || bestLength == -1)
+                                {
+                                    // Old look-up technique
+                                    #region GetLength_Old
+                                    start = match;
+
+                                    compatible = true;
+
+                                    while (compatible == true && length < 18 && length + actualPosition < datos.Length - 1)
+                                    {
+                                        length++;
+                                        if (ptrDatos[actualPosition + length] != ptrDatos[actualPosition - start + length])
+                                        {
+                                            compatible = false;
+                                        }
+                                    }
+                                    #endregion
+                                }
+                                else
+                                {
+                                    // New lookup (Perfect Compression!)
+                                    length = bestLength;
+                                }
+
+                                // Add the rel-compression pointer (P) and length of bytes to copy (L)
+                                // Format: L P P P
+                                b = BitConverter.GetBytes(((length - 3) << 12) + (start - 1));
+                                fixed(byte* ptrB = b)
+                                {
+                                    preBytes.Add(ptrB[1]);
+                                    preBytes.Add(ptrB[0]);
+                                }
+                                // Move to the next position
+                                actualPosition += length;
+
+                                // Add a 1 to the bit Mask
+                                watch = BitConverter.GetBytes(((int)watch << 1) + 1)[0];
+                            }
+
+                            // We've just compressed 1 more 8
+                            shortPosition++;
                         }
-                        else
-                        {
-                            // New lookup (Perfect Compression!)
-                            length = bestLength;
-                        }
 
-                        // Add the rel-compression pointer (P) and length of bytes to copy (L)
-                        // Format: L P P P
-                        b = BitConverter.GetBytes(((length - 3) << 12) + (start - 1));
 
-                        b = new byte[] { b[1], b[0] };
-                        preBytes.AddRange(b);
-
-                        // Move to the next position
-                        actualPosition += length;
-
-                        // Add a 1 to the bit Mask
-                        watch = BitConverter.GetBytes(((int)watch << 1) + 1)[0];
                     }
 
-                    // We've just compressed 1 more 8
-                    shortPosition++;
+                    // Finnish off the compression
+                    if (shortPosition != 0)
+                    {
+                        //Tyeing up any left-over data compression
+                        watch = BitConverter.GetBytes((int)watch << (8 - shortPosition))[0];
+
+                        bytesComprimidos.Add(watch);
+                        bytesComprimidos.AddRange(preBytes);
+                    }
                 }
-
-
-            }
-
-            // Finnish off the compression
-            if (shortPosition != 0)
-            {
-                //Tyeing up any left-over data compression
-                watch = BitConverter.GetBytes((int)watch << (8 - shortPosition))[0];
-
-                bytesComprimidos.Add(watch);
-                bytesComprimidos.AddRange(preBytes);
             }
 
             // Return the Compressed bytes as an array!
             return bytesComprimidos.ToArray();
         }
 
-        static int SearchBytesOld(byte[] Data, int Index, int Length)
+        static int SearchBytesOld(byte[] data, int index, int length)
         {
             int found = -1;
             int pos = 2;
-
-            if (Index + 2 < Data.Length)
+            int poscionFinal;
+            unsafe
             {
-                while (pos < Length + 1 && found == -1)
+                fixed(byte* ptrData = data)
                 {
-                    if (Data[Index - pos] == Data[Index] && Data[Index - pos + 1] == Data[Index + 1])
+                    if (index + 2 < data.Length)
                     {
-
-                        if (Index > 2)
+                        while (pos < length + 1 && found == -1)
                         {
-                            if (Data[Index - pos + 2] == Data[Index + 2])
+                            if (ptrData[index - pos] == ptrData[index] && ptrData[index - pos + 1] == ptrData[index + 1])
                             {
-                                found = pos;
+
+                                if (index > 2)
+                                {
+                                    if (ptrData[index - pos + 2] == ptrData[index + 2])
+                                    {
+                                        found = pos;
+                                    }
+                                    else
+                                    {
+                                        pos++;
+                                    }
+                                }
+                                else
+                                {
+                                    found = pos;
+                                }
+
+
                             }
                             else
                             {
                                 pos++;
                             }
                         }
-                        else
-                        {
-                            found = pos;
-                        }
 
-
+                        poscionFinal = found;
                     }
                     else
                     {
-                        pos++;
+                        poscionFinal = -1;
                     }
                 }
-
-                return found;
             }
-            else
-            {
-                return -1;
-            }
+            return poscionFinal;
 
         }
 
-        static int SearchBytes(byte[] Data, int Index, int Length, out int match)
+        static int SearchBytes(byte[] data, int index, int length, out int match)
         {
 
             int pos = 2;
-            match = 0;
             int found = -1;
-
-            if (Index + 2 < Data.Length)
+            int posFinal;
+            int matchAux;
+            bool compatible;
+            match = 0;
+            unsafe
             {
-                while (pos < Length + 1 && match != 18)
+                if (index + 2 < data.Length)
                 {
-                    if (Data[Index - pos] == Data[Index] && Data[Index - pos + 1] == Data[Index + 1])
+                    fixed(byte* ptrData=data)
+                    while (pos < length + 1 && match != 18)
                     {
-
-                        if (Index > 2)
+                        if (ptrData[index - pos] == ptrData[index] && ptrData[index - pos + 1] == ptrData[index + 1])
                         {
-                            if (Data[Index - pos + 2] == Data[Index + 2])
-                            {
-                                int _match = 2;
-                                bool Compatible = true;
-                                while (Compatible == true && _match < 18 && _match + Index < Data.Length - 1)
-                                {
-                                    _match++;
-                                    if (Data[Index + _match] != Data[Index - pos + _match])
-                                    {
-                                        Compatible = false;
-                                    }
-                                }
-                                if (_match > match)
-                                {
-                                    match = _match;
-                                    found = pos;
-                                }
 
+                            if (index > 2)
+                            {
+                                if (ptrData[index - pos + 2] == ptrData[index + 2])
+                                {
+                                    matchAux = 2;
+                                     compatible = true;
+                                    while (compatible  && matchAux < 18 && matchAux + index < data.Length - 1)
+                                    {
+                                        matchAux++;
+                                        if (ptrData[index + matchAux] != ptrData[index - pos + matchAux])
+                                        {
+                                            compatible = false;
+                                        }
+                                    }
+                                    if (matchAux > match)
+                                    {
+                                        match = matchAux;
+                                        found = pos;
+                                    }
+
+                                }
+                                pos++;
                             }
-                            pos++;
+                            else
+                            {
+                                found = pos;
+                                match = -1;
+                                pos++;
+                            }
+
+
                         }
                         else
                         {
-                            found = pos;
-                            match = -1;
                             pos++;
                         }
-
-
                     }
-                    else
-                    {
-                        pos++;
-                    }
+
+                    posFinal = found;
                 }
-
-                return found;
+                else
+                {
+                    posFinal = -1;
+                }
             }
-            else
-            {
-                return -1;
-            }
+            return posFinal;
 
         }
 

@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
         Offset = 4,
         Word = 2,
         DieciseisMegas = 0xFFFFFF,
-        TrentaYDosMegas = DieciseisMegas * 2
+        TreintaYDosMegas = DieciseisMegas * 2
 
     }
 
@@ -152,7 +152,7 @@ namespace PokemonGBAFrameWork
         }
         public static void SetOffset(RomGBA rom, Hex offsetInicio, Hex offsetToSave)
         {
-            if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length || offsetToSave > (int)Longitud.TrentaYDosMegas) throw new ArgumentException();
+            if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length || offsetToSave > (int)Longitud.TreintaYDosMegas) throw new ArgumentException();
             BloqueBytes.SetBytes(rom, offsetInicio, ToBytesRom(offsetToSave));
         }
 
@@ -588,7 +588,7 @@ namespace PokemonGBAFrameWork
         {
             if (rom == null)
                 throw new ArgumentNullException();
-            if (offsetZona < 0 || offsetToSave < 0 || offsetToSave > (int)Longitud.TrentaYDosMegas || offsetToSave + (int)Longitud.Offset > rom.Datos.Length)
+            if (offsetZona < 0 || offsetToSave < 0 || offsetToSave > (int)Longitud.TreintaYDosMegas || offsetToSave + (int)Longitud.Offset > rom.Datos.Length)
                 throw new ArgumentOutOfRangeException();
 
             Hex offsetZonaAActualizar = 0;//buscar el minimo real porque no hay pointers en el byte 4 (ya que 0+(int)Offsets.Longitud.Offset)
