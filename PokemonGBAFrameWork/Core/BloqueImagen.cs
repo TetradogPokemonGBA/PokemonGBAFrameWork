@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork
 
         Hex offsetPointerImg;
         byte[] datosDescomprimidos;
-        Llista<Paleta> paletas;//poder crear una imagen sin paletas porque a veces no hay...cuando estas investigando a veces falta la paleta y hay que ir probando
+        Llista<Paleta> paletas;
         //campos calculados para ahorrar computación
         int tamañoImgComprimida;
 
@@ -304,7 +304,13 @@ namespace PokemonGBAFrameWork
         //para ir rapido :)
         public static implicit operator Bitmap(BloqueImagen bloqueImg)
         {
-            return bloqueImg[0];
+            Paleta paleta;
+
+            if (bloqueImg.Paletas.Count == 0)
+                paleta = Paleta.GetPaletaDefault();//asi si no hay no da problemas :D
+            else paleta = bloqueImg.Paletas[0];
+
+            return bloqueImg+paleta;
         }
         //para ir rapido :) a ver como se ve a al practica :D
         public static Bitmap operator +(BloqueImagen bloqueImg, Paleta paleta)
@@ -801,7 +807,12 @@ namespace PokemonGBAFrameWork
             }
         }
 
-
+        public static Paleta GetPaletaDefault()
+        {
+            Color[] paleta = new Color[TAMAÑOPALETA];
+            paleta[0] = BackgroundColorDefault;
+            return new Paleta(paleta);
+        }
 
         public static void ReemplazaColores(Paleta paletaAReemplazarColores, Paleta paletaCogerColores)
         {
