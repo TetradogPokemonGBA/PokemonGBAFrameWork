@@ -14,52 +14,54 @@ using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
 
-	public enum Longitud
-	{
-		Offset = 4,
-		Word = 2,
-		DieciseisMegas = 0xFFFFFF,
-		TrentaYDosMegas = DieciseisMegas * 2
-			
-	}
-	
-	
-	public static class CompilacionRom
-	{
-		public enum Compilacion
-		{
-			Primera,
-			Segunda
-			//si hay mas se ponen cuando sean necesarias
-		}
-		public static Compilacion GetCompilacion(RomGBA rom)
-		{
-			return GetCompilacion(rom, Edicion.GetEdicion(rom));
-		}
-		public static Compilacion GetCompilacion(RomGBA rom, Edicion edicion)
-		{
-			Compilacion compilacion = GetCompilacion(rom, edicion, false);
-			if (compilacion == Compilacion.Segunda)
-				GetCompilacion(rom, edicion, true);//si no es correcta orignia una excepcion de formato
-			return compilacion;
-		
-		}
-		static Compilacion GetCompilacion(RomGBA rom, Edicion edicion, bool comprovarQueEsSegunda)
-		{
-			Compilacion compilacion;
-			if (rom == null || edicion == null)
-				throw new ArgumentNullException();
-			compilacion = !comprovarQueEsSegunda ? Compilacion.Primera : Compilacion.Segunda;
-			if (!DescripcionPokedex.ValidarZona(rom, edicion, compilacion)) {
-				if (comprovarQueEsSegunda)
-					throw new InvalidRomFormat();
-				else//si no es valida es que es la segunda
-					compilacion = Compilacion.Segunda;
-			}
-			return compilacion;
-		}
-	}
-    public static class Offset {
+    public enum Longitud
+    {
+        Offset = 4,
+        Word = 2,
+        DieciseisMegas = 0xFFFFFF,
+        TrentaYDosMegas = DieciseisMegas * 2
+
+    }
+
+
+    public static class CompilacionRom
+    {
+        public enum Compilacion
+        {
+            Primera,
+            Segunda
+            //si hay mas se ponen cuando sean necesarias
+        }
+        public static Compilacion GetCompilacion(RomGBA rom)
+        {
+            return GetCompilacion(rom, Edicion.GetEdicion(rom));
+        }
+        public static Compilacion GetCompilacion(RomGBA rom, Edicion edicion)
+        {
+            Compilacion compilacion = GetCompilacion(rom, edicion, false);
+            if (compilacion == Compilacion.Segunda)
+                GetCompilacion(rom, edicion, true);//si no es correcta orignia una excepcion de formato
+            return compilacion;
+
+        }
+        static Compilacion GetCompilacion(RomGBA rom, Edicion edicion, bool comprovarQueEsSegunda)
+        {
+            Compilacion compilacion;
+            if (rom == null || edicion == null)
+                throw new ArgumentNullException();
+            compilacion = !comprovarQueEsSegunda ? Compilacion.Primera : Compilacion.Segunda;
+            if (!DescripcionPokedex.ValidarZona(rom, edicion, compilacion))
+            {
+                if (comprovarQueEsSegunda)
+                    throw new InvalidRomFormat();
+                else//si no es valida es que es la segunda
+                    compilacion = Compilacion.Segunda;
+            }
+            return compilacion;
+        }
+    }
+    public static class Offset
+    {
         public static Hex GetOffset(RomGBA rom, Hex offsetInicio)
         {
             return GetOffset(rom.Datos, offsetInicio);
@@ -80,13 +82,19 @@ namespace PokemonGBAFrameWork
             int posicion = (int)offsetInicio;
             byte byteComprobador = bytes[posicion + 3];
             Hex offset;
-            if (byteComprobador == 8 || byteComprobador == 9)
-                offset = ((Hex)(new byte[] {
-                bytes[posicion+2],
-                bytes[posicion+1],
-                bytes[posicion]
-            })) + (byteComprobador== 9 ? (int)Longitud.DieciseisMegas : 0);
-            else offset = -1;
+            unsafe
+            {
+                fixed (byte* ptrBytes = bytes)
+                {
+                    if (byteComprobador == 8 || byteComprobador == 9)
+                        offset = ((Hex)(new byte[] {
+                                                     ptrBytes[posicion+2],
+                                                     ptrBytes[posicion+1],
+                                                     ptrBytes[posicion]
+                                 })) + (byteComprobador == 9 ? (int)Longitud.DieciseisMegas : 0);
+                    else offset = -1;
+                }
+            }
             return offset;
         }
         /// <summary>
@@ -103,13 +111,29 @@ namespace PokemonGBAFrameWork
 
             if (esNueve)
                 offset -= (int)Longitud.DieciseisMegas;
-            bytesPointer[posicion++] = Convert.ToByte((offset & 0xff));
-            bytesPointer[posicion++] = Convert.ToByte(((offset >> 8) & 0xff));
-            bytesPointer[posicion++] = Convert.ToByte(((offset >> 0x10) & 0xff));
-            if (esNueve)
-                bytesPointer[posicion] = 0x9;
-            else
-                bytesPointer[posicion] = 0x8;
+            unsafe
+            {
+                byte* ptrBytesPointer;
+                fixed (byte* ptBytesPointer = bytesPointer)
+                {
+                    ptrBytesPointer = ptBytesPointer;
+                    ptrBytesPointer += posicion;
+                    *ptrBytesPointer = Convert.ToByte((offset & 0xff));
+                    ptrBytesPointer++;
+                    *ptrBytesPointer = Convert.ToByte(((offset >> 8) & 0xff));
+                    ptrBytesPointer++;
+                    *ptrBytesPointer = Convert.ToByte(((offset >> 0x10) & 0xff));
+                    ptrBytesPointer++;
+                    if (esNueve)
+                        *ptrBytesPointer = 0x9;
+                    else *ptrBytesPointer = 0x8;
+
+
+
+
+                }
+            }
+
             return bytesPointer;
         }
         /// <summary>
@@ -128,7 +152,7 @@ namespace PokemonGBAFrameWork
         }
         public static void SetOffset(RomGBA rom, Hex offsetInicio, Hex offsetToSave)
         {
-            if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length||offsetToSave>(int)Longitud.TrentaYDosMegas) throw new ArgumentException();
+            if (rom == null || offsetInicio < 0 || offsetToSave < 0 || offsetInicio + (int)Longitud.Offset > rom.Datos.Length || offsetToSave > (int)Longitud.TrentaYDosMegas) throw new ArgumentException();
             BloqueBytes.SetBytes(rom, offsetInicio, ToBytesRom(offsetToSave));
         }
 
@@ -139,7 +163,7 @@ namespace PokemonGBAFrameWork
             Hex resultado;
             if (esNueve)
             {
-                offset-= (int)Longitud.DieciseisMegas;
+                offset -= (int)Longitud.DieciseisMegas;
                 offsetString = offset.ToString();
             }
             resultado = offsetString.Substring(4, 2) + offsetString.Substring(2, 2) + offsetString.Substring(0, 2);
@@ -156,28 +180,46 @@ namespace PokemonGBAFrameWork
             int posicion = (int)offsetPointer;
             byte byteComprobador = bytes[posicion + 3];
             Hex offset;
-            if (byteComprobador == 8 || byteComprobador == 9)
-                offset = ((Hex)(new byte[] {
-                bytes[posicion],
-                bytes[posicion+1],
-                bytes[posicion+2],
-                byteComprobador
-            }));
-            else offset = -1;
+            unsafe
+            {
+                fixed (byte* ptrBytes = bytes)
+                {
+                    if (byteComprobador == 8 || byteComprobador == 9)
+                        offset = ((Hex)(new byte[] {
+                                                    ptrBytes[posicion],
+                                                    ptrBytes[posicion+1],
+                                                    ptrBytes[posicion+2],
+                                                    byteComprobador
+                                  }));
+                    else offset = -1;
+                }
+            }
+
             return offset;
         }
     }
-	public static class Word
-	{
-		public static void SetWord(RomGBA rom, Hex offset, Hex word)
-		{
-			if (offset < 0 || offset + (int)Longitud.Word>rom.Datos.Length || word < 0 || word > ushort.MaxValue)
-				throw new ArgumentOutOfRangeException();
-			int zonaWord = (int)offset;
-			int wordAux = (int)word;
-			rom.Datos[zonaWord++] = Convert.ToByte((wordAux & 0xff));
-			rom.Datos[zonaWord] = Convert.ToByte(((wordAux >> 8) & 0xff));
-		}
+    public static class Word
+    {
+        public static void SetWord(RomGBA rom, Hex offset, Hex word)
+        {
+            if (offset < 0 || offset + (int)Longitud.Word > rom.Datos.Length || word < 0 || word > ushort.MaxValue)
+                throw new ArgumentOutOfRangeException();
+            int zonaWord = (int)offset;
+            int wordAux = (int)word;
+            unsafe
+            {
+                byte* ptrDatos;
+                fixed (byte* ptDatos = rom.Datos)
+                {
+                    ptrDatos = ptDatos;
+                    ptrDatos += zonaWord;
+                    *ptrDatos = Convert.ToByte((wordAux & 0xff));
+                    ptrDatos++;
+                    *ptrDatos = Convert.ToByte(((wordAux >> 8) & 0xff));
+                }
+            }
+
+        }
 
         public static Hex GetWord(RomGBA rom, Hex offsetWord)
         {
@@ -185,134 +227,149 @@ namespace PokemonGBAFrameWork
                 throw new ArgumentOutOfRangeException();
             ushort num;
             uint offsetWordP2 = (uint)offsetWord + 1;
-            num = Convert.ToUInt16(rom.Datos[offsetWord] | (rom.Datos[offsetWordP2] << 8)); 
+            unsafe
+            {
+                fixed(byte* ptrDatos=rom.Datos)
+                     num = Convert.ToUInt16(ptrDatos[offsetWord] | (ptrDatos[offsetWordP2] << 8));
+            }
             return (Hex)(uint)num;
         }
     }
-	/// <summary>
-	/// las zonas son offsets donde se guardan offsets permutados.
-	/// </summary>
-	public class Zona:IComparable,IComparable<Zona>,IClauUnicaPerObjecte
-	{
+    /// <summary>
+    /// las zonas son offsets donde se guardan offsets permutados.
+    /// </summary>
+    public class Zona : IComparable, IComparable<Zona>, IClauUnicaPerObjecte
+    {
         static readonly int NumeroCompilaciones = Enum.GetNames(typeof(CompilacionRom.Compilacion)).Length;
-		/// <summary>
-		/// Sirve para poder usarse entre clases de forma global
-		/// </summary>
-		public static ListaUnica<Zona> DiccionarioOffsetsZonas = new ListaUnica<Zona>();
-		
+        /// <summary>
+        /// Sirve para poder usarse entre clases de forma global
+        /// </summary>
+        public static ListaUnica<Zona> DiccionarioOffsetsZonas = new ListaUnica<Zona>();
 
-		string variable;
-		LlistaOrdenada<Edicion,Hex[]> diccionarioZonas;
 
-		public Zona(string variable)
-		{
-			this.variable = variable;
-			diccionarioZonas = new LlistaOrdenada<Edicion, Hex[]>();
-		}
+        string variable;
+        LlistaOrdenada<Edicion, Hex[]> diccionarioZonas;
+
+        public Zona(string variable)
+        {
+            this.variable = variable;
+            diccionarioZonas = new LlistaOrdenada<Edicion, Hex[]>();
+        }
         public Zona(Enum enumVariable) : this(enumVariable.ToString()) { }
-		public string Variable {
-			get {
-				return variable;
-			}
-			set {
-				if (value == null)
-					value = "";
-				variable = value;
-			}
-		}
-		public Hex[] this[Edicion edicionZona] {
-			get {
-				if (!diccionarioZonas.ContainsKey(edicionZona))
-					throw new RomInvestigacionExcepcion();
-				return diccionarioZonas[edicionZona];
-			}
-			set {
-				if (value == null || value.Length == 0)
-					throw new ArgumentException();
-				if (!diccionarioZonas.ContainsKey(edicionZona))
-					throw new RomInvestigacionExcepcion();
-				diccionarioZonas[edicionZona] = value;
-			}
-		}
-		public Hex this[Edicion edicionZona, CompilacionRom.Compilacion compilacion] {
-			get {
-				if (compilacion < CompilacionRom.Compilacion.Primera || compilacion > CompilacionRom.Compilacion.Segunda)
-					throw new ArgumentOutOfRangeException();
-				return this[edicionZona][(int)compilacion];
-			}
-			set {
-				if (compilacion < CompilacionRom.Compilacion.Primera || compilacion > CompilacionRom.Compilacion.Segunda)
-					throw new ArgumentOutOfRangeException();
-				Hex[] zonasPorCompilacion = this[edicionZona];
-				zonasPorCompilacion[(int)compilacion] = value;
-				this[edicionZona] = zonasPorCompilacion;
-			}
-		}
-		public void AddOrReplaceZonaOffset(Edicion edicion, params Hex[] zonasOffset)
-		{
-			AddOrReplaceZonaOffset(edicion, true, zonasOffset);
-		}
-		/// <summary>
-		/// añade o reemplaza las zonas para esa edicion
-		/// </summary>
-		/// <param name="edicion"></param>
-		/// <param name="ponerPrimeraZonaSiFaltan">si es false pone la ultima</param>
-		/// <param name="zonasOffset">el orden lo indica la compilacion de destino, en caso de faltar se pondrá la primera hasta tener todas</param>
-		public void AddOrReplaceZonaOffset(Edicion edicion, bool ponerPrimeraZonaSiFaltan, params Hex[] zonasOffset)
-		{
-			Hex[] zonasAPoner;
-			
-			if (edicion == null || zonasOffset == null)
-				throw new ArgumentNullException();
-			if(zonasOffset.Length==0)
-				throw new ArgumentException("Se tiene que pasar como minimo una zonaOffset","zonasOffset");
-			if (zonasOffset.Length > NumeroCompilaciones)
-				zonasAPoner = zonasOffset.SubList(0, NumeroCompilaciones).ToTaula();
-			else if (zonasOffset.Length < NumeroCompilaciones) {
-				zonasAPoner = new Hex[NumeroCompilaciones];
-				for (int i = 0; i < NumeroCompilaciones; i++)
-					if (ponerPrimeraZonaSiFaltan)
-						zonasAPoner[i] = zonasOffset[0];
-					else
-						zonasAPoner[i] = zonasOffset[zonasOffset.Length - 1];
-			} else
-				zonasAPoner = (Hex[])zonasOffset.Clone();//asi evito que modifiquen la array desde fuera sin control
-			diccionarioZonas.AddOrReplace(edicion, zonasAPoner);
-		}
-		public bool RemoveZonaOffset(Edicion edicion)
-		{
-			if (edicion == null)
-				throw new ArgumentNullException("edicion");
-			return diccionarioZonas.Remove(edicion);
-		}
-
-		#region IClauUnicaPerObjecte implementation
-		public IComparable Clau
-		{
+        public string Variable
+        {
             get
             {
                 return variable;
             }
-		}
-		#endregion
-		#region IComparable implementation
+            set
+            {
+                if (value == null)
+                    value = "";
+                variable = value;
+            }
+        }
+        public Hex[] this[Edicion edicionZona]
+        {
+            get
+            {
+                if (!diccionarioZonas.ContainsKey(edicionZona))
+                    throw new RomInvestigacionExcepcion();
+                return diccionarioZonas[edicionZona];
+            }
+            set
+            {
+                if (value == null || value.Length == 0)
+                    throw new ArgumentException();
+                if (!diccionarioZonas.ContainsKey(edicionZona))
+                    throw new RomInvestigacionExcepcion();
+                diccionarioZonas[edicionZona] = value;
+            }
+        }
+        public Hex this[Edicion edicionZona, CompilacionRom.Compilacion compilacion]
+        {
+            get
+            {
+                if (compilacion < CompilacionRom.Compilacion.Primera || compilacion > CompilacionRom.Compilacion.Segunda)
+                    throw new ArgumentOutOfRangeException();
+                return this[edicionZona][(int)compilacion];
+            }
+            set
+            {
+                if (compilacion < CompilacionRom.Compilacion.Primera || compilacion > CompilacionRom.Compilacion.Segunda)
+                    throw new ArgumentOutOfRangeException();
+                Hex[] zonasPorCompilacion = this[edicionZona];
+                zonasPorCompilacion[(int)compilacion] = value;
+                this[edicionZona] = zonasPorCompilacion;
+            }
+        }
+        public void AddOrReplaceZonaOffset(Edicion edicion, params Hex[] zonasOffset)
+        {
+            AddOrReplaceZonaOffset(edicion, true, zonasOffset);
+        }
+        /// <summary>
+        /// añade o reemplaza las zonas para esa edicion
+        /// </summary>
+        /// <param name="edicion"></param>
+        /// <param name="ponerPrimeraZonaSiFaltan">si es false pone la ultima</param>
+        /// <param name="zonasOffset">el orden lo indica la compilacion de destino, en caso de faltar se pondrá la primera hasta tener todas</param>
+        public void AddOrReplaceZonaOffset(Edicion edicion, bool ponerPrimeraZonaSiFaltan, params Hex[] zonasOffset)
+        {
+            Hex[] zonasAPoner;
+
+            if (edicion == null || zonasOffset == null)
+                throw new ArgumentNullException();
+            if (zonasOffset.Length == 0)
+                throw new ArgumentException("Se tiene que pasar como minimo una zonaOffset", "zonasOffset");
+            if (zonasOffset.Length > NumeroCompilaciones)
+                zonasAPoner = zonasOffset.SubList(0, NumeroCompilaciones).ToTaula();
+            else if (zonasOffset.Length < NumeroCompilaciones)
+            {
+                zonasAPoner = new Hex[NumeroCompilaciones];
+                for (int i = 0; i < NumeroCompilaciones; i++)
+                    if (ponerPrimeraZonaSiFaltan)
+                        zonasAPoner[i] = zonasOffset[0];
+                    else
+                        zonasAPoner[i] = zonasOffset[zonasOffset.Length - 1];
+            }
+            else
+                zonasAPoner = (Hex[])zonasOffset.Clone();//asi evito que modifiquen la array desde fuera sin control
+            diccionarioZonas.AddOrReplace(edicion, zonasAPoner);
+        }
+        public bool RemoveZonaOffset(Edicion edicion)
+        {
+            if (edicion == null)
+                throw new ArgumentNullException("edicion");
+            return diccionarioZonas.Remove(edicion);
+        }
+
+        #region IClauUnicaPerObjecte implementation
+        public IComparable Clau
+        {
+            get
+            {
+                return variable;
+            }
+        }
+        #endregion
+        #region IComparable implementation
 
 
-		public int CompareTo(object obj)
-		{
-			return CompareTo(obj as Zona);
-		}
+        public int CompareTo(object obj)
+        {
+            return CompareTo(obj as Zona);
+        }
 
-		#region IComparable implementation
-		public int CompareTo(Zona other)
-		{
-			int compareTo;
-			if (other != null)
-				compareTo = string.Compare(variable, other.Variable, StringComparison.Ordinal);
-			else
-				compareTo = -1;
-			return compareTo;
-		}
+        #region IComparable implementation
+        public int CompareTo(Zona other)
+        {
+            int compareTo;
+            if (other != null)
+                compareTo = string.Compare(variable, other.Variable, StringComparison.Ordinal);
+            else
+                compareTo = -1;
+            return compareTo;
+        }
         #endregion
 
         #endregion
@@ -333,9 +390,9 @@ namespace PokemonGBAFrameWork
         /// <param name="variableZona"></param>
         /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona)
-		{
-			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom));
-		}
+        {
+            return GetOffset(rom, variableZona, Edicion.GetEdicion(rom));
+        }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>
@@ -345,7 +402,7 @@ namespace PokemonGBAFrameWork
         /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, Enum variableZona, CompilacionRom.Compilacion compilacion)
         {
-            return GetOffset(rom, variableZona.ToString(),compilacion);
+            return GetOffset(rom, variableZona.ToString(), compilacion);
         }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
@@ -355,9 +412,9 @@ namespace PokemonGBAFrameWork
         /// <param name="compilacion"></param>
         /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona, CompilacionRom.Compilacion compilacion)
-		{
-			return GetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion);
-		}
+        {
+            return GetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion);
+        }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>
@@ -377,16 +434,16 @@ namespace PokemonGBAFrameWork
         /// <param name="edicion"></param>
         /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona, Edicion edicion)
-		{
-			return GetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion));
-		}
-        public static Hex GetVariable(RomGBA rom,Enum variableZona,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        {
+            return GetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion));
+        }
+        public static Hex GetVariable(RomGBA rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             return GetVariable(rom, variableZona.ToString(), edicion, compilacion);
         }
         public static Hex GetVariable(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            return DiccionarioOffsetsZonas[variableZona][edicion,compilacion];
+            return DiccionarioOffsetsZonas[variableZona][edicion, compilacion];
         }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
@@ -409,11 +466,11 @@ namespace PokemonGBAFrameWork
         /// <param name="variableZona">Usa el diccionario para obtener la zona </param>
         /// <returns>Si no es valido devuelve -1</returns>
         public static Hex GetOffset(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion)
-		{
-			if (string.IsNullOrEmpty(variableZona))
-				throw new ArgumentNullException();
-			return GetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion);
-		}
+        {
+            if (string.IsNullOrEmpty(variableZona))
+                throw new ArgumentNullException();
+            return GetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion);
+        }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>
@@ -421,9 +478,9 @@ namespace PokemonGBAFrameWork
         /// <param name="zona"></param>
         /// <returns>Si no es valido devuelve -1</returns>
 		public static Hex GetOffset(RomGBA rom, Zona zona)
-		{
-			return GetOffset(rom, zona, Edicion.GetEdicion(rom));
-		}
+        {
+            return GetOffset(rom, zona, Edicion.GetEdicion(rom));
+        }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>
@@ -432,9 +489,9 @@ namespace PokemonGBAFrameWork
         /// <param name="edicion"></param>
         /// <returns>Si no es valido devuelve -1</returns>
 		public static Hex GetOffset(RomGBA rom, Zona zona, Edicion edicion)
-		{
+        {
             return GetOffset(rom, zona[edicion, CompilacionRom.GetCompilacion(rom, edicion)]);
-		}
+        }
         /// <summary>
         /// Obtiene el Offset leido de la ROM escrito como POINTER
         /// </summary>
@@ -444,41 +501,41 @@ namespace PokemonGBAFrameWork
         /// <param name="compilacion"></param>
         /// <returns>Si no es valido devuelve -1</returns>
 		public static Hex GetOffset(RomGBA rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion)
-		{
-			if (rom == null || zona == null || edicion == null)
-				throw new ArgumentNullException();
-			else if (!zona.diccionarioZonas.ContainsKey(edicion) || zona.diccionarioZonas[edicion].Length < (int)compilacion)
-				throw new RomInvestigacionExcepcion();
+        {
+            if (rom == null || zona == null || edicion == null)
+                throw new ArgumentNullException();
+            else if (!zona.diccionarioZonas.ContainsKey(edicion) || zona.diccionarioZonas[edicion].Length < (int)compilacion)
+                throw new RomInvestigacionExcepcion();
 
-			return Offset.GetOffset(rom, zona[edicion, compilacion]);
-		}
+            return Offset.GetOffset(rom, zona[edicion, compilacion]);
+        }
         public static void SetOffset(RomGBA rom, Enum variableZona, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), offsetToSave);
         }
 
         public static void SetOffset(RomGBA rom, string variableZona, Hex offsetToSave)
-		{
-			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), offsetToSave);
-		}
+        {
+            SetOffset(rom, variableZona, Edicion.GetEdicion(rom), offsetToSave);
+        }
         public static void SetOffset(RomGBA rom, Enum variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), compilacion, offsetToSave);
         }
 
         public static void SetOffset(RomGBA rom, string variableZona, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
-		{
-			SetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion, offsetToSave);
-		}
+        {
+            SetOffset(rom, variableZona, Edicion.GetEdicion(rom), compilacion, offsetToSave);
+        }
         public static void SetOffset(RomGBA rom, Enum variableZona, Edicion edicion, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), edicion, offsetToSave);
         }
 
         public static void SetOffset(RomGBA rom, string variableZona, Edicion edicion, Hex offsetToSave)
-		{
-			SetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
-		}
+        {
+            SetOffset(rom, variableZona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
+        }
         public static void SetOffset(RomGBA rom, Enum variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
         {
             SetOffset(rom, variableZona.ToString(), edicion, compilacion, offsetToSave);
@@ -492,62 +549,63 @@ namespace PokemonGBAFrameWork
         /// <param name="variableZona">Usa el diccionario para obtener la zona </param>
         /// <param name="offsetToSave"></param>
         public static void SetOffset(RomGBA rom, string variableZona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
-		{
-			if (string.IsNullOrEmpty(variableZona))
-				throw new ArgumentNullException();
-			SetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion, offsetToSave);
-		}
-		/// <summary>
-		/// Actualiza el pointer de todas las zonas donde estaba el anterior
-		/// </summary>
-		/// <param name="rom"></param>
-		/// <param name="zona"></param>
-		/// <param name="offsetToSave"></param>
-		public static void SetOffset(RomGBA rom, Zona zona, Hex offsetToSave)
-		{
-			if (zona == null)
-				throw new ArgumentNullException();
-			SetOffset(rom, zona, Edicion.GetEdicion(rom), offsetToSave);
-		}
-		public static void SetOffset(RomGBA rom, Zona zona, Edicion edicion, Hex offsetToSave)
-		{
-			if (zona == null)
-				throw new ArgumentNullException();
-			SetOffset(rom, zona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
-		}
-		public static void SetOffset(RomGBA rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
-		{
-			if (zona == null)
-				throw new ArgumentNullException();
-			SetOffset(rom, zona[edicion, compilacion], offsetToSave);
-		}
-		/// <summary>
-		/// Actualiza el pointer de todas las zonas donde estaba el anterior
-		/// </summary>
-		/// <param name="rom"></param>
-		/// <param name="offsetZona"></param>
-		/// <param name="offsetToSave"></param>
-		public static void SetOffset(RomGBA rom, Hex offsetZona, Hex offsetToSave)
-		{
-			if (rom == null)
-				throw new ArgumentNullException();
-			if (offsetZona < 0 || offsetToSave < 0 || offsetToSave > (int)Longitud.TrentaYDosMegas || offsetToSave + (int)Longitud.Offset > rom.Datos.Length)
-				throw new ArgumentOutOfRangeException();
-			
-			Hex offsetZonaAActualizar = 0;//buscar el minimo real porque no hay pointers en el byte 4 (ya que 0+(int)Offsets.Longitud.Offset)
-			byte[] bytesOffsetOld;
+        {
+            if (string.IsNullOrEmpty(variableZona))
+                throw new ArgumentNullException();
+            SetOffset(rom, DiccionarioOffsetsZonas[variableZona], edicion, compilacion, offsetToSave);
+        }
+        /// <summary>
+        /// Actualiza el pointer de todas las zonas donde estaba el anterior
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="zona"></param>
+        /// <param name="offsetToSave"></param>
+        public static void SetOffset(RomGBA rom, Zona zona, Hex offsetToSave)
+        {
+            if (zona == null)
+                throw new ArgumentNullException();
+            SetOffset(rom, zona, Edicion.GetEdicion(rom), offsetToSave);
+        }
+        public static void SetOffset(RomGBA rom, Zona zona, Edicion edicion, Hex offsetToSave)
+        {
+            if (zona == null)
+                throw new ArgumentNullException();
+            SetOffset(rom, zona, edicion, CompilacionRom.GetCompilacion(rom, edicion), offsetToSave);
+        }
+        public static void SetOffset(RomGBA rom, Zona zona, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex offsetToSave)
+        {
+            if (zona == null)
+                throw new ArgumentNullException();
+            SetOffset(rom, zona[edicion, compilacion], offsetToSave);
+        }
+        /// <summary>
+        /// Actualiza el pointer de todas las zonas donde estaba el anterior
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="offsetZona"></param>
+        /// <param name="offsetToSave"></param>
+        public static void SetOffset(RomGBA rom, Hex offsetZona, Hex offsetToSave)
+        {
+            if (rom == null)
+                throw new ArgumentNullException();
+            if (offsetZona < 0 || offsetToSave < 0 || offsetToSave > (int)Longitud.TrentaYDosMegas || offsetToSave + (int)Longitud.Offset > rom.Datos.Length)
+                throw new ArgumentOutOfRangeException();
+
+            Hex offsetZonaAActualizar = 0;//buscar el minimo real porque no hay pointers en el byte 4 (ya que 0+(int)Offsets.Longitud.Offset)
+            byte[] bytesOffsetOld;
             byte[] bytesPointer = Offset.ToBytesRom(offsetToSave);
 
 
             bytesOffsetOld = BloqueBytes.GetBytes(rom, offsetZona, (int)Longitud.Offset).Bytes;//los bytes del offset a cambiar por el nuevo
-			//busco todos los offsets que tengan los bytes viejos y los sustituyo (desde el principio)
-			do {
-				offsetZonaAActualizar =	BloqueBytes.SearchBytes(rom, offsetZonaAActualizar + (int)Longitud.Offset, bytesOffsetOld);
-				if (offsetZonaAActualizar > -1)
-					BloqueBytes.SetBytes(rom, offsetZonaAActualizar, bytesPointer);
-			} while(offsetZonaAActualizar > -1);
-		}
-		//hacer metodo para guardar y cargar zonas desde un xml
-		
-	}
+                                                                                               //busco todos los offsets que tengan los bytes viejos y los sustituyo (desde el principio)
+            do
+            {
+                offsetZonaAActualizar = BloqueBytes.SearchBytes(rom, offsetZonaAActualizar + (int)Longitud.Offset, bytesOffsetOld);
+                if (offsetZonaAActualizar > -1)
+                    BloqueBytes.SetBytes(rom, offsetZonaAActualizar, bytesPointer);
+            } while (offsetZonaAActualizar > -1);
+        }
+        //hacer metodo para guardar y cargar zonas desde un xml
+
+    }
 }
