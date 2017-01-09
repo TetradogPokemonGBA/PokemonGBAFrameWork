@@ -1437,6 +1437,7 @@ namespace PokemonGBAFrameWork
             }
             return textoParseado.ToString();
         }
+
         #endregion
         public static implicit operator string(BloqueString bloque)
         {
