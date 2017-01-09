@@ -846,7 +846,7 @@ namespace PokemonGBAFrameWork
                                     *ptrChString = '\n';
                                     break;
                                 case 255:
-                                    texto.Append((char)255);
+                                    *ptrChString = (char)255;
                                     break;
                                 default:
                                     *ptrChString = ' ';
