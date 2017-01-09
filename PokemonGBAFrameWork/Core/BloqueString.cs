@@ -175,11 +175,13 @@ namespace PokemonGBAFrameWork
         }
 		#region Tratar String Pokemon
         public static string ToString(byte[] bytesGBA)
-        {
-            StringBuilder texto = new StringBuilder();
+        {//falta probar :D
+            int longitudAdemas=0;
+            char[] chString;
             unsafe
             {
                 byte* ptrBytesGBA;
+                char* ptrChString;
                 fixed (byte* ptBytesGBA = bytesGBA)
                 {
                     ptrBytesGBA = ptBytesGBA;
@@ -187,505 +189,677 @@ namespace PokemonGBAFrameWork
                     {
                         switch (*ptrBytesGBA)
                         {
-                            #region letters
-                            case 0:
-                                texto.Append(" ");
-                                break;
-                            case 1:
-                                texto.Append("À");
-                                break;
-                            case 2:
-                                texto.Append("Á");
-                                break;
-                            case 3:
-                                texto.Append("Â");
-                                break;
-                            case 4:
-                                texto.Append("Ç");
-                                break;
-                            case 5:
-                                texto.Append("È");
-                                break;
-                            case 6:
-                                texto.Append("É");
-                                break;
-                            case 7:
-                                texto.Append("Ê");
-                                break;
-                            case 8:
-                                texto.Append("Ë");
-                                break;
-                            case 9:
-                                texto.Append("Ì");
-                                break;
-                            case 11:
-                                texto.Append("Î");
-                                break;
-                            case 12:
-                                texto.Append("Ï");
-                                break;
-                            case 13:
-                                texto.Append("Ò");
-                                break;
-                            case 14:
-                                texto.Append("Ó");
-                                break;
-                            case 15:
-                                texto.Append("Ô");
-                                break;
-                            case 16:
-                                texto.Append("Œ");
-                                break;
-                            case 17:
-                                texto.Append("Ù");
-                                break;
-                            case 18:
-                                texto.Append("Ú");
-                                break;
-                            case 19:
-                                texto.Append("Û");
-                                break;
-                            case 20:
-                                texto.Append("Ñ");
-                                break;
-                            case 21:
-                                texto.Append("ß");
-                                break;
-                            case 22:
-                                texto.Append("à");
-                                break;
-                            case 23:
-                                texto.Append("á");
-                                break;
-                            case 25:
-                                texto.Append("ç");
-                                break;
-                            case 26:
-                                texto.Append("è");
-                                break;
-                            case 27:
-                                texto.Append("é");
-                                break;
-                            case 28:
-                                texto.Append("ê");
-                                break;
-                            case 29:
-                                texto.Append("ë");
-                                break;
-                            case 30:
-                                texto.Append("ì");
-                                break;
-                            case 32:
-                                texto.Append("î");
-                                break;
-                            case 33:
-                                texto.Append("ï");
-                                break;
-                            case 34:
-                                texto.Append("ò");
-                                break;
-                            case 35:
-                                texto.Append("ó");
-                                break;
-                            case 36:
-                                texto.Append("ô");
-                                break;
-                            case 37:
-                                texto.Append("œ");
-                                break;
-                            case 38:
-                                texto.Append("ù");
-                                break;
-                            case 39:
-                                texto.Append("ú");
-                                break;
-                            case 40:
-                                texto.Append("û");
-                                break;
-                            case 41:
-                                texto.Append("ñ");
-                                break;
-                            case 42:
-                                texto.Append("º");
-                                break;
-                            case 43:
-                                texto.Append("ª");
-                                break;
-                            case 45:
-                                texto.Append("&");
-                                break;
-                            case 46:
-                                texto.Append("&");
-                                break;
-                            case 52:
-                                texto.Append("[Lv]");
-                                break;
-                            case 53:
-                                texto.Append("=");
-                                break;
-                            case 54:
-                                texto.Append(");");
-                                break;
-                            case 81:
-                                texto.Append("¿");
-                                break;
-                            case 82:
-                                texto.Append("¡");
-                                break;
-                            case 83:
-                                texto.Append("[pk]");
-                                break;
-                            case 84:
-                                texto.Append("[mn]");
-                                break;
-                            case 85:
-                                texto.Append("[po]");
-                                break;
-                            case 86:
-                                texto.Append("[ké]");
-                                break;
-                            case 87:
-                                texto.Append("[bl]");
-                                break;
                             case 88:
-                                texto.Append("[oc]");
-                                break;
-                            case 89:
-                                texto.Append("[k]");
-                                break;
-                            case 90:
-                                texto.Append("Í");
-                                break;
-                            case 91:
-                                texto.Append("%");
-                                break;
-                            case 92:
-                                texto.Append("(");
-                                break;
-                            case 93:
-                                texto.Append(")");
-                                break;
-                            case 104:
-                                texto.Append("â");
-                                break;
-                            case 111:
-                                texto.Append("í");
-                                break;
-                            case 121:
-                                texto.Append("[U]");
-                                break;
-                            case 122:
-                                texto.Append("[D]");
-                                break;
-                            case 123:
-                                texto.Append("[L]");
-                                break;
-                            case 124:
-                                texto.Append("[R]");
-                                break;
-                            case 133:
-                                texto.Append("<");
-                                break;
-                            case 134:
-                                texto.Append(">");
-                                break;
-                            case 161:
-                                texto.Append("0");
-                                break;
-                            case 162:
-                                texto.Append("1");
-                                break;
-                            case 163:
-                                texto.Append("2");
-                                break;
-                            case 164:
-                                texto.Append("3");
-                                break;
-                            case 165:
-                                texto.Append("4");
-                                break;
-                            case 166:
-                                texto.Append("5");
-                                break;
-                            case 167:
-                                texto.Append("6");
-                                break;
-                            case 168:
-                                texto.Append("7");
-                                break;
-                            case 169:
-                                texto.Append("8");
-                                break;
-                            case 170:
-                                texto.Append("9");
-                                break;
-                            case 171:
-                                texto.Append("!");
-                                break;
-                            case 172:
-                                texto.Append("?");
-                                break;
-                            case 173:
-                                texto.Append(".");
-                                break;
-                            case 174:
-                                texto.Append("-");
-                                break;
-                            case 175:
-                                texto.Append("·");
-                                break;
-                            case 176:
-                                texto.Append("[.]");
-                                break;
-                            case 177:
-                                texto.Append("[\"]");
-                                break;
-                            case 178:
-                                texto.Append("\"");
-                                break;
-                            case 179:
-                                texto.Append("[']");
-                                break;
-                            case 180:
-                                texto.Append("'");
-                                break;
-                            case 181:
-                                texto.Append("[m]");
-                                break;
-                            case 182:
-                                texto.Append("[f]");
-                                break;
-                            case 183:
-                                texto.Append("[$]");
-                                break;
-                            case 184:
-                                texto.Append(",");
-                                break;
-                            case 185:
-                                texto.Append("[x]");
-                                break;
-                            case 186:
-                                texto.Append("/");
-                                break;
-                            case 187:
-                                texto.Append("A");
-                                break;
-                            case 188:
-                                texto.Append("B");
-                                break;
-                            case 189:
-                                texto.Append("C");
-                                break;
-                            case 190:
-                                texto.Append("D");
-                                break;
-                            case 191:
-                                texto.Append("E");
-                                break;
-                            case 192:
-                                texto.Append("F");
-                                break;
-                            case 193:
-                                texto.Append("G");
-                                break;
-                            case 194:
-                                texto.Append("H");
-                                break;
-                            case 195:
-                                texto.Append("I");
-                                break;
-                            case 196:
-                                texto.Append("J");
-                                break;
-                            case 197:
-                                texto.Append("K");
-                                break;
-                            case 198:
-                                texto.Append("L");
-                                break;
-                            case 199:
-                                texto.Append("M");
-                                break;
-                            case 200:
-                                texto.Append("N");
-                                break;
-                            case 201:
-                                texto.Append("O");
-                                break;
-                            case 202:
-                                texto.Append("P");
-                                break;
-                            case 203:
-                                texto.Append("Q");
-                                break;
-                            case 204:
-                                texto.Append("R");
-                                break;
-                            case 205:
-                                texto.Append("S");
-                                break;
-                            case 206:
-                                texto.Append("T");
-                                break;
-                            case 207:
-                                texto.Append("U");
-                                break;
-                            case 208:
-                                texto.Append("V");
-                                break;
-                            case 209:
-                                texto.Append("W");
-                                break;
-                            case 210:
-                                texto.Append("X");
-                                break;
-                            case 211:
-                                texto.Append("Y");
-                                break;
-                            case 212:
-                                texto.Append("Z");
-                                break;
-                            case 213:
-                                texto.Append("a");
-                                break;
-                            case 214:
-                                texto.Append("b");
-                                break;
-                            case 215:
-                                texto.Append("c");
-                                break;
-                            case 216:
-                                texto.Append("d");
-                                break;
-                            case 217:
-                                texto.Append("e");
-                                break;
-                            case 218:
-                                texto.Append("f");
-                                break;
-                            case 219:
-                                texto.Append("g");
-                                break;
-                            case 220:
-                                texto.Append("h");
-                                break;
-                            case 221:
-                                texto.Append("i");
-                                break;
-                            case 222:
-                                texto.Append("j");
-                                break;
-                            case 223:
-                                texto.Append("k");
-                                break;
-                            case 224:
-                                texto.Append("l");
-                                break;
-                            case 225:
-                                texto.Append("m");
-                                break;
-                            case 226:
-                                texto.Append("n");
-                                break;
-                            case 227:
-                                texto.Append("o");
-                                break;
-                            case 228:
-                                texto.Append("p");
-                                break;
-                            case 229:
-                                texto.Append("q");
-                                break;
-                            case 230:
-                                texto.Append("r");
-                                break;
-                            case 231:
-                                texto.Append("s");
-                                break;
-                            case 232:
-                                texto.Append("t");
-                                break;
-                            case 233:
-                                texto.Append("u");
-                                break;
-                            case 234:
-                                texto.Append("v");
-                                break;
-                            case 235:
-                                texto.Append("w");
-                                break;
-                            case 236:
-                                texto.Append("x");
-                                break;
-                            case 237:
-                                texto.Append("y");
-                                break;
-                            case 238:
-                                texto.Append("z");
-                                break;
-                            case 239:
-                                texto.Append("[>]");
-                                break;
-                            case 240:
-                                texto.Append(":");
-                                break;
-                            case 241:
-                                texto.Append("Ä");
-                                break;
-                            case 242:
-                                texto.Append("Ö");
-                                break;
-                            case 243:
-                                texto.Append("Ü");
-                                break;
-                            case 244:
-                                texto.Append("ä");
-                                break;
-                            case 245:
-                                texto.Append("ö");
-                                break;
-                            case 246:
-                                texto.Append("ü");
-                                break;
-                            case 247:
-                                texto.Append("[u]");
-                                break;
-                            case 248:
-                                texto.Append("[d]");
-                                break;
-                            case 249:
-                                texto.Append("[l]");
-                                break;
-                            case 250:
-                                texto.Append("\\l");
-                                break;
-                            case 251:
-                                texto.Append("\\p");
-                                break;
-                            case 252:
-                                texto.Append("\\c");
-                                break;
-                            case 253:
-                                texto.Append("\\v");
+                            case 87:
+                            case 86:
+                            case 85:
+                            case 84:
+                            case 83:
+                            case 52:
+                                longitudAdemas += 3;
                                 break;
                             case 254:
-                                texto.Append("\\n");
+                            case 252:
+                            case 251:
+                            case 250:
+                            case 54:
+                                longitudAdemas ++;
                                 break;
-                            case 255:
-                                texto.Append((char)255);
+                            case 249:
+                            case 248:
+                            case 247:
+                            case 239:
+                            case 185:
+                            case 183:
+                            case 182:
+                            case 181:
+                            case 179:
+                            case 177:
+                            case 176:
+                            case 124:
+                            case 123:
+                            case 122:
+                            case 121:
+                            case 89:
+                                longitudAdemas += 2;
                                 break;
-                            default:
-                                texto.Append(" ");
-                                break;
-                                #endregion
+
+                            
+                              
                         }
                         ptrBytesGBA++;
                     }
+                    chString = new char[bytesGBA.Length + longitudAdemas];
+                    ptrBytesGBA = ptBytesGBA;
+                    fixed(char* ptChString=chString)
+                    {
+                        ptrChString = ptChString;
+                        for (int i = 0; i < bytesGBA.Length; i++)
+                        {
+                            switch (*ptrBytesGBA)
+                            {
+                                #region letters
+                                case 0:
+                                    *ptrChString = ' ';
+                                    break;
+                                case 1:
+                                    *ptrChString = 'À';
+                                    break;
+                                case 2:
+                                    *ptrChString = 'Á';
+                                    break;
+                                case 3:
+                                    *ptrChString = 'Â';
+                                    break;
+                                case 4:
+                                    *ptrChString = 'Ç';
+                                    break;
+                                case 5:
+                                    *ptrChString = 'È';
+                                    break;
+                                case 6:
+                                    *ptrChString = 'É';
+                                    break;
+                                case 7:
+                                    *ptrChString = 'Ê';
+                                    break;
+                                case 8:
+                                    *ptrChString = 'Ë';
+                                    break;
+                                case 9:
+                                    *ptrChString = 'Ì';
+                                    break;
+                                case 11:
+                                    *ptrChString = 'Î';
+                                    break;
+                                case 12:
+                                    *ptrChString = 'Ï';
+                                    break;
+                                case 13:
+                                    *ptrChString = 'Ò';
+                                    break;
+                                case 14:
+                                    *ptrChString = 'Ó';
+                                    break;
+                                case 15:
+                                    *ptrChString = 'Ô';
+                                    break;
+                                case 16:
+                                    *ptrChString = 'Œ';
+                                    break;
+                                case 17:
+                                    *ptrChString = 'Ù';
+                                    break;
+                                case 18:
+                                    *ptrChString = 'Ú';
+                                    break;
+                                case 19:
+                                    *ptrChString = 'Û';
+                                    break;
+                                case 20:
+                                    *ptrChString = 'Ñ';
+                                    break;
+                                case 21:
+                                    *ptrChString = 'ß';
+                                    break;
+                                case 22:
+                                    *ptrChString = 'à';
+                                    break;
+                                case 23:
+                                    *ptrChString = 'á';
+                                    break;
+                                case 25:
+                                    *ptrChString = 'ç';
+                                    break;
+                                case 26:
+                                    *ptrChString = 'è';
+                                    break;
+                                case 27:
+                                    *ptrChString = 'é';
+                                    break;
+                                case 28:
+                                    *ptrChString = 'ê';
+                                    break;
+                                case 29:
+                                    *ptrChString = 'ë';
+                                    break;
+                                case 30:
+                                    *ptrChString = 'ì';
+                                    break;
+                                case 32:
+                                    *ptrChString = 'î';
+                                    break;
+                                case 33:
+                                    *ptrChString = 'ï';
+                                    break;
+                                case 34:
+                                    *ptrChString = 'ò';
+                                    break;
+                                case 35:
+                                    *ptrChString = 'ó';
+                                    break;
+                                case 36:
+                                    *ptrChString = 'ô';
+                                    break;
+                                case 37:
+                                    *ptrChString = 'œ';
+                                    break;
+                                case 38:
+                                    *ptrChString = 'ù';
+                                    break;
+                                case 39:
+                                    *ptrChString = 'ú';
+                                    break;
+                                case 40:
+                                    *ptrChString = 'û';
+                                    break;
+                                case 41:
+                                    *ptrChString = 'ñ';
+                                    break;
+                                case 42:
+                                    *ptrChString = 'º';
+                                    break;
+                                case 43:
+                                    *ptrChString = 'ª';
+                                    break;
+                                case 45:
+                                    *ptrChString = '&';
+                                    break;
+                                case 46:
+                                    *ptrChString = '&';
+                                    break;
+                                case 52:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'L';
+                                    ptrChString++;
+                                    *ptrChString = 'v';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 53:
+                                    *ptrChString = '=';
+                                    break;
+                                case 54:
+                                    *ptrChString = ')';
+                                    ptrChString++;
+                                    *ptrChString = ';';
+                                    break;
+                                case 81:
+                                    *ptrChString = '¿';
+                                    break;
+                                case 82:
+                                    *ptrChString = '¡';
+                                    break;
+                                case 83:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'p';
+                                    ptrChString++;
+                                    *ptrChString = 'k';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                   
+                                    break;
+                                case 84:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'm';
+                                    ptrChString++;
+                                    *ptrChString = 'n';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 85:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'p';
+                                    ptrChString++;
+                                    *ptrChString = 'o';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 86:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'k';
+                                    ptrChString++;
+                                    *ptrChString = 'é';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 87:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'b';
+                                    ptrChString++;
+                                    *ptrChString = 'l';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 88:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'o';
+                                    ptrChString++;
+                                    *ptrChString = 'c';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 89:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'k';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 90:
+                                    *ptrChString = 'Í';
+                                    break;
+                                case 91:
+                                    *ptrChString = '%';
+                                    break;
+                                case 92:
+                                    *ptrChString = '(';
+                                    break;
+                                case 93:
+                                    *ptrChString = ')';
+                                    break;
+                                case 104:
+                                    *ptrChString = 'â';
+                                    break;
+                                case 111:
+                                    *ptrChString = 'í';
+                                    break;
+                                case 121:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'U';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 122:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'D';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 123:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'L';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 124:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'R';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 133:
+                                    *ptrChString = '<';
+                                    break;
+                                case 134:
+                                    *ptrChString = '>';
+                                    break;
+                                case 161:
+                                    *ptrChString = '0';
+                                    break;
+                                case 162:
+                                    *ptrChString = '1';
+                                    break;
+                                case 163:
+                                    *ptrChString = '2';
+                                    break;
+                                case 164:
+                                    *ptrChString = '3';
+                                    break;
+                                case 165:
+                                    *ptrChString = '4';
+                                    break;
+                                case 166:
+                                    *ptrChString = '5';
+                                    break;
+                                case 167:
+                                    *ptrChString = '6';
+                                    break;
+                                case 168:
+                                    *ptrChString = '7';
+                                    break;
+                                case 169:
+                                    *ptrChString = '8';
+                                    break;
+                                case 170:
+                                    *ptrChString = '9';
+                                    break;
+                                case 171:
+                                    *ptrChString = '!';
+                                    break;
+                                case 172:
+                                    *ptrChString = '?';
+                                    break;
+                                case 173:
+                                    *ptrChString = '.';
+                                    break;
+                                case 174:
+                                    *ptrChString = '-';
+                                    break;
+                                case 175:
+                                    *ptrChString = '·';
+                                    break;
+                                case 176:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = '.';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 177:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = '\"';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 178:
+                                    *ptrChString = '\"';
+                                    break;
+                                case 179:
+                                    *ptrChString = '[';
+                                        ptrChString++;
+                                    *ptrChString = '\'';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 180:
+                                    *ptrChString = '\'';
+                                 
+                                    break;
+                                case 181:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'm';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 182:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'f';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 183:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = '$';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 184:
+                                    *ptrChString = ',';
+                                    break;
+                                case 185:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'x';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    break;
+                                case 186:
+                                    *ptrChString = '/';
+                                    break;
+                                case 187:
+                                    *ptrChString = 'A';
+                                    break;
+                                case 188:
+                                    *ptrChString = 'B';
+                                    break;
+                                case 189:
+                                    *ptrChString = 'C';
+                                    break;
+                                case 190:
+                                    *ptrChString = 'D';
+                                    break;
+                                case 191:
+                                    *ptrChString = 'E';
+                                    break;
+                                case 192:
+                                    *ptrChString = 'F';
+                                    break;
+                                case 193:
+                                    *ptrChString = 'G';
+                                    break;
+                                case 194:
+                                    *ptrChString = 'H';
+                                    break;
+                                case 195:
+                                    *ptrChString = 'I';
+                                    break;
+                                case 196:
+                                    *ptrChString = 'J';
+                                    break;
+                                case 197:
+                                    *ptrChString = 'K';
+                                    break;
+                                case 198:
+                                    *ptrChString = 'L';
+                                    break;
+                                case 199:
+                                    *ptrChString = 'M';
+                                    break;
+                                case 200:
+                                    *ptrChString = 'N';
+                                    break;
+                                case 201:
+                                    *ptrChString = 'O';
+                                    break;
+                                case 202:
+                                    *ptrChString = 'P';
+                                    break;
+                                case 203:
+                                    *ptrChString = 'Q';
+                                    break;
+                                case 204:
+                                    *ptrChString = 'R';
+                                    break;
+                                case 205:
+                                    *ptrChString = 'S';
+                                    break;
+                                case 206:
+                                    *ptrChString = 'T';
+                                    break;
+                                case 207:
+                                    *ptrChString = 'U';
+                                    break;
+                                case 208:
+                                    *ptrChString = 'V';
+                                    break;
+                                case 209:
+                                    *ptrChString = 'W';
+                                    break;
+                                case 210:
+                                    *ptrChString = 'X';
+                                    break;
+                                case 211:
+                                    *ptrChString = 'Y';
+                                    break;
+                                case 212:
+                                    *ptrChString = 'Z';
+                                    break;
+                                case 213:
+                                    *ptrChString = 'a';
+                                    break;
+                                case 214:
+                                    *ptrChString = 'b';
+                                    break;
+                                case 215:
+                                    *ptrChString = 'c';
+                                    break;
+                                case 216:
+                                    *ptrChString = 'd';
+                                    break;
+                                case 217:
+                                    *ptrChString = 'e';
+                                    break;
+                                case 218:
+                                    *ptrChString = 'f';
+                                    break;
+                                case 219:
+                                    *ptrChString = 'g';
+                                    break;
+                                case 220:
+                                    *ptrChString = 'h';
+                                    break;
+                                case 221:
+                                    *ptrChString = 'i';
+                                    break;
+                                case 222:
+                                    *ptrChString = 'j';
+                                    break;
+                                case 223:
+                                    *ptrChString = 'k';
+                                    break;
+                                case 224:
+                                    *ptrChString = 'l';
+                                    break;
+                                case 225:
+                                    *ptrChString = 'm';
+                                    break;
+                                case 226:
+                                    *ptrChString = 'n';
+                                    break;
+                                case 227:
+                                    *ptrChString = 'o';
+                                    break;
+                                case 228:
+                                    *ptrChString = 'p';
+                                    break;
+                                case 229:
+                                    *ptrChString = 'q';
+                                    break;
+                                case 230:
+                                    *ptrChString = 'r';
+                                    break;
+                                case 231:
+                                    *ptrChString = 's';
+                                    break;
+                                case 232:
+                                    *ptrChString = 't';
+                                    break;
+                                case 233:
+                                    *ptrChString = 'u';
+                                    break;
+                                case 234:
+                                    *ptrChString = 'v';
+                                    break;
+                                case 235:
+                                    *ptrChString = 'w';
+                                    break;
+                                case 236:
+                                    *ptrChString = 'x';
+                                    break;
+                                case 237:
+                                    *ptrChString = 'y';
+                                    break;
+                                case 238:
+                                    *ptrChString = 'z';
+                                    break;
+                                case 239:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = '>';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                
+                                    break;
+                                case 240:
+                                    *ptrChString = ':';
+                                    break;
+                                case 241:
+                                    *ptrChString = 'Ä';
+                                    break;
+                                case 242:
+                                    *ptrChString = 'Ö';
+                                    break;
+                                case 243:
+                                    *ptrChString = 'Ü';
+                                    break;
+                                case 244:
+                                    *ptrChString = 'ä';
+                                    break;
+                                case 245:
+                                    *ptrChString = 'ö';
+                                    break;
+                                case 246:
+                                    *ptrChString = 'ü';
+                                    break;
+                                case 247:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'u';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                    
+                                    break;
+                                case 248:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'd';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                   
+                                    break;
+                                case 249:
+                                    *ptrChString = '[';
+                                    ptrChString++;
+                                    *ptrChString = 'l';
+                                    ptrChString++;
+                                    *ptrChString = ']';
+                                   
+                                    break;
+                                case 250:
+                                    *ptrChString = '\\';
+                                    ptrChString++;
+                                    *ptrChString = 'l';
+                                    break;
+                                case 251:
+                                    *ptrChString = '\\';
+                                    ptrChString++;
+                                    *ptrChString = 'p';
+                                    break;
+                                case 252:
+                                    *ptrChString = '\\';
+                                    ptrChString++;
+                                    *ptrChString = 'c';
+                                    break;
+                                case 253:
+                                    *ptrChString = '\v';
+                                   
+                                    break;
+                                case 254:
+                                    *ptrChString = '\r';
+                                    ptrChString++;
+                                    *ptrChString = '\n';
+                                    break;
+                                case 255:
+                                    texto.Append((char)255);
+                                    break;
+                                default:
+                                    *ptrChString = ' ';
+                                    break;
+                                    #endregion
+                            }
+                            ptrBytesGBA++;
+                            ptrChString++;
+                        }
+                    }
                 }
             }
-            texto.Replace("\\n", "\r\n");
-            texto.Replace("\\v", "\v");
-            return texto.ToString();
+            return new string(chString);
         }
 
         public static BloqueString GetString(RomGBA rom, Hex offsetInicio,byte marcaFin=0xFF)
@@ -697,7 +871,7 @@ namespace PokemonGBAFrameWork
             return GetString(blDatos, offsetInicio,blDatos.Bytes.IndexByte(offsetInicio, marcaFin) - offsetInicio);
         }
         public static byte[] ToByteArray(string texto)
-        {
+        {//por mirar
             if (texto == null)
                 throw new ArgumentNullException();
             byte[] bytesTexto;
