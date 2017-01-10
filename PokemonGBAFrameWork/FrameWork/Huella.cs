@@ -60,7 +60,7 @@ namespace PokemonGBAFrameWork
             set
             {
                 bloqueImgHuella = value;
-                imgHuella = Load2BPSprite16By16(bloqueImgHuella.Bytes);
+                imgHuella = ReadImage(bloqueImgHuella.Bytes);
             }
         }
 
@@ -69,130 +69,36 @@ namespace PokemonGBAFrameWork
             Hex offsetInicio =Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.ImgHuella, edicion, compilacion)+(posicion-1)*(int)Longitud.Offset);
             return new Huella(BloqueBytes.GetBytes(rom, offsetInicio, "FF"));
         }
-        //sacado de Pokemon Game Editor gamer2020
-         static Bitmap Load2BPSprite16By16( byte[] Bits)
-        {//no funciona...
-
-            Bitmap bmpTiles = new Bitmap(16, 16);
-
-            int sideways = 0;
-            int updown = 0;
-            int bittrack = 0;
-            int bytetrack = 0;
-            bool curbit;
-            bool[] bitsarray;
-            int CurSquare = 0;
-
-            while (updown < 16)
+        static Bitmap ReadImage(byte[] bytesHuella)
+        {//optimizar mas adelante :D
+            Bitmap bmpHuella = new Bitmap(16, 16);
+            int mitadY = bmpHuella.Height / 2;
+            int inicioY = 0;
+            int finY = mitadY;
+            int pos = 0;
+            //tengo 0xFF bytes para formar la imagen
+            bool[] bits;
+            for (int i = 0; i < 2; i++)
             {
-
-                while (sideways < 8)
+              //  primero arriba y luego abajo
+                for (int y = inicioY; y < finY; y++)
                 {
-                    bitsarray =  Bits[bittrack].ToBits();
-
-                    curbit = bitsarray[bittrack];
-
-
-                    if (!curbit)
-                    {
-
-                        if (CurSquare == 0)
-                        {
-                            bmpTiles.SetPixel(sideways, updown, PaletaHuella[0]);
-
-                        }
-
-
-                        else if (CurSquare == 1)
-                        {
-                            bmpTiles.SetPixel((CurSquare * 8) + sideways, updown - (CurSquare * 8), PaletaHuella[0]);
-
-                        }
-
-
-                        else if (CurSquare == 2)
-                        {
-                            bmpTiles.SetPixel(sideways, updown + (8), PaletaHuella[0]);
-
-                        }
-
-
-                        else if (CurSquare == 3)
-                        {
-                            bmpTiles.SetPixel((8) + sideways, updown, PaletaHuella[0]);
-
-                        }
-
-
-                    }
-                    else
-                    {
-
-                        if (CurSquare == 0)
-                        {
-                            bmpTiles.SetPixel(sideways, updown, PaletaHuella[1]);
-
-                        }
-
-
-                       else if (CurSquare == 1)
-                        {
-                            bmpTiles.SetPixel((CurSquare * 8) + sideways, updown - (CurSquare * 8), PaletaHuella[1]);
-
-                        }
-
-
-                        else if (CurSquare == 2)
-                        {
-                            bmpTiles.SetPixel(sideways, updown + (8), PaletaHuella[1]);
-
-                        }
-
-
-                        else if (CurSquare == 3)
-                        {
-                            bmpTiles.SetPixel((8) + sideways, updown, PaletaHuella[1]);
-
-                        }
-
-                    }
-                    bittrack = bittrack + 1;
-                    if (bittrack == 8)
-                    {
-                        bittrack = 0;
-                        bytetrack = bytetrack + 1;
-                    }
-
-                    sideways = sideways + 1;
+                    bits = bytesHuella[pos].ToBits();//hace la parte izquierda 
+                    for (int x = 0; x < mitadY; x++)
+                        if (bits[x])
+                            bmpHuella.SetPixel(x, y, Color.Black);
+                    bits = bytesHuella[pos + mitadY].ToBits();//hace la parte derecha
+                    for (int x = mitadY, xAux = 0; x < bmpHuella.Width; x++, xAux++)
+                        if (bits[xAux])
+                            bmpHuella.SetPixel(x, y, Color.Black);
+                    pos++;
                 }
-                sideways = 0;
-
-                if (updown == 7 & CurSquare == 0)
-                {
-                    CurSquare = CurSquare + 1;
-                }
-
-                if (updown == 15 & CurSquare == 1)
-                {
-                    CurSquare = CurSquare + 1;
-                    updown = -1;
-                }
-
-                if (updown == 7 & CurSquare == 2)
-                {
-                    CurSquare = CurSquare + 1;
-
-                }
-
-                if (updown == 15 & CurSquare == 3)
-                {
-                    CurSquare = CurSquare + 1;
-                }
-
-                updown = updown + 1;
-
+                pos += mitadY;
+                inicioY += mitadY;
+                finY += mitadY;
             }
-            return bmpTiles;
+           
+            return bmpHuella;
         }
         public static void SetHuella(RomGBA rom, Huella huella,Hex posicion)
         {

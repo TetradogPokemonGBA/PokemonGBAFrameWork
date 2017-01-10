@@ -114,7 +114,10 @@ namespace PokemonGBAFrameWork
                 compilacion = value;
             }
         }
-
+        public void SetRomData(RomGBA rom)
+        {
+            SetRomData(rom, this);
+        }
         public static RomData GetRomData(RomGBA rom)
         {
             Edicion edicion = Edicion.GetEdicion(rom);
