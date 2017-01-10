@@ -93,6 +93,9 @@ namespace PokemonGBAFrameWork
                             bmpHuella.SetPixel(x, y, Color.Black);
                     pos++;
                 }
+                //13
+                //24
+                //un byte arriba otro abajo
                 pos += mitadY;
                 inicioY += mitadY;
                 finY += mitadY;
