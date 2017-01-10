@@ -969,7 +969,7 @@ namespace PokemonGBAFrameWork
             if (pokemon.OrdenGameFreak > 0)
                 try
                 {
-                    pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
+                    pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak+1);
                 }
                 catch { }
             return pokemon;
