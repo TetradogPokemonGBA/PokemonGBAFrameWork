@@ -87,6 +87,7 @@ namespace PokemonGBAFrameWork
         /// </summary>
         public void RefreshImagen()
         {
+            if (bloqueImgHuella.Bytes.Length != 0xFF) throw new ArgumentException("La cantidad de bytes tiene que ser de 255");
             Imagen = ReadImage(bloqueImgHuella.Bytes);
         }
         public static Huella GetHuella(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
@@ -96,7 +97,6 @@ namespace PokemonGBAFrameWork
         }
         static Bitmap ReadImage(byte[] bytesHuella)
         {
-            //optimizar mas adelante :D
             Bitmap bmpHuella = new Bitmap(16, 16);
             bmpHuella.SetBytes(DescomprimirBytesImgRGBA(ConvertToImgBytes(bytesHuella)));
             return bmpHuella;
@@ -207,6 +207,7 @@ namespace PokemonGBAFrameWork
             const byte OFF = 0x0;//color off :)
             byte[] bytesImgComprimidos = new byte[bytesImgDescomprimidosRGBA.Length / RGBA * BITSBYTE];//dividir entre 8 porque cada bit es un color y entre 4 porque cada 4 bytes forman un color
             bool[] bitsColor;
+
             unsafe
             {
                 byte* ptrBytesImgComprimidos, ptrBytesImgDescompridos;
