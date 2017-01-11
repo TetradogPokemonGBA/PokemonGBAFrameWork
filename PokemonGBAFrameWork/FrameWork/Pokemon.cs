@@ -905,16 +905,10 @@ namespace PokemonGBAFrameWork
         }
         static int TotalNoPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, int total)
         {
-            int totalAux = ++total;
-            bool acabado = false;
-            while (!acabado) {
-                try
-                {
-                    //todos los pokemons tienen huella :D cuando pete es que ha leido una parte que no contiene :D
-                    Huella.GetHuella(rom, edicion, compilacion, total);
-                }
-                catch { acabado = true; }
-                if(!acabado)
+            Hex MARCAFIN = "FFFFFFFFFFFFFFFF";
+            int totalAux = total++;
+            while (Huella.GetOffsetHuella(rom, edicion, compilacion, total) != MARCAFIN)
+            {
                 total++;
             }
             return total - totalAux;
@@ -966,12 +960,9 @@ namespace PokemonGBAFrameWork
                 pokemon.Descripcion = DescripcionPokedex.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
                
             }
-            if (pokemon.OrdenGameFreak > 0)
-                try
-                {
-                    pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak+1);//ahora se ven todas en su sitio...missigno no tiene :C
-                }
-                catch { }
+            if (pokemon.OrdenGameFreak >= 0)
+                    pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);//ahora se ven todas en su sitio...missigno no tiene :C
+         
             return pokemon;
         }
         public static Pokemon[] GetPokemons(RomGBA rom)

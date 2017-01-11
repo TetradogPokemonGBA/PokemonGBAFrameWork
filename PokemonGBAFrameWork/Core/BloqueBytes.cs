@@ -65,16 +65,16 @@ namespace PokemonGBAFrameWork
 			if(String.IsNullOrEmpty(pathFileWithNameAndExtension))
 				throw new ArgumentException();
 			FileStream str=null;
-			StreamWriter strW=null;
+			BinaryWriter bnW=null;
 			try{
 				str=new FileStream(pathFileWithNameAndExtension,FileMode.Create);
 				
-				strW=new StreamWriter(str,System.Text.Encoding.UTF8);
-				strW.Write((int)OffsetInicio);//guardo el inicio del bloque de bytes
-				strW.Write(Bytes);//guardo el bloque de bytes :D
+				bnW=new BinaryWriter(str);
+				bnW.Write((int)OffsetInicio);//guardo el inicio del bloque de bytes
+				bnW.Write(Bytes);//guardo el bloque de bytes :D
 			}catch{throw;}finally{
-				if(strW!=null)
-					strW.Close();
+				if(bnW!=null)
+					bnW.Close();
 				else try{ File.Delete(pathFileWithNameAndExtension);/*si falla lo borr*/}catch{}//por si peta :)
 				if(str!=null)
 					str.Close();
