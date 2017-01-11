@@ -109,8 +109,14 @@ namespace PokemonGBAFrameWork
         /// <param name="posicion"></param>
         /// <returns></returns>
         public static Hex GetOffsetHuella(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
-        {//asi puedo calcular el numero de pokemons que hay sin hacer faena en vano.
+        {
            return Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.ImgHuella, edicion, compilacion) + posicion * (int)Longitud.Offset);
+        }
+        public static bool PoscionIsOK(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
+        {
+            //asi puedo calcular el numero de pokemons que hay sin hacer faena en vano.
+            const string MARCAFIN = "FFFFFFFFFFFFFFFF";
+            return GetOffsetHuella(rom, edicion, compilacion, posicion) != MARCAFIN;
         }
 
         static Bitmap ReadImageFunciona(byte[] bytesHuella)

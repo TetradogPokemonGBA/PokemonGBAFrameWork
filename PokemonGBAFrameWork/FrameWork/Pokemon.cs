@@ -905,9 +905,8 @@ namespace PokemonGBAFrameWork
         }
         static int TotalNoPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, int total)
         {
-            Hex MARCAFIN = "FFFFFFFFFFFFFFFF";
             int totalAux = total++;
-            while (Huella.GetOffsetHuella(rom, edicion, compilacion, total) != MARCAFIN)
+            while (Huella.PoscionIsOK(rom, edicion, compilacion, total))
             {
                 total++;
             }
