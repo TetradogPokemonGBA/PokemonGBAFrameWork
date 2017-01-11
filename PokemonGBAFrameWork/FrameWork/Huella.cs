@@ -224,9 +224,9 @@ namespace PokemonGBAFrameWork
             return ConvertToGBA(ComprimirBytesImg(bmp.GetBytes()));
         }
         private static byte[] ComprimirBytesImg(byte[] bytesImgDescomprimidosRGBA)
-        {
+        {//se tiene que mirar!
             const int RGBA = 4, BITSBYTE = 8;
-            const byte OFF = 0x0;//color off :)
+            const byte OFF = 0xFF;//gamefreak solo guarda la transparencia lo demas es 0x00 que sin transparencia se ve negro...
             byte[] bytesImgComprimidos = new byte[(int)LongitudHuella.Imagen];
             bool[] bitsColor;
 
