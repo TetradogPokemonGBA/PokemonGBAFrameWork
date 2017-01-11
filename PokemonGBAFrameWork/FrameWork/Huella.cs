@@ -101,28 +101,33 @@ namespace PokemonGBAFrameWork
         static byte[] ConvertToImgBytes(byte[] bytesGBA)
         {
             const int XMEDIO = 8;
-            int xFin = 16;
-            int xInicio = 0;
+            const int XFIN = 16;
             byte[] bytesImgComprimidos = new byte[bytesGBA.Length];
            
             //los pone por orden natural
             unsafe
             {
-                byte* ptrBytesGBA, ptrBytesImg;
+                byte* ptrBytesGBAIzquierda,ptrBytesGBADerecha, ptrBytesImg;
                 fixed(byte* ptBytesGBA=bytesGBA,ptBytesImg=bytesImgComprimidos)
                 {
-                    ptrBytesGBA = ptBytesGBA;
+                    ptrBytesGBAIzquierda = ptBytesGBA;
+                    ptrBytesGBADerecha = ptBytesGBA;
                     ptrBytesImg = ptBytesImg;
                     //los pone por orden natural
-                    for(int i=0;i<2;i++)
+                    for(int i=0;i<2;i++)//primero arriba y luego abajo :D
                     {
-                        for(int x=xInicio,y=xInicio;x<xFin;x+=2,y++)
+                        ptrBytesGBADerecha += XMEDIO;
+                        for(int x=0;x< XFIN; x+=2)
                         {
-                            ptrBytesImg[x] = ptrBytesGBA[y];
-                            ptBytesImg[x + 1] = ptrBytesGBA[y + XMEDIO];
+                            *ptrBytesImg = *ptrBytesGBAIzquierda;
+                            ptrBytesImg++;
+                            ptrBytesGBAIzquierda++;
+                            *ptrBytesImg = *ptrBytesGBADerecha;
+                            ptrBytesImg++;
+                            ptrBytesGBADerecha++;
                         }
-                        xInicio = xFin;
-                        xFin +=xFin;
+                        ptrBytesGBADerecha += XMEDIO;//asi empieza por la otra mitad ya que estaba en el final de la primera :)
+                        ptrBytesGBAIzquierda += XMEDIO;//asi empieza la segunda mitad ya que estaba por un cuarto
                     }
 
                 }
@@ -245,27 +250,30 @@ namespace PokemonGBAFrameWork
         static byte[] ConvertToGBA(byte[] bytesImgComprimidos)
         {
             const int XMEDIO = 8;
-            int xFin = 16;
-            int xInicio = 0;
+            const int XFIN = 16;
             byte[] bytesGBA = new byte[bytesImgComprimidos.Length];
             //los pone por orden en el cuadrado que le toca :D
             unsafe
             {
-                byte* ptrBytesGBA, ptrBytesImg;
+                byte* ptrBytesGBAIzquierda, ptrBytesGBADerecha, ptrBytesImg;
                 fixed (byte* ptBytesGBA = bytesGBA, ptBytesImg = bytesImgComprimidos)
                 {
-                    ptrBytesGBA = ptBytesGBA;
+                    ptrBytesGBAIzquierda = ptBytesGBA;
+                    ptrBytesGBADerecha = ptBytesGBA;
                     ptrBytesImg = ptBytesImg;
                     //los pone por orden natural
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 2; i++)//primero arriba y luego abajo :D
                     {
-                        for (int x = xInicio, y = xInicio; x < xFin; x += 2, y++)
+                        ptrBytesGBADerecha += XMEDIO;
+                        for (int x = 0; x < XFIN; x += 2)
                         {
-                            ptrBytesGBA[y]= ptrBytesImg[x];
-                            ptrBytesGBA[y + XMEDIO]= ptBytesImg[x + 1];
+                            *ptrBytesGBAIzquierda= *ptrBytesImg;
+                            ptrBytesImg++;
+                            ptrBytesGBAIzquierda++;
+                            *ptrBytesGBADerecha= *ptrBytesImg;
+                            ptrBytesImg++;
+                            ptrBytesGBADerecha++;
                         }
-                        xInicio = xFin;
-                        xFin += xFin;
                     }
 
                 }
