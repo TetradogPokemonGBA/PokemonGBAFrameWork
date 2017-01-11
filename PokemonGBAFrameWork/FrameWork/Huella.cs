@@ -34,7 +34,7 @@ namespace PokemonGBAFrameWork
         }
         BloqueBytes bloqueImgHuella;
         Bitmap imgHuella;
-
+        public Huella():this(0,new byte[0xFF]) { }//imagen transparente
         public Huella(Hex offsetInicio,byte[] datosImagen):this(new BloqueBytes(offsetInicio, datosImagen))
         {
           
@@ -48,6 +48,13 @@ namespace PokemonGBAFrameWork
         public Bitmap Imagen {
             get {
                 return imgHuella; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException();
+                if (value.Height!=16||value.Width!=16) throw new ArgumentException("Las medidas son 16x16");
+                imgHuella = value;
+                RefreshBloqueImgHuella();
+            }
         }
 
         public BloqueBytes BloqueImgHuella
@@ -59,53 +66,226 @@ namespace PokemonGBAFrameWork
 
             set
             {
+                if (value == null) throw new ArgumentNullException();
+                if (value.Bytes.Length != 0xFF) throw new ArgumentException("La cantidad de bytes tiene que ser de 255");
                 bloqueImgHuella = value;
-                imgHuella = ReadImage(bloqueImgHuella.Bytes);
+                RefreshImagen();
             }
         }
-
+        /// <summary>
+        /// Construye los bytes con la imagen
+        /// </summary>
+        public void RefreshBloqueImgHuella()
+        {
+            bloqueImgHuella.Bytes = WriteImage(Imagen);
+        }
+        /// <summary>
+        /// Construye la imagen a partir del bloque de bytes
+        /// </summary>
+        public void RefreshImagen()
+        {
+            Imagen = ReadImage(bloqueImgHuella.Bytes);
+        }
         public static Huella GetHuella(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex posicion)
         {
             Hex offsetInicio =Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.ImgHuella, edicion, compilacion)+(posicion-1)*(int)Longitud.Offset);
             return new Huella(BloqueBytes.GetBytes(rom, offsetInicio, "FF"));
         }
         static Bitmap ReadImage(byte[] bytesHuella)
-        {//optimizar mas adelante :D
+        {
+            //optimizar mas adelante :D
             Bitmap bmpHuella = new Bitmap(16, 16);
-            int mitadY = bmpHuella.Height / 2;
-            int inicioY = 0;
-            int finY = mitadY;
-            int pos = 0;
-            //tengo 0xFF bytes para formar la imagen
-            bool[] bits;
-            for (int i = 0; i < 2; i++)
-            {
-              //  primero arriba y luego abajo
-                for (int y = inicioY; y < finY; y++)
-                {
-                    bits = bytesHuella[pos].ToBits();//hace la parte izquierda 
-                    for (int x = 0; x < mitadY; x++)
-                        if (bits[x])
-                            bmpHuella.SetPixel(x, y, Color.Black);
-                    bits = bytesHuella[pos + mitadY].ToBits();//hace la parte derecha
-                    for (int x = mitadY, xAux = 0; x < bmpHuella.Width; x++, xAux++)
-                        if (bits[xAux])
-                            bmpHuella.SetPixel(x, y, Color.Black);
-                    pos++;
-                }
-                //13
-                //24
-                //un byte arriba otro abajo
-                pos += mitadY;
-                inicioY += mitadY;
-                finY += mitadY;
-            }
-           
+            bmpHuella.SetBytes(DescomprimirBytesImgRGBA(ConvertToImgBytes(bytesHuella)));
             return bmpHuella;
         }
-        public static void SetHuella(RomGBA rom, Huella huella,Hex posicion)
+        static byte[] ConvertToImgBytes(byte[] bytesGBA)
         {
-          //  throw new NotImplementedException();
+            const int XMEDIO = 8;
+            int xFin = 16;
+            int xInicio = 0;
+            byte[] bytesImgComprimidos = new byte[bytesGBA.Length];
+           
+            //los pone por orden natural
+            unsafe
+            {
+                byte* ptrBytesGBA, ptrBytesImg;
+                fixed(byte* ptBytesGBA=bytesGBA,ptBytesImg=bytesImgComprimidos)
+                {
+                    ptrBytesGBA = ptBytesGBA;
+                    ptrBytesImg = ptBytesImg;
+                    //los pone por orden natural
+                    for(int i=0;i<2;i++)
+                    {
+                        for(int x=xInicio,y=xInicio;x<xFin;x+=2,y++)
+                        {
+                            ptrBytesImg[x] = ptrBytesGBA[y];
+                            ptBytesImg[x + 1] = ptrBytesGBA[y + XMEDIO];
+                        }
+                        xInicio = xFin;
+                        xFin +=xFin;
+                    }
+
+                }
+            }
+            return bytesImgComprimidos;
+        }
+
+        private static byte[] DescomprimirBytesImgRGBA(byte[] bytesImgComprimidos)
+        {
+            const int RGBA = 4;
+            const byte ON=0xFF;//color on :)
+            byte[] bytesImgDescomprimidosRGBA = new byte[bytesImgComprimidos.Length * RGBA*8];//RGBA* 8bits
+            bool[] bitsColor;
+            unsafe
+            {
+                byte* ptrBytesImgComprimidos, ptrBytesImgDescompridos;
+                bool* ptrBitsColor;
+                fixed(byte* ptBytesImgComprimidos=bytesImgComprimidos,ptBytesImgDescomprimidos=bytesImgDescomprimidosRGBA)
+                {
+                    ptrBytesImgComprimidos = ptBytesImgComprimidos;
+                    ptrBytesImgDescompridos = ptBytesImgDescomprimidos;
+                    for(int i=0;i<bytesImgComprimidos.Length;i++)
+                    {
+                        bitsColor = (*ptrBytesImgComprimidos).ToBits();
+                        fixed(bool* ptBitsColor=bitsColor)
+                        {
+                            ptrBitsColor = ptBitsColor;
+                            for (int j = 0; j < bitsColor.Length; j++)
+                            {
+                                if (*ptrBitsColor)
+                                {
+                                    for (int k = 0; k < RGBA; k++)
+                                    {
+                                        *ptrBytesImgDescompridos = ON;
+                                        ptrBytesImgDescompridos++;
+                                    }
+                                }
+                                else ptrBytesImgDescompridos += RGBA;//transparente
+                                ptrBitsColor++;
+                            }
+                        }
+                        ptrBytesImgComprimidos++;
+                    }
+                }
+            }
+            return bytesImgDescomprimidosRGBA;
+        }
+        static byte[] WriteImage(Bitmap bmp)
+        {
+            return ConvertToGBA(ComprimirBytesImg(bmp.GetBytes()));
+        }
+        private static byte[] ComprimirBytesImg(byte[] bytesImgDescomprimidosRGBA)
+        {
+            const int RGBA = 4,BITSBYTE=8;
+            const byte OFF=0x0;//color on :)
+            byte[] bytesImgComprimidos = new byte[bytesImgDescomprimidosRGBA.Length / RGBA * BITSBYTE];//dividir entre 8 porque cada bit es un color y entre 4 porque cada 4 bytes forman un color
+            bool[] bitsColor;
+            unsafe
+            {
+                byte* ptrBytesImgComprimidos, ptrBytesImgDescompridos;
+                bool* ptrBitsColor;
+                fixed (byte* ptBytesImgComprimidos = bytesImgComprimidos, ptBytesImgDescomprimidos = bytesImgDescomprimidosRGBA)
+                {
+                    ptrBytesImgComprimidos = ptBytesImgComprimidos;
+                    ptrBytesImgDescompridos = ptBytesImgDescomprimidos;
+                    for (int i = 0; i < bytesImgComprimidos.Length; i++)
+                    {
+                        //formo el color
+                        bitsColor = new bool[BITSBYTE];
+                        fixed(bool* ptBitsColor=bitsColor)
+                        {
+                            ptrBitsColor = ptBitsColor;
+                            for (int j = 0; j < BITSBYTE; j++)
+                            {
+                                //R is != OFF then is ON
+                                if(*ptrBytesImgDescompridos!=OFF)
+                                {
+                                    *ptrBitsColor = true;
+                                    ptrBytesImgDescompridos += RGBA;//avanzo al siguiente color
+                                }else
+                                {
+                                    ptrBytesImgDescompridos++;
+                                    //G is != OFF then is ON
+                                    if (*ptrBytesImgDescompridos != OFF)
+                                    {
+                                        *ptrBitsColor = true;
+                                        ptrBytesImgDescompridos += RGBA-1;//avanzo al siguiente color
+                                    }
+                                    else
+                                    {
+                                        ptrBytesImgDescompridos++;
+                                        //B is != OFF then is ON
+                                        if (*ptrBytesImgDescompridos != OFF)
+                                        {
+                                            *ptrBitsColor = true;
+                                            ptrBytesImgDescompridos += RGBA-2;//avanzo al siguiente color
+                                        }
+                                        else
+                                        {
+                                            ptrBytesImgDescompridos+=2;//A y siguiente color
+                                            //WHITE or TRANSPERENT me salto A porque no influye
+
+                                        }
+
+                                    }
+
+                                }
+
+                                ptrBitsColor++;
+                            }
+                        }
+                        //lo asigno
+                       *ptrBytesImgComprimidos = bitsColor.ToByte();
+                        ptrBytesImgComprimidos++;
+                    }
+                }
+            }
+            return bytesImgComprimidos;
+        }
+        static byte[] ConvertToGBA(byte[] bytesImgComprimidos)
+        {
+            const int XMEDIO = 8;
+            int xFin = 16;
+            int xInicio = 0;
+            byte[] bytesGBA = new byte[bytesImgComprimidos.Length];
+            //los pone por orden en el cuadrado que le toca :D
+            unsafe
+            {
+                byte* ptrBytesGBA, ptrBytesImg;
+                fixed (byte* ptBytesGBA = bytesGBA, ptBytesImg = bytesImgComprimidos)
+                {
+                    ptrBytesGBA = ptBytesGBA;
+                    ptrBytesImg = ptBytesImg;
+                    //los pone por orden natural
+                    for (int i = 0; i < 2; i++)
+                    {
+                        for (int x = xInicio, y = xInicio; x < xFin; x += 2, y++)
+                        {
+                            ptrBytesGBA[y]= ptrBytesImg[x];
+                            ptrBytesGBA[y + XMEDIO]= ptBytesImg[x + 1];
+                        }
+                        xInicio = xFin;
+                        xFin += xFin;
+                    }
+
+                }
+            }
+            return bytesGBA;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="huella">Se tiene en cuenta la imagen Bitmap y no los bytes</param>
+        /// <param name="posicion"></param>
+        public static void SetHuella(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Huella huella,Hex posicion,bool construirBytesConLaImagen=true)
+        {
+            Hex offsetInicio = Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.ImgHuella, edicion, compilacion) + (posicion - 1) * (int)Longitud.Offset);
+            if (construirBytesConLaImagen)
+                huella.RefreshBloqueImgHuella();//aplico los cambios de la imagen en los bytes
+            else huella.RefreshImagen();//aplico los cambios de los bytes en la imagen
+            //pongo los bytes en su sitio :D
+            BloqueBytes.SetBytes(rom, offsetInicio, huella.BloqueImgHuella.Bytes);
         }
     }
 }
