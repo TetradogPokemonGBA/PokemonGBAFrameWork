@@ -118,43 +118,8 @@ namespace PokemonGBAFrameWork
             const string MARCAFIN = "FFFFFFFFFFFFFFFF";
             return GetOffsetHuella(rom, edicion, compilacion, posicion) != MARCAFIN;
         }
-
-        static Bitmap ReadImageFunciona(byte[] bytesHuella)
-        {//optimizar mas adelante :D
-            Bitmap bmpHuella = new Bitmap(16, 16);
-            int mitadY = bmpHuella.Height / 2;
-            int inicioY = 0;
-            int finY = mitadY;
-            int pos = 0;
-            //tengo 0xFF bytes para formar la imagen
-            bool[] bits;
-            for (int i = 0; i < 2; i++)
-            {
-                //  primero arriba y luego abajo
-                for (int y = inicioY; y < finY; y++)
-                {
-                    bits = bytesHuella[pos].ToBits();//hace la parte izquierda 
-                    for (int x = 0; x < mitadY; x++)
-                        if (bits[x])
-                            bmpHuella.SetPixel(x, y, Color.Black);
-                    bits = bytesHuella[pos + mitadY].ToBits();//hace la parte derecha
-                    for (int x = mitadY, xAux = 0; x < bmpHuella.Width; x++, xAux++)
-                        if (bits[xAux])
-                            bmpHuella.SetPixel(x, y, Color.Black);
-                    pos++;
-                }
-                //13
-                //24
-                //un byte arriba otro abajo
-                pos += mitadY;
-                inicioY += mitadY;
-                finY += mitadY;
-            }
-
-            return bmpHuella;
-        }
         static Bitmap ReadImage(byte[] bytesHuella)
-        {//no funciona...
+        {
             Bitmap bmpHuella = new Bitmap(16, 16);
             bmpHuella.SetBytes(DescomprimirBytesImgRGBA(ConvertToImgBytes(bytesHuella)));
             return bmpHuella;
@@ -197,8 +162,8 @@ namespace PokemonGBAFrameWork
 
         private static byte[] DescomprimirBytesImgRGBA(byte[] bytesImgComprimidos)
         {
-            const int RGBA = 4;
-            const byte ON = 0xFF;//color on :)
+            const int RGBA = 4,RGB=RGBA-1;
+            const byte ON=0xFF;//color on :) 
             byte[] bytesImgDescomprimidosRGBA = new byte[bytesImgComprimidos.Length * RGBA * 8];//RGBA* 8bits
             bool[] bitsColor;
             unsafe
@@ -217,15 +182,12 @@ namespace PokemonGBAFrameWork
                             ptrBitsColor = ptBitsColor;
                             for (int j = 0; j < bitsColor.Length; j++)
                             {
+                                ptrBytesImgDescompridos += RGB;
                                 if (*ptrBitsColor)
                                 {
-                                    for (int k = 0; k < RGBA; k++)
-                                    {
-                                        *ptrBytesImgDescompridos = ON;
-                                        ptrBytesImgDescompridos++;
-                                    }
+                                    *ptrBytesImgDescompridos = ON;//para no ser transparente y quedar negro :D   
                                 }
-                                else ptrBytesImgDescompridos += RGBA;//transparente
+                                ptrBytesImgDescompridos++;
                                 ptrBitsColor++;
                             }
                         }

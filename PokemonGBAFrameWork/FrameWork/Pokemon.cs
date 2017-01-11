@@ -829,6 +829,7 @@ namespace PokemonGBAFrameWork
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, pokemon.OrdenPokedexNacional);
 
         }
+        //se tiene que replantear...
         public static void SetPokedex(RomGBA rom, IEnumerable<Pokemon> pokedex)
         {//por rehacer!!!cada cosa en su sitio!!!
             if (rom == null || pokedex == null) throw new ArgumentNullException();
@@ -942,7 +943,10 @@ namespace PokemonGBAFrameWork
         }
         public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-
+            if (ordenGameFreak < 0)
+                throw new ArgumentOutOfRangeException("El orden no puede ser negativo");
+            if (totalEntradasPokedex < 0)
+                throw new ArgumentOutOfRangeException("El total no puede ser negativo");
             Pokemon pokemon = new Pokemon();
             pokemon.OrdenGameFreak = (int)ordenGameFreak;
             pokemon.Sprites = Sprite.GetSprite(rom, edicion, compilacion, ordenGameFreak);
@@ -959,9 +963,8 @@ namespace PokemonGBAFrameWork
                 pokemon.Descripcion = DescripcionPokedex.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
                
             }
-            if (pokemon.OrdenGameFreak >= 0)
-                    pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);//ahora se ven todas en su sitio...missigno no tiene :C
-         
+            pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
+
             return pokemon;
         }
         public static Pokemon[] GetPokemons(RomGBA rom)
