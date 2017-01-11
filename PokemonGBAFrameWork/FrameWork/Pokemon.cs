@@ -819,7 +819,7 @@ namespace PokemonGBAFrameWork
             pokemon.Nombre.OffsetInicio = Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado;
             BloqueString.SetString(rom, pokemon.Nombre);
             if(pokemon.Huella!=null)
-            Huella.SetHuella(rom, pokemon.Huella, pokemon.OrdenGameFreak);
+            Huella.SetHuella(rom,edicion,compilacion, pokemon.Huella, pokemon.OrdenGameFreak);
             if (pokemon.Descripcion != null)
                 DescripcionPokedex.SetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.Descripcion);
             else DescripcionPokedex.CreateDescripcionPokedex(rom, edicion, compilacion, pokemon);
