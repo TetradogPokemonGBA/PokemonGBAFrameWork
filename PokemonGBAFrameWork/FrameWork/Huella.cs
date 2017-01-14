@@ -327,5 +327,14 @@ namespace PokemonGBAFrameWork
             }
             return bytesGBA;
         }
+        /// <summary>
+        /// Sirve para saber como queda guardada la imagen :) en la rom
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <returns></returns>
+        public static Bitmap ConvertToGbaBmp(Bitmap bmp)
+        {
+            return ReadImage(WriteImage(bmp));
+        }
     }
 }
