@@ -111,7 +111,7 @@ namespace PokemonGBAFrameWork
 			if (offsetInicio < 0 || longitud < 0 || rom.Datos.Length < offsetInicio + longitud)
 				throw new ArgumentOutOfRangeException();
 		
-			return new BloqueBytes(offsetInicio, rom.Datos.SubArray(offsetInicio,longitud));
+			return new BloqueBytes(offsetInicio, rom.Datos.SubArray((int)offsetInicio, (int)longitud));
 			
 		}
 		public static void RemoveBytes(RomGBA rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0x00)

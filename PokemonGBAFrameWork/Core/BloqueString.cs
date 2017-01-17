@@ -171,7 +171,7 @@ namespace PokemonGBAFrameWork
         public static BloqueString GetString(BloqueBytes blBytes, Hex offsetInicio, Hex longitud,bool acabaEnFFByte =true)
         {
             if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0) throw new ArgumentException();
-            return new BloqueString(blBytes.OffsetInicio + offsetInicio, ToString(blBytes.Bytes.SubArray(offsetInicio, longitud)),acabaEnFFByte );
+            return new BloqueString(blBytes.OffsetInicio + offsetInicio, ToString(blBytes.Bytes.SubArray((int)offsetInicio, (int)longitud)),acabaEnFFByte );
         }
 		#region Tratar String Pokemon
         public static string ToString(byte[] bytesGBA)

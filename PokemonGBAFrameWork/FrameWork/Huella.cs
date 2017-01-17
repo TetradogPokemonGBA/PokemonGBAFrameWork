@@ -124,10 +124,10 @@ namespace PokemonGBAFrameWork
             byte[] bytesHuellaDescomprimida = DescomprimirBytesImgRGBA(ConvertToImgBytes(bytesHuella));
             bmpHuella.SetBytes(bytesHuellaDescomprimida);
             //para comprobar que todo va bien :D
-            byte[] bytesHuellaHecha =ConvertToGBA(ComprimirBytesImg(bytesHuellaDescomprimida));
+         /*   byte[] bytesHuellaHecha =ConvertToGBA(ComprimirBytesImg(bytesHuellaDescomprimida));
             for (int i = 0; i < bytesHuellaHecha.Length; i++)
                 if (bytesHuella[i] != bytesHuellaHecha[i])
-                    System.Diagnostics.Debugger.Break();
+                    System.Diagnostics.Debugger.Break();*/
             return bmpHuella;
         }
         static byte[] ConvertToImgBytes(byte[] bytesGBA)
