@@ -121,7 +121,13 @@ namespace PokemonGBAFrameWork
         static Bitmap ReadImage(byte[] bytesHuella)
         {
             Bitmap bmpHuella = new Bitmap(16, 16);
-            bmpHuella.SetBytes(DescomprimirBytesImgRGBA(ConvertToImgBytes(bytesHuella)));
+            byte[] bytesHuellaDescomprimida = DescomprimirBytesImgRGBA(ConvertToImgBytes(bytesHuella));
+            bmpHuella.SetBytes(bytesHuellaDescomprimida);
+            //para comprobar que todo va bien :D
+            byte[] bytesHuellaHecha =ConvertToGBA(ComprimirBytesImg(bytesHuellaDescomprimida));
+            for (int i = 0; i < bytesHuellaHecha.Length; i++)
+                if (bytesHuella[i] != bytesHuellaHecha[i])
+                    System.Diagnostics.Debugger.Break();
             return bmpHuella;
         }
         static byte[] ConvertToImgBytes(byte[] bytesGBA)
@@ -224,11 +230,13 @@ namespace PokemonGBAFrameWork
             return ConvertToGBA(ComprimirBytesImg(bmp.GetBytes()));
         }
         private static byte[] ComprimirBytesImg(byte[] bytesImgDescomprimidosRGBA)
-        {//se tiene que mirar!
-            const int RGBA = 4, BITSBYTE = 8;
-            const byte OFF = 0xFF;//gamefreak solo guarda la transparencia lo demas es 0x00 que sin transparencia se ve negro...
-            byte[] bytesImgComprimidos = new byte[(int)LongitudHuella.Imagen];
+        {//al parecer no comprime igual...y no son los mismos bytes que saco de la rom...
+            //puede ser que los ponga al rebes?? porque la imagen se veia cortada por la mitad y girada...eso quiere decir que se corta verticalmente....
+            const byte BITSBYTE = 8;
+            const byte WHITE = 0xFF,TRANSPARENT=0x0;//gamefreak solo guarda la transparencia lo demas es 0x00 que sin transparencia se ve negro...
             bool[] bitsColor;
+            byte[] bytesImgComprimidos = new byte[(int)LongitudHuella.Imagen];
+           
 
             unsafe
             {
@@ -245,43 +253,47 @@ namespace PokemonGBAFrameWork
                         fixed (bool* ptBitsColor = bitsColor)
                         {
                             ptrBitsColor = ptBitsColor;
-                            for (int j = 0; j < BITSBYTE; j++)
+                            for (byte j = 0; j < BITSBYTE; j++)
                             {
                                 //R is != OFF then is ON
-                                if (*ptrBytesImgDescompridos != OFF)
+                                if (*ptrBytesImgDescompridos != WHITE)
                                 {
-                                    *ptrBitsColor = true;
-                                    ptrBytesImgDescompridos += RGBA;//avanzo al siguiente color
+                                    ptrBytesImgDescompridos += 3;//avanzo a A
+                                    *ptrBitsColor = *ptrBytesImgDescompridos!=TRANSPARENT;
+
+
                                 }
                                 else
                                 {
                                     ptrBytesImgDescompridos++;
                                     //G is != OFF then is ON
-                                    if (*ptrBytesImgDescompridos != OFF)
+                                    if (*ptrBytesImgDescompridos != WHITE)
                                     {
-                                        *ptrBitsColor = true;
-                                        ptrBytesImgDescompridos += RGBA - 1;//avanzo al siguiente color
+                                        ptrBytesImgDescompridos += 2;//avanzo a A
+                                        *ptrBitsColor = *ptrBytesImgDescompridos != TRANSPARENT;
+                                       
                                     }
                                     else
                                     {
                                         ptrBytesImgDescompridos++;
                                         //B is != OFF then is ON
-                                        if (*ptrBytesImgDescompridos != OFF)
+                                        if (*ptrBytesImgDescompridos != WHITE)
                                         {
-                                            *ptrBitsColor = true;
-                                            ptrBytesImgDescompridos += RGBA - 2;//avanzo al siguiente color
+                                            ptrBytesImgDescompridos ++;//avanzo a A
+                                            *ptrBitsColor = *ptrBytesImgDescompridos != TRANSPARENT;
+
                                         }
                                         else
                                         {
-                                            ptrBytesImgDescompridos += 2;//A y siguiente color
-                                            //WHITE or TRANSPERENT me salto A porque no influye
+                                            //es blanco o transparente asi que lo salto
+                                            ptrBytesImgDescompridos++;//avanzo a A
 
                                         }
 
                                     }
-
+                                    
                                 }
-
+                                ptrBytesImgDescompridos++;//siguiente color
                                 ptrBitsColor++;
                             }
                         }
@@ -289,6 +301,7 @@ namespace PokemonGBAFrameWork
                         *ptrBytesImgComprimidos = bitsColor.ToByte();
                         ptrBytesImgComprimidos++;
                     }
+
                 }
             }
             return bytesImgComprimidos;
@@ -313,12 +326,14 @@ namespace PokemonGBAFrameWork
                         ptrBytesGBADerecha += XMEDIO;
                         for (int x = 0; x < XFIN; x += 2)
                         {
+                            
                             *ptrBytesGBAIzquierda = *ptrBytesImg;
                             ptrBytesImg++;
                             ptrBytesGBAIzquierda++;
                             *ptrBytesGBADerecha = *ptrBytesImg;
                             ptrBytesImg++;
                             ptrBytesGBADerecha++;
+
                         }
                         ptrBytesGBAIzquierda += XMEDIO;
                     }
