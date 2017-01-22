@@ -17,6 +17,14 @@ namespace PokemonGBAFrameWork
             SpritePaleta
         }
         BloqueImagen[] sprites;//de momento no se si hay FF o es solo el maximo
+        static SpritesEntrenadores()
+        {
+            Zona zonaImg = new Zona(Variables.SpriteImg);
+            Zona zonaPaleta = new Zona(Variables.SpritePaleta);
+            //pongo las zonas :D
+            Zona.DiccionarioOffsetsZonas.Add(zonaImg);
+            Zona.DiccionarioOffsetsZonas.Add(zonaPaleta);
+        }
         public SpritesEntrenadores()
         {
             const byte MAX = 0xFF;
@@ -417,7 +425,12 @@ namespace PokemonGBAFrameWork
         //faltan 4 bytes
         uint inteligencia;
         Equipo equipo;//mirar si como minimo se tiene que tener un pokemon!
-
+        static Entrenador()
+        {
+            Zona zonaEntrenador = new Zona(Variables.Entrenadores);
+            //añado las zonas :D
+            Zona.DiccionarioOffsetsZonas.Add(zonaEntrenador);
+        }
         public byte MoneyClass
         {
             get
