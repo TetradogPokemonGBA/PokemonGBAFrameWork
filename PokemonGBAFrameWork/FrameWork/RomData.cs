@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork
             this.tipos.AddRange(Tipo.GetTipos(rom, edicion, compilacion));
             this.objetos.AddRange(Objeto.GetObjetos(rom, edicion, compilacion));
             this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
-            this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
+         //   this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
             SpritesEntrenadores = SpritesEntrenadores.GetSpritesEntrenadores(this);
         }
 
