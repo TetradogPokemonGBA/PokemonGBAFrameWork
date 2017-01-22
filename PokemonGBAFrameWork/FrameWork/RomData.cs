@@ -114,6 +114,9 @@ namespace PokemonGBAFrameWork
                 compilacion = value;
             }
         }
+
+        public RomGBA RomGBA { get; internal set; }
+
         public void SetRomData(RomGBA rom)
         {
             SetRomData(rom, this);

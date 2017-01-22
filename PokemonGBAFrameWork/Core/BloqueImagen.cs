@@ -48,7 +48,9 @@ namespace PokemonGBAFrameWork
             this.paletas = new Llista<Paleta>(paletas);
         }
 
-
+        public BloqueImagen(int tamañoImagenVacia):this(new byte[tamañoImagenVacia])
+        {
+        }
 
         public Hex OffsetInicio
         {

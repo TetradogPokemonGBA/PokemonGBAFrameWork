@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,77 @@ using System.Threading.Tasks;
 //información obtenida de https://github.com/Jambo51/Trainer_Editor
 namespace PokemonGBAFrameWork
 {
-    public class Entrenador//ocupa 32bytes
+    public class SpritesEntrenadores
+    {
+     
+        enum Variables
+        {
+            SpriteImg,
+            SpritePaleta
+        }
+        BloqueImagen[] sprites;//de momento no se si hay FF o es solo el maximo
+        public SpritesEntrenadores()
+        {
+            const byte MAX = 0xFF;
+            sprites = new BloqueImagen[MAX];
+        }
+        public BloqueImagen this[int index]
+        {
+            get { return sprites[index]; }
+            set
+            {
+                sprites[index] = value;
+            }
+        }
+        public BloqueImagen this[Entrenador entrenador]
+        {
+            get { return this[entrenador.SpriteIndex]; }
+        }
+        public int Total
+        {
+            get { return sprites.Length; }
+        }
+        public static SpritesEntrenadores GetSpritesEntrenadores(RomData rom)
+        {
+            SpritesEntrenadores entrenadores;
+
+            if (rom == null)
+                throw new ArgumentNullException();
+
+            entrenadores = new SpritesEntrenadores();
+
+            for (int i = 0; i < entrenadores.Total; i++)
+                entrenadores[i] = BloqueImagen.GetBloqueImagen(rom.RomGBA, Zona.GetOffset(rom.RomGBA, Variables.SpriteImg,rom.Edicion,rom.Compilacion) + i << 3, Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i << 3);
+            return entrenadores;
+        }
+        public static void SetSpritesEntrenadores(RomData rom,SpritesEntrenadores spritesEntrenadores)
+        {
+            if (rom == null||spritesEntrenadores==null)
+                throw new ArgumentNullException();
+
+            for (int i = 0; i < spritesEntrenadores.Total; i++)
+            {
+                if (spritesEntrenadores[i] == null)
+                    throw new NullReferenceException("Siempre tiene que haber imagen de entrenador...");//mas adelante hacer imagen vacia :D
+            }
+
+            for (int i = 0; i < spritesEntrenadores.Total; i++)
+            {
+                //actualizo el pointer de las tablas
+                //tabla img
+                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion) + i << 3,spritesEntrenadores[i].OffsetInicio);
+                //tabla paleta
+                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i << 3, spritesEntrenadores[i].Paletas[0].OffsetPointerPaleta);
+                //pongo los datos
+                BloqueImagen.SetBloqueImagen(rom.RomGBA, spritesEntrenadores[i]);
+
+
+            }
+     
+        }
+        
+    }
+    public class Entrenador//ocupa 40bytes
     {
         public class Equipo//5A??max
         {
@@ -17,7 +88,7 @@ namespace PokemonGBAFrameWork
                 byte ivs;//primer byte
                 ushort level;//segundo byte no se porque son dos bytes...tendria que ser 1...
                 ushort item;//sexto byte
-                //a partir del byte 8//puede que los movimientos no esten cambiados por lo tanto no estarian...
+                            //a partir del byte 8//puede que los movimientos no esten cambiados por lo tanto no estarian...
                 ushort move1;
                 ushort move2;
                 ushort move3;
@@ -128,38 +199,31 @@ namespace PokemonGBAFrameWork
                 }
                 //falta los evs....o va con los ivs...quizas hace falta poner en la rom una rutina...
             }
-            bool movimientosPokemonCustom;//si es true ocuparan más los pokemon de 8 a 16
-            bool heldItems;//si es true llevan objeto los pokemon
+            enum Posicion
+            {
+                Ivs=0,
+                Nivel = 1,
+                IndexPokemon =3,
+                Item=5,
+                Move1=7,
+                Move2=9,
+                Move3=11,
+                Move4=13
+            }
+            enum Longitud
+            {
+                Nivel=2,
+                Item=2,
+                Ataque=2,
+            }
             Hex offsetToDataPokemon;
             //uint numeroDePokemons;
             Pokemon[] pokemonEquipo;//inicializarla a 6 para que sea el maximo :D luego el total será contar !=null
-
-            public bool MovimientosPokemonCustom
+            public Equipo()
             {
-                get
-                {
-                    return movimientosPokemonCustom;
-                }
-
-                set
-                {
-                    movimientosPokemonCustom = value;
-                }
+                const int MAXPOKEMONEQUIPO = 6;
+                pokemonEquipo = new Pokemon[MAXPOKEMONEQUIPO];
             }
-
-            public bool HeldItems
-            {
-                get
-                {
-                    return heldItems;
-                }
-
-                set
-                {
-                    heldItems = value;
-                }
-            }
-
             public Hex OffsetToDataPokemon
             {
                 get
@@ -169,7 +233,7 @@ namespace PokemonGBAFrameWork
 
                 set
                 {
-                    if (value < 0||value>(int)Longitud.TreintaYDosMegas) throw new ArgumentOutOfRangeException();
+                    if (value < 0 || value > (int)PokemonGBAFrameWork.Longitud.TreintaYDosMegas) throw new ArgumentOutOfRangeException();
                     offsetToDataPokemon = value;
                 }
             }
@@ -194,14 +258,111 @@ namespace PokemonGBAFrameWork
             }
             public bool HayAtaquesCustom()
             {
+                const byte NOASIGNADO = 0x0;
                 bool hayAtaquesCustom = false;
                 for (int i = 0; i < pokemonEquipo.Length && !hayAtaquesCustom; i++)
                     if (pokemonEquipo[i] != null)
-                        hayAtaquesCustom = pokemonEquipo[i].Move1 != 0x0 || pokemonEquipo[i].Move2 != 0x0 || pokemonEquipo[i].Move3 != 0x0 || pokemonEquipo[i].Move4 != 0x0;
+                        hayAtaquesCustom = pokemonEquipo[i].Move1 != NOASIGNADO || pokemonEquipo[i].Move2 != NOASIGNADO || pokemonEquipo[i].Move3 != NOASIGNADO || pokemonEquipo[i].Move4 != NOASIGNADO;
                 return hayAtaquesCustom;
             }
-        }
+            public bool HayObjetosEquipados()
+            {
+                const byte NOASIGNADO = 0x0;
+                bool hayObjetosEquipados = false;
+                for (int i = 0; i < pokemonEquipo.Length && !hayObjetosEquipados; i++)
+                    if (pokemonEquipo[i] != null)
+                        hayObjetosEquipados = pokemonEquipo[i].Item != NOASIGNADO;
+                return hayObjetosEquipados;
+            }
 
+            public static Equipo GetEquipo(RomData rom, Hex indexEntrenador)
+            {
+                return GetEquipo(rom, GetBytesEntrenador(rom, indexEntrenador));
+            }
+            public static Equipo GetEquipo(RomData rom,BloqueBytes bloqueEntrenador)
+            {
+                if (rom == null || bloqueEntrenador == null)
+                    throw new ArgumentNullException();
+
+                byte[] bytesPokemonEquipo;
+                Equipo equipoCargado = new Equipo();
+                bool hayItems = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem] & 0x2) != 0;
+                bool hayAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
+                int tamañoPokemon = hayAtaquesCustom ? 16 : 8;
+                BloqueBytes bloqueDatosEquipo = BloqueBytes.GetBytes(rom.RomGBA, Offset.GetPointer(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData), bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon);
+                
+                for (int i = 0, f = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]; i < f; i++)
+                {
+                    bytesPokemonEquipo = bloqueDatosEquipo.Bytes.SubArray(i * tamañoPokemon, tamañoPokemon);
+                    equipoCargado.PokemonEquipo[i].PokemonIndex = bytesPokemonEquipo[(int)Posicion.IndexPokemon];
+                    equipoCargado.PokemonEquipo[i].Nivel = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Nivel, (int)Longitud.Nivel);
+                    equipoCargado.PokemonEquipo[i].Ivs = bytesPokemonEquipo[(int)Posicion.Ivs];
+                    if(hayItems)
+                       equipoCargado.PokemonEquipo[i].Item= (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Item, (int)Longitud.Item);
+                    if(hayAtaquesCustom)
+                    {
+                        equipoCargado.PokemonEquipo[i].Move1 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move1, (int)Longitud.Ataque);
+                        equipoCargado.PokemonEquipo[i].Move2 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move2, (int)Longitud.Ataque);
+                        equipoCargado.PokemonEquipo[i].Move3 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move3, (int)Longitud.Ataque);
+                        equipoCargado.PokemonEquipo[i].Move4 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move4, (int)Longitud.Ataque);
+                    }
+                }
+
+                return equipoCargado;
+            }
+            public static void SetEquipo(RomData rom,Hex indexEntrenador,Equipo equipo)
+            {
+                SetEquipo(rom, GetBytesEntrenador(rom, indexEntrenador), equipo);
+            }
+            public static void SetEquipo(RomData rom,BloqueBytes bloqueEntrenador,Equipo equipo)
+            {
+
+                bool habiaAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
+                //borro los datos antiguos de los pokemon :D
+                BloqueBytes.RemoveBytes(rom.RomGBA, Offset.GetPointer(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData), bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]*(habiaAtaquesCustom?16:8));
+                //el numero de pokemon
+                bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] = (byte)equipo.NumeroPokemon;
+                //hasHeldItem
+                //bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem];
+
+                //hasCustmoMoves
+                //bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves]
+                //es calculado aqui :D
+                BloqueBytes.SetBytes(rom.RomGBA, bloqueEntrenador);//guardo los cambios
+               
+            }
+                
+        }
+        enum Variables
+        {
+            Entrenadores
+        }
+        enum Posicion
+        {
+            HasCustomMoves = 0,
+            HasHeldITem = 0,
+            MoneyClass = 1,
+            EsChica = 2,
+            Musica = 2,
+            Sprite = 3,
+            Nombre = 4,
+            //faltan [14,15]
+            Item1 = 16,
+            Item2 = 18,
+            Item3 = 20,
+            Item4 = 22,
+            //faltan [23,27]
+            Inteligencia = 28,
+            NumeroPokemons = 32,
+            PointerPokemonData = 36
+
+        }
+        enum Longitud
+        {
+            Nombre=10,
+            Inteligencia=4,
+            Item = 2,
+        }
         byte moneyClass;
         bool esUnaEntrenadora;
         byte musicaBatalla;
@@ -250,7 +411,7 @@ namespace PokemonGBAFrameWork
             }
 
             set
-            {
+            {//falta controlar el maximo :)
                 musicaBatalla = value;
             }
         }
@@ -275,7 +436,7 @@ namespace PokemonGBAFrameWork
                 return nombre;
             }
 
-           private set
+            private set
             {
                 nombre = value;
             }
@@ -353,7 +514,7 @@ namespace PokemonGBAFrameWork
                 return equipo;
             }
 
-           private set
+            private set
             {
                 equipo = value;
             }
@@ -362,20 +523,67 @@ namespace PokemonGBAFrameWork
         public uint CalcularDinero(RomGBA rom)
         {
             uint tamañoPokemonBytes = 8;
-            if (Pokemon.MovimientosPokemonCustom)
+            if (Pokemon.HayAtaquesCustom())
             {
                 tamañoPokemonBytes = 16;
             }
             return (MoneyClass * (uint)(rom.Datos[((uint)Pokemon.NumeroPokemon * tamañoPokemonBytes + Pokemon.OffsetToDataPokemon - tamañoPokemonBytes + 2)] << 2));
         }
+
+        public static Hex GetNumeroDeEntrenadores(RomData rom)
+        {
+            const byte TAMAÑOENTRENADOR = 0x28,POSICIONPOINTERDATOS= 0x24;
+
+            ushort num = 0;           
+            Hex posicionEntrenadores = Zona.GetOffset(rom.RomGBA, Variables.Entrenadores, rom.Edicion, rom.Compilacion);
+
+            while (Offset.GetPointer(rom.RomGBA, posicionEntrenadores + num * TAMAÑOENTRENADOR + POSICIONPOINTERDATOS) > 0)
+                num++;
+            return (uint)num;
+        }
+        public static Entrenador GetEntrenador(RomData rom,Hex index)
+        {
+
+            BloqueBytes bytesEntrenador = GetBytesEntrenador(rom, index);
+            Entrenador entranadorCargado = new Entrenador();
+           
+            //le pongo los datos
+            entranadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
+            entranadorCargado.MusicaBatalla =(byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & 0x7F);
+            entranadorCargado.MoneyClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];
+            entranadorCargado.Nombre = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
+            entranadorCargado.Inteligencia = (uint)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Inteligencia, (int)Longitud.Inteligencia);
+            entranadorCargado.Item1= (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item1, (int)Longitud.Item);
+            entranadorCargado.Item2 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item2, (int)Longitud.Item);
+            entranadorCargado.Item3 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item3, (int)Longitud.Item);
+            entranadorCargado.Item4 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item4, (int)Longitud.Item);
+            entranadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
+            entranadorCargado.Pokemon =Equipo.GetEquipo(rom, index);
+            
+            
+            return entranadorCargado;
+
+        }
+
+        public static BloqueBytes GetBytesEntrenador(RomData rom, Hex index)
+        {
+            const byte TAMAÑOENTRENADOR = 0x28;
+            Hex posicionEntrenadores = Zona.GetOffset(rom.RomGBA, Variables.Entrenadores, rom.Edicion, rom.Compilacion);
+            Hex poscionEntrenador = posicionEntrenadores + TAMAÑOENTRENADOR * index;
+            return BloqueBytes.GetBytes(rom.RomGBA, posicionEntrenadores, TAMAÑOENTRENADOR);
+        }
+
+        public static Entrenador[] GetEntrenadores(RomData rom)
+        {
+            Entrenador[] entrenadores = new Entrenador[GetNumeroDeEntrenadores(rom)];
+            for (int i = 0; i < entrenadores.Length; i++)
+                entrenadores[i] = GetEntrenador(rom, i);
+            return entrenadores;
+        }
     }
-    public class SpriteEntrenador
-    {
-        //PointerImagen sprite tablaSprite +spriteIndex << 3
-        //PointerPaleta sprite tablaPaleta +spriteIndex << 3
-    }
+
     /*
-     total 36 bytes
+     total 40 bytes
 pos->rom[byte]&0x1!=0 si es true hay movesets y cambia de 8 a 16  movesetIndex
 pos->rom[byte]&0x2!=0 si es true "heldItems"
 pos+1->clase(MoneyClass) entrenador byte
@@ -404,14 +612,7 @@ trainerCash ->1byte->rom[classMoney+index+1]
 si no lo encuentra el trainerCash es 0
 
      */
-    /*
-     NumeroPokemonEntrenador*moveSetIndex=datalength
 
-cada pokemon se saca de datalocation+4+(iPokemonQueVa*moveSetIndex) para sacar ushort para saber que pokemon es (de la lista cargada...osea la posicion del pokemon, falta saber si es el orden de la gameFreak u otro...)
-
-para saber el nivel se mira con dataLocation+2+(iPokemonQueVa*moveSetIndex)
-
-        */
 
 
 }

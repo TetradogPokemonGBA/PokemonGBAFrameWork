@@ -89,6 +89,7 @@
     <Compile Include="Core\RomGBA.cs" />
     <Compile Include="FrameWork\Ataque.cs" />
     <Compile Include="FrameWork\DescripcionPokedex.cs" />
+    <Compile Include="FrameWork\Entrenador.cs" />
     <Compile Include="FrameWork\Habilidad.cs" />
     <Compile Include="FrameWork\Huella.cs" />
     <Compile Include="FrameWork\Objeto.cs" />
