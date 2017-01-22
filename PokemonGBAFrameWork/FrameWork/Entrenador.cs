@@ -86,32 +86,37 @@ namespace PokemonGBAFrameWork
                 entrenadores[i] = BloqueImagen.GetBloqueImagen(rom.RomGBA, Zona.GetOffset(rom.RomGBA, Variables.SpriteImg,rom.Edicion,rom.Compilacion) + i << 3, Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i << 3);
             return entrenadores;
         }
-        public static void SetSpritesEntrenadores(RomData rom,SpritesEntrenadores spritesEntrenadores)
+        public static void SetSpritesEntrenadores(RomData rom)
         {
-            if (rom == null||spritesEntrenadores==null)
+            if (rom == null|| rom.SpritesEntrenadores == null)
                 throw new ArgumentNullException();
 
-            for (int i = 0; i < spritesEntrenadores.Total; i++)
+            for (int i = 0; i < rom.SpritesEntrenadores.Total; i++)
             {
-                if (spritesEntrenadores[i] == null)
+                if (rom.SpritesEntrenadores[i] == null)
                     throw new NullReferenceException("Siempre tiene que haber imagen de entrenador...");//mas adelante hacer imagen vacia :D
             }
 
-            for (int i = 0; i < spritesEntrenadores.Total; i++)
+            for (int i = 0; i < rom.SpritesEntrenadores.Total; i++)
             {
                 //actualizo el pointer de las tablas
                 //tabla img
-                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion) + i << 3,spritesEntrenadores[i].OffsetInicio);
+                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion) + i << 3, rom.SpritesEntrenadores[i].OffsetInicio);
                 //tabla paleta
-                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i << 3, spritesEntrenadores[i].Paletas[0].OffsetPointerPaleta);
+                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i << 3, rom.SpritesEntrenadores[i].Paletas[0].OffsetPointerPaleta);
                 //pongo los datos
-                BloqueImagen.SetBloqueImagen(rom.RomGBA, spritesEntrenadores[i]);
+                BloqueImagen.SetBloqueImagen(rom.RomGBA, rom.SpritesEntrenadores[i]);
 
 
             }
      
         }
-        
+
+        public void SetSpritesEntrenadores(RomGBA romGBA, SpritesEntrenadores spritesEntrenadores)
+        {
+            SetSpritesEntrenadores(new RomData(romGBA) { SpritesEntrenadores = spritesEntrenadores });
+        }
+
     }
     public class Entrenador//ocupa 40bytes
     {
@@ -332,7 +337,7 @@ namespace PokemonGBAFrameWork
                 bool hayItems = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem] & 0x2) != 0;
                 bool hayAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
                 int tamañoPokemon = hayAtaquesCustom ? 16 : 8;
-                BloqueBytes bloqueDatosEquipo = BloqueBytes.GetBytes(rom.RomGBA, Offset.GetPointer(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData), bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon);
+                BloqueBytes bloqueDatosEquipo = BloqueBytes.GetBytes(rom.RomGBA, Offset.GetOffset(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData), bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon);
                 
                 for (int i = 0, f = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]; i < f; i++)
                 {
@@ -409,6 +414,9 @@ namespace PokemonGBAFrameWork
             }
                 
         }
+
+       
+
         enum Variables
         {
             Entrenadores
@@ -456,6 +464,20 @@ namespace PokemonGBAFrameWork
         {
             Zona zonaEntrenador = new Zona(Variables.Entrenadores);
             //añado las zonas :D
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x7C725);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x7BBB0);
+
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x4C284, 0x4c2a4);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x4C284, 0x4c2a4);
+
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x4c6e4);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x4c6e4);
+
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xFC00,0xFC14);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xFC00,0xFC14);
+
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0xFB70);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xFB70);
             Zona.DiccionarioOffsetsZonas.Add(zonaEntrenador);
         }
         public byte MoneyClass
@@ -615,7 +637,7 @@ namespace PokemonGBAFrameWork
         {
             const byte TAMAÑOENTRENADOR = 0x28,POSICIONPOINTERDATOS= 0x24;
 
-            ushort num = 0;           
+            ushort num = 1;           
             Hex posicionEntrenadores = Zona.GetOffset(rom.RomGBA, Variables.Entrenadores, rom.Edicion, rom.Compilacion);
 
             while (Offset.GetPointer(rom.RomGBA, posicionEntrenadores + num * TAMAÑOENTRENADOR + POSICIONPOINTERDATOS) > 0)
@@ -632,15 +654,22 @@ namespace PokemonGBAFrameWork
             entranadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
             entranadorCargado.MusicaBatalla =(byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & 0x7F);
             entranadorCargado.MoneyClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];
-            entranadorCargado.Nombre = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
+            try
+            {
+                entranadorCargado.Nombre = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
+            }
+            catch { }
             entranadorCargado.Inteligencia = (uint)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Inteligencia, (int)Longitud.Inteligencia);
             entranadorCargado.Item1= (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item1, (int)Longitud.Item);
             entranadorCargado.Item2 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item2, (int)Longitud.Item);
             entranadorCargado.Item3 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item3, (int)Longitud.Item);
             entranadorCargado.Item4 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item4, (int)Longitud.Item);
             entranadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
-            entranadorCargado.Pokemon =Equipo.GetEquipo(rom, index);
-            
+            try
+            {
+                entranadorCargado.Pokemon = Equipo.GetEquipo(rom, bytesEntrenador);
+            }
+            catch { }
             
             return entranadorCargado;
 
@@ -651,14 +680,18 @@ namespace PokemonGBAFrameWork
             const byte TAMAÑOENTRENADOR = 0x28;
             Hex posicionEntrenadores = Zona.GetOffset(rom.RomGBA, Variables.Entrenadores, rom.Edicion, rom.Compilacion);
             Hex poscionEntrenador = posicionEntrenadores + TAMAÑOENTRENADOR * index;
-            return BloqueBytes.GetBytes(rom.RomGBA, posicionEntrenadores, TAMAÑOENTRENADOR);
+            return BloqueBytes.GetBytes(rom.RomGBA, poscionEntrenador, TAMAÑOENTRENADOR);
         }
 
         public static Entrenador[] GetEntrenadores(RomData rom)
         {
             Entrenador[] entrenadores = new Entrenador[GetNumeroDeEntrenadores(rom)];
-            for (int i = 0; i < entrenadores.Length; i++)
-                entrenadores[i] = GetEntrenador(rom, i);
+            for (int i = 1; i < entrenadores.Length; i++)
+                try
+                {
+                    entrenadores[i] = GetEntrenador(rom, i);
+                }
+                catch { }
             return entrenadores;
         }
         public static void SetEntrenador(RomData rom,Hex index,Entrenador entrenador)
@@ -682,6 +715,11 @@ namespace PokemonGBAFrameWork
             bloqueEntrenador.Bytes[(int)Posicion.Sprite]= entrenador.SpriteIndex;
             //pongo los datos
             Equipo.SetEquipo(rom, bloqueEntrenador,entrenador.Pokemon);
+        }
+        public static void SetEntrenadores(RomData romData)
+        {
+            for (int i = 0; i < romData.Entrenadores.Count; i++)
+                SetEntrenador(romData, i, romData.Entrenadores[i]);
         }
     }
 

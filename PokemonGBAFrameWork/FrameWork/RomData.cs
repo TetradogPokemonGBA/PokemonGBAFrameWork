@@ -18,14 +18,20 @@ namespace PokemonGBAFrameWork
         Llista<Pokemon> pokedex;
         Edicion edicion;
         CompilacionRom.Compilacion compilacion;
-        public RomData(IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,Edicion edicion,CompilacionRom.Compilacion compilacion):this()
+        RomGBA rom;
+        SpritesEntrenadores spritesEntrenadores;
+
+        public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, SpritesEntrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
+            RomGBA = rom;
             this.habilidades.AddRange(habilidades);
             this.tipos.AddRange(tipos);
             this.objetos.AddRange(objetos);
             this.pokedex.AddRange(pokedex);
+            this.Entrenadores.AddRange(entrenadores);
             this.edicion = edicion;
             this.compilacion = compilacion;
+            this.spritesEntrenadores = spritesEntrenadores;
         }
 
         public RomData()
@@ -35,8 +41,24 @@ namespace PokemonGBAFrameWork
             objetos = new Llista<Objeto>();
             pokedex = new Llista<Pokemon>();
             edicion = new Edicion("","",'o');
+            Entrenadores = new Llista<Entrenador>();
         }
 
+        public RomData(RomGBA rom):this()
+        {
+            RomGBA = rom;
+            Edicion = Edicion.GetEdicion(rom);
+            Compilacion = CompilacionRom.GetCompilacion(rom, edicion);
+            this.habilidades.AddRange(Habilidad.GetHabilidades(rom, edicion, compilacion));
+            this.tipos.AddRange(Tipo.GetTipos(rom, edicion, compilacion));
+            this.objetos.AddRange(Objeto.GetObjetos(rom, edicion, compilacion));
+            this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
+            this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
+            SpritesEntrenadores = SpritesEntrenadores.GetSpritesEntrenadores(this);
+        }
+
+        public Llista<Entrenador> Entrenadores
+        { get; private set; }
         public Llista<Habilidad> Habilidades
         {
             get
@@ -115,26 +137,48 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public RomGBA RomGBA { get; internal set; }
+        public RomGBA RomGBA { get;  set; }
 
-        public void SetRomData(RomGBA rom)
+        public SpritesEntrenadores SpritesEntrenadores
         {
-            SetRomData(rom, this);
-        }
-        public static RomData GetRomData(RomGBA rom)
-        {
-            Edicion edicion = Edicion.GetEdicion(rom);
-            CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
-            return new RomData(Habilidad.GetHabilidades(rom, edicion, compilacion), Tipo.GetTipos(rom, edicion, compilacion), Objeto.GetObjetos(rom, edicion, compilacion), Pokemon.GetPokemons(rom, edicion, compilacion), edicion, compilacion);
-        }
-        public static void SetRomData(RomGBA rom, RomData romData)
-        {
-            Habilidad.SetHabilidades(rom, romData.Habilidades);
-            Tipo.SetTipos(rom, romData.Tipos);
-            Objeto.SetObjetos(rom, romData.Objetos);
-            Pokemon.SetPokedex(rom, romData.Pokedex);
-            Edicion.SetEdicion(rom,romData.Edicion);
+            get
+            {
+                return spritesEntrenadores;
+            }
 
+            set
+            {
+                spritesEntrenadores = value;
+            }
+        }
+
+        public void SetRomData()
+        {
+            SetRomData(this);
+        }
+        public void GetRomData()
+        {
+            RomData romLoaded = new RomData(RomGBA);
+            this.Compilacion = romLoaded.Compilacion;
+            this.Edicion = romLoaded.Edicion;
+            habilidades.Clear();
+            habilidades.AddRange(romLoaded.habilidades);
+            pokedex.Clear();
+            pokedex.AddRange(romLoaded.pokedex);
+            objetos.Clear();
+            objetos.AddRange(romLoaded.objetos);
+            tipos.Clear();
+            tipos.AddRange(romLoaded.tipos);
+        }
+        public static void SetRomData(RomData romData)
+        {
+            Habilidad.SetHabilidades(romData.RomGBA, romData.Habilidades);
+            Tipo.SetTipos(romData.RomGBA, romData.Tipos);
+            Objeto.SetObjetos(romData.RomGBA, romData.Objetos);
+            Pokemon.SetPokedex(romData.RomGBA, romData.Pokedex);
+            Edicion.SetEdicion(romData.RomGBA, romData.Edicion);
+            SpritesEntrenadores.SetSpritesEntrenadores(romData);
+            Entrenador.SetEntrenadores(romData);
         }
     }
 }

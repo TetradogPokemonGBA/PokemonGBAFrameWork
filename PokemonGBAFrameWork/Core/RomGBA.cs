@@ -33,6 +33,8 @@ namespace PokemonGBAFrameWork
 			datosRom=File.ReadAllBytes(archivo.FullName);
 			
 		}
+        public RomGBA(string path):this(new FileInfo(path))
+        { }
 		public byte[] Datos{
 			get{
 				return datosRom;
