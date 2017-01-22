@@ -245,6 +245,14 @@ namespace PokemonGBAFrameWork
                     return pokemonEquipo;
                 }
             }
+            public Pokemon this[int index]
+            {
+                get { return pokemonEquipo[index]; }
+                set
+                {
+                    pokemonEquipo[index] = value;
+                }
+            }
             public int NumeroPokemon
             {
                 get
@@ -317,19 +325,52 @@ namespace PokemonGBAFrameWork
             public static void SetEquipo(RomData rom,BloqueBytes bloqueEntrenador,Equipo equipo)
             {
 
-                bool habiaAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
+                bool habiaAtaquesCustom;
+                bool hayAtaquesCustom;
+                BloqueBytes bloqueEqupo;
+                BloqueBytes bloquePokemon;
+                int tamañoPokemon;
+                habiaAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
+                tamañoPokemon = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * (habiaAtaquesCustom ? 16 : 8);
                 //borro los datos antiguos de los pokemon :D
-                BloqueBytes.RemoveBytes(rom.RomGBA, Offset.GetPointer(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData), bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]*(habiaAtaquesCustom?16:8));
+                BloqueBytes.RemoveBytes(rom.RomGBA, Offset.GetPointer(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData),tamañoPokemon);
                 //el numero de pokemon
                 bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] = (byte)equipo.NumeroPokemon;
+                //me falta saber como va eso de las operaciones AND, XOR,OR y sus negaciones
                 //hasHeldItem
-                //bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem];
+                bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem]=(byte)(equipo.HayObjetosEquipados()?0x2:0x0);
 
                 //hasCustmoMoves
-                //bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves]
+                if (equipo.HayAtaquesCustom())
+                    bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves]++;
                 //es calculado aqui :D
                 BloqueBytes.SetBytes(rom.RomGBA, bloqueEntrenador);//guardo los cambios
-               
+                hayAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
+                tamañoPokemon = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * (hayAtaquesCustom ? 16 : 8);
+                bloqueEqupo = new BloqueBytes(BloqueBytes.SearchEmptyBytes(rom.RomGBA, bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]), new byte[tamañoPokemon]);
+                //pongo los pokemon en el bloque :D
+                for(int i=0,index=0;i<equipo.PokemonEquipo.Length;i++)
+                {
+                    if (equipo[i] != null)//como pueden ser null pues
+                    {
+                        bloquePokemon = new BloqueBytes(index * tamañoPokemon, new byte[tamañoPokemon]);
+                        //pongo los datos
+                        bloquePokemon.Bytes.SetArray((int)Posicion.IndexPokemon, (Hex)(short)equipo.PokemonEquipo[i].PokemonIndex);
+                        bloquePokemon.Bytes.SetArray((int)Posicion.Nivel, (Hex)(short)equipo.PokemonEquipo[i].Nivel);
+                        bloquePokemon.Bytes.SetArray((int)Posicion.Item, (Hex)(short)equipo.PokemonEquipo[i].Item);
+                        bloquePokemon.Bytes[(int)Posicion.Ivs] = equipo.PokemonEquipo[i].Ivs;
+                        if (hayAtaquesCustom)
+                        {
+                            bloquePokemon.Bytes.SetArray((int)Posicion.Move1, (Hex)(short)equipo.PokemonEquipo[i].Move1);
+                            bloquePokemon.Bytes.SetArray((int)Posicion.Move2, (Hex)(short)equipo.PokemonEquipo[i].Move2);
+                            bloquePokemon.Bytes.SetArray((int)Posicion.Move3, (Hex)(short)equipo.PokemonEquipo[i].Move3);
+                            bloquePokemon.Bytes.SetArray((int)Posicion.Move4, (Hex)(short)equipo.PokemonEquipo[i].Move4);
+                        }
+                        bloqueEqupo.Bytes.SetArray(bloquePokemon.OffsetInicio, bloquePokemon.Bytes);
+                        index++;
+                    }
+                }
+                BloqueBytes.SetBytes(rom.RomGBA, bloqueEqupo);
             }
                 
         }
@@ -580,27 +621,31 @@ namespace PokemonGBAFrameWork
                 entrenadores[i] = GetEntrenador(rom, i);
             return entrenadores;
         }
+        public static void SetEntrenador(RomData rom,Hex index,Entrenador entrenador)
+        {
+            BloqueBytes bloqueEntrenador = GetBytesEntrenador(rom, index);
+            bloqueEntrenador.Bytes[(int)Posicion.Musica] = entrenador.MusicaBatalla;
+
+            if (entrenador.EsUnaEntrenadora)
+            {
+                bloqueEntrenador.Bytes[(int)Posicion.EsChica] &= 0x80;//va asi???
+            }
+            
+            bloqueEntrenador.Bytes[(int)Posicion.MoneyClass]= entrenador.MoneyClass;
+            entrenador.Nombre.OffsetInicio = bloqueEntrenador.OffsetInicio + (int)Posicion.Nombre;
+            BloqueString.SetString(rom.RomGBA, entrenador.Nombre);
+            bloqueEntrenador.Bytes.SetArray((int)Posicion.Inteligencia, (Hex)entrenador.Inteligencia);
+            bloqueEntrenador.Bytes.SetArray((int)Posicion.Item1, (Hex)(short)entrenador.Item1);
+            bloqueEntrenador.Bytes.SetArray((int)Posicion.Item2, (Hex)(short)entrenador.Item2);
+            bloqueEntrenador.Bytes.SetArray((int)Posicion.Item3, (Hex)(short)entrenador.Item3);
+            bloqueEntrenador.Bytes.SetArray((int)Posicion.Item4, (Hex)(short)entrenador.Item4);
+            bloqueEntrenador.Bytes[(int)Posicion.Sprite]= entrenador.SpriteIndex;
+            //pongo los datos
+            Equipo.SetEquipo(rom, bloqueEntrenador,entrenador.Pokemon);
+        }
     }
 
-    /*
-     total 40 bytes
-pos->rom[byte]&0x1!=0 si es true hay movesets y cambia de 8 a 16  movesetIndex
-pos->rom[byte]&0x2!=0 si es true "heldItems"
-pos+1->clase(MoneyClass) entrenador byte
-pos+2->rom[byte]&0x80!=0 pregunta si es chica
-pos+2->rom[byte]&0x7F  musica
-pos+3->entrenador sprite byte
-pos+4->NombreEntrenador->10bytes
-//faltan 2bytes pos+14,pos+15
-pos+16->item1 2bytes
-pos+18->item2 2bytes
-pos+20->item3 2bytes
-pos+22->item4 2bytes
-//faltan 4bytes 
-pos+28->AI entrenador 4 bytes
-pos+32->Numero de pokemons (uint...) 4 bytes
-pos+36->Pointer to pokemon data 4bytes
-         */
+  
 
     /*
      class money se tiene que buscar....
