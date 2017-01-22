@@ -22,6 +22,33 @@ namespace PokemonGBAFrameWork
             Zona zonaImg = new Zona(Variables.SpriteImg);
             Zona zonaPaleta = new Zona(Variables.SpritePaleta);
             //pongo las zonas :D
+            //img
+            zonaImg.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x34628);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x34628);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x3473C, 0x34750);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x3473C, 0x34750);
+
+            zonaImg.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x31ADC);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x31ADC);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x31CA8);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x31CA8);
+
+            zonaImg.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x5DF78);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x5DF78);
+
+            //paletas
+            zonaPaleta.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x34638);
+            zonaPaleta.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x34638);
+            zonaPaleta.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x3474C, 0x34760);
+            zonaPaleta.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x3474C, 0x34760);
+
+            zonaImg.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x31AF0);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x31AF0);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x31CA8);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x31CA8);
+
+            zonaImg.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x5B784);
+            zonaImg.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x5B784);
             Zona.DiccionarioOffsetsZonas.Add(zonaImg);
             Zona.DiccionarioOffsetsZonas.Add(zonaPaleta);
         }
