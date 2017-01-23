@@ -273,6 +273,7 @@ namespace PokemonGBAFrameWork
                 Nivel=2,
                 Item=2,
                 Ataque=2,
+                PokemonIndex = 2,
             }
             Hex offsetToDataPokemon;
             //uint numeroDePokemons;
@@ -360,17 +361,18 @@ namespace PokemonGBAFrameWork
                 for (int i = 0, f = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]; i < f; i++)
                 {
                     bytesPokemonEquipo = bloqueDatosEquipo.Bytes.SubArray(i * tamañoPokemon, tamañoPokemon);
-                    equipoCargado.PokemonEquipo[i].PokemonIndex = bytesPokemonEquipo[(int)Posicion.IndexPokemon];
-                    equipoCargado.PokemonEquipo[i].Nivel = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Nivel, (int)Longitud.Nivel);
+                    equipoCargado.PokemonEquipo[i] = new Pokemon();
+                    equipoCargado.PokemonEquipo[i].PokemonIndex =(ushort) Serializar.ToShort(bytesPokemonEquipo.SubArray((int)Posicion.IndexPokemon, (int)Longitud.PokemonIndex).Reverse().ToArray());
+                    equipoCargado.PokemonEquipo[i].Nivel = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Nivel, (int)Longitud.Nivel).Reverse().ToArray());
                     equipoCargado.PokemonEquipo[i].Ivs = bytesPokemonEquipo[(int)Posicion.Ivs];
                     if(hayItems)
-                       equipoCargado.PokemonEquipo[i].Item= (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Item, (int)Longitud.Item);
+                       equipoCargado.PokemonEquipo[i].Item= Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Item, (int)Longitud.Item).Reverse().ToArray());
                     if(hayAtaquesCustom)
                     {
-                        equipoCargado.PokemonEquipo[i].Move1 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move1, (int)Longitud.Ataque);
-                        equipoCargado.PokemonEquipo[i].Move2 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move2, (int)Longitud.Ataque);
-                        equipoCargado.PokemonEquipo[i].Move3 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move3, (int)Longitud.Ataque);
-                        equipoCargado.PokemonEquipo[i].Move4 = (ushort)(Hex)bytesPokemonEquipo.SubArray((int)Posicion.Move4, (int)Longitud.Ataque);
+                        equipoCargado.PokemonEquipo[i].Move1 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move1, (int)Longitud.Ataque).Reverse().ToArray());
+                        equipoCargado.PokemonEquipo[i].Move2 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move2, (int)Longitud.Ataque).Reverse().ToArray());
+                        equipoCargado.PokemonEquipo[i].Move3 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move3, (int)Longitud.Ataque).Reverse().ToArray());
+                        equipoCargado.PokemonEquipo[i].Move4 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move4, (int)Longitud.Ataque).Reverse().ToArray());
                     }
                 }
 
@@ -676,12 +678,12 @@ namespace PokemonGBAFrameWork
             entranadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
             entranadorCargado.MusicaBatalla =(byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & 0x7F);
             entranadorCargado.MoneyClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];
-            entranadorCargado.Nombre = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
-            entranadorCargado.Inteligencia = (uint)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Inteligencia, (int)Longitud.Inteligencia);
-            entranadorCargado.Item1= (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item1, (int)Longitud.Item);
-            entranadorCargado.Item2 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item2, (int)Longitud.Item);
-            entranadorCargado.Item3 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item3, (int)Longitud.Item);
-            entranadorCargado.Item4 = (ushort)(Hex)bytesEntrenador.Bytes.SubArray((int)Posicion.Item4, (int)Longitud.Item);
+            entranadorCargado.Nombre = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre,true);
+            entranadorCargado.Inteligencia = Serializar.ToUInt(bytesEntrenador.Bytes.SubArray((int)Posicion.Inteligencia, (int)Longitud.Inteligencia));
+            entranadorCargado.Item1= Serializar.ToUShort(bytesEntrenador.Bytes.SubArray((int)Posicion.Item1, (int)Longitud.Item));
+            entranadorCargado.Item2 = Serializar.ToUShort(bytesEntrenador.Bytes.SubArray((int)Posicion.Item2, (int)Longitud.Item));
+            entranadorCargado.Item3 = Serializar.ToUShort(bytesEntrenador.Bytes.SubArray((int)Posicion.Item3, (int)Longitud.Item));
+            entranadorCargado.Item4 = Serializar.ToUShort(bytesEntrenador.Bytes.SubArray((int)Posicion.Item4, (int)Longitud.Item));
             entranadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
             entranadorCargado.Pokemon = Equipo.GetEquipo(rom, bytesEntrenador);
     
@@ -694,7 +696,7 @@ namespace PokemonGBAFrameWork
         {
             const byte TAMAÑOENTRENADOR = 0x28;
             Hex posicionEntrenadores = Zona.GetOffset(rom.RomGBA, Variables.Entrenadores, rom.Edicion, rom.Compilacion);
-            Hex poscionEntrenador = posicionEntrenadores + TAMAÑOENTRENADOR * index;
+            Hex poscionEntrenador = posicionEntrenadores+TAMAÑOENTRENADOR + TAMAÑOENTRENADOR * index;
             return BloqueBytes.GetBytes(rom.RomGBA, poscionEntrenador, TAMAÑOENTRENADOR);
         }
 
@@ -703,6 +705,7 @@ namespace PokemonGBAFrameWork
             Entrenador[] entrenadores = new Entrenador[GetNumeroDeEntrenadores(rom)];
             for (int i = 0; i < entrenadores.Length; i++)
                     entrenadores[i] = GetEntrenador(rom, i);
+
               
             return entrenadores;
         }
