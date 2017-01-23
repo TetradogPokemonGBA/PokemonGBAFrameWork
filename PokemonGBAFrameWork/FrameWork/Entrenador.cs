@@ -482,20 +482,21 @@ namespace PokemonGBAFrameWork
         {
             Zona zonaEntrenador = new Zona(Variables.Entrenadores);
             //añado las zonas :D
-            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x7C725);
-            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x7BBB0);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x3587C);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x3587C);
 
-            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x4C284, 0x4c2a4);
-            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x4C284, 0x4c2a4);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xD890);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xD890);
 
-            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x4c6e4);
-            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x4c6e4);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xDA5C);
+            zonaEntrenador.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xDA5C);
 
             zonaEntrenador.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xFC00,0xFC14);
             zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xFC00,0xFC14);
 
             zonaEntrenador.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0xFB70);
             zonaEntrenador.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xFB70);
+
             Zona.DiccionarioOffsetsZonas.Add(zonaEntrenador);
         }
         public byte MoneyClass
@@ -657,10 +658,13 @@ namespace PokemonGBAFrameWork
 
             ushort num = 1;           
             Hex posicionEntrenadores = Zona.GetOffset(rom.RomGBA, Variables.Entrenadores, rom.Edicion, rom.Compilacion);
-
-            while (Offset.GetPointer(rom.RomGBA, posicionEntrenadores + num * TAMAÑOENTRENADOR + POSICIONPOINTERDATOS) > 0)
+            Hex posicionActual = posicionEntrenadores + POSICIONPOINTERDATOS+TAMAÑOENTRENADOR;
+            while (Offset.GetOffset(rom.RomGBA, posicionActual) > 0)
+            {
                 num++;
-            return (uint)num;
+                posicionActual += TAMAÑOENTRENADOR;
+            }
+            return (uint)num-1;
         }
         public static Entrenador GetEntrenador(RomData rom,Hex index)
         {
@@ -697,7 +701,7 @@ namespace PokemonGBAFrameWork
         public static Entrenador[] GetEntrenadores(RomData rom)
         {
             Entrenador[] entrenadores = new Entrenador[GetNumeroDeEntrenadores(rom)];
-            for (int i = 1; i < entrenadores.Length; i++)
+            for (int i = 0; i < entrenadores.Length; i++)
                     entrenadores[i] = GetEntrenador(rom, i);
               
             return entrenadores;
@@ -709,7 +713,7 @@ namespace PokemonGBAFrameWork
 
             if (entrenador.EsUnaEntrenadora)
             {
-                bloqueEntrenador.Bytes[(int)Posicion.EsChica] &= 0x80;//va asi???
+                bloqueEntrenador.Bytes[(int)Posicion.EsChica] += 0x80;//va asi???por mirar
             }
             
             bloqueEntrenador.Bytes[(int)Posicion.MoneyClass]= entrenador.MoneyClass;
