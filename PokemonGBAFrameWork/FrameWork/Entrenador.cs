@@ -653,7 +653,10 @@ namespace PokemonGBAFrameWork
             }
             return (MoneyClass * (uint)(rom.Datos[((uint)Pokemon.NumeroPokemon * tamañoPokemonBytes + Pokemon.OffsetToDataPokemon - tamañoPokemonBytes + 2)] << 2));
         }
-
+        public override string ToString()
+        {
+            return Nombre;
+        }
         public static Hex GetNumeroDeEntrenadores(RomData rom)
         {
             const byte TAMAÑOENTRENADOR = 0x28,POSICIONPOINTERDATOS= 0x24;
