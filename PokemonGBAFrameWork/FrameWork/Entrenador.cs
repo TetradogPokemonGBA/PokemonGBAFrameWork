@@ -151,7 +151,7 @@ namespace PokemonGBAFrameWork
                 ushort move2;
                 ushort move3;
                 ushort move4;
-                bool esNacional;
+                bool esDeLaTerceraGeneracion;
 
                 
                 public ushort PokemonIndex
@@ -258,16 +258,16 @@ namespace PokemonGBAFrameWork
                     }
                 }
 
-                public bool EsNacional
+                public bool EsDeLaTerceraGeneracion
                 {
                     get
                     {
-                        return esNacional;
+                        return esDeLaTerceraGeneracion;
                     }
 
                     set
                     {
-                        esNacional = value;
+                        esDeLaTerceraGeneracion = value;
                     }
                 }
                 //falta los evs....o va con los ivs...quizas hace falta poner en la rom una rutina...
@@ -386,7 +386,7 @@ namespace PokemonGBAFrameWork
                         equipoCargado.PokemonEquipo[i].Ivs = bytesPokemonEquipo[(int)Posicion.Ivs];
                         if (hayItems)
                             equipoCargado.PokemonEquipo[i].Item = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Item, (int)Longitud.Item));
-                        equipoCargado.PokemonEquipo[i].EsNacional= bytesPokemonEquipo[(int)Posicion.Nacional]!=0x0;
+                        equipoCargado.PokemonEquipo[i].EsDeLaTerceraGeneracion= bytesPokemonEquipo[(int)Posicion.Nacional]!=0x0;
                         if (hayAtaquesCustom)
                         {
                             equipoCargado.PokemonEquipo[i].Move1 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move1, (int)Longitud.Ataque).ReverseArray());
@@ -445,7 +445,7 @@ namespace PokemonGBAFrameWork
                         bloquePokemon.Bytes.SetArray((int)Posicion.IndexPokemon, Serializar.GetBytes(equipo.PokemonEquipo[i].PokemonIndex).ReverseArray());
                         bloquePokemon.Bytes.SetArray((int)Posicion.Nivel, Serializar.GetBytes(equipo.PokemonEquipo[i].Nivel).ReverseArray());
                         bloquePokemon.Bytes.SetArray((int)Posicion.Item, Serializar.GetBytes(equipo.PokemonEquipo[i].Item));
-                        bloquePokemon.Bytes[(int)Posicion.Nacional] =(byte)( equipo.PokemonEquipo[i].EsNacional ? 0x1 : 0x0);
+                        bloquePokemon.Bytes[(int)Posicion.Nacional] =(byte)( equipo.PokemonEquipo[i].EsDeLaTerceraGeneracion ? 0x1 : 0x0);
                         bloquePokemon.Bytes[(int)Posicion.Ivs] = equipo.PokemonEquipo[i].Ivs;
                         if (hayAtaquesCustom)
                         {
