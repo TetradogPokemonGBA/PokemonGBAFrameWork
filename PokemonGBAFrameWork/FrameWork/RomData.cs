@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace PokemonGBAFrameWork
         CompilacionRom.Compilacion compilacion;
         RomGBA rom;
         SpritesEntrenadores spritesEntrenadores;
-
+        public List<Pokemon> pokedexHoenn;//testing
         public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, SpritesEntrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
             RomGBA = rom;
@@ -32,6 +33,7 @@ namespace PokemonGBAFrameWork
             this.edicion = edicion;
             this.compilacion = compilacion;
             this.spritesEntrenadores = spritesEntrenadores;
+           
         }
 
         public RomData()
@@ -55,6 +57,13 @@ namespace PokemonGBAFrameWork
             this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
             this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
             SpritesEntrenadores = SpritesEntrenadores.GetSpritesEntrenadores(this);
+            Pokemon.Orden = Pokemon.OrdenPokemon.Local;
+            pokedex.Pop();//missgino bye bye
+            pokedex.RemoveAt(pokedex.Count - 1);//egg bye bye
+            pokedexHoenn = new List<Pokemon>(Pokedex.Filtra((pokemon) => pokemon.OrdenPokedexLocal <= 202).Sort(Orden.QuickSort));//testing
+            Pokemon.Orden = Pokemon.OrdenPokemon.Nacional;
+            pokedexHoenn.Sort();
+            Pokedex.Sort();
         }
 
         public Llista<Entrenador> Entrenadores
