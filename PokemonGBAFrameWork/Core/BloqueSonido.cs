@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,8 +12,17 @@ namespace PokemonGBAFrameWork
 {
    public class BloqueSonido
     {
+        enum Posicion
+        {
+            EstaComprimido = 0,
+            RepetirCiclicamente = 2,
+            SampleRate = 4,
+            InicioRepeticion = 8,
+            Length = 12,
+            Data = 16,
+        }
         public static Color ColorOndaPorDefecto = Color.Green;
-        static readonly byte[] Lookup = new byte[] { 0x0, 0x1, 0x4, 0x9, 0x10, 0x19, 0x24, 0x31, 0xC0, 0xCF, 0xDC, 0xE7, 0xF0, 0xF7, 0xFC, 0xFF };
+        static readonly sbyte[] Lookup = new sbyte[] { 0, 1, 4, 9, 16, 25,36, 49, -64, -49, -36, -25, -16, -9, -4, -1};
         Hex offset;
         bool estaComprimido;
         bool repetirCiclicamente;
@@ -142,14 +152,14 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public int Length
+        public int Length//mirar el uso que tiene realmente :D
         {
             get
             {
-                return length;
+                return  datos==null? length:datos.Length;
             }
 
-            set
+           private set
             {
                 length = value;
             }
@@ -221,11 +231,79 @@ namespace PokemonGBAFrameWork
             return msSonido;
         }
 
-        public BloqueSonido GetBloqueSonido(RomData rom, int index, bool repetirCiclicamente = false, int inicioRepeticion = 0)
+        public static BloqueSonido GetBloqueSonido(RomData rom, Hex offsetSound, bool repetirCiclicamente = false, int inicioRepeticion = 0)
         {
+            
+            List<sbyte> lstDatos;
+            int alignment = 0;
+            int size = 0;
+            sbyte pcmLevel = 0;
+            byte input;
             BloqueSonido bloqueACargar = new BloqueSonido();
 
+            bloqueACargar.EstaComprimido = Serializar.ToShort(rom.RomGBA.Datos.SubArray((int)offsetSound +(int)Posicion.EstaComprimido, sizeof(short)).ReverseArray()) == 0x1;
+            bloqueACargar.RepetirCiclicamente = Serializar.ToShort(rom.RomGBA.Datos.SubArray((int)offsetSound + (int)Posicion.RepetirCiclicamente, sizeof(short)).ReverseArray())== 0x4000;
+            bloqueACargar.SampleRate = Serializar.ToInt(rom.RomGBA.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray()) >> 10;
+            bloqueACargar.InicioRepeticion=Serializar.ToInt(rom.RomGBA.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray());
+            bloqueACargar.Length = Serializar.ToInt(rom.RomGBA.Datos.SubArray((int)offsetSound+(int)Posicion.Length,sizeof(int)));
+            unsafe
+            {
+                sbyte* ptrDatosBloque;
+                byte* ptrDatosRom;
 
+                fixed (byte* ptDatosRom = rom.RomGBA.Datos)
+                {
+
+                    ptrDatosRom = ptDatosRom + offsetSound + (int)Posicion.Data;
+                    if (!bloqueACargar.EstaComprimido)
+                    {
+                        fixed (sbyte* ptDatosBloque = bloqueACargar.Datos)
+                        {
+                            ptrDatosBloque = ptDatosBloque;
+                            bloqueACargar.Datos = new sbyte[bloqueACargar.Length - 1];
+
+                            for (int i = 0; i < bloqueACargar.Length; i++)
+                            {
+                    
+                                *ptrDatosBloque = (sbyte)*ptrDatosRom;
+                                ptrDatosBloque++;
+                                ptrDatosRom++;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        lstDatos = new List<sbyte>();
+                        //descomprimo :D
+                        while (size >= bloqueACargar.Length)
+                        {
+                            if (alignment == 0)
+                            {
+                                pcmLevel = (sbyte)*ptrDatosRom;
+                                ptrDatosRom++;
+                                lstDatos.Add(pcmLevel);
+                                alignment = 0x20;
+
+                            }
+                            input = *ptrDatosRom;
+                            ptrDatosRom++;
+                            if (alignment < 0x20)
+                            {
+                                pcmLevel += Lookup[input >> 4];
+                                lstDatos.Add(pcmLevel);
+                            }
+                            pcmLevel += Lookup[input & 0xF];
+                            lstDatos.Add(pcmLevel);
+                            size += 2;
+                            alignment--;
+                        }
+                        bloqueACargar.Datos = lstDatos.ToArray();
+                        bloqueACargar.Length = (int)(ptrDatosRom-ptDatosRom);
+                    }
+                }
+            }
+            
             return bloqueACargar;
         }
     }
