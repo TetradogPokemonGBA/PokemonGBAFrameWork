@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\BloqueImagen.cs" />
+    <Compile Include="Core\BloqueSonido.cs" />
     <Compile Include="Core\BloqueString.cs" />
     <Compile Include="Core\Excepciones.cs" />
     <Compile Include="Core\Offsets.cs" />
