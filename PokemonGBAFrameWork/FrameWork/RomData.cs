@@ -21,8 +21,8 @@ namespace PokemonGBAFrameWork
         CompilacionRom.Compilacion compilacion;
         RomGBA rom;
         SpritesEntrenadores spritesEntrenadores;
-        public List<Pokemon> pokedexHoenn;//testing
-        public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, SpritesEntrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
+        ClassesEntrenadores clasesEntrenadores;
+        public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, SpritesEntrenadores spritesEntrenadores, ClassesEntrenadores clasesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
             RomGBA = rom;
             this.habilidades.AddRange(habilidades);
@@ -33,9 +33,10 @@ namespace PokemonGBAFrameWork
             this.edicion = edicion;
             this.compilacion = compilacion;
             this.spritesEntrenadores = spritesEntrenadores;
-           
+            this.clasesEntrenadores = clasesEntrenadores;
         }
-
+        public RomData(string pathGba):this(new RomGBA(pathGba))
+        { }
         public RomData()
         {
             habilidades = new Llista<Habilidad>();
@@ -57,13 +58,7 @@ namespace PokemonGBAFrameWork
             this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
             this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
             SpritesEntrenadores = SpritesEntrenadores.GetSpritesEntrenadores(this);
-            Pokemon.Orden = Pokemon.OrdenPokemon.Local;
-            pokedex.Pop();//missgino bye bye
-            pokedex.RemoveAt(pokedex.Count - 1);//egg bye bye
-            pokedexHoenn = new List<Pokemon>(Pokedex.Filtra((pokemon) => pokemon.OrdenPokedexLocal <= 202).Sort(Orden.QuickSort));//testing
-            Pokemon.Orden = Pokemon.OrdenPokemon.Nacional;
-            pokedexHoenn.Sort();
-            Pokedex.Sort();
+            clasesEntrenadores = ClassesEntrenadores.GetClassesEntrenadores(this);
         }
 
         public Llista<Entrenador> Entrenadores
@@ -157,7 +152,22 @@ namespace PokemonGBAFrameWork
 
             set
             {
+                if (value == null) throw new ArgumentNullException();
                 spritesEntrenadores = value;
+            }
+        }
+
+        public ClassesEntrenadores ClasesEntrenadores
+        {
+            get
+            {
+                return clasesEntrenadores;
+            }
+
+            set
+            {
+                if (value == null) throw new ArgumentNullException();
+                clasesEntrenadores = value;
             }
         }
 

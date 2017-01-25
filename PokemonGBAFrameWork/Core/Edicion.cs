@@ -54,7 +54,9 @@ namespace PokemonGBAFrameWork
 		public const string NOMBRECOMPLETOZAFIRO = "POKEMON SAPP";
 		//valores fijos
 		public static readonly Edicion RubiUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Rubi, Edicion.Idioma.English);
-		public static readonly Edicion ZafiroUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.English);
+
+       
+        public static readonly Edicion ZafiroUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Zafiro, Edicion.Idioma.English);
 		public static readonly Edicion EsmeraldaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.Esmeralda, Edicion.Idioma.English);
 		public static readonly Edicion RojoFuegoUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.RojoFuego, Edicion.Idioma.English);
 		public static readonly Edicion VerdeHojaUsa = Edicion.GetEdicionCanon(Edicion.EdicionesPokemon.VerdeHoja, Edicion.Idioma.English);
@@ -286,5 +288,20 @@ namespace PokemonGBAFrameWork
 			BloqueBytes.SetBytes(rom, (int)OffsetsCampos.Abreviacion, System.Text.ASCIIEncoding.ASCII.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
 			rom.Datos[(int)OffsetsCampos.Idioma] = (byte)edicion.InicialIdioma;
 		}
-	}
+        public static bool EsUnaEdicionDePokemon(Edicion edicion)
+        {
+            bool esDePokemon = false;
+           switch(edicion.AbreviacionRom)
+            {
+                case ABREVIACIONESMERALDA:
+                case ABREVIACIONROJOFUEGO:
+                case ABREVIACIONRUBI:
+                case ABREVIACIONVERDEHOJA:
+                case ABREVIACIONZAFIRO:
+                    esDePokemon = true;break;
+            }
+            return esDePokemon;
+        }
+
+    }
 }

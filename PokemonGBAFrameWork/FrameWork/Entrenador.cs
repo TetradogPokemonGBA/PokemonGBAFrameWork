@@ -138,32 +138,32 @@ namespace PokemonGBAFrameWork
     }
     public class Entrenador//ocupa 40bytes
     {
-        public class Equipo//5A??max
+        public class Equipo
         {
             public class Pokemon//ocupa 8 o 16 bytes dependiendo de si tiene o no movimientos custom el entrenador activado
             {
-                ushort pokemonIndex;//cuarto byte
+                ushort especie;//quinto byte
                 byte ivs;//primer byte
                 ushort level;//segundo byte no se porque son dos bytes...tendria que ser 1...
-                ushort item;//sexto byte
-                            //a partir del byte 8//puede que los movimientos no esten cambiados por lo tanto no estarian...
+                ushort item;//septimo byte
+                //a partir del byte 9//puede que los movimientos no esten cambiados por lo tanto no estarian...
                 ushort move1;
                 ushort move2;
                 ushort move3;
                 ushort move4;
-                bool esDeLaTerceraGeneracion;
+                
 
                 
-                public ushort PokemonIndex
+                public ushort Especie
                 {
                     get
                     {
-                        return pokemonIndex;
+                        return especie;
                     }
 
                     set
                     {
-                        pokemonIndex = value;
+                        especie = value;
                     }
                 }
 
@@ -257,28 +257,15 @@ namespace PokemonGBAFrameWork
                         move4 = value;
                     }
                 }
-
-                public bool EsDeLaTerceraGeneracion
-                {
-                    get
-                    {
-                        return esDeLaTerceraGeneracion;
-                    }
-
-                    set
-                    {
-                        esDeLaTerceraGeneracion = value;
-                    }
-                }
-                //falta los evs....o va con los ivs...quizas hace falta poner en la rom una rutina...
             }
 
             enum Posicion
             {
                 Ivs = 0,
+                //posible byte en blanco
                 Nivel = 1,
-                IndexPokemon = 3,
-                Nacional=5,
+                //byte en blanco
+                Especie = 4,
                 Item = 6,
 
                 Move1 = 8,
@@ -381,12 +368,11 @@ namespace PokemonGBAFrameWork
                     {
                         bytesPokemonEquipo = bloqueDatosEquipo.Bytes.SubArray(i * tamañoPokemon, tamañoPokemon);
                         equipoCargado.PokemonEquipo[i] = new Pokemon();
-                        equipoCargado.PokemonEquipo[i].PokemonIndex = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.IndexPokemon, (int)Longitud.PokemonIndex).ReverseArray());
+                        equipoCargado.PokemonEquipo[i].Especie =(ushort) (Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Especie, (int)Longitud.PokemonIndex)));
                         equipoCargado.PokemonEquipo[i].Nivel = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Nivel, (int)Longitud.Nivel).ReverseArray());
                         equipoCargado.PokemonEquipo[i].Ivs = bytesPokemonEquipo[(int)Posicion.Ivs];
                         if (hayItems)
                             equipoCargado.PokemonEquipo[i].Item = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Item, (int)Longitud.Item));
-                        equipoCargado.PokemonEquipo[i].EsDeLaTerceraGeneracion= bytesPokemonEquipo[(int)Posicion.Nacional]!=0x0;
                         if (hayAtaquesCustom)
                         {
                             equipoCargado.PokemonEquipo[i].Move1 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move1, (int)Longitud.Ataque).ReverseArray());
@@ -442,10 +428,10 @@ namespace PokemonGBAFrameWork
                     {
                         bloquePokemon = new BloqueBytes(index * tamañoPokemon, new byte[tamañoPokemon]);
                         //pongo los datos
-                        bloquePokemon.Bytes.SetArray((int)Posicion.IndexPokemon, Serializar.GetBytes(equipo.PokemonEquipo[i].PokemonIndex).ReverseArray());
+                        bloquePokemon.Bytes.SetArray((int)Posicion.Especie, Serializar.GetBytes(equipo.PokemonEquipo[i].Especie).ReverseArray());
                         bloquePokemon.Bytes.SetArray((int)Posicion.Nivel, Serializar.GetBytes(equipo.PokemonEquipo[i].Nivel).ReverseArray());
                         bloquePokemon.Bytes.SetArray((int)Posicion.Item, Serializar.GetBytes(equipo.PokemonEquipo[i].Item));
-                        bloquePokemon.Bytes[(int)Posicion.Nacional] =(byte)( equipo.PokemonEquipo[i].EsDeLaTerceraGeneracion ? 0x1 : 0x0);
+                   //     bloquePokemon.Bytes[(int)Posicion.EsDeLaTerceraGeneracion] =(byte)( equipo.PokemonEquipo[i].EsDeLaTerceraGeneracion ? 0x1 : 0x0);
                         bloquePokemon.Bytes[(int)Posicion.Ivs] = equipo.PokemonEquipo[i].Ivs;
                         if (hayAtaquesCustom)
                         {
@@ -498,7 +484,7 @@ namespace PokemonGBAFrameWork
         }
         public const byte MAXMUSIC = 0x7F;
 
-        byte moneyClass;
+        byte trainerClass;
         bool esUnaEntrenadora;
         byte musicaBatalla;
         byte spriteIndex;
@@ -532,16 +518,16 @@ namespace PokemonGBAFrameWork
 
             Zona.DiccionarioOffsetsZonas.Add(zonaEntrenador);
         }
-        public byte MoneyClass
+        public byte TrainerClass
         {
             get
             {
-                return moneyClass;
+                return trainerClass;
             }
 
             set
             {
-                moneyClass = value;
+                trainerClass = value;
             }
         }
 
@@ -684,7 +670,7 @@ namespace PokemonGBAFrameWork
             {
                 tamañoPokemonBytes = 16;
             }
-            return (MoneyClass * (uint)(rom.Datos[((uint)Pokemon.NumeroPokemon * tamañoPokemonBytes + Pokemon.OffsetToDataPokemon - tamañoPokemonBytes + 2)] << 2));
+            return (TrainerClass * (uint)(rom.Datos[((uint)Pokemon.NumeroPokemon * tamañoPokemonBytes + Pokemon.OffsetToDataPokemon - tamañoPokemonBytes + 2)] << 2));
         }
         public override string ToString()
         {
@@ -713,7 +699,7 @@ namespace PokemonGBAFrameWork
             //le pongo los datos
             entranadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
             entranadorCargado.MusicaBatalla =(byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & MAXMUSIC);
-            entranadorCargado.MoneyClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];//quizas es la clase de entrenador :D y no el rango de dinero que da...
+            entranadorCargado.TrainerClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];//quizas es la clase de entrenador :D y no el rango de dinero que da...
             entranadorCargado.Nombre = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre,true);
             entranadorCargado.Inteligencia = Serializar.ToUInt(bytesEntrenador.Bytes.SubArray((int)Posicion.Inteligencia, (int)Longitud.Inteligencia));
             entranadorCargado.Item1= Serializar.ToUShort(bytesEntrenador.Bytes.SubArray((int)Posicion.Item1, (int)Longitud.Item));
@@ -755,7 +741,7 @@ namespace PokemonGBAFrameWork
                 bloqueEntrenador.Bytes[(int)Posicion.EsChica] += 0x80;//va asi???por mirar
             }
             
-            bloqueEntrenador.Bytes[(int)Posicion.MoneyClass]= entrenador.MoneyClass;
+            bloqueEntrenador.Bytes[(int)Posicion.MoneyClass]= entrenador.TrainerClass;
             entrenador.Nombre.OffsetInicio = bloqueEntrenador.OffsetInicio + (int)Posicion.Nombre;
             BloqueString.SetString(rom.RomGBA, entrenador.Nombre);
             bloqueEntrenador.Bytes.SetArray((int)Posicion.Inteligencia, Serializar.GetBytes(entrenador.Inteligencia));
@@ -773,19 +759,66 @@ namespace PokemonGBAFrameWork
                 SetEntrenador(romData, i, romData.Entrenadores[i]);
         }
     }
+    public class ClassesEntrenadores
+    {
+        enum Longitud
+        {
+            Nombre=0xD
+        }
+        enum Variables
+        {
+            NombreClaseEntrenador
+        }
+        static ClassesEntrenadores()
+        {
+            Zona zonaNombres = new Zona(Variables.NombreClaseEntrenador);
+            //añado las zonas :D
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xF7088,0xF70A8);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xF7088, 0xF70A8);
 
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xD8074,0xD8088);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xD80A0,0xD80B4);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x183B4);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x183B4);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x40FE8);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x40FE8);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0xD7BC8);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xD7BF4);
+
+            Zona.DiccionarioOffsetsZonas.Add(zonaNombres);
+        }
+        public ClassesEntrenadores()
+        {
+            Clases = new List<BloqueString>();
+        } 
+       public List<BloqueString> Clases { get; private set; }
+        public BloqueString this[int index]
+        {
+            get { return Clases[index]; }
+            set {
+                if (value == null) throw new ArgumentNullException();
+                value.MaxCaracteres = (int)Longitud.Nombre;
+                value.AcabaEnFFByte = true;
+                Clases[index] = value; }
+        }
+        public static ClassesEntrenadores GetClassesEntrenadores(RomData rom)
+        {
+            ClassesEntrenadores clases=new ClassesEntrenadores();
+            Hex offsetInicio = Zona.GetOffset(rom.RomGBA, Variables.NombreClaseEntrenador, rom.Edicion, rom.Compilacion);
+            for(int i=0,f=SpritesEntrenadores.GetNumeroDeSpritesDeEntrenador(rom);i<f;i++)
+            {
+                clases.Clases.Add(BloqueString.GetString(rom.RomGBA, offsetInicio + (i * (int)Longitud.Nombre), (int)Longitud.Nombre, true));
+            }
+            return clases;
+
+        }
+    }
   
 
-    /*
-     class money se tiene que buscar....
-primero se lee un byte de la rom en la posicion de la classMoney luego mientras ser diferente a 0xFF mirara si coincide con el entrenador si coincide la ha encontrado y el dinero se saca de la classMoney+index+1 el index empieza con 0 y cada vez que no encuentra el index suma 4 y el byte cambia classLocation+index
 
-
-trainerCash ->1byte->rom[classMoney+index+1]
-
-si no lo encuentra el trainerCash es 0
-
-     */
 
 
 
