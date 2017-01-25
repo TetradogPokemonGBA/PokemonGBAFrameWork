@@ -8,19 +8,55 @@ using System.Threading.Tasks;
 //información obtenida de https://github.com/Jambo51/Trainer_Editor
 namespace PokemonGBAFrameWork
 {
-    public class SpritesEntrenadores
+    public class Entrenadores
     {
-     
+        enum Longitud
+        {
+            Nombre = 0xD,
+            RateMoney=4,//por mirar...
+        }
+        //31AEB8
         enum Variables
         {
             SpriteImg,
-            SpritePaleta
+            SpritePaleta,
+            RatesMoney,
+            NombreClaseEntrenador,
         }
-        BloqueImagen[] sprites;//de momento no se si hay FF o es solo el maximo
-        static SpritesEntrenadores()
+        List<BloqueImagen> sprites;//de momento no se si hay FF o es solo el maximo
+        List<BloqueString> nombres;
+        List<byte> ratesMoney;
+        static Entrenadores()
         {
             Zona zonaImg = new Zona(Variables.SpriteImg);
             Zona zonaPaleta = new Zona(Variables.SpritePaleta);
+            Zona zonaNombres = new Zona(Variables.NombreClaseEntrenador);
+            Zona zonaRatesMoney = new Zona(Variables.RatesMoney);
+            //añado las zonas :)
+            zonaRatesMoney.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x4E6A8);
+            zonaRatesMoney.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x4E6A8);
+            zonaRatesMoney.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x2593C);
+            zonaRatesMoney.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x2593C);
+            zonaRatesMoney.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x259CC,0x259E0);
+            zonaRatesMoney.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x259CC, 0x259E0);
+           
+            //añado las zonas :D
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xF7088, 0xF70A8);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xF7088, 0xF70A8);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xD8074, 0xD8088);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xD80A0, 0xD80B4);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x183B4);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x183B4);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x40FE8);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x40FE8);
+
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0xD7BC8);
+            zonaNombres.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xD7BF4);
+
+           
             //pongo las zonas :D
             //img
             zonaImg.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x34628);
@@ -51,44 +87,69 @@ namespace PokemonGBAFrameWork
 
             zonaPaleta.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x5B784);
             zonaPaleta.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x5B784);
+
+            Zona.DiccionarioOffsetsZonas.Add(zonaRatesMoney);
+            Zona.DiccionarioOffsetsZonas.Add(zonaNombres);
             Zona.DiccionarioOffsetsZonas.Add(zonaImg);
             Zona.DiccionarioOffsetsZonas.Add(zonaPaleta);
         }
-        public SpritesEntrenadores(int numeroDeEntrenadores)
+        public Entrenadores()
         {
-            sprites = new BloqueImagen[numeroDeEntrenadores];
+            sprites = new List<BloqueImagen>();
+            nombres = new List<BloqueString>();
+            ratesMoney = new List<byte>();
         }
-        public BloqueImagen this[int index]
+
+       
+
+        public List<byte> RatesMoney
         {
-            get { return sprites[index]; }
-            set
-            {
-                sprites[index] = value;
-            }
+            get { return ratesMoney; }
         }
-        public BloqueImagen this[Entrenador entrenador]
+       public List<BloqueImagen> Sprites
         {
-            get { return this[entrenador.SpriteIndex]; }
+            get { return sprites; }
+        }
+        public List<BloqueString> Nombres
+        {
+            get { return nombres; }
         }
         public int Total
         {
-            get { return sprites.Length; }
+            get { return sprites.Count; }
         }
-        public static SpritesEntrenadores GetSpritesEntrenadores(RomData rom)
+        public static Entrenadores GetEntrenadoresClases(RomData rom)
         {
-            SpritesEntrenadores entrenadores;
+            Entrenadores entrenadores;
 
+            Hex offsetInicioNombres;
+            Hex offsetInicioImgs;
+            Hex offsetInicioPaletas;
+            Hex offsetInicioRateMoney;
+            bool compatibleConRateMoney;
             if (rom == null)
                 throw new ArgumentNullException();
 
-            entrenadores = new SpritesEntrenadores(GetNumeroDeSpritesDeEntrenador(rom));
+            compatibleConRateMoney = rom.Edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && rom.Edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO;
 
-            for (int i = 0; i < entrenadores.Total; i++)
-                entrenadores[i] = BloqueImagen.GetBloqueImagen(rom.RomGBA, Zona.GetOffset(rom.RomGBA, Variables.SpriteImg,rom.Edicion,rom.Compilacion) + i*2 *(int)Longitud.Offset, Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i *2* (int)Longitud.Offset);
-            return entrenadores;
+            offsetInicioNombres = Zona.GetOffset(rom.RomGBA, Variables.NombreClaseEntrenador, rom.Edicion, rom.Compilacion);
+            offsetInicioImgs = Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion);
+            offsetInicioPaletas = Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion);
+            if (compatibleConRateMoney)
+                offsetInicioRateMoney = Zona.GetOffset(rom.RomGBA, Variables.RatesMoney, rom.Edicion, rom.Compilacion);
+            entrenadores = new Entrenadores();
+
+            for (int i = 0,f= GetNumeroDeClasesDeEntrenador(rom); i < f; i++)
+            {
+                entrenadores.Sprites.Add(BloqueImagen.GetBloqueImagen(rom.RomGBA, offsetInicioImgs + i * 2 * (int)PokemonGBAFrameWork.Longitud.Offset, offsetInicioPaletas + i * 2 * (int)PokemonGBAFrameWork.Longitud.Offset));
+                entrenadores.Nombres.Add(BloqueString.GetString(rom.RomGBA, offsetInicioNombres + (i * (int)Longitud.Nombre), (int)Longitud.Nombre, true));
+                if (compatibleConRateMoney)
+                    entrenadores.RatesMoney.Add((rom.RomGBA.Datos.SubArray((int)offsetInicioRateMoney + (i * (int)Longitud.RateMoney), 1)[0]));//por mirar como se lee :)
+            }
+                return entrenadores;
         }
 
-        public static int GetNumeroDeSpritesDeEntrenador(RomData rom)
+        public static int GetNumeroDeClasesDeEntrenador(RomData rom)
         {//obtiene bien el numero :D
             Hex offsetTablaEntrenadorImg = Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion);
             Hex offsetTablaEntrenadorPaleta = Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion);
@@ -106,33 +167,50 @@ namespace PokemonGBAFrameWork
 
         public static void SetSpritesEntrenadores(RomData rom)
         {
-            if (rom == null|| rom.SpritesEntrenadores == null)
+            if (rom == null|| rom.Entrenadores == null)
                 throw new ArgumentNullException();
-
-            for (int i = 0; i < rom.SpritesEntrenadores.Total; i++)
+            Hex offsetInicioNombres;
+            Hex offsetInicioImgs;
+            Hex offsetInicioPaletas;
+            Hex offsetInicioRateMoney;
+            bool compatibleConRateMoney = rom.Edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && rom.Edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO;
+            offsetInicioNombres = Zona.GetOffset(rom.RomGBA, Variables.NombreClaseEntrenador, rom.Edicion, rom.Compilacion);
+            offsetInicioImgs = Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion);
+            offsetInicioPaletas = Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion);
+            if(compatibleConRateMoney)
+                offsetInicioRateMoney= Zona.GetOffset(rom.RomGBA, Variables.RatesMoney, rom.Edicion, rom.Compilacion);
+            if (compatibleConRateMoney&&rom.EntrenadoresClases.RatesMoney.Count < rom.EntrenadoresClases.Total)
+                throw new ArgumentException("falta el rate money de algunas clases...");
+            for (int i = 0; i < rom.EntrenadoresClases.Total; i++)
             {
-                if (rom.SpritesEntrenadores[i] == null)
-                    throw new NullReferenceException("Siempre tiene que haber imagen de entrenador...");//mas adelante hacer imagen vacia :D
+                if (rom.EntrenadoresClases.Sprites[i] == null)
+                    throw new NullReferenceException("Siempre tiene que haber imagen de entrenador...");
+                else if (rom.EntrenadoresClases.Nombres[i] == null)
+                    throw new NullReferenceException("Siempre tiene que haber Nombre de entrenador...");
+                
+
             }
 
-            for (int i = 0; i < rom.SpritesEntrenadores.Total; i++)
+            for (int i = 0; i < rom.EntrenadoresClases.Total; i++)
             {
                 //actualizo el pointer de las tablas
                 //tabla img
-                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion) + i << 3, rom.SpritesEntrenadores[i].OffsetInicio);
+                Offset.SetOffset(rom.RomGBA,offsetInicioImgs + i *(int)PokemonGBAFrameWork.Longitud.Offset, rom.EntrenadoresClases.Sprites[i].OffsetInicio);
                 //tabla paleta
-                Offset.SetOffset(rom.RomGBA,Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion) + i << 3, rom.SpritesEntrenadores[i].Paletas[0].OffsetPointerPaleta);
+                Offset.SetOffset(rom.RomGBA,offsetInicioPaletas + i * (int)PokemonGBAFrameWork.Longitud.Offset, rom.EntrenadoresClases.Sprites[i].Paletas[0].OffsetPointerPaleta);
+                rom.EntrenadoresClases.Nombres[i].OffsetInicio = offsetInicioNombres + i * (int)Longitud.Nombre;
                 //pongo los datos
-                BloqueImagen.SetBloqueImagen(rom.RomGBA, rom.SpritesEntrenadores[i]);
-
-
+                BloqueImagen.SetBloqueImagen(rom.RomGBA, rom.EntrenadoresClases.Sprites[i]);
+                BloqueString.SetString(rom.RomGBA, rom.EntrenadoresClases.Nombres[i]);
+                if (compatibleConRateMoney)
+                    rom.RomGBA.Datos.SetArray(offsetInicioRateMoney + (i * (int)Longitud.RateMoney), Serializar.GetBytes(rom.EntrenadoresClases.RatesMoney[i]).AddArray(new byte[] { 0x0, 0x0 }));
             }
      
         }
 
-        public void SetSpritesEntrenadores(RomGBA romGBA, SpritesEntrenadores spritesEntrenadores)
+        public void SetSpritesEntrenadores(RomGBA romGBA, Entrenadores spritesEntrenadores)
         {
-            SetSpritesEntrenadores(new RomData(romGBA) { SpritesEntrenadores = spritesEntrenadores });
+            SetSpritesEntrenadores(new RomData(romGBA) { EntrenadoresClases = spritesEntrenadores });
         }
 
     }
@@ -663,14 +741,14 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public uint CalcularDinero(RomGBA rom)
+        public uint CalcularDinero(RomData rom)
         {
             uint tamañoPokemonBytes = 8;
             if (Pokemon.HayAtaquesCustom())
             {
                 tamañoPokemonBytes = 16;
             }
-            return (TrainerClass * (uint)(rom.Datos[((uint)Pokemon.NumeroPokemon * tamañoPokemonBytes + Pokemon.OffsetToDataPokemon - tamañoPokemonBytes + 2)] << 2));
+            return (TrainerClass * (uint)(rom.RomGBA.Datos[((uint)Pokemon.NumeroPokemon * tamañoPokemonBytes + Pokemon.OffsetToDataPokemon - tamañoPokemonBytes + 2)] << 2));
         }
         public override string ToString()
         {
@@ -759,63 +837,7 @@ namespace PokemonGBAFrameWork
                 SetEntrenador(romData, i, romData.Entrenadores[i]);
         }
     }
-    public class ClassesEntrenadores
-    {
-        enum Longitud
-        {
-            Nombre=0xD
-        }
-        enum Variables
-        {
-            NombreClaseEntrenador
-        }
-        static ClassesEntrenadores()
-        {
-            Zona zonaNombres = new Zona(Variables.NombreClaseEntrenador);
-            //añado las zonas :D
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xF7088,0xF70A8);
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xF7088, 0xF70A8);
 
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xD8074,0xD8088);
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xD80A0,0xD80B4);
-
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x183B4);
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x183B4);
-
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x40FE8);
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x40FE8);
-
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0xD7BC8);
-            zonaNombres.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xD7BF4);
-
-            Zona.DiccionarioOffsetsZonas.Add(zonaNombres);
-        }
-        public ClassesEntrenadores()
-        {
-            Clases = new List<BloqueString>();
-        } 
-       public List<BloqueString> Clases { get; private set; }
-        public BloqueString this[int index]
-        {
-            get { return Clases[index]; }
-            set {
-                if (value == null) throw new ArgumentNullException();
-                value.MaxCaracteres = (int)Longitud.Nombre;
-                value.AcabaEnFFByte = true;
-                Clases[index] = value; }
-        }
-        public static ClassesEntrenadores GetClassesEntrenadores(RomData rom)
-        {
-            ClassesEntrenadores clases=new ClassesEntrenadores();
-            Hex offsetInicio = Zona.GetOffset(rom.RomGBA, Variables.NombreClaseEntrenador, rom.Edicion, rom.Compilacion);
-            for(int i=0,f=SpritesEntrenadores.GetNumeroDeSpritesDeEntrenador(rom);i<f;i++)
-            {
-                clases.Clases.Add(BloqueString.GetString(rom.RomGBA, offsetInicio + (i * (int)Longitud.Nombre), (int)Longitud.Nombre, true));
-            }
-            return clases;
-
-        }
-    }
   
 
 

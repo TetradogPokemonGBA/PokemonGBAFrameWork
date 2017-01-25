@@ -20,9 +20,8 @@ namespace PokemonGBAFrameWork
         Edicion edicion;
         CompilacionRom.Compilacion compilacion;
         RomGBA rom;
-        SpritesEntrenadores spritesEntrenadores;
-        ClassesEntrenadores clasesEntrenadores;
-        public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, SpritesEntrenadores spritesEntrenadores, ClassesEntrenadores clasesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
+        Entrenadores entrenadoresClasss;
+        public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, Entrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
             RomGBA = rom;
             this.habilidades.AddRange(habilidades);
@@ -32,8 +31,8 @@ namespace PokemonGBAFrameWork
             this.Entrenadores.AddRange(entrenadores);
             this.edicion = edicion;
             this.compilacion = compilacion;
-            this.spritesEntrenadores = spritesEntrenadores;
-            this.clasesEntrenadores = clasesEntrenadores;
+            this.entrenadoresClasss = spritesEntrenadores;
+
         }
         public RomData(string pathGba):this(new RomGBA(pathGba))
         { }
@@ -57,8 +56,8 @@ namespace PokemonGBAFrameWork
             this.objetos.AddRange(Objeto.GetObjetos(rom, edicion, compilacion));
             this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
             this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
-            SpritesEntrenadores = SpritesEntrenadores.GetSpritesEntrenadores(this);
-            clasesEntrenadores = ClassesEntrenadores.GetClassesEntrenadores(this);
+            EntrenadoresClases = PokemonGBAFrameWork.Entrenadores.GetEntrenadoresClases(this);
+
         }
 
         public Llista<Entrenador> Entrenadores
@@ -143,33 +142,21 @@ namespace PokemonGBAFrameWork
 
         public RomGBA RomGBA { get;  set; }
 
-        public SpritesEntrenadores SpritesEntrenadores
+        public Entrenadores EntrenadoresClases
         {
             get
             {
-                return spritesEntrenadores;
+                return entrenadoresClasss;
             }
 
             set
             {
                 if (value == null) throw new ArgumentNullException();
-                spritesEntrenadores = value;
+                entrenadoresClasss = value;
             }
         }
 
-        public ClassesEntrenadores ClasesEntrenadores
-        {
-            get
-            {
-                return clasesEntrenadores;
-            }
-
-            set
-            {
-                if (value == null) throw new ArgumentNullException();
-                clasesEntrenadores = value;
-            }
-        }
+    
 
         public void SetRomData()
         {
@@ -196,7 +183,7 @@ namespace PokemonGBAFrameWork
             Objeto.SetObjetos(romData.RomGBA, romData.Objetos);
             Pokemon.SetPokedex(romData.RomGBA, romData.Pokedex);
             Edicion.SetEdicion(romData.RomGBA, romData.Edicion);
-            SpritesEntrenadores.SetSpritesEntrenadores(romData);
+            PokemonGBAFrameWork.Entrenadores.SetSpritesEntrenadores(romData);
             Entrenador.SetEntrenadores(romData);
         }
     }
