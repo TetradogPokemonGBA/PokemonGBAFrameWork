@@ -19,12 +19,13 @@ namespace PokemonGBAFrameWork
         }
         enum Posicion
         {
-            OffsetData=4
+            OffsetData=4//quizas es 8
         }
         static Cry()
         {
             Zona zonaTablaCry = new Zona(VariableCry.Cry);
             //pongo las zonas :D
+            //encontrarlas es mas dificil que de costumbre...
             Zona.DiccionarioOffsetsZonas.Add(zonaTablaCry);
         }
         public Cry(BloqueSonido blCry)
