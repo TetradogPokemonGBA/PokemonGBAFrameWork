@@ -173,6 +173,15 @@ namespace PokemonGBAFrameWork
             if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0) throw new ArgumentException();
             return new BloqueString(blBytes.OffsetInicio + offsetInicio, ToString(blBytes.Bytes.SubArray((int)offsetInicio, (int)longitud)),acabaEnFFByte );
         }
+        //por revisar
+        public static BloqueString GetString(RomGBA rom, Hex offsetInicio,byte marcaFin=0xFF)
+        {
+         return GetString(rom,offsetInicio,rom.Datos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
+        }
+        public static BloqueString GetString(BloqueBytes blDatos, Hex offsetInicio, byte marcaFin = 0xFF)
+        {
+            return GetString(blDatos, offsetInicio,blDatos.Bytes.IndexByte(offsetInicio, marcaFin) - offsetInicio);
+        }
 		#region Tratar String Pokemon
         public static string ToString(byte[] bytesGBA)
         {//falta probar :D
@@ -862,14 +871,7 @@ namespace PokemonGBAFrameWork
             return new string(chString);
         }
 
-        public static BloqueString GetString(RomGBA rom, Hex offsetInicio,byte marcaFin=0xFF)
-        {
-         return GetString(rom,offsetInicio,rom.Datos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
-        }
-        public static BloqueString GetString(BloqueBytes blDatos, Hex offsetInicio, byte marcaFin = 0xFF)
-        {
-            return GetString(blDatos, offsetInicio,blDatos.Bytes.IndexByte(offsetInicio, marcaFin) - offsetInicio);
-        }
+    
         public static byte[] ToByteArray(string texto)
         {//por mirar
             if (texto == null)

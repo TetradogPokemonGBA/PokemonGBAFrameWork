@@ -952,7 +952,7 @@ namespace PokemonGBAFrameWork
             pokemon.Sprites = Sprite.GetSprite(rom, edicion, compilacion, ordenGameFreak);
             pokemon.Stats = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variables.Stats, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.TotalStats, (int)LongitudCampos.TotalStats).Bytes;
             pokemon.GetObjetosDeLosStats();
-            pokemon.Nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado);
+            pokemon.Nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado, (int)LongitudCampos.NombreCompilado,true);
             pokemon.Nombre.MaxCaracteres = (int)LongitudCampos.Nombre;
             //pongo el orden local y nacional...
             pokemon.OrdenPokedexLocal = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
@@ -993,7 +993,7 @@ namespace PokemonGBAFrameWork
 
 
         }
-        public static IReadOnlyList<Pokemon> FiltroSinNoPokes(IEnumerable<Pokemon> pokemons)
+        public static List<Pokemon> FiltroSinNoPokes(IList<Pokemon> pokemons)
         {
             return pokemons.Filtra((pokemon) => pokemon.EsUnPokemonValido);
         }

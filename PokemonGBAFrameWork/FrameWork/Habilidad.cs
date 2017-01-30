@@ -57,7 +57,7 @@ namespace PokemonGBAFrameWork
         public static Habilidad GetHabilidad(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             if (rom == null || edicion == null || posicion < 0) throw new ArgumentException();
-            BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre);
+            BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre,(int)LongitudCampo.Nombre,true);
             return new Habilidad(blNombre);
         }
         public static Hex GetTotal(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)

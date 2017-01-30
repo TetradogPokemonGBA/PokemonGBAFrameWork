@@ -194,7 +194,7 @@ namespace PokemonGBAFrameWork
             Hex offsetPosicion = offsetByteDesconocido + (int)LongitudCampos.ByteDesconocido;
             Hex offsetDescripcion = offsetPosicion + (int)LongitudCampos.BytesDesconocidosAntesDescripcion;
             Hex offsetPointersImg;
-            BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto,(int)LongitudCampos.NombreCompilado);
+            BloqueString bloqueNombre = BloqueString.GetString(rom, offsetObjeto,(int)LongitudCampos.NombreCompilado,true);
             BloqueString bloqueDescripcion = BloqueString.GetString(rom, offsetDescripcion);
             ushort posicion = Serializar.ToUShort(BloqueBytes.GetBytes(rom, offsetPosicion, 2).Bytes);
             BloqueImagen bloqueImg=null;

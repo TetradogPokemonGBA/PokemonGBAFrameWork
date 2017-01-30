@@ -360,7 +360,7 @@ namespace PokemonGBAFrameWork
             bytesDescripcion = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variables.Descripcion, edicion, compilacion) + ordenGameFreak * DameTotal(edicion), DameTotal(edicion));
             //primero va la especie y acaba en FF si es mas corto que el tamaño maximo
             //no funciona bien de momento...
-            nombreEspecie = BloqueString.GetString(bytesDescripcion,0);
+            nombreEspecie = BloqueString.GetString(bytesDescripcion,0,(int)LongitudCampos.NombreEspecie,true);
             nombreEspecie.MaxCaracteres = (int)LongitudCampos.NombreEspecie;
             peso = Convert.ToUInt16((long)Word.GetWord(rom,bytesDescripcion.OffsetInicio+ nombreEspecie.OffsetFin + 2));
             pointer = Offset.GetOffset(rom, bytesDescripcion.OffsetInicio + nombreEspecie.OffsetFin + 4);

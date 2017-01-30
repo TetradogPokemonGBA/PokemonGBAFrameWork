@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//codigo adaptado de CryFunctions.vb de Gamer2020;
+//codigo adaptado de https://github.com/doom-desire
 namespace PokemonGBAFrameWork
 {
    public class BloqueSonido
@@ -21,19 +21,22 @@ namespace PokemonGBAFrameWork
             Length = 12,
             Data = 16,
         }
-        public static Color ColorOndaPorDefecto = Color.Green;
+        public static readonly Color[] ColoresOndaPorDefecto = { Color.Green, Color.Blue, Color.Red, Color.Yellow, Color.Violet, Color.Blue, Color.Brown, Color.HotPink, Color.Gray, Color.Magenta };
         static readonly sbyte[] Lookup = new sbyte[] { 0, 1, 4, 9, 16, 25,36, 49, -64, -49, -36, -25, -16, -9, -4, -1};
+
         Hex offset;
         bool estaComprimido;
         bool repetirCiclicamente;
         int sampleRate;
         int inicioRepeticion;
         int length;
-        SByte[] datos;
+        SByte[][] datos;
+        ushort numeroDeCanales;
 
         private BloqueSonido() { }
         public BloqueSonido(MemoryStream msWaveFile,bool repetirCiclicamente=false,int inicioRepeticion=0)
         {
+            const UInt16 PCMFORMAT = 1;
             BinaryReader brOnda = new BinaryReader(msWaveFile);
             ushort bitsPerSample;
             //  ' read RIFF header
@@ -53,15 +56,14 @@ namespace PokemonGBAFrameWork
             if (brOnda.ReadUInt32() != 16 )
                 throw new Exception("Invalid fmt chunk!");
 
-            if (brOnda.ReadUInt16() != 1 )
+            if (brOnda.ReadUInt16() != PCMFORMAT)
                 //' only PCM format allowed
                 throw new Exception("Cry must be in PCM format!");
 
-            if (brOnda.ReadUInt16() != 1 )
-              //  ' only 1 channel allowed
-                throw new  Exception("Cry cannot have more than one channel!");
-
+            numeroDeCanales = brOnda.ReadUInt16();
+            datos = new sbyte[numeroDeCanales][];
             sampleRate = brOnda.ReadInt32();
+
             if (brOnda.ReadUInt32() != sampleRate)
                 throw new Exception("Invalid fmt chunk!");
 
@@ -76,13 +78,15 @@ namespace PokemonGBAFrameWork
             if (brOnda.ReadUInt32() != 0x61746164)
                 throw new Exception("Expected data chunk!!");
 
-            length = brOnda.ReadInt32();
+            for (int j = 0; j < numeroDeCanales; j++)//mirar si es asi :D
+            {
+                length = brOnda.ReadInt32();
 
-            datos = new SByte[length - 1];
-            for (int i = 0; i < length; i++)
-                // ' read 8-bit unsigned PCM and convert to GBA signed form
-                datos[i] = (SByte)(brOnda.ReadByte() - 128);
-
+                datos[j] = new SByte[length - 1];
+                for (int i = 0; i < length; i++)
+                    // ' read 8-bit unsigned PCM and convert to GBA signed form
+                    datos[j][i] = (SByte)(brOnda.ReadByte() - 128);
+            }
             //resetting some other properties just in case
             this.repetirCiclicamente = repetirCiclicamente;
             this.inicioRepeticion = inicioRepeticion;
@@ -165,7 +169,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public sbyte[] Datos
+        public sbyte[][] Datos
         {
             get
             {
@@ -179,19 +183,34 @@ namespace PokemonGBAFrameWork
         }
         public Bitmap DibujarOndaSonido()
         {
-            return DibujarOndaSonido(ColorOndaPorDefecto);
+            return DibujarOndaSonido(ColoresOndaPorDefecto);
         }
-        public Bitmap DibujarOndaSonido(Color color)
+        public Bitmap DibujarOndaSonido(Color[] colores)
         {
             const int HEIGHTWAVEIMAGE = 128;
             const int FIX = 64;//buscar nombre mas descriptivo
-            Pen penOnda = new Pen(color);
+            Color[] coloresOnda;
+            if (colores.Length < numeroDeCanales)
+            {
+                coloresOnda = new Color[numeroDeCanales];
+                for (int i = 0; i < colores.Length; i++)
+                    coloresOnda[i] = colores[i];
+                for (int i = colores.Length; i < coloresOnda.Length; i++)
+                    coloresOnda[i] = ColoresOndaPorDefecto[i];
+            }
+            else coloresOnda = colores;
+           
+            Pen penOnda;
             Bitmap bmpOnda=new Bitmap(datos.Length, HEIGHTWAVEIMAGE);
             Graphics gOnda = Graphics.FromImage(bmpOnda);
             //pongo las lineas :D
-            for(int i=1;i<datos.Length;i++)
+            for (int j = 0; j<numeroDeCanales; j++)
             {
-                gOnda.DrawLine(penOnda, i - 1, FIX + datos[i - 1], i, FIX + datos[i]);
+                penOnda = new Pen(coloresOnda[j]);
+                for (int i = 1; i < datos.Length; i++)
+                {
+                    gOnda.DrawLine(penOnda, i - 1, FIX + datos[j][i - 1], i, FIX + datos[j][i]);
+                }
             }
             gOnda.Save();//no se si hace falta...
 
@@ -200,6 +219,7 @@ namespace PokemonGBAFrameWork
         }
         public MemoryStream ToWaveFileStream()
         {
+            const UInt16 PCMFORMAT = 1;
             const byte FIX = 0x80;//buscar nombre mas descriptivo
             MemoryStream msSonido = new MemoryStream();
             BinaryWriter bwSonido = new BinaryWriter(msSonido, Encoding.ASCII, true);
@@ -211,8 +231,8 @@ namespace PokemonGBAFrameWork
             // fmt chunk
             bwSonido.Write(Encoding.ASCII.GetBytes("fmt "));
             bwSonido.Write(16);
-            bwSonido.Write((ushort)1);
-            bwSonido.Write((ushort)1);
+            bwSonido.Write(PCMFORMAT);
+            bwSonido.Write(numeroDeCanales);
             bwSonido.Write(sampleRate);
             bwSonido.Write(sampleRate);
             bwSonido.Write((ushort)1);
@@ -220,10 +240,12 @@ namespace PokemonGBAFrameWork
 
             // data chunk
             bwSonido.Write(Encoding.ASCII.GetBytes("data"));
-            bwSonido.Write(datos.Length);
-            for (int i = 0; i < datos.Length; i++)
-                bwSonido.Write((byte)(datos[i] + FIX));
-               
+            for (int j = 0; j < numeroDeCanales; j++)
+            {
+                bwSonido.Write(datos[j].Length);
+                for (int i = 0; i < datos[j].Length; i++)
+                    bwSonido.Write((byte)(datos[j][i] + FIX));
+            }
 
                 // fix header
             bwSonido.Seek(4, SeekOrigin.Begin);
