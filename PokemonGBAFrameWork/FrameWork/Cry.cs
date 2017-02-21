@@ -28,7 +28,8 @@ namespace PokemonGBAFrameWork
             //encontrarlas es mas dificil que de costumbre...
             Zona.DiccionarioOffsetsZonas.Add(zonaTablaCry);
         }
-        public Cry(BloqueSonido blCry)
+
+        /*public Cry(BloqueSonido blCry)
         {
             Sound = blCry;
         }
@@ -36,10 +37,11 @@ namespace PokemonGBAFrameWork
 
         public static Cry GetCry(RomData rom,Hex posicion)
         {
+            
             return new Cry(BloqueSonido.GetBloqueSonido(rom, Offset.GetOffset(rom.RomGBA, Zona.GetOffset(rom.RomGBA, VariableCry.Cry, rom.Edicion, rom.Compilacion) + posicion * (int)Longitud.Header)));
-        }
+        } 
         public static int GetTotalCry(RomData rom)
-        {
+        {//creo que se puede saber :)sin tenerlo que calcular de esta forma :)
             int total = 0;
             Hex offsetTabla= Zona.GetOffset(rom.RomGBA, VariableCry.Cry, rom.Edicion, rom.Compilacion);
             Hex offsetNextCry = offsetTabla + (int)Posicion.OffsetData;
@@ -57,6 +59,6 @@ namespace PokemonGBAFrameWork
             for (int i = 0; i < crys.Length; i++)
                 crys[i] = GetCry(rom, i);
             return crys;
-        }
+        }*/
     }
 }
