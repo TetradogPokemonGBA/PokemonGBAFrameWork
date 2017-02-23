@@ -121,7 +121,7 @@ namespace PokemonGBAFrameWork
         int ordenPokedexLocal;
         int ordenPokedexNacional;
         int ordenGameFreak;
-        DescripcionPokedex descripcion;
+        Descripcion descripcion;
         Sprite sprites;
         Huella huella;
         /*por desarrollar
@@ -250,7 +250,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public DescripcionPokedex Descripcion
+        public Descripcion Descripcion
         {
             get
             {
@@ -622,7 +622,7 @@ namespace PokemonGBAFrameWork
                 stats[23] = value;
             }
         }
-        public byte RatioDeEscapar
+        public byte RatioDeEscaparZonaSafari
         {
             get { return stats[24]; }
             set
@@ -646,7 +646,9 @@ namespace PokemonGBAFrameWork
 
             }
         }
-        //creo que se usa en la imagen de los stats...
+        /// <summary>
+        /// Dirección de la imagen en la pantalla de estado
+        /// </summary>
         public bool IsFaceRight
         {
             get { return stats[25] < FACELEFT; }
@@ -821,12 +823,12 @@ namespace PokemonGBAFrameWork
             if(pokemon.Huella!=null)
             Huella.SetHuella(rom,edicion,compilacion, pokemon.Huella, pokemon.OrdenGameFreak);
             if (pokemon.Descripcion != null)
-                DescripcionPokedex.SetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.Descripcion);
-            else DescripcionPokedex.CreateDescripcionPokedex(rom, edicion, compilacion, pokemon);
+                Descripcion.SetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.Descripcion);
+            else Descripcion.CreateDescripcionPokedex(rom, edicion, compilacion, pokemon);
             //pongo el orden local y nacional...
-            Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, pokemon.OrdenPokedexLocal);
+            Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, (short) pokemon.OrdenPokedexLocal);
 
-            Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, pokemon.OrdenPokedexNacional);
+            Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2,(short) pokemon.OrdenPokedexNacional);
 
         }
         //se tiene que replantear...
@@ -849,7 +851,7 @@ namespace PokemonGBAFrameWork
                 //stats
                 BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.Stats, edicion, compilacion), totalPokes * (int)LongitudCampos.TotalStats);
                 //DatosPokedex
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, DescripcionPokedex.Variables.Descripcion, edicion, compilacion), totalPokes * (int)DescripcionPokedex.GetTotalBytes(Edicion.GetEdicion(rom)));
+                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Descripcion.Variables.Descripcion, edicion, compilacion), totalPokes * (int)Descripcion.GetTotalBytes(Edicion.GetEdicion(rom)));
                 //ordenLocal
                 BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion), totalPokes * 2);
                 //ordenNacional
@@ -861,7 +863,7 @@ namespace PokemonGBAFrameWork
                 Zona.SetOffset(rom, Variables.Stats, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)LongitudCampos.TotalStats));
                 Zona.SetOffset(rom, Variables.OrdenLocal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * 2));
                 Zona.SetOffset(rom, Variables.OrdenNacional, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * 2));
-                Zona.SetOffset(rom, DescripcionPokedex.Variables.Descripcion, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)DescripcionPokedex.GetTotalBytes(Edicion.GetEdicion(rom))));
+                Zona.SetOffset(rom, Descripcion.Variables.Descripcion, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)Descripcion.GetTotalBytes(Edicion.GetEdicion(rom))));
                 totalBytesImgs = 0;
                 for (int i = 0; i < pokemons.Length; i++)
                     for (int j = 0; j < pokemons[i].Sprites.ImagenTrasera.Length; j++)
@@ -900,7 +902,7 @@ namespace PokemonGBAFrameWork
         }
         public static int TotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            int total = DescripcionPokedex.TotalEntradas(rom, edicion, compilacion);
+            int total = Descripcion.TotalEntradas(rom, edicion, compilacion);
             total += TotalNoPokemon(rom,edicion,compilacion,total);
             return total;
         }
@@ -939,7 +941,7 @@ namespace PokemonGBAFrameWork
         }
         public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
-            return GetPokemon(rom, edicion, compilacion, ordenGameFreak, DescripcionPokedex.TotalEntradas(rom, edicion, compilacion));
+            return GetPokemon(rom, edicion, compilacion, ordenGameFreak, Descripcion.TotalEntradas(rom, edicion, compilacion));
         }
         public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
@@ -960,7 +962,7 @@ namespace PokemonGBAFrameWork
             //pongo la pokedex
             if (pokemon.OrdenPokedexNacional < totalEntradasPokedex)
             {
-                pokemon.Descripcion = DescripcionPokedex.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
+                pokemon.Descripcion = Descripcion.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
                
             }
             pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
@@ -982,7 +984,7 @@ namespace PokemonGBAFrameWork
         public static Pokemon[] GetPokemons(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             Pokemon[] pokemons = new Pokemon[TotalPokemon(rom, edicion, compilacion)];
-            Hex total = DescripcionPokedex.TotalEntradas(rom, edicion, compilacion);
+            Hex total = Descripcion.TotalEntradas(rom, edicion, compilacion);
             for (int i = 0; i < pokemons.Length; i++)
                 try
                 {

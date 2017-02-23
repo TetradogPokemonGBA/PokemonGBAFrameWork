@@ -50,7 +50,7 @@ namespace PokemonGBAFrameWork
             if (rom == null || edicion == null)
                 throw new ArgumentNullException();
             compilacion = !comprovarQueEsSegunda ? Compilacion.Primera : Compilacion.Segunda;
-            if (!DescripcionPokedex.ValidarZona(rom, edicion, compilacion))
+            if (!Descripcion.ValidarZona(rom, edicion, compilacion))
             {
                 if (comprovarQueEsSegunda)
                     throw new InvalidRomFormat();
@@ -200,39 +200,84 @@ namespace PokemonGBAFrameWork
     }
     public static class Word
     {
-        public static void SetWord(RomGBA rom, Hex offset, Hex word)
+        public static void SetDWord(RomGBA rom, Hex offset, short dword)
         {
-            if (offset < 0 || offset + (int)Longitud.Word > rom.Datos.Length || word < 0 || word > ushort.MaxValue)
+            SetWordOrDWord(rom.Datos, offset, dword,false);
+        }
+        public static void SetWord(RomGBA rom, Hex offset, short word)
+        {
+            SetWordOrDWord(rom.Datos, offset, word);
+        }
+        public static void SetDWord(byte[] rom, Hex offset, short dword)
+        {
+            SetWordOrDWord(rom, offset, dword,false);
+        }
+        public static void SetWord(byte[] rom,Hex offset, short word)
+        {
+            SetWordOrDWord(rom, offset, word);
+        }
+         static void SetWordOrDWord(byte[] rom, Hex offset, short word,bool isWord=true)
+        {
+            if (offset < 0 || offset + (int)Longitud.Word > rom.Length || word < short.MinValue || word > short.MaxValue)
                 throw new ArgumentOutOfRangeException();
             int zonaWord = (int)offset;
-            int wordAux = (int)word;
             unsafe
             {
                 byte* ptrDatos;
-                fixed (byte* ptDatos = rom.Datos)
+                fixed (byte* ptDatos = rom)
                 {
                     ptrDatos = ptDatos;
                     ptrDatos += zonaWord;
-                    *ptrDatos = Convert.ToByte((wordAux & 0xff));
+                    if(isWord)
+                        *ptrDatos = Convert.ToByte((word & 0xff));
+                    else
+                        *ptrDatos = Convert.ToByte(((word >> 8) & 0xff));
                     ptrDatos++;
-                    *ptrDatos = Convert.ToByte(((wordAux >> 8) & 0xff));
+                    if(isWord)
+                        *ptrDatos = Convert.ToByte(((word >> 8) & 0xff));
+                    else
+                        *ptrDatos = Convert.ToByte((word & 0xff));
                 }
             }
 
         }
 
-        public static Hex GetWord(RomGBA rom, Hex offsetWord)
+        public static short GetWord(RomGBA rom, Hex offsetWord)
         {
-            if (offsetWord + (int)Longitud.Word > rom.Datos.Length)
+            return GetWord(rom.Datos, offsetWord);
+        }
+        public static short GetWord(byte[] bytes, Hex offsetWord)
+        {
+            return GetWordOrDWord(bytes, offsetWord);
+        }
+        public static short GetDWord(RomGBA rom, Hex offsetDWord)
+        {
+            return GetDWord(rom.Datos, offsetDWord);
+        }
+        public static short GetDWord(byte[] bytes,Hex offsetDWord)
+        {
+            return GetWordOrDWord(bytes, offsetDWord, false);
+        }
+
+        static short GetWordOrDWord(byte[] bytes,Hex offsetWordOrDWord,bool esWord=true)
+        {
+            if (offsetWordOrDWord + (int)Longitud.Word > bytes.Length)
                 throw new ArgumentOutOfRangeException();
-            ushort num;
-            uint offsetWordP2 = (uint)offsetWord + 1;
+            short num;
+            byte[] bytesWordOrDWord;
+            uint offsetWordP1 = (uint)offsetWordOrDWord;
+            uint offsetWordP2 = offsetWordP1 + 1;
             unsafe
             {
-                fixed(byte* ptrDatos=rom.Datos)
-                     num = Convert.ToUInt16(ptrDatos[offsetWord] | (ptrDatos[offsetWordP2] << 8));
+                fixed (byte* ptrDatos = bytes)
+                    if(!esWord)
+                      bytesWordOrDWord = new byte[] { ptrDatos[offsetWordP2], ptrDatos[offsetWordP1] };
+                    else
+                      bytesWordOrDWord = new byte[] { ptrDatos[offsetWordP1], ptrDatos[offsetWordP2] };
+
+                num = Serializar.ToShort(bytesWordOrDWord);
             }
-            return (Hex)(uint)num;
+            return num;
         }
     }
     /// <summary>
@@ -244,7 +289,7 @@ namespace PokemonGBAFrameWork
         /// <summary>
         /// Sirve para poder usarse entre clases de forma global
         /// </summary>
-        public static ListaUnica<Zona> DiccionarioOffsetsZonas = new ListaUnica<Zona>();
+        public static LlistaOrdenada<Zona> DiccionarioOffsetsZonas = new LlistaOrdenada<Zona>();
 
 
         string variable;
