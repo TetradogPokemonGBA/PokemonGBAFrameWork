@@ -264,9 +264,7 @@ namespace PokemonGBAFrameWork
 				if (indice == edicionesCanon.Length)
 					throw new InvalidRomFormat();//si no es ninguna edicion canon es que no tiene el formato correcto
 				if (aux.Abreviacion != ABREVIACIONRUBI) {
-					//como Rubi/Zafiro  no se pueden diferenciar lo hago aqui
-					
-					//puede ser zafiro pero no se detectarla...
+                    aux = Ataque.GetEdicion(rom);
 					
 				}
 				edicion.AbreviacionRom = aux.AbreviacionRom;

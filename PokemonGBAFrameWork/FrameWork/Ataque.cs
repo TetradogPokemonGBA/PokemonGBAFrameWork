@@ -70,19 +70,29 @@ namespace PokemonGBAFrameWork
             //descripcion
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xe5440,0xe5454);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xe5440, 0xe5454);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0494,0xA04B4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xA0494, 0xA04B4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1C3EFC);
             //script batalla
             zonaScriptBatalla.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x162D4);
             zonaScriptBatalla.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x16364, 0x16378);
             zonaScriptBatalla.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x162D4);
             zonaScriptBatalla.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x16364, 0x16378);
-            //animacion
+            //animacion CON ESTO PUEDO DIFERENCIAR LAS VERSIONES ZAFIRO Y RUBI Y SUS COMPILACIONES :D
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x72608);
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x7250D0, 0x725E4);
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x72608);
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x7250D0, 0x725E4);
+            zonaAnimacion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x75734, 0x75754);
+            zonaAnimacion.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x75738, 0x75758);
+            zonaAnimacion.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xA3A44);
+            zonaAnimacion.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xA3A58);
+            zonaAnimacion.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x75BF0);
+            zonaAnimacion.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x75BF4);
         }
 
         BloqueString nombre;
+        BloqueString descripcion;
 
         public BloqueString Nombre
         {
@@ -107,6 +117,38 @@ namespace PokemonGBAFrameWork
             BloqueBytes.RemoveBytes(rom, offsetNombre, (int)LongitudCampos.Nombre);
             BloqueString.SetString(rom, offsetNombre,ataque.Nombre);
            
+        }
+        /// <summary>
+        /// Sirve para encontrar la edicion facilmente :D
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <returns></returns>
+        internal static Edicion GetEdicion(RomGBA rom)
+        {
+            Edicion edicion=Edicion.ZafiroEsp;
+            if(!Offset.IsAPointer( Zona.GetOffset(rom,Variables.Animacion,edicion)))
+            {
+                edicion = Edicion.RubiEsp;
+                if (!Offset.IsAPointer(Zona.GetOffset(rom, Variables.Animacion, edicion)))
+                {
+                    edicion = Edicion.RubiUsa;
+                    if (!Offset.IsAPointer(Zona.GetOffset(rom, Variables.Animacion, edicion,CompilacionRom.Compilacion.Primera)))
+                    {
+                        if (!Offset.IsAPointer(Zona.GetOffset(rom, Variables.Animacion, edicion,CompilacionRom.Compilacion.Segunda)))
+                        {
+                            edicion = Edicion.ZafiroUsa;
+                            if (!Offset.IsAPointer(Zona.GetOffset(rom, Variables.Animacion, edicion, CompilacionRom.Compilacion.Primera)))
+                            {
+                                if (!Offset.IsAPointer(Zona.GetOffset(rom, Variables.Animacion, edicion, CompilacionRom.Compilacion.Segunda)))
+                                {
+                                    throw new Exception("Solo se puede obtener con este metodo las ediciones Rubi y zafiro ESP y USA");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return edicion;
         }
     }
 }

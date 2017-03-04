@@ -235,19 +235,17 @@ namespace PokemonGBAFrameWork
         }
         internal static bool ValidarOffset(RomGBA rom, Edicion edicion, Hex offsetInicioDescripcion)
         {
-            Hex offsetByteValidador;
-            byte byteValidador;
+            Hex offsetValidador;
             bool valido=offsetInicioDescripcion>-1;//si el offset no es valido devuelve -1 
             if (valido)
             {
-                offsetByteValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ + (int)Longitud.Offset - 1;
-                byteValidador = rom.Datos[offsetByteValidador];
-                valido = (byteValidador == 0x8 || byteValidador == 0x9);
+                offsetValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ ;
+         
+                valido = Offset.IsAPointer(rom, offsetValidador);
                 if (valido && (edicion.AbreviacionRom == Edicion.ABREVIACIONZAFIRO || edicion.AbreviacionRom == Edicion.ABREVIACIONRUBI))
                 {
-                    offsetByteValidador += (int)Longitud.Offset;
-                    byteValidador = rom.Datos[offsetByteValidador];
-                    valido = (byteValidador == 0x8 || byteValidador == 0x9);
+                    offsetValidador += (int)Longitud.Offset;
+                    valido = Offset.IsAPointer(rom, offsetValidador);
                 }
             }
             return valido;
@@ -412,18 +410,18 @@ namespace PokemonGBAFrameWork
             tamañoPokemon = Word.GetWord(bytesDescripcion.Bytes,bytesDescripcion.Bytes.Length - 10);
             tamañoEntrenador = Word.GetWord(bytesDescripcion.Bytes, bytesDescripcion.Bytes.Length - 6);
            
-            /* //que lio -.- aun no me sale...
-         [CD BF BF BE FF 00 00 00 00 00 00 00=>NombreEspecie]
-         [0A 00 =>Altura]
-         [82 00 =>Peso]
-         [1C 4D 44 08=>descripcionPokedex]
-         [8B 4D 44 08=>descripcionPokedex]2 //solo en Rubi y Zafiro en Rojo y Verde apuntan a 0xFF y si les pones texto no se pueden usar en la pokedex...será que en la pokedex no hay mas de una pagina...
-         [00 00=>No se]
-         [4C 01=>escala pokemon]
-         [0B 00=>Against offset1??]
-         [00 01=> escala entrenador]
-         [FE FF=>Against offset2??]
-         [00 00=>No se]
+            /* 
+          [CD BF BF BE FF 00 00 00 00 00 00 00=>NombreEspecie]
+          [0A 00 =>Altura]
+          [82 00 =>Peso]
+          [1C 4D 44 08=>descripcionPokedex]
+          [8B 4D 44 08=>descripcionPokedex]2 //solo en Rubi y Zafiro en Rojo y Verde apuntan a 0xFF y si les pones texto no se pueden usar en la pokedex...será que en la pokedex no hay mas de una pagina...
+        12[00 00=>No se]
+        10[4C 01=>escala pokemon]
+         8[0B 00=>Against offset1??]
+         6[00 01=> escala entrenador]
+         4[FE FF=>Against offset2??]
+         2[00 00=>No se]
              */
             direccionPokemon = Word.GetWord(bytesDescripcion.Bytes, bytesDescripcion.Bytes.Length - 8);
             direccionEntrenador = Word.GetWord(bytesDescripcion.Bytes, bytesDescripcion.Bytes.Length - 4);
@@ -443,9 +441,10 @@ namespace PokemonGBAFrameWork
             {
                 descripcionPokedex = new Descripcion(nombreEspecie, descripcion,peso,altura,tamañoPokemon,tamañoEntrenador, direccionPokemon, direccionEntrenador);//mas adelante poner todos los campos
             }
-            //pongo los datos que aun no se que son...
+            //pongo los datos que aun no se que son...de momento en todas las ediciones son 0x00
             descripcionPokedex.numero = numero;
             descripcionPokedex.numero2 = numero2;
+      
             return descripcionPokedex;
         }
         public static int TotalEntradas(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
@@ -453,11 +452,9 @@ namespace PokemonGBAFrameWork
             int total=0;
 
             while (PokemonGBAFrameWork.Descripcion.ValidarIndicePokemon(rom, edicion, compilacion, total))
-                total+=30;
+                total+=3;
             while (!PokemonGBAFrameWork.Descripcion.ValidarIndicePokemon(rom, edicion, compilacion, total))
-                total -= 10;
-            while (PokemonGBAFrameWork.Descripcion.ValidarIndicePokemon(rom, edicion, compilacion, total))
-                total++;
+                total--;
 
             return total;
         }

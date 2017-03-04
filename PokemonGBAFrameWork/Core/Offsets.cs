@@ -197,6 +197,18 @@ namespace PokemonGBAFrameWork
 
             return offset;
         }
+
+        public static bool IsAPointer(Hex pointerToCheck)
+        {
+            string stringHex = pointerToCheck.ByteString;
+            return stringHex.EndsWith("08") || stringHex.EndsWith("09");
+        }
+
+        public static bool IsAPointer(RomGBA rom, Hex offsetByteValidador)
+        {
+            byte byteValidador = rom.Datos[offsetByteValidador+(int)Longitud.Offset-1];
+            return (byteValidador == 0x8 || byteValidador == 0x9);
+        }
     }
     public static class Word
     {
