@@ -73,6 +73,11 @@ namespace PokemonGBAFrameWork
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0494,0xA04B4);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xA0494, 0xA04B4);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1C3EFC);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1C3B1C);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA06C8);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA06C8);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xE574C);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0XE5724);
             //script batalla
             zonaScriptBatalla.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x162D4);
             zonaScriptBatalla.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x16364, 0x16378);
@@ -135,7 +140,7 @@ namespace PokemonGBAFrameWork
         public static int GetTotalAtaques(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
         {
             Hex offsetDescripciones = Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion);
-            int total = 0;
+            int total = 1;//el primero lo salto porque no tiene descripcion :)
             while(Offset.IsAPointer(rom,offsetDescripciones))
             {
                 offsetDescripciones += (int)Longitud.Offset;//avanzo hasta la proxima descripcion :)
@@ -161,7 +166,8 @@ namespace PokemonGBAFrameWork
         public static Ataque GetAtaque(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             BloqueString nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreAtaque, edicion, compilacion) + posicion * (int)LongitudCampos.Nombre, (int)LongitudCampos.Nombre,true);
-            BloqueString descripcion = BloqueString.GetString(rom,Offset.GetOffset( rom,Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + posicion * (int)LongitudCampos.Descripcion));
+            //la descripcion del primer ataque no existe y todas las descripciones se retrasan 1
+            BloqueString descripcion = BloqueString.GetString(rom,Offset.GetOffset( rom,Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion==0?posicion:posicion-1) * (int)LongitudCampos.Descripcion));
             return new Ataque() { Nombre = nombre,Descripcion=descripcion };
         }
         public static void SetAtaque(RomData rom, Hex posicion, Ataque ataque)
