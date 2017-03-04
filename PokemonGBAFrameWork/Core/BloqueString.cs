@@ -122,7 +122,7 @@ namespace PokemonGBAFrameWork
                     offsetFin += MAXIMODECARACTERESDESHABILITADO;
                 else 
                 {
-                    offsetFin += Texto.Length ;
+                    offsetFin += LengthInnerRom;
                     if (acabaEnFFByte)
                         offsetFin++;
                 }
@@ -139,6 +139,12 @@ namespace PokemonGBAFrameWork
             set
             {
                 acabaEnFFByte = value;
+            }
+        }
+
+        public Hex LengthInnerRom {
+            get {
+                return ToByteArray(Texto).Length;
             }
         }
 

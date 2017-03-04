@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork
             Datos=12,
             PointerEfecto=4,
             Efecto,//de momento no sé el máximo...
-            Descripcion,//de momento no se cual es el maximo acaba en FE
+            Descripcion=4,//es un pointer al texto
             ScriptBatalla,
             Animacion
         }
@@ -68,8 +68,8 @@ namespace PokemonGBAFrameWork
             zonaEfectoAtaque.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x72608);
             zonaEfectoAtaque.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x725D0, 0x725E4);
             //descripcion
-            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xe5440,0xe5454);
-            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xe5440, 0xe5454);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xE5440, 0xE5454);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xE5418, 0xE542C);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0494,0xA04B4);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xA0494, 0xA04B4);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1C3EFC);
@@ -91,7 +91,11 @@ namespace PokemonGBAFrameWork
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x75BF4);
         }
 
+       
+
         BloqueString nombre;
+
+
         BloqueString descripcion;
 
         public BloqueString Nombre
@@ -106,17 +110,86 @@ namespace PokemonGBAFrameWork
                 nombre = value;
             }
         }
+
+        public BloqueString Descripcion
+        {
+            get
+            {
+                return descripcion;
+            }
+
+           private set
+            {
+                descripcion = value;
+            }
+        }
+        public override string ToString()
+        {
+            return Nombre+"\n"+Descripcion;
+        }
+
+        public static int GetTotalAtaques(RomData rom)
+        {
+            return GetTotalAtaques(rom.RomGBA, rom.Edicion, rom.Compilacion);
+        }
+        public static int GetTotalAtaques(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        {
+            Hex offsetDescripciones = Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion);
+            int total = 0;
+            while(Offset.IsAPointer(rom,offsetDescripciones))
+            {
+                offsetDescripciones += (int)Longitud.Offset;//avanzo hasta la proxima descripcion :)
+                total++;
+            }
+            return total;
+        }
+        public static Ataque[] GetAtaques(RomData romData)
+        {
+            return GetAtaques(romData.RomGBA, romData.Edicion, romData.Compilacion);
+        }
+        public static Ataque[] GetAtaques(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        {
+            Ataque[] ataques = new Ataque[GetTotalAtaques(rom,edicion,compilacion)];
+            for (int i = 0; i < ataques.Length; i++)
+                ataques[i] = GetAtaque(rom, edicion, compilacion,i);
+            return ataques;
+        }
+        public static Ataque GetAtaque(RomData rom, Hex posicion)
+        {
+            return GetAtaque(rom.RomGBA, rom.Edicion, rom.Compilacion, posicion);
+        }
         public static Ataque GetAtaque(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             BloqueString nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreAtaque, edicion, compilacion) + posicion * (int)LongitudCampos.Nombre, (int)LongitudCampos.Nombre,true);
-            return new Ataque() { Nombre = nombre };
+            BloqueString descripcion = BloqueString.GetString(rom,Offset.GetOffset( rom,Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + posicion * (int)LongitudCampos.Descripcion));
+            return new Ataque() { Nombre = nombre,Descripcion=descripcion };
+        }
+        public static void SetAtaque(RomData rom, Hex posicion, Ataque ataque)
+        {
+            SetAtaque(rom.RomGBA, rom.Edicion, rom.Compilacion, posicion, ataque);
         }
         public static void SetAtaque(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion,Ataque ataque)
         {
             Hex offsetNombre = Zona.GetOffset(rom, Variables.NombreAtaque, edicion, compilacion) + posicion * (int)LongitudCampos.Nombre;
+            Hex offsetDescripcion = Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + posicion * (int)LongitudCampos.Descripcion);
+            //nombre
             BloqueBytes.RemoveBytes(rom, offsetNombre, (int)LongitudCampos.Nombre);
             BloqueString.SetString(rom, offsetNombre,ataque.Nombre);
+            //descripcion
+            BloqueBytes.RemoveBytes(rom, offsetDescripcion, ataque.descripcion.LengthInnerRom);
+            BloqueString.SetString(rom, offsetDescripcion, ataque.Descripcion);
            
+        }
+        public static void SetAtaques(RomData romData, IList<Ataque> ataques)
+        {
+            SetAtaques(romData.RomGBA, romData.Edicion, romData.Compilacion,ataques);
+        }
+        public static void SetAtaques(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, IList<Ataque> ataques)
+        {
+            for(int i=0;i<ataques.Count;i++)
+            {
+                SetAtaque(rom, edicion, compilacion, i, ataques[i]);
+            }
         }
         /// <summary>
         /// Sirve para encontrar la edicion facilmente :D

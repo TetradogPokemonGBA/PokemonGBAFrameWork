@@ -17,13 +17,15 @@ namespace PokemonGBAFrameWork
         Llista<Tipo> tipos;
         Llista<Objeto> objetos;
         Llista<Pokemon> pokedex;
+        Llista<Ataque> ataques;
         Edicion edicion;
         CompilacionRom.Compilacion compilacion;
         RomGBA rom;
         Entrenadores entrenadoresClasss;
-        public RomData(RomGBA rom,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, Entrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
+        public RomData(RomGBA rom,IEnumerable<Ataque> ataques,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, Entrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
             RomGBA = rom;
+            this.ataques.AddRange(ataques);
             this.habilidades.AddRange(habilidades);
             this.tipos.AddRange(tipos);
             this.objetos.AddRange(objetos);
@@ -44,6 +46,7 @@ namespace PokemonGBAFrameWork
             pokedex = new Llista<Pokemon>();
             edicion = new Edicion("","",'o');
             Entrenadores = new Llista<Entrenador>();
+            ataques = new Llista<Ataque>();
         }
 
         public RomData(RomGBA rom):this()
@@ -57,7 +60,8 @@ namespace PokemonGBAFrameWork
             this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
             this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
             EntrenadoresClases = PokemonGBAFrameWork.Entrenadores.GetEntrenadoresClases(this);
-
+            Ataques.AddRange(Ataque.GetAtaques(this));
+           
         }
 
         public Llista<Entrenador> Entrenadores
@@ -156,7 +160,18 @@ namespace PokemonGBAFrameWork
             }
         }
 
-    
+        public Llista<Ataque> Ataques
+        {
+            get
+            {
+                return ataques;
+            }
+
+           private set
+            {
+                ataques = value;
+            }
+        }
 
         public void SetRomData()
         {
@@ -175,6 +190,8 @@ namespace PokemonGBAFrameWork
             objetos.AddRange(romLoaded.objetos);
             tipos.Clear();
             tipos.AddRange(romLoaded.tipos);
+            ataques.Clear();
+            ataques.AddRange(romLoaded.Ataques);
         }
         public static void SetRomData(RomData romData)
         {
@@ -185,6 +202,7 @@ namespace PokemonGBAFrameWork
             Edicion.SetEdicion(romData.RomGBA, romData.Edicion);
             PokemonGBAFrameWork.Entrenadores.SetSpritesEntrenadores(romData);
             Entrenador.SetEntrenadores(romData);
+            Ataque.SetAtaques(romData, romData.Ataques);
         }
     }
 }
