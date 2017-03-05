@@ -9,6 +9,47 @@ namespace PokemonGBAFrameWork
 {
    public class AtaquesAprendidos
     {
+        public struct AtaqueAprendido
+        {
+            short ataque;
+            byte nivel;
+ 
+
+      
+            public AtaqueAprendido(short ataque, byte nivel)
+            {
+                this.ataque = ataque;
+                this.nivel = nivel;
+            }
+
+            public short Ataque
+            {
+                get
+                {
+                    return ataque;
+                }
+
+                set
+                {
+                    ataque = value;
+                }
+            }
+
+            public byte Nivel
+            {
+                get
+                {
+                    return nivel;
+                }
+
+                set
+                {
+                    if (value > 100)
+                        throw new ArgumentOutOfRangeException();
+                    nivel = value;
+                }
+            }
+        }
         enum Variable
         {
             AtaquesAprendidos
@@ -16,8 +57,8 @@ namespace PokemonGBAFrameWork
       
         public static readonly byte[] MarcaFin;
 
-        BloqueBytes bytesAtaqueAprendido;
-
+        Hex offsetBytesAtaqueAprendido;
+        Llista<AtaqueAprendido> ataques;
 
         static AtaquesAprendidos()
         {
@@ -37,18 +78,59 @@ namespace PokemonGBAFrameWork
 
             Zona.DiccionarioOffsetsZonas.Add(zonaAtaquesAprendidos);
         }
-
-        public BloqueBytes BytesAtaqueAprendido
+        public AtaquesAprendidos()
+        {
+            Ataques = new Llista<AtaqueAprendido>();
+        }
+        public Hex OffsetBytesAtaqueAprendido
         {
             get
             {
-                return bytesAtaqueAprendido;
+                return offsetBytesAtaqueAprendido;
             }
 
-            private set
+            set
             {
-                bytesAtaqueAprendido = value;
+                offsetBytesAtaqueAprendido = value;
             }
+        }
+
+        public Llista<AtaqueAprendido> Ataques
+        {
+            get
+            {
+                return ataques;
+            }
+
+           private set
+            {
+                ataques = value;
+            }
+        }
+        public byte[] ToBytesGBA()
+        {
+            byte[] bytesGBA = new byte[ataques.Count * 2 + MarcaFin.Length];
+            unsafe
+            {
+                byte* ptrBytesGBA;
+                fixed (byte* ptBytesGBA = bytesGBA)
+                {
+                    ptrBytesGBA = ptBytesGBA;
+                    for (int i = 0, f = bytesGBA.Length - 2; i < f; i += 2)
+                    {
+                        *ptrBytesGBA = (byte)(ataques[i].Ataque % byte.MaxValue);
+                        ptrBytesGBA++;
+                        if (ataques[i].Ataque > byte.MaxValue)
+                            *ptrBytesGBA = 0x1;
+                        *ptrBytesGBA += (byte)(ataques[i].Nivel << 1);
+                        ptrBytesGBA++;
+                    }
+                    *ptrBytesGBA = MarcaFin[0];
+                    ptrBytesGBA++;
+                    *ptrBytesGBA = MarcaFin[1];
+                }
+            }
+            return bytesGBA;
         }
         public static AtaquesAprendidos GetAtaquesAprendidos(RomData rom, Hex indexPokemon)
         { return GetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon); }
@@ -56,7 +138,13 @@ namespace PokemonGBAFrameWork
         {
             Hex offset = Offset.GetOffset(rom,GetOffsetPrimerPointer(rom,edicion,compilacion) + indexPokemon * (int)Longitud.Offset);
             BloqueBytes bloque = BloqueBytes.GetBytes(rom,offset,MarcaFin);
-            return new AtaquesAprendidos() { BytesAtaqueAprendido = bloque };
+            AtaquesAprendidos ataquesAprendidos = new AtaquesAprendidos();
+            //pongo los ataques
+            for(int i=0;i<bloque.Bytes.Length;i+=2)
+            {
+                ataquesAprendidos.Ataques.Add(new AtaqueAprendido((short)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue)),(byte)(bloque.Bytes[i+1]>>1)));
+            }
+            return ataquesAprendidos;
         }
         private static Hex GetOffsetPrimerPointer(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
         {
@@ -69,10 +157,10 @@ namespace PokemonGBAFrameWork
             Hex offset = Offset.GetOffset(rom,Zona.GetOffset(rom, Variable.AtaquesAprendidos, edicion, compilacion) + indexPokemon * (int)Longitud.Offset);
             BloqueBytes bloqueOri = BloqueBytes.GetBytes(rom,offset, MarcaFin);
             BloqueBytes.RemoveBytes(rom, bloqueOri.OffsetInicio, bloqueOri.Bytes.Length);
-            if (ataquesAprendidos.BytesAtaqueAprendido.Bytes[ataquesAprendidos.BytesAtaqueAprendido.Bytes.Length - 2] != MarcaFin[0] || ataquesAprendidos.BytesAtaqueAprendido.Bytes[ataquesAprendidos.BytesAtaqueAprendido.Bytes.Length - 1] != MarcaFin[1])
-                ataquesAprendidos.BytesAtaqueAprendido.Bytes = ataquesAprendidos.BytesAtaqueAprendido.Bytes.AddArray(MarcaFin);
-            Offset.SetOffset(rom, offset, BloqueBytes.SetBytes(rom, ataquesAprendidos.BytesAtaqueAprendido.Bytes));
+            Offset.SetOffset(rom, offset, BloqueBytes.SetBytes(rom, ataquesAprendidos.ToBytesGBA()));
         }
+
+
 
         internal static int GetTotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
