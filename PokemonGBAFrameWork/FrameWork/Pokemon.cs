@@ -918,19 +918,7 @@ namespace PokemonGBAFrameWork
         }
         public static int TotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            //int total = Descripcion.TotalEntradas(rom, edicion, compilacion);
-            //total += TotalNoPokemon(rom,edicion,compilacion,total);
-            //return total;
             return AtaquesAprendidos.GetTotalPokemon(rom, edicion, compilacion);
-        }
-        static int TotalNoPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, int total)
-        {
-            int totalAux = total++;
-            while (Huella.PoscionIsOK(rom, edicion, compilacion, total))
-            {
-                total++;
-            }
-            return total - totalAux;
         }
         public static Pokemon GetPokemon(RomGBA rom, Hex ordenGameFreak)
         {

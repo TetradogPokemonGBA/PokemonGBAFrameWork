@@ -9,13 +9,11 @@ namespace PokemonGBAFrameWork
 {
    public class AtaquesAprendidos
     {
-        public struct AtaqueAprendido
+        public struct AtaqueAprendido:IComparable<AtaqueAprendido>
         {
             short ataque;
             byte nivel;
- 
 
-      
             public AtaqueAprendido(short ataque, byte nivel)
             {
                 this.ataque = ataque;
@@ -44,10 +42,18 @@ namespace PokemonGBAFrameWork
 
                 set
                 {
-                    if (value > 100)
+                    if (value > 127)//ya se que el maximo es 100 pero por formato podria guardarse asi...   que lo aprenda es otra cosa
                         throw new ArgumentOutOfRangeException();
                     nivel = value;
                 }
+            }
+
+            public int CompareTo(AtaqueAprendido other)
+            {
+                int compareTo = Nivel.CompareTo(other.Nivel);
+                if (compareTo == (int)Gabriel.Cat.CompareTo.Iguales)
+                    compareTo = Ataque.CompareTo(other.Ataque);
+                return compareTo;
             }
         }
         enum Variable
@@ -110,6 +116,9 @@ namespace PokemonGBAFrameWork
         public byte[] ToBytesGBA()
         {
             byte[] bytesGBA = new byte[ataques.Count * 2 + MarcaFin.Length];
+
+            Ataques.Sort();
+
             unsafe
             {
                 byte* ptrBytesGBA;
@@ -136,6 +145,7 @@ namespace PokemonGBAFrameWork
         { return GetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon); }
         public static AtaquesAprendidos GetAtaquesAprendidos(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex indexPokemon)
         {
+            //missigno de por si usa el mismo puntero que bulbasaur por eso tienen los mismos ataques,supongo que sera para que no de error y no ocupar espacio...
             Hex offset = Offset.GetOffset(rom,GetOffsetPrimerPointer(rom,edicion,compilacion) + indexPokemon * (int)Longitud.Offset);
             BloqueBytes bloque = BloqueBytes.GetBytes(rom,offset,MarcaFin);
             AtaquesAprendidos ataquesAprendidos = new AtaquesAprendidos();
@@ -144,6 +154,8 @@ namespace PokemonGBAFrameWork
             {
                 ataquesAprendidos.Ataques.Add(new AtaqueAprendido((short)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue)),(byte)(bloque.Bytes[i+1]>>1)));
             }
+            ataquesAprendidos.Ataques.Sort();//por si lo hacen de forma externa que lo lea bien :)
+
             return ataquesAprendidos;
         }
         private static Hex GetOffsetPrimerPointer(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
