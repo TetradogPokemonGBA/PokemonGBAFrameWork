@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork
 {
     //mirar de hacer lo que hace Sappy :3 y poder importar desde wave,midi y exportar tambien :D
     //poder añadir instrumentos,quitarlos y editarlos :D
-    /*  class BloqueSonido
+    /*  class BloqueSonido:ObjectAutoId
       {
           enum Posicion
           {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PokemonGBAFrameWork
 {//es muy extenso..por acabar de desarrollar (hacer clase para trabajar los efectos cómodamente y las demás partes que lo requieran
-   public class Ataque
+   public class Ataque:ObjectAutoId
     {
         //son 9 bits en total de alli el 511 :) asi en 2 bytes hay ataque y nivel :)
         public const int MAXATAQUESSINASM = 511;//hasta que no sepa como se cambia para poner más se queda este maximo :) //hay un tutorial de como hacerlo pero se necesita insertar una rutina ASM link:http://www.pokecommunity.com/showthread.php?t=263479

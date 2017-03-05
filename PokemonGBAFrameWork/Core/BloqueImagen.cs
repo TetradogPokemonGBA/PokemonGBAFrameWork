@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PokemonGBAFrameWork
 {
-    public class BloqueImagen
+    public class BloqueImagen:ObjectAutoId
     {
 
         Hex offsetPointerImg;
@@ -754,7 +754,7 @@ namespace PokemonGBAFrameWork
 
     }
 
-    public class Paleta
+    public class Paleta:ObjectAutoId
     {
         public const int TAMAÑOPALETACOMPRIMIDA = 32;
         public static Color BackgroundColorDefault = Color.Transparent;

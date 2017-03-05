@@ -11,7 +11,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Tiene todas las cosas de la rom por grupos.//se tiene que acabar...
     /// </summary>
-  public  class RomData
+  public  class RomData:ObjectAutoId
     {
         Llista<Habilidad> habilidades;
         Llista<Tipo> tipos;

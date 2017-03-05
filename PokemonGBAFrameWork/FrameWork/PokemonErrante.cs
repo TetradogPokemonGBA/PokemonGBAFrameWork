@@ -10,7 +10,7 @@ namespace PokemonGBAFrameWork
 {
     public static class PokemonErrante
     {
-        public class Ruta
+        public class Ruta:ObjectAutoId
         {
             enum Variables
             {

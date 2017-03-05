@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Sirve para identificar la rom y poder obtener los offsets que tocan :)
 	/// </summary>
-	public class Edicion:IComparable<Edicion>,IComparable
+	public class Edicion:ObjectAutoId,IComparable<Edicion>,IComparable
 	{
 		public enum OffsetsCampos
 		{

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 //información obtenida de https://github.com/Jambo51/Trainer_Editor
 namespace PokemonGBAFrameWork
 {
-    public class Entrenadores
+    public class Entrenadores:ObjectAutoId
     {
         enum Longitud
         {
@@ -214,7 +214,7 @@ namespace PokemonGBAFrameWork
         }
 
     }
-    public class Entrenador//ocupa 40bytes
+    public class Entrenador:ObjectAutoId//ocupa 40bytes
     {
         public class Equipo
         {

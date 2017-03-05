@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of Pokemon.
     /// </summary>
-    public class Pokemon : IComparable, IComparable<Pokemon>
+    public class Pokemon :ObjectAutoId, IComparable, IComparable<Pokemon>
     {
         //en construccion
         public enum LongitudCampos

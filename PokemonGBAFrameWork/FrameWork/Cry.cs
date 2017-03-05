@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PokemonGBAFrameWork
 {
-    public class Cry
+    public class Cry:ObjectAutoId
     {
         enum VariableCry
         {

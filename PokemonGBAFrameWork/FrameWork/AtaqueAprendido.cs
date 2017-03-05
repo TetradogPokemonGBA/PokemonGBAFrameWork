@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
-   public class AtaquesAprendidos
+   public class AtaquesAprendidos:ObjectAutoId
     {
-        public struct AtaqueAprendido:IComparable<AtaqueAprendido>
+        public struct AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable<ObjectAutoId>
         {
+            ObjectAutoId obj;
             short ataque;
             byte nivel;
 
             public AtaqueAprendido(short ataque, byte nivel)
             {
+                obj = new ObjectAutoId();
                 this.ataque = ataque;
                 this.nivel = nivel;
             }
@@ -42,7 +44,7 @@ namespace PokemonGBAFrameWork
 
                 set
                 {
-                    if (value > 127)//ya se que el maximo es 100 pero por formato podria guardarse asi...   que lo aprenda es otra cosa
+                    if (value > 127)//ya se que el maximo es 100 pero por formato podria guardarse asi...   que lo aprenda es otra cosa tengo que mirar el minimos si es 1 o 0...
                         throw new ArgumentOutOfRangeException();
                     nivel = value;
                 }
@@ -53,6 +55,12 @@ namespace PokemonGBAFrameWork
                 int compareTo = Nivel.CompareTo(other.Nivel);
                 if (compareTo == (int)Gabriel.Cat.CompareTo.Iguales)
                     compareTo = Ataque.CompareTo(other.Ataque);
+                return compareTo;
+            }
+
+            public int CompareTo(ObjectAutoId other)
+            {
+                int compareTo = other == null ? (int)Gabriel.Cat.CompareTo.Inferior : obj.CompareTo(other);
                 return compareTo;
             }
         }

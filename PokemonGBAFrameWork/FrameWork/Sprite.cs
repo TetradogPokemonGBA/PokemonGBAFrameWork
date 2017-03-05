@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Es una clase para trabajar con las imagenes Frontales y Traseras de los pokemon
     /// </summary>
-    public class Sprite
+    public class Sprite:ObjectAutoId
     {
         public enum Variables
         {

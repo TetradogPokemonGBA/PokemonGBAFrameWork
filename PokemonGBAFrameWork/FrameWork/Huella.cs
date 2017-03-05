@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
-    public class Huella
+    public class Huella:ObjectAutoId
     {
         enum Variables { ImgHuella }
         enum LongitudHuella

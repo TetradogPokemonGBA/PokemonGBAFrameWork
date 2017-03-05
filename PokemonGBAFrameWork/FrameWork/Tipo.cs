@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace PokemonGBAFrameWork
 {
     
-  public  class Tipo
+  public  class Tipo:ObjectAutoId
     {
         public enum Variables
         { NombreTipo,ImagenTipo}

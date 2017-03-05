@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PokemonGBAFrameWork
 {
-   public class PokeballBattle
+   public class PokeballBattle:ObjectAutoId
     {
         //no son las pokeballs de los items son de la animacion de capturar :)
         public enum Variables

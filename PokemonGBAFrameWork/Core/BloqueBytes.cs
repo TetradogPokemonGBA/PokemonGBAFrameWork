@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of TratarBytes.
 	/// </summary>
-	public class BloqueBytes
+	public class BloqueBytes:ObjectAutoId
 	{
 		//el minimo y el maximo se tienen que estudiar :)
 		public static readonly int TamañoMinimoRom = 1;

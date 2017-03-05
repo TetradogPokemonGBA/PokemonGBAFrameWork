@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Objeto.
 	/// </summary>
-	public class Objeto
+	public class Objeto:ObjectAutoId
 	{
 		public enum Variables
 		{

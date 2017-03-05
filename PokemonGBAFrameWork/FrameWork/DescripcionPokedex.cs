@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of DescripcionPokedex.
     /// </summary>
-    public class Descripcion
+    public class Descripcion:ObjectAutoId
     {
         /*
 	 la altura y el peso pasados a kg y metros solo se tienen que dividir entre 10

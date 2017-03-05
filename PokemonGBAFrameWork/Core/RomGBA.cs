@@ -9,12 +9,14 @@
 using System;
 using System.IO;
 using Gabriel.Cat.Extension;
+using Gabriel.Cat;
+
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Es una clase para tener el archivo cargado y poderlo modificar comodamente por las demas clases
 	/// </summary>
-	public class RomGBA
+	public class RomGBA:ObjectAutoId
 	{
 		//hacer un historial con los cambios para poder ir atrás...
 		DirectoryInfo dirRom;

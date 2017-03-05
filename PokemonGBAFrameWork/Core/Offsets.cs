@@ -295,7 +295,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// las zonas son offsets donde se guardan offsets permutados.
     /// </summary>
-    public class Zona : IComparable, IComparable<Zona>, IClauUnicaPerObjecte
+    public class Zona :ObjectAutoId, IComparable, IComparable<Zona>, IClauUnicaPerObjecte
     {
         static readonly int NumeroCompilaciones = Enum.GetNames(typeof(CompilacionRom.Compilacion)).Length;
         /// <summary>

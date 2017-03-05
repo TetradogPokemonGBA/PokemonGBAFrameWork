@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of TratarString.
 	/// </summary>
-	public class BloqueString
+	public class BloqueString:ObjectAutoId
 	{
         enum CaracteresEspeciales
         {
