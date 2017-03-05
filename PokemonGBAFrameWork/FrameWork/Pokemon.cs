@@ -217,7 +217,7 @@ namespace PokemonGBAFrameWork
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException();
+                    value = new BloqueString();
                 if (value.Texto.Length > (int)LongitudCampos.Nombre)
                     throw new ArgumentOutOfRangeException("value", "el nombre no puede superar el maximo de caracteres que es " + (int)LongitudCampos.Nombre);
                 nombre = value;
@@ -260,7 +260,7 @@ namespace PokemonGBAFrameWork
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException();
+                    value = new DescripcionPokedexRubiZafiro();
                 descripcion = value;
             }
         }
@@ -289,6 +289,8 @@ namespace PokemonGBAFrameWork
 
             set
             {
+                if (value == null)
+                    value = new Huella();
                 huella = value;
             }
         }
@@ -302,6 +304,8 @@ namespace PokemonGBAFrameWork
 
             set
             {
+                if (value == null)
+                    value = new AtaquesAprendidos();
                 ataquesAprendidos = value;
             }
         }
@@ -320,8 +324,19 @@ namespace PokemonGBAFrameWork
 
             set
             {
-                if (value == null || value.Length != (int)LongitudCampos.TotalStats)
-                    throw new ArgumentException();
+                if(value == null)
+                {
+                    value = new byte[(int)LongitudCampos.TotalStats];
+                }
+               else if (value.Length < (int)LongitudCampos.TotalStats)
+                {
+                    value = value.AddArray(new byte[(int)LongitudCampos.TotalStats - value.Length]);
+                }
+                else
+                {
+                    value = value.SubArray((int)LongitudCampos.TotalStats);
+                }
+
                 stats = value;
             }
         }
@@ -844,65 +859,9 @@ namespace PokemonGBAFrameWork
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, (short) pokemon.OrdenPokedexLocal);
 
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2,(short) pokemon.OrdenPokedexNacional);
+
             AtaquesAprendidos.SetAtaquesAprendidos(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.AtaquesAprendidos);
 
-        }
-        //se tiene que replantear...
-        public static void SetPokedex(RomGBA rom, IEnumerable<Pokemon> pokedex)
-        {//por rehacer!!!cada cosa en su sitio!!!
-            if (rom == null || pokedex == null) throw new ArgumentNullException();
-            OrdenPokemon orden =Pokemon.Orden;
-            Pokemon.Orden = OrdenPokemon.GameFreak;
-            Pokemon[] pokemons = pokedex.Ordena().ToTaula();//asi los tengo ordenados por el orden de la gameFreak
-            Pokemon.Orden = orden;
-            Edicion edicion=Edicion.GetEdicion(rom);
-            CompilacionRom.Compilacion compilacion = CompilacionRom.GetCompilacion(rom, edicion);
-            int totalPokes = TotalPokemon(rom);
-            int totalBytesImgs = 0;
-            if (totalPokes != pokemons.Length)
-            {
-                //borro los anteriores y pongo los nuevos
-                //nombre
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion), totalPokes * (int)LongitudCampos.NombreCompilado);
-                //stats
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.Stats, edicion, compilacion), totalPokes * (int)LongitudCampos.TotalStats);
-                //DatosPokedex
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Descripcion.Variables.Descripcion, edicion, compilacion), totalPokes * (int)Descripcion.GetTotalBytes(Edicion.GetEdicion(rom)));
-                //ordenLocal
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion), totalPokes * 2);
-                //ordenNacional
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion), totalPokes * 2);
-                //imagenTrasera
-                BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), totalPokes - 1) - BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Sprite.Variables.SpriteTrasero, edicion, compilacion), 0));
-                //cambiar offsets para que quepan todos los datos :)
-                Zona.SetOffset(rom, Variables.Nombre, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)LongitudCampos.NombreCompilado));
-                Zona.SetOffset(rom, Variables.Stats, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)LongitudCampos.TotalStats));
-                Zona.SetOffset(rom, Variables.OrdenLocal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * 2));
-                Zona.SetOffset(rom, Variables.OrdenNacional, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * 2));
-                Zona.SetOffset(rom, Descripcion.Variables.Descripcion, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, pokemons.Length * (int)Descripcion.GetTotalBytes(Edicion.GetEdicion(rom))));
-                totalBytesImgs = 0;
-                for (int i = 0; i < pokemons.Length; i++)
-                    for (int j = 0; j < pokemons[i].Sprites.ImagenTrasera.Length; j++)
-                        totalBytesImgs += pokemons[i].Sprites.ImagenTrasera[j].TamañoImgComprimida;
-                Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
-            }
-            //imagenesFrontales
-            BloqueBytes.RemoveBytes(rom, Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), totalPokes - 1) - BloqueImagen.GetOffsetPointerImg(Zona.GetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion), 0));
-            //y lo que falta...
-
-            totalBytesImgs = 0;
-            //cambiar offsets para que quepan todos los datos :)
-            for (int i = 0; i < pokemons.Length; i++)
-                for (int j = 0; j < pokemons[i].Sprites.ImagenFrontal.Length; j++)
-                    totalBytesImgs += pokemons[i].Sprites.ImagenFrontal[j].TamañoImgComprimida;
-
-            Zona.SetOffset(rom, Sprite.Variables.SpriteFrontal, edicion, compilacion, BloqueBytes.SearchEmptyBytes(rom, totalBytesImgs));
-            //ahora toca poner los datos
-            for (int i = 0; i < pokemons.Length; i++)
-            {
-                pokemons[i].OrdenGameFreak = i;
-                SetPokemon(rom, edicion, compilacion, pokemons[i]);
-            }
         }
         public static int TotalPokemon(RomGBA rom)
         {

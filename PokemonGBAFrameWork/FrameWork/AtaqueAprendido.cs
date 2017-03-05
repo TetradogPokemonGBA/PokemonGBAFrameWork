@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork
             short ataque;
             byte nivel;
 
-            public AtaqueAprendido(short ataque, byte nivel)
+            public AtaqueAprendido(short ataque=0, byte nivel=1)
             {
                 obj = new ObjectAutoId();
                 this.ataque = ataque;
@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork
 
                 set
                 {
-                    if (value > 127)//ya se que el maximo es 100 pero por formato podria guardarse asi...   que lo aprenda es otra cosa tengo que mirar el minimos si es 1 o 0...
+                    if (value==0||value > 127)//ya se que el maximo es 100 pero por formato podria guardarse asi...   que lo aprenda es otra cosa
                         throw new ArgumentOutOfRangeException();
                     nivel = value;
                 }
@@ -148,6 +148,39 @@ namespace PokemonGBAFrameWork
                 }
             }
             return bytesGBA;
+        }
+        public AtaqueAprendido[] GetAtaquesAprendidos(Hex nivel)
+        {
+            const int MAXATACKSFIGHT = 4;
+            int posNivel=0;
+            byte nivelByte =(byte) nivel;
+            AtaqueAprendido[] ataques = new AtaqueAprendido[MAXATACKSFIGHT];
+            Ataques.Sort();
+            while (ataques[posNivel].Nivel <= nivel) posNivel++;
+            if(posNivel<MAXATACKSFIGHT)
+            {
+                for (int i = 0; i <= posNivel; i++)
+                    ataques[i] = Ataques[i];
+
+            }else
+            {
+                for (int i = posNivel, j = MAXATACKSFIGHT - 1; i >= 0; i--, j--)
+                    ataques[j] = Ataques[i];
+            }
+            return ataques;
+
+        }
+        public Ataque[] GetAtaques(Hex nivel,IList<Ataque> lstAtaquesSource)
+        {
+            if (lstAtaquesSource == null)
+                throw new ArgumentNullException();
+            const int MAXATACKSFIGHT = 4;
+            Ataque[] ataques = new Ataque[MAXATACKSFIGHT];
+            AtaqueAprendido[] ataquesAprendidos = GetAtaquesAprendidos(nivel);
+            for (int i = 0; i < MAXATACKSFIGHT; i++)
+                ataques[i] = lstAtaquesSource[ataquesAprendidos[i].Ataque];
+            return ataques;
+
         }
         public static AtaquesAprendidos GetAtaquesAprendidos(RomData rom, Hex indexPokemon)
         { return GetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon); }

@@ -198,7 +198,7 @@ namespace PokemonGBAFrameWork
             Habilidad.SetHabilidades(romData.RomGBA, romData.Habilidades);
             Tipo.SetTipos(romData.RomGBA, romData.Tipos);
             Objeto.SetObjetos(romData.RomGBA, romData.Objetos);
-            Pokemon.SetPokedex(romData.RomGBA, romData.Pokedex);
+            //Pokemon.SetPokedex(romData.RomGBA, romData.Pokedex);
             Edicion.SetEdicion(romData.RomGBA, romData.Edicion);
             PokemonGBAFrameWork.Entrenadores.SetSpritesEntrenadores(romData);
             Entrenador.SetEntrenadores(romData);
