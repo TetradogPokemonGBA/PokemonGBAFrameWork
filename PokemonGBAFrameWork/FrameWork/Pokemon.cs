@@ -124,11 +124,12 @@ namespace PokemonGBAFrameWork
         Descripcion descripcion;
         Sprite sprites;
         Huella huella;
+        AtaquesAprendidos ataquesAprendidos;
         /*por desarrollar
 		
 		//falts miniSprites 64x32 por mirar :D
 		//falta Cry
-		//falta ataques, mt y mo
+		//falta  mt y mo
 		*/
         static Pokemon()
         {
@@ -279,7 +280,31 @@ namespace PokemonGBAFrameWork
                 sprites = value;
             }
         }
+        public Huella Huella
+        {
+            get
+            {
+                return huella;
+            }
 
+            set
+            {
+                huella = value;
+            }
+        }
+
+        public AtaquesAprendidos AtaquesAprendidos
+        {
+            get
+            {
+                return ataquesAprendidos;
+            }
+
+            set
+            {
+                ataquesAprendidos = value;
+            }
+        }
 
         //para poder hacer el set necesito saber el total de objetos para poder guardar los objetos que puede llevar...
         /// <summary>
@@ -684,18 +709,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public Huella Huella
-        {
-            get
-            {
-                return huella;
-            }
-
-            set
-            {
-                huella = value;
-            }
-        }
+    
 
         public void SetObjetosEnLosStats(int totalObjetos)
         {
@@ -744,6 +758,7 @@ namespace PokemonGBAFrameWork
 
         }
         #endregion
+
         #endregion
 
 
@@ -829,6 +844,7 @@ namespace PokemonGBAFrameWork
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2, (short) pokemon.OrdenPokedexLocal);
 
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2,(short) pokemon.OrdenPokedexNacional);
+            AtaquesAprendidos.SetAtaquesAprendidos(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.AtaquesAprendidos);
 
         }
         //se tiene que replantear...
@@ -902,9 +918,10 @@ namespace PokemonGBAFrameWork
         }
         public static int TotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            int total = Descripcion.TotalEntradas(rom, edicion, compilacion);
-            total += TotalNoPokemon(rom,edicion,compilacion,total);
-            return total;
+            //int total = Descripcion.TotalEntradas(rom, edicion, compilacion);
+            //total += TotalNoPokemon(rom,edicion,compilacion,total);
+            //return total;
+            return AtaquesAprendidos.GetTotalPokemon(rom, edicion, compilacion);
         }
         static int TotalNoPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, int total)
         {
@@ -966,7 +983,7 @@ namespace PokemonGBAFrameWork
                
             }
             pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
-
+            pokemon.AtaquesAprendidos = AtaquesAprendidos.GetAtaquesAprendidos(rom, edicion, compilacion, ordenGameFreak);
             return pokemon;
         }
         public static Pokemon[] GetPokemons(RomGBA rom)

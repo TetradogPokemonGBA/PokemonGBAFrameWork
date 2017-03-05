@@ -43,12 +43,11 @@ namespace PokemonGBAFrameWork
 		}
 		public Hex OffsetFin {
 			get{ return OffsetInicio + bytes.Length; }
-            set
-            {
-                if (value - Bytes.Length < 0)
-                    throw new ArgumentOutOfRangeException();
-                OffsetInicio = value - bytes.Length;
-            }
+			set {
+				if (value - Bytes.Length < 0)
+					throw new ArgumentOutOfRangeException();
+				OffsetInicio = value - bytes.Length;
+			}
 		}
 		public byte[] Bytes {
 			get {
@@ -62,40 +61,51 @@ namespace PokemonGBAFrameWork
 		}
 		public void SaveBlockToFile(string pathFileWithNameAndExtension)
 		{
-			if(String.IsNullOrEmpty(pathFileWithNameAndExtension))
+			if (String.IsNullOrEmpty(pathFileWithNameAndExtension))
 				throw new ArgumentException();
-			FileStream str=null;
-			BinaryWriter bnW=null;
-			try{
-				str=new FileStream(pathFileWithNameAndExtension,FileMode.Create);
+			FileStream str = null;
+			BinaryWriter bnW = null;
+			try {
+				str = new FileStream(pathFileWithNameAndExtension, FileMode.Create);
 				
-				bnW=new BinaryWriter(str);
+				bnW = new BinaryWriter(str);
 				bnW.Write((int)OffsetInicio);//guardo el inicio del bloque de bytes
 				bnW.Write(Bytes);//guardo el bloque de bytes :D
-			}catch{throw;}finally{
-				if(bnW!=null)
+			} catch {
+				throw;
+			} finally {
+				if (bnW != null)
 					bnW.Close();
-				else try{ File.Delete(pathFileWithNameAndExtension);/*si falla lo borr*/}catch{}//por si peta :)
-				if(str!=null)
+				else
+					try {
+						File.Delete(pathFileWithNameAndExtension);/*si falla lo borr*/
+					} catch {
+					}//por si peta :)
+				if (str != null)
 					str.Close();
 			}
 		}
-        /// <summary>
-        /// Guarda donde quepan los datos y devuelve el offset donde se han puesto
-        /// </summary>
-        /// <param name="rom"></param>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        public static Hex SetBytes(RomGBA rom, byte[] bytes,bool ends048C=false)
-        {
-            Hex posicion = SearchEmptyBytes(rom, bytes.Length,ends048C);
-            if (posicion == -1) throw new ArgumentOutOfRangeException("No se ha encontrado lugar para los datos");
-            SetBytes(rom, posicion, bytes);
-            return posicion;
-        }
+
+
+
+		/// <summary>
+		/// Guarda donde quepan los datos y devuelve el offset donde se han puesto
+		/// </summary>
+		/// <param name="rom"></param>
+		/// <param name="bytes"></param>
+		/// <param name="ends048C"></param>
+		/// <returns></returns>
+		public static Hex SetBytes(RomGBA rom, byte[] bytes, bool ends048C = false)
+		{
+			Hex posicion = SearchEmptyBytes(rom, bytes.Length, ends048C);
+			if (posicion == -1)
+				throw new ArgumentException("No se ha encontrado lugar para los datos");
+			SetBytes(rom, posicion, bytes);
+			return posicion;
+		}
 
      
-        public static void SetBytes(RomGBA rom, Hex offsetInicio, byte[] bytes)
+		public static void SetBytes(RomGBA rom, Hex offsetInicio, byte[] bytes)
 		{
 			SetBytes(rom, new BloqueBytes(offsetInicio, bytes));
 		}
@@ -103,8 +113,9 @@ namespace PokemonGBAFrameWork
 		{
 			if (bytes.OffsetFin >= rom.Datos.Length)
 				throw new ArgumentOutOfRangeException();
-            rom.Datos.SetArray(bytes.OffsetInicio, bytes.Bytes);
+			rom.Datos.SetArray(bytes.OffsetInicio, bytes.Bytes);
 		}
+		
 		public static BloqueBytes GetBytes(RomGBA rom, Hex offsetInicio, Hex longitud)
 		{
 			
@@ -114,98 +125,100 @@ namespace PokemonGBAFrameWork
 			return new BloqueBytes(offsetInicio, rom.Datos.SubArray((int)offsetInicio, (int)longitud));
 			
 		}
+		public static BloqueBytes GetBytes(RomGBA rom, Hex offsetInicio, byte[] marcaFin, bool incluirMarcaFin = false)
+		{
+			Hex posicionEncontradaMarcaFin = SearchBytes(rom, offsetInicio, marcaFin);
+			return GetBytes(rom, offsetInicio, (posicionEncontradaMarcaFin + (incluirMarcaFin ? marcaFin.Length : 0)) - offsetInicio);
+		}
+		
 		public static void RemoveBytes(RomGBA rom, Hex offsetInicio, Hex longitud, byte byteEnBlanco = 0x00)
 		{
-            if (rom.Datos.Length < offsetInicio + longitud)
-                throw new ArgumentOutOfRangeException();
-            rom.Datos.Remove(offsetInicio, longitud, byteEnBlanco);
+			if (rom.Datos.Length < offsetInicio + longitud)
+				throw new ArgumentOutOfRangeException();
+			rom.Datos.Remove(offsetInicio, longitud, byteEnBlanco);
 				
 			
 		}
+
+		public static Hex SearchBytes(RomGBA rom, byte[] bytesAEncontrar)
+		{
+			return SearchBytes(rom, 0, bytesAEncontrar);
+		}
+		public static Hex SearchBytes(RomGBA rom, Hex offsetInicio, byte[] bytesAEncontrar)
+		{
+			return rom.Datos.BuscarArray(offsetInicio, bytesAEncontrar);
+		}
+
+		public static Hex SearchEmptyBytes(RomGBA rom, Hex length, bool ends048C = false)
+		{
+			return SearchEmptyBytes(rom, 0, length, ends048C);
+		}
+		public static Hex SearchEmptyBytes(RomGBA rom, Hex offsetInicio, Hex length, bool ends048C = false)
+		{
+			string posicionString;
+			bool acabado = false;
+			byte[] bytesEmpty = new byte[length];
+			Hex posicion = SearchBytes(rom, offsetInicio, bytesEmpty);
+			char caracterFin;
+			if (ends048C) {
+				posicionString = posicion;
+				//busco la posicion valida si no hay lanzo excepcion por falta de espacio
+				caracterFin = posicionString[posicionString.Length - 1];
+				while (caracterFin != '0' && caracterFin != '4' && caracterFin != '8' && caracterFin != 'C' && !acabado) {
+					posicion = SearchBytes(rom, posicion + 1, bytesEmpty);
+					acabado = posicion < 0;
+					if (!acabado) {
+						posicionString = posicion;
+						caracterFin = posicionString[posicionString.Length - 1];
+					}
+
+
+				}
+
+			}
+			return posicion;
+		}
+        
+        
 		/// <summary>
 		/// Cambia el tamaño de la rom, hay que tener en cuenta que se pueden perder datos i/o dejar inutilizable la rom al reducirla.
 		/// </summary>
 		/// <param name="rom">no puede ser null</param>
 		/// <param name="tamañoATener">el tamaño tiene que estar entre el minimo y el maximo</param>
 		/// <param name="byteEnBlanco">byte a poner en lugar de los que hay</param>
-		public static void RomSizeChange(RomGBA rom,int tamañoATener,byte byteEnBlanco=0x00){
-			if(rom==null||tamañoATener<TamañoMinimoRom||tamañoATener>TamañoMaximoRom)throw new ArgumentException();
-            byte[] romExpandida;
-            if (rom.Datos.Length < tamañoATener)
-            {
-                romExpandida = new byte[tamañoATener - rom.Datos.Length];
-                rom.Datos = rom.Datos.AddArray(romExpandida);
-            }
-            else
-            {
-                rom.Datos = rom.Datos.SubArray(tamañoATener);
-            }
-		}
-		public static Hex SearchBytes(RomGBA rom,byte[] bytesAEncontrar){
-			return SearchBytes(rom,0,bytesAEncontrar);
-		}
-		public static Hex SearchBytes(RomGBA rom,Hex offsetInicio, byte[] bytesAEncontrar)
+		public static void RomSizeChange(RomGBA rom, int tamañoATener, byte byteEnBlanco = 0x00)
 		{
-            return rom.Datos.BuscarArray(offsetInicio,bytesAEncontrar);
+			if (rom == null || tamañoATener < TamañoMinimoRom || tamañoATener > TamañoMaximoRom)
+				throw new ArgumentException();
+			byte[] romExpandida;
+			if (rom.Datos.Length < tamañoATener) {
+				romExpandida = new byte[tamañoATener - rom.Datos.Length];
+				rom.Datos = rom.Datos.AddArray(romExpandida);
+			} else {
+				rom.Datos = rom.Datos.SubArray(tamañoATener);
+			}
 		}
+		
 		public static BloqueBytes LoadFile(FileInfo file)
-        { 
-			Stream str=null;
+		{
+			Stream str = null;
 			byte[] bytesBloque;
-            Hex posicion;
-			try{
-				str=file.OpenRead();
+			Hex posicion;
+			try {
+				str = file.OpenRead();
 				
-				bytesBloque=new byte[str.Length- (int)Longitud.Offset];
-                posicion = (Hex)str.Read((int)Longitud.Offset);
-				str.Read(bytesBloque, (int)Longitud.Offset, bytesBloque.Length);}
-			catch{
+				bytesBloque = new byte[str.Length - (int)Longitud.Offset];
+				posicion = (Hex)str.Read((int)Longitud.Offset);
+				str.Read(bytesBloque, (int)Longitud.Offset, bytesBloque.Length);
+			} catch {
 				throw new FormatException("el archivo no es valido");
 			}
-			return new BloqueBytes(posicion,bytesBloque);
+			return new BloqueBytes(posicion, bytesBloque);
 		}
-		public static BloqueBytes LoadFile(string filePath){
+		public static BloqueBytes LoadFile(string filePath)
+		{
 			
 			return LoadFile(new FileInfo(filePath));
 		}
-        public static Hex SearchEmptyBytes(RomGBA rom,Hex length)
-        { return SearchEmptyBytes(rom, 0, length); }
-        public static Hex SearchEmptyBytes(RomGBA rom,Hex inicio, Hex length)
-        {
-            return SearchBytes(rom,inicio, new byte[length]);//como por defecto es 0x0 ya me va bien aunque tambien se usa el 0xFF...
-        }
-
-        public static Hex SearchEmptyBytes(RomGBA rom, int length, bool ends048C)
-        {
-            return SearchEmptyBytes(rom, 0, length, ends048C);
-        }
-        public static Hex SearchEmptyBytes(RomGBA rom, Hex offsetInicio, Hex length, bool ends048C)
-        {
-            string posicionString;
-            bool acabado = false;
-            byte[] bytesEmpty = new byte[length];
-            Hex posicion = SearchBytes(rom, offsetInicio, bytesEmpty);
-            char caracterFin;
-            if (ends048C)
-            {
-                posicionString = posicion;
-                //busco la posicion valida si no hay lanzo excepcion por falta de espacio
-                caracterFin = posicionString[posicionString.Length - 1];
-                while (caracterFin != '0' && caracterFin != '4' && caracterFin != '8' && caracterFin != 'C' && !acabado)
-                {
-                    posicion = SearchBytes(rom, posicion + 1, bytesEmpty);
-                    acabado = posicion < 0;
-                    if (!acabado)
-                    {
-                        posicionString = posicion;
-                        caracterFin = posicionString[posicionString.Length - 1];
-                    }
-
-
-                    }
-
-            }
-            return posicion;
-        }
-    }
+	}
 }

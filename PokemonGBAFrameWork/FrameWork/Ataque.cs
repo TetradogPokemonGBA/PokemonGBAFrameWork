@@ -67,7 +67,7 @@ namespace PokemonGBAFrameWork
             zonaEfectoAtaque.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x725D0, 0x725E4);
             zonaEfectoAtaque.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x72608);
             zonaEfectoAtaque.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x725D0, 0x725E4);
-            //descripcion
+            //descripcion con ellas calculo el total :D
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xE5440, 0xE5454);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xE5418, 0xE542C);
             zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0494,0xA04B4);
