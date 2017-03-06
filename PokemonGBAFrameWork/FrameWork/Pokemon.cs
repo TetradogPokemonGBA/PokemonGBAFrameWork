@@ -202,6 +202,7 @@ namespace PokemonGBAFrameWork
                 zonaStats
             });
         }
+
         public bool EsUnPokemonValido
         {
             get { return Descripcion != null; }
@@ -815,35 +816,39 @@ namespace PokemonGBAFrameWork
             return Nombre;
         }
         //aun falta acabar pero de momento pongo lo que tengo
-        public static void SetPokemon(RomGBA rom, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, Pokemon pokemon, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, pokemon, Objeto.TotalObjetos(rom));
+            SetPokemon(rom, pokemon, Objeto.TotalObjetos(rom), dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, Pokemon pokemon, Hex totalObjetos, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, Edicion.GetEdicion(rom), pokemon, totalObjetos);
+            SetPokemon(rom, Edicion.GetEdicion(rom), pokemon, totalObjetos, dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, Objeto.TotalObjetos(rom));
+            SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, Objeto.TotalObjetos(rom), dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, totalObjetos);
+            SetPokemon(rom, Edicion.GetEdicion(rom), compilacion, pokemon, totalObjetos, dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, Edicion edicion, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, Pokemon pokemon, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, Objeto.TotalObjetos(rom));
+            SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, Objeto.TotalObjetos(rom), dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, Edicion edicion, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, Pokemon pokemon, Hex totalObjetos, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, totalObjetos);
+            SetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), pokemon, totalObjetos, dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon)
+        public static void SetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
-            SetPokemon(rom, edicion, compilacion, pokemon, Objeto.TotalObjetos(rom));
+            SetPokemon(rom, edicion, compilacion, pokemon, Objeto.TotalObjetos(rom), dicAtaquesPokemon);
         }
-        public static void SetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos)
+        public static void SetPokemon(RomData romData, Pokemon pokemon, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
+        {
+            SetPokemon(romData.RomGBA, romData.Edicion, romData.Compilacion, pokemon,romData.Objetos.Count, dicAtaquesPokemon);
+        }
+        public static void SetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Pokemon pokemon, Hex totalObjetos, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
         {
             pokemon.SetObjetosEnLosStats((int)totalObjetos);
             Sprite.SetSprite(rom, pokemon.Sprites);
@@ -860,9 +865,21 @@ namespace PokemonGBAFrameWork
 
             Word.SetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2,(short) pokemon.OrdenPokedexNacional);
 
-            AtaquesAprendidos.SetAtaquesAprendidos(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.AtaquesAprendidos);
+            AtaquesAprendidos.SetAtaquesAprendidos(rom, edicion, compilacion, pokemon.OrdenGameFreak, pokemon.AtaquesAprendidos, dicAtaquesPokemon);
 
         }
+
+        public static void SetPokedex(RomData romGBA, IList<Pokemon> pokedex)
+        {
+            if (romGBA == null || pokedex == null)
+                throw new ArgumentNullException();
+            LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon = AtaquesAprendidos.GetAtaquesAprendidosDic(romGBA);
+            for (int i = 0; i < pokedex.Count; i++)
+                SetPokemon(romGBA, pokedex[i], dicAtaquesPokemon);
+        }
+
+       
+
         public static int TotalPokemon(RomGBA rom)
         {
             return TotalPokemon(rom, Edicion.GetEdicion(rom));

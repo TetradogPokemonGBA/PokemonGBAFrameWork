@@ -9,15 +9,15 @@ namespace PokemonGBAFrameWork
 {
    public class AtaquesAprendidos:ObjectAutoId
     {
-        public struct AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable<ObjectAutoId>
+        public class AtaqueAprendido:ObjectAutoId,IComparable<AtaqueAprendido>
         {
-            ObjectAutoId obj;
+   
             short ataque;
             byte nivel;
 
             public AtaqueAprendido(short ataque=0, byte nivel=1)
             {
-                obj = new ObjectAutoId();
+
                 this.ataque = ataque;
                 this.nivel = nivel;
             }
@@ -58,11 +58,7 @@ namespace PokemonGBAFrameWork
                 return compareTo;
             }
 
-            public int CompareTo(ObjectAutoId other)
-            {
-                int compareTo = other == null ? (int)Gabriel.Cat.CompareTo.Inferior : obj.CompareTo(other);
-                return compareTo;
-            }
+
         }
         enum Variable
         {
@@ -155,12 +151,18 @@ namespace PokemonGBAFrameWork
             int posNivel=0;
             byte nivelByte =(byte) nivel;
             AtaqueAprendido[] ataques = new AtaqueAprendido[MAXATACKSFIGHT];
+
             Ataques.Sort();
-            while (ataques[posNivel].Nivel <= nivel) posNivel++;
+
+            while (posNivel < Ataques.Count&&ataques[posNivel].Nivel <= nivel)
+                posNivel++;
+
             if(posNivel<MAXATACKSFIGHT)
             {
                 for (int i = 0; i <= posNivel; i++)
                     ataques[i] = Ataques[i];
+                for (int i = posNivel + 1; i < MAXATACKSFIGHT; i++)
+                    ataques[i] = new AtaqueAprendido();
 
             }else
             {
@@ -184,10 +186,10 @@ namespace PokemonGBAFrameWork
         }
         public static AtaquesAprendidos GetAtaquesAprendidos(RomData rom, Hex indexPokemon)
         { return GetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon); }
-        public static AtaquesAprendidos GetAtaquesAprendidos(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex indexPokemon)
+        public static AtaquesAprendidos GetAtaquesAprendidos(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameGrakPokemon)
         {
             //missigno de por si usa el mismo puntero que bulbasaur por eso tienen los mismos ataques,supongo que sera para que no de error y no ocupar espacio...
-            Hex offset = Offset.GetOffset(rom,GetOffsetPrimerPointer(rom,edicion,compilacion) + indexPokemon * (int)Longitud.Offset);
+            Hex offset = Offset.GetOffset(rom,GetOffsetPointer(rom,edicion,compilacion, ordenGameGrakPokemon));
             BloqueBytes bloque = BloqueBytes.GetBytes(rom,offset,MarcaFin);
             AtaquesAprendidos ataquesAprendidos = new AtaquesAprendidos();
             //pongo los ataques
@@ -199,18 +201,35 @@ namespace PokemonGBAFrameWork
 
             return ataquesAprendidos;
         }
-        private static Hex GetOffsetPrimerPointer(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        private static Hex GetOffsetPointer(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameGrakPokemon)
         {
-            return  Zona.GetOffset(rom, Variable.AtaquesAprendidos, edicion, compilacion);
+            return  Zona.GetOffset(rom, Variable.AtaquesAprendidos, edicion, compilacion) + ordenGameGrakPokemon * (int)Longitud.Offset;
         }
-        public static void SetAtaquesAprendidos(RomData rom, Hex indexPokemon, AtaquesAprendidos ataquesAprendidos)
-        {  SetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon,ataquesAprendidos); }
-        public static void SetAtaquesAprendidos(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex indexPokemon,AtaquesAprendidos ataquesAprendidos)
+        public static void SetAtaquesAprendidos(RomData rom, Hex indexPokemon, AtaquesAprendidos ataquesAprendidos, LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dicAtaquesPokemon)
+        {  SetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon,ataquesAprendidos,dicAtaquesPokemon); }
+        public static void SetAtaquesAprendidos(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameGrakPokemon,AtaquesAprendidos ataquesAprendidos,LlistaOrdenadaPerGrups<Hex,AtaquesAprendidos> dicAtaquesPokemon)
         {
-            Hex offset = Offset.GetOffset(rom,Zona.GetOffset(rom, Variable.AtaquesAprendidos, edicion, compilacion) + indexPokemon * (int)Longitud.Offset);
+            Hex offsetPointer = GetOffsetPointer(rom, edicion, compilacion, ordenGameGrakPokemon);
+            Hex offset = Offset.GetOffset(rom,offsetPointer );
             BloqueBytes bloqueOri = BloqueBytes.GetBytes(rom,offset, MarcaFin);
-            BloqueBytes.RemoveBytes(rom, bloqueOri.OffsetInicio, bloqueOri.Bytes.Length);
-            Offset.SetOffset(rom, offset, BloqueBytes.SetBytes(rom, ataquesAprendidos.ToBytesGBA()));
+            dicAtaquesPokemon.Remove(offset, ataquesAprendidos);
+            if(!dicAtaquesPokemon.ContainsKey(offset))//si ya no hay ningun pokemon que use esos datos los borro
+               BloqueBytes.RemoveBytes(rom, bloqueOri.OffsetInicio, bloqueOri.Bytes.Length);
+            offset = BloqueBytes.SetBytes(rom, ataquesAprendidos.ToBytesGBA());//actualizo el offset con el nuevo
+            Offset.SetOffset(rom, offsetPointer, offset);
+
+            dicAtaquesPokemon.Add(offset, ataquesAprendidos);//añado al diccionario el nuevo offset con los ataques :)
+        }
+        public static LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> GetAtaquesAprendidosDic(RomData romGBA)
+        {
+            return GetAtaquesAprendidosDic(romGBA.RomGBA, romGBA.Edicion, romGBA.Compilacion);
+        }
+        public static LlistaOrdenadaPerGrups<Hex,AtaquesAprendidos> GetAtaquesAprendidosDic(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        {
+            LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<Hex, AtaquesAprendidos>();
+            for (int i = 0, f = GetTotalPokemon(rom, edicion, compilacion); i < f; i++)
+                dic.Add(Offset.GetOffset(rom, GetOffsetPointer(rom, edicion, compilacion, i)), GetAtaquesAprendidos(rom, edicion, compilacion, i));
+            return dic;
         }
 
 
@@ -218,8 +237,10 @@ namespace PokemonGBAFrameWork
         internal static int GetTotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             int total = 0;
-            while (Offset.IsAPointer(rom, GetOffsetPrimerPointer(rom, edicion, compilacion) + total * (int)Longitud.Offset)) total++;
+            while (Offset.IsAPointer(rom, GetOffsetPointer(rom, edicion, compilacion,total))) total++;
             return total;
         }
+
+        
     }
 }
