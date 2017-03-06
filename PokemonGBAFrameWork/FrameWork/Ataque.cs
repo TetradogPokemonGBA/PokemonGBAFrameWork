@@ -86,12 +86,14 @@ namespace PokemonGBAFrameWork
             EffectAccuracy = effectAccuracy;
             Target = target;
             Priority = priority;
+
             MakesContact = makeContact;
             IsAffectedByProtect = isAffectedByProtect;
             IsAffectedBySnatch = isAffectedBySnatch;
             IsAffectedByMagicCoat = isAffectedByMagicCoat;
             IsAffectedByMirrorMove = isAffectedByMirrorMove;
             IsAffectedByKingsRock = isAffectedByKingsRock;
+
             PadByte1 = padByte1;
             Category = category;
             PadByte3 = padByte3;
@@ -520,7 +522,7 @@ namespace PokemonGBAFrameWork
 
         public override string ToString()
         {
-            return Nombre + "\n" + Descripcion;
+            return Nombre;
         }
 
         public static int GetTotalAtaques(RomData rom)
@@ -568,7 +570,7 @@ namespace PokemonGBAFrameWork
         public static void SetAtaque(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion, Ataque ataque)
         {
             Hex offsetNombre = Zona.GetOffset(rom, Variables.NombreAtaque, edicion, compilacion) + posicion * (int)LongitudCampos.Nombre;
-            Hex offsetDescripcion = Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + posicion * (int)LongitudCampos.Descripcion);
+            Hex offsetDescripcion = Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion == 0 ? posicion : posicion - 1) * (int)LongitudCampos.Descripcion);
             //nombre
             BloqueBytes.RemoveBytes(rom, offsetNombre, (int)LongitudCampos.Nombre);
             BloqueString.SetString(rom, offsetNombre, ataque.Nombre);
