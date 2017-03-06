@@ -154,7 +154,7 @@ namespace PokemonGBAFrameWork
 
             Ataques.Sort();
 
-            while (posNivel < Ataques.Count&&ataques[posNivel].Nivel <= nivel)
+            while (posNivel < Ataques.Count-1 && Ataques[posNivel].Nivel <= nivel)
                 posNivel++;
 
             if(posNivel<MAXATACKSFIGHT)
@@ -166,7 +166,7 @@ namespace PokemonGBAFrameWork
 
             }else
             {
-                for (int i = posNivel, j = MAXATACKSFIGHT - 1; i >= 0; i--, j--)
+                for (int i = posNivel, j = MAXATACKSFIGHT - 1; j >= 0; i--, j--)
                     ataques[j] = Ataques[i];
             }
             return ataques;
@@ -198,7 +198,7 @@ namespace PokemonGBAFrameWork
                 ataquesAprendidos.Ataques.Add(new AtaqueAprendido((short)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue)),(byte)(bloque.Bytes[i+1]>>1)));
             }
             ataquesAprendidos.Ataques.Sort();//por si lo hacen de forma externa que lo lea bien :)
-
+            ataquesAprendidos.OffsetBytesAtaqueAprendido = offset;
             return ataquesAprendidos;
         }
         private static Hex GetOffsetPointer(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameGrakPokemon)

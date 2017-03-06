@@ -941,7 +941,7 @@ namespace PokemonGBAFrameWork
             pokemon.OrdenPokedexLocal = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
             pokemon.OrdenPokedexNacional = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
             //pongo la pokedex
-            if (pokemon.OrdenPokedexNacional < totalEntradasPokedex)
+            if (pokemon.OrdenPokedexNacional <= totalEntradasPokedex)
             {
                 pokemon.Descripcion = Descripcion.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
                
