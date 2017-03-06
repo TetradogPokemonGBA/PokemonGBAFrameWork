@@ -52,7 +52,7 @@ namespace PokemonGBAFrameWork
 
             public int CompareTo(AtaqueAprendido other)
             {
-                int compareTo = Nivel.CompareTo(other.Nivel);
+                int compareTo =other!=null ? Nivel.CompareTo(other.Nivel) : (int)Gabriel.Cat.CompareTo.Inferior;
                 if (compareTo == (int)Gabriel.Cat.CompareTo.Iguales)
                     compareTo = Ataque.CompareTo(other.Ataque);
                 return compareTo;
@@ -149,6 +149,7 @@ namespace PokemonGBAFrameWork
         {
             const int MAXATACKSFIGHT = 4;
             int posNivel=0;
+            int totalPuestos = 0;
             byte nivelByte =(byte) nivel;
             AtaqueAprendido[] ataques = new AtaqueAprendido[MAXATACKSFIGHT];
 
@@ -156,19 +157,30 @@ namespace PokemonGBAFrameWork
 
             while (posNivel < Ataques.Count-1 && Ataques[posNivel].Nivel <= nivel)
                 posNivel++;
-
+            //si el pokemon aprende dos veces el mismo ataque no lo tiene que tener duplicado...
             if(posNivel<MAXATACKSFIGHT)
             {
                 for (int i = 0; i <= posNivel; i++)
-                    ataques[i] = Ataques[i];
-                for (int i = posNivel + 1; i < MAXATACKSFIGHT; i++)
-                    ataques[i] = new AtaqueAprendido();
+                    if (ataques.Filtra((ataque)=>ataque!=null?ataque.Ataque==Ataques[i].Ataque:false).Count==0)
+                        ataques[totalPuestos++] = Ataques[i];
+         
 
             }else
             {
-                for (int i = posNivel, j = MAXATACKSFIGHT - 1; j >= 0; i--, j--)
-                    ataques[j] = Ataques[i];
+                for (int i = posNivel; totalPuestos<MAXATACKSFIGHT && i>=0; i--)
+                {
+                    if (ataques.Filtra((ataque) => ataque != null ? ataque.Ataque == Ataques[i].Ataque : false).Count == 0)
+                    {
+                        ataques[totalPuestos++] = Ataques[i];
+                  
+                    }
+                }
+
             }
+
+            for (int i = totalPuestos; i < MAXATACKSFIGHT; i++)
+                    ataques[i] = new AtaqueAprendido();
+
             return ataques;
 
         }
