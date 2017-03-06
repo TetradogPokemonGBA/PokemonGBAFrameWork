@@ -23,13 +23,19 @@ namespace PokemonGBAFrameWork
 
 		Hex offset;
 		byte[] bytes;
-		public BloqueBytes(Hex offset, byte[] bytesAPoner)
+
+        public BloqueBytes(Hex offset, byte[] bytesAPoner)
 		{
 			Bytes = bytesAPoner;
 			OffsetInicio = offset;
 		}
 
-		public Hex OffsetInicio {
+        public BloqueBytes(int length):this(0,new byte[length])
+        {
+      
+        }
+
+        public Hex OffsetInicio {
 			get {
 				
 				return offset;

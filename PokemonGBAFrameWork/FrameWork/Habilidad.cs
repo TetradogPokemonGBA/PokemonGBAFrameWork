@@ -101,7 +101,7 @@ namespace PokemonGBAFrameWork
             Hex offsetInicio = Zona.GetOffset(rom, Variables.DescripcionHabilidad, edicion, compilacion);
             int total = 0;
             while (Offset.IsAPointer(rom,offsetInicio+total*(int)Longitud.Offset)) total++;//la condicion no es suficiente tiene que mirar tambien el formato
-            return total;//tendria que ser 78
+            return 78;//do momento no es universal ....asi que lo tengo que fijar...
         }
         public static Habilidad[] GetHabilidades(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {

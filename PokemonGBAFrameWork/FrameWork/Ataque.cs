@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace PokemonGBAFrameWork
          BasePower,
          Type,
          Accuracy,
-         Pp,
+         PP,
          EffectAccuracy,
          Target,
          Priority,
@@ -82,7 +83,7 @@ namespace PokemonGBAFrameWork
             BasePower = basePower;
             Type = type;
             Accuracy = accuracy;
-            Pp = pp;
+            PP = pp;
             EffectAccuracy = effectAccuracy;
             Target = target;
             Priority = priority;
@@ -278,16 +279,16 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public byte Pp
+        public byte PP
         {
             get
             {
-                return blDatosAtaque.Bytes[(int)CamposDatosAtaque.Pp];
+                return blDatosAtaque.Bytes[(int)CamposDatosAtaque.PP];
             }
 
             set
             {
-                blDatosAtaque.Bytes[(int)CamposDatosAtaque.Pp] = value;
+                blDatosAtaque.Bytes[(int)CamposDatosAtaque.PP] = (byte)(value%30);//el maximo es 30
             }
         }
 
@@ -411,14 +412,23 @@ namespace PokemonGBAFrameWork
         {
             NombreAtaque, Descripción, ScriptBatalla, Animacion
         }
+        enum ValoresLimitadoresFin
+        {
+            Ataque =0x13E0
+        }
+        const int LENGTHLIMITADOR = 16;
+        static readonly byte[] BytesDesLimitadoAtaques;
         static Ataque()
         {
+            byte[] valoresUnLimited = (((Hex)(int)ValoresLimitadoresFin.Ataque));
             Zona zonaNombresAtaques = new Zona(Variables.NombreAtaque);
           
             Zona zonaDescripcion = new Zona(Variables.Descripción);
             Zona zonaScriptBatalla = new Zona(Variables.ScriptBatalla);
             Zona zonaAnimacion = new Zona(Variables.Animacion);
+            Zona zonaVariableLimitadoAtaques = new Zona(ValoresLimitadoresFin.Ataque);
             //añado las zonas al diccionario
+            Zona.DiccionarioOffsetsZonas.Add(zonaVariableLimitadoAtaques);
             Zona.DiccionarioOffsetsZonas.Add(zonaAnimacion);
             Zona.DiccionarioOffsetsZonas.Add(zonaScriptBatalla);
             Zona.DiccionarioOffsetsZonas.Add(zonaDescripcion);     
@@ -473,6 +483,20 @@ namespace PokemonGBAFrameWork
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xA3A58);
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x75BF0);
             zonaAnimacion.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x75BF4);
+
+            //añado la variable limitador
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0xD75D0, 0xD75E4);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0xD75FC, 0xD7610);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x14E504);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0xD7858);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x14E138);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0xD7884);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xAC8C2);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xAC8C2);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xAC676,0xAC696);
+            zonaVariableLimitadoAtaques.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xAC676, 0xAC696);
+            BytesDesLimitadoAtaques = new byte[LENGTHLIMITADOR];
+            BytesDesLimitadoAtaques.SetArray(LENGTHLIMITADOR - valoresUnLimited.Length, valoresUnLimited);
         }
 
 
@@ -561,7 +585,20 @@ namespace PokemonGBAFrameWork
             //la descripcion del primer ataque no existe y todas las descripciones se retrasan 1
             BloqueString descripcion = BloqueString.GetString(rom, Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion == 0 ? posicion : posicion - 1) * (int)LongitudCampos.Descripcion));
             DatosAtaque datosAtaque = DatosAtaque.GetDatosAtaque(rom, edicion, compilacion, posicion);
-            return new Ataque() { Nombre = nombre, Descripcion = descripcion,DatosAtaque=datosAtaque };
+            Ataque ataque;
+
+            if (edicion.Abreviacion != Edicion.ABREVIACIONROJOFUEGO && edicion.Abreviacion != Edicion.ABREVIACIONVERDEHOJA)
+            {
+                ataque = new AtaqueHoenn();
+                AtaqueHoenn.AcabaGetAtaque(rom, edicion, compilacion, posicion, ataque as AtaqueHoenn);
+            }
+            else ataque = new Ataque();
+
+            ataque.Nombre = nombre;
+            ataque.Descripcion = descripcion;
+            ataque.DatosAtaque =datosAtaque ;
+
+            return ataque;
         }
         public static void SetAtaque(RomData rom, Hex posicion, Ataque ataque)
         {
@@ -578,7 +615,11 @@ namespace PokemonGBAFrameWork
             BloqueBytes.RemoveBytes(rom, offsetDescripcion, ataque.descripcion.LengthInnerRom);
             BloqueString.SetString(rom, offsetDescripcion, ataque.Descripcion);
             DatosAtaque.SetDatosAtaque(rom, edicion, compilacion, posicion, ataque.DatosAtaque);
-
+            QuitarLimite(rom, edicion, compilacion,(int) posicion);//si se pasa quita el limite :D
+            if(edicion.Abreviacion!=Edicion.ABREVIACIONROJOFUEGO&& edicion.Abreviacion != Edicion.ABREVIACIONVERDEHOJA)
+            {
+                AtaqueHoenn.AcabaSetAtaque(rom, edicion, compilacion, posicion, ataque as AtaqueHoenn);
+            }
         }
         public static void SetAtaques(RomData romData, IList<Ataque> ataques)
         {
@@ -590,7 +631,17 @@ namespace PokemonGBAFrameWork
             {
                 SetAtaque(rom, edicion, compilacion, i, ataques[i]);
             }
+            QuitarLimite(rom, edicion, compilacion);
+
         }
+
+        private static void QuitarLimite(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion,int posicion=-1)
+        {
+            //quito el limite 
+            if(posicion<0||posicion>GetTotalAtaques(rom,edicion,compilacion))
+            BloqueBytes.SetBytes(rom, Zona.GetVariable(rom, ValoresLimitadoresFin.Ataque, edicion, compilacion), BytesDesLimitadoAtaques);
+        }
+
         /// <summary>
         /// Sirve para encontrar la edicion facilmente :D
         /// </summary>
@@ -622,6 +673,110 @@ namespace PokemonGBAFrameWork
                 }
             }
             return edicion;
+        }
+    }
+    public class AtaqueHoenn : Ataque
+    {
+        enum Variable
+        {
+            DatosConcursos
+        }
+        enum ValoresLimitadoresFin
+        {
+            AnimacionesConcurso=0xE0,
+            AtaqueConcurso=0
+        }
+        public const int LENGTHCONCURSODATA = 15;
+        const int LENGTHLIMITADOR = 16;
+        static readonly byte[] BytesDesLimitadoAtaquesConcurso;
+        static readonly byte[] BytesDesLimitadoAnimacionAtaques;
+        BloqueBytes blConcurso;
+
+
+
+        //datos concurso
+        static AtaqueHoenn()
+        {
+            byte[] valoresUnLimitedAtaque = (((Hex)(int)ValoresLimitadoresFin.AtaqueConcurso));
+            byte[] valoresUnLimitedAnimacion = (((Hex)(int)ValoresLimitadoresFin.AnimacionesConcurso));
+            Zona zonaDatosConcursos = new Zona(Variable.DatosConcursos);
+            Zona zonaVariableAtaqueConcurso = new Zona(ValoresLimitadoresFin.AtaqueConcurso);
+            Zona zonaVariableAnimacionAtaqueConcurso = new Zona(ValoresLimitadoresFin.AnimacionesConcurso);
+
+            zonaDatosConcursos.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xD8248);
+            zonaDatosConcursos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xD85F0);
+            zonaDatosConcursos.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA04C4);
+            zonaDatosConcursos.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA04C4);
+            zonaDatosConcursos.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0290,0XA02B0);
+            zonaDatosConcursos.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xA0290, 0XA02B0);
+            //pongo las variables ataques
+            zonaVariableAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xD8248);
+            zonaVariableAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xD8F0C);//puesta
+            zonaVariableAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA04C4);
+            zonaVariableAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA04C4);
+            zonaVariableAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0290, 0XA02B0);
+            zonaVariableAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xA0290, 0XA02B0);
+            //pongo las variables animaciones
+            zonaVariableAnimacionAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xD8248);
+            zonaVariableAnimacionAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xD8F0C);
+            zonaVariableAnimacionAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA04C4);
+            zonaVariableAnimacionAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA04C4);
+            zonaVariableAnimacionAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xA0290, 0XA02B0);
+            zonaVariableAnimacionAtaqueConcurso.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xA0290, 0XA02B0);
+            //añado al diccionario
+            Zona.DiccionarioOffsetsZonas.Add(zonaDatosConcursos);
+            Zona.DiccionarioOffsetsZonas.Add(zonaVariableAtaqueConcurso);
+            Zona.DiccionarioOffsetsZonas.Add(zonaVariableAnimacionAtaqueConcurso);
+
+            BytesDesLimitadoAtaquesConcurso = new byte[LENGTHLIMITADOR];
+            BytesDesLimitadoAtaquesConcurso.SetArray(LENGTHLIMITADOR - valoresUnLimitedAtaque.Length, valoresUnLimitedAtaque);
+            BytesDesLimitadoAnimacionAtaques = new byte[LENGTHLIMITADOR];
+            BytesDesLimitadoAnimacionAtaques.SetArray(LENGTHLIMITADOR - valoresUnLimitedAnimacion.Length, valoresUnLimitedAnimacion);
+
+        }
+
+        public AtaqueHoenn()
+        {
+            DatosConcurso = new BloqueBytes(LENGTHCONCURSODATA);
+        }
+        public BloqueBytes DatosConcurso
+        {
+            get
+            {
+                return blConcurso;
+            }
+
+            private set
+            {
+                blConcurso = value;
+            }
+        }
+        internal static  void AcabaSetAtaque(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex posicion,AtaqueHoenn ataque)
+        {//se supone que si hay un pointer en la posicion es de un ataque y si no es espacio libre porque se ha movido previamente!
+            //mirar donde ponerlo....tendria que ser en El SetAtaques si la edicion es de hoenn mover (si hace falta) los datos...ya de paso otro metodo para mover los ataques...
+            //pongo los datos
+            Hex offsetPointerDatos = Zona.GetOffset(rom, Variable.DatosConcursos, edicion, compilacion) + posicion * LENGTHCONCURSODATA;
+            if(Offset.IsAPointer(rom,offsetPointerDatos))
+              BloqueBytes.RemoveBytes(rom, Offset.GetOffset(rom, offsetPointerDatos), LENGTHCONCURSODATA);//quito los viejos
+            Offset.SetOffset(rom, offsetPointerDatos, BloqueBytes.SetBytes(rom, ataque.blConcurso.Bytes));//pongo los nuevos
+            //quito los limitadores si son necesarios
+            QuitarLimitadores(rom, edicion, compilacion, posicion);
+        }
+
+        private static void QuitarLimitadores(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
+        {
+            if(posicion>GetTotalAtaques(rom,edicion,compilacion))
+            {
+                BloqueBytes.SetBytes(rom, Zona.GetVariable(rom, ValoresLimitadoresFin.AtaqueConcurso, edicion, compilacion), BytesDesLimitadoAtaquesConcurso);
+                BloqueBytes.SetBytes(rom, Zona.GetVariable(rom, ValoresLimitadoresFin.AnimacionesConcurso, edicion, compilacion), BytesDesLimitadoAnimacionAtaques);
+
+
+            }
+        }
+
+        internal static void AcabaGetAtaque(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion, AtaqueHoenn ataque)
+        {
+            ataque.blConcurso.Bytes = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variable.DatosConcursos, edicion, compilacion) + posicion * (int)Longitud.Offset, LENGTHCONCURSODATA).Bytes;
         }
     }
 }
