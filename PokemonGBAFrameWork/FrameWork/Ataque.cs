@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace PokemonGBAFrameWork
 {//es muy extenso..por acabar de desarrollar (hacer clase para trabajar los efectos cómodamente y las demás partes que lo requieran
+
+    //interpretacion sacada de PGE Attack Editor creditos Gamer2020
     public class DatosAtaque : ObjectAutoId
     {
        
@@ -476,6 +478,7 @@ namespace PokemonGBAFrameWork
         BloqueString nombre;
         BloqueString descripcion;
         DatosAtaque datosAtaque;
+
         public BloqueString Nombre
         {
             get
