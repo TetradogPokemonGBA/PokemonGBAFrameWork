@@ -10,11 +10,12 @@ namespace PokemonGBAFrameWork
    
    public class Habilidad:ObjectAutoId
     {
-        public enum Variables { NombreHabilidad}
+        public enum Variables { NombreHabilidad,DescripcionHabilidad}
         enum LongitudCampo { Nombre=13}
         static Habilidad()
         {
             Zona zonaNombre = new Zona(Variables.NombreHabilidad);
+            Zona zonaDescripcion = new Zona(Variables.DescripcionHabilidad);
             //añado las zonas de los nombres :)
             zonaNombre.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x1C0);
             zonaNombre.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x1C0);
@@ -28,16 +29,36 @@ namespace PokemonGBAFrameWork
             zonaNombre.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA0098);
             zonaNombre.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA0098);
 
+
+
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x1C4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x1C4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1C4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x9FE68, 0x9FE88, 0x9FE88);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x9FE68, 0x9FE88, 0x9FE88);
+
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x1C4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x1C4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1C4);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0xA009C);
+            zonaDescripcion.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0xA009C);
+
+            Zona.DiccionarioOffsetsZonas.Add(zonaDescripcion);
             Zona.DiccionarioOffsetsZonas.Add(zonaNombre);
 
         }
+
         BloqueString nombre;
-        public Habilidad(BloqueString nombre)
+        BloqueString descripcion;
+
+        public Habilidad(BloqueString nombre=null, BloqueString descripcion=null)
         {
-            if (nombre == null) throw new ArgumentNullException();
             this.nombre = nombre;
+            this.descripcion = descripcion;
         }
 
+       
+       
         public BloqueString Nombre
         {
             get
@@ -50,6 +71,20 @@ namespace PokemonGBAFrameWork
                 nombre = value;
             }
         }
+
+        public BloqueString Descripcion
+        {
+            get
+            {
+                return descripcion;
+            }
+
+            set
+            {
+                descripcion = value;
+            }
+        }
+
         public override string ToString()
         {
             return Nombre;
@@ -58,12 +93,15 @@ namespace PokemonGBAFrameWork
         {
             if (rom == null || edicion == null || posicion < 0) throw new ArgumentException();
             BloqueString blNombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreHabilidad, edicion, compilacion) + posicion * (int)LongitudCampo.Nombre,(int)LongitudCampo.Nombre,true);
-            return new Habilidad(blNombre);
+            BloqueString blDescripcion = BloqueString.GetString(rom,Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.DescripcionHabilidad, edicion, compilacion) + posicion * (int)Longitud.Offset));
+            return new Habilidad(blNombre,blDescripcion);
         }
         public static Hex GetTotal(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            //de momento no se...mas adelante
-            return 78;
+            Hex offsetInicio = Zona.GetOffset(rom, Variables.DescripcionHabilidad, edicion, compilacion);
+            int total = 0;
+            while (Offset.IsAPointer(rom,offsetInicio+total*(int)Longitud.Offset)) total++;//la condicion no es suficiente tiene que mirar tambien el formato
+            return total;//tendria que ser 78
         }
         public static Habilidad[] GetHabilidades(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
