@@ -79,8 +79,10 @@ namespace PokemonGBAFrameWork
             zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x6930C);
             zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x3E968);
             zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x3E968);
-            zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x3EA7C);
-            zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x3EA7C);
+
+            zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x3EA7C,0x3EA90);
+            zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x3EA7C, 0x3EA90);
+
             zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.ZafiroEsp, 0x3B988);
             zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.RubiEsp, 0x3B988);
             zonaAtaquesAprendidos.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x3B7BC);
