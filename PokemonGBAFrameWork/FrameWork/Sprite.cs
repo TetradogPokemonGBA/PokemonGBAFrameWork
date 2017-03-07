@@ -119,18 +119,26 @@ namespace PokemonGBAFrameWork
             byte[] bytesImg;
             this.paletaNormal = Paleta.GetPaleta(rom, offsetPaletaNormal);
             this.paletaShiny = Paleta.GetPaleta(rom, offsetPaletaShiny);
-            bytesImg = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, paletaNormal, paletaShiny).DatosDescomprimidos;
-            this.imagenFrontal = new BloqueImagen[bytesImg.Length / TAMAÑOIMAGEN];
-            for (int i = 0, l = 0; i < imagenFrontal.Length; i++, l += TAMAÑOIMAGEN)
+            try
             {
-                this.imagenFrontal[i] = new BloqueImagen(offsetImagenFrontal, bytesImg.SubArray(l, TAMAÑOIMAGEN), paletaNormal, paletaShiny);
+                bytesImg = BloqueImagen.GetBloqueImagen(rom, offsetImagenFrontal, paletaNormal, paletaShiny).DatosDescomprimidos;
+                this.imagenFrontal = new BloqueImagen[bytesImg.Length / TAMAÑOIMAGEN];
+                for (int i = 0, l = 0; i < imagenFrontal.Length; i++, l += TAMAÑOIMAGEN)
+                {
+                    this.imagenFrontal[i] = new BloqueImagen(offsetImagenFrontal, bytesImg.SubArray(l, TAMAÑOIMAGEN), paletaNormal, paletaShiny);
+                }
             }
-            bytesImg = BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, paletaNormal, paletaShiny).DatosDescomprimidos;
-            this.imagenTrasera = new BloqueImagen[bytesImg.Length / TAMAÑOIMAGEN];
-            for (int i = 0, l = 0; i < imagenTrasera.Length; i++, l += TAMAÑOIMAGEN)
+            catch { }
+            try
             {
-                this.imagenTrasera[i] = new BloqueImagen(offsetImagenTrasera, bytesImg.SubArray(l, TAMAÑOIMAGEN), paletaNormal, paletaShiny);
+                bytesImg = BloqueImagen.GetBloqueImagen(rom, offsetImagenTrasera, paletaNormal, paletaShiny).DatosDescomprimidos;
+                this.imagenTrasera = new BloqueImagen[bytesImg.Length / TAMAÑOIMAGEN];
+                for (int i = 0, l = 0; i < imagenTrasera.Length; i++, l += TAMAÑOIMAGEN)
+                {
+                    this.imagenTrasera[i] = new BloqueImagen(offsetImagenTrasera, bytesImg.SubArray(l, TAMAÑOIMAGEN), paletaNormal, paletaShiny);
+                }
             }
+            catch { }
 
         }
 

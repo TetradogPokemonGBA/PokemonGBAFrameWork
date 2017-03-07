@@ -205,7 +205,7 @@ namespace PokemonGBAFrameWork
 
         public bool EsUnPokemonValido
         {
-            get { return Descripcion != null; }
+            get { return Descripcion != null&(ordenPokedexNacional>0||ordenPokedexLocal>=0); }
         }
 
 
@@ -233,7 +233,7 @@ namespace PokemonGBAFrameWork
             }
             set
             {
-                if (value < 0 || value > ushort.MaxValue)
+                if ( value > ushort.MaxValue)
                     throw new ArgumentOutOfRangeException();
                 ordenPokedexLocal = value;
             }
@@ -246,7 +246,7 @@ namespace PokemonGBAFrameWork
             }
             set
             {
-                if (value < 0 || value > ushort.MaxValue)
+                if (value > ushort.MaxValue)
                     throw new ArgumentOutOfRangeException();
                 ordenPokedexNacional = value;
             }
@@ -938,16 +938,35 @@ namespace PokemonGBAFrameWork
             pokemon.Nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.Nombre, edicion, compilacion) + pokemon.OrdenGameFreak * (int)LongitudCampos.NombreCompilado, (int)LongitudCampos.NombreCompilado,true);
             pokemon.Nombre.MaxCaracteres = (int)LongitudCampos.Nombre;
             //pongo el orden local y nacional...
-            pokemon.OrdenPokedexLocal = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
-            pokemon.OrdenPokedexNacional = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
-            //pongo la pokedex
-            if (pokemon.OrdenPokedexNacional <= totalEntradasPokedex)
+            try
             {
-                pokemon.Descripcion = Descripcion.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
-               
+                pokemon.OrdenPokedexLocal = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenLocal, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
             }
-            pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
-            pokemon.AtaquesAprendidos = AtaquesAprendidos.GetAtaquesAprendidos(rom, edicion, compilacion, ordenGameFreak);
+            catch { pokemon.OrdenPokedexLocal = -1; }
+            try
+            {
+                pokemon.OrdenPokedexNacional = (int)Word.GetWord(rom, Zona.GetOffset(rom, Variables.OrdenNacional, edicion, compilacion) - 2 + pokemon.OrdenGameFreak * 2);
+            }
+            catch { pokemon.ordenPokedexNacional = -1; }
+            //pongo la pokedex
+            try
+            {
+                if (pokemon.OrdenPokedexNacional <= totalEntradasPokedex)
+                {
+                    pokemon.Descripcion = Descripcion.GetDescripcionPokedex(rom, edicion, compilacion, pokemon.OrdenPokedexNacional);
+
+                }
+            }
+            catch { }
+            try
+            {
+                pokemon.huella = Huella.GetHuella(rom, edicion, compilacion, pokemon.OrdenGameFreak);
+            }
+            catch { }
+            try
+            {
+                pokemon.AtaquesAprendidos = AtaquesAprendidos.GetAtaquesAprendidos(rom, edicion, compilacion, ordenGameFreak);
+            }catch { }
             return pokemon;
         }
         public static Pokemon[] GetPokemons(RomGBA rom)
@@ -970,7 +989,7 @@ namespace PokemonGBAFrameWork
                 try
                 {
                     pokemons[i] = GetPokemon(rom, edicion, compilacion, i, total);
-                }catch(Exception ex) { System.Diagnostics.Debugger.Break(); }
+                }catch(Exception ex) {/* System.Diagnostics.Debugger.Break();*/ }
 
             return pokemons;
 

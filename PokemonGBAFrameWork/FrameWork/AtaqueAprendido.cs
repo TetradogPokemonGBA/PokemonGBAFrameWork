@@ -198,6 +198,7 @@ namespace PokemonGBAFrameWork
             return ataques;
 
         }
+
         public static AtaquesAprendidos GetAtaquesAprendidos(RomData rom, Hex indexPokemon)
         { return GetAtaquesAprendidos(rom.RomGBA, rom.Edicion, rom.Compilacion, indexPokemon); }
         public static AtaquesAprendidos GetAtaquesAprendidos(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion,Hex ordenGameGrakPokemon)
@@ -249,7 +250,7 @@ namespace PokemonGBAFrameWork
 
 
         internal static int GetTotalPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
-        {
+        {//no funciona en todos los casos....
             int total = 0;
             while (Offset.IsAPointer(rom, GetOffsetPointer(rom, edicion, compilacion,total))) total++;
             return total;
