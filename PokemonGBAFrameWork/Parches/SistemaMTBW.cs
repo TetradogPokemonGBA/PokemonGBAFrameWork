@@ -56,6 +56,7 @@ namespace PokemonGBAFrameWork
         {
             ActivarNuevoSistema(rom.RomGBA, rom.Edicion, rom.Compilacion);
         }
+
         public static void ActivarNuevoSistema(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             rom.Datos.SetArray(GetOffset(rom, edicion, compilacion, Variable.OffsetMTBW1), NewSystem);
