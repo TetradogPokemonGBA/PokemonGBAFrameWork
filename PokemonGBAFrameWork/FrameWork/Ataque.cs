@@ -697,7 +697,7 @@ namespace PokemonGBAFrameWork
         //datos concurso
         static AtaqueHoenn()
         {
-            byte[] valoresUnLimitedAtaque = (((Hex)(int)ValoresLimitadoresFin.AtaqueConcurso));
+            byte[] valoresUnLimitedAtaque = { 0 };
             byte[] valoresUnLimitedAnimacion = (((Hex)(int)ValoresLimitadoresFin.AnimacionesConcurso));
             Zona zonaDatosConcursos = new Zona(Variable.DatosConcursos);
             Zona zonaVariableAtaqueConcurso = new Zona(ValoresLimitadoresFin.AtaqueConcurso);
