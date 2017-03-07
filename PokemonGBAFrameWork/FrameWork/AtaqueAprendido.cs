@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork
 {
    public class AtaquesAprendidos:ObjectAutoId
     {
-        public class AtaqueAprendido:ObjectAutoId,IComparable<AtaqueAprendido>
+        public class AtaqueAprendido:ObjectAutoId,IComparable<AtaqueAprendido>,IComparable
         {
    
             short ataque;
@@ -50,6 +50,10 @@ namespace PokemonGBAFrameWork
                 }
             }
 
+            public new int CompareTo(object other)
+            {
+                return CompareTo(other as AtaqueAprendido);
+            }
             public int CompareTo(AtaqueAprendido other)
             {
                 int compareTo =other!=null ? Nivel.CompareTo(other.Nivel) : (int)Gabriel.Cat.CompareTo.Inferior;
@@ -57,8 +61,11 @@ namespace PokemonGBAFrameWork
                     compareTo = Ataque.CompareTo(other.Ataque);
                 return compareTo;
             }
-
-
+            
+            public override string ToString()
+            {
+                return Ataque+":"+Nivel;
+            }
         }
         enum Variable
         {
@@ -119,6 +126,13 @@ namespace PokemonGBAFrameWork
                 ataques = value;
             }
         }
+        public bool EstaElAtaque(int ataque)
+        {
+            bool esta = false;
+            for (int i = 0; i < Ataques.Count && !esta; i++)
+                esta = Ataques[i].Ataque == ataque;
+            return esta;
+        }
         public byte[] ToBytesGBA()
         {
             byte[] bytesGBA = new byte[ataques.Count * 2 + MarcaFin.Length];
@@ -151,9 +165,8 @@ namespace PokemonGBAFrameWork
         {
             const int MAXATACKSFIGHT = 4;
             int posNivel=0;
-            int totalPuestos = 0;
             byte nivelByte =(byte) nivel;
-            AtaqueAprendido[] ataques = new AtaqueAprendido[MAXATACKSFIGHT];
+            LlistaOrdenada<AtaqueAprendido> ataques=new LlistaOrdenada<AtaqueAprendido>();
 
             Ataques.Sort();
 
@@ -163,27 +176,24 @@ namespace PokemonGBAFrameWork
             if(posNivel<MAXATACKSFIGHT)
             {
                 for (int i = 0; i <= posNivel; i++)
-                    if (ataques.Filtra((ataque)=>ataque!=null?ataque.Ataque==Ataques[i].Ataque:false).Count==0)
-                        ataques[totalPuestos++] = Ataques[i];
+                    if (!ataques.ContainsKey(Ataques[i].Clau))
+                        ataques.Add(Ataques[i]);
          
 
             }else
             {
-                for (int i = posNivel; totalPuestos<MAXATACKSFIGHT && i>=0; i--)
+                for (int i = posNivel; ataques.Count<MAXATACKSFIGHT && i>=0; i--)
                 {
-                    if (ataques.Filtra((ataque) => ataque != null ? ataque.Ataque == Ataques[i].Ataque : false).Count == 0)
-                    {
-                        ataques[totalPuestos++] = Ataques[i];
-                  
-                    }
+                    if (!ataques.ContainsKey(Ataques[i].Clau))
+                        ataques.Add(Ataques[i]);
                 }
 
             }
 
-            for (int i = totalPuestos; i < MAXATACKSFIGHT; i++)
-                    ataques[i] = new AtaqueAprendido();
+            for (int i = ataques.Count; i < MAXATACKSFIGHT; i++)
+                    ataques.Add(new AtaqueAprendido(-1));
 
-            return ataques;
+            return (AtaqueAprendido[])ataques.Values;
 
         }
         public Ataque[] GetAtaques(Hex nivel,IList<Ataque> lstAtaquesSource)
@@ -194,7 +204,13 @@ namespace PokemonGBAFrameWork
             Ataque[] ataques = new Ataque[MAXATACKSFIGHT];
             AtaqueAprendido[] ataquesAprendidos = GetAtaquesAprendidos(nivel);
             for (int i = 0; i < MAXATACKSFIGHT; i++)
-                ataques[i] = lstAtaquesSource[ataquesAprendidos[i].Ataque];
+                if (ataquesAprendidos[i].Ataque > 0)
+                    ataques[i] = lstAtaquesSource[ataquesAprendidos[i].Ataque];
+                else
+                {
+                    ataques[i] = new Ataque();
+                  
+                }
             return ataques;
 
         }

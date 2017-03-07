@@ -34,21 +34,56 @@ namespace PokemonGBAFrameWork
 
                 zonaBancoMapaRutaValido.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0);
                 zonaBancoMapaRutaValido.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 3);
+                //por logica
+                zonaBancoMapaRutaValido.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0);
+                zonaBancoMapaRutaValido.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 3);
+                zonaBancoMapaRutaValido.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 3);
+                zonaBancoMapaRutaValido.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 3);
 
                 zonaColumnasFilaRuta.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 6);
                 zonaColumnasFilaRuta.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 7);
+                //por logica
+                zonaColumnasFilaRuta.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 6);
+                zonaColumnasFilaRuta.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 7);
+                zonaColumnasFilaRuta.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 7);
+                zonaColumnasFilaRuta.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 7);
 
                 zonaOffsetTablaFilasRuta.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xD5A140);
                 zonaOffsetTablaFilasRuta.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x64C685);
 
+                //investigando zonaOffsetTablaFilasRuta
+                zonaOffsetTablaFilasRuta.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xD5A144);
+                zonaOffsetTablaFilasRuta.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x64BD7D);
+                zonaOffsetTablaFilasRuta.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x655665,0x6556D5);
+                zonaOffsetTablaFilasRuta.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x655D89, 0x655DE9);
+
                 zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x161928);
-                zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x141d6e);
+                zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x141D6E);
+
+                //investigacion a ciegas
+                zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x161C84);
+                zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x141D46);
+                zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x141B6A,0x141BE2);
+                zonaOffSetRutina1.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x141B92, 0x141C0A);
 
                 zonaOffSetRutina2.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1619c6);
                 zonaOffSetRutina2.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x141df6);
 
-                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x161a82);
-                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x141eae);
+                //investigacion a ciegas
+                zonaOffSetRutina2.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x161D22);
+                zonaOffSetRutina2.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x141D88);
+                zonaOffSetRutina2.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x141BAC, 0x141C24);
+                zonaOffSetRutina2.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x141BD4, 0x141C4C);
+
+                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x161A82);
+                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x141EAE);
+
+                //investigacion a ciegas
+                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x161DDE);
+                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x141E86);
+                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa,0x141CAA, 0x141D22);
+                zonaOffSetRutina3.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x141CD2, 0x141D4A);
+
 
                 Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] { zonaBancoMapaRutaValido, zonaColumnasFilaRuta, zonaOffsetTablaFilasRuta, zonaOffSetRutina1, zonaOffSetRutina2, zonaOffSetRutina3 });
 
@@ -136,18 +171,46 @@ namespace PokemonGBAFrameWork
 
                 zonaSpecialPokemonErrante.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x12B);
                 zonaSpecialPokemonErrante.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x129);
+                //investigacion logica
+                zonaSpecialPokemonErrante.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x12B);
+                zonaSpecialPokemonErrante.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x129);
+                zonaSpecialPokemonErrante.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x129);
+                zonaSpecialPokemonErrante.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x129);
+
 
                 zonaPokemonErranteVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x4F24);
                 zonaPokemonErranteVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x506C);
+                //investigacion a ciegas
+                zonaPokemonErranteVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x4F24);
+                zonaPokemonErranteVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x506C);
+                zonaPokemonErranteVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x5100, 0x5114);
+                zonaPokemonErranteVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x5100, 0x5114);
 
                 zonaVitalidadVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x4F25);
                 zonaVitalidadVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x506D);
+                //investigacion a ciegas
+                zonaVitalidadVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x4F25);
+                zonaVitalidadVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x506D);
+                zonaVitalidadVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x5101, 0x5115);
+                zonaVitalidadVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x5101, 0x5115);//logica
 
                 zonaNivelYEstadoVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x4F26);
                 zonaNivelYEstadoVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x506E);
+                //investigacion a ciegas
+                zonaNivelYEstadoVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x4F26);//logica
+                zonaNivelYEstadoVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x506E);//logica
+                zonaNivelYEstadoVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x5102, 0x5116);//logica
+                zonaNivelYEstadoVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x5102, 0x5116);//logica
 
                 zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x5F29);
                 zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x5071);
+                //investigacion a ciegas
+                zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x5F29);//logica
+                zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x5071);//logica
+                zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x5105, 0x5119);//logica
+                zonaDisponibleVar.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x5105, 0x5119);//logica
+
+
                 Zona.DiccionarioOffsetsZonas.AddRange(new Zona[] {zonaDisponibleVar,zonaNivelYEstadoVar,zonaPokemonErranteVar,zonaSpecialPokemonErrante,zonaVitalidadVar });
             }
             PokemonGBAFrameWork.Pokemon pokemon;

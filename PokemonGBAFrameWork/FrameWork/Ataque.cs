@@ -10,7 +10,7 @@ namespace PokemonGBAFrameWork
 {//es muy extenso..por acabar de desarrollar (hacer clase para trabajar los efectos cómodamente y las demás partes que lo requieran
 
     //interpretacion sacada de PGE Attack Editor creditos Gamer2020
-    public class DatosAtaque : ObjectAutoId
+    public class DatosAtaque : ObjectAutoId,IComparable<DatosAtaque>
     {
        
         enum Custom
@@ -383,7 +383,23 @@ namespace PokemonGBAFrameWork
             isCustomEnabled = aux >= (int)customs[indexCustomToCalculate];
             return isCustomEnabled;
         }
+        public new int CompareTo(object obj)
+        {
+            return CompareTo(obj as DatosAtaque);
+        }
+        public int CompareTo(DatosAtaque other)
+        {
+            int compareTo;
+            if (other != null)
+            {
+                compareTo = (int)Gabriel.Cat.CompareTo.Iguales;
+                for (int i = 0; i < blDatosAtaque.Bytes.Length && compareTo == (int)Gabriel.Cat.CompareTo.Iguales; i++)
+                    compareTo = blDatosAtaque.Bytes[i].CompareTo(other.blDatosAtaque.Bytes[i]);
 
+            }
+            else compareTo = (int)Gabriel.Cat.CompareTo.Inferior;
+            return compareTo;
+        }
         public static DatosAtaque GetDatosAtaque(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion)
         {
             return new DatosAtaque() { blDatosAtaque = BloqueBytes.GetBytes(rom, Zona.GetOffset(rom, Variable.DatosAtaque, edicion, compilacion) + posicion * Longitud, Longitud) };
@@ -392,8 +408,10 @@ namespace PokemonGBAFrameWork
         {
             BloqueBytes.SetBytes(rom, Zona.GetOffset(rom, Variable.DatosAtaque, edicion, compilacion) + posicion * Longitud, datosAtaque.blDatosAtaque.Bytes);
         }
+
+       
     }
-    public class Ataque : ObjectAutoId
+    public class Ataque : ObjectAutoId,IComparable<Ataque>
     {
        
         //son 9 bits en total de alli el 511 :) asi en 2 bytes hay ataque y nivel :)
@@ -504,7 +522,12 @@ namespace PokemonGBAFrameWork
         BloqueString nombre;
         BloqueString descripcion;
         DatosAtaque datosAtaque;
-
+        public Ataque()
+        {
+            nombre = new BloqueString("-", (int)LongitudCampos.Nombre);
+            descripcion = new BloqueString("");
+            datosAtaque = new DatosAtaque();
+        }
         public BloqueString Nombre
         {
             get
@@ -543,12 +566,20 @@ namespace PokemonGBAFrameWork
                 datosAtaque = value;
             }
         }
-
+        public new int CompareTo(object obj)
+        {
+            return CompareTo(obj as Ataque);
+        }
+        public int CompareTo(Ataque other)
+        {
+            int compareTo = other != null ? DatosAtaque.CompareTo(other.DatosAtaque) : (int)Gabriel.Cat.CompareTo.Inferior;
+            return compareTo;
+        }
         public override string ToString()
         {
             return Nombre;
         }
-
+       
         public static int GetTotalAtaques(RomData rom)
         {
             return GetTotalAtaques(rom.RomGBA, rom.Edicion, rom.Compilacion);
@@ -570,9 +601,9 @@ namespace PokemonGBAFrameWork
         }
         public static Ataque[] GetAtaques(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            Ataque[] ataques = new Ataque[GetTotalAtaques(rom, edicion, compilacion)];
-            for (int i = 0; i < ataques.Length; i++)
-                ataques[i] = GetAtaque(rom, edicion, compilacion, i);
+            Ataque[] ataques = new Ataque[GetTotalAtaques(rom, edicion, compilacion)-1];
+            for (int i = 1,j=0; j < ataques.Length; i++,j++)
+                ataques[j] = GetAtaque(rom, edicion, compilacion, i);
             return ataques;
         }
         public static Ataque GetAtaque(RomData rom, Hex posicion)
@@ -583,7 +614,7 @@ namespace PokemonGBAFrameWork
         {
             BloqueString nombre = BloqueString.GetString(rom, Zona.GetOffset(rom, Variables.NombreAtaque, edicion, compilacion) + posicion * (int)LongitudCampos.Nombre, (int)LongitudCampos.Nombre, true);
             //la descripcion del primer ataque no existe y todas las descripciones se retrasan 1
-            BloqueString descripcion = BloqueString.GetString(rom, Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion == 0 ? posicion : posicion - 1) * (int)LongitudCampos.Descripcion));
+            BloqueString descripcion = BloqueString.GetString(rom, Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion-1) * (int)LongitudCampos.Descripcion));
             DatosAtaque datosAtaque = DatosAtaque.GetDatosAtaque(rom, edicion, compilacion, posicion);
             Ataque ataque;
 
@@ -607,7 +638,7 @@ namespace PokemonGBAFrameWork
         public static void SetAtaque(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex posicion, Ataque ataque)
         {
             Hex offsetNombre = Zona.GetOffset(rom, Variables.NombreAtaque, edicion, compilacion) + posicion * (int)LongitudCampos.Nombre;
-            Hex offsetDescripcion = Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion == 0 ? posicion : posicion - 1) * (int)LongitudCampos.Descripcion);
+            Hex offsetDescripcion = Offset.GetOffset(rom, Zona.GetOffset(rom, Variables.Descripción, edicion, compilacion) + (posicion-1) * (int)LongitudCampos.Descripcion);
             //nombre
             BloqueBytes.RemoveBytes(rom, offsetNombre, (int)LongitudCampos.Nombre);
             BloqueString.SetString(rom, offsetNombre, ataque.Nombre);
@@ -629,7 +660,7 @@ namespace PokemonGBAFrameWork
         {
             for (int i = 0; i < ataques.Count; i++)
             {
-                SetAtaque(rom, edicion, compilacion, i, ataques[i]);
+                SetAtaque(rom, edicion, compilacion, i+1, ataques[i]);
             }
             QuitarLimite(rom, edicion, compilacion);
 
@@ -674,6 +705,8 @@ namespace PokemonGBAFrameWork
             }
             return edicion;
         }
+
+ 
     }
     public class AtaqueHoenn : Ataque
     {
