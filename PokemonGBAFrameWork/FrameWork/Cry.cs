@@ -11,7 +11,9 @@ namespace PokemonGBAFrameWork
     {
         enum VariableCry
         {
-            Cry1,Cry2,Desconocida
+         Cry1= 0x203C0000,
+         Cry2=0x303C0000,
+         Desconocida
         }
         enum Longitud
         {
@@ -30,7 +32,7 @@ namespace PokemonGBAFrameWork
             zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x72114, 0X72128);
             zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x72114, 0X72128);
             zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xA35EC);
-            zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xBAC18, 0xBAC38);
+            zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.RubiUsa,false, 0xBAC18, 0xBAC38);
             zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xBAC18,0x452608 ,0xBAC38);
             zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x7214C);
             zonaTablaHeaderCry.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xA3600);
@@ -42,8 +44,8 @@ namespace PokemonGBAFrameWork
             zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x72104, 0x72118);
             zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x72104, 0x72118);
             zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0xA35DC);
-            zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0xBAC08, 0xBAC28);
-            zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0xBAC08,0xBAC28);
+            zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.RubiUsa,false, 0xBAC08, 0xBAC28);
+            zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.ZafiroUsa,false, 0xBAC08,0xBAC28);
             zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x7213C);
             zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0xA34F);
             zonaTablaHeaderCry2.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x7213C);
@@ -54,8 +56,8 @@ namespace PokemonGBAFrameWork
             zonaDesconocida.AddOrReplaceZonaOffset(Edicion.RojoFuegoUsa, 0x6BC674, 0x6BC6D4);
             zonaDesconocida.AddOrReplaceZonaOffset(Edicion.VerdeHojaUsa, 0x6BBF50, 0x6BBFC0);
             zonaDesconocida.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x903190);
-            zonaDesconocida.AddOrReplaceZonaOffset(Edicion.RubiUsa, 0x65D10C, 0x65D120);
-            zonaDesconocida.AddOrReplaceZonaOffset(Edicion.ZafiroUsa, 0x65D168, 0x65D180);
+            zonaDesconocida.AddOrReplaceZonaOffset(Edicion.RubiUsa,false, 0x65D10C, 0x65D120);
+            zonaDesconocida.AddOrReplaceZonaOffset(Edicion.ZafiroUsa,false, 0x65D168, 0x65D180);
             zonaDesconocida.AddOrReplaceZonaOffset(Edicion.VerdeHojaEsp, 0x6B2668);
             zonaDesconocida.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x905744);
             zonaDesconocida.AddOrReplaceZonaOffset(Edicion.RojoFuegoEsp, 0x6B2F70);
