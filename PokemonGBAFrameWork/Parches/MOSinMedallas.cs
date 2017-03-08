@@ -12,8 +12,8 @@ namespace PokemonGBAFrameWork
         {
             MOSinMedallasOffset
         }
-        const byte ENABLE = 0x1;
-        const byte DISSABLE = 0x0;
+        const byte DISSABLEMOSINMEDALLAS = 0x1;
+        const byte ENABLEMOSINMEDALLAS = 0x0;
         static MOSinMedallas()
         {
             Zona zonaMOSinMedallas = new Zona(Variable.MOSinMedallasOffset);
@@ -33,7 +33,7 @@ namespace PokemonGBAFrameWork
 
         public static bool EstaActivado(RomGBA romGBA, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            return romGBA.Datos[Zona.GetVariable(romGBA, Variable.MOSinMedallasOffset, edicion, compilacion)]==ENABLE;
+            return romGBA.Datos[Zona.GetVariable(romGBA, Variable.MOSinMedallasOffset, edicion, compilacion)]==ENABLEMOSINMEDALLAS;
         }
         public static void Activar(RomData rom)
         {
@@ -42,16 +42,16 @@ namespace PokemonGBAFrameWork
 
         public static void Activar(RomGBA romGBA, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-             romGBA.Datos[Zona.GetVariable(romGBA, Variable.MOSinMedallasOffset, edicion, compilacion)] = ENABLE;
+             romGBA.Datos[Zona.GetVariable(romGBA, Variable.MOSinMedallasOffset, edicion, compilacion)] = ENABLEMOSINMEDALLAS;
         }
-        public static void Desctivar(RomData rom)
+        public static void Desactivar(RomData rom)
         {
-            Desctivar(rom.RomGBA, rom.Edicion, rom.Compilacion);
+            Desactivar(rom.RomGBA, rom.Edicion, rom.Compilacion);
         }
 
-        public static void Desctivar(RomGBA romGBA, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static void Desactivar(RomGBA romGBA, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
-            romGBA.Datos[Zona.GetVariable(romGBA, Variable.MOSinMedallasOffset, edicion, compilacion)] = DISSABLE;
+            romGBA.Datos[Zona.GetVariable(romGBA, Variable.MOSinMedallasOffset, edicion, compilacion)] = DISSABLEMOSINMEDALLAS;
         }
     }
 }
