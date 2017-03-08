@@ -27,7 +27,7 @@ namespace PokemonGBAFrameWork
         }
         public static readonly Color[] ColoresOndaPorDefecto = { Color.Green, Color.Blue, Color.Red, Color.Yellow, Color.Violet, Color.Blue, Color.Brown, Color.HotPink, Color.Gray, Color.Magenta };
         static readonly sbyte[] Lookup = new sbyte[] { 0, 1, 4, 9, 16, 25, 36, 49, -64, -49, -36, -25, -16, -9, -4, -1 };
-        public static LlistaOrdenada<string, string> DiccionarioHeaderSignificado = new LlistaOrdenada<string, string>();
+        public static TwoKeysList<string, string,ushort> DiccionarioHeaderSignificadoCanalesMax = new TwoKeysList<string, string, ushort>();
         static readonly byte[] EndHeader = { 0xFF, 0x0, 0xFF, 0x0 };
         const int LENGTHIDHEADER = 4;
 
@@ -39,7 +39,7 @@ namespace PokemonGBAFrameWork
         int inicioRepeticion;
         int length;
         SByte[][] datos;
-        ushort numeroDeCanales;
+        ushort numeroDeCanalesMaximos;
 
         private BloqueSonido()
         {
@@ -72,8 +72,8 @@ namespace PokemonGBAFrameWork
                 //' only PCM format allowed
                 throw new Exception("Cry must be in PCM format!");
 
-            numeroDeCanales = brOnda.ReadUInt16();
-            datos = new sbyte[numeroDeCanales][];
+            numeroDeCanalesMaximos = brOnda.ReadUInt16();
+            datos = new sbyte[numeroDeCanalesMaximos][];
             sampleRate = brOnda.ReadInt32();
 
             if (brOnda.ReadUInt32() != sampleRate)
@@ -90,7 +90,7 @@ namespace PokemonGBAFrameWork
             if (brOnda.ReadUInt32() != 0x61746164)
                 throw new Exception("Expected data chunk!!");
 
-            for (int j = 0; j < numeroDeCanales; j++)//mirar si es asi :D
+            for (int j = 0; j < numeroDeCanalesMaximos; j++)//mirar si es asi :D
             {
                 length = brOnda.ReadInt32();
 
@@ -190,6 +190,8 @@ namespace PokemonGBAFrameWork
 
             set
             {
+                if (value.Length > NumeroDeCanalesMaximos)
+                    throw new ArgumentOutOfRangeException();
                 datos = value;
             }
         }
@@ -209,6 +211,43 @@ namespace PokemonGBAFrameWork
             }
         }
 
+        public ushort NumeroDeCanalesMaximos
+        {
+            get
+            {
+                ushort numCanalesMax;
+
+                if (numeroDeCanalesMaximos==0&&DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(Header))
+                    numCanalesMax = DiccionarioHeaderSignificadoCanalesMax.GetValueWithKey1(Header);
+                else numCanalesMax = numeroDeCanalesMaximos;
+
+                return numCanalesMax;
+            }
+
+            set
+            {
+                if (value == 0)
+                    throw new ArgumentException("El máximo no puede ser 0");
+                else if (value > 10)
+                    throw new ArgumentException("El máximo de canales que puede tener la gba es 10");
+                numeroDeCanalesMaximos = value;
+            }
+        }
+
+        /// <summary>
+        /// Devuelve lo que significa el Header si se ha registrado
+        /// </summary>
+        /// <returns>si no esta devuelve null</returns>
+        public string Significado()
+        {
+            string strSignificado;
+            if (DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(Header))
+                strSignificado = Header;
+            else strSignificado = null;
+
+            return strSignificado;
+
+        }
         public Bitmap DibujarOndaSonido()
         {
             return DibujarOndaSonido(ColoresOndaPorDefecto);
@@ -218,9 +257,9 @@ namespace PokemonGBAFrameWork
             const int HEIGHTWAVEIMAGE = 128;
             const int FIX = 64;//buscar nombre mas descriptivo
             Color[] coloresOnda;
-            if (colores.Length < numeroDeCanales)
+            if (colores.Length < numeroDeCanalesMaximos)
             {
-                coloresOnda = new Color[numeroDeCanales];
+                coloresOnda = new Color[numeroDeCanalesMaximos];
                 for (int i = 0; i < colores.Length; i++)
                     coloresOnda[i] = colores[i];
                 for (int i = colores.Length; i < coloresOnda.Length; i++)
@@ -232,7 +271,7 @@ namespace PokemonGBAFrameWork
             Bitmap bmpOnda = new Bitmap(datos.Length, HEIGHTWAVEIMAGE);
             Graphics gOnda = Graphics.FromImage(bmpOnda);
             //pongo las lineas :D
-            for (int j = 0; j < numeroDeCanales; j++)
+            for (int j = 0; j < numeroDeCanalesMaximos; j++)
             {
                 penOnda = new Pen(coloresOnda[j]);
                 for (int i = 1; i < datos.Length; i++)
@@ -262,7 +301,7 @@ namespace PokemonGBAFrameWork
             bwSonido.Write(Encoding.ASCII.GetBytes("fmt "));
             bwSonido.Write(16);
             bwSonido.Write(PCMFORMAT);
-            bwSonido.Write(numeroDeCanales);
+            bwSonido.Write(numeroDeCanalesMaximos);
             bwSonido.Write(sampleRate);
             bwSonido.Write(sampleRate);
             bwSonido.Write((ushort)1);
@@ -270,7 +309,7 @@ namespace PokemonGBAFrameWork
 
             // data chunk
             bwSonido.Write(Encoding.ASCII.GetBytes("data"));
-            for (int j = 0; j < numeroDeCanales; j++)
+            for (int j = 0; j < numeroDeCanalesMaximos; j++)
             {
                 bwSonido.Write(datos[j].Length);
                 for (int i = 0; i < datos[j].Length; i++)
@@ -285,23 +324,26 @@ namespace PokemonGBAFrameWork
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
-            str.Append(Header);
-            
-            if (DiccionarioHeaderSignificado.ContainsKey(Header))
+
+
+            if (DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(Header))
             {
-                str.Append(":");
-                str.Append(DiccionarioHeaderSignificado[Header]);
+                str.Append(DiccionarioHeaderSignificadoCanalesMax.GetTkey2WhithTkey1(Header));
             }
-            str.Append("-");
+            else
+            {
+                str.Append(Header);
+            }
+            str.Append(":");
             str.Append((string)Offset);
             str.Append("->");
-            str.Append(numeroDeCanales);
+            str.Append(numeroDeCanalesMaximos);
 
             return str.ToString();
         }
 
-
-        public static BloqueSonido GetBloqueSonido(RomGBA rom, Hex offsetSound)
+      
+        public static BloqueSonido GetBloqueSonido(RomGBA rom, Hex offsetSound,ushort numeroDeCanalesMaximo=1)
         {//por descubrir
 
             // sacar de la rom :D
@@ -313,13 +355,15 @@ namespace PokemonGBAFrameWork
             byte input;
             BloqueSonido bloqueACargar = new BloqueSonido();
             bloqueACargar.Offset = offsetSound;
-            bloqueACargar.Datos = new sbyte[numeroDeCanales][];
-            bloqueACargar.numeroDeCanales =(ushort) numeroDeCanales;
+            bloqueACargar.numeroDeCanalesMaximos = numeroDeCanalesMaximo;
+            bloqueACargar.Datos = new sbyte[numeroDeCanales][];//Mas adelante sacarlo de la rom y ponerlos todos :)
             bloqueACargar.EstaComprimido = Serializar.ToShort(rom.Datos.SubArray((int)offsetSound + (int)Posicion.EstaComprimido, sizeof(short)).ReverseArray()) == 0x1;
             bloqueACargar.RepetirCiclicamente = Serializar.ToShort(rom.Datos.SubArray((int)offsetSound + (int)Posicion.RepetirCiclicamente, sizeof(short)).ReverseArray()) == 0x4000;
             bloqueACargar.SampleRate = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray()) >> 10;
             bloqueACargar.InicioRepeticion = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray());
             bloqueACargar.Length = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.Length, sizeof(int)));//habrá una lenght para cada canal?
+            if (bloqueACargar.Length+offsetSound>rom.Datos.Length)
+                throw new ArgumentException();
             unsafe
             {
                 sbyte* ptrDatosBloque;
@@ -394,15 +438,21 @@ namespace PokemonGBAFrameWork
         /// <returns></returns>
         public static Llista<BloqueSonido> GetBloquesSonido(RomGBA rom, string idHeader)
         {
+            ushort numeroDeCanalesMax;
             byte[] byteHeader = (Hex)idHeader;
             Llista<BloqueSonido> sonidos = new Llista<BloqueSonido>();
             Hex offsetSound=0;
+            Hex endHeader =(Hex) EndHeader;
             do
             {
                 offsetSound = NextOffsetSound(rom, offsetSound+1, byteHeader);
                 if (offsetSound > 0)
                 {
-                    sonidos.Add(GetBloqueSonido(rom, PokemonGBAFrameWork.Offset.GetOffset(rom, offsetSound + LENGTHIDHEADER)));
+                    if (DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(idHeader))
+                        numeroDeCanalesMax = DiccionarioHeaderSignificadoCanalesMax.GetValueWithKey1(idHeader);
+                    else numeroDeCanalesMax = 1;
+
+                    sonidos.Add(GetBloqueSonido(rom, PokemonGBAFrameWork.Offset.GetOffset(rom, offsetSound + LENGTHIDHEADER), numeroDeCanalesMax));
                     sonidos[sonidos.Count - 1].Header = idHeader;
                 }
             } while (offsetSound > 0);
@@ -423,6 +473,7 @@ namespace PokemonGBAFrameWork
         public static string[] GetHeaders(RomGBA rom)
         {
             LlistaOrdenada<string, string> llistaHeaders = new LlistaOrdenada<string, string>();
+            LlistaOrdenada<string, string> llistaBannedHeaders = new LlistaOrdenada<string, string>();
             Hex offset=0;
             byte[] bytesIdHeader;
             string idHeaderEncontrado;
@@ -435,9 +486,15 @@ namespace PokemonGBAFrameWork
                     if (PokemonGBAFrameWork.Offset.IsAPointer(rom, offset - (int)Posicion.PointerHeader))
                     {
                         idHeaderEncontrado = (Hex)bytesIdHeader;
-                        if (!llistaHeaders.ContainsKey(idHeaderEncontrado))
+                        if (!llistaHeaders.ContainsKey(idHeaderEncontrado)&&!llistaBannedHeaders.ContainsKey(idHeaderEncontrado))
                         {
-                           llistaHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
+                            try
+                            {
+                               if(GetBloquesSonido(rom, idHeaderEncontrado).Count>0)
+                                llistaHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
+                               else llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
+                            }
+                            catch { llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado); }
                         }
                     }
                 } 
@@ -469,7 +526,7 @@ namespace PokemonGBAFrameWork
                         offsetNextSound = rom.Datos.BuscarArray(offsetNextSound + 1, header);
                     }
                 }
-            } while (offsetNextSound > 0 && !trobat);
+            } while (!trobat && offsetNextSound > 0);
             return offsetNextSound;
 
         }

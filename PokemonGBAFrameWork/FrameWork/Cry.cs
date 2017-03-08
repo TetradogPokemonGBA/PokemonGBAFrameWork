@@ -11,11 +11,12 @@ namespace PokemonGBAFrameWork
     {
         public const string IdCry = "203C0000";
         public const string IdGrowl = "303C0000";
+        const int CANALESMAX = 1;
 
         static Cry()
         {
-            BloqueSonido.DiccionarioHeaderSignificado.Add(IdCry, "Cry");
-            BloqueSonido.DiccionarioHeaderSignificado.Add(IdGrowl, "Growl"); 
+            BloqueSonido.DiccionarioHeaderSignificadoCanalesMax.Add(IdCry, "Cry",CANALESMAX);
+            BloqueSonido.DiccionarioHeaderSignificadoCanalesMax.Add(IdGrowl, "Growl",CANALESMAX); 
         }
     
 
