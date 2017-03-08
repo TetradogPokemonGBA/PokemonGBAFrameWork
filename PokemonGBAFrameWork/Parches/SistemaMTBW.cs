@@ -42,31 +42,31 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static bool EstaActivadoElNuevoSistema(RomData rom)
+        public static bool EstaActivado(RomData rom)
         {
-            return EstaActivadoElNuevoSistema(rom.RomGBA, rom.Edicion, rom.Compilacion);
+            return EstaActivado(rom.RomGBA, rom.Edicion, rom.Compilacion);
         }
-        public static bool EstaActivadoElNuevoSistema(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
+        public static bool EstaActivado(RomGBA rom,Edicion edicion,CompilacionRom.Compilacion compilacion)
         {
             return rom.Datos[GetOffset(rom,edicion,compilacion, Variable.OffsetMTBW1)] == NewSystem[0] && rom.Datos[GetOffset(rom, edicion, compilacion, Variable.OffsetMTBW2)] == NewSystem[0];
         }
 
 
-        public static void ActivarNuevoSistema(RomData rom)
+        public static void Activar(RomData rom)
         {
-            ActivarNuevoSistema(rom.RomGBA, rom.Edicion, rom.Compilacion);
+            Activar(rom.RomGBA, rom.Edicion, rom.Compilacion);
         }
 
-        public static void ActivarNuevoSistema(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static void Activar(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             rom.Datos.SetArray(GetOffset(rom, edicion, compilacion, Variable.OffsetMTBW1), NewSystem);
             rom.Datos.SetArray(GetOffset(rom, edicion, compilacion, Variable.OffsetMTBW2), NewSystem);
         }
-        public static void DesactivarNuevoSistema(RomData rom)
+        public static void Desactivar(RomData rom)
         {
-             DesactivarNuevoSistema(rom.RomGBA, rom.Edicion, rom.Compilacion);
+             Desactivar(rom.RomGBA, rom.Edicion, rom.Compilacion);
         }
-        public static void DesactivarNuevoSistema(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static void Desactivar(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             rom.Datos.SetArray(GetOffset(rom, edicion, compilacion, Variable.OffsetMTBW1), OldSystem);
             rom.Datos.SetArray(GetOffset(rom, edicion, compilacion, Variable.OffsetMTBW2), OldSystem);

@@ -102,6 +102,7 @@
     <Compile Include="FrameWork\RomData.cs" />
     <Compile Include="FrameWork\Sprite.cs" />
     <Compile Include="FrameWork\Tipo.cs" />
+    <Compile Include="Parches\MOSinMedallas.cs" />
     <Compile Include="Parches\SistemaMTBW.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
