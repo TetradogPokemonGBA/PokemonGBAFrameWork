@@ -14,9 +14,10 @@ namespace PokemonGBAFrameWork
 
         static Cry()
         {
-            BloqueSonido.dicHeaderSignificado.Add(IdCry, "Cry");
-            BloqueSonido.dicHeaderSignificado.Add(IdGrowl, "Growl"); 
+            BloqueSonido.DiccionarioHeaderSignificado.Add(IdCry, "Cry");
+            BloqueSonido.DiccionarioHeaderSignificado.Add(IdGrowl, "Growl"); 
         }
+    
 
     }
 }
