@@ -125,10 +125,11 @@ namespace PokemonGBAFrameWork
         Sprite sprites;
         Huella huella;
         AtaquesAprendidos ataquesAprendidos;
+        BloqueSonido cry;
+        BloqueSonido growl;
         /*por desarrollar
 		
 		//falts miniSprites 64x32 por mirar :D
-		//falta Cry
 		//falta  mt y mo
 		*/
         static Pokemon()
@@ -725,7 +726,31 @@ namespace PokemonGBAFrameWork
             }
         }
 
-    
+        public BloqueSonido Cry
+        {
+            get
+            {
+                return cry;
+            }
+
+            set
+            {
+                cry = value;
+            }
+        }
+
+        public BloqueSonido Growl
+        {
+            get
+            {
+                return growl;
+            }
+
+            set
+            {
+                growl = value;
+            }
+        }
 
         public void SetObjetosEnLosStats(int totalObjetos)
         {
@@ -896,35 +921,35 @@ namespace PokemonGBAFrameWork
         {
             return AtaquesAprendidos.GetTotalPokemon(rom, edicion, compilacion);
         }
-        public static Pokemon GetPokemon(RomGBA rom, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Hex ordenGameFreak)
         {
-            return GetPokemon(rom, Edicion.GetEdicion(rom), ordenGameFreak);
+            return GetPokemon(rom,sonidos, Edicion.GetEdicion(rom), ordenGameFreak);
         }
-        public static Pokemon GetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
-            return GetPokemon(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak);
+            return GetPokemon(rom, sonidos, Edicion.GetEdicion(rom), compilacion, ordenGameFreak);
         }
-        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Edicion edicion, Hex ordenGameFreak)
         {
-            return GetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak);
+            return GetPokemon(rom, sonidos, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak);
         }
-        public static Pokemon GetPokemon(RomGBA rom, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            return GetPokemon(rom, Edicion.GetEdicion(rom), ordenGameFreak, totalEntradasPokedex);
+            return GetPokemon(rom, sonidos, Edicion.GetEdicion(rom), ordenGameFreak, totalEntradasPokedex);
         }
-        public static Pokemon GetPokemon(RomGBA rom, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            return GetPokemon(rom, Edicion.GetEdicion(rom), compilacion, ordenGameFreak, totalEntradasPokedex);
+            return GetPokemon(rom, sonidos, Edicion.GetEdicion(rom), compilacion, ordenGameFreak, totalEntradasPokedex);
         }
-        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Edicion edicion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
-            return GetPokemon(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak, totalEntradasPokedex);
+            return GetPokemon(rom, sonidos, edicion, CompilacionRom.GetCompilacion(rom, edicion), ordenGameFreak, totalEntradasPokedex);
         }
-        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak)
         {
-            return GetPokemon(rom, edicion, compilacion, ordenGameFreak, Descripcion.TotalEntradas(rom, edicion, compilacion));
+            return GetPokemon(rom, sonidos, edicion, compilacion, ordenGameFreak, Descripcion.TotalEntradas(rom, edicion, compilacion));
         }
-        public static Pokemon GetPokemon(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
+        public static Pokemon GetPokemon(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Edicion edicion, CompilacionRom.Compilacion compilacion, Hex ordenGameFreak, Hex totalEntradasPokedex)
         {
             if (ordenGameFreak < 0)
                 throw new ArgumentOutOfRangeException("El orden no puede ser negativo");
@@ -967,28 +992,35 @@ namespace PokemonGBAFrameWork
             {
                 pokemon.AtaquesAprendidos = AtaquesAprendidos.GetAtaquesAprendidos(rom, edicion, compilacion, ordenGameFreak);
             }catch { }
+            if (pokemon.OrdenPokedexNacional >= 0)
+            {
+                if (pokemon.OrdenPokedexNacional <= sonidos.Count(PokemonGBAFrameWork.Cry.IdCry))
+                    pokemon.Cry = sonidos.GetValueAt(PokemonGBAFrameWork.Cry.IdCry, pokemon.OrdenPokedexNacional);
+                if (pokemon.OrdenPokedexNacional <= sonidos.Count(PokemonGBAFrameWork.Cry.IdGrowl))
+                    pokemon.Growl = sonidos.GetValueAt(PokemonGBAFrameWork.Cry.IdGrowl, pokemon.OrdenPokedexNacional);
+            }
             return pokemon;
         }
-        public static Pokemon[] GetPokemons(RomGBA rom)
+        public static Pokemon[] GetPokemons(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos)
         {
-            return GetPokemons(rom, Edicion.GetEdicion(rom));
+            return GetPokemons(rom,sonidos, Edicion.GetEdicion(rom));
         }
-        public static Pokemon[] GetPokemons(RomGBA rom, CompilacionRom.Compilacion compilacion)
+        public static Pokemon[] GetPokemons(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, CompilacionRom.Compilacion compilacion)
         {
-            return GetPokemons(rom, Edicion.GetEdicion(rom), compilacion);
+            return GetPokemons(rom, sonidos, Edicion.GetEdicion(rom), compilacion);
         }
-        public static Pokemon[] GetPokemons(RomGBA rom, Edicion edicion)
+        public static Pokemon[] GetPokemons(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Edicion edicion)
         {
-            return GetPokemons(rom, edicion, CompilacionRom.GetCompilacion(rom, edicion));
+            return GetPokemons(rom, sonidos, edicion, CompilacionRom.GetCompilacion(rom, edicion));
         }
-        public static Pokemon[] GetPokemons(RomGBA rom, Edicion edicion, CompilacionRom.Compilacion compilacion)
+        public static Pokemon[] GetPokemons(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, Edicion edicion, CompilacionRom.Compilacion compilacion)
         {
             Pokemon[] pokemons = new Pokemon[TotalPokemon(rom, edicion, compilacion)];
             Hex total = Descripcion.TotalEntradas(rom, edicion, compilacion);
             for (int i = 0; i < pokemons.Length; i++)
                 try
                 {
-                    pokemons[i] = GetPokemon(rom, edicion, compilacion, i, total);
+                    pokemons[i] = GetPokemon(rom,sonidos, edicion, compilacion, i, total);
                 }catch(Exception ex) {/* System.Diagnostics.Debugger.Break();*/ }
 
             return pokemons;

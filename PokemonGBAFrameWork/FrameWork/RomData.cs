@@ -22,9 +22,11 @@ namespace PokemonGBAFrameWork
         CompilacionRom.Compilacion compilacion;
         RomGBA rom;
         Entrenadores entrenadoresClasss;
-        public RomData(RomGBA rom,IEnumerable<Ataque> ataques,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, Entrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
+        public LlistaOrdenadaPerGrups<string, BloqueSonido> Sonidos { get; private set; }
+        public RomData(RomGBA rom, LlistaOrdenadaPerGrups<string, BloqueSonido> sonidos, IEnumerable<Ataque> ataques,IEnumerable<Habilidad> habilidades, IEnumerable<Tipo> tipos, IEnumerable<Objeto> objetos, IEnumerable<Pokemon> pokedex,IEnumerable<Entrenador> entrenadores, Entrenadores spritesEntrenadores, Edicion edicion,CompilacionRom.Compilacion compilacion):this()
         {
             RomGBA = rom;
+            Sonidos = sonidos;
             this.ataques.AddRange(ataques);
             this.habilidades.AddRange(habilidades);
             this.tipos.AddRange(tipos);
@@ -34,12 +36,13 @@ namespace PokemonGBAFrameWork
             this.edicion = edicion;
             this.compilacion = compilacion;
             this.entrenadoresClasss = spritesEntrenadores;
-
+            
         }
         public RomData(string pathGba):this(new RomGBA(pathGba))
         { }
         public RomData()
         {
+            Sonidos = new LlistaOrdenadaPerGrups<string, BloqueSonido>();
             habilidades = new Llista<Habilidad>();
             tipos = new Llista<Tipo>();
             objetos = new Llista<Objeto>();
@@ -52,12 +55,13 @@ namespace PokemonGBAFrameWork
         public RomData(RomGBA rom):this()
         {
             RomGBA = rom;
+            Sonidos = BloqueSonido.GetBloquesSonido(rom);
             Edicion = Edicion.GetEdicion(rom);
             Compilacion = CompilacionRom.GetCompilacion(rom, edicion);
             this.habilidades.AddRange(Habilidad.GetHabilidades(rom, edicion, compilacion));
             this.tipos.AddRange(Tipo.GetTipos(rom, edicion, compilacion));
             this.objetos.AddRange(Objeto.GetObjetos(rom, edicion, compilacion));
-            this.pokedex.AddRange(Pokemon.GetPokemons(rom, edicion, compilacion));
+            this.pokedex.AddRange(Pokemon.GetPokemons(rom,Sonidos, edicion, compilacion));
             this.Entrenadores.AddRange(Entrenador.GetEntrenadores(this));
             EntrenadoresClases = PokemonGBAFrameWork.Entrenadores.GetEntrenadoresClases(this);
             Ataques.AddRange(Ataque.GetAtaques(this));
@@ -144,7 +148,10 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public RomGBA RomGBA { get;  set; }
+        public RomGBA RomGBA {
+            get { return rom; }
+            set { rom = value; }
+        }
 
         public Entrenadores EntrenadoresClases
         {

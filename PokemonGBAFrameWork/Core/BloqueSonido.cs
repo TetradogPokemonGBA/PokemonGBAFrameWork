@@ -459,9 +459,9 @@ namespace PokemonGBAFrameWork
 
             return sonidos;
         }
-        public static LlistaOrdenada<string,Llista<BloqueSonido>> GetBloquesSonido(RomGBA rom)
+        public static LlistaOrdenadaPerGrups<string,BloqueSonido> GetBloquesSonido(RomGBA rom)
         {
-            LlistaOrdenada<string, Llista<BloqueSonido>> bloquesRom = new LlistaOrdenada<string, Llista<BloqueSonido>>();
+            LlistaOrdenadaPerGrups<string, BloqueSonido> bloquesRom = new LlistaOrdenadaPerGrups<string, BloqueSonido>();
             string[] idHeaders = GetHeaders(rom);
             for (int i = 0; i < idHeaders.Length; i++)
             {

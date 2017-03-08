@@ -363,7 +363,7 @@ namespace PokemonGBAFrameWork
         }
         public void AddOrReplaceZonaOffset(Edicion edicion, params Hex[] zonasOffset)
         {
-            AddOrReplaceZonaOffset(edicion, true, zonasOffset);
+            AddOrReplaceZonaOffset(edicion, false, zonasOffset);
         }
         /// <summary>
         /// añade o reemplaza las zonas para esa edicion
