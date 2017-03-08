@@ -29,7 +29,8 @@ namespace PokemonGBAFrameWork
         public enum Compilacion
         {
             Primera,
-            Segunda
+            Segunda,
+            Tercera//Cry Zafiro tiene diferencias :)
             //si hay mas se ponen cuando sean necesarias
         }
         public static Compilacion GetCompilacion(RomGBA rom)
