@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokemonGBAFrameWork
-{
-   public class MOSinMedallas
+{//creditos a CryStal Kaktus de Wahack por el aporte
+    public class MOSinMedallas
     {
         enum Variable
         {
