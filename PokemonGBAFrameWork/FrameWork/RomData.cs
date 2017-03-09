@@ -199,6 +199,7 @@ namespace PokemonGBAFrameWork
             tipos.AddRange(romLoaded.tipos);
             ataques.Clear();
             ataques.AddRange(romLoaded.Ataques);
+            Sonidos = BloqueSonido.GetBloquesSonido(RomGBA);
         }
         public static void SetRomData(RomData romData)
         {
@@ -207,9 +208,10 @@ namespace PokemonGBAFrameWork
            // Objeto.SetObjetos(romData.RomGBA, romData.Objetos);
             //Pokemon.SetPokedex(romData, romData.Pokedex);
             Edicion.SetEdicion(romData.RomGBA, romData.Edicion);
-          //  PokemonGBAFrameWork.Entrenadores.SetSpritesEntrenadores(romData);
+            PokemonGBAFrameWork.Entrenadores.SetSpritesEntrenadores(romData);
             Entrenador.SetEntrenadores(romData);
             Ataque.SetAtaques(romData, romData.Ataques);
+            //falta hacer set en los sonidos
         }
     }
 }

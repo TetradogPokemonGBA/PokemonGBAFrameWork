@@ -25,10 +25,17 @@ namespace PokemonGBAFrameWork
         {
             return BloqueSonido.GetBloqueSonido(rom, BytesIdCry, posicion);
         }
-
+        public static Llista<BloqueSonido> GetCrys(RomGBA rom)
+        {
+            return BloqueSonido.GetBloquesSonido(rom, IdCry);
+        }
         public static BloqueSonido GetGrowl(RomGBA rom, int posicion = 0)
         {
             return BloqueSonido.GetBloqueSonido(rom, BytesIdGrowl, posicion);
+        }
+        public static Llista<BloqueSonido> GetGrowl(RomGBA rom)
+        {
+            return BloqueSonido.GetBloquesSonido(rom, IdGrowl);
         }
 
     }

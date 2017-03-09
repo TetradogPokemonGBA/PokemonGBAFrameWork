@@ -169,18 +169,22 @@ namespace PokemonGBAFrameWork
         {
             if (rom == null|| rom.Entrenadores == null)
                 throw new ArgumentNullException();
+
             Hex offsetInicioNombres;
             Hex offsetInicioImgs;
             Hex offsetInicioPaletas;
             Hex offsetInicioRateMoney;
+
             bool compatibleConRateMoney = rom.Edicion.AbreviacionRom != Edicion.ABREVIACIONRUBI && rom.Edicion.AbreviacionRom != Edicion.ABREVIACIONZAFIRO;
             offsetInicioNombres = Zona.GetOffset(rom.RomGBA, Variables.NombreClaseEntrenador, rom.Edicion, rom.Compilacion);
             offsetInicioImgs = Zona.GetOffset(rom.RomGBA, Variables.SpriteImg, rom.Edicion, rom.Compilacion);
             offsetInicioPaletas = Zona.GetOffset(rom.RomGBA, Variables.SpritePaleta, rom.Edicion, rom.Compilacion);
+
             if(compatibleConRateMoney)
                 offsetInicioRateMoney= Zona.GetOffset(rom.RomGBA, Variables.RatesMoney, rom.Edicion, rom.Compilacion);
             if (compatibleConRateMoney&&rom.EntrenadoresClases.RatesMoney.Count < rom.EntrenadoresClases.Total)
                 throw new ArgumentException("falta el rate money de algunas clases...");
+
             for (int i = 0; i < rom.EntrenadoresClases.Total; i++)
             {
                 if (rom.EntrenadoresClases.Sprites[i] == null)

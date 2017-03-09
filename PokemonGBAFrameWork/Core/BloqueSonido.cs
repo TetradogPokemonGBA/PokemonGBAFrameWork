@@ -51,6 +51,7 @@ namespace PokemonGBAFrameWork
             const UInt16 PCMFORMAT = 1;
             BinaryReader brOnda = new BinaryReader(msWaveFile);
             ushort bitsPerSample;
+      
             //  ' read RIFF header
             if (brOnda.ReadUInt32() != 0x46464952)
                 throw new Exception("This is not a WAVE file!");
@@ -72,7 +73,7 @@ namespace PokemonGBAFrameWork
                 //' only PCM format allowed
                 throw new Exception("Cry must be in PCM format!");
 
-            numeroDeCanalesMaximos = brOnda.ReadUInt16();
+            numeroDeCanalesMaximos = brOnda.ReadUInt16();//numero de canales
             datos = new sbyte[numeroDeCanalesMaximos][];
             sampleRate = brOnda.ReadInt32();
 
@@ -237,7 +238,7 @@ namespace PokemonGBAFrameWork
         /// <summary>
         /// Devuelve lo que significa el Header si se ha registrado
         /// </summary>
-        /// <returns>si no esta devuelve null</returns>
+        /// <returns>si no está devuelve null</returns>
         public string Significado()
         {
             string strSignificado;
@@ -257,9 +258,9 @@ namespace PokemonGBAFrameWork
             const int HEIGHTWAVEIMAGE = 128;
             const int FIX = 64;//buscar nombre mas descriptivo
             Color[] coloresOnda;
-            if (colores.Length < numeroDeCanalesMaximos)
+            if (colores.Length < Datos.Length)
             {
-                coloresOnda = new Color[numeroDeCanalesMaximos];
+                coloresOnda = new Color[Datos.Length];
                 for (int i = 0; i < colores.Length; i++)
                     coloresOnda[i] = colores[i];
                 for (int i = colores.Length; i < coloresOnda.Length; i++)
@@ -271,7 +272,7 @@ namespace PokemonGBAFrameWork
             Bitmap bmpOnda = new Bitmap(datos.Length, HEIGHTWAVEIMAGE);
             Graphics gOnda = Graphics.FromImage(bmpOnda);
             //pongo las lineas :D
-            for (int j = 0; j < numeroDeCanalesMaximos; j++)
+            for (int j = 0; j < Datos.Length; j++)
             {
                 penOnda = new Pen(coloresOnda[j]);
                 for (int i = 1; i < datos.Length; i++)
@@ -301,7 +302,7 @@ namespace PokemonGBAFrameWork
             bwSonido.Write(Encoding.ASCII.GetBytes("fmt "));
             bwSonido.Write(16);
             bwSonido.Write(PCMFORMAT);
-            bwSonido.Write(numeroDeCanalesMaximos);
+            bwSonido.Write(Datos.Length);//numero de canales
             bwSonido.Write(sampleRate);
             bwSonido.Write(sampleRate);
             bwSonido.Write((ushort)1);
@@ -309,7 +310,7 @@ namespace PokemonGBAFrameWork
 
             // data chunk
             bwSonido.Write(Encoding.ASCII.GetBytes("data"));
-            for (int j = 0; j < numeroDeCanalesMaximos; j++)
+            for (int j = 0; j < datos.Length; j++)
             {
                 bwSonido.Write(datos[j].Length);
                 for (int i = 0; i < datos[j].Length; i++)
@@ -502,9 +503,10 @@ namespace PokemonGBAFrameWork
         {
             LlistaOrdenada<string, string> llistaHeaders = new LlistaOrdenada<string, string>();
             LlistaOrdenada<string, string> llistaBannedHeaders = new LlistaOrdenada<string, string>();
-            Hex offset = 0;
+            long offset = 0;
             byte[] bytesIdHeader;
             string idHeaderEncontrado;
+            int headersCargados = 0;
             do
             {
                 offset = rom.Datos.BuscarArray(offset + 1, EndHeader);
@@ -513,29 +515,53 @@ namespace PokemonGBAFrameWork
                     bytesIdHeader = rom.Datos.SubArray((int)offset - (int)Posicion.EndHeader, LENGTHIDHEADER);
                     if (PokemonGBAFrameWork.Offset.IsAPointer(rom, offset - (int)Posicion.PointerHeader))
                     {
+                        headersCargados++;
                         idHeaderEncontrado = (Hex)bytesIdHeader;
                         if (!llistaHeaders.ContainsKey(idHeaderEncontrado) && !llistaBannedHeaders.ContainsKey(idHeaderEncontrado))
                         {
                             try
                             {
                                 if (GetBloquesSonido(rom, idHeaderEncontrado, true).Count > 0)
+                                {
                                     llistaHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
+                                    
+                                }
                                 else llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
                             }
                             catch { llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado); }
                         }
+                      
                     }
+                    offset = PrimerHeaderDistinto(rom, offset, bytesIdHeader); 
                 }
 
             } while (offset > 0);
 
-            return llistaHeaders.ValuesToArray();
+           return llistaHeaders.ValuesToArray();
         }
 
-        static Hex NextOffsetSound(RomGBA rom, Hex offsetInicio, byte[] header, int numDeOffsetaHaEvitar = 0)
+        private static Hex PrimerHeaderDistinto(RomGBA rom, long offset, byte[] bytesHeader)
+        {
+            const long NOENCONTRADO = -1;
+            long nextHeaderOffset=NOENCONTRADO;
+            long header =(Hex) bytesHeader;
+            while(offset>0&&nextHeaderOffset==NOENCONTRADO)
+            {
+                offset = rom.Datos.BuscarArray(offset+1,EndHeader);
+                if(offset>0)
+                {
+                    if ((Hex)rom.Datos.SubArray((int)offset - (int)Posicion.PointerHeader, LENGTHIDHEADER) != header)
+                        nextHeaderOffset = offset;
+                }
+            }
+            return nextHeaderOffset;
+         
+        }
+
+        static long NextOffsetSound(RomGBA rom, Hex offsetInicio, byte[] header, int numDeOffsetaHaEvitar = 0)
         {
             bool trobat;
-            Hex offsetNextSound = rom.Datos.BuscarArray(offsetInicio, header);
+            long offsetNextSound = rom.Datos.BuscarArray(offsetInicio, header);
             for (int i = 0; i <= numDeOffsetaHaEvitar && offsetNextSound > 0; i++)
                 do
                 {
