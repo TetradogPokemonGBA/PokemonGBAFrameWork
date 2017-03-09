@@ -22,12 +22,12 @@ namespace PokemonGBAFrameWork
             InicioRepeticion = 8,
             Length = 12,
             Data = 16,
-            PointerHeader=4,
-            EndHeader=8,
+            PointerHeader = 4,
+            EndHeader = 8,
         }
         public static readonly Color[] ColoresOndaPorDefecto = { Color.Green, Color.Blue, Color.Red, Color.Yellow, Color.Violet, Color.Blue, Color.Brown, Color.HotPink, Color.Gray, Color.Magenta };
         static readonly sbyte[] Lookup = new sbyte[] { 0, 1, 4, 9, 16, 25, 36, 49, -64, -49, -36, -25, -16, -9, -4, -1 };
-        public static TwoKeysList<string, string,ushort> DiccionarioHeaderSignificadoCanalesMax = new TwoKeysList<string, string, ushort>();
+        public static TwoKeysList<string, string, ushort> DiccionarioHeaderSignificadoCanalesMax = new TwoKeysList<string, string, ushort>();
         static readonly byte[] EndHeader = { 0xFF, 0x0, 0xFF, 0x0 };
         const int LENGTHIDHEADER = 4;
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork
             Header = null;
         }
 
-        public BloqueSonido(MemoryStream msWaveFile, bool repetirCiclicamente = false, int inicioRepeticion = 0):this()
+        public BloqueSonido(MemoryStream msWaveFile, bool repetirCiclicamente = false, int inicioRepeticion = 0) : this()
         {
             const UInt16 PCMFORMAT = 1;
             BinaryReader brOnda = new BinaryReader(msWaveFile);
@@ -217,7 +217,7 @@ namespace PokemonGBAFrameWork
             {
                 ushort numCanalesMax;
 
-                if (numeroDeCanalesMaximos==0&&DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(Header))
+                if (numeroDeCanalesMaximos == 0 && DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(Header))
                     numCanalesMax = DiccionarioHeaderSignificadoCanalesMax.GetValueWithKey1(Header);
                 else numCanalesMax = numeroDeCanalesMaximos;
 
@@ -342,8 +342,8 @@ namespace PokemonGBAFrameWork
             return str.ToString();
         }
 
-      
-        public static BloqueSonido GetBloqueSonido(RomGBA rom, Hex offsetSound,ushort numeroDeCanalesMaximo=1)
+
+        public static BloqueSonido GetBloqueSonido(RomGBA rom, Hex offsetSound, ushort numeroDeCanalesMaximo = 1)
         {//por descubrir
 
             // sacar de la rom :D
@@ -362,73 +362,93 @@ namespace PokemonGBAFrameWork
             bloqueACargar.SampleRate = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray()) >> 10;
             bloqueACargar.InicioRepeticion = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray());
             bloqueACargar.Length = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.Length, sizeof(int)));//habrá una lenght para cada canal?
-            if (bloqueACargar.Length+offsetSound>rom.Datos.Length)
-                throw new ArgumentException();
-            unsafe
+            if (bloqueACargar.Length + offsetSound < rom.Datos.Length)
             {
-                sbyte* ptrDatosBloque;
-                byte* ptrDatosRom;
-                sbyte* ptrDatosRomSByte;
-                if (bloqueACargar.EstaComprimido)
-                    lstDatos = new List<sbyte>();
-                fixed(byte* ptDatos=rom.Datos)
+                unsafe
                 {
-                    ptrDatosRomSByte = (sbyte*) ptDatos;
-                    for (int j = 0; j < numeroDeCanales; j++)
+                    sbyte* ptrDatosBloque;
+                    byte* ptrDatosRom;
+                    sbyte* ptrDatosRomSByte;
+                    if (bloqueACargar.EstaComprimido)
+                        lstDatos = new List<sbyte>();
+                    fixed (byte* ptDatos = rom.Datos)
                     {
-
-                        ptrDatosRomSByte = ptrDatosRomSByte + offsetSound + (int)Posicion.Data;
-
-                        if (!bloqueACargar.EstaComprimido)
+                        ptrDatosRomSByte = (sbyte*)ptDatos;
+                        for (int j = 0; j < numeroDeCanales; j++)
                         {
-                           aux = new sbyte[bloqueACargar.Length];
-                            fixed (sbyte* ptDatosBloque = aux)
-                            {
-                                ptrDatosBloque = ptDatosBloque;
-                                for (int i = 0; i < bloqueACargar.Length; i++)
-                                {
 
-                                    *ptrDatosBloque = (sbyte)*ptrDatosRomSByte;
-                                    ptrDatosBloque++;
-                                    ptrDatosRomSByte++;
+                            ptrDatosRomSByte = ptrDatosRomSByte + offsetSound + (int)Posicion.Data;
+
+                            if (!bloqueACargar.EstaComprimido)
+                            {
+                                aux = new sbyte[bloqueACargar.Length];
+                                fixed (sbyte* ptDatosBloque = aux)
+                                {
+                                    ptrDatosBloque = ptDatosBloque;
+                                    for (int i = 0; i < bloqueACargar.Length; i++)
+                                    {
+
+                                        *ptrDatosBloque = (sbyte)*ptrDatosRomSByte;
+                                        ptrDatosBloque++;
+                                        ptrDatosRomSByte++;
+                                    }
+
                                 }
-
+                                bloqueACargar.Datos[j] = aux;
                             }
-                            bloqueACargar.Datos[j] = aux;
-                        }
-                        else
-                        {
-                            ptrDatosRom = ptDatos;
-                            lstDatos.Clear();
-                            //descomprimo :D
-                            for (int k = 0, kF = bloqueACargar.Length / 2; k < kF; k++)
+                            else
                             {
-                                if (alignment == 0)
+                                ptrDatosRom = ptDatos;
+                                lstDatos.Clear();
+                                //descomprimo :D
+                                for (int k = 0, kF = bloqueACargar.Length / 2; k < kF; k++)
                                 {
-                                    pcmLevel = (sbyte)*ptrDatosRom;
+                                    if (alignment == 0)
+                                    {
+                                        pcmLevel = (sbyte)*ptrDatosRom;
+                                        ptrDatosRom++;
+                                        lstDatos.Add(pcmLevel);
+                                        alignment = 0x20;
+
+                                    }
+                                    input = *ptrDatosRom;
                                     ptrDatosRom++;
+                                    if (alignment < 0x20)
+                                    {
+                                        pcmLevel += Lookup[input >> 4];
+                                        lstDatos.Add(pcmLevel);
+                                    }
+                                    pcmLevel += Lookup[input & 0xF];
                                     lstDatos.Add(pcmLevel);
-                                    alignment = 0x20;
-
+                                    alignment--;
                                 }
-                                input = *ptrDatosRom;
-                                ptrDatosRom++;
-                                if (alignment < 0x20)
-                                {
-                                    pcmLevel += Lookup[input >> 4];
-                                    lstDatos.Add(pcmLevel);
-                                }
-                                pcmLevel += Lookup[input & 0xF];
-                                lstDatos.Add(pcmLevel);
-                                alignment--;
+                                bloqueACargar.Datos[j] = lstDatos.ToArray();
+                                bloqueACargar.Length = (int)(ptrDatosRom - ptDatos);
                             }
-                            bloqueACargar.Datos[j] = lstDatos.ToArray();
-                            bloqueACargar.Length = (int)(ptrDatosRom - ptDatos);
                         }
                     }
                 }
             }
+            else
+            {
+                bloqueACargar = null;
+            }
             return bloqueACargar;
+        }
+        public static BloqueSonido GetBloqueSonido(RomGBA rom, string idHeader, int posicion = 0)
+        {
+            return GetBloqueSonido(rom,(byte[])(Hex)idHeader, posicion);
+        }
+        public static BloqueSonido GetBloqueSonido(RomGBA rom, byte[] idHeader, int posicion = 0)
+        {
+            Hex offset = NextOffsetSound(rom, 0, idHeader, posicion);
+            BloqueSonido bloque;
+            if (offset > 0)
+            {
+                bloque = GetBloqueSonido(rom, offset + LENGTHIDHEADER);
+            }
+            else bloque = null;
+            return bloque;
         }
         /// <summary>
         /// Obtiene todos los sonidos que tenga asociado ese id
@@ -436,30 +456,35 @@ namespace PokemonGBAFrameWork
         /// <param name="rom"></param>
         /// <param name="idHeader">es el codigo que va antes del pointer</param>
         /// <returns></returns>
-        public static Llista<BloqueSonido> GetBloquesSonido(RomGBA rom, string idHeader)
+        public static Llista<BloqueSonido> GetBloquesSonido(RomGBA rom, string idHeader, bool comprobarQueSeaValido = false)
         {
             ushort numeroDeCanalesMax;
             byte[] byteHeader = (Hex)idHeader;
             Llista<BloqueSonido> sonidos = new Llista<BloqueSonido>();
-            Hex offsetSound=0;
-            Hex endHeader =(Hex) EndHeader;
+            Hex offsetSound = 0;
+            Hex endHeader = (Hex)EndHeader;
+            BloqueSonido bloque;
             do
             {
-                offsetSound = NextOffsetSound(rom, offsetSound+1, byteHeader);
+                offsetSound = NextOffsetSound(rom, offsetSound + 1, byteHeader);
                 if (offsetSound > 0)
                 {
                     if (DiccionarioHeaderSignificadoCanalesMax.ContainsKey1(idHeader))
                         numeroDeCanalesMax = DiccionarioHeaderSignificadoCanalesMax.GetValueWithKey1(idHeader);
                     else numeroDeCanalesMax = 1;
 
-                    sonidos.Add(GetBloqueSonido(rom, PokemonGBAFrameWork.Offset.GetOffset(rom, offsetSound + LENGTHIDHEADER), numeroDeCanalesMax));
-                    sonidos[sonidos.Count - 1].Header = idHeader;
+                    bloque = GetBloqueSonido(rom, PokemonGBAFrameWork.Offset.GetOffset(rom, offsetSound + LENGTHIDHEADER), numeroDeCanalesMax);
+                    sonidos.Add(bloque);
+                    if (bloque != null)
+                    {
+                        sonidos[sonidos.Count - 1].Header = idHeader;
+                    }
                 }
-            } while (offsetSound > 0);
+            } while (offsetSound > 0 && (!comprobarQueSeaValido || sonidos.Count == 0));
 
             return sonidos;
         }
-        public static LlistaOrdenadaPerGrups<string,BloqueSonido> GetBloquesSonido(RomGBA rom)
+        public static LlistaOrdenadaPerGrups<string, BloqueSonido> GetBloquesSonido(RomGBA rom)
         {
             LlistaOrdenadaPerGrups<string, BloqueSonido> bloquesRom = new LlistaOrdenadaPerGrups<string, BloqueSonido>();
             string[] idHeaders = GetHeaders(rom);
@@ -474,59 +499,59 @@ namespace PokemonGBAFrameWork
         {
             LlistaOrdenada<string, string> llistaHeaders = new LlistaOrdenada<string, string>();
             LlistaOrdenada<string, string> llistaBannedHeaders = new LlistaOrdenada<string, string>();
-            Hex offset=0;
+            Hex offset = 0;
             byte[] bytesIdHeader;
             string idHeaderEncontrado;
             do
             {
-                offset = rom.Datos.BuscarArray(offset+1, EndHeader);
+                offset = rom.Datos.BuscarArray(offset + 1, EndHeader);
                 if (offset > 0)
                 {
                     bytesIdHeader = rom.Datos.SubArray((int)offset - (int)Posicion.EndHeader, LENGTHIDHEADER);
                     if (PokemonGBAFrameWork.Offset.IsAPointer(rom, offset - (int)Posicion.PointerHeader))
                     {
                         idHeaderEncontrado = (Hex)bytesIdHeader;
-                        if (!llistaHeaders.ContainsKey(idHeaderEncontrado)&&!llistaBannedHeaders.ContainsKey(idHeaderEncontrado))
+                        if (!llistaHeaders.ContainsKey(idHeaderEncontrado) && !llistaBannedHeaders.ContainsKey(idHeaderEncontrado))
                         {
                             try
                             {
-                               if(GetBloquesSonido(rom, idHeaderEncontrado).Count>0)
-                                llistaHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
-                               else llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
+                                if (GetBloquesSonido(rom, idHeaderEncontrado, true).Count > 0)
+                                    llistaHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
+                                else llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);
                             }
                             catch { llistaBannedHeaders.Add(idHeaderEncontrado, idHeaderEncontrado); }
                         }
                     }
-                } 
+                }
 
             } while (offset > 0);
 
             return llistaHeaders.ValuesToArray();
         }
 
-        static Hex NextOffsetSound(RomGBA rom, Hex offsetInicio, byte[] header)
+        static Hex NextOffsetSound(RomGBA rom, Hex offsetInicio, byte[] header, int numDeOffsetaHaEvitar = 0)
         {
             bool trobat;
-            Hex offsetNextSound=rom.Datos.BuscarArray(offsetInicio,header);
-            
-            do
-            {
-                trobat = offsetNextSound > 0;
-                if(trobat)
+            Hex offsetNextSound = rom.Datos.BuscarArray(offsetInicio, header);
+            for (int i = 0; i <= numDeOffsetaHaEvitar && offsetNextSound > 0; i++)
+                do
                 {
-                    trobat = PokemonGBAFrameWork.Offset.IsAPointer(rom, offsetNextSound + LENGTHIDHEADER);
-                    if(trobat)
+                    trobat = offsetNextSound > 0;
+                    if (trobat)
                     {
-                        trobat = rom.Datos.BuscarArray(offsetNextSound,EndHeader) == (offsetNextSound + (int)Posicion.EndHeader);
+                        trobat = PokemonGBAFrameWork.Offset.IsAPointer(rom, offsetNextSound + LENGTHIDHEADER);
+                        if (trobat)
+                        {
+                            trobat = rom.Datos.BuscarArray(offsetNextSound, EndHeader) == (offsetNextSound + (int)Posicion.EndHeader);
 
-                    }
+                        }
 
-                    if(!trobat)
-                    {
-                        offsetNextSound = rom.Datos.BuscarArray(offsetNextSound + 1, header);
+                        if (!trobat)
+                        {
+                            offsetNextSound = rom.Datos.BuscarArray(offsetNextSound + 1, header);
+                        }
                     }
-                }
-            } while (!trobat && offsetNextSound > 0);
+                } while (!trobat && offsetNextSound > 0);
             return offsetNextSound;
 
         }
