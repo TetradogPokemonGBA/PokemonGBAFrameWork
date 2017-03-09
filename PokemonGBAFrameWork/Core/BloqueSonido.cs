@@ -362,6 +362,7 @@ namespace PokemonGBAFrameWork
             bloqueACargar.SampleRate = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray()) >> 10;
             bloqueACargar.InicioRepeticion = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray());
             bloqueACargar.Length = Serializar.ToInt(rom.Datos.SubArray((int)offsetSound + (int)Posicion.Length, sizeof(int)));//habrá una lenght para cada canal?
+
             if (bloqueACargar.Length + offsetSound < rom.Datos.Length)
             {
                 unsafe
@@ -369,12 +370,14 @@ namespace PokemonGBAFrameWork
                     sbyte* ptrDatosBloque;
                     byte* ptrDatosRom;
                     sbyte* ptrDatosRomSByte;
+
                     if (bloqueACargar.EstaComprimido)
                         lstDatos = new List<sbyte>();
+
                     fixed (byte* ptDatos = rom.Datos)
                     {
                         ptrDatosRomSByte = (sbyte*)ptDatos;
-                        for (int j = 0; j < numeroDeCanales; j++)
+                        for (int j = 0; j < numeroDeCanales; j++)//por mirar...no se si va así
                         {
 
                             ptrDatosRomSByte = ptrDatosRomSByte + offsetSound + (int)Posicion.Data;
