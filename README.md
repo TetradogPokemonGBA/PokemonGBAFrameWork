@@ -1,11 +1,11 @@
-# PokemonGBAFrameWork
-Es un framework para realizar apliaciones para hacer hackroms o simplemente apps que cojan los datos de las roms :)
+;# PokemonGBAFrameWork
+Es un framework para realizar aplicaciones; para hacer hackroms o simplemente apps que cojan los datos de las roms :)
 
 [objetivos]
 
 -Desarrollar un entorno para hacer romhacking sin tener que saber la parte técnica.
 
--Desarrollar aplicaciones que sirvan para todas las roms ESP y USA para no tener probelmas con el idioma y la compilación.
+-Desarrollar aplicaciones que sirvan para todas las roms ESP y USA para no tener problemas con el idioma y la compilación.
 
 -Desarrollar aplicaciones que no necesiten ini y obtengan la información del juego como las lee el propio rom.
 
@@ -22,7 +22,6 @@ pj. poner mas de 511 ataques, cuando se añada el 512 se pone el parche y si se 
 
 
 [sobre la licencia]
-
 Todo el proyecto esta bajo la licencia GNU dando libertad a todo el que quiera programar con todo el codigo o parte de él,
-lo unico que piede la licencia es que el codigo que lo use sea opensource y sea accesible y si se añade parte del codigo o 
+lo único que pide la licencia es que el código que lo use sea opensource y sea accesible y si se añade parte del codigo o 
 todo el resultado tiene que tener la misma licencia GNU.
