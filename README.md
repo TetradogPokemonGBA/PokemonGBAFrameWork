@@ -1,4 +1,4 @@
-;# PokemonGBAFrameWork
+ ;# PokemonGBAFrameWork
 Es un framework para realizar aplicaciones; para hacer hackroms o simplemente apps que cojan los datos de las roms :)
 
 [objetivos]
@@ -22,6 +22,9 @@ pj. poner mas de 511 ataques, cuando se añada el 512 se pone el parche y si se 
 
 
 [sobre la licencia]
+
+
+
 Todo el proyecto esta bajo la licencia GNU dando libertad a todo el que quiera programar con todo el codigo o parte de él,
 lo único que pide la licencia es que el código que lo use sea opensource y sea accesible y si se añade parte del codigo o 
 todo el resultado tiene que tener la misma licencia GNU.
