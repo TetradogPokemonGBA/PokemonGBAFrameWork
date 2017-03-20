@@ -1,40 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{42256C23-1E9B-41E5-A5DA-D3C6AF6B824D}</ProjectGuid>
+    <ProjectGuid>{52CF96DB-A3AA-47D9-B0BA-7BB2834B68C7}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>PokemonGBAFrameWork</RootNamespace>
     <AssemblyName>PokemonGBAFrameWork</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFrameworkProfile />
     <NoWin32Manifest>False</NoWin32Manifest>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
@@ -58,10 +45,6 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gabriel.Cat.Utilitats, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\bin\Release\Gabriel.Cat.Utilitats.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -69,59 +52,62 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BloqueImagen.cs" />
-    <Compile Include="Core\BloqueSonido.cs" />
-    <Compile Include="Core\BloqueString.cs" />
-    <Compile Include="Core\Excepciones.cs" />
-    <Compile Include="Core\Offsets.cs" />
-    <Compile Include="Core\Edicion.cs" />
-    <Compile Include="Core\BloqueBytes.cs" />
-    <Compile Include="Core\RomGBA.cs" />
-    <Compile Include="FrameWork\Ataque.cs" />
-    <Compile Include="FrameWork\AtaqueAprendido.cs" />
-    <Compile Include="FrameWork\Cry.cs" />
-    <Compile Include="FrameWork\DescripcionPokedex.cs" />
-    <Compile Include="FrameWork\Entrenador.cs" />
-    <Compile Include="FrameWork\Habilidad.cs" />
-    <Compile Include="FrameWork\Huella.cs" />
-    <Compile Include="FrameWork\Objeto.cs" />
-    <Compile Include="FrameWork\Pokeball.cs" />
-    <Compile Include="FrameWork\Pokemon.cs" />
-    <Compile Include="FrameWork\PokemonErrante.cs" />
-    <Compile Include="FrameWork\RomData.cs" />
-    <Compile Include="FrameWork\Sprite.cs" />
-    <Compile Include="FrameWork\Tipo.cs" />
-    <Compile Include="Parches\MOSinMedallas.cs" />
-    <Compile Include="Parches\Shinytzer.cs" />
-    <Compile Include="Parches\SistemaMTBW.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Core\ComunGBA\BloqueBytes.cs" />
+    <Compile Include="Core\ComunGBA\BloqueImagen.cs" />
+    <Compile Include="Core\ComunGBA\BloqueSonido.cs" />
+    <Compile Include="Core\ComunGBA\DWord.cs" />
+    <Compile Include="Core\ComunGBA\Edicion.cs" />
+    <Compile Include="Core\ComunGBA\LZ77.cs" />
+    <Compile Include="Core\ComunGBA\Offset.cs" />
+    <Compile Include="Core\ComunGBA\Paleta.cs" />
+    <Compile Include="Core\ComunGBA\Excepciones.cs" />
+    <Compile Include="Core\ComunGBA\RomGba.cs" />
+    <Compile Include="Core\ComunGBA\Word.cs" />
+    <Compile Include="Core\PokemonGBA\BloqueString.cs" />
+    <Compile Include="PokemonFrameWork\Batallas\ClaseEntrenador.cs" />
+    <Compile Include="PokemonFrameWork\Batallas\Entrenador.cs" />
+    <Compile Include="PokemonFrameWork\Batallas\EquipoPokemonEntrenador.cs" />
+    <Compile Include="PokemonFrameWork\Batallas\Objeto.cs" />
+    <Compile Include="PokemonFrameWork\Batallas\PokeballBatalla.cs" />
+    <Compile Include="PokemonFrameWork\Batallas\PokemonEntrenador.cs" />
+    <Compile Include="PokemonFrameWork\Core\Compilacion.cs" />
+    <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
+    <Compile Include="PokemonFrameWork\Core\RomData.cs" />
+    <Compile Include="PokemonFrameWork\Core\Variables.cs" />
+    <Compile Include="PokemonFrameWork\Core\Zonas.cs" />
+    <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
+    <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
+    <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
+    <Compile Include="PokemonFrameWork\Parches\MOSinMedallas.cs" />
+    <Compile Include="PokemonFrameWork\Parches\QuitarSistemaDeAyudaRojoYVerde.cs" />
+    <Compile Include="PokemonFrameWork\Parches\ScriptsDeGatilloCondicionMayorAFF.cs" />
+    <Compile Include="PokemonFrameWork\Parches\Shinyzer.cs" />
+    <Compile Include="PokemonFrameWork\Parches\SistemaMTBW.cs" />
+    <Compile Include="PokemonFrameWork\PokemonErrante.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Ataque.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\AtaquesAprendidos.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Cry.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\DescripcionPokedex.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Growl.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Habilidad.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Huella.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Pokemon.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\SpritesPokemon.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Tipo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <Folder Include="PokemonFrameWork\Batallas" />
+    <Folder Include="PokemonFrameWork\Pokemon" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <ProjectReference Include="..\..\..\..\Programas\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats.csproj">
+      <Project>{6fdf9bb1-ae07-4820-beee-a2f52cfbe770}</Project>
+      <Name>Gabriel.Cat.Utilitats</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
