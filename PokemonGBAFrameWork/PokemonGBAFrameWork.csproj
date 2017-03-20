@@ -45,6 +45,9 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gabriel.Cat.Utilitats">
+      <HintPath>..\..\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\bin\Release\Gabriel.Cat.Utilitats.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -102,12 +105,6 @@
   <ItemGroup>
     <Folder Include="PokemonFrameWork\Batallas" />
     <Folder Include="PokemonFrameWork\Pokemon" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Programas\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats.csproj">
-      <Project>{6fdf9bb1-ae07-4820-beee-a2f52cfbe770}</Project>
-      <Name>Gabriel.Cat.Utilitats</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
