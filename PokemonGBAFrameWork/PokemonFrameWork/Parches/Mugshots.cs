@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Gabriel.Cat;
 
 namespace PokemonGBAFrameWork
@@ -18,7 +19,7 @@ namespace PokemonGBAFrameWork
 	public class Mugshots:IList<BloqueImagen>
 	{
 		const int LENGTHRUTINA=0;
-		
+		static readonly Size SizeMugshot=new Size(16,16);
 		
 		Llista<BloqueImagen> mugshots;
 		public Mugshots()
@@ -36,7 +37,7 @@ namespace PokemonGBAFrameWork
 		}
 		public void Add(BloqueImagen img)
 		{
-			mugshots.Add(img);
+			mugshots.Insert(mugshots.Count,img);
 		}
 		public bool Remove(BloqueImagen img)
 		{
@@ -54,6 +55,9 @@ namespace PokemonGBAFrameWork
 
 		public void Insert(int index, BloqueImagen item)
 		{
+			if(item==null||!item.GetImg().Size.Equals(SizeMugshot))
+				throw new ArgumentException();
+			
 			mugshots.Insert(index,item);
 		}
 
@@ -93,7 +97,7 @@ namespace PokemonGBAFrameWork
 		public static Mugshots GetMugshots(RomData rom)
 		{
 			Mugshots mugshots=new Mugshots();
-			int offsetTablaMugshots=GetTablaMugshots(rom);
+			int offsetTablaMugshots=GetOffsetTablaMugshots(rom);
 			
 			try{
 				while(true)
@@ -109,7 +113,7 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		public static int GetTablaMugshots(RomData rom)
+		public static int GetOffsetTablaMugshots(RomData rom)
 		{
 			if(!EstaActivado(rom))
 			{
@@ -119,7 +123,7 @@ namespace PokemonGBAFrameWork
 		public static void SetMugshots(RomData rom)
 		{
 			Mugshots oldMugshots=GetMugshots(rom);
-			int offsetTablaMugshots=GetTablaMugshots(rom);
+			int offsetTablaMugshots=GetOffsetTablaMugshots(rom);
 			offsetTablaMugshots+=OffsetRom.LENGTH*2*oldMugshots.Count;
 			if(oldMugshots.Count<rom.Mugshots.Count)
 			{
@@ -127,8 +131,8 @@ namespace PokemonGBAFrameWork
 				if(rom.Rom.Data.SearchEmptyBytes(offsetTablaMugshots,OffsetRom.LENGTH*2*(rom.Mugshots.Count-oldMugshots.Count))!=offsetTablaMugshots)
 				{
 					//borro la actual
-					rom.Rom.Data.Remove(GetTablaMugshots(rom),oldMugshots.Count*OffsetRom.LENGTH*2);
-					offsetTablaMugshots=SetTablaMugshots(rom);
+					rom.Rom.Data.Remove(GetOffsetTablaMugshots(rom),oldMugshots.Count*OffsetRom.LENGTH*2);
+					offsetTablaMugshots=ChangeOffsetTablaMugshots(rom);
 				
 				}
 				//pongo los datos desde el principio
@@ -148,7 +152,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		static int SetTablaMugshots(RomData rom)
+		static int ChangeOffsetTablaMugshots(RomData rom)
 		{
 			int offset=rom.Rom.Data.SearchEmptyBytes(OffsetRom.LENGTH*2*rom.Mugshots.Count);
 			//busco el inicio de la rutina
@@ -175,7 +179,7 @@ namespace PokemonGBAFrameWork
 		public static void Desactivar(RomData rom)
 		{
 	       
-	        int offsetTablaMugshots=GetTablaMugshots(rom);
+	        int offsetTablaMugshots=GetOffsetTablaMugshots(rom);
 	        int offsetRutina=GetOffsetRutina(rom);
 	         //borro los datos de la tabla
 	         rom.Rom.Data.Remove(offsetTablaMugshots,OffsetRom.LENGTH*2*GetMugshots(rom).Count,0x0);
