@@ -85,6 +85,7 @@
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
     <Compile Include="PokemonFrameWork\Parches\MOSinMedallas.cs" />
+    <Compile Include="PokemonFrameWork\Parches\Mugshots.cs" />
     <Compile Include="PokemonFrameWork\Parches\QuitarSistemaDeAyudaRojoYVerde.cs" />
     <Compile Include="PokemonFrameWork\Parches\ScriptsDeGatilloCondicionMayorAFF.cs" />
     <Compile Include="PokemonFrameWork\Parches\Shinyzer.cs" />

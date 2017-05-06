@@ -33,7 +33,8 @@ namespace PokemonGBAFrameWork
 		Llista<Habilidad> habilidades;
 		Llista<PokeballBatalla> pokeballsBatalla;
 		Llista<Objeto> objetos;
-		
+		//extras
+		Mugshots mugshots;
 		public RomData(string path):this(new RomGba(path))
 		{}
 		public RomData(FileInfo path):this(new RomGba(path))
@@ -49,6 +50,9 @@ namespace PokemonGBAFrameWork
 			habilidades=new Llista<Habilidad>(Habilidad.GetHabilidades(this));
 			pokeballsBatalla=new Llista<PokeballBatalla>(PokeballBatalla.GetPokeballsBatalla(this));
 			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
+			if(Mugshots.EstaActivado(this))
+				mugshots=Mugshots.GetMugshots(this);
+			else mugshots=new Mugshots();
 		}
 		
 		public Compilacion Compilacion {
@@ -121,6 +125,13 @@ namespace PokemonGBAFrameWork
 				return objetos;
 			}
 		}
+
+		public Mugshots Mugshots {
+			get {
+				return mugshots;
+			}
+		}
+
 		public void Save()
 		{
 			Pokemon.SetPokedex(this);
@@ -132,6 +143,7 @@ namespace PokemonGBAFrameWork
 			Habilidad.SetHabilidades(this);
 			PokeballBatalla.SetPokeballsBatalla(this);
 			Objeto.SetObjetos(this);
+			Mugshots.SetMugshots(this);
 			rom.SaveEdicion();
 			rom.Save();
 		}

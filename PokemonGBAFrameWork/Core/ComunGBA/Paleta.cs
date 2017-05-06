@@ -156,7 +156,7 @@ namespace PokemonGBAFrameWork
 						if(!colores.ContainsKey(argbColorActual)&&(*ptrColoresImg).Alfa==byte.MaxValue)
 						{
 							colores.Add(argbColorActual,argbColorActual);
-							paleta[j++]=*ptrColoresImg;
+							paleta[j++]=*ptrColoresImg; 
 						}
 					}
 				}

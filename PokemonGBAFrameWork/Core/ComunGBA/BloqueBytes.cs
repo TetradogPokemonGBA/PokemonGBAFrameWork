@@ -98,18 +98,18 @@ namespace PokemonGBAFrameWork
 			SetArray(offsetEmpty, datos);
 			return offsetEmpty;
 		}
-		public int SearchEmptyBytes(int length)
+		public int SearchEmptyBytes(int length,int inicio=0x800000)
 		{
-			int offsetEmpty=SearchEmptyBytes(length,0x0);
+			int offsetEmpty=SearchEmptyBytes(length,0x0,inicio);
 			if (offsetEmpty < 0)
-				offsetEmpty = SearchEmptyBytes(length,0xFF);
+				offsetEmpty = SearchEmptyBytes(length,0xFF,inicio);
 			return offsetEmpty;
 		}
-		public int SearchEmptyBytes(int length,byte byteEmpty)
+		public int SearchEmptyBytes(int length,byte byteEmpty,int inicio=0x800000)
 		{
 			//tiene que acabar en 0,4,8,C
 			const int MINIMO=100;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
-			int offsetEncontrado=0x800000;
+			int offsetEncontrado=inicio;
 			int lengthFinal=length;
 			if(length<MINIMO)
 				lengthFinal=MINIMO;
