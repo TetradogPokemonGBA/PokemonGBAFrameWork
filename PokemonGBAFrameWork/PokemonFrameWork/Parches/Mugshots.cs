@@ -115,10 +115,13 @@ namespace PokemonGBAFrameWork
 
 		public static int GetOffsetTablaMugshots(RomData rom)
 		{
+			int offsetTablaMugshots;
 			if(!EstaActivado(rom))
 			{
 				Activar(rom);
 			}
+			offsetTablaMugshots=0;//de momento
+			return offsetTablaMugshots;
 		}
 		public static void SetMugshots(RomData rom)
 		{

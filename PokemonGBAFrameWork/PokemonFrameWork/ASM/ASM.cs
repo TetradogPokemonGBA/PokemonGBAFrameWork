@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Diagnostics;
 using System.IO;
 using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
@@ -17,7 +18,7 @@ namespace PokemonGBAFrameWork
 	public static class ASM
 	{
 		public static readonly string RutaThumb=Environment.CurrentDirectory+System.IO.Path.AltDirectorySeparatorChar+"thumb.bat";
-		public const string MESNAJEFINCORRECTO="Assembled succcessfully";
+		public const string MESNAJEFINCORRECTO="Assembled successfully.";
 		
 		public static byte[] Compilar(string asmCode)
 		{
@@ -28,7 +29,11 @@ namespace PokemonGBAFrameWork
 			byte[] codigoCompilado;
 			System.Diagnostics.Process proceso;
 			System.IO.File.AppendAllText(pathAsmCode,asmCode);
-		    proceso=System.Diagnostics.Process.Start(RutaThumb,pathAsmCode+" "+pathAsmCompilado);
+			proceso=new Process();
+			proceso.StartInfo=new ProcessStartInfo(RutaThumb,pathAsmCode+" "+pathAsmCompilado);
+			proceso.StartInfo.RedirectStandardOutput=true;
+			proceso.StartInfo.Hide();
+			proceso.Start();
 		    mensajeFinProceso=  proceso.StandardOutput.ReadLine();
 		    if(File.Exists(pathAsmCode))
 		    		File.Delete(pathAsmCode);
