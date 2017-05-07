@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 
 namespace PokemonGBAFrameWork
 {
@@ -18,8 +19,9 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class Mugshots:IList<BloqueImagen>
 	{
-		const int LENGTHRUTINA=0;
-		static readonly Size SizeMugshot=new Size(16,16);
+		const string REEMPLAZAR="POINTERTABLE";
+
+		static readonly Size SizeMugshot=new Size(80,80);
 		
 		Llista<BloqueImagen> mugshots;
 		public Mugshots()
@@ -168,7 +170,17 @@ namespace PokemonGBAFrameWork
 
 		public static int GetOffsetRutina(RomData rom)
 		{
-			throw new NotImplementedException();
+			byte[] bytesAsmToFind=null;
+	
+			switch(((EdicionPokemon)rom.Rom.Edicion).AbreviacionRom)
+			{
+				case AbreviacionCanon.BPR:
+					bytesAsmToFind=ASM.Compilar(Resources.ASMMugshotsFRMake.Replace(REEMPLAZAR,"800000"));
+					break;
+			}
+			bytesAsmToFind=bytesAsmToFind.SubArray(100);
+			
+			return rom.Rom.Data.SearchArray(bytesAsmToFind);
 		}
 		public static bool EstaActivado(RomData rom)
 		{

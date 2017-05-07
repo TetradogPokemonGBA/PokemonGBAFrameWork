@@ -103,11 +103,22 @@
     <Compile Include="PokemonFrameWork\Pokemon\SpritesPokemon.cs" />
     <Compile Include="PokemonFrameWork\Pokemon\Tipo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PokemonFrameWork\Batallas" />
     <Folder Include="PokemonFrameWork\ASM" />
     <Folder Include="PokemonFrameWork\Pokemon" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>PokemonGBAFrameWork</CustomToolNamespace>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
