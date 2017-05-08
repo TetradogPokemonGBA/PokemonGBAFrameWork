@@ -72,14 +72,13 @@ namespace PokemonGBAFrameWork
 			proceso=new Process();
 			proceso.StartInfo=new ProcessStartInfo(RutaThumb,pathAsmCode+" "+pathAsmCompilado);
 			proceso.StartInfo.RedirectStandardOutput=true;
-			proceso.StartInfo.Hide();
-			
+		    proceso.StartInfo.Hide();
 			proceso.Start();
 
-		    mensajeFinProceso=  proceso.StandardOutput.ReadLine();
+			mensajeFinProceso=  proceso.StandardOutput.ReadToEnd();
 		    if(File.Exists(pathAsmCode))
 		    		File.Delete(pathAsmCode);
-		    if(mensajeFinProceso!=MESNAJEFINCORRECTO)
+		    if(!mensajeFinProceso.Contains(MESNAJEFINCORRECTO))
 		    {
 		    	asmResult=new ASM(asmCode,mensajeFinProceso);
 		    }
