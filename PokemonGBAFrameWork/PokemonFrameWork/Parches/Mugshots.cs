@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
 	public class Mugshots:IList<BloqueImagen>
 	{
 		const string REEMPLAZAR="POINTERTABLE";
-		static readonly byte[] AsmMugshotsFRMake=ASM.Compilar(Resources.ASMMugshotsFRMake.Replace(REEMPLAZAR,"800000")).AsmBinary;
+		static readonly byte[] AsmMugshotsFRMake=ASM.Compilar(System.Text.ASCIIEncoding.ASCII.GetString(Resources.ASMMugshotsFR).Replace(REEMPLAZAR,"800000")).AsmBinary;
 		static readonly Size SizeMugshot=new Size(80,80);
 		
 		Llista<BloqueImagen> mugshots;

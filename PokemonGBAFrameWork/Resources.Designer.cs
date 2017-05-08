@@ -61,38 +61,12 @@ namespace PokemonGBAFrameWork {
 		}
 		
 		/// <summary>
-		///   Busca una cadena traducida similar a /*
-		///Note: both image and palette should be LZ77 compressed!
-		///Table format: [image pointer][pal pointer]..........
-		///*/
-		///.equiv table_location, 0xPOINTERTABLE
-		///.thumb
-		///push {r4-r5, lr}
-		///sub sp, sp, #0x18
-		///ldr r0, =0x20370C0
-		///ldrh r0, [r0, #2]
-		///mov r1, #0
-		///mov r2, #0x14
-		///mul r2, r0
-		///mov r3, #4
-		///mov r0, #10
-		///str r0, [sp]
-		///str r0, [sp, #4]
-		///mov r0, #0xD
-		///str r0, [sp, #8]
-		///mov r0, #0x40
-		///str r0, [sp, #0xC]
-		///add r0, sp, #0x10
-		///ldr r4, =0x810FE51
-		///bl bx_r4
-		///add r0, sp, #0x10
-		///ldr r4, =0x8003CE5
-		///bl bx_r4
-		///ldr r4, = [resto de la cadena truncado]&quot;;.
+		///   Busca un recurso adaptado de tipo System.Byte[].
 		/// </summary>
-		internal static string ASMMugshotsFRMake {
+		internal static byte[] ASMMugshotsFR {
 			get {
-				return ResourceManager.GetString("ASMMugshotsFRMake", resourceCulture);
+				object obj = ResourceManager.GetObject("ASMMugshotsFR", resourceCulture);
+				return ((byte[])(obj));
 			}
 		}
 	}
