@@ -109,6 +109,8 @@ namespace PokemonGBAFrameWork
 		
 		public void Save()
 		{
+			if(File.Exists(FullPath))
+				File.Delete(FullPath);
 			Data.Bytes.Save(FullPath);
 		}
 		public void Load()
