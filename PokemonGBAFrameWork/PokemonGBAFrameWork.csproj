@@ -70,7 +70,7 @@
     <Compile Include="Core\ComunGBA\RomGba.cs" />
     <Compile Include="Core\ComunGBA\Word.cs" />
     <Compile Include="Core\PokemonGBA\BloqueString.cs" />
-    <Compile Include="PokemonFrameWork\ASM\ASM.cs" />
+    <Compile Include="Core\ComunGBA\ASM\ASM.cs" />
     <Compile Include="PokemonFrameWork\Batallas\ClaseEntrenador.cs" />
     <Compile Include="PokemonFrameWork\Batallas\Entrenador.cs" />
     <Compile Include="PokemonFrameWork\Batallas\EquipoPokemonEntrenador.cs" />
@@ -110,7 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PokemonFrameWork\Batallas" />
-    <Folder Include="PokemonFrameWork\ASM" />
+    <Folder Include="Core\ComunGBA\ASM" />
     <Folder Include="PokemonFrameWork\Pokemon" />
   </ItemGroup>
   <ItemGroup>

@@ -92,17 +92,20 @@ namespace PokemonGBAFrameWork
 		{
 			Bytes.SetArray(inicio, datos);
 		}
-		public int SetArray( byte[] datos)
+		public int SetArray( byte[] datos,int inicio=0x800000)
 		{
-			int offsetEmpty=SearchEmptyBytes(datos.Length);
+			int offsetEmpty=SearchEmptyBytes(datos.Length,inicio);
 			SetArray(offsetEmpty, datos);
 			return offsetEmpty;
 		}
 		public int SearchEmptyBytes(int length,int inicio=0x800000)
 		{
 			int offsetEmpty=SearchEmptyBytes(length,0x0,inicio);
-			if (offsetEmpty < 0)
+			if (offsetEmpty < 0){
 				offsetEmpty = SearchEmptyBytes(length,0xFF,inicio);
+				if(offsetEmpty<0)
+					throw new OutOfMemoryException("No se ha encontrado espacio libre...");
+			}
 			return offsetEmpty;
 		}
 		public int SearchEmptyBytes(int length,byte byteEmpty,int inicio=0x800000)
@@ -114,7 +117,7 @@ namespace PokemonGBAFrameWork
 			if(length<MINIMO)
 				lengthFinal=MINIMO;
 			do
-				offsetEncontrado=datos.SearchBlock(offsetEncontrado+1,lengthFinal,byteEmpty); 
+				offsetEncontrado=datos.SearchBlock(offsetEncontrado+1,lengthFinal,byteEmpty);
 			while(offsetEncontrado%4!=0&&offsetEncontrado>-1);
 
 			return offsetEncontrado;
