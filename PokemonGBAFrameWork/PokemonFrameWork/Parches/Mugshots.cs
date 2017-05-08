@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
 	public class Mugshots:IList<BloqueImagen>
 	{
 		const string REEMPLAZAR="POINTERTABLE";
-
+		static readonly byte[] AsmMugshotsFRMake=ASM.Compilar(Resources.ASMMugshotsFRMake.Replace(REEMPLAZAR,"800000")).AsmBinary;
 		static readonly Size SizeMugshot=new Size(80,80);
 		
 		Llista<BloqueImagen> mugshots;
@@ -175,7 +175,7 @@ namespace PokemonGBAFrameWork
 			switch(((EdicionPokemon)rom.Rom.Edicion).AbreviacionRom)
 			{
 				case AbreviacionCanon.BPR:
-					bytesAsmToFind=ASM.Compilar(Resources.ASMMugshotsFRMake.Replace(REEMPLAZAR,"800000"));
+					bytesAsmToFind=AsmMugshotsFRMake;
 					break;
 			}
 			bytesAsmToFind=bytesAsmToFind.SubArray(100);
@@ -199,7 +199,7 @@ namespace PokemonGBAFrameWork
 	         //borro los datos de la tabla
 	         rom.Rom.Data.Remove(offsetTablaMugshots,OffsetRom.LENGTH*2*GetMugshots(rom).Count,0x0);
 	         //borro la rutina
-	         rom.Rom.Data.Remove(offsetRutina,LENGTHRUTINA,0x0);//suponiendo que siempre ocupa igual sino pues metodo privado que me de esa info
+	         rom.Rom.Data.Remove(offsetRutina,AsmMugshotsFRMake.Length,0x0);//suponiendo que siempre ocupa igual sino pues metodo privado que me de esa info
 		}
 	}
 }

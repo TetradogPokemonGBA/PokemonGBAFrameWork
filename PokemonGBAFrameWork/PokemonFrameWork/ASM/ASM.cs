@@ -15,14 +15,54 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of ASM.
 	/// </summary>
-	public static class ASM
+	public  class ASM
 	{
 		public static readonly string RutaThumb=Environment.CurrentDirectory+System.IO.Path.AltDirectorySeparatorChar+"thumb.bat";
 		public const string MESNAJEFINCORRECTO="Assembled successfully.";
 		
-		public static byte[] Compilar(string asmCode)
+		string asmCode;
+		byte[] asmBinary;
+		string errorCompilar;
+
+		private ASM(string asmCode,string errorCompilar)
+		{
+			AsmCode=asmCode;
+			ErrorCompilar=errorCompilar;
+		}
+		private ASM(string asmCode,byte[] asmBin)
+		{
+			AsmCode=asmCode;
+			AsmBinary=asmBin;
+		}
+		public string AsmCode {
+			get {
+				return asmCode;
+			}
+			private set{
+				asmCode=value;
+			}
+		}
+		public byte[] AsmBinary {
+			get {
+				return asmBinary;
+			}
+			private set{
+				asmBinary=value;
+			}
+		}
+
+		public string ErrorCompilar {
+			get {
+				return errorCompilar;
+			}
+			private set {
+				errorCompilar = value;
+			}
+		}
+		public static ASM Compilar(string asmCode)
 		{
 			//llamo al compilador y si no da el mensaje de compilado correctamente lanza una excepcion con el mensaje
+			ASM asmResult;
 			string pathAsmCode=System.IO.Path.GetTempFileName();
 			string pathAsmCompilado=System.IO.Path.GetTempFileName()+".bin";
 			string mensajeFinProceso;
@@ -33,19 +73,22 @@ namespace PokemonGBAFrameWork
 			proceso.StartInfo=new ProcessStartInfo(RutaThumb,pathAsmCode+" "+pathAsmCompilado);
 			proceso.StartInfo.RedirectStandardOutput=true;
 			proceso.StartInfo.Hide();
+			
 			proceso.Start();
+
 		    mensajeFinProceso=  proceso.StandardOutput.ReadLine();
 		    if(File.Exists(pathAsmCode))
 		    		File.Delete(pathAsmCode);
 		    if(mensajeFinProceso!=MESNAJEFINCORRECTO)
 		    {
-		    	throw new ASMCompilerException(mensajeFinProceso);
+		    	asmResult=new ASM(asmCode,mensajeFinProceso);
 		    }
-		    
+		    else{
 		    codigoCompilado=File.ReadAllBytes(pathAsmCompilado);
 		    File.Delete(pathAsmCompilado);
-		    
-		    return codigoCompilado;
+		    asmResult=new ASM(asmCode, codigoCompilado);
+		    }
+		    return asmResult;
 			
 		}
 	}
