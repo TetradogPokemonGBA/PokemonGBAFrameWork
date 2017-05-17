@@ -33,6 +33,7 @@ namespace PokemonGBAFrameWork
 		Llista<Habilidad> habilidades;
 		Llista<PokeballBatalla> pokeballsBatalla;
 		Llista<Objeto> objetos;
+		LlistaOrdenadaPerGrups<int,AtaquesAprendidos> dicAtaquesPokemon;
 		//extras
 		Mugshots mugshots;
 		public RomData(string path):this(new RomGba(path))
@@ -50,9 +51,12 @@ namespace PokemonGBAFrameWork
 			habilidades=new Llista<Habilidad>(Habilidad.GetHabilidades(this));
 			pokeballsBatalla=new Llista<PokeballBatalla>(PokeballBatalla.GetPokeballsBatalla(this));
 			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
+			dicAtaquesPokemon=AtaquesAprendidos.GetAtaquesAprendidosDic(this);
+			
 			if(Mugshots.EstaActivado(this))
 				mugshots=Mugshots.GetMugshots(this);
 			else mugshots=new Mugshots();
+			
 		}
 		
 		public Compilacion Compilacion {
@@ -132,6 +136,11 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+		public LlistaOrdenadaPerGrups<int, AtaquesAprendidos> DicAtaquesPokemon {
+			get {
+				return dicAtaquesPokemon;
+			}
+		}
 		public void Save()
 		{
 			Pokemon.SetPokedex(this);

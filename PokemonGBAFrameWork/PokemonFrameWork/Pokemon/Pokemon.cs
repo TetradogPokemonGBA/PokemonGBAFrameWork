@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -771,9 +772,9 @@ namespace PokemonGBAFrameWork
 			return pokedex;
 			
 		}
-		public static void SetPokemon(RomData rom,Pokemon pokemon,int totalEntradasPokedex,int totalObjetos,LlistaOrdenadaPerGrups<int,AtaquesAprendidos> dicAtaquesPokemon)
+		public static void SetPokemon(RomData rom,Pokemon pokemon)
 		{
-			SetPokemon(rom.Rom,rom.Edicion,rom.Compilacion,pokemon,totalEntradasPokedex,totalObjetos,dicAtaquesPokemon);
+			SetPokemon(rom.Rom,rom.Edicion,rom.Compilacion,pokemon,rom.Pokedex.Filtra(p=>p.Descripcion!=null).Count,rom.Objetos.Count,rom.DicAtaquesPokemon);
 			
 			
 		}
