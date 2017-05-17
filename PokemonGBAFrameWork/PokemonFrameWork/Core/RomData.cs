@@ -53,9 +53,9 @@ namespace PokemonGBAFrameWork
 			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
 			dicAtaquesPokemon=AtaquesAprendidos.GetAtaquesAprendidosDic(this);
 			
-			if(Mugshots.EstaActivado(this))
+			/*if(Mugshots.EstaActivado(this))
 				mugshots=Mugshots.GetMugshots(this);
-			else mugshots=new Mugshots();
+			else mugshots=new Mugshots();*/
 			
 		}
 		
@@ -130,7 +130,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public Mugshots Mugshots {
+		internal Mugshots Mugshots {
 			get {
 				return mugshots;
 			}
@@ -152,7 +152,7 @@ namespace PokemonGBAFrameWork
 			Habilidad.SetHabilidades(this);
 			PokeballBatalla.SetPokeballsBatalla(this);
 			Objeto.SetObjetos(this);
-			Mugshots.SetMugshots(this);
+			//Mugshots.SetMugshots(this);
 			rom.SaveEdicion();
 			rom.Save();
 		}
