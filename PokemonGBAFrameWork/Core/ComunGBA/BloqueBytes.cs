@@ -112,13 +112,13 @@ namespace PokemonGBAFrameWork
 		public int SearchEmptyBytes(int length,byte byteEmpty,int inicio=0x800000)
 		{
 			//tiene que acabar en 0,4,8,C
-			const int MINIMO=100;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
+			const int MINIMO=25;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
 			int offsetEncontrado=inicio;
 			int lengthFinal=length;
 			if(length<MINIMO)
 				lengthFinal=MINIMO;
 			do
-				offsetEncontrado=datos.SearchBlock(offsetEncontrado+1,lengthFinal,byteEmpty);
+				offsetEncontrado=datos.SearchBlock(offsetEncontrado+(4-offsetEncontrado%4),lengthFinal,byteEmpty);
 			while(offsetEncontrado%4!=0&&offsetEncontrado>-1);
 
 			return offsetEncontrado;
