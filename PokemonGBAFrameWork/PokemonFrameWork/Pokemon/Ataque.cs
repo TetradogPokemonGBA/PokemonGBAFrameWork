@@ -352,12 +352,12 @@ namespace PokemonGBAFrameWork
 		{
 			//quito el limite
 			if(posicion>GetTotalAtaques(rom,edicion,compilacion)){
-				BloqueBytes.SetBytes(rom.Data, Variable.GetVariable(VariableLimitadoAtaques, edicion, compilacion), BytesDesLimitadoAtaques);
+				rom.Data.SetArray(BytesDesLimitadoAtaques,Variable.GetVariable(VariableLimitadoAtaques, edicion, compilacion));
 				if(edicion.AbreviacionRom!=AbreviacionCanon.BPG&&edicion.AbreviacionRom!=AbreviacionCanon.BPR)
 				{
 					//quito la limitacion de los concursos de hoenn
-					BloqueBytes.SetBytes(rom.Data, Variable.GetVariable(VariableAtaqueConcurso, edicion, compilacion), BytesDesLimitadoAtaquesConcurso);
-					BloqueBytes.SetBytes(rom.Data, Variable.GetVariable(VariableAnimacionAtaqueConcurso, edicion, compilacion), BytesDesLimitadoAnimacionAtaques);
+					rom.Data.SetArray(BytesDesLimitadoAtaquesConcurso, Variable.GetVariable(VariableAtaqueConcurso, edicion, compilacion));
+					rom.Data.SetArray(BytesDesLimitadoAnimacionAtaques, Variable.GetVariable(VariableAnimacionAtaqueConcurso, edicion, compilacion));
 					
 				}
 			}
@@ -752,7 +752,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static void SetDatosAtaque(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion,DatosAtaque datosAtaque)
 		{
-			BloqueBytes.SetBytes(rom.Data, Zona.GetOffsetRom(rom,ZonaDatosAtaques, edicion, compilacion).Offset + posicion * Longitud, datosAtaque.blDatosAtaque.Bytes);
+			rom.Data.SetArray(datosAtaque.blDatosAtaque.Bytes, Zona.GetOffsetRom(rom,ZonaDatosAtaques, edicion, compilacion).Offset + posicion * Longitud);
 		}
 
 		

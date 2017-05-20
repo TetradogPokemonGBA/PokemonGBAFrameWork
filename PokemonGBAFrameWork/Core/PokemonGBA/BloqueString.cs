@@ -203,8 +203,7 @@ namespace PokemonGBAFrameWork
 		{
 			
 			byte[] bytesGbaString = ToByteArray(str,acabaEnFFByte);
-			BloqueBytes bytesString = new BloqueBytes(bytesGbaString);
-			BloqueBytes.SetBytes(rom.Data, offsetInicio,bytesString);
+			rom.Data.SetArray(bytesGbaString,offsetInicio); 
 			
 		}
 		public static void SetString(RomGba rom,int offsetInicio, BloqueString str)

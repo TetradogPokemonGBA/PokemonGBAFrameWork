@@ -175,7 +175,7 @@ namespace PokemonGBAFrameWork
 			if (equipo.HayAtaquesCustom())
 				bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves]++;
 			//es calculado aqui :D
-			BloqueBytes.SetBytes(rom.Data, bloqueEntrenador.OffsetInicio,bloqueEntrenador);//guardo los cambios
+			rom.Data.SetArray( bloqueEntrenador.Bytes,bloqueEntrenador.OffsetInicio);//guardo los cambios
 			hayAtaquesCustom = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
 			tamañoPokemon = (habiaAtaquesCustom ? 16 : 8);
 			tamañoEquipoPokemon = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon;
@@ -203,7 +203,7 @@ namespace PokemonGBAFrameWork
 				}
 			}
 			
-			OffsetRom.SetOffset(rom,new OffsetRom(bloqueEntrenador,bloqueEntrenador.Bytes.Length - OffsetRom.LENGTH), BloqueBytes.SetBytes(rom.Data, bloqueEquipo));//actualizo el offset de los datos :D
+			OffsetRom.SetOffset(rom,new OffsetRom(bloqueEntrenador,bloqueEntrenador.Bytes.Length - OffsetRom.LENGTH), rom.Data.SetArray( bloqueEquipo.Bytes));//actualizo el offset de los datos :D
 		}
 
 	}

@@ -11,13 +11,13 @@
 using System;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
-
+//tested :D funciona
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of BloqueBytes.
 	/// </summary>
-	public class BloqueBytes:ObjectAutoId
+	public class BloqueBytes:ObjectAutoId,IClonable<BloqueBytes>,ICloneable
 	{
 		int offset;
 		byte[] datos;
@@ -115,11 +115,16 @@ namespace PokemonGBAFrameWork
 			const int MINIMO=25;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
 			int offsetEncontrado=inicio;
 			int lengthFinal=length;
+			bool continuarBuscando;
 			if(length<MINIMO)
 				lengthFinal=MINIMO;
-			do
-				offsetEncontrado=datos.SearchBlock(offsetEncontrado+(4-offsetEncontrado%4),lengthFinal,byteEmpty);
-			while(offsetEncontrado%4!=0&&offsetEncontrado>-1);
+			do{
+				offsetEncontrado=datos.SearchBlock(offsetEncontrado,lengthFinal,byteEmpty);
+				continuarBuscando=offsetEncontrado%4!=0;
+				if(continuarBuscando)
+					offsetEncontrado+=(4-offsetEncontrado%4);
+			}
+			while(continuarBuscando&&offsetEncontrado>-1);
 
 			return offsetEncontrado;
 		}
@@ -136,11 +141,20 @@ namespace PokemonGBAFrameWork
 		{
 			Bytes.Remove(inicio, longitud, byteEmpty);
 		}
-		public BloqueBytes Clone()
+
+		#region IClonable implementation
+		public object Clone()
+		{
+			return Clon();
+		}
+		public BloqueBytes Clon()
 		{
 			return new BloqueBytes(offset, (byte[])datos.Clone());
-			
 		}
+
+
+		#endregion
+
 		#endregion
 		#region overrides
 		public override string ToString()
@@ -159,20 +173,6 @@ namespace PokemonGBAFrameWork
 		}
 		#endregion
 		
-		public static void SetBytes(BloqueBytes datos, int inicioDatos, BloqueBytes datosAPoner)
-		{
-			SetBytes(datos, inicioDatos, datosAPoner.Bytes);
-		}
-		public static void SetBytes(BloqueBytes datos, int inicioDatos, byte[] datosAPoner)
-		{
-			datos.Bytes.SetArray(inicioDatos, datosAPoner);
-		}
-		public static int SetBytes(BloqueBytes datos, BloqueBytes datosAPoner)
-		{
-			int inicioDatos =	datos.SearchEmptyBytes(datosAPoner.Length);
-			SetBytes(datos, inicioDatos, datosAPoner);
-			return inicioDatos;
-		}
 		public static BloqueBytes GetBytes(BloqueBytes bloque,int inicio,byte[] marcaFin)
 		{
 			return GetBytes(bloque,inicio,bloque.SearchArray(inicio,marcaFin)-inicio);

@@ -140,7 +140,7 @@ namespace PokemonGBAFrameWork
 			rom.Path=Path;
 			rom.Nombre=Nombre;
 			rom.edicion=this.edicion.Clone(); 
-			rom.romData=rom.Data.Clone();
+			rom.romData=rom.Data.Clon();
 			return rom;
 		}
 		#endregion
