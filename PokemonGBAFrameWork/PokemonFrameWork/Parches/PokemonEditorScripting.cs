@@ -57,6 +57,7 @@ namespace PokemonGBAFrameWork
 		byte? estadoPokerus;
 		byte? localizacion;
 		short? origen;
+		//cuando esten separdos los pongo
 		int? ivsHueboHabilidad;
 		int? cintaYObediencia;
 		
@@ -379,6 +380,21 @@ namespace PokemonGBAFrameWork
 				origen = value;
 			}
 		}
+		public void SetPokemon(Pokemon pokemon)
+		{
+			if(pokemon==null)
+				throw new ArgumentNullException();
+			
+			especie=Convert.ToInt16(pokemon.OrdenNacional);
+		}
+		public void SetPokemon(Objeto obj)
+		{
+			if(obj==null)
+				throw new ArgumentNullException();
+			
+			objeto=obj.Index;
+		
+		}
 		public string ScriptXSE(int posicionEquipo,RomData rom=null)
 		{
 			return ScriptXSE(posicionEquipo,rom!=null?rom.Rom:null,rom!=null?rom.Edicion:null,rom!=null?rom.Compilacion:null);
@@ -447,11 +463,11 @@ namespace PokemonGBAFrameWork
 			strScript.Append("end");
 			return strScript.ToString();
 		}
-		public string BytesScript(int posicionEquipo,RomData rom=null)
+		public byte[] BytesScript(int posicionEquipo,RomData rom=null)
 		{
 			return BytesScript(posicionEquipo,rom!=null?rom.Rom:null,rom!=null?rom.Edicion:null,rom!=null?rom.Compilacion:null);
 		}
-		public string BytesScript(int posicionEquipo,RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		public byte[] BytesScript(int posicionEquipo,RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{//por mirar y probar
 			const byte SETVAR=0x16,WRITEBYOOFFSET=0x11,CALLASM=0x23,END=0x2;
 			string strScript=ScriptXSE(posicionEquipo,rom,edicion,compilacion);
@@ -482,7 +498,7 @@ namespace PokemonGBAFrameWork
 			//0x02
 			bytes[bytes.Length-1]=END;
 			
-			
+			return bytes;
 			
 		}
 
@@ -493,6 +509,17 @@ namespace PokemonGBAFrameWork
 		public static string PosicionDecryptASMScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
 			
+		}
+		
+		public static bool EstaActivado(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
+		{
+			return PosicionEncryptASMScript(rom,edicion,compilacion)[0]!='@';
+		}
+		public static void Activar(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
+		{
+		}
+		public static void Desactivar(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
+		{
 		}
 	}
 }
