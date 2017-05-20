@@ -87,6 +87,7 @@
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
     <Compile Include="PokemonFrameWork\Parches\MOSinMedallas.cs" />
     <Compile Include="PokemonFrameWork\Parches\Mugshots.cs" />
+    <Compile Include="PokemonFrameWork\Parches\PokemonEditorScripting.cs" />
     <Compile Include="PokemonFrameWork\Parches\QuitarSistemaDeAyudaRojoYVerde.cs" />
     <Compile Include="PokemonFrameWork\Parches\QuitarTutorialBatallaOak.cs" />
     <Compile Include="PokemonFrameWork\Parches\ScriptsDeGatilloCondicionMayorAFF.cs" />
