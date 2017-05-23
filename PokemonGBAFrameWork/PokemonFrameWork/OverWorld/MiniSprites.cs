@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
 		const int TAMAÑOHEADER=36;
 		public static readonly Zona ZonaMiniSpritesData;
 		public static readonly Zona ZonaMiniSpritesPaleta;
-		OffsetRom pt1,pt2,pt3,pt4,pt5;
+		OffsetRom pt1,pt2,pt3,pt4,pt5;//de momento solo se que el pt4 es para los frames...los demás deben de ser para algo pero no lo sé...
 		Llista<BloqueSprite> blSprites;
 		Paleta paleta;
 		
@@ -28,6 +28,7 @@ namespace PokemonGBAFrameWork
 		{
 			ZonaMiniSpritesData=new Zona("Mini sprites OverWorld-Data");
 			ZonaMiniSpritesPaleta=new Zona("Mini sprites OverWorld-Paleta");
+			//añadir todas las zonas :D
 			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoUsa,0x5F2F4);
 			ZonaMiniSpritesPaleta.Add(EdicionPokemon.RojoFuegoUsa,0x5F4D8);
 		}
@@ -95,10 +96,9 @@ namespace PokemonGBAFrameWork
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
 			for(int i=0,f=8;i<f;i++)//necesito saber de donde saco el total!!!
-				try{
 				mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*OffsetRom.LENGTH*2).Offset,width,height));
 				
-			}catch{}
+			
 			return mini;
 			
 		}
@@ -116,6 +116,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static int TotalMiniSprites(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
+			//los coge bien :3
 			int offsetTabla=Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset;
 			int offsetActual=offsetTabla;
 			OffsetRom offsetAct,offset2Act;

@@ -191,16 +191,21 @@ namespace PokemonGBAFrameWork
 
 
 		#region Interpretando datos
-		static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta, bool showBackground = false)
+		public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida,Paleta paleta,bool showBackground=false)
+		{
+			int longitudLado = Convert.ToInt32(Math.Sqrt(datosImagenDescomprimida.Length / 32)) * 8;//sacado de NSE creditos a Link12552
+			return BuildBitmap(datosImagenDescomprimida,paleta,longitudLado,longitudLado,showBackground);
+		}
+		public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta,int width,int height, bool showBackground = false)
 		{
 			if (datosImagenDescomprimida == null || paleta == null)
 				throw new ArgumentNullException();
 			const int BYTESPERPIXEL = 4;
 			const int NUM = 8;//poner algo mas descriptivo
 
-			int longitudLado = Convert.ToInt32(Math.Sqrt(datosImagenDescomprimida.Length / 32)) * 8;//sacado de NSE creditos a Link12552
-			int bytesPorLado = BYTESPERPIXEL * longitudLado;
-			Bitmap bmpTiles = new Bitmap(longitudLado, longitudLado, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			
+			int bytesPorLado = BYTESPERPIXEL * width;
+			Bitmap bmpTiles = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			System.Drawing.Color[] colores = paleta.Colores;
 			System.Drawing.Color color;
 			byte temp;
@@ -214,8 +219,8 @@ namespace PokemonGBAFrameWork
 				bmpTiles.TrataBytes((MetodoTratarBytePointer)((bytesBmp) =>
 				                                              {
 
-				                                              	for (int y1 = 0; y1 < longitudLado; y1 += NUM)
-				                                              		for (int x1 = 0; x1 < longitudLado; x1 += NUM)
+				                                              	for (int y1 = 0; y1 < height; y1 += NUM)
+				                                              		for (int x1 = 0; x1 < width; x1 += NUM)
 				                                              			for (int y2 = 0; y2 < NUM; y2++)
 				                                              				for (int x2 = 0; x2 < NUM; x2 += 2, posByteImgArray++)
 				                                              	{
@@ -251,8 +256,8 @@ namespace PokemonGBAFrameWork
 
 			return bmpTiles;
 		}
-
-		static BloqueBytes GetDatosDescomprimidos(Bitmap img)
+		#region Desarrollando la conversion de Bitmap a GBAData descomprimida
+		internal static BloqueBytes GetDatosDescomprimidos(Bitmap img)
 		{
 			//por testear
 			if (img == null)
@@ -289,7 +294,78 @@ namespace PokemonGBAFrameWork
 			}
 			return new BloqueBytes(toReturn);
 		}
+		internal static byte[] GetDataFromBitmap(Bitmap bitmap)
+		{
+			byte[] sprite;
+			byte aux;
+			byte[] rgbValues=bitmap.GetBytes();
+			sprite = new byte[bitmap.Width * bitmap.Height / 2];
+			
 
+			# endregion
+
+
+
+			//Wierd format with PNG's from Unlz
+			// -for some strange reason unlz exports 16 color sprites in 256 color format
+			// -this doubles the size of the internal data and makes it hard to decode properly
+			if (rgbValues.Length > bitmap.Width * bitmap.Height / 2)
+			{
+				for (int y = 0; y < bitmap.Height; y++)
+				{
+					for (int x = 0; x + 1 < bitmap.Width; x++)
+					{
+						aux = (byte)(rgbValues[y * (bitmap.Width) + x] + (rgbValues[y * (bitmap.Width) + x + 1] << 4));
+						if (aux != 0)
+						{
+							SetByte(sprite, bitmap.Width, bitmap.Height, x, y, aux);
+						}
+					}
+
+				}
+			}
+			else
+			{
+				for (int y = 0; y < bitmap.Height; y++)
+				{
+					for (int x = 0; x < bitmap.Width / 2; x++)
+					{
+						aux = FlipByte(rgbValues[y * (bitmap.Width / 2) + x]);
+						if (aux != 0)
+						{
+							SetByte(sprite, bitmap.Width, bitmap.Height, x * 2, y, aux);
+						}
+					}
+
+				}
+			}
+
+			return sprite;
+		}
+		
+		
+		static int Position2Index(Size Size, Point Position)
+		{
+			int r = (Position.Y - (Position.Y % 8)) / 2 * Size.Width;
+			r += (Position.X - (Position.X % 8)) * 4;
+			r += (Position.Y % 8) * 4;
+			r += (Position.X % 8) / 2;
+
+			return r;
+		}
+
+		static void SetByte( byte[] Data, int Width, int Height, int x, int y, byte val)
+		{
+			int pos = Position2Index(new Size(Width, Height), new Point(x, y));
+
+			Data[pos] = val;
+		}
+
+		static byte FlipByte(byte Byte)
+		{
+			return (byte)((Byte >> 4) + ((Byte << 4) & 0xF0));
+		}
+		#endregion
 		/// <summary>
 		/// Convert Bitmap To 4BPP Byte Array
 		/// </summary>
@@ -300,7 +376,7 @@ namespace PokemonGBAFrameWork
 
 			return new BloqueBytes(Lz77.Comprimir(GetDatosDescomprimidos(img).Bytes));
 		}
-		#endregion
+		
 		#region Conversiones
 		public static implicit operator Bitmap(BloqueImagen bloqueImg)
 		{

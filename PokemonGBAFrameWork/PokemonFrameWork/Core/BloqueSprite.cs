@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat.Extension;
 //creditos NSE Author por el codigo fuente :)
@@ -17,77 +18,71 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class BloqueSprite
 	{
+		enum Medidas
+		{
+			Mini = 8,
+			Normal = 16,
+			Grande = 32,
+			MuyGrande = 64
+		}
 		int width;
 		int height;
 		byte[] imgData;
-		public BloqueSprite()
+		private BloqueSprite()
 		{
 		}
+		public BloqueSprite(Bitmap bmp)
+		{
+			SetBitmapData(bmp);
+		}
 
+		public void SetBitmapData(Bitmap bmp)
+		{
+			int heghtF = -1, widthF = -1;
+			Medidas[] medidas = (Medidas[])Enum.GetValues(typeof(Medidas));
+			
+			//miro que tenga 16 colores diferentes
+			
+			
+			for (int i = 0; i < medidas.Length && heghtF < 0; i++)
+				if ((int)medidas[i] >= bmp.Height)
+					heghtF = (int)medidas[i];
+			for (int i = 0; i < medidas.Length && widthF < 0; i++)
+				if ((int)medidas[i] >= bmp.Width)
+					widthF = (int)medidas[i];
+			
+			if (heghtF < 0)
+				heghtF = (int)Medidas.MuyGrande;
+			if (widthF < 0)
+				widthF = (int)Medidas.MuyGrande;
+			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF), System.Drawing.Imaging.PixelFormat.Format32bppArgb);//mirar que esten indexados...
+			
+			height = bmp.Height;
+			width = bmp.Width;
+			//falta hacer que vaya bien
+			imgData=BloqueImagen.GetDatosDescomprimidos(bmp).Bytes;//mirar si va asi
+		}
+
+		public bool check(Paleta paleta)
+		{
+			byte[] bytes=imgData;
+			bool isOk=true;
+			SetBitmapData(GetBitmap(paleta));
+			for(int i=0;i<bytes.Length&&isOk;i++)
+				isOk=imgData[i].Equals(bytes[i]);
+			return isOk;
+		}
 		public Bitmap GetBitmap(Paleta paleta)
 		{
-			const byte VISIBLE=0xFF;
-			Bitmap bmp=new Bitmap(width,height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-			int right,left;
-			int pos;
-			unsafe{
-				bmp.TrataBytes((MetodoTratarBytePointer)((ptr) => {
-				                                         	
-				                                         	//hago copy and paste
-				                                         	for (int y = 0; y < height; y++)
-				                                         	{
-				                                         		for (int x = 0; x < width; x+=2)
-				                                         		{
-				                                         			pos = (y - (y % 8)) / 2 * width;
-				                                         			pos += (x - (x % 8)) * 4;
-				                                         			pos += (y % 8) * 4;
-				                                         			pos += (x % 8) / 2;
-				                                         			
-				                                         			if (pos < imgData.Length)
-				                                         			{
-				                                         				
-				                                         				
-				                                         				right = imgData[pos] & 0x0F;
-				                                         				left = imgData[pos] >> 4;
-
-				                                         				if (left != 0)
-				                                         				{
-				                                         					*(ptr + 4 * (y * width + x + 1)) = paleta[left].B;
-				                                         					*(ptr + 4 * (y * width + x + 1) + 1) = paleta[left].G;
-				                                         					*(ptr + 4 * (y * width + x + 1) + 2) = paleta[left].R;
-				                                         					*(ptr + 4 * (y * width + x + 1) + 3) = VISIBLE;
-				                                         				}
-				                                         			  
-				                                         				if (right != 0)
-				                                         				{
-				                                         					*(ptr + 4 * (y * width + x)) = paleta[right].B;
-				                                         					*(ptr + 4 * (y * width + x) + 1) = paleta[right].G;
-				                                         					*(ptr + 4 * (y * width + x) + 2) = paleta[right].R;
-				                                         					*(ptr + 4 * (y * width + x) + 3) = VISIBLE;
-				                                         				}
-				                                         				
-
-				                                         				
-				                                         				
-				                                         				
-				                                         			}
-				                                         		}
-				                                         	}
-				                                         	
-				                                         	
-				                                         }));
-				
-			}
-			
-			return bmp;
+			return BloqueImagen.BuildBitmap(imgData,paleta,width,height);//funciona bien :D
 		}
-		public static BloqueSprite GetSprite(RomGba rom, int offsetBloqueData,int width,int height)
+		public static BloqueSprite GetSprite(RomGba rom, int offsetBloqueData, int width, int height)
 		{
-			const int BYTESCOLOR=2;
-			BloqueSprite bl=new BloqueSprite();
-			bl.width=width;
-			bl.height=height;
-			bl.imgData=rom.Data.SubArray(offsetBloqueData,width*height*BYTESCOLOR);
+			const int BYTESCOLOR = 2;
+			BloqueSprite bl = new BloqueSprite();
+			bl.width = width;
+			bl.height = height;
+			bl.imgData = rom.Data.SubArray(offsetBloqueData, width * height * BYTESCOLOR);
 			return bl;
 		}
 	}
