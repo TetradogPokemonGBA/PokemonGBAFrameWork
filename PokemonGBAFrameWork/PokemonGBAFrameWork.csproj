@@ -77,11 +77,13 @@
     <Compile Include="PokemonFrameWork\Batallas\Objeto.cs" />
     <Compile Include="PokemonFrameWork\Batallas\PokeballBatalla.cs" />
     <Compile Include="PokemonFrameWork\Batallas\PokemonEntrenador.cs" />
+    <Compile Include="PokemonFrameWork\Core\BloqueSprite.cs" />
     <Compile Include="PokemonFrameWork\Core\Compilacion.cs" />
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
     <Compile Include="PokemonFrameWork\Core\Variables.cs" />
     <Compile Include="PokemonFrameWork\Core\Zonas.cs" />
+    <Compile Include="PokemonFrameWork\OverWorld\MiniSprites.cs" />
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
@@ -113,6 +115,7 @@
   <ItemGroup>
     <Folder Include="PokemonFrameWork\Batallas" />
     <Folder Include="Core\ComunGBA\ASM" />
+    <Folder Include="PokemonFrameWork\OverWorld" />
     <Folder Include="PokemonFrameWork\Pokemon" />
   </ItemGroup>
   <ItemGroup>

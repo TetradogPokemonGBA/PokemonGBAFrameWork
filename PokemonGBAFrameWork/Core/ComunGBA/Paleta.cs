@@ -103,8 +103,17 @@ namespace PokemonGBAFrameWork
 			//sacado de Nameless
 			if (rom == null || offsetPointerPaleta < 0)
 				throw new ArgumentException();
-			byte[] bytesPaletaDescomprimidos = Lz77.Descomprimir(rom.Data.Bytes,new OffsetRom(rom, offsetPointerPaleta).Offset);
-			Paleta paleta=GetPaleta(bytesPaletaDescomprimidos);		
+			const int TOTALBYTESPALETA=32;
+			byte[] bytesPaletaDescomprimidos;
+			Paleta paleta;
+			int offsetPaletaData=new OffsetRom(rom, offsetPointerPaleta).Offset;
+			try{
+			bytesPaletaDescomprimidos= Lz77.Descomprimir(rom.Data.Bytes,offsetPaletaData);
+			}catch{
+				bytesPaletaDescomprimidos= rom.Data.Bytes.SubArray(offsetPaletaData, TOTALBYTESPALETA);//son dos bytes por color
+			
+			}
+			paleta=GetPaleta(bytesPaletaDescomprimidos);
 			if (!showBackgroundColor)
 			{
 				paleta[0] = BackgroundColorDefault;

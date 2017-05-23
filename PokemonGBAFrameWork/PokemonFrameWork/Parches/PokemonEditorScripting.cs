@@ -504,11 +504,11 @@ namespace PokemonGBAFrameWork
 
 		public static string PosicionEncryptASMScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
-			
+			return null;
 		}
 		public static string PosicionDecryptASMScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
-			
+			return null;
 		}
 		
 		public static bool EstaActivado(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
