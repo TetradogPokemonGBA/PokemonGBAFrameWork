@@ -33,6 +33,8 @@ namespace PokemonGBAFrameWork
 		Llista<Habilidad> habilidades;
 		Llista<PokeballBatalla> pokeballsBatalla;
 		Llista<Objeto> objetos;
+		Llista<MiniSprite> minis;
+		PaletasMinis paletasMinis;
 		LlistaOrdenadaPerGrups<int,AtaquesAprendidos> dicAtaquesPokemon;
 		//extras
 		Mugshots mugshots;
@@ -52,6 +54,9 @@ namespace PokemonGBAFrameWork
 			pokeballsBatalla=new Llista<PokeballBatalla>(PokeballBatalla.GetPokeballsBatalla(this));
 			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
 			dicAtaquesPokemon=AtaquesAprendidos.GetAtaquesAprendidosDic(this);
+			paletasMinis=PaletasMinis.GetPaletasMinis(this);
+			minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));
+			
 			
 			/*if(Mugshots.EstaActivado(this))
 				mugshots=Mugshots.GetMugshots(this);
@@ -127,6 +132,18 @@ namespace PokemonGBAFrameWork
 		public Llista<Objeto> Objetos {
 			get {
 				return objetos;
+			}
+		}
+
+		public Llista<MiniSprite> Minis {
+			get {
+				return minis;
+			}
+		}
+
+		public PaletasMinis PaletasMinis {
+			get {
+				return paletasMinis;
 			}
 		}
 

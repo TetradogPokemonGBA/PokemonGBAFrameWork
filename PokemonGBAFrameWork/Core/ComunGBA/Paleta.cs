@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Paleta.
 	/// </summary>
-	public class Paleta
+	public class Paleta:IComparable<Paleta>
 	{
 		public static System.Drawing.Color BackgroundColorDefault=System.Drawing.Color.Transparent;
 		public const int LENGTHHEADER=4;
@@ -51,6 +51,12 @@ namespace PokemonGBAFrameWork
 				return offset;
 			}
 			set { offset = value; }
+		}
+		public byte SortID
+		{
+			get{
+				return Serializar.GetBytes(Id)[0];
+			}
 		}
 		public short Id {
 			get {
@@ -98,6 +104,26 @@ namespace PokemonGBAFrameWork
 		{
 			return new OffsetRom(pointerData).BytesPointer.AddArray(Header);
 		}
+
+		#region IComparable implementation
+
+
+		public int CompareTo(Paleta other)
+		{
+			int compareTo;
+			if(other!=null)
+			{
+				compareTo=SortID.CompareTo(other.SortID);
+				
+			}else{
+				compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
+			}
+			return compareTo;
+		}
+
+
+		#endregion
+
 		public static Paleta GetPaletaSinHeader(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
 		{
 			//sacado de Nameless

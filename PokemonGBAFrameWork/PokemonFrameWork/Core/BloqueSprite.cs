@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
 	public class BloqueSprite
 	{
 		enum Medidas
-		{
+		{//creo que no se pueden poner otras por eso hago una enumeracion
 			Mini = 8,
 			Normal = 16,
 			Grande = 32,
@@ -43,6 +43,7 @@ namespace PokemonGBAFrameWork
 			
 			//miro que tenga 16 colores diferentes
 			
+			//pongo las medidas standar
 			
 			for (int i = 0; i < medidas.Length && heghtF < 0; i++)
 				if ((int)medidas[i] >= bmp.Height)
@@ -55,6 +56,7 @@ namespace PokemonGBAFrameWork
 				heghtF = (int)Medidas.MuyGrande;
 			if (widthF < 0)
 				widthF = (int)Medidas.MuyGrande;
+			//hago que tenga el formato correcto para la conversion...falta mirar que sea el correcto
 			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF), System.Drawing.Imaging.PixelFormat.Format32bppArgb);//mirar que esten indexados...
 			
 			height = bmp.Height;
@@ -64,7 +66,7 @@ namespace PokemonGBAFrameWork
 		}
 
 		public bool check(Paleta paleta)
-		{
+		{//para el testing
 			byte[] bytes=imgData;
 			bool isOk=true;
 			SetBitmapData(GetBitmap(paleta));
