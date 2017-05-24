@@ -36,19 +36,16 @@ namespace PokemonGBAFrameWork
 			SetBitmapData(bmp);
 		}
 
-		public void SetBitmapData(Bitmap bmp)
+		public void SetBitmapData(Bitmap bmp,Paleta paleta=null)
 		{
 			int heghtF = -1, widthF = -1;
 			Medidas[] medidas = (Medidas[])Enum.GetValues(typeof(Medidas));
 			
-			//miro que tenga 16 colores diferentes
-			
 			//pongo las medidas standar
-			
-			for (int i = 0; i < medidas.Length && heghtF < 0; i++)
+			for (int i = bmp.Height/8; i < medidas.Length && heghtF < 0; i++)
 				if ((int)medidas[i] >= bmp.Height)
 					heghtF = (int)medidas[i];
-			for (int i = 0; i < medidas.Length && widthF < 0; i++)
+			for (int i = bmp.Width/8; i < medidas.Length && widthF < 0; i++)
 				if ((int)medidas[i] >= bmp.Width)
 					widthF = (int)medidas[i];
 			
@@ -56,35 +53,27 @@ namespace PokemonGBAFrameWork
 				heghtF = (int)Medidas.MuyGrande;
 			if (widthF < 0)
 				widthF = (int)Medidas.MuyGrande;
-			//hago que tenga el formato correcto para la conversion...falta mirar que sea el correcto
-			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF), System.Drawing.Imaging.PixelFormat.Format32bppArgb);//mirar que esten indexados...
+			
+			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF),System.Drawing.Imaging.PixelFormat.Format32bppArgb);//, System.Drawing.Imaging.PixelFormat.Format16bppRgb555);
 			
 			height = bmp.Height;
 			width = bmp.Width;
 			//falta hacer que vaya bien
-			imgData=BloqueImagen.GetDatosDescomprimidos(bmp).Bytes;//mirar si va asi
+			imgData=BloqueImagen.GetDatosDescomprimidos(bmp,paleta);//mirar si va asi
 		}
 
-		public bool check(Paleta paleta)
-		{//para el testing
-			byte[] bytes=imgData;
-			bool isOk=true;
-			SetBitmapData(GetBitmap(paleta));
-			for(int i=0;i<bytes.Length&&isOk;i++)
-				isOk=imgData[i].Equals(bytes[i]);
-			return isOk;
-		}
+
 		public Bitmap GetBitmap(Paleta paleta)
 		{
 			return BloqueImagen.BuildBitmap(imgData,paleta,width,height);//funciona bien :D
 		}
 		public static BloqueSprite GetSprite(RomGba rom, int offsetBloqueData, int width, int height)
 		{
-			const int BYTESCOLOR = 2;
+			const int PIXELSPERBYTE = 2;
 			BloqueSprite bl = new BloqueSprite();
 			bl.width = width;
 			bl.height = height;
-			bl.imgData = rom.Data.SubArray(offsetBloqueData, width * height * BYTESCOLOR);
+			bl.imgData = rom.Data.SubArray(offsetBloqueData, width * height / PIXELSPERBYTE);
 			return bl;
 		}
 	}

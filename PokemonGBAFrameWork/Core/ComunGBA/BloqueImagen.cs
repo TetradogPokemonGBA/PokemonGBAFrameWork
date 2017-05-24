@@ -45,7 +45,7 @@ namespace PokemonGBAFrameWork
 		}
 		public BloqueImagen(Bitmap img) : this()
 		{
-			datosDescomprimidos = GetDatosDescomprimidos(img);
+			datosDescomprimidos =new BloqueBytes(GetDatosDescomprimidos(img));
 			Paletas.Add(Paleta.GetPaleta(img));
 		}
 		public BloqueImagen(BloqueBytes datosDescomprimidosImg, params Paleta[] paletas) : this()
@@ -256,116 +256,53 @@ namespace PokemonGBAFrameWork
 
 			return bmpTiles;
 		}
-		#region Desarrollando la conversion de Bitmap a GBAData descomprimida
-		internal static BloqueBytes GetDatosDescomprimidos(Bitmap img)
+		public static byte[] GetDatosDescomprimidos(Bitmap bmp,Paleta paleta=null)
 		{
-			//por testear
-			if (img == null)
-				throw new ArgumentNullException("img");
-			Paleta paleta = Paleta.Default;
-			byte[] toReturn = new byte[(img.Height * img.Width) >> 1];
-			int index = 0;
-			System.Drawing.Color temp;
-			byte outValue = 0, index2;
-			bool buscandoPaleta;
-			for (int i = 0; i < img.Height; i++)
-			{
-				for (int j = 0; j < img.Width / 2; j++)
-				{
-
-					outValue = 0;
-					index2 = 0;
-					for (int k = 0; k < 2; k++)
-					{
-						temp = img.GetPixel((j * 2) + k, i);
-
-						buscandoPaleta = true;
-						for (int l = 0; l < paleta.Colores.Length && buscandoPaleta; l++)
-							if (temp.ToArgb().Equals(paleta.Colores[l].ToArgb()))
-						{
-							outValue = (byte)(index2 << (k * 4));
-							buscandoPaleta = false;
-						}
-						index2++;
-					}
-					toReturn[index] = (byte)(toReturn[index] | outValue);
-				}
-				index++;
-			}
-			return new BloqueBytes(toReturn);
-		}
-		internal static byte[] GetDataFromBitmap(Bitmap bitmap)
-		{
-			byte[] sprite;
-			byte aux;
-			byte[] rgbValues=bitmap.GetBytes();
-			sprite = new byte[bitmap.Width * bitmap.Height / 2];
+			const int PIXELSPERBYTE=2;
 			
-
-			# endregion
-
-
-
-			//Wierd format with PNG's from Unlz
-			// -for some strange reason unlz exports 16 color sprites in 256 color format
-			// -this doubles the size of the internal data and makes it hard to decode properly
-			if (rgbValues.Length > bitmap.Width * bitmap.Height / 2)
+			byte[] bytesBmpGBADescomprimido;
+			int argbAux;
+			TwoKeysList<int,int,Color> diccionariColor;//index,argb,color
+			
+			if(bmp==null)
+				throw new ArgumentNullException("bmp");
+			if(paleta==null)
+				paleta=Paleta.GetPaleta(bmp);
+			
+			diccionariColor=new TwoKeysList<int, int, Color>();//index,argb,color
+			bytesBmpGBADescomprimido=new byte[bmp.Width*bmp.Height/PIXELSPERBYTE];
+			for(int i=0;i<paleta.Colores.Length;i++)
 			{
-				for (int y = 0; y < bitmap.Height; y++)
-				{
-					for (int x = 0; x + 1 < bitmap.Width; x++)
-					{
-						aux = (byte)(rgbValues[y * (bitmap.Width) + x] + (rgbValues[y * (bitmap.Width) + x + 1] << 4));
-						if (aux != 0)
-						{
-							SetByte(sprite, bitmap.Width, bitmap.Height, x, y, aux);
-						}
-					}
-
-				}
+				argbAux=paleta.Colores[i].ToArgb();
+				if(!diccionariColor.ContainsKey2(argbAux))
+					diccionariColor.Add(i,argbAux,paleta.Colores[i]);
 			}
-			else
-			{
-				for (int y = 0; y < bitmap.Height; y++)
-				{
-					for (int x = 0; x < bitmap.Width / 2; x++)
+			unsafe{
+				Gabriel.Cat.V2.Color* ptrColor;
+				byte* ptrBmpGBADescomprimido;
+				fixed(byte* ptBmpGBADescomprimido=bytesBmpGBADescomprimido){
+					fixed(byte* ptBytesColorsBmp=bmp.GetBytes())
 					{
-						aux = FlipByte(rgbValues[y * (bitmap.Width / 2) + x]);
-						if (aux != 0)
+						ptrColor=(Gabriel.Cat.V2.Color*)ptBytesColorsBmp;
+						ptrBmpGBADescomprimido=ptBmpGBADescomprimido;
+						
+						for(int i=0,f=bytesBmpGBADescomprimido.Length;i<f;i++)
 						{
-							SetByte(sprite, bitmap.Width, bitmap.Height, x * 2, y, aux);
+							*ptrBmpGBADescomprimido=(byte)(diccionariColor.GetTkey1WhithTkey2((*ptrColor).ToArgb())*16);
+							//hago un color
+							ptrColor++;
+							//hago el otro
+							*ptrBmpGBADescomprimido+=(byte)(diccionariColor.GetTkey1WhithTkey2((*ptrColor).ToArgb()));
+							ptrBmpGBADescomprimido++;
 						}
+						
 					}
-
 				}
+				
 			}
-
-			return sprite;
+			
+			return bytesBmpGBADescomprimido;
 		}
-		
-		
-		static int Position2Index(Size Size, Point Position)
-		{
-			int r = (Position.Y - (Position.Y % 8)) / 2 * Size.Width;
-			r += (Position.X - (Position.X % 8)) * 4;
-			r += (Position.Y % 8) * 4;
-			r += (Position.X % 8) / 2;
-
-			return r;
-		}
-
-		static void SetByte( byte[] Data, int Width, int Height, int x, int y, byte val)
-		{
-			int pos = Position2Index(new Size(Width, Height), new Point(x, y));
-
-			Data[pos] = val;
-		}
-
-		static byte FlipByte(byte Byte)
-		{
-			return (byte)((Byte >> 4) + ((Byte << 4) & 0xF0));
-		}
-		#endregion
 		/// <summary>
 		/// Convert Bitmap To 4BPP Byte Array
 		/// </summary>
@@ -374,9 +311,9 @@ namespace PokemonGBAFrameWork
 		static BloqueBytes GetDatosComprimidos(Bitmap img)
 		{
 
-			return new BloqueBytes(Lz77.Comprimir(GetDatosDescomprimidos(img).Bytes));
+			return new BloqueBytes(Lz77.Comprimir(GetDatosDescomprimidos(img)));
 		}
-		
+		#endregion
 		#region Conversiones
 		public static implicit operator Bitmap(BloqueImagen bloqueImg)
 		{

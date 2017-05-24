@@ -134,10 +134,10 @@ namespace PokemonGBAFrameWork
 			Paleta paleta;
 			int offsetPaletaData=new OffsetRom(rom, offsetPointerPaleta).Offset;
 			try{
-			bytesPaletaDescomprimidos= Lz77.Descomprimir(rom.Data.Bytes,offsetPaletaData);
+				bytesPaletaDescomprimidos= Lz77.Descomprimir(rom.Data.Bytes,offsetPaletaData);
 			}catch{
 				bytesPaletaDescomprimidos= rom.Data.Bytes.SubArray(offsetPaletaData, TOTALBYTESPALETA);//son dos bytes por color
-			
+				
 			}
 			paleta=GetPaleta(bytesPaletaDescomprimidos);
 			if (!showBackgroundColor)
@@ -148,8 +148,8 @@ namespace PokemonGBAFrameWork
 			return paleta;
 		}
 		public static Paleta GetPaleta(byte[] datosPaletaDescomprimida){
-		
-		Paleta paleta=new Paleta();
+			
+			Paleta paleta=new Paleta();
 
 			ushort tempValue;
 			byte  r, g, b;
@@ -176,29 +176,28 @@ namespace PokemonGBAFrameWork
 		}
 		public static Paleta GetPaleta(Bitmap img)
 		{
+			Color[] paleta=new Color[LENGTH];
+			Color colorActual;
+			TwoKeysList<int,int,Color> colorDic=new TwoKeysList<int, int, Color>();//argb,index;
+			int indexActual=0;
+			int argbActual;
 			
-			SortedList<int,int> colores=new SortedList<int,int>();
-			Paleta paleta=new Paleta();
-			int argbColorActual;
-			unsafe{
-				Gabriel.Cat.V2.Color* ptrColoresImg;
-				fixed(byte* ptDatosImg=img.GetBytes())
+			//no se por que pero no acaba de funcionar
+			//img=img.Clone(new Rectangle(0,0,img.Width,img.Width),System.Drawing.Imaging.PixelFormat.Format16bppRgb555);
+			
+			for(int y=0;y<img.Height&&colorDic.Count<LENGTH;y++){
+				for(int x=0;x<img.Width&&colorDic.Count<LENGTH;x++)
 				{
-					ptrColoresImg=(Gabriel.Cat.V2.Color*)ptDatosImg;
-					for(int i=0,f=img.Height*img.Width,j=1;i<f&&colores.Count<LENGTH;i++)
-					{
-						argbColorActual=(*ptrColoresImg).ToArgb();
-						if(!colores.ContainsKey(argbColorActual)&&(*ptrColoresImg).Alfa==byte.MaxValue)
-						{
-							colores.Add(argbColorActual,argbColorActual);
-							paleta[j++]=*ptrColoresImg; 
-						}
-					}
+					colorActual=img.GetPixel(x,y);
+					argbActual=colorActual.ToArgb();
+					if(!colorDic.ContainsKey1(argbActual))
+						colorDic.Add(argbActual,indexActual++,colorActual);
 				}
 			}
+			for(int i=0;i<indexActual;i++)
+				paleta[i]=colorDic.GetValueWithKey2(i);
 			
-			
-			return paleta;
+			return new Paleta(paleta);
 		}
 
 		
@@ -284,11 +283,11 @@ namespace PokemonGBAFrameWork
 		{
 			int offsetDatos;
 			try{
-			offsetDatos=new OffsetRom(rom,offsetPaletaActual).Offset;
-			//borro los datos
-			rom.Data.Remove(offsetDatos,Lz77.Longitud(rom.Data.Bytes,offsetDatos));
-			//borro el header
-			rom.Data.Remove(offsetPaletaActual,LENGTHHEADERCOMPLETO);
+				offsetDatos=new OffsetRom(rom,offsetPaletaActual).Offset;
+				//borro los datos
+				rom.Data.Remove(offsetDatos,Lz77.Longitud(rom.Data.Bytes,offsetDatos));
+				//borro el header
+				rom.Data.Remove(offsetPaletaActual,LENGTHHEADERCOMPLETO);
 			}catch{}
 		}
 	}
