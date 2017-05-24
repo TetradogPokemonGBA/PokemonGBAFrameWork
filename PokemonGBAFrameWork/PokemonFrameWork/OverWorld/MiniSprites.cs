@@ -27,8 +27,18 @@ namespace PokemonGBAFrameWork
 		{
 			ZonaMiniSpritesData=new Zona("Mini sprites OverWorld-Data");
 			//añadir todas las zonas :D
-			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoUsa,0x5F2F4);
-	
+			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoUsa,0x5F2F4,0x5F308);
+			ZonaMiniSpritesData.Add(EdicionPokemon.VerdeHojaUsa,0x5F2F4,0x5F308);
+			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoEsp,0x5F3C8);
+			ZonaMiniSpritesData.Add(EdicionPokemon.VerdeHojaEsp,0x5F3C8);
+			
+			ZonaMiniSpritesData.Add(EdicionPokemon.RubiUsa,0x5BC3C,0x5BC5C);
+			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroUsa,0x5BC40,0x5BC60);
+			ZonaMiniSpritesData.Add(EdicionPokemon.RubiEsp,0x5C078);
+			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroEsp,0x5C07C);
+		
+			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaUsa,0x8E6D8);
+			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaEsp,0x8E6EC);
 		}
 		public MiniSprite()
 		{
@@ -60,7 +70,7 @@ namespace PokemonGBAFrameWork
 		public static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int totalFrames=8)
 		{
 			//header
-		
+			
 			
 			int offsetHeader=new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset+(posicion*OffsetRom.LENGTH)).Offset;
 			byte[] bytesHeader=rom.Data.SubArray(offsetHeader,TAMAÑOHEADER);
@@ -88,7 +98,7 @@ namespace PokemonGBAFrameWork
 			offsetSprites=mini.pt4.Offset;
 			for(int i=0;i<totalFrames;i++)//necesito saber de donde saco el total!!!
 				mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,width,height));
-				
+			
 			
 			return mini;
 			
@@ -110,8 +120,12 @@ namespace PokemonGBAFrameWork
 			MiniSprite[] minis=new MiniSprite[TotalMiniSprites(rom,edicion,compilacion)];
 			for(int i=0;i<minis.Length;i++)
 				minis[i]=GetMiniSprite(rom,edicion,compilacion,i,paletas);
-		
+			
 			return minis;
+		}
+		public static int TotalMiniSprites(RomData rom)
+		{
+			return TotalMiniSprites(rom.Rom,rom.Edicion,rom.Compilacion);
 		}
 		public static int TotalMiniSprites(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{

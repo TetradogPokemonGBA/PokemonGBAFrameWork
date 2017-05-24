@@ -22,7 +22,21 @@ namespace PokemonGBAFrameWork
 		static PaletasMinis()
 		{
 			ZonaMiniSpritesPaleta=new Zona("Mini sprites OverWorld-Paleta");
-			ZonaMiniSpritesPaleta.Add(EdicionPokemon.RojoFuegoUsa,0x5F4D8);
+			//Esmeralda
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.EsmeraldaUsa,0x8E8BC);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.EsmeraldaEsp,0x8E8D0);
+			//Rojo y Verde
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.RojoFuegoUsa,0x5F4D8,0x5F4EC);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.VerdeHojaUsa,0x5F4D8,0x5F4EC);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.RojoFuegoEsp,0x5F5AC);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.VerdeHojaEsp,0x5F5AC);
+			//Rubi y Zafiro
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.RubiUsa,0x5BE20,0x5BE40);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.ZafiroUsa,0x5BE24,0x5BE44);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.RubiEsp,0x5C25C);
+			ZonaMiniSpritesPaleta.Add(EdicionPokemon.ZafiroEsp,0x5C260);
+			
+			
 		}
 		public PaletasMinis()
 		{
