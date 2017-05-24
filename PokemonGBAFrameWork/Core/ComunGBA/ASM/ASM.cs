@@ -13,7 +13,7 @@ using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
-	/// Description of ASM.
+	/// Es temporal hasta que tenga el codigo fuente
 	/// </summary>
 	public  class ASM
 	{

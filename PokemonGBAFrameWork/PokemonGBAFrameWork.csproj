@@ -58,6 +58,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ComunGBA\ASM\Thumb.cs" />
     <Compile Include="Core\ComunGBA\BloqueBytes.cs" />
     <Compile Include="Core\ComunGBA\BloqueImagen.cs" />
     <Compile Include="Core\ComunGBA\BloqueSonido.cs" />
