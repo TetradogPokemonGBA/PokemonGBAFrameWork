@@ -81,8 +81,7 @@ namespace PokemonGBAFrameWork
 			
 			width=Serializar.ToInt(new byte[]{bytesHeader[8],bytesHeader[9],0,0});
 			height=Serializar.ToInt(new byte[]{bytesHeader[10],bytesHeader[11],0,0});
-			if(posicion==151)
-				System.Diagnostics.Debugger.Break();
+
 			mini.Paleta=paletas[bytesHeader[2]];
 			
 			
