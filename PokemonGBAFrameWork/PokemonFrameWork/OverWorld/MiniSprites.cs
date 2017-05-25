@@ -22,7 +22,7 @@ namespace PokemonGBAFrameWork
 		OffsetRom pt1,pt2,pt3,pt4,pt5;//de momento solo se que el pt4 es para los frames...los demás deben de ser para algo pero no lo sé...
 		Llista<BloqueSprite> blSprites;
 		Paleta paleta;
-		
+		int width,height;
 		static MiniSprite()
 		{
 			ZonaMiniSpritesData=new Zona("Mini sprites OverWorld-Data");
@@ -49,7 +49,19 @@ namespace PokemonGBAFrameWork
 			get{return blSprites;}
 			
 		}
-
+		public int LengthData{
+			get{return height*width/2;}
+		}
+		public int Height {
+			get {
+				return height;
+			}
+		}
+		public int Width {
+			get {
+				return width;
+			}
+		}
 		public Paleta Paleta {
 			get {
 				return paleta;
@@ -63,45 +75,68 @@ namespace PokemonGBAFrameWork
 				return blSprites[indexMini].GetBitmap(paleta);
 			}
 		}
-		public static MiniSprite GetMiniSprite(RomData rom,int posicion,PaletasMinis paletas,int totalFrames=8)
+		public static MiniSprite GetMiniSprite(RomData rom,int posicion,PaletasMinis paletas)
 		{
-			return GetMiniSprite(rom.Rom,rom.Edicion,rom.Compilacion,posicion,paletas,totalFrames);
+			return GetMiniSprite(rom.Rom,rom.Edicion,rom.Compilacion,posicion,paletas);
 		}
-		public static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int totalFrames=8)
+		public static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas)
 		{
-			//header
-			
-			
-			int offsetHeader=new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset+(posicion*OffsetRom.LENGTH)).Offset;
-			byte[] bytesHeader=rom.Data.SubArray(offsetHeader,TAMAÑOHEADER);
-			MiniSprite mini=new MiniSprite();
-			int width,height;
-			int offsetSprites;
-			//obtengo las medidas del minisprite
-			
-			width=Serializar.ToInt(new byte[]{bytesHeader[8],bytesHeader[9],0,0});
-			height=Serializar.ToInt(new byte[]{bytesHeader[10],bytesHeader[11],0,0});
 
-			mini.Paleta=paletas[bytesHeader[2]];
-			
-			
-			
-			
-			mini.pt1=new OffsetRom(bytesHeader,16);
-			mini.pt2=new OffsetRom(bytesHeader,16+OffsetRom.LENGTH);
-			mini.pt3=new OffsetRom(bytesHeader,16+OffsetRom.LENGTH*2);
-			mini.pt4=new OffsetRom(bytesHeader,16+OffsetRom.LENGTH*3);
-			mini.pt5=new OffsetRom(bytesHeader,16+OffsetRom.LENGTH*4);
-			
+			int offsetSprites;
+			MiniSprite mini = CargarDatosMini(rom, edicion, compilacion, posicion, paletas);
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
-			for(int i=0;i<totalFrames;i++)//necesito saber de donde saco el total!!!
-				mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,width,height));
-			
+			try{
+			for(int i=0,f=GetTotalFrames(rom,edicion,compilacion,posicion,paletas,mini);i<f;i++)
+				mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
+			}catch{}
 			
 			return mini;
 			
 		}
+
+		static int GetTotalFrames(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas, MiniSprite mini)
+		{
+			MiniSprite miniSiguiente;
+			int total;
+			try{
+				miniSiguiente=CargarDatosMini(rom,edicion,compilacion,posicion+1,paletas);
+				total=(miniSiguiente.pt4.Offset-mini.pt4.Offset)/BloqueImagen.LENGTHHEADERCOMPLETO;
+				
+			}catch{
+				total=int.MaxValue;//hare que pete y asi saldré en el ultimo caso :)
+			
+			}
+			return total;
+		}
+		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
+		{
+			int offsetHeader = new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset + (posicion * OffsetRom.LENGTH)).Offset;
+			byte[] bytesHeader = rom.Data.SubArray(offsetHeader, TAMAÑOHEADER);
+			MiniSprite mini = new MiniSprite();
+
+			//obtengo las medidas del minisprite
+			mini.width = Serializar.ToInt(new byte[] {
+				bytesHeader[8],
+				bytesHeader[9],
+				0,
+				0
+			});
+			mini.height = Serializar.ToInt(new byte[] {
+				bytesHeader[10],
+				bytesHeader[11],
+				0,
+				0
+			});
+			mini.Paleta = paletas[bytesHeader[2]];
+			mini.pt1 = new OffsetRom(bytesHeader, 16);
+			mini.pt2 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH);
+			mini.pt3 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH * 2);
+			mini.pt4 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH * 3);
+			mini.pt5 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH * 4);
+			return mini;
+		}
+
 		public static MiniSprite[] GetMiniSprites(RomData rom)
 		{
 			return GetMiniSprites(rom,PaletasMinis.GetPaletasMinis(rom));
