@@ -36,6 +36,7 @@ namespace PokemonGBAFrameWork
 		Llista<MiniSprite> minis;
 		PaletasMinis paletasMinis;
 		LlistaOrdenadaPerGrups<int,AtaquesAprendidos> dicAtaquesPokemon;
+		PokemonErrante.Ruta[] rutas;
 		//extras
 		Mugshots mugshots;
 		public RomData(string path):this(new RomGba(path))
@@ -55,8 +56,10 @@ namespace PokemonGBAFrameWork
 			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
 			dicAtaquesPokemon=AtaquesAprendidos.GetAtaquesAprendidosDic(this);
 			paletasMinis=PaletasMinis.GetPaletasMinis(this);
-			minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));
-			
+		//	minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));
+			try{
+				rutas=PokemonErrante.Ruta.GetRutas(this);
+			}catch{}
 			
 			/*if(Mugshots.EstaActivado(this))
 				mugshots=Mugshots.GetMugshots(this);
@@ -147,6 +150,11 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+		public PokemonErrante.Ruta[] Rutas {
+			get {
+				return rutas;
+			}
+		}
 		internal Mugshots Mugshots {
 			get {
 				return mugshots;

@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 
 namespace PokemonGBAFrameWork
 {
@@ -154,12 +155,17 @@ namespace PokemonGBAFrameWork
 		}
 		public class Pokemon
 		{
-		
+			
+			enum Stat
+			{
+				Dormido = 0, Envenenado = 8, Quemado = 16, Congelado = 32, Paralizado = 64, EnvenenamientoGrave = 128
+			}
 			public static readonly Variable VariableSpecialPokemonErrante;
 			public static readonly Variable VariablePokemonErranteVar;
 			public static readonly Variable VariableVitalidadVar;
 			public static readonly Variable VariableNivelYEstadoVar;
 			public static readonly Variable VariableDisponibleVar;
+			public const int MAXTURNOSDORMIDO=6;
 			
 			PokemonGBAFrameWork.Pokemon pokemon;
 			int vida;
@@ -206,7 +212,7 @@ namespace PokemonGBAFrameWork
 
 
 			}
-			public Pokemon(PokemonGBAFrameWork.Pokemon pokemon, int vida, int nivel, byte stats)
+			public Pokemon(PokemonGBAFrameWork.Pokemon pokemon, int vida=1, int nivel=1, byte stats=0)
 			{
 				PokemonErrante = pokemon;
 				Vida = vida;
@@ -265,9 +271,81 @@ namespace PokemonGBAFrameWork
 				set
 				{
 					stats = value;
+					
+				}
+			}
+			
+			#region Stats por separado
+			public bool EnvenenadoGrave
+			{
+				get{
+					return GetStatNoDormido(4);
+				}
+				set{
+					SetStatNoDormido(4,value);
+				}
+			}
+			public bool Envenenado
+			{
+				get{
+					return GetStatNoDormido(3);
+				}
+				set{
+					SetStatNoDormido(3,value);
+				}
+			}
+			public bool Paralizado
+			{
+				get{
+					return GetStatNoDormido(2);
+				}
+				set{SetStatNoDormido(2,value);}
+			}
+			public bool Congelado
+			{
+				get{
+					return GetStatNoDormido(1);
+				}
+				set{
+					
+					SetStatNoDormido(1,value);
+					
 				}
 			}
 
+			
+
+			public int Dormido
+			{
+				get{
+					bool[] fix={false,false,false,false};
+					return fix.AfegirValors(stats.ToBits().SubArray(0,4)).ToArray().ToByte();
+				}
+				set{
+					IList<bool> bitsStat;
+					if(value>MAXTURNOSDORMIDO)
+						value=MAXTURNOSDORMIDO;
+					else if(value<0)
+						value=0;
+					//pongo los turnos
+					bitsStat=stats.ToBits();
+					bitsStat.SetIList(((byte)value).ToBits(),0,0,4);
+					stats=bitsStat.ToTaula().ToByte();
+				}
+			}
+
+			bool GetStatNoDormido(int i)
+			{
+				return stats.ToBits()[3+i];
+			}
+
+			void SetStatNoDormido(int i, bool value)
+			{
+				bool[] bitsStat=stats.ToBits();
+				bitsStat[3+i]=value;
+				stats=bitsStat.ToByte();
+			}
+			#endregion
 			//metodos para sacar el script en texto y en bytes...mas adelante sacarlo con las clases de los scripts :D
 			//script
 			public static void SetPokemonScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion,int offset, Pokemon pokemonErrante)
@@ -294,7 +372,7 @@ namespace PokemonGBAFrameWork
 				stringQueToca = stringQueToca.PadLeft(4, '0');
 				script = "25 " + stringQueToca.Substring(2, 2) + " " + stringQueToca.Substring(0, 2);
 				stringQueToca = ((Hex)Variable.GetVariable(VariablePokemonErranteVar, edicion, compilacion)).Number;
-				variableQueToca = ((Hex)pokemonErrante.PokemonErrante.OrdenNacional).Number.PadLeft(4, '0'); 
+				variableQueToca = ((Hex)pokemonErrante.PokemonErrante.OrdenNacional).Number.PadLeft(4, '0');
 				script += "\r\n16 " + stringQueToca.Substring(2, 2) + " " + stringQueToca.Substring(0, 2) + " " + variableQueToca.Substring(2, 2) + " " + variableQueToca.Substring(0, 2);
 				stringQueToca = ((Hex)Variable.GetVariable(VariableVitalidadVar, edicion, compilacion)).Number;
 				variableQueToca = ((Hex)pokemonErrante.Vida).Number.PadLeft(4, '0');

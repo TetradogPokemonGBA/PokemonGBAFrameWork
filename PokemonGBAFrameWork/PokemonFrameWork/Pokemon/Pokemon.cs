@@ -725,7 +725,7 @@ namespace PokemonGBAFrameWork
 		#endregion
 		public override string ToString()
 		{
-			return Nombre+"#"+OrdenNacional;
+			return Nombre+"  #"+OrdenNacional;
 		}
 		public static Pokemon GetPokemon(RomData rom,int ordenGameFreak,int totalEntradasPokedex)
 		{
