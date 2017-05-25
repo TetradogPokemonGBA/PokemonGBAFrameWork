@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class BloqueSprite
 	{
-		enum Medidas
+		internal enum Medidas
 		{//creo que no se pueden poner otras por eso hago una enumeracion
 			Mini = 8,
 			Normal = 16,

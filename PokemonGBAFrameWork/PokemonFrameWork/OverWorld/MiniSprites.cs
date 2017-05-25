@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork
 			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroUsa,0x5BC40,0x5BC60);
 			ZonaMiniSpritesData.Add(EdicionPokemon.RubiEsp,0x5C078);
 			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroEsp,0x5C07C);
-		
+			
 			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaUsa,0x8E6D8);
 			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaEsp,0x8E6EC);
 		}
@@ -75,6 +75,10 @@ namespace PokemonGBAFrameWork
 				return blSprites[indexMini].GetBitmap(paleta);
 			}
 		}
+		bool IsOk()
+		{
+			return pt1.IsAPointer&&pt2.IsAPointer&&pt3.IsAPointer&&pt4.IsAPointer&&pt5.IsAPointer&&height<=(int)BloqueSprite.Medidas.MuyGrande&&width<=(int)BloqueSprite.Medidas.MuyGrande;
+		}
 		public static MiniSprite GetMiniSprite(RomData rom,int posicion,PaletasMinis paletas)
 		{
 			return GetMiniSprite(rom.Rom,rom.Edicion,rom.Compilacion,posicion,paletas);
@@ -87,28 +91,24 @@ namespace PokemonGBAFrameWork
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
 			try{
-			for(int i=0,f=GetTotalFrames(rom,edicion,compilacion,posicion,paletas,mini);i<f;i++)
-				mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
+				for(int i=0,f=GetTotalFrames(rom,mini);i<f;i++)
+					mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
 			}catch{}
 			
 			return mini;
 			
 		}
 
-		static int GetTotalFrames(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas, MiniSprite mini)
+		static int GetTotalFrames(RomGba rom, MiniSprite mini)
 		{
-			MiniSprite miniSiguiente;
-			int total;
-			try{
-				miniSiguiente=CargarDatosMini(rom,edicion,compilacion,posicion+1,paletas);
-				total=(miniSiguiente.pt4.Offset-mini.pt4.Offset)/BloqueImagen.LENGTHHEADERCOMPLETO;
-				
-			}catch{
-				total=int.MaxValue;//hare que pete y asi saldré en el ultimo caso :)
-			
-			}
-			if(total>30)
-				total=8;
+			int total=-1;
+			//busco un offset que su pointer este en la rom :) como marca fin ;)
+			int offsetAcutal=mini.pt4.Offset;
+			do
+			{
+				total++;
+				offsetAcutal+=BloqueImagen.LENGTHHEADERCOMPLETO;
+			}while(rom.Data.SearchArray(new OffsetRom(offsetAcutal).BytesPointer)<0&&total<30);
 			return total;
 		}
 		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
@@ -119,17 +119,17 @@ namespace PokemonGBAFrameWork
 
 			//obtengo las medidas del minisprite
 			mini.width = Serializar.ToInt(new byte[] {
-				bytesHeader[8],
-				bytesHeader[9],
-				0,
-				0
-			});
+			                              	bytesHeader[8],
+			                              	bytesHeader[9],
+			                              	0,
+			                              	0
+			                              });
 			mini.height = Serializar.ToInt(new byte[] {
-				bytesHeader[10],
-				bytesHeader[11],
-				0,
-				0
-			});
+			                               	bytesHeader[10],
+			                               	bytesHeader[11],
+			                               	0,
+			                               	0
+			                               });
 			mini.Paleta = paletas[bytesHeader[2]];
 			mini.pt1 = new OffsetRom(bytesHeader, 16);
 			mini.pt2 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH);
