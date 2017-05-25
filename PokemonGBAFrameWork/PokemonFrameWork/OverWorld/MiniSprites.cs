@@ -107,6 +107,8 @@ namespace PokemonGBAFrameWork
 				total=int.MaxValue;//hare que pete y asi saldré en el ultimo caso :)
 			
 			}
+			if(total>30)
+				total=8;
 			return total;
 		}
 		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
