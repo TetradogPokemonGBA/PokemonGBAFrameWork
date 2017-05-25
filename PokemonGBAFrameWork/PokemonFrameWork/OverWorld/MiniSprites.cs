@@ -85,13 +85,25 @@ namespace PokemonGBAFrameWork
 		}
 		public static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas)
 		{
+			TwoKeys<int,int> inicioYFin=GetInicioYFin(rom,edicion,compilacion);
+		   //obtengo el inicio y el fin
+		   return GetMiniSprite(rom,edicion,compilacion,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
+		}
+		static TwoKeys<int,int> GetInicioYFin(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		{
+			int offsetInicio = new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset).Offset;
+			int offsetFin = new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset + ((TotalMiniSprites(rom,edicion,compilacion)-1) * OffsetRom.LENGTH)).Offset;
+			return new TwoKeys<int, int>(offsetInicio,offsetFin);
+		}
+		 static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int offsetInicio,int offsetFin)
+		{
 
 			int offsetSprites;
 			MiniSprite mini = CargarDatosMini(rom, edicion, compilacion, posicion, paletas);
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
 			try{
-				for(int i=0,f=GetTotalFrames(rom,mini);i<f;i++)
+				for(int i=0,f=GetTotalFrames(rom,mini,offsetInicio,offsetFin);i<f;i++)
 					mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
 			}catch{}
 			
@@ -99,16 +111,21 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		static int GetTotalFrames(RomGba rom, MiniSprite mini)
+		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetInicio,int offsetFin)
 		{
 			int total=-1;
 			//busco un offset que su pointer este en la rom :) como marca fin ;)
 			int offsetAcutal=mini.pt4.Offset;
+			bool continuar;
+			int offsetEncontrado;
 			do
 			{
 				total++;
 				offsetAcutal+=BloqueImagen.LENGTHHEADERCOMPLETO;
-			}while(rom.Data.SearchArray(new OffsetRom(offsetAcutal).BytesPointer)<0&&total<30);
+				offsetEncontrado=rom.Data.SearchArray(new OffsetRom(offsetAcutal).BytesPointer);
+				continuar=offsetEncontrado<0||(offsetEncontrado<offsetInicio||offsetEncontrado>offsetFin);//si no esta con los headers no me interesa ya que lo usan en otro lado
+				
+			}while(continuar);
 			return total;
 		}
 		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
@@ -153,9 +170,10 @@ namespace PokemonGBAFrameWork
 		}
 		public static MiniSprite[] GetMiniSprites(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,PaletasMinis paletas)
 		{
+			TwoKeys<int,int> inicioYFin=GetInicioYFin(rom,edicion,compilacion);
 			MiniSprite[] minis=new MiniSprite[TotalMiniSprites(rom,edicion,compilacion)];
 			for(int i=0;i<minis.Length;i++)
-				minis[i]=GetMiniSprite(rom,edicion,compilacion,i,paletas);
+				minis[i]=GetMiniSprite(rom,edicion,compilacion,i,paletas,inicioYFin.Key1,inicioYFin.Key2);
 			
 			return minis;
 		}
