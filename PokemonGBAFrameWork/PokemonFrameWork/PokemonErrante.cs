@@ -156,15 +156,16 @@ namespace PokemonGBAFrameWork
 		public class Pokemon
 		{
 			
-			enum Stat
+			public enum Stat
 			{
-				Dormido = 0, Envenenado = 8, Quemado = 16, Congelado = 32, Paralizado = 64, EnvenenamientoGrave = 128
+				Dormido = 0, Envenenado = 1, Quemado = 2, Congelado = 3, Paralizado = 4, EnvenenamientoGrave = 5
 			}
 			public static readonly Variable VariableSpecialPokemonErrante;
 			public static readonly Variable VariablePokemonErranteVar;
 			public static readonly Variable VariableVitalidadVar;
 			public static readonly Variable VariableNivelYEstadoVar;
 			public static readonly Variable VariableDisponibleVar;
+		
 			public const int MAXTURNOSDORMIDO=6;
 			
 			PokemonGBAFrameWork.Pokemon pokemon;
@@ -279,36 +280,36 @@ namespace PokemonGBAFrameWork
 			public bool EnvenenadoGrave
 			{
 				get{
-					return GetStatNoDormido(4);
+					return GetStatNoDormido(Stat.EnvenenamientoGrave);
 				}
 				set{
-					SetStatNoDormido(4,value);
+					SetStatNoDormido(Stat.EnvenenamientoGrave,value);
 				}
 			}
 			public bool Envenenado
 			{
 				get{
-					return GetStatNoDormido(3);
+					return GetStatNoDormido(Stat.Envenenado);
 				}
 				set{
-					SetStatNoDormido(3,value);
+					SetStatNoDormido(Stat.Envenenado,value);
 				}
 			}
 			public bool Paralizado
 			{
 				get{
-					return GetStatNoDormido(2);
+					return GetStatNoDormido(Stat.Paralizado);
 				}
-				set{SetStatNoDormido(2,value);}
+				set{SetStatNoDormido(Stat.Paralizado,value);}
 			}
 			public bool Congelado
 			{
 				get{
-					return GetStatNoDormido(1);
+					return GetStatNoDormido(Stat.Congelado);
 				}
 				set{
 					
-					SetStatNoDormido(1,value);
+					SetStatNoDormido(Stat.Congelado,value);
 					
 				}
 			}
@@ -329,20 +330,20 @@ namespace PokemonGBAFrameWork
 						value=0;
 					//pongo los turnos
 					bitsStat=stats.ToBits();
-					bitsStat.SetIList(((byte)value).ToBits(),0,0,4);
+					bitsStat.SetIList(((byte)value).ToBits(),3,0,4);
 					stats=bitsStat.ToTaula().ToByte();
 				}
 			}
 
-			bool GetStatNoDormido(int i)
+			public bool GetStatNoDormido(Stat i)
 			{
-				return stats.ToBits()[3+i];
+				return stats.ToBits()[3+(int)i];
 			}
 
-			void SetStatNoDormido(int i, bool value)
+			public void SetStatNoDormido(Stat i, bool value)
 			{
 				bool[] bitsStat=stats.ToBits();
-				bitsStat[3+i]=value;
+				bitsStat[3+(int)i]=value;
 				stats=bitsStat.ToByte();
 			}
 			#endregion

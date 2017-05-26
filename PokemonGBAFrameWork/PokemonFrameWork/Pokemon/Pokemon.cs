@@ -720,8 +720,10 @@ namespace PokemonGBAFrameWork
 			}else compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
 			return compareTo;
 		}
-
-
+		public int CalculaHp(int nivel,int evs=0,int ivs=0)
+		{
+			return (((ivs+2*Hp+(evs/4)+100) * nivel)/100)+10;
+		}
 		#endregion
 		public override string ToString()
 		{
@@ -782,30 +784,30 @@ namespace PokemonGBAFrameWork
 		{
 
 			int offsetNombre=Zona.GetOffsetRom(rom,ZonaNombre,edicion,compilacion).Offset+pokemon.OrdenGameFreak*(int)LongitudCampos.NombreCompilado;
-          
-            pokemon.SetObjetosEnLosStats(totalObjetos);
-            
-            Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenLocal,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,(short)pokemon.OrdenLocal);
+			
+			pokemon.SetObjetosEnLosStats(totalObjetos);
+			
+			Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenLocal,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,(short)pokemon.OrdenLocal);
 			Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenNacional,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,(short)pokemon.OrdenNacional);
- 
-            BloqueString.Remove(rom,offsetNombre);
+			
+			BloqueString.Remove(rom,offsetNombre);
 			BloqueString.SetString(rom,offsetNombre,pokemon.Nombre);
- 
-            rom.Data.SetArray(new OffsetRom(Zona.GetOffsetRom(rom,ZonaStats,edicion,compilacion).Offset+pokemon.OrdenGameFreak*OffsetRom.LENGTH).Offset,pokemon.Stats.Bytes);
+			
+			rom.Data.SetArray(new OffsetRom(Zona.GetOffsetRom(rom,ZonaStats,edicion,compilacion).Offset+pokemon.OrdenGameFreak*OffsetRom.LENGTH).Offset,pokemon.Stats.Bytes);
 			if(pokemon.Descripcion!=null&&pokemon.OrdenNacional>0&&pokemon.OrdenNacional<totalEntradasPokedex)
 				DescripcionPokedex.SetDescripcionPokedex(rom,edicion,compilacion,pokemon.Descripcion,pokemon.OrdenNacional);
 
-            if (pokemon.AtaquesAprendidos!=null)
+			if (pokemon.AtaquesAprendidos!=null)
 				AtaquesAprendidos.SetAtaquesAprendidos(rom,edicion,compilacion,pokemon.OrdenGameFreak,pokemon.AtaquesAprendidos,dicAtaquesPokemon);
 
-            if (pokemon.Huella!=null)
+			if (pokemon.Huella!=null)
 				Huella.SetHuella(rom,edicion,compilacion,pokemon.Huella,pokemon.OrdenGameFreak);
 
-            if (pokemon.Sprites!=null)
+			if (pokemon.Sprites!=null)
 				SpritesPokemon.SetSpritesPokemon(rom,edicion,compilacion,pokemon.OrdenGameFreak,pokemon.Sprites);
 
-            //falta hacer los setCry y setGrowl
-        }
+			//falta hacer los setCry y setGrowl
+		}
 		public static void SetPokedex(RomData rom)
 		{
 			SetPokedex(rom.Rom,rom.Edicion,rom.Compilacion,rom.Pokedex,rom.Objetos.Count,AtaquesAprendidos.GetAtaquesAprendidosDic(rom));
@@ -838,7 +840,7 @@ namespace PokemonGBAFrameWork
 					//Sprites
 					SpritesPokemon.Remove(rom,edicion,compilacion,i);
 					//ataquesAprendidos
-					AtaquesAprendidos.Remove(rom,edicion,compilacion,i);  
+					AtaquesAprendidos.Remove(rom,edicion,compilacion,i);
 				}
 				if(pokedex.Count>totalActual)
 				{
