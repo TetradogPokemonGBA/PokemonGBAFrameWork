@@ -28,14 +28,16 @@ namespace PokemonGBAFrameWork
 			
 			ZonaSpritePokeballBatalla.Add(0x1D0,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp,EdicionPokemon.EsmeraldaEsp,EdicionPokemon.VerdeHojaUsa,EdicionPokemon.RojoFuegoUsa,EdicionPokemon.EsmeraldaUsa);
 			ZonaSpritePokeballBatalla.Add(0x477E0,EdicionPokemon.RubiEsp,EdicionPokemon.ZafiroEsp);
+			
 			ZonaSpritePokeballBatalla.Add(EdicionPokemon.RubiUsa,0x473BC, 0x473DC);
 			ZonaSpritePokeballBatalla.Add(EdicionPokemon.ZafiroUsa,0x473BC, 0x473DC);
 			
 			
 			ZonaPaletaPokeballBatalla.Add(0x1D4,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp,EdicionPokemon.EsmeraldaEsp,EdicionPokemon.VerdeHojaUsa,EdicionPokemon.RojoFuegoUsa,EdicionPokemon.EsmeraldaUsa);
 			ZonaPaletaPokeballBatalla.Add(0x477DC,EdicionPokemon.RubiEsp,EdicionPokemon.ZafiroEsp);
-			ZonaPaletaPokeballBatalla.Add(EdicionPokemon.RubiUsa,0x473C0,0x475E0);
-			ZonaPaletaPokeballBatalla.Add(EdicionPokemon.ZafiroUsa,0x473C0,0x475E0);
+			
+			ZonaPaletaPokeballBatalla.Add(EdicionPokemon.RubiUsa,0x473C0,0x473E0);
+			ZonaPaletaPokeballBatalla.Add(EdicionPokemon.ZafiroUsa,0x473C0,0x473E0);
 			
 		}
 		public PokeballBatalla()

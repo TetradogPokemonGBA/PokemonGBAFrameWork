@@ -58,6 +58,7 @@ namespace PokemonGBAFrameWork
 			paletasMinis=PaletasMinis.GetPaletasMinis(this);
 		//	minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));
 			try{
+		
 				rutas=PokemonErrante.Ruta.GetRutas(this);
 			}catch{}
 			
