@@ -158,15 +158,19 @@ namespace PokemonGBAFrameWork
 			
 			public enum Stat
 			{
-				Dormido = 0, Envenenado = 1, Quemado = 2, Congelado = 3, Paralizado = 4, EnvenenamientoGrave = 5
+				Dormido = -1, Envenenado = 0, Quemado = 1, Congelado = 2, Paralizado = 3, EnvenenamientoGrave = 4
+			}
+			public enum Disponibilidad
+			{//- Variable de la disponibilidad (0x100 = disponible, 0x0 = no disponible) = Esmeralda 0x5F29; FR 0x5071
+				Activo=0x100,Inactivo=0
 			}
 			public static readonly Variable VariableSpecialPokemonErrante;
 			public static readonly Variable VariablePokemonErranteVar;
 			public static readonly Variable VariableVitalidadVar;
 			public static readonly Variable VariableNivelYEstadoVar;
 			public static readonly Variable VariableDisponibleVar;
-		
-			public const int MAXTURNOSDORMIDO=6;
+			
+			public const int MAXTURNOSDORMIDO=7;
 			
 			PokemonGBAFrameWork.Pokemon pokemon;
 			int vida;
@@ -319,18 +323,22 @@ namespace PokemonGBAFrameWork
 			public int Dormido
 			{
 				get{
-					bool[] fix={false,false,false,false};
-					return fix.AfegirValors(stats.ToBits().SubArray(0,4)).ToArray().ToByte();
+					bool[] fix={false,false,false,false,false};
+					return (stats.ToBits().SubArray(0,3)).AfegirValors(fix).ToArray().ToByte();
 				}
 				set{
+					
 					IList<bool> bitsStat;
+					bool[] bitsAPoner;
 					if(value>MAXTURNOSDORMIDO)
 						value=MAXTURNOSDORMIDO;
 					else if(value<0)
 						value=0;
 					//pongo los turnos
+					bitsAPoner=((byte)value).ToBits();
 					bitsStat=stats.ToBits();
-					bitsStat.SetIList(((byte)value).ToBits(),3,0,4);
+					for(int i=0,f=3;i<f;i++)
+						bitsStat[i]=bitsAPoner[i];
 					stats=bitsStat.ToTaula().ToByte();
 				}
 			}
