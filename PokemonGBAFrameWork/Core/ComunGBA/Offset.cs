@@ -138,14 +138,14 @@ namespace PokemonGBAFrameWork
 		}
 		#endregion
 
-		public static void SetOffset(RomGba rom,OffsetRom offsetPointerNombres, int offsetNombres)
+		public static void SetOffset(RomGba rom,OffsetRom offsetAReemplazar, int offsetAPoner)
 		{
-			OffsetRom offsetAPoner=new OffsetRom(offsetNombres);
+			OffsetRom ptrAPoner=new OffsetRom(offsetAPoner);
 			int posicion=0;
 			do{
-				posicion=rom.Data.SearchArray(posicion+1,offsetPointerNombres.BytesPointer);
+				posicion=rom.Data.SearchArray(posicion+1,offsetAReemplazar.BytesPointer);
 				if(posicion>0)
-					rom.Data.SetArray(posicion,offsetAPoner.BytesPointer);
+					rom.Data.SetArray(posicion,ptrAPoner.BytesPointer);
 			}while(posicion>0);
 		}
 	}

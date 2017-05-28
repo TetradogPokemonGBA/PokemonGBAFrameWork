@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
 
 namespace PokemonGBAFrameWork
 {
@@ -15,36 +16,28 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class Mapa
 	{
-		public static readonly Zona ZonaBanks;
+		
 		public static readonly Zona ZonaLyouts;
 		public static readonly Zona ZonaNombres;
 		
 		public static readonly Variable VariableTotalMapas;
 		public static readonly Variable VariableTotalNombresMapas;
+		
+		
 		BloqueString nombre;
+		MapHeader header;
+		
 		
 		static Mapa()
 		{
-			ZonaBanks=new Zona("Mapa-Banks");
+			
 			ZonaLyouts=new Zona("Mapa-Lyouts");
 			ZonaNombres=new Zona("Mapa-Nombres");
 			VariableTotalMapas=new Variable("Total mapas");
 			VariableTotalNombresMapas=new Variable("Total nombres mapas");
 			
-			//banks
-			ZonaBanks.Add(EdicionPokemon.RojoFuegoUsa,0x5524C,0x55260);
-			ZonaBanks.Add(EdicionPokemon.VerdeHojaUsa,0x5524C,0x55260);
-			ZonaBanks.Add(EdicionPokemon.VerdeHojaEsp,0x55340);
-			ZonaBanks.Add(EdicionPokemon.RojoFuegoEsp,0x55340);
 			
-			ZonaBanks.Add(EdicionPokemon.EsmeraldaEsp,0x84AB8);
-			ZonaBanks.Add(EdicionPokemon.EsmeraldaUsa,0x84AA4);
-			
-			ZonaBanks.Add(EdicionPokemon.RubiUsa,0x53324,0x53344);
-			ZonaBanks.Add(EdicionPokemon.ZafiroUsa,0x53304,0x53344);
-			ZonaBanks.Add(EdicionPokemon.ZafiroEsp,0x53760);
-			ZonaBanks.Add(EdicionPokemon.RubiEsp,0x53760);
-			//lyouts
+			//lyouts Maps
 			ZonaLyouts.Add(EdicionPokemon.RojoFuegoUsa,0x55194,0x551A8);
 			ZonaLyouts.Add(EdicionPokemon.VerdeHojaUsa,0x55194,0x551A8);
 			ZonaLyouts.Add(EdicionPokemon.VerdeHojaEsp,0x55288);
@@ -59,7 +52,7 @@ namespace PokemonGBAFrameWork
 			//nombres //en algunos sitio hay un espacio y no se si afecta al numero de mapas...por mirar
 			ZonaNombres.Add(EdicionPokemon.RojoFuegoUsa,0xC0C94,0xC0CA8);
 			ZonaNombres.Add(EdicionPokemon.VerdeHojaUsa,0xC0C68,0xC0C7C);
-			ZonaNombres.Add(EdicionPokemon.EsmeraldaUsa,0x123B44);
+			ZonaNombres.Add(EdicionPokemon.EsmeraldaUsa,0x123B44);//map labels
 			ZonaNombres.Add(EdicionPokemon.RubiUsa,0xFB550,0xFB570);
 			ZonaNombres.Add(EdicionPokemon.ZafiroUsa,0xFB550,0xFB570);
 			ZonaNombres.Add(EdicionPokemon.EsmeraldaEsp,0x12375C);
@@ -94,6 +87,13 @@ namespace PokemonGBAFrameWork
 		{
 			nombre=new BloqueString();
 		}
+
+		public MapHeader Header {
+			get {
+				return header;
+			}
+		}
+
 		public BloqueString Nombre {
 			get {
 				return nombre;
@@ -141,21 +141,7 @@ namespace PokemonGBAFrameWork
 			
 		}
 		#endregion
-		#region Bank
-		public static int GetTotalBanks(RomData rom)
-		{
-			return GetTotalBanks(rom.Rom,rom.Edicion,rom.Compilacion);
-		}
-		public static int GetTotalBanks(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
-		{
-			int offsetTablaBanks=Zona.GetOffsetRom(rom,ZonaBanks,edicion,compilacion).Offset;
-			int total=-1;
-			do{
-				total++;
-			}while(new OffsetRom(rom,offsetTablaBanks+total*OffsetRom.LENGTH).IsAPointer);
-			return total;
-		}
-		#endregion
+		
 		#region Lyout
 		public static int GetTotalLyouts(RomData rom)
 		{
@@ -178,29 +164,43 @@ namespace PokemonGBAFrameWork
 		}
 		#endregion
 		
-		public static Mapa GetMapa(RomData rom,int index)
+		public static Mapa GetMapa(RomData rom,int bank,int indexMap)
 		{
-			return GetMapa(rom.Rom,rom.Edicion,rom.Compilacion,index);
+			return GetMapa(rom.Rom,rom.Edicion,rom.Compilacion,bank,indexMap);
 		}
-		public static Mapa GetMapa(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int index)
+		public static Mapa GetMapa(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int bank,int indexMap)
 		{
 			
-			int offsetNombreMapa=GetOffsetNombre(rom,edicion,Zona.GetOffsetRom(rom,ZonaNombres,edicion,compilacion).Offset,index).Offset;//obtengo el offset del mapa
+			int offsetNombreMapa=GetOffsetNombre(rom,edicion,Zona.GetOffsetRom(rom,ZonaNombres,edicion,compilacion).Offset,indexMap).Offset;//obtengo el offset del mapa
 			Mapa mapa=new Mapa();
 			mapa.Nombre=BloqueString.GetString(rom,offsetNombreMapa);
+			mapa.header=MapHeader.GetMapHeader(rom,edicion,compilacion,bank,indexMap);
 			return mapa;
 		}
-		public static Mapa[] GetMapas(RomData rom)
+		public static IList<Mapa>  GetMapas(RomData rom)
 		{
 			return GetMapas(rom.Rom,rom.Edicion,rom.Compilacion);
 		}
-		public static Mapa[] GetMapas(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		public static IList<Mapa>  GetMapas(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
-			Mapa[] mapas=new Mapa[GetTotalNombres(rom,edicion,compilacion)];
-			for(int i=0;i<mapas.Length;i++)
-				mapas[i]=GetMapa(rom,edicion,compilacion,i);
+			List<Mapa> mapas=new List<Mapa>();
+			for(int b=0,bf=MapHeader.GetTotalBanks(rom,edicion,compilacion);b<bf;b++)
+				mapas.AddRange(GetMapasBank(rom,edicion,compilacion,b));
 			return mapas;
 		}
+		public static IList<Mapa>  GetMapasBank(RomData rom,int bank)
+		{
+			return GetMapasBank(rom.Rom,rom.Edicion,rom.Compilacion,bank);
+		}
+		public static IList<Mapa> GetMapasBank(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int bank)
+		{
+			List<Mapa> mapas=new List<Mapa>();
+			for(int m=0,mf=1/*MapHeader.GetTotalMapsBank(rom,edicion,compilacion,bank)*/;m<mf;m++)
+				mapas.Add(GetMapa(rom,edicion,compilacion,bank,m));
+			return mapas;
+		}
+		
+		
 		
 	}
 }
