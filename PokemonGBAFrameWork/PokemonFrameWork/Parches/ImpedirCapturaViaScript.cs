@@ -32,6 +32,10 @@ namespace PokemonGBAFrameWork
 			VariablePosicionLinea.Add(EdicionPokemon.VerdeHojaEsp,0x2D3D6);
 			VariablePosicionLinea.Add(EdicionPokemon.RojoFuegoEsp,0x2D3D6);
 		}
+		public static string GetASMCode()
+		{
+			return Resources.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable);
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom,rom.Edicion,rom.Compilacion);
@@ -49,7 +53,7 @@ namespace PokemonGBAFrameWork
 		{
 			byte[] bytesLinea;
 			int offsetLinea=PokemonGBAFrameWork.Variable.GetVariable(VariablePosicionLinea,edicion,compilacion);
-			string codigo=Resources.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable);
+			string codigo=GetASMCode();
 			byte[] bytesRutinaCompilada=ASM.Compilar(codigo).AsmBinary;
 			int offsetRutina=rom.Data.SearchArray(bytesRutinaCompilada);
 			if(offsetRutina<0)
