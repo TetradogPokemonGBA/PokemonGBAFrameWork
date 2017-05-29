@@ -58,6 +58,7 @@ namespace PokemonGBAFrameWork
 			int offsetRutina;
 			if(compilacion.Equals(Compilacion.Compilaciones[1]))
 			{
+				//no se porque pero esta compilacion no funciona y esta igual de investigado que la parte española...
 				bytesRutinaCompilada.SetArray(bytesRutinaCompilada.Length-OffsetRom.LENGTH,new OffsetRom(0x02D475).BytesPointer);
 				bytesRutinaCompilada.SetArray(bytesRutinaCompilada.Length-OffsetRom.LENGTH*2,new OffsetRom(0x02D4A5).BytesPointer);
 				
