@@ -49,13 +49,14 @@ namespace PokemonGBAFrameWork
 		{
 			byte[] bytesLinea;
 			int offsetLinea=PokemonGBAFrameWork.Variable.GetVariable(VariablePosicionLinea,edicion,compilacion);
-			byte[] bytesRutinaCompilada=ASM.Compilar(Resources.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable)).AsmBinary;
+			string codigo=Resources.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable);
+			byte[] bytesRutinaCompilada=ASM.Compilar(codigo).AsmBinary;
 			int offsetRutina=rom.Data.SearchArray(bytesRutinaCompilada);
 			if(offsetRutina<0)
 				offsetRutina=rom.Data.SetArray(bytesRutinaCompilada);
 			
 			bytesLinea=RutinaOn.Clone() as byte[];
-			bytesLinea.SetArray(5,new OffsetRom(offsetRutina).BytesPointer);
+			bytesLinea.SetArray(6,new OffsetRom(offsetRutina).BytesPointer);
 			rom.Data.SetArray(offsetLinea,bytesLinea);
 			
 			
