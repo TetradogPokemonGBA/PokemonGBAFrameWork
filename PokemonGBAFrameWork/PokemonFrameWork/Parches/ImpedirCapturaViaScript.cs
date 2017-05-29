@@ -55,7 +55,19 @@ namespace PokemonGBAFrameWork
 			int offsetLinea=PokemonGBAFrameWork.Variable.GetVariable(VariablePosicionLinea,edicion,compilacion);
 			string codigo=GetASMCode();
 			byte[] bytesRutinaCompilada=ASM.Compilar(codigo).AsmBinary;
-			int offsetRutina=rom.Data.SearchArray(bytesRutinaCompilada);
+			int offsetRutina;
+			if(compilacion.Equals(Compilacion.Compilaciones[1]))
+			{
+				bytesRutinaCompilada.SetArray(bytesRutinaCompilada.Length-OffsetRom.LENGTH,new OffsetRom(0x02D475).BytesPointer);
+				bytesRutinaCompilada.SetArray(bytesRutinaCompilada.Length-OffsetRom.LENGTH*2,new OffsetRom(0x02D4A5).BytesPointer);
+				
+			}else if(edicion.Idioma==Idioma.Español)
+			{
+				bytesRutinaCompilada.SetArray(bytesRutinaCompilada.Length-OffsetRom.LENGTH,new OffsetRom(0x02D3E5).BytesPointer);
+				bytesRutinaCompilada.SetArray(bytesRutinaCompilada.Length-OffsetRom.LENGTH*2,new OffsetRom(0x02D415).BytesPointer);
+				
+			}
+			offsetRutina=rom.Data.SearchArray(bytesRutinaCompilada);
 			if(offsetRutina<0)
 				offsetRutina=rom.Data.SetArray(bytesRutinaCompilada);
 			
