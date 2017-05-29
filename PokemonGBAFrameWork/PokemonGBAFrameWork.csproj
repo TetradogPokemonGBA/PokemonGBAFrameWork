@@ -86,6 +86,8 @@
     <Compile Include="PokemonFrameWork\Core\Zonas.cs" />
     <Compile Include="PokemonFrameWork\Mapa\Mapa.cs" />
     <Compile Include="PokemonFrameWork\Mapa\MapHeader.cs" />
+    <Compile Include="PokemonFrameWork\Mapa\PokemonSalvaje.cs" />
+    <Compile Include="PokemonFrameWork\Mapa\PokemonSalvajes.cs" />
     <Compile Include="PokemonFrameWork\OverWorld\MiniSprites.cs" />
     <Compile Include="PokemonFrameWork\OverWorld\PaletasMinis.cs" />
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
