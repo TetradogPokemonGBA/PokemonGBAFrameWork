@@ -69,5 +69,37 @@ namespace PokemonGBAFrameWork {
 				return ((byte[])(obj));
 			}
 		}
+		
+		/// <summary>
+		///   Busca una cadena traducida similar a .text
+		///.align 2
+		///.thumb
+		///.thumb_func
+		///
+		///main:
+		/// ldr r0, =(0x2022B4C)
+		/// ldr r1, [r0]
+		/// ldr r2, .VAR
+		/// ldrb r2, [r2]
+		/// cmp r2, #0x1
+		/// beq uncatchable
+		/// ldr r0, = (0x802D490 +1)
+		/// bx r0
+		///
+		///uncatchable:
+		/// ldr r0, = (0x802D460 +1)
+		/// bx r0
+		/// 
+		/// 
+		///
+		///.align 2
+		///.VAR:
+		/// .word 0x020270B8 + (0xVARIABLE * 2).
+		/// </summary>
+		internal static string ASMPokemonInCapturable {
+			get {
+				return ResourceManager.GetString("ASMPokemonInCapturable", resourceCulture);
+			}
+		}
 	}
 }

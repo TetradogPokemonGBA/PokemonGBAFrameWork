@@ -93,6 +93,7 @@
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
+    <Compile Include="PokemonFrameWork\Parches\ImpedirCapturaViaScript.cs" />
     <Compile Include="PokemonFrameWork\Parches\MOSinMedallas.cs" />
     <Compile Include="PokemonFrameWork\Parches\Mugshots.cs" />
     <Compile Include="PokemonFrameWork\Parches\PokemonEditorScripting.cs" />
