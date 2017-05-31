@@ -24,6 +24,14 @@ namespace PokemonGBAFrameWork
 					CargarCamando(ptRom+offset);
 			}
 		}
+		public abstract stirng Descripcion
+		{
+			get;
+		}
+		public abstract stirng Nombre
+		{
+			get;
+		}
 		public abstract int Size
 		{
 			get;

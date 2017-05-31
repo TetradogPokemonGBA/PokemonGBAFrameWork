@@ -25,6 +25,31 @@ namespace PokemonGBAFrameWork
 		{
 			comandosScript=new Llista<Comando>();
 		}
+		public Script(RomGba rom,int offsetScript):this(rom.Data.Bytes,offsetScript)
+		{
+			Script script=new Script();
+			
+		}
+		public Script(byte[] bytesScript,int offset=0):this()
+		{
+			//obtengo los comandos hasta encontrar return o end
+			byte byteComandoActual;
+			try{
+				do{
+					byteComandoActual=bytesScript[offset++];
+					switch(byteComandoActual)
+					{
+							//añado el comando sin contar end y return
+					}
+					if(comandosScript.Count>0)
+						offset+=comandosScript[comandosScript.Count-1].Size;
+					
+				}while(byteComandoActual!=END&&byteComandoActual!=RETURN);
+			}catch{
+				throw new FormatoRomNoReconocidoException();
+			}
+		}
+		
 
 		public Llista<Comando> ComandosScript {
 			get {
@@ -47,7 +72,7 @@ namespace PokemonGBAFrameWork
 			int sizeTotal=1;//el utimo byte
 			int offset=0;
 			byte[] bytesDeclaracion;
-			bool isEnd=parametros.Length==0?true:(bool)parametros[0];
+			bool isEnd=parametros.Length==0?false:(bool)parametros[0];
 			IDeclaracion  comandoHaDeclarar;
 			int offsetDeclaracion=0;
 			byte[] bytesDeclaracionAux;
@@ -59,7 +84,7 @@ namespace PokemonGBAFrameWork
 			{
 				comandoHaDeclarar=comandosScript[i] as IDeclaracion;
 				if(comandoHaDeclarar!=null)
-				{
+				{//si se tiene que insertar los bytes en la rom para obtener el offset para la declaracion la inserto y listo
 					bytesDeclaracionAux=comandoHaDeclarar.GetDeclaracion(rom);
 					offsetDeclaracion=rom.Data.SearchArray(bytesDeclaracionAux);
 					if(offsetDeclaracion<0)
