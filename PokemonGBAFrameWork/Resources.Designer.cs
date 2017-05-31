@@ -101,5 +101,49 @@ namespace PokemonGBAFrameWork {
 				return ResourceManager.GetString("ASMPokemonInCapturable", resourceCulture);
 			}
 		}
+		
+		/// <summary>
+		///   Busca una cadena traducida similar a .text
+		///.align 2
+		///.thumb
+		///.thumb_func
+		///
+		///shiny_hack_main:
+		/// lsr r0, r4, #0x18
+		/// cmp r0, #0x3
+		/// bne return
+		/// ldr r0, .SHINY_COUNTER
+		/// ldrb r0, [r0]
+		/// cmp r0, #0x0
+		/// bne shiny_hack
+		///
+		///return:
+		/// bx lr
+		///
+		///shiny_hack:
+		/// push {r2-r5, lr}
+		/// sub r3, r0, #0x1
+		/// ldr r0, .SHINY_COUNTER
+		/// strb r3, [r0]
+		/// ldrb r4, [r0, #0x1]
+		/// cmp r4, #0x0
+		/// bne is_trainer
+		/// add r4, r1, #0x0
+		///
+		///no_trainer:
+		/// ldr r2, .RANDOM
+		/// bl branch_r2
+		/// mov r3, #0x7
+		/// and r0, r3
+		/// add r3, r0, #0x0
+		/// ldr r2, .RANDOM
+		/// bl branch_r2
+		/// lsl r5, r0, #0x10		/// [resto de la cadena truncado]&quot;;.
+		/// </summary>
+		internal static string ASMShinyzer {
+			get {
+				return ResourceManager.GetString("ASMShinyzer", resourceCulture);
+			}
+		}
 	}
 }

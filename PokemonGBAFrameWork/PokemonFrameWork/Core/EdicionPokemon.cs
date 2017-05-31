@@ -151,7 +151,7 @@ namespace PokemonGBAFrameWork
 					}
 					//si no es una edicion canon es que ha sido muy modificada y no se leerla
 					if (!edicionValida)
-						throw new FormatoRomNoReconocido();
+						throw new FormatoRomNoReconocidoException();
 					
 				}
 			}

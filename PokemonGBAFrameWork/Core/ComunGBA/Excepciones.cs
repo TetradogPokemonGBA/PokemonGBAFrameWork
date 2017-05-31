@@ -21,10 +21,15 @@ namespace PokemonGBAFrameWork
 		{
 		}
 	}
-		public class FormatoRomNoReconocido:Exception
+	public class FormatoRomNoReconocidoException:Exception
 	{
-		public FormatoRomNoReconocido():base("Formato no canonico")
+		public FormatoRomNoReconocidoException():base("Formato no canonico")
 		{
 		}
+	}
+	public class RomSinEspacioException:Exception
+	{
+		public RomSinEspacioException():base("Rom sin espacio")
+		{}
 	}
 }

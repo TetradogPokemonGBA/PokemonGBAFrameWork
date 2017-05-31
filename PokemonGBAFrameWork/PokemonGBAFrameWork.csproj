@@ -82,6 +82,9 @@
     <Compile Include="PokemonFrameWork\Core\Compilacion.cs" />
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\IDeclaracion.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Script.cs" />
     <Compile Include="PokemonFrameWork\Core\Variables.cs" />
     <Compile Include="PokemonFrameWork\Core\Zonas.cs" />
     <Compile Include="PokemonFrameWork\Mapa\Mapa.cs" />
@@ -122,6 +125,7 @@
   <ItemGroup>
     <Folder Include="PokemonFrameWork\Batallas" />
     <Folder Include="Core\ComunGBA\ASM" />
+    <Folder Include="PokemonFrameWork\Core\Script" />
     <Folder Include="PokemonFrameWork\Mapa" />
     <Folder Include="PokemonFrameWork\OverWorld" />
     <Folder Include="PokemonFrameWork\Pokemon" />
