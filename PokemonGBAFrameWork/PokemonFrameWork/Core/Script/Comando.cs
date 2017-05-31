@@ -21,14 +21,22 @@ namespace PokemonGBAFrameWork
 		{
 			unsafe{
 				fixed(byte* ptRom=bytesComando)
-					CargarCamando(ptRom+offset);
+					CargarCamando(ptRom,offset);
 			}
 		}
-		public abstract stirng Descripcion
+		internal unsafe Comando(byte* ptrRom,int offsetComando)
+		{
+			CargarCamando(ptrRom,offsetComando);
+		}
+		public abstract string Descripcion
 		{
 			get;
 		}
-		public abstract stirng Nombre
+		public abstract byte IdComando
+		{
+			get;
+		}
+		public abstract string Nombre
 		{
 			get;
 		}
@@ -36,7 +44,7 @@ namespace PokemonGBAFrameWork
 		{
 			get;
 		}
-		protected abstract unsafe  void CargarCamando(byte* ptrComando);
+		protected abstract unsafe  void CargarCamando(byte* ptrRom,int offsetComando);
 		public void SetComando(RomGba rom,int offsetActualComando,params int[] parametrosExtra)
 		{
 			unsafe{
@@ -51,12 +59,15 @@ namespace PokemonGBAFrameWork
 			unsafe{
 				fixed(byte* ptComando=bytesComando)
 					SetComando(ptComando,parametrosExtra);
-			
+				
 			}
 			return bytesComando;
 		}
-		protected abstract unsafe void SetComando(byte* ptrRom,params int[] parametrosExtra);
+		protected abstract unsafe void SetComando(byte* ptrRomPosicionado,params int[] parametrosExtra);
+		public override string ToString()
+		{
+			return Nombre;
+		}
 		
-			
 	}
 }

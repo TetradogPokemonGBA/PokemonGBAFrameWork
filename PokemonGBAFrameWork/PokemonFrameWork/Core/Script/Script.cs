@@ -27,27 +27,52 @@ namespace PokemonGBAFrameWork
 		}
 		public Script(RomGba rom,int offsetScript):this(rom.Data.Bytes,offsetScript)
 		{
-			Script script=new Script();
-			
+		
 		}
 		public Script(byte[] bytesScript,int offset=0):this()
 		{
-			//obtengo los comandos hasta encontrar return o end
-			byte byteComandoActual;
-			try{
-				do{
-					byteComandoActual=bytesScript[offset++];
-					switch(byteComandoActual)
-					{
-							//añado el comando sin contar end y return
-					}
-					if(comandosScript.Count>0)
-						offset+=comandosScript[comandosScript.Count-1].Size;
-					
-				}while(byteComandoActual!=END&&byteComandoActual!=RETURN);
-			}catch{
-				throw new FormatoRomNoReconocidoException();
+			unsafe{
+				fixed(byte* ptBytesScirpt=bytesScript)
+					Cargar(ptBytesScirpt,offset);
+			
 			}
+			
+		}
+		public unsafe Script(byte* ptRom,int offsetScript):this()
+		{
+			Cargar(ptRom,offsetScript);
+		}
+		unsafe void Cargar(byte* ptrRom,int offsetScript)
+		{
+			//obtengo los comandos hasta encontrar return o end
+			byte* ptrScript=ptrRom+offsetScript;
+			byte byteComandoActual;
+			Comando comandoActual;
+			
+			do{
+				comandoActual=null;
+				byteComandoActual=*ptrScript;
+				ptrScript++;
+				switch(byteComandoActual)
+				{
+						//pongo los comandos
+						case Nop.ID:comandoActual=new Nop(ptrRom,offsetScript);break;
+						case Nop1.ID:comandoActual=new Nop1(ptrRom,offsetScript);break;
+						//estos me los salto
+					case RETURN:
+					case END:
+						break;
+						//si no esta hago una excepcion
+					default:
+						throw new ScriptMalFormadoException();
+				}
+				if(comandoActual!=null)
+				{
+					comandosScript.Add(comandoActual);
+					offsetScript+=comandoActual.Size;
+				}
+				
+			}while(byteComandoActual!=END&&byteComandoActual!=RETURN);
 		}
 		
 

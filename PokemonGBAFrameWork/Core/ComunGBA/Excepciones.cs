@@ -32,4 +32,8 @@ namespace PokemonGBAFrameWork
 		public RomSinEspacioException():base("Rom sin espacio")
 		{}
 	}
+	public class ScriptMalFormadoException:Exception
+	{
+		public ScriptMalFormadoException():base("Script mal formado"){}
+	}
 }

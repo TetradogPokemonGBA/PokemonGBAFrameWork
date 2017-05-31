@@ -83,6 +83,9 @@
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Call.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\If.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Nop.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\IDeclaracion.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Script.cs" />
     <Compile Include="PokemonFrameWork\Core\Variables.cs" />
@@ -126,6 +129,7 @@
     <Folder Include="PokemonFrameWork\Batallas" />
     <Folder Include="Core\ComunGBA\ASM" />
     <Folder Include="PokemonFrameWork\Core\Script" />
+    <Folder Include="PokemonFrameWork\Core\Script\Comandos" />
     <Folder Include="PokemonFrameWork\Mapa" />
     <Folder Include="PokemonFrameWork\OverWorld" />
     <Folder Include="PokemonFrameWork\Pokemon" />
