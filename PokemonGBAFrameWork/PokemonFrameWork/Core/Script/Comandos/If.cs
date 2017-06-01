@@ -13,18 +13,18 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of If.
 	/// </summary>
-	public class If:Comando
+	public class If1:Comando,IDeclaracion
 	{
 		public const byte ID=0x6;
 		public const int SIZE=6;
 		
 		byte condicion;
 		Script script;
-		public If(RomGba rom,int offset):base(rom,offset)
+		public If1(RomGba rom,int offset):base(rom,offset)
 		{}
-		public If(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public If1(byte[] bytesScript,int offset):base(bytesScript,offset)
 		{}
-		public unsafe If(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe If1(byte* ptRom,int offset):base(ptRom,offset)
 		{}
 
 		public byte Condicion {
@@ -49,19 +49,39 @@ namespace PokemonGBAFrameWork
 
 		#region implemented abstract members of Comando
 		
-		protected override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			throw new NotImplementedException();
+			byte[] bytesPtr=new byte[OffsetRom.LENGTH];
+			//byte condicion ptr script
+			Condicion=ptrRom[offsetComando++];
+			for(int i=0;i<bytesPtr.Length;i++)
+				bytesPtr[i]=ptrRom[offsetComando++];
+			Script=new Script(ptrRom,new OffsetRom(bytesPtr).Offset);
+			
 		}
 
-		protected override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-			throw new NotImplementedException();
+			
+			OffsetRom offset;
+			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			try{
+				offset=new OffsetRom(parametrosExtra[0]);
+				*ptrRomPosicionado=Condicion;
+				ptrRomPosicionado++;
+				for(int i=0;i<OffsetRom.LENGTH;i++)
+				{
+					*ptrRomPosicionado=offset.BytesPointer[i];
+					ptrRomPosicionado++;
+				}}catch{
+				
+				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");
+			}
 		}
 
 		public override string Descripcion {
 			get {
-				throw new NotImplementedException();
+				return "Comprueba que la condicion sea true con el 'lastresult'";
 			}
 		}
 
@@ -84,5 +104,33 @@ namespace PokemonGBAFrameWork
 		}
 
 		#endregion
+
+		#region IDeclaracion implementation
+
+		public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
+		{
+			return Script.GetDeclaracion(rom,parametrosExtra);
+		}
+
+		#endregion
+	}
+	public class If2:If1{
+		public const byte ID=0x7;
+		public If2(RomGba rom,int offset):base(rom,offset)
+		{}
+		public If2(byte[] bytesScript,int offset):base(bytesScript,offset)
+		{}
+		public unsafe If2(byte* ptRom,int offset):base(ptRom,offset)
+		{}
+		public override string Nombre {
+			get {
+				return "If2";
+			}
+		}
+		public override byte IdComando {
+			get {
+				return ID;
+			}
+		}
 	}
 }

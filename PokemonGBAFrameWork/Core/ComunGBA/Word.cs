@@ -55,7 +55,7 @@ namespace PokemonGBAFrameWork
 		{
 			return GetWord(rom.Data.Bytes, offsetWord);
 		}
-		public static short GetWord(byte[] bytes, int offsetWord)
+		public static short GetWord(byte[] bytes, int offsetWord=0)
 		{
 			return GetWordOrDWord(bytes, offsetWord);
 		}

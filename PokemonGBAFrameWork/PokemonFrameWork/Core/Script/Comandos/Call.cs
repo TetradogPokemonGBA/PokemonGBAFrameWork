@@ -78,10 +78,9 @@ namespace PokemonGBAFrameWork
 		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)
 		{
 			OffsetRom offset;
+			base.SetComando(ptrRom,parametrosExtra);
 			try{
 				offset=new OffsetRom(parametrosExtra[0]);
-				*ptrRom=IdComando;
-				ptrRom++;
 				for(int i=0;i<OffsetRom.LENGTH;i++)
 				{
 					*ptrRom=offset.BytesPointer[i];

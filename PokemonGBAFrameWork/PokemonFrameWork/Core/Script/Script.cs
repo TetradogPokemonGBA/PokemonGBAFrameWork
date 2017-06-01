@@ -27,14 +27,14 @@ namespace PokemonGBAFrameWork
 		}
 		public Script(RomGba rom,int offsetScript):this(rom.Data.Bytes,offsetScript)
 		{
-		
+			
 		}
 		public Script(byte[] bytesScript,int offset=0):this()
 		{
 			unsafe{
 				fixed(byte* ptBytesScirpt=bytesScript)
 					Cargar(ptBytesScirpt,offset);
-			
+				
 			}
 			
 		}
@@ -45,19 +45,39 @@ namespace PokemonGBAFrameWork
 		unsafe void Cargar(byte* ptrRom,int offsetScript)
 		{
 			//obtengo los comandos hasta encontrar return o end
-			byte* ptrScript=ptrRom+offsetScript;
 			byte byteComandoActual;
 			Comando comandoActual;
 			
 			do{
 				comandoActual=null;
-				byteComandoActual=*ptrScript;
-				ptrScript++;
+				byteComandoActual=ptrRom[offsetScript];
+				offsetScript++;
 				switch(byteComandoActual)
 				{
 						//pongo los comandos
 						case Nop.ID:comandoActual=new Nop(ptrRom,offsetScript);break;
 						case Nop1.ID:comandoActual=new Nop1(ptrRom,offsetScript);break;
+						case Call.ID:comandoActual=new Call(ptrRom,offsetScript);break;
+						case Goto.ID:comandoActual=new Goto(ptrRom,offsetScript);break;
+						case If1.ID:comandoActual=new If1(ptrRom,offsetScript);break;
+						case If2.ID:comandoActual=new If2(ptrRom,offsetScript);break;
+						case Gotostd.ID:comandoActual=new Gotostd(ptrRom,offsetScript);break;
+						case Callstd.ID:comandoActual=new Callstd(ptrRom,offsetScript);break;
+						case Gotostdif.ID:comandoActual=new Gotostdif(ptrRom,offsetScript);break;
+						case Callstdif.ID:comandoActual=new Callstdif(ptrRom,offsetScript);break;
+						case Jumpram.ID:comandoActual=new Jumpram(ptrRom,offsetScript);break;
+						case Killscript.ID:comandoActual=new Killscript(ptrRom,offsetScript);break;
+						case SetByte.ID:comandoActual=new SetByte(ptrRom,offsetScript);break;
+						case SetByte2.ID:comandoActual=new SetByte2(ptrRom,offsetScript);break;
+						case LoadPointer.ID:comandoActual=new LoadPointer(ptrRom,offsetScript);break;
+						case WriteByteToOffset.ID:comandoActual=new WriteByteToOffset(ptrRom,offsetScript);break;
+						case LoadByteFromPointer.ID:comandoActual=new LoadByteFromPointer(ptrRom,offsetScript);break;
+						case SetFarByte.ID:comandoActual=new SetFarByte(ptrRom,offsetScript);break;
+						case Copyscriptbanks.ID:comandoActual=new Copyscriptbanks(ptrRom,offsetScript);break;
+						case CopyByte.ID:comandoActual=new CopyByte(ptrRom,offsetScript);break;
+						case SetVar.ID:comandoActual=new SetVar(ptrRom,offsetScript);break;
+						case AddVar.ID:comandoActual=new AddVar(ptrRom,offsetScript);break;
+						case SubVar.ID:comandoActual=new SubVar(ptrRom,offsetScript);break;
 						//estos me los salto
 					case RETURN:
 					case END:
@@ -70,6 +90,7 @@ namespace PokemonGBAFrameWork
 				{
 					comandosScript.Add(comandoActual);
 					offsetScript+=comandoActual.Size;
+					offsetScript--;//resto el comando porque ya lo sumo antes
 				}
 				
 			}while(byteComandoActual!=END&&byteComandoActual!=RETURN);

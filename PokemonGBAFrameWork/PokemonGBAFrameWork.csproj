@@ -84,8 +84,15 @@
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Call.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\CopyByte.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Copyscriptbanks.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Gotostd.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\If.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\LoadPointer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Nop.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\SetByte.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Setvar.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\WriteByteToOffset.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\IDeclaracion.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Script.cs" />
     <Compile Include="PokemonFrameWork\Core\Variables.cs" />
