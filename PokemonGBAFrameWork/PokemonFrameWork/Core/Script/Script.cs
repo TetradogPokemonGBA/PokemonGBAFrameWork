@@ -98,9 +98,6 @@ namespace PokemonGBAFrameWork.Script
 						case ClearFlag.ID:comandoActual=new ClearFlag(ptrRom,offsetScript);break;
 						case CheckFlag.ID:comandoActual=new CheckFlag(ptrRom,offsetScript);break;
 						case Cmd2C.ID:comandoActual=new Cmd2C(ptrRom,offsetScript);break;
-						case CheckDailyFlags.ID:comandoActual=new CheckDailyFlags(ptrRom,offsetScript);break;
-						case ResetVars.ID:comandoActual=new ResetVars(ptrRom,offsetScript);break;
-						case Sound.ID:comandoActual=new Sound(ptrRom,offsetScript);break;
 						case CheckSound.ID:comandoActual=new CheckSound(ptrRom,offsetScript);break;
 						case FanFare.ID:comandoActual=new FanFare(ptrRom,offsetScript);break;
 						case WaitFanFare.ID:comandoActual=new WaitFanFare(ptrRom,offsetScript);break;
@@ -110,6 +107,20 @@ namespace PokemonGBAFrameWork.Script
 						case FadeSong.ID:comandoActual=new FadeSong(ptrRom,offsetScript);break;
 						case FadeOut.ID:comandoActual=new FadeOut(ptrRom,offsetScript);break;
 						case FadeIn.ID:comandoActual=new FadeIn(ptrRom,offsetScript);break;
+						case CheckDailyFlags.ID:comandoActual=new CheckDailyFlags(ptrRom,offsetScript);break;
+						case ResetVars.ID:comandoActual=new ResetVars(ptrRom,offsetScript);break;
+						case Sound.ID:comandoActual=new Sound(ptrRom,offsetScript);break;
+						case Warp.ID:comandoActual=new Warp(ptrRom,offsetScript);break;
+						case WarpMuted.ID:comandoActual=new WarpMuted(ptrRom,offsetScript);break;
+						case WarpWalk.ID:comandoActual=new WarpWalk(ptrRom,offsetScript);break;
+						case WarpHole.ID:comandoActual=new WarpHole(ptrRom,offsetScript);break;
+						case WarpTeleport.ID:comandoActual=new WarpTeleport(ptrRom,offsetScript);break;
+						case Warp3.ID:comandoActual=new Warp3(ptrRom,offsetScript);break;
+						case SetWarpplace.ID:comandoActual=new SetWarpplace(ptrRom,offsetScript);break;
+						case Warp4.ID:comandoActual=new Warp4(ptrRom,offsetScript);break;
+						case Warp5.ID:comandoActual=new Warp5(ptrRom,offsetScript);break;
+						case GetPlayerPos.ID:comandoActual=new GetPlayerPos(ptrRom,offsetScript);break;
+						case CountPokemon.ID:comandoActual=new CountPokemon(ptrRom,offsetScript);break;
 						
 						
 						//estos me los salto
