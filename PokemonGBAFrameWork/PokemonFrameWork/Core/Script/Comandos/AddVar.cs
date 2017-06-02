@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Script
 {
 	public class AddVar : SetVar
 	{

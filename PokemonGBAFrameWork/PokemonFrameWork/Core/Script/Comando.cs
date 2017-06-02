@@ -8,13 +8,14 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Script
 {
 	/// <summary>
 	/// Description of Comando.
 	/// </summary>
 	public abstract class Comando
 	{
+		public const int SIZE=1;
 		internal Comando(RomGba rom,int offsetComando):this(rom.Data.Bytes,offsetComando)
 		{}
 		internal Comando(byte[] bytesComando,int offset)
@@ -40,9 +41,9 @@ namespace PokemonGBAFrameWork
 		{
 			get;
 		}
-		public abstract int Size
+		public virtual int Size
 		{
-			get;
+			get{return SIZE;}
 		}
 		protected virtual unsafe  void CargarCamando(byte* ptrRom,int offsetComando)
 		{}
@@ -69,6 +70,20 @@ namespace PokemonGBAFrameWork
 			*ptrRomPosicionado=IdComando;
 			ptrRomPosicionado++;
 		}
+		public bool CheckCompatibilidad(PokemonGBAFrameWork.AbreviacionCanon abreviacion)
+		{
+			return GetCompatibilidad()&abreviacion==abreviacion;
+		}
+		protected virtual PokemonGBAFrameWork.AbreviacionCanon GetCompatibilidad()
+		{
+			AbreviacionCanon[] abreviaciones=(AbreviacionCanon[])Enum.GetValues(typeof(AbreviacionCanon));
+			AbreviacionCanon compatibilidad=abreviaciones[0];
+			for(int i=1;i<abreviaciones.Length;i++)
+				compatibilidad|=abreviaciones[i];
+			return compatibilidad;
+			
+		}
+			
 		public override string ToString()
 		{
 			return Nombre;

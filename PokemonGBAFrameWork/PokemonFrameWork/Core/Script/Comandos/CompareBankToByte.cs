@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Script
 {
 	/// <summary>
 	/// Description of CompareBankToByte.

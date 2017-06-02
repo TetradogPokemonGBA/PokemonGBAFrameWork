@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Script
 {
 	/// <summary>
 	/// Description of If.
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork
 				*ptrRomPosicionado=Condicion;
 				ptrRomPosicionado++;
 				OffsetRom.SetOffset(ptrRomPosicionado,offset);
-			
+				
 			}catch{
 				
 				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");

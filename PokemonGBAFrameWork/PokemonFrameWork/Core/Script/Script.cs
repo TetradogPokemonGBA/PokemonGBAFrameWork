@@ -9,7 +9,7 @@
 using System;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Script
 {
 	/// <summary>
 	/// Description of Script.
@@ -88,6 +88,29 @@ namespace PokemonGBAFrameWork
 						case CompareFarBytes.ID:comandoActual=new CompareFarBytes(ptrRom,offsetScript);break;
 						case Compare.ID:comandoActual=new Compare(ptrRom,offsetScript);break;
 						case CompareVars.ID:comandoActual=new CompareVars(ptrRom,offsetScript);break;
+						case CallAsm.ID:comandoActual=new CallAsm(ptrRom,offsetScript);break;
+						case Cmd24.ID:comandoActual=new Cmd24(ptrRom,offsetScript);break;
+						case Special.ID:comandoActual=new Special(ptrRom,offsetScript);break;
+						case Special2.ID:comandoActual=new Special2(ptrRom,offsetScript);break;
+						case WaitState.ID:comandoActual=new WaitState(ptrRom,offsetScript);break;
+						case Pause.ID:comandoActual=new Pause(ptrRom,offsetScript);break;
+						case SetFlag.ID:comandoActual=new SetFlag(ptrRom,offsetScript);break;
+						case ClearFlag.ID:comandoActual=new ClearFlag(ptrRom,offsetScript);break;
+						case CheckFlag.ID:comandoActual=new CheckFlag(ptrRom,offsetScript);break;
+						case Cmd2C.ID:comandoActual=new Cmd2C(ptrRom,offsetScript);break;
+						case CheckDailyFlags.ID:comandoActual=new CheckDailyFlags(ptrRom,offsetScript);break;
+						case ResetVars.ID:comandoActual=new ResetVars(ptrRom,offsetScript);break;
+						case Sound.ID:comandoActual=new Sound(ptrRom,offsetScript);break;
+						case CheckSound.ID:comandoActual=new CheckSound(ptrRom,offsetScript);break;
+						case FanFare.ID:comandoActual=new FanFare(ptrRom,offsetScript);break;
+						case WaitFanFare.ID:comandoActual=new WaitFanFare(ptrRom,offsetScript);break;
+						case PlaySong.ID:comandoActual=new PlaySong(ptrRom,offsetScript);break;
+						case PlaySong2.ID:comandoActual=new PlaySong2(ptrRom,offsetScript);break;
+						case FadeDefault.ID:comandoActual=new FadeDefault(ptrRom,offsetScript);break;
+						case FadeSong.ID:comandoActual=new FadeSong(ptrRom,offsetScript);break;
+						case FadeOut.ID:comandoActual=new FadeOut(ptrRom,offsetScript);break;
+						case FadeIn.ID:comandoActual=new FadeIn(ptrRom,offsetScript);break;
+						
 						
 						//estos me los salto
 					case RETURN:

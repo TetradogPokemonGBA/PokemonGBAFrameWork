@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork
 		
 		byte[] bytesPointer;
 		
-		public OffsetRom(int offset)
+		public OffsetRom(int offset=0)
 		{
 			bytesPointer = Serializar.GetBytes(offset);
 			bytesPointer[POSICIONIDENTIFICADOR]=offset > DIECISEISMEGAS ? BYTEIDENTIFICADOR32MB : BYTEIDENTIFICADOR16MB;

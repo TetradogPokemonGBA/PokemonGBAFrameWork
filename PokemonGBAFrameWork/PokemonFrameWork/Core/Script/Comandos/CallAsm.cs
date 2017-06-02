@@ -2,7 +2,7 @@
  * Creado por SharpDevelop.
  * Usuario: Pikachu240
  * Fecha: 02/06/2017
- * Hora: 7:39
+ * Hora: 12:25
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
@@ -11,25 +11,24 @@ using System;
 namespace PokemonGBAFrameWork.Script
 {
 	/// <summary>
-	/// Description of CompareBanks.
+	/// Description of CallAsm.
 	/// </summary>
-	public class CompareBanks:Comando
+	public class CallAsm:Comando
 	{
-		public const byte ID=0x1B;
-		public const int SIZE=5;
+		public const byte ID=0x23;
+		public const int SIZE=1+OffsetRom.LENGTH;
 		
-		short bank1;
-		short bank2;
-		public CompareBanks(RomGba rom,int offset):base(rom,offset)
+		OffsetRom offsetAsm;//en el futuro poner el codigo asm :)
+		public CallAsm(RomGba rom,int offset):base(rom,offset)
 		{
 		}
-		public CompareBanks(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public CallAsm(byte[] bytesScript,int offset):base(bytesScript,offset)
 		{}
-		public unsafe CompareBanks(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe CallAsm(byte* ptRom,int offset):base(ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
-				return "Compara dos banks";
+				return "Continua con la ejecución de otro script que tiene que tener return";
 			}
 		}
 
@@ -41,7 +40,7 @@ namespace PokemonGBAFrameWork.Script
 
 		public override string Nombre {
 			get {
-				return "CompareBanks";
+				return "CallAsm";
 			}
 		}
 
@@ -50,35 +49,29 @@ namespace PokemonGBAFrameWork.Script
 				return SIZE;
 			}
 		}
-
-		public short Bank1 {
-			get {
-				return bank1;
+		public OffsetRom OffsetAsm
+		{
+			get{
+				return offsetAsm;
 			}
-			set {
-				bank1 = value;
-			}
-		}
-
-		public short Bank2 {
-			get {
-				return bank2;
-			}
-			set {
-				bank2 = value;
+			set{
+				if(value==null)
+					value=new OffsetRom();
+				offsetAsm=value;
+				
 			}
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bank1=Word.GetWord(ptrRom,offsetComando);
-			bank2=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			offsetAsm=new OffsetRom(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado,bank1);
-			Word.SetWord(ptrRomPosicionado+Word.LENGTH,bank2);
+			OffsetRom.SetOffset(ptrRomPosicionado,offsetAsm);
 		}
+	
+
 	}
 }
