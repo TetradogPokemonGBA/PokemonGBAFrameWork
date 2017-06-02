@@ -67,10 +67,9 @@ namespace PokemonGBAFrameWork
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			*ptrRomPosicionado=funcion;
 			ptrRomPosicionado++;
+			*ptrRomPosicionado=funcion;
 		}
-
 
 
 		#endregion
@@ -100,91 +99,6 @@ namespace PokemonGBAFrameWork
 			}
 		}
 	}
-	public class Gotostdif:Gotostd
-	{
-		
-		public const byte ID=0xA;
-		public const int SIZE=3;
-		
-		byte condicion;
-		public Gotostdif(RomGba rom,int offset):base(rom,offset)
-		{}
-		public Gotostdif(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe Gotostdif(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override string Nombre {
-			get {
-				return "Gotostdif";
-			}
-		}
-		public override string Descripcion {
-			get {
-				return base.Descripcion+" si se cumple la condición";
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-
-		public byte Condicion {
-			get {
-				return condicion;
-			}
-			set {
-				condicion = value;
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-		{
-			base.CargarCamando(ptrRom, offsetComando);
-			Condicion=ptrRom[++offsetComando];
-		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			*ptrRomPosicionado=Condicion;
-			ptrRomPosicionado++;
-		}
-		
-	}
-	public class Callstdif:Gotostdif
-	{
-		public const byte ID=0xB;
-		public const int SIZE=3;
-		public Callstdif(RomGba rom,int offset):base(rom,offset)
-		{}
-		public Callstdif(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe Callstdif(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override string Nombre {
-			get {
-				return "Callstdif";
-			}
-		}
-		public override string Descripcion {
-			get {
-				return "llama a la función si se cumple la condición";
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-	}
+	
+	
 }

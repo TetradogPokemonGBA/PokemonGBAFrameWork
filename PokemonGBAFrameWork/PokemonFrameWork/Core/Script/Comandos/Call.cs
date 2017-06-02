@@ -65,27 +65,19 @@ namespace PokemonGBAFrameWork
 
 		protected unsafe override void CargarCamando(byte* ptrRom,int offsetActual)
 		{
-			byte[] bytesPtr=new byte[OffsetRom.LENGTH];
-			byte* ptComando=ptrRom+offsetActual;
-			for(int i=0;i<bytesPtr.Length;i++)
-			{
-				bytesPtr[i]=*ptComando;
-				ptComando++;
-			}
-			Script=new Script(ptrRom,new OffsetRom(bytesPtr).Offset);
+			Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
 		}
 
 		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)
 		{
 			OffsetRom offset;
 			base.SetComando(ptrRom,parametrosExtra);
+			ptrRom++;
 			try{
 				offset=new OffsetRom(parametrosExtra[0]);
-				for(int i=0;i<OffsetRom.LENGTH;i++)
-				{
-					*ptrRom=offset.BytesPointer[i];
-					ptrRom++;
-				}}catch{
+				OffsetRom.SetOffset(ptrRom,offset);
+			
+			}catch{
 				
 				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");
 			}
@@ -104,33 +96,5 @@ namespace PokemonGBAFrameWork
 
 		#endregion
 	}
-	public class Goto:Call
-	{
-		public const byte ID=0x5;
-		public Goto(RomGba rom,int offset):base(rom,offset)
-		{
-		  	
-		}
-		public Goto(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe Goto(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override string Nombre {
-			get {
-				return "Goto";
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Descripcion {
-			get {
-				return "Continua con otro script";
-			}
-		}
-		
 	
-	}
 }

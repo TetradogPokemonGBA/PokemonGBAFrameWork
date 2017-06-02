@@ -26,7 +26,19 @@ namespace PokemonGBAFrameWork
 		{
 			SetWord(rom.Data.Bytes, offset, word);
 		}
-		
+		public unsafe static void SetWord(byte* ptrRom,int offset,short word)
+		{
+			byte* ptComando=ptrRom+offset;
+			SetWord(ptComando,word);
+		}
+		public unsafe static void SetWord(byte* ptrDatos,short word)
+		{
+			*ptrDatos = Convert.ToByte((word & 0xff));
+			
+			ptrDatos++;
+			
+			*ptrDatos = Convert.ToByte(((word >> 8) & 0xff));
+		}
 		public  static void SetWord(byte[] rom, int offset, short word)
 		{
 			if (offset < 0 || offset + LENGTH> rom.Length)
@@ -34,17 +46,9 @@ namespace PokemonGBAFrameWork
 			int zonaWord = (int)offset;
 			unsafe
 			{
-				byte* ptrDatos;
 				fixed (byte* ptDatos = rom)
 				{
-					ptrDatos = ptDatos;
-					ptrDatos += zonaWord;
-					
-					*ptrDatos = Convert.ToByte((word & 0xff));
-					
-					ptrDatos++;
-					
-					*ptrDatos = Convert.ToByte(((word >> 8) & 0xff));
+					SetWord(ptDatos,offset,word);
 					
 				}
 			}
@@ -59,7 +63,21 @@ namespace PokemonGBAFrameWork
 		{
 			return GetWordOrDWord(bytes, offsetWord);
 		}
-		
+		public unsafe static short GetWord(byte* ptrRom,int offset)
+		{
+			byte* ptComando=ptrRom+offset;
+			return GetWord(ptComando);
+		}
+		public unsafe static short GetWord(byte* ptr)
+		{
+			byte[] bytesWord=new byte[Word.LENGTH];
+			for(int i=0;i<bytesWord.Length;i++)
+			{
+				bytesWord[i]=*ptr;
+				ptr++;
+			}
+			return Word.GetWord(bytesWord);
+		}
 		static short GetWordOrDWord(byte[] bytes,int offsetWord)
 		{
 			if (offsetWord + LENGTH > bytes.Length)

@@ -112,8 +112,8 @@ namespace PokemonGBAFrameWork
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			memoryBankToUse=ptrRom[offsetComando];
-			base.CargarCamando(ptrRom, offsetComando+1);
+			memoryBankToUse=ptrRom[offsetComando++];
+			base.CargarCamando(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

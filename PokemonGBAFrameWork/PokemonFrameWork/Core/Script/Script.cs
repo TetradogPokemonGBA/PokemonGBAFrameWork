@@ -68,8 +68,8 @@ namespace PokemonGBAFrameWork
 						case Jumpram.ID:comandoActual=new Jumpram(ptrRom,offsetScript);break;
 						case Killscript.ID:comandoActual=new Killscript(ptrRom,offsetScript);break;
 						case SetByte.ID:comandoActual=new SetByte(ptrRom,offsetScript);break;
-						case SetByte2.ID:comandoActual=new SetByte2(ptrRom,offsetScript);break;
 						case LoadPointer.ID:comandoActual=new LoadPointer(ptrRom,offsetScript);break;
+						case SetByte2.ID:comandoActual=new SetByte2(ptrRom,offsetScript);break;
 						case WriteByteToOffset.ID:comandoActual=new WriteByteToOffset(ptrRom,offsetScript);break;
 						case LoadByteFromPointer.ID:comandoActual=new LoadByteFromPointer(ptrRom,offsetScript);break;
 						case SetFarByte.ID:comandoActual=new SetFarByte(ptrRom,offsetScript);break;
@@ -78,6 +78,17 @@ namespace PokemonGBAFrameWork
 						case SetVar.ID:comandoActual=new SetVar(ptrRom,offsetScript);break;
 						case AddVar.ID:comandoActual=new AddVar(ptrRom,offsetScript);break;
 						case SubVar.ID:comandoActual=new SubVar(ptrRom,offsetScript);break;
+						case CopyVar.ID:comandoActual=new CopyVar(ptrRom,offsetScript);break;
+						case CopyVarIfNotZero.ID:comandoActual=new CopyVarIfNotZero(ptrRom,offsetScript);break;
+						case CompareBanks.ID:comandoActual=new CompareBanks(ptrRom,offsetScript);break;
+						case CompareBankToByte.ID:comandoActual=new CompareBankToByte(ptrRom,offsetScript);break;
+						case CompareBankToFarByte.ID:comandoActual=new CompareBankToFarByte(ptrRom,offsetScript);break;
+						case CompareFarByteToBank.ID:comandoActual=new CompareBankToFarByte(ptrRom,offsetScript);break;
+						case CompareFarByteToByte.ID:comandoActual=new CompareFarByteToByte(ptrRom,offsetScript);break;
+						case CompareFarBytes.ID:comandoActual=new CompareFarBytes(ptrRom,offsetScript);break;
+						case Compare.ID:comandoActual=new Compare(ptrRom,offsetScript);break;
+						case CompareVars.ID:comandoActual=new CompareVars(ptrRom,offsetScript);break;
+						
 						//estos me los salto
 					case RETURN:
 					case END:

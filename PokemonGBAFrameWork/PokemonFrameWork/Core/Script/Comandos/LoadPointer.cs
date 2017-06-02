@@ -78,11 +78,7 @@ namespace PokemonGBAFrameWork
 			ptrRomPosicionado++;
 			*ptrRomPosicionado=memoryBankToUse;
 			ptrRomPosicionado++;
-			for(int i=0;i<OffsetRom.LENGTH;i++)
-			{
-				*ptrRomPosicionado=offset.BytesPointer[i];
-				ptrRomPosicionado++;
-			}
+			OffsetRom.SetOffset(ptrRomPosicionado,offset);
 		}
 
 		

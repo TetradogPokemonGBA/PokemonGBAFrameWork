@@ -30,8 +30,8 @@ namespace PokemonGBAFrameWork
 		
 		public OffsetRom(int offset)
 		{
-            bytesPointer = Serializar.GetBytes(offset);
-            bytesPointer[POSICIONIDENTIFICADOR]=offset > DIECISEISMEGAS ? BYTEIDENTIFICADOR32MB : BYTEIDENTIFICADOR16MB;
+			bytesPointer = Serializar.GetBytes(offset);
+			bytesPointer[POSICIONIDENTIFICADOR]=offset > DIECISEISMEGAS ? BYTEIDENTIFICADOR32MB : BYTEIDENTIFICADOR16MB;
 
 		}
 		
@@ -57,6 +57,23 @@ namespace PokemonGBAFrameWork
 			if(bytesPointer.Length<LENGTH)
 				throw new ArgumentOutOfRangeException();
 			this.bytesPointer=bytesPointer.SubArray(LENGTH);
+		}
+		public unsafe OffsetRom(byte* ptrRom,int offset):this(ptrRom+offset)
+		{}
+		public unsafe OffsetRom(byte* ptrDatos)
+		{
+			byte* ptrBytesPointer;
+			bytesPointer=new byte[LENGTH];
+			fixed(byte* ptBytesPointer=bytesPointer)
+			{
+				ptrBytesPointer=ptBytesPointer;
+				for(int i=0;i<LENGTH;i++)
+				{
+					*ptrBytesPointer=*ptrDatos;
+					ptrBytesPointer++;
+					ptrDatos++;
+				}
+			}
 		}
 
 		public byte[] BytesPointer {
@@ -147,6 +164,24 @@ namespace PokemonGBAFrameWork
 				if(posicion>0)
 					rom.Data.SetArray(posicion,ptrAPoner.BytesPointer);
 			}while(posicion>0);
+		}
+		public unsafe static void SetOffset(byte* ptrRom,int offsetDatos,OffsetRom offset)
+		{
+			SetOffset(ptrRom+offsetDatos,offset);
+		}
+		public unsafe static void SetOffset(byte* ptrDatos,OffsetRom offset)
+		{
+			byte* ptrBytesOffset;
+			fixed(byte* ptBytesOffset=offset.BytesPointer)
+			{
+				ptrBytesOffset=ptBytesOffset;
+				for(int i=0;i<LENGTH;i++)
+				{
+					*ptrDatos=*ptrBytesOffset;
+					ptrDatos++;
+					ptrBytesOffset++;
+				}
+			}
 		}
 	}
 }

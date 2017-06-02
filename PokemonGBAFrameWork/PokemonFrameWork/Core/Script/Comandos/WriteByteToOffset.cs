@@ -46,50 +46,17 @@ namespace PokemonGBAFrameWork
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			byte[] offset=new byte[OffsetRom.LENGTH];
 			base.CargarCamando(ptrRom, offsetComando++);
-			for(int i=0;i<offset.Length;i++)
-			{
-				offset[i]=ptrRom[offsetComando++];
-				
-			}
-			offsetToWrite=new OffsetRom(offset);
+			offsetToWrite=new OffsetRom(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			for(int i=0;i<OffsetRom.LENGTH;i++)
-			{
-				*ptrRomPosicionado=offsetToWrite.BytesPointer[i];
-				ptrRomPosicionado++;
-			}
+			ptrRomPosicionado++;
+			OffsetRom.SetOffset(ptrRomPosicionado,offsetToWrite);
 		}
 	}
-	public class LoadByteFromPointer:WriteByteToOffset
-	{
-		public const byte ID=0x12;
-		public LoadByteFromPointer(RomGba rom,int offset):base(rom,offset)
-		{}
-		public LoadByteFromPointer(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe LoadByteFromPointer(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "Loadbytefrompointer";
-			}
-		}
-		public override string Descripcion {
-			get {
-				return "Carga el byte de la posición para poder ser usada en otros comandos";
-			}
-		}
-	}
+	
 	public class SetFarByte:WriteByteToOffset
 	{
 		public const byte ID=0x13;

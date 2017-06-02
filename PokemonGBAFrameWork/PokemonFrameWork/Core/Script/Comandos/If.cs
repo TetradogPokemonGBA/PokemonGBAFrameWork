@@ -51,12 +51,9 @@ namespace PokemonGBAFrameWork
 		
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			byte[] bytesPtr=new byte[OffsetRom.LENGTH];
 			//byte condicion ptr script
 			Condicion=ptrRom[offsetComando++];
-			for(int i=0;i<bytesPtr.Length;i++)
-				bytesPtr[i]=ptrRom[offsetComando++];
-			Script=new Script(ptrRom,new OffsetRom(bytesPtr).Offset);
+			Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);
 			
 		}
 
@@ -65,15 +62,14 @@ namespace PokemonGBAFrameWork
 			
 			OffsetRom offset;
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			try{
 				offset=new OffsetRom(parametrosExtra[0]);
 				*ptrRomPosicionado=Condicion;
 				ptrRomPosicionado++;
-				for(int i=0;i<OffsetRom.LENGTH;i++)
-				{
-					*ptrRomPosicionado=offset.BytesPointer[i];
-					ptrRomPosicionado++;
-				}}catch{
+				OffsetRom.SetOffset(ptrRomPosicionado,offset);
+			
+			}catch{
 				
 				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");
 			}

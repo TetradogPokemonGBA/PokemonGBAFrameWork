@@ -67,52 +67,6 @@ namespace PokemonGBAFrameWork
 			}
 		}
 	}
-	public class Jumpram:Nop{
-			public const byte ID=0xC;
-		public Jumpram(RomGba rom,int offset):base(rom,offset)
-		{}
-		public Jumpram(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe Jumpram(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override string Nombre {
-			get {
-				return "Jumpram";
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Descripcion {
-			get {
-				return "Salta a la dirección por defecto de la memoria ram y ejecuta el script guardado allí";
-			}
-		}
-	}
-	public class Killscript:Nop{
-			public const byte ID=0xD;
-		public Killscript(RomGba rom,int offset):base(rom,offset)
-		{}
-		public Killscript(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe Killscript(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override string Nombre {
-			get {
-				return "Killscript";
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Descripcion {
-			get {
-				return "Acaba con el script y restaura la ram ";
-			}
-		}
-	}
+	
+	
 }
