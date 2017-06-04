@@ -21,6 +21,7 @@ namespace PokemonGBAFrameWork
 	public class RomGba:ObjectAutoId 
 	{
 		const string EXTENSION=".gba";
+		
 		string path;
 		Edicion edicion;
 		BloqueBytes romData;
@@ -29,9 +30,13 @@ namespace PokemonGBAFrameWork
 		#region Constructores
 		public RomGba(string pathRom):this(new FileInfo(pathRom))
 		{
+
+		
 		}
 		public RomGba(FileInfo romFile)
 		{
+			
+			
 			if(romFile==null)
 				throw new ArgumentNullException();
 			
@@ -40,6 +45,7 @@ namespace PokemonGBAFrameWork
 			
 			Load();
 			LoadEdicion();
+			
 		}
 		private RomGba()
 		{}
@@ -63,8 +69,8 @@ namespace PokemonGBAFrameWork
 			}
 			set{
 				
-				if(String.IsNullOrEmpty(value))
-					nombre="Hack:"+edicion;
+				if(String.IsNullOrEmpty(value))//null or ""
+					nombre="Hack."+edicion;
 				else nombre=value;
 			
 			}
@@ -75,14 +81,14 @@ namespace PokemonGBAFrameWork
 				return path;
 			}
 			set {
-        		if(!Directory.Exists(path))
+        		if(!Directory.Exists(value))
         			throw new ArgumentException();
 				path = value;
 			}
 		}
 
         public string FullPath{
-        	get{ return path+Nombre+".gba";}
+        	get{ return System.IO.Path.Combine(path,Nombre+EXTENSION);}
         }
         public byte this[int index]
         {
@@ -125,7 +131,7 @@ namespace PokemonGBAFrameWork
 		/// <returns>Ruta backup</returns>
 		public string BackUp()
 		{
-			string path=Path+"BackUp."+DateTime.Now.Ticks+"."+Nombre+".gba"; 
+			string path=Path+"BackUp."+DateTime.Now.Ticks+"."+Nombre+EXTENSION; 
 			File.WriteAllBytes(path,Data.Bytes);
 			return path;
 			

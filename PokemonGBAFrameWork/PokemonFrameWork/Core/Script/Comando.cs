@@ -72,7 +72,7 @@ namespace PokemonGBAFrameWork.Script
 		}
 		public bool CheckCompatibilidad(PokemonGBAFrameWork.AbreviacionCanon abreviacion)
 		{
-			return GetCompatibilidad()&abreviacion==abreviacion;
+			return (GetCompatibilidad()&abreviacion)==abreviacion;
 		}
 		protected virtual PokemonGBAFrameWork.AbreviacionCanon GetCompatibilidad()
 		{

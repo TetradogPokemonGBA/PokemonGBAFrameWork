@@ -63,7 +63,7 @@ namespace PokemonGBAFrameWork.Script
 
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			OffsetRom.SetOffset(ptrRom,offsetComando);
+		  offsetDesconocido=new OffsetRom(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
