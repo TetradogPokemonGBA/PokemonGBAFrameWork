@@ -59,6 +59,7 @@ namespace PokemonGBAFrameWork
 		BloqueString descripcion;
 		DatosAtaque datos;
 		BloqueBytes datosConcursosHoenn;
+		
 		static Ataque()
 		{
 			byte[] valoresUnLimited = (((Hex)(int)ValoresLimitadoresFin.Ataque));

@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class RomGba:ObjectAutoId 
 	{
-		const string EXTENSION=".gba";
+		public const string EXTENSION=".gba";
 		
 		string path;
 		Edicion edicion;
@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork
 			set{
 				
 				if(String.IsNullOrEmpty(value))//null or ""
-					nombre="Hack."+edicion;
+					nombre="Hack "+edicion.NombreCompleto;
 				else nombre=value;
 			
 			}
@@ -88,7 +88,9 @@ namespace PokemonGBAFrameWork
 		}
 
         public string FullPath{
-        	get{ return System.IO.Path.Combine(path,Nombre+EXTENSION);}
+        	get{
+        		string nombreArchivoConExtension=Nombre+EXTENSION;
+        		return System.IO.Path.Combine(path,nombreArchivoConExtension);}
         }
         public byte this[int index]
         {

@@ -84,10 +84,12 @@ namespace PokemonGBAFrameWork
 
 		public const int MAXIMODECARACTERESDESHABILITADO = 0;
 		static readonly string MARCAFIN = ((char)255) + "";
+		
 		int maxCaracteres;
 		int offsetInicio;
 		string texto;
 		bool acabaEnFFByte;
+		
 		public BloqueString(int maxCaracteres)
 			: this("", maxCaracteres, true)
 		{
