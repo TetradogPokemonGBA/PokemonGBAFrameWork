@@ -19,21 +19,56 @@ namespace PokemonGBAFrameWork
 	public class BloqueSprite
 	{
 		internal enum Medidas
-		{//creo que no se pueden poner otras por eso hago una enumeracion
+		{
+			//creo que no se pueden poner otras por eso hago una enumeracion
 			Mini = 8,
 			Normal = 16,
 			Grande = 32,
 			MuyGrande = 64
 		}
+		
+		int offset;
 		int width;
 		int height;
 		byte[] imgData;
+		Paleta paleta;
+		
 		private BloqueSprite()
 		{
 		}
 		public BloqueSprite(Bitmap bmp)
 		{
 			SetBitmapData(bmp);
+		}
+
+		public byte[] ImgData {
+			get {
+				return imgData;
+			}
+		}
+		public int Height {
+			get {
+				return height;
+			}
+		}
+		public int Width {
+			get {
+				return width;
+			}
+		}
+		public int Offset {
+			get {
+				return offset;
+			}
+			private set {
+				offset = value;
+			}
+		}
+
+		public Paleta Paleta {
+			get {
+				return paleta;
+			}
 		}
 
 		public void SetBitmapData(Bitmap bmp,Paleta paleta=null)
@@ -63,17 +98,21 @@ namespace PokemonGBAFrameWork
 		}
 
 
-		public Bitmap GetBitmap(Paleta paleta)
+		public Bitmap GetBitmap(Paleta paleta=null)
 		{
+			if(paleta==null)
+				paleta=this.Paleta;
 			return BloqueImagen.BuildBitmap(imgData,paleta,width,height);//funciona bien :D
 		}
-		public static BloqueSprite GetSprite(RomGba rom, int offsetBloqueData, int width, int height)
+		public static BloqueSprite GetSprite(RomGba rom,Paleta paleta, int offsetBloqueData, int width, int height)
 		{
 			const int PIXELSPERBYTE = 2;
 			BloqueSprite bl = new BloqueSprite();
+			bl.paleta=paleta;
 			bl.width = width;
 			bl.height = height;
 			bl.imgData = rom.Data.SubArray(offsetBloqueData, width * height / PIXELSPERBYTE);
+			bl.Offset=offsetBloqueData;
 			return bl;
 		}
 	}

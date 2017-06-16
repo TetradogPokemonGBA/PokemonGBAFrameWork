@@ -69,6 +69,11 @@ namespace PokemonGBAFrameWork
 			private set{paleta=value;}
 		}
 
+		public OffsetRom OffsetImage {
+			get {
+				return pt4;
+			}
+		}
 		public Bitmap this[int indexMini]
 		{
 			get{
@@ -106,7 +111,7 @@ namespace PokemonGBAFrameWork
 			offsetSprites=mini.pt4.Offset;
 			try{
 				for(int i=0,f=GetTotalFrames(rom,mini,offsetInicioTablaMinis,offsetFinTablaMinis);i<f;i++)
-					mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
+					mini.blSprites.Add(BloqueSprite.GetSprite(rom,mini.Paleta,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
 			}catch{}
 			
 			return mini;
@@ -116,7 +121,7 @@ namespace PokemonGBAFrameWork
 		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetInicioTablaMinis,int offsetFinTablaMinis)
 		{
 			//coger los offsets de la tabla porque es donde hay los offsets de los headers....
-			int total=-1;
+			int total=0;
 			//busco un offset que su pointer este en la rom :) como marca fin ;)
 			int offsetAcutal=mini.pt4.Offset;
 			OffsetRom offset;
@@ -133,28 +138,28 @@ namespace PokemonGBAFrameWork
 		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
 		{
 			int offsetHeader = new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset + (posicion * OffsetRom.LENGTH)).Offset;
-			byte[] bytesHeader = rom.Data.SubArray(offsetHeader, TAMAÑOHEADER);
+			byte[] bytesHeader = rom.Data.Bytes;
 			MiniSprite mini = new MiniSprite();
 
 			//obtengo las medidas del minisprite
 			mini.width = Serializar.ToInt(new byte[] {
-			                              	bytesHeader[8],
-			                              	bytesHeader[9],
+			                              	bytesHeader[offsetHeader+8],
+			                              	bytesHeader[offsetHeader+9],
 			                              	0,
 			                              	0
 			                              });
 			mini.height = Serializar.ToInt(new byte[] {
-			                               	bytesHeader[10],
-			                               	bytesHeader[11],
+			                               	bytesHeader[offsetHeader+10],
+			                               	bytesHeader[offsetHeader+11],
 			                               	0,
 			                               	0
 			                               });
-			mini.Paleta = paletas[bytesHeader[2]];
-			mini.pt1 = new OffsetRom(bytesHeader, 16);
-			mini.pt2 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH);
-			mini.pt3 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH * 2);
-			mini.pt4 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH * 3);
-			mini.pt5 = new OffsetRom(bytesHeader, 16 + OffsetRom.LENGTH * 4);
+			mini.Paleta = paletas[bytesHeader[offsetHeader+2]];
+			mini.pt1 = new OffsetRom(bytesHeader, offsetHeader+16);
+			mini.pt2 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH);
+			mini.pt3 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 2);
+			mini.pt4 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 3);
+			mini.pt5 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 4);
 			return mini;
 		}
 
