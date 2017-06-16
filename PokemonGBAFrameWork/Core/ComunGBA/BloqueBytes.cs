@@ -135,7 +135,11 @@ namespace PokemonGBAFrameWork
 		}
 		public int SearchArray(int inicio, byte[] datos)
 		{
-			return Bytes.SearchArray(inicio, datos);
+		return SearchArray(inicio,-1, datos);
+		}
+		public int SearchArray(int inicio,int fin, byte[] datos)
+		{
+			return Bytes.SearchArray(inicio,fin, datos);
 		}
 		public void Remove(int inicio, int longitud, byte byteEmpty = 0xFF)
 		{

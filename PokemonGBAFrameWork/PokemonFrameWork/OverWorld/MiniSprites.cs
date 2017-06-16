@@ -86,16 +86,18 @@ namespace PokemonGBAFrameWork
 		public static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas)
 		{
 			TwoKeys<int,int> inicioYFin=GetInicioYFin(rom,edicion,compilacion);
-		   //obtengo el inicio y el fin
-		   return GetMiniSprite(rom,edicion,compilacion,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
+			//obtengo el inicio y el fin
+			return GetMiniSprite(rom,edicion,compilacion,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
 		}
-		static TwoKeys<int,int> GetInicioYFin(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		static TwoKeys<int,int> GetInicioYFin(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int totalMinis=-1)
 		{
-			int offsetInicio = new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset).Offset;
-			int offsetFin = new OffsetRom(rom, Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset + ((TotalMiniSprites(rom,edicion,compilacion)-1) * OffsetRom.LENGTH)).Offset;
-			return new TwoKeys<int, int>(offsetInicio,offsetFin);
+			if(totalMinis<0)
+				totalMinis=TotalMiniSprites(rom,edicion,compilacion);
+			
+			int offsetInicioTabla=Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset;
+			return new TwoKeys<int, int>(new OffsetRom(rom,offsetInicioTabla).Offset,new OffsetRom(rom,offsetInicioTabla+((totalMinis-1) * OffsetRom.LENGTH)).Offset+MiniSprite.TAMAÑOHEADER);
 		}
-		 static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int offsetInicio,int offsetFin)
+		static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int offsetInicioTablaMinis,int offsetFinTablaMinis)
 		{
 
 			int offsetSprites;
@@ -103,7 +105,7 @@ namespace PokemonGBAFrameWork
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
 			try{
-				for(int i=0,f=GetTotalFrames(rom,mini,offsetInicio,offsetFin);i<f;i++)
+				for(int i=0,f=GetTotalFrames(rom,mini,offsetInicioTablaMinis,offsetFinTablaMinis);i<f;i++)
 					mini.blSprites.Add(BloqueSprite.GetSprite(rom,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
 			}catch{}
 			
@@ -111,21 +113,21 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetInicio,int offsetFin)
+		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetInicioTablaMinis,int offsetFinTablaMinis)
 		{
+			//coger los offsets de la tabla porque es donde hay los offsets de los headers....
 			int total=-1;
 			//busco un offset que su pointer este en la rom :) como marca fin ;)
 			int offsetAcutal=mini.pt4.Offset;
-			bool continuar;
-			int offsetEncontrado;
+			OffsetRom offset;
 			do
 			{
 				total++;
 				offsetAcutal+=BloqueImagen.LENGTHHEADERCOMPLETO;
-				offsetEncontrado=rom.Data.SearchArray(new OffsetRom(offsetAcutal).BytesPointer);
-				continuar=offsetEncontrado<0||(offsetEncontrado<offsetInicio||offsetEncontrado>offsetFin);//si no esta con los headers no me interesa ya que lo usan en otro lado
-				
-			}while(continuar);
+				offset=new OffsetRom(offsetAcutal);
+			
+			}while(rom.Data.SearchArray(offsetInicioTablaMinis,offsetFinTablaMinis,offset.BytesPointer)<0);//si no esta con los headers no me interesa ya que lo usan en otro lado
+			
 			return total;
 		}
 		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
@@ -193,7 +195,7 @@ namespace PokemonGBAFrameWork
 			{
 				offsetActual+=OffsetRom.LENGTH;
 				offsetAct=new OffsetRom(rom,offsetActual);
-				offset2Act=new OffsetRom(rom.Data.SubArray(offsetAct.Offset,TAMAÑOHEADER),16+OffsetRom.LENGTH*3);
+				offset2Act=new OffsetRom(rom.Data,offsetAct.Offset+16+OffsetRom.LENGTH*3);
 				
 			}while(offsetAct.IsAPointer&&offset2Act.IsAPointer&&new OffsetRom(rom,offset2Act.Offset).IsAPointer);
 			return (offsetActual-offsetTabla)/OffsetRom.LENGTH;
