@@ -90,19 +90,19 @@ namespace PokemonGBAFrameWork
 		}
 		public static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas)
 		{
-			TwoKeys<int,int> inicioYFin=GetInicioYFin(rom,edicion,compilacion);
+			TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom,edicion,compilacion);
 			//obtengo el inicio y el fin
 			return GetMiniSprite(rom,edicion,compilacion,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
 		}
-		static TwoKeys<int,int> GetInicioYFin(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int totalMinis=-1)
+		static TwoKeys<int,int> GetTablaYTotal(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int totalMinis=-1)
 		{
 			if(totalMinis<0)
 				totalMinis=TotalMiniSprites(rom,edicion,compilacion);
 			
 			int offsetInicioTabla=Zona.GetOffsetRom(rom, ZonaMiniSpritesData, edicion, compilacion).Offset;
-			return new TwoKeys<int, int>(new OffsetRom(rom,offsetInicioTabla).Offset,new OffsetRom(rom,offsetInicioTabla+((totalMinis-1) * OffsetRom.LENGTH)).Offset+MiniSprite.TAMAÑOHEADER);
+			return new TwoKeys<int, int>(offsetInicioTabla,totalMinis);
 		}
-		static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int offsetInicioTablaMinis,int offsetFinTablaMinis)
+		static MiniSprite GetMiniSprite(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int posicion,PaletasMinis paletas,int offsetTablaMinis,int totalMinis)
 		{
 
 			int offsetSprites;
@@ -110,7 +110,7 @@ namespace PokemonGBAFrameWork
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
 			try{
-				for(int i=0,f=GetTotalFrames(rom,mini,offsetInicioTablaMinis,offsetFinTablaMinis);i<f;i++)
+				for(int i=0,f=GetTotalFrames(rom,mini,offsetTablaMinis,totalMinis);i<f;i++)
 					mini.blSprites.Add(BloqueSprite.GetSprite(rom,mini.Paleta,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
 			}catch{}
 			
@@ -118,21 +118,35 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetInicioTablaMinis,int offsetFinTablaMinis)
+		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetTablaMinis,int totalMinis)
 		{
+			const int POSICIONPOINTERIMG=16 + OffsetRom.LENGTH * 3;
 			//coger los offsets de la tabla porque es donde hay los offsets de los headers....
 			int total=0;
+
 			//busco un offset que su pointer este en la rom :) como marca fin ;)
-			int offsetAcutal=mini.pt4.Offset;
-			OffsetRom offset;
+			int offsetActual=mini.pt4.Offset;
+			OffsetRom offsetImg;
+			bool acabado=false;
+			int offsetHeaderActual;
 			do
 			{
 				total++;
-				offsetAcutal+=BloqueImagen.LENGTHHEADERCOMPLETO;
-				offset=new OffsetRom(offsetAcutal);
+				offsetActual+=BloqueImagen.LENGTHHEADERCOMPLETO;
+				//miro en cada offset de la tabla el header y si el cuarto pointer es el offset actual se ha acabado
+				acabado=!BloqueImagen.IsHeaderOk(rom,offsetActual);
+				for(int i=0;i<totalMinis&&!acabado;i++)
+				{
+					offsetHeaderActual=new OffsetRom(rom,offsetTablaMinis+i*OffsetRom.LENGTH).Offset;
+					//miro mini a mini si el cuarto pointer es el actual si lo es se acaba :D
+					offsetImg=new OffsetRom(rom.Data.Bytes,offsetHeaderActual+ POSICIONPOINTERIMG);
+					acabado=offsetImg.Offset==offsetActual;
+					
+				}
+				
 			
-			}while(rom.Data.SearchArray(offsetInicioTablaMinis,offsetFinTablaMinis,offset.BytesPointer)<0);//si no esta con los headers no me interesa ya que lo usan en otro lado
-			
+				
+			}while(!acabado);
 			return total;
 		}
 		static MiniSprite CargarDatosMini(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion, PaletasMinis paletas)
@@ -177,7 +191,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static MiniSprite[] GetMiniSprites(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,PaletasMinis paletas)
 		{
-			TwoKeys<int,int> inicioYFin=GetInicioYFin(rom,edicion,compilacion);
+			TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom,edicion,compilacion);
 			MiniSprite[] minis=new MiniSprite[TotalMiniSprites(rom,edicion,compilacion)];
 			for(int i=0;i<minis.Length;i++)
 				minis[i]=GetMiniSprite(rom,edicion,compilacion,i,paletas,inicioYFin.Key1,inicioYFin.Key2);

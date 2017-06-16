@@ -328,7 +328,7 @@ namespace PokemonGBAFrameWork
 		public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
 		{
 			//PointerHeaderID
-			return new OffsetRom(gbaRom, offsetToCheck).IsAPointer && (gbaRom.Data.Bytes.ArrayEqual(DefaultHeader, offsetToCheck + OffsetRom.LENGTH) || gbaRom.Data.Bytes.ArrayEqual(DefaultHeader2, offsetToCheck + OffsetRom.LENGTH));
+			return new OffsetRom(gbaRom, offsetToCheck).IsAPointer&&gbaRom.Data[offsetToCheck+7]!=0x8;
 		}
 
 		public static void Remove(RomGba rom, int offsetSpriteActual)
