@@ -44,6 +44,7 @@ namespace PokemonGBAFrameWork
 		byte? ppAtaque3;
 		byte? ppAtaque4;
 		byte? evSalud;
+		byte? evAtaque;//faltaba creo que va aqui
 		byte? evDefensa;
 		byte? evVelocidad;
 		byte? evAtaqueEspecial;
@@ -264,6 +265,14 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+		public byte? EvAtaque {
+			get {
+				return evAtaque;
+			}
+			set {
+				evAtaque = value;
+			}
+		}
 		public byte? EvDefensa {
 			get {
 				return evDefensa;
@@ -387,13 +396,13 @@ namespace PokemonGBAFrameWork
 			
 			especie=Convert.ToInt16(pokemon.OrdenNacional);
 		}
-		public void SetPokemon(Objeto obj)
+		public void SetObjeto(Objeto obj)
 		{
 			if(obj==null)
 				throw new ArgumentNullException();
 			
 			objeto=obj.Index;
-		
+			
 		}
 		public string ScriptXSE(int posicionEquipo,RomData rom=null)
 		{
@@ -403,6 +412,7 @@ namespace PokemonGBAFrameWork
 		{
 			StringBuilder strScript=new StringBuilder();
 			byte[] aux;
+			int auxPos=OFFSETPOKEMONDESENCRIPTADO;
 			strScript.Append("#dynamic 0x800000\n#org @start\n");
 			strScript.Append("//antes\n");
 			strScript.Append("setvar 0x8000 0x"+posicionEquipo+"\n");
@@ -412,52 +422,170 @@ namespace PokemonGBAFrameWork
 			{
 				aux=Serializar.GetBytes(personalidad.Value);
 				for(int i=0;i<4;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+i).ByteString+"\n");
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
 			}
+			else auxPos+=4;
 			if(idEntrenador.HasValue)
 			{
 				aux=Serializar.GetBytes(idEntrenador.Value);
 				for(int i=0;i<4;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+i).ByteString+"\n");
-			}
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			}else auxPos+=4;
 			if(nombrePokemon!=null){
 				aux=BloqueString.ToByteArray(nombrePokemon.Texto,false);
 				for(int i=0;i<aux.Length&&i<10;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+i).ByteString+"\n");
-			}
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			}else auxPos+=10;
 			if(idioma.HasValue)
 			{
 				aux=Serializar.GetBytes(idioma.Value);
-				for(int i=0;i<2;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+10+i).ByteString+"\n");
-			}
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			}else auxPos+=2;
 			if(marcas.HasValue)
-				strScript.Append("writebytooffset "+((Hex)marcas.Value).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+10+2).ByteString+"\n");
+				strScript.Append("writebytooffset "+((Hex)marcas.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
 			if(cheksum.HasValue)
 			{
 				aux=Serializar.GetBytes(idioma.Value);
 				for(int i=0;i<2;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+10+2+1+i).ByteString+"\n");
-			}
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			}else auxPos+=2;
 			if(relleno.HasValue)
-				strScript.Append("writebytooffset "+((Hex)relleno.Value).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+10+2+2+1).ByteString+"\n");
-			
+				strScript.Append("writebytooffset "+((Hex)relleno.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
 			if(especie.HasValue)
 			{
 				aux=Serializar.GetBytes(especie.Value);
 				for(int i=0;i<aux.Length;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+10+2+1+1+i).ByteString+"\n");
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
 
-			}
+			}else auxPos+=2;
 			if(objeto.HasValue)
 			{
 				aux=Serializar.GetBytes(objeto.Value);
 				for(int i=0;i<aux.Length;i++)
-					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex)(OFFSETPOKEMONDESENCRIPTADO)+4+4+10+2+1+1+2+i).ByteString+"\n");
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}else auxPos+=2;
+			//poner el resto de valores
+			if(experiencia.HasValue)
+			{
+				aux=Serializar.GetBytes(experiencia.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}else auxPos+=4;
+
+			if(MasPP.HasValue)
+				strScript.Append("writebytooffset "+((Hex)MasPP.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Amistad.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Amistad.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(desconocido.HasValue)
+			{
+				aux=Serializar.GetBytes(desconocido.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
 
 			}
-			//poner el resto de valores
-			
+			else auxPos+=2;
+			if(ataque1.HasValue)
+			{
+				aux=Serializar.GetBytes(ataque1.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}
+			else auxPos+=2;
+			if(ataque2.HasValue)
+			{
+				aux=Serializar.GetBytes(ataque2.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}
+			else auxPos+=2;
+			if(ataque3.HasValue)
+			{
+				aux=Serializar.GetBytes(ataque3.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}
+			else auxPos+=2;
+			if(ataque4.HasValue)
+			{
+				aux=Serializar.GetBytes(ataque4.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}
+			else auxPos+=2;
+			if(Amistad.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Amistad.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(ppAtaque1.HasValue)
+				strScript.Append("writebytooffset "+((Hex)ppAtaque1.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(ppAtaque2.HasValue)
+				strScript.Append("writebytooffset "+((Hex)ppAtaque2.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(ppAtaque3.HasValue)
+				strScript.Append("writebytooffset "+((Hex)ppAtaque3.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(ppAtaque4.HasValue)
+				strScript.Append("writebytooffset "+((Hex)ppAtaque4.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EvSalud.HasValue)
+				strScript.Append("writebytooffset "+((Hex)EvSalud.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EvAtaque.HasValue)//creo que va aqui
+				strScript.Append("writebytooffset "+((Hex)EvAtaque.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EvDefensa.HasValue)
+				strScript.Append("writebytooffset "+((Hex)EvDefensa.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EvVelocidad.HasValue)
+				strScript.Append("writebytooffset "+((Hex)EvVelocidad.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EvAtaqueEspecial.HasValue)
+				strScript.Append("writebytooffset "+((Hex)EvAtaqueEspecial.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EvDefensaEspecial.HasValue)
+				strScript.Append("writebytooffset "+((Hex)EvAtaqueEspecial.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Carisma.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Carisma.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Dulzura.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Dulzura.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Ingenio.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Ingenio.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Dureza.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Dureza.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Feel.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Feel.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(EstadoPokerus.HasValue)
+				strScript.Append("writebytooffset "+((Hex)EstadoPokerus.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(Localizacion.HasValue)
+				strScript.Append("writebytooffset "+((Hex)Localizacion.Value).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+			else auxPos++;
+			if(origen.HasValue)
+			{
+				aux=Serializar.GetBytes(origen.Value);
+				for(int i=0;i<aux.Length;i++)
+					strScript.Append("writebytooffset "+((Hex)aux[i]).ByteString+" "+((Hex) (auxPos++)).ByteString+"\n");
+
+			}
+			else auxPos+=2;
+			//cuando entienda como van los demás valores los pongo :)
 			strScript.Append("callasm "+PosicionDecryptASMScript(rom,edicion,compilacion)+"\n");
 			strScript.Append("//después\n");
 			strScript.Append("end");
@@ -489,7 +617,7 @@ namespace PokemonGBAFrameWork
 				aux=partes[i].Split(' ');
 				bytes[9+((i-5)*6)]=WRITEBYOOFFSET;
 				bytes.SetArray(10+((i-5)*6),Serializar.GetBytes((byte)((Hex)aux[1].Split('x')[1])));
-			bytes.SetArray(11+((i-5)*6),new OffsetRom(Serializar.GetBytes((int)((Hex)aux[2].Split('x')[1]))).BytesPointer);
+				bytes.SetArray(11+((i-5)*6),new OffsetRom(Serializar.GetBytes((int)((Hex)aux[2].Split('x')[1]))).BytesPointer);
 			}
 			//0x23 pointer
 			bytes[bytes.Length-7]=CALLASM;
