@@ -417,7 +417,7 @@ namespace PokemonGBAFrameWork
 			strScript.Append("//antes\n");
 			strScript.Append("setvar 0x8000 0x"+posicionEquipo+"\n");
 			strScript.Append("callasm "+PosicionEncryptASMScript(rom,edicion,compilacion)+"\n");
-			//pongo los datos
+			//pongo los datos //mirar de poner el nombre de los parametros para asi poder identificar cada linea :)
 			if(personalidad.HasValue)
 			{
 				aux=Serializar.GetBytes(personalidad.Value);
