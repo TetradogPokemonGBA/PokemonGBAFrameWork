@@ -48,6 +48,16 @@ namespace PokemonGBAFrameWork.Script
 		{
 			get{return SIZE;}
 		}
+
+		public virtual string LineaEjecucionXSE {
+			get{
+				string linea=Nombre;
+				
+				return linea;
+			}
+			
+		}
+
 		protected virtual unsafe  void CargarCamando(byte* ptrRom,int offsetComando)
 		{}
 		public void SetComando(RomGba rom,int offsetActualComando,params int[] parametrosExtra)

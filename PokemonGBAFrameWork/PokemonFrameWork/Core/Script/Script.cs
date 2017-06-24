@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Text;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork.Script
@@ -19,6 +20,7 @@ namespace PokemonGBAFrameWork.Script
 		public const byte RETURN=0x3;
 		public const byte END=0x2;
 		
+		public static Hex OffsetInicioDynamic;
 		Llista<Comando> comandosScript;
 		
 		public Script()
@@ -155,8 +157,37 @@ namespace PokemonGBAFrameWork.Script
 				rom.Data.SearchEmptyBytes(byteDeclaracion.Length);
 			if(offset<0)
 				throw new RomSinEspacioException();
-			
+			rom.Data.SetArray(offset,byteDeclaracion);
 
+		}
+		/// <summary>
+		/// Obtiene el script en formato XSE
+		/// </summary>
+		/// <param name="rom"></param>
+		/// <param name="idEnd"></param>
+		/// <param name="etiqueta"></param>
+		/// <returns></returns>
+		public string GetDeclaracionXSE(RomGba rom,bool isEnd=false,string etiqueta="Start")
+		{
+			if(etiqueta==null)
+				throw new ArgumentNullException("etiqueta");
+			
+			StringBuilder strSCript=new StringBuilder();
+			strSCript.Append("#dynamic ");
+			strSCript.Append(OffsetInicioDynamic.ByteString);
+			strSCript.Append("\n");
+			strSCript.Append("#org @");
+			strSCript.Append(etiqueta);
+			for(int i=0;i<ComandosScript.Count;i++){
+				strSCript.Append("\n");
+				strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
+			}
+			if(isEnd)
+				strSCript.Append("End");
+			else strSCript.Append("Return");
+			
+			return strSCript.ToString();
+			
 		}
 		public byte[] GetDeclaracion(RomGba rom,params object[] parametros)
 		{

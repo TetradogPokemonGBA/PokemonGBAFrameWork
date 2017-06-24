@@ -21,7 +21,7 @@ namespace PokemonGBAFrameWork
 	public static class Shinyzer
 	{
 		public static readonly ASM Rutina=ASM.Compilar(Resources.ASMShinyzer);
-		public static string VariableShinytzer = "0x8003";
+		public static int VariableShinytzer = (int)(Hex)"8003";
 
 		public static bool EstaActivado(RomGba rom)
 		{
@@ -71,7 +71,7 @@ namespace PokemonGBAFrameWork
 		/// <param name="entrenador"></param>
 		/// <param name="pokemon">primer,segundo,tercero,cuarto...</param>
 		/// <returns></returns>
-		public static string ScriptLineaPokemonShinyEntrenador(Entrenador entrenador,params bool[] pokemon)
+		public static Script.SetVar ScriptLineaPokemonShinyEntrenador(Entrenador entrenador,params bool[] pokemon)
 		{
 			if (entrenador == null)
 				throw new ArgumentNullException();
@@ -99,11 +99,12 @@ namespace PokemonGBAFrameWork
 
 			numPokemonShiny = pokemonFinal.ToByte();
 			
-			return "setvar " + VariableShinytzer + " 0x" + numPokemonShiny.ToString().PadLeft(2, '0') + entrenador.EquipoPokemon.NumeroPokemon.ToString().PadLeft(2,'0');
+			return new Script.SetVar(VariableShinytzer,(int)(Hex)(numPokemonShiny.ToString().PadLeft(2, '0') + entrenador.EquipoPokemon.NumeroPokemon.ToString().PadLeft(2,'0')));
 		}
 		public static string SimpleScriptBattleShinyTrainer(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
 		{
 			StringBuilder strScript=new StringBuilder();
+			
 			strScript.Append("#dynamic 0x800000 \r\n#org @ScriptTrainer");
 			strScript.Append(entrenador.Nombre);
 			strScript.Append("Shiny\r\nlock\r\nfaceplayer\r\n");
