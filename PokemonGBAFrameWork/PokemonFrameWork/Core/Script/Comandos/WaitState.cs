@@ -18,6 +18,8 @@ namespace PokemonGBAFrameWork.Script
 				public const byte ID=0x27;
 		public const int SIZE=1;
 		
+		public WaitState()
+		{}
 		public WaitState(RomGba rom,int offset):base(rom,offset)
 		{
 		}

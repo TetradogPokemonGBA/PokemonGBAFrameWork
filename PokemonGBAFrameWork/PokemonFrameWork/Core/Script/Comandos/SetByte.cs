@@ -18,6 +18,10 @@ namespace PokemonGBAFrameWork.Script
 		public const byte ID=0xE;
 		public const int SIZE=0x2;
 		byte byteAPoner;
+		public SetByte(byte byteAPoner)
+		{
+		   ByteAPoner=byteAPoner;
+		}
 		public SetByte(RomGba rom,int offset):base(rom,offset)
 		{}
 		public SetByte(byte[] bytesScript,int offset):base(bytesScript,offset)

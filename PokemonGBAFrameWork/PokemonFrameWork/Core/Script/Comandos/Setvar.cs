@@ -21,6 +21,11 @@ namespace PokemonGBAFrameWork.Script
 		short variable;
 		short valor;
 		
+		public SetVar(int variable,int valor)
+		{
+			Variable=variable;
+			Valor=valor;
+		}
 		public SetVar(RomGba rom,int offset):base(rom,offset)
 		{}
 		public SetVar(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -50,21 +55,21 @@ namespace PokemonGBAFrameWork.Script
 			}
 		}
 
-		public short Variable {
+		public int Variable {
 			get {
 				return variable;
 			}
 			set {
-				variable = value;
+				variable =(short) value;
 			}
 		}
 
-		public short Valor {
+		public int Valor {
 			get {
 				return valor;
 			}
 			set {
-				valor = value;
+				valor =(short) value;
 			}
 		}
 		#endregion
@@ -92,6 +97,8 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0x18;
 		
+		public SubVar(int variable,int valorARestar):base(variable,valorARestar)
+		{}
 		public SubVar(RomGba rom,int offset):base(rom,offset)
 		{}
 		public SubVar(byte[] bytesScript,int offset):base(bytesScript,offset)

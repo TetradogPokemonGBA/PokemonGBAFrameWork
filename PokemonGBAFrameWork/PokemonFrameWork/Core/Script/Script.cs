@@ -121,7 +121,7 @@ namespace PokemonGBAFrameWork.Script
 						case Warp5.ID:comandoActual=new Warp5(ptrRom,offsetScript);break;
 						case GetPlayerPos.ID:comandoActual=new GetPlayerPos(ptrRom,offsetScript);break;
 						case CountPokemon.ID:comandoActual=new CountPokemon(ptrRom,offsetScript);break;
-						
+						//aun faltan
 						
 						//estos me los salto
 					case RETURN:

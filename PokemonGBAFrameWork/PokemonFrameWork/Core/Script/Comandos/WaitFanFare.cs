@@ -17,6 +17,8 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0x32;
 
+		public WaitFanFare()
+		{}
 		public WaitFanFare(RomGba rom,int offset):base(rom,offset)
 		{
 		}

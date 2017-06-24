@@ -17,8 +17,17 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const int ID=0x20;
 		public const int SIZE=9;
+		
 		OffsetRom offsetA;
 		OffsetRom offsetB;
+		
+		public CompareFarBytes(int offsetA,int offsetB):this(new OffsetRom(offsetA),new OffsetRom(offsetB))
+		{}
+		public CompareFarBytes(OffsetRom offsetA,OffsetRom offsetB)
+		{
+			OffsetA=offsetA;
+			OffsetB=offsetB;
+		}
 		public CompareFarBytes(RomGba rom,int offset):base(rom,offset)
 		{}
 		public CompareFarBytes(byte[] bytesScript,int offset):base(bytesScript,offset)

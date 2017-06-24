@@ -15,12 +15,19 @@ namespace PokemonGBAFrameWork.Script
 	/// </summary>
 	public class GetPlayerPos:Comando
 	{
-				public const byte ID = 0x42;
+		public const byte ID = 0x42;
 
 		public const int SIZE = 5;
 		
 		short coordenadaX;
 		short coordenadaY;
+		
+		public GetPlayerPos(short coordenadaX,short coordenadaY)
+		{
+			CoordenadaX=coordenadaX;
+			CoordenadaY=coordenadaY;
+			
+		}
 
 		public GetPlayerPos(RomGba rom, int offset) : base(rom, offset)
 		{
@@ -54,6 +61,24 @@ namespace PokemonGBAFrameWork.Script
 		public override int Size {
 			get {
 				return SIZE;
+			}
+		}
+
+		public short CoordenadaX {
+			get {
+				return coordenadaX;
+			}
+			set {
+				coordenadaX = value;
+			}
+		}
+
+		public short CoordenadaY {
+			get {
+				return coordenadaY;
+			}
+			set {
+				coordenadaY = value;
 			}
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)

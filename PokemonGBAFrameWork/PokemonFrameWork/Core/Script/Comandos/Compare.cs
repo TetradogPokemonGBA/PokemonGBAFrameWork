@@ -21,6 +21,11 @@ namespace PokemonGBAFrameWork.Script
 		short variable;
 		short valorAComparar;
 		
+		public Compare(short variable,short valorAComparar)
+		{
+			Variable=variable;
+			ValorAComparar=valorAComparar;
+		}
 		public Compare(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Compare(byte[] bytesScript,int offset):base(bytesScript,offset)

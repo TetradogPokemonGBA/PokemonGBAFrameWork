@@ -18,6 +18,8 @@ namespace PokemonGBAFrameWork.Script
 		public const byte ID=0x0;
 		public const int SIZE=1;
 		
+		public Nop()
+		{}
 		public Nop(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Nop(byte[] bytesScript,int offset):base(bytesScript,offset)

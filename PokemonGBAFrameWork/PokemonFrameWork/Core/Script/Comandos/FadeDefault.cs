@@ -17,6 +17,8 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0x35;
 
+		public FadeDefault()
+		{}
 		public FadeDefault(RomGba rom,int offset):base(rom,offset)
 		{
 		}

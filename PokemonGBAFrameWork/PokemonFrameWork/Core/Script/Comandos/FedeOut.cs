@@ -19,6 +19,10 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=2;
 		
 		byte velocidadDesvanecimiento;
+		public FadeOut(byte velocidadDesvanecimiento)
+		{
+			VelocidadDesvanecimiento=velocidadDesvanecimiento;
+		}
 		public FadeOut(RomGba rom,int offset):base(rom,offset)
 		{
 		}
@@ -67,32 +71,5 @@ namespace PokemonGBAFrameWork.Script
 		}
 		
 	}
-	public class FadeIn:FadeOut
-	{
-		public const byte ID=0x38;
-
-		public FadeIn(RomGba rom,int offset):base(rom,offset)
-		{
-		}
-		public FadeIn(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe FadeIn(byte* ptRom,int offset):base(ptRom,offset)
-		{}
-		public override string Descripcion {
-			get {
-				return "Se desvanece la canción actual del Sappy";
-			}
-		}
-
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "FadeIn";
-			}
-		}
-	}
+	
 }

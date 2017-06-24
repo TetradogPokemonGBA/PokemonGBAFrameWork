@@ -20,6 +20,12 @@ namespace PokemonGBAFrameWork.Script
 		
 		short variable;
 		short eventoALlamar;
+		
+		public Special2(short eventoALlamar,short variable)
+		{
+			EventoALlamar=eventoALlamar;
+			Variable=variable;
+		}
 		public Special2(RomGba rom,int offset):base(rom,offset)
 		{
 		}

@@ -14,6 +14,9 @@ namespace PokemonGBAFrameWork.Script
 		public const byte ID = 0xB;
 
 		public const int SIZE = 3;
+		
+		public Callstdif(byte funcionAsm,byte condicion):base(funcionAsm,condicion)
+		{}
 
 		public Callstdif(RomGba rom, int offset) : base(rom, offset)
 		{

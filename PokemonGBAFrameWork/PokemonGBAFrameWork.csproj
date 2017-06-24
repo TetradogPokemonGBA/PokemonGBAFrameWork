@@ -86,6 +86,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CallAsm.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Callstdif.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckDailyFlags.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckFlag.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckSound.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Cmd24.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Cmd2C.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CopyVarIfNotZero.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CountPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\FadeDefault.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\FadeIn.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\FedeOut.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Flag.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\GetPlayerPos.cs" />

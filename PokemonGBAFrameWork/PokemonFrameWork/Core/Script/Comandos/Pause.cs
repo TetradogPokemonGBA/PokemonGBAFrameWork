@@ -15,10 +15,15 @@ namespace PokemonGBAFrameWork.Script
 	/// </summary>
 	public class Pause:Comando
 	{
-				public const byte ID=0x28;
+		public const byte ID=0x28;
 		public const int SIZE=1+Word.LENGTH;
 		
 		short delay;
+		
+		public Pause(short delay)
+		{
+			Delay=delay;
+		}
 		public Pause(RomGba rom,int offset):base(rom,offset)
 		{
 		}

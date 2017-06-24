@@ -19,6 +19,11 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=3;
 		byte bank;
 		byte valueToCompare;
+		public CompareBankToByte(byte bank,byte valorAComparar)
+		{
+			Bank=bank;
+			ValueToCompare=valorAComparar;
+		}
 		public CompareBankToByte(RomGba rom,int offset):base(rom,offset)
 		{}
 		public CompareBankToByte(byte[] bytesScript,int offset):base(bytesScript,offset)

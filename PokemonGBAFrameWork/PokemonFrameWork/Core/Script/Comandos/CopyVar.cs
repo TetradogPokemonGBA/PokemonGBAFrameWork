@@ -21,6 +21,12 @@ namespace PokemonGBAFrameWork.Script
 		short variableDestino;
 		short variableOrigen;
 		
+		public CopyVar(short variableDestino,short variableOrigen)
+		{
+			VariableDestino=variableDestino;
+			VariableOrigen=variableOrigen;
+		}
+		
 		public CopyVar(RomGba rom,int offset):base(rom,offset)
 		{}
 		public CopyVar(byte[] bytesScript,int offset):base(bytesScript,offset)

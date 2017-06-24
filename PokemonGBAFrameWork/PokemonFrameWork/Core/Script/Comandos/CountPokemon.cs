@@ -17,6 +17,8 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x43;
 
+		public CountPokemon()
+		{}
 		public CountPokemon(RomGba rom, int offset) : base(rom, offset)
 		{
 		}

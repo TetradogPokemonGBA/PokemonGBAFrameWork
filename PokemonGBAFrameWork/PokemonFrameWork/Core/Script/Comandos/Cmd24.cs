@@ -19,6 +19,13 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=1+OffsetRom.LENGTH;
 		
 		OffsetRom offsetDesconocido;
+		
+		public Cmd24(int offset):this(new OffsetRom(offset))
+		{}
+		public Cmd24(OffsetRom offsetDesconocido)
+		{
+			OffsetDesconocido=offsetDesconocido;
+		}
 		public Cmd24(RomGba rom,int offset):base(rom,offset)
 		{
 		}

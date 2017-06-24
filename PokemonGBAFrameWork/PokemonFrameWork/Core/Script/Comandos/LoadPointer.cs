@@ -17,8 +17,14 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0xF;
 		public const int SIZE=0x6;
+		
 		byte memoryBankToUse;
 		Script scritp;
+		
+		public LoadPointer(byte memoryBankToUse,Script scriptToLoad):base(scriptToLoad)
+		{
+			MemoryBankToUse=memoryBankToUse;
+		}
 		public LoadPointer(RomGba rom,int offset):base(rom,offset)
 		{}
 		public LoadPointer(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -47,15 +53,6 @@ namespace PokemonGBAFrameWork.Script
 			}
 			set {
 				memoryBankToUse = value;
-			}
-		}
-
-		public Script Scritp {
-			get {
-				return scritp;
-			}
-			set {
-				scritp = value;
 			}
 		}
 		public override int Size {

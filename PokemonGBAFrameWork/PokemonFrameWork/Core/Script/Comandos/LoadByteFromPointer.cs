@@ -12,7 +12,11 @@ namespace PokemonGBAFrameWork.Script
 	public class LoadByteFromPointer : WriteByteToOffset
 	{
 		public const byte ID = 0x12;
-
+		
+		public LoadByteFromPointer(int offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
+		{}
+		public LoadByteFromPointer(OffsetRom offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
+		{}
 		public LoadByteFromPointer(RomGba rom, int offset) : base(rom, offset)
 		{
 		}

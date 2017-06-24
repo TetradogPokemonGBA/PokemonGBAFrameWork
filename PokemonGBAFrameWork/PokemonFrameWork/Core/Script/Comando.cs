@@ -16,6 +16,9 @@ namespace PokemonGBAFrameWork.Script
 	public abstract class Comando
 	{
 		public const int SIZE=1;
+		
+		internal Comando()
+		{}
 		internal Comando(RomGba rom,int offsetComando):this(rom.Data.Bytes,offsetComando)
 		{}
 		internal Comando(byte[] bytesComando,int offset)

@@ -20,6 +20,12 @@ namespace PokemonGBAFrameWork.Script
 		
 		byte bankDestination;
 		byte bankSource;
+		
+		public Copyscriptbanks(byte bankDestination,byte bankSource)
+		{
+			BankDestination=bankDestination;
+			BankSource=bankSource;
+		}
 		public Copyscriptbanks(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Copyscriptbanks(byte[] bytesScript,int offset):base(bytesScript,offset)

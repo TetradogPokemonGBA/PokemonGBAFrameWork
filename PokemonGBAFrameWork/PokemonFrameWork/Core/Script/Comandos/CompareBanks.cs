@@ -20,6 +20,11 @@ namespace PokemonGBAFrameWork.Script
 		
 		short bank1;
 		short bank2;
+		public CompareBanks(short bank1,short bank2)
+		{
+			Bank1=bank1;
+			Bank2=bank2;
+		}
 		public CompareBanks(RomGba rom,int offset):base(rom,offset)
 		{
 		}

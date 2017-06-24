@@ -23,6 +23,15 @@ namespace PokemonGBAFrameWork.Script
 		byte exit;
 		short coordenadaX;
 		short coordenadaY;
+		
+		public Warp(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY)
+		{
+			Bank=bank;
+			Map=map;
+			Exit=exit;
+			CoordenadaX=coordenadaX;
+			CoordenadaY=coordenadaY;
+		}
 		public Warp(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -131,6 +140,10 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x3B;
 
+		public WarpWalk(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
+
+		}
 		public WarpWalk(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -165,6 +178,10 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x3D;
 
+		public WarpTeleport(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
+
+		}
 		public WarpTeleport(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -199,6 +216,10 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x3E;
 
+		public Warp3(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
+
+		}
 		public Warp3(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -233,6 +254,10 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x40;
 
+		public Warp4(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
+
+		}
 		public Warp4(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -266,7 +291,10 @@ namespace PokemonGBAFrameWork.Script
 	public class Warp5:Warp
 	{
 		public const byte ID = 0x41;
+		public Warp5(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
 
+		}
 		public Warp5(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -301,6 +329,10 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x3A;
 
+		public WarpMuted(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
+
+		}
 		public WarpMuted(RomGba rom, int offset) : base(rom, offset)
 		{
 		}
@@ -335,6 +367,10 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID = 0x3F;
 
+		public SetWarpplace(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		{
+
+		}
 		public SetWarpplace(RomGba rom, int offset) : base(rom, offset)
 		{
 		}

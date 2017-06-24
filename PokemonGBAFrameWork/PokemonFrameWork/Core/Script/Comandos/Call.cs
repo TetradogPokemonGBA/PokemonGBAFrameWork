@@ -19,6 +19,11 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=1+OffsetRom.LENGTH;
 		
 		Script script;
+		
+		public Call(Script script)
+		{
+			Script=script;
+		}
 		public Call(RomGba rom,int offset):base(rom,offset)
 		{
 		}

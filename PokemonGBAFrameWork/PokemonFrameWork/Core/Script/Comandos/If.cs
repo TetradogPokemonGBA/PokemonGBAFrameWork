@@ -20,6 +20,12 @@ namespace PokemonGBAFrameWork.Script
 		
 		byte condicion;
 		Script script;
+		
+		public If1(byte condicion,Script script)
+		{
+			Condicion=condicion;
+			Script=script;
+		}
 		public If1(RomGba rom,int offset):base(rom,offset)
 		{}
 		public If1(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -112,6 +118,8 @@ namespace PokemonGBAFrameWork.Script
 	}
 	public class If2:If1{
 		public const byte ID=0x7;
+		public If2(byte condicion,Script script):base(condicion,script)
+		{}
 		public If2(RomGba rom,int offset):base(rom,offset)
 		{}
 		public If2(byte[] bytesScript,int offset):base(bytesScript,offset)

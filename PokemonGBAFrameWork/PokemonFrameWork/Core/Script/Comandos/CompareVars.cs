@@ -22,6 +22,12 @@ namespace PokemonGBAFrameWork.Script
 		short variableA;
 		short variableB;
 		
+		public CompareVars(short variableA,short variableB)
+		{
+			VariableA=variableA;
+			VariableB=variableB;
+		}
+		
 		public CompareVars(RomGba rom,int offset):base(rom,offset)
 		{}
 		public CompareVars(byte[] bytesScript,int offset):base(bytesScript,offset)

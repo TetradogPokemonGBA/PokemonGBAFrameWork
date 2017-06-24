@@ -17,6 +17,8 @@ namespace PokemonGBAFrameWork.Script
 
 		byte condicion;
 
+		public Gotostdif(byte funcion,byte condicion):base(funcion)
+		{Condicion=condicion;}
 		public Gotostdif(RomGba rom, int offset) : base(rom, offset)
 		{
 		}

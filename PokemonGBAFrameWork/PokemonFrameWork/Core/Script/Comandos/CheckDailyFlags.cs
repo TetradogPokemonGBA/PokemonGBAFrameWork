@@ -15,7 +15,10 @@ namespace PokemonGBAFrameWork.Script
 	/// </summary>
 	public class CheckDailyFlags:Comando
 	{
-				public const byte ID=0x2D;
+		public const byte ID=0x2D;
+		
+		public CheckDailyFlags()
+		{}
 
 		public CheckDailyFlags(RomGba rom,int offset):base(rom,offset)
 		{

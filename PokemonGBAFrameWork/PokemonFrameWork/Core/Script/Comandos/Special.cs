@@ -19,6 +19,10 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=1+Word.LENGTH;
 		
 		short eventoALlamar;
+		public Special(short eventoALlamar)
+		{
+			EventoALlamar=eventoALlamar;
+		}
 		public Special(RomGba rom,int offset):base(rom,offset)
 		{
 		}

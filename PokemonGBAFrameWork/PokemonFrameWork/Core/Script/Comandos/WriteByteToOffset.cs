@@ -17,7 +17,16 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0x11;
 		public const int SIZE=0x6;
+		
 		OffsetRom offsetToWrite;
+		
+		public WriteByteToOffset(int offset,byte valor):this(new OffsetRom(offset),valor)
+		{}
+		public WriteByteToOffset(OffsetRom offset,byte valor):base(valor)
+		{
+			offsetToWrite=offset;
+		}
+			
 		public WriteByteToOffset(RomGba rom,int offset):base(rom,offset)
 		{}
 		public WriteByteToOffset(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -44,6 +53,16 @@ namespace PokemonGBAFrameWork.Script
 				return SIZE;
 			}
 		}
+
+		public OffsetRom OffsetToWrite {
+			get {
+				return offsetToWrite;
+			}
+			set {
+				offsetToWrite = value;
+			}
+		}
+
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando++);

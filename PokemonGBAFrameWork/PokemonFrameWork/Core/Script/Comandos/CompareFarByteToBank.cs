@@ -17,8 +17,17 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0x1E;
 		public const int SIZE=6;
+		
 		byte bank;
 		OffsetRom offsetToByte;
+		
+		public CompareFarByteToBank(byte bank,int offsetToByte):this(bank,new OffsetRom(offsetToByte))
+		{}
+		public CompareFarByteToBank(byte bank,OffsetRom offsetToByte)
+		{
+			BankToCompare=bank;
+			OffsetToByte=offsetToByte;
+		}
 		public CompareFarByteToBank(RomGba rom,int offset):base(rom,offset)
 		{}
 		public CompareFarByteToBank(byte[] bytesScript,int offset):base(bytesScript,offset)

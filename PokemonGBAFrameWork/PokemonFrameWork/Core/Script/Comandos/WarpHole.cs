@@ -21,6 +21,12 @@ namespace PokemonGBAFrameWork.Script
 		
 		byte bank;
 		byte map;
+		
+		public WarpHole(byte bank,byte map)
+		{
+			Bank=bank;
+			Map=map;
+		}
 
 		public WarpHole(RomGba rom, int offset) : base(rom, offset)
 		{

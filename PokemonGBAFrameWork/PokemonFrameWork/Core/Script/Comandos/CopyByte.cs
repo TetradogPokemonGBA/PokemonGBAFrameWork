@@ -20,6 +20,14 @@ namespace PokemonGBAFrameWork.Script
 		
 		OffsetRom offsetDestination;
 		OffsetRom offsetSource;
+		
+		public CopyByte(int offsetDestination, int offsetSource):this(new OffsetRom(offsetDestination),new OffsetRom(offsetSource))
+		{}
+		public CopyByte(OffsetRom offsetDestination,OffsetRom offsetSource)
+		{
+			OffsetDestination=offsetDestination;
+			OffsetSource=offsetSource;
+		}
 		public CopyByte(RomGba rom,int offset):base(rom,offset)
 		{}
 		public CopyByte(byte[] bytesScript,int offset):base(bytesScript,offset)

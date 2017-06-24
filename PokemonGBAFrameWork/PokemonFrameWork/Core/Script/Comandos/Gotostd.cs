@@ -19,6 +19,10 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=2;
 		
 		byte funcion;
+		public Gotostd(byte funcion)
+		{
+			Funcion=funcion;
+		}
 		public Gotostd(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Gotostd(byte[] bytesScript,int offset):base(bytesScript,offset)

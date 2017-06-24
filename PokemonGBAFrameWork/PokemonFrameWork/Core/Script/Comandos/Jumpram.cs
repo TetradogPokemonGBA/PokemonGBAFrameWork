@@ -15,6 +15,8 @@ namespace PokemonGBAFrameWork.Script
 
 		public const int SIZE = 1;
 
+		public Jumpram()
+		{}
 		public Jumpram(RomGba rom, int offset) : base(rom, offset)
 		{
 		}

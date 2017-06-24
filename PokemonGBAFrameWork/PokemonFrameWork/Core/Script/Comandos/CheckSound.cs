@@ -17,6 +17,8 @@ namespace PokemonGBAFrameWork.Script
 	{
 		public const byte ID=0x30;
 
+		public CheckSound()
+		{}
 		public CheckSound(RomGba rom,int offset):base(rom,offset)
 		{
 		}

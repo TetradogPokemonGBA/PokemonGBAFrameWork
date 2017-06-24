@@ -19,6 +19,13 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=1+Word.LENGTH*2;
 		short desconocido1;
 		short desconocido2;
+		
+		public Cmd2C(short desconocido1,short desconocido2)	
+		{
+			Desconocido1=desconocido1;
+			Desconocido2=desconocido2;
+		}
+			
 		public Cmd2C(RomGba rom,int offset):base(rom,offset)
 		{
 		}
