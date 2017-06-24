@@ -101,10 +101,15 @@ namespace PokemonGBAFrameWork
 			
 			return new Script.SetVar(VariableShinytzer,(int)(Hex)(numPokemonShiny.ToString().PadLeft(2, '0') + entrenador.EquipoPokemon.NumeroPokemon.ToString().PadLeft(2,'0')));
 		}
-		public static string SimpleScriptBattleShinyTrainer(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
+		public static string SimpleScriptBattleShinyTrainerXSE(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
+		{
+			return SimpleScriptBattleShinyTrainer(indexEntrenador,entrenador,pokemon).GetDeclaracionXSE(true,"ScriptTrainer"+entrenador.Nombre+"Shiny");
+		}
+		public static Script SimpleScriptBattleShinyTrainer(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
 		{
 			StringBuilder strScript=new StringBuilder();
-			
+			Script.Script scriptBattleShiny=new Script.Script();
+			//falta pasar los parametros a C#  y luego hacerlo :)
 			strScript.Append("#dynamic 0x800000 \r\n#org @ScriptTrainer");
 			strScript.Append(entrenador.Nombre);
 			strScript.Append("Shiny\r\nlock\r\nfaceplayer\r\n");
@@ -112,7 +117,7 @@ namespace PokemonGBAFrameWork
 			strScript.Append("\r\ntrainerbattle 0x0 ");
 			strScript.Append(((Hex)(indexEntrenador+1)).ByteString);
 			strScript.Append(" 0x0 0x0 0x0\r\nrelease\r\nend");
-			return strScript.ToString();
+			return scriptBattleShiny;
 		}
 	}
 }

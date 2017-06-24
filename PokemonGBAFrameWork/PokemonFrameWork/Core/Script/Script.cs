@@ -167,7 +167,7 @@ namespace PokemonGBAFrameWork.Script
 		/// <param name="idEnd"></param>
 		/// <param name="etiqueta"></param>
 		/// <returns></returns>
-		public string GetDeclaracionXSE(RomGba rom,bool isEnd=false,string etiqueta="Start")
+		public string GetDeclaracionXSE(bool isEnd=false,string etiqueta="Start")
 		{
 			if(etiqueta==null)
 				throw new ArgumentNullException("etiqueta");
