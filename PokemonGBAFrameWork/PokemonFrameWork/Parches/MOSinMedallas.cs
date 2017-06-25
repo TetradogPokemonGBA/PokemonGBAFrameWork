@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//falta hacerlo universal
 namespace PokemonGBAFrameWork
 {//creditos a CryStal Kaktus de Wahack por el aporte
     public static class MOSinMedallas

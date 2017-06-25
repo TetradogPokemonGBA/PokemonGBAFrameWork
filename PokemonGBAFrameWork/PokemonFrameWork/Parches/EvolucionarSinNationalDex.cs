@@ -10,7 +10,7 @@
  */
 using System;
 using Gabriel.Cat.Extension;
-
+//fata hacerlo universal
 namespace PokemonGBAFrameWork
 {
 	
