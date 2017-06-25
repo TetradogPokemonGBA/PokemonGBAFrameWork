@@ -216,35 +216,45 @@ namespace PokemonGBAFrameWork
 		}
 
 		public static void SetPaletaSinHeader(RomGba rom, int offset, Paleta paleta,bool borrarDatosPaletaAntigua=true)
-		{
-			//sacado de Nameless
-			const int BYTESCOLORGBA = 2;
-			int offsetData;
-			System.Drawing.Color[] coloresPaleta = paleta.Colores;
-			byte[] bytesPaleta = new byte[LENGTH * BYTESCOLORGBA];
-			byte[] bytesAux = new byte[BYTESCOLORGBA];
-			
+        {
+            //sacado de Nameless
+            int offsetData;
+            byte[] bytesPaleta = GetBytesGBA(paleta);
 
-			for (int i = 0; i < LENGTH; i++)
-			{
-				bytesAux[0] = (byte)((byte)(coloresPaleta[i].R / 8) + ((byte)((coloresPaleta[i].G / 8) & 0x7) << 5));
-				bytesAux[1] = (byte)((((byte)(coloresPaleta[i].B / 8)) << 2) + ((byte)(coloresPaleta[i].G / 8) >> 3));
-				bytesPaleta.SetArray(i * 2, bytesAux);
-			}
-			
-			//la comprimo
-			bytesPaleta = Lz77.Comprimir(bytesPaleta);
+           
 
-			if (borrarDatosPaletaAntigua)
-				try{
-				rom.Data.Remove(new OffsetRom(rom,offset).Offset, bytesPaleta.Length);
-			}catch{}
+            if (borrarDatosPaletaAntigua)
+                try
+                {
+                    rom.Data.Remove(new OffsetRom(rom, offset).Offset, bytesPaleta.Length);
+                }
+                catch { }
 
-			offsetData =rom.Data.SetArray(bytesPaleta);
-			rom.Data.SetArray(offset,new OffsetRom(offsetData).BytesPointer);
-		}
+            offsetData = rom.Data.SetArray(bytesPaleta);
+            rom.Data.SetArray(offset, new OffsetRom(offsetData).BytesPointer);
+        }
 
-		public static Color ToGBAColor(Color color)
+        public static byte[] GetBytesGBA(Paleta paleta)
+        {
+            const int BYTESCOLORGBA = 2;
+            System.Drawing.Color[] coloresPaleta = paleta.Colores;
+            byte[] bytesPaleta = new byte[LENGTH * BYTESCOLORGBA];
+            byte[] bytesAux = new byte[BYTESCOLORGBA];
+
+
+            for (int i = 0; i < LENGTH; i++)
+            {
+                bytesAux[0] = (byte)((byte)(coloresPaleta[i].R / 8) + ((byte)((coloresPaleta[i].G / 8) & 0x7) << 5));
+                bytesAux[1] = (byte)((((byte)(coloresPaleta[i].B / 8)) << 2) + ((byte)(coloresPaleta[i].G / 8) >> 3));
+                bytesPaleta.SetArray(i * 2, bytesAux);
+            }
+            //la comprimo
+            bytesPaleta = Lz77.Comprimir(bytesPaleta);
+
+            return bytesPaleta;
+        }
+
+        public static Color ToGBAColor(Color color)
 		{
 			byte parteA,parteB;
 			ushort colorGBA;

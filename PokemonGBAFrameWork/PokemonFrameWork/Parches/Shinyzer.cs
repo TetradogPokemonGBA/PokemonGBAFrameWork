@@ -105,7 +105,7 @@ namespace PokemonGBAFrameWork
 		{
 			return SimpleScriptBattleShinyTrainer(indexEntrenador,entrenador,pokemon).GetDeclaracionXSE(true,"ScriptTrainer"+entrenador.Nombre+"Shiny");
 		}
-		public static Script SimpleScriptBattleShinyTrainer(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
+		public static Script.Script SimpleScriptBattleShinyTrainer(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
 		{
 			StringBuilder strScript=new StringBuilder();
 			Script.Script scriptBattleShiny=new Script.Script();

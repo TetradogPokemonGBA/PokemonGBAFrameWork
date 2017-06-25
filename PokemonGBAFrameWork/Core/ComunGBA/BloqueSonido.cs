@@ -316,7 +316,7 @@ namespace PokemonGBAFrameWork
             const UInt16 PCMFORMAT = 1;
             const byte FIX = 0x80;//buscar nombre mas descriptivo
             MemoryStream msSonido = new MemoryStream();
-            BinaryWriter bwSonido = new BinaryWriter(msSonido, Encoding.ASCII, true);
+            BinaryWriter bwSonido = new BinaryWriter(msSonido, Encoding.ASCII);
             // RIFF header
             bwSonido.Write(Encoding.ASCII.GetBytes("RIFF"));
             bwSonido.Write(0);
@@ -515,6 +515,7 @@ namespace PokemonGBAFrameWork
         }
         public static LlistaOrdenadaPerGrups<string, BloqueSonido> GetBloquesSonido(RomGba rom)
         {
+
             LlistaOrdenadaPerGrups<string, BloqueSonido> bloquesRom = new LlistaOrdenadaPerGrups<string, BloqueSonido>();
             string[] idHeaders = GetHeaders(rom);
             for (int i = 0; i < idHeaders.Length; i++)

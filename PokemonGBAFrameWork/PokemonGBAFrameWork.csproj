@@ -171,15 +171,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PokemonFrameWork\Batallas" />
-    <Folder Include="Core\ComunGBA\ASM" />
-    <Folder Include="PokemonFrameWork\Core\Script" />
-    <Folder Include="PokemonFrameWork\Core\Script\Comandos" />
-    <Folder Include="PokemonFrameWork\Mapa" />
-    <Folder Include="PokemonFrameWork\OverWorld" />
-    <Folder Include="PokemonFrameWork\Pokemon" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
