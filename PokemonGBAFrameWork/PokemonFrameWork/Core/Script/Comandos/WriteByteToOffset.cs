@@ -26,7 +26,7 @@ namespace PokemonGBAFrameWork.Script
 		{
 			offsetToWrite=offset;
 		}
-			
+		
 		public WriteByteToOffset(RomGba rom,int offset):base(rom,offset)
 		{}
 		public WriteByteToOffset(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -62,7 +62,10 @@ namespace PokemonGBAFrameWork.Script
 				offsetToWrite = value;
 			}
 		}
-
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{OffsetToWrite.Offset};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando++);

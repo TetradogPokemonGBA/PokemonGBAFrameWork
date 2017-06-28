@@ -72,6 +72,10 @@ namespace PokemonGBAFrameWork.Script
 				offsetB = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{OffsetA.Offset,OffsetB.Offset};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			offsetA=new OffsetRom(ptrRom,offsetComando);

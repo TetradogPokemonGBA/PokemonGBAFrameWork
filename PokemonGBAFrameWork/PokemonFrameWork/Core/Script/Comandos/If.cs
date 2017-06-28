@@ -52,7 +52,10 @@ namespace PokemonGBAFrameWork.Script
 				script = value;
 			}
 		}
-
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Condicion,Script};
+		}
 		#region implemented abstract members of Comando
 		
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)

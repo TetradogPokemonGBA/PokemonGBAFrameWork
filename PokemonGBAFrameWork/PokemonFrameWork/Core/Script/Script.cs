@@ -15,13 +15,14 @@ namespace PokemonGBAFrameWork.Script
 	/// <summary>
 	/// Description of Script.
 	/// </summary>
-	public class Script:IDeclaracion
+	public class Script:IDeclaracion,IBloqueConNombre
 	{
 		public const byte RETURN=0x3;
 		public const byte END=0x2;
 		
 		public static Hex OffsetInicioDynamic;
 		Llista<Comando> comandosScript;
+		string nombreBloque;
 		
 		public Script()
 		{
@@ -150,6 +151,20 @@ namespace PokemonGBAFrameWork.Script
 			}
 		}
 
+		#region IBloqueConNombre implementation
+		public string NombreBloque {
+			get {
+				if(nombreBloque==null)
+				{
+					nombreBloque="script"+DateTime.Now.Ticks;
+				}
+				return nombreBloque;
+			}
+			set {
+				nombreBloque=value;
+			}
+		}
+		#endregion
 		public void SetScript(RomGba rom,int offset=-1,bool lastComandIsEnd=true)
 		{
 			byte[] byteDeclaracion=GetDeclaracion(rom,lastComandIsEnd);

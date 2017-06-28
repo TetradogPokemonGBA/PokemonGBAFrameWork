@@ -76,7 +76,10 @@ namespace PokemonGBAFrameWork.Script
 				variable = value;
 			}
 		}
-
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Variable,EventoALlamar};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			variable=Word.GetWord(ptrRom,offsetComando);

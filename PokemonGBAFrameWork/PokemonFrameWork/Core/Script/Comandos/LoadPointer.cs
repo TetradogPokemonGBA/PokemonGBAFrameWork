@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using Gabriel.Cat.Extension;
 
 namespace PokemonGBAFrameWork.Script
 {
@@ -19,7 +20,7 @@ namespace PokemonGBAFrameWork.Script
 		public const int SIZE=0x6;
 		
 		byte memoryBankToUse;
-		Script scritp;
+
 		
 		public LoadPointer(byte memoryBankToUse,Script scriptToLoad):base(scriptToLoad)
 		{
@@ -59,6 +60,10 @@ namespace PokemonGBAFrameWork.Script
 			get {
 				return SIZE;
 			}
+		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{MemoryBankToUse,Script};
 		}
 		#region implemented abstract members of Comando
 

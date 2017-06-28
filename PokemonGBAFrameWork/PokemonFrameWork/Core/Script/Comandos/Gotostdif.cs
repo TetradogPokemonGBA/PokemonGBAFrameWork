@@ -7,6 +7,8 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
+using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork.Script
 {
 	public class Gotostdif : Gotostd
@@ -63,7 +65,10 @@ namespace PokemonGBAFrameWork.Script
 				return SIZE;
 			}
 		}
-
+		protected override IList<object> GetParams()
+		{
+			return base.GetParams().AfegirValor(Condicion);
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando);

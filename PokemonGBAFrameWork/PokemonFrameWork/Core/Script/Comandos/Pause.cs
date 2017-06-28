@@ -63,6 +63,10 @@ namespace PokemonGBAFrameWork.Script
 				delay = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Delay};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			delay=Word.GetWord(ptrRom,offsetComando);

@@ -71,6 +71,10 @@ namespace PokemonGBAFrameWork.Script
 				desconocido2 = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Desconocido1,Desconocido2};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			desconocido1=Word.GetWord(ptrRom,offsetComando);

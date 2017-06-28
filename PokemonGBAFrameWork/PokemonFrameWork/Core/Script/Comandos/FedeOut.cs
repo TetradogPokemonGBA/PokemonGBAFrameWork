@@ -59,6 +59,10 @@ namespace PokemonGBAFrameWork.Script
 				velocidadDesvanecimiento = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{VelocidadDesvanecimiento};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			velocidadDesvanecimiento=ptrRom[offsetComando];

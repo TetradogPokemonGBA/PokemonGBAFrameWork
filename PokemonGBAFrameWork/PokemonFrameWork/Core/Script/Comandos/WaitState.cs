@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork.Script
 	/// </summary>
 	public class WaitState:Comando
 	{
-				public const byte ID=0x27;
+		public const byte ID=0x27;
 		public const int SIZE=1;
 		
 		public WaitState()

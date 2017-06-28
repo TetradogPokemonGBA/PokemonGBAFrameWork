@@ -73,6 +73,10 @@ namespace PokemonGBAFrameWork.Script
 				bankSource = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{BankDestination,BankSource};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			bankDestination=ptrRom[offsetComando];

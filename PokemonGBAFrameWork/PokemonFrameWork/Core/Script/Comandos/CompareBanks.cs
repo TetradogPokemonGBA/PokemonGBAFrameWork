@@ -73,6 +73,10 @@ namespace PokemonGBAFrameWork.Script
 				bank2 = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Bank1,Bank2};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			bank1=Word.GetWord(ptrRom,offsetComando);

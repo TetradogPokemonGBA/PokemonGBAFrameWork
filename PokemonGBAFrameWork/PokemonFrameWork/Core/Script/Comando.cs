@@ -7,6 +7,9 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
+using System.Text;
+using Gabriel.Cat;
 
 namespace PokemonGBAFrameWork.Script
 {
@@ -49,13 +52,31 @@ namespace PokemonGBAFrameWork.Script
 			get{return SIZE;}
 		}
 
-		public virtual string LineaEjecucionXSE {
+		public  string LineaEjecucionXSE {
 			get{
-				string linea=Nombre;
-				
-				return linea;
+				StringBuilder strLinea=new StringBuilder(Nombre);
+				IList<object> parametros=GetParams();
+				IBloqueConNombre bloque;
+				for(int i=0;i<parametros.Count;i++)
+				{
+					strLinea.Append(" ");
+					bloque=parametros[i] as IBloqueConNombre;
+					if(bloque!=null){
+						strLinea.Append('@');
+						strLinea.Append(bloque.NombreBloque);
+					}else
+					{
+						strLinea.Append(((Hex)parametros[i]).ByteString);
+					}
+						
+				}
+				return strLinea.ToString();
 			}
 			
+		}
+		protected virtual IList<object> GetParams()
+		{
+			return new object[]{};
 		}
 
 		protected virtual unsafe  void CargarCamando(byte* ptrRom,int offsetComando)

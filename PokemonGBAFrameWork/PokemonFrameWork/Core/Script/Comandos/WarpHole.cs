@@ -80,6 +80,10 @@ namespace PokemonGBAFrameWork.Script
 				map = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Bank,Map};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			bank=ptrRom[offsetComando++];

@@ -60,6 +60,10 @@ namespace PokemonGBAFrameWork.Script
 				return SIZE;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Sonido};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			sonido=Word.GetWord(ptrRom,offsetComando);

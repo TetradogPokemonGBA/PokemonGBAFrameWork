@@ -52,6 +52,10 @@ namespace PokemonGBAFrameWork.Script
 				byteAPoner = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{ByteAPoner};
+		}
 		#region implemented abstract members of Comando
 
 		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)

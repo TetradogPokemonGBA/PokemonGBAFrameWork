@@ -73,6 +73,7 @@
     <Compile Include="Core\ComunGBA\Word.cs" />
     <Compile Include="Core\PokemonGBA\BloqueString.cs" />
     <Compile Include="Core\ComunGBA\ASM\ASM.cs" />
+    <Compile Include="Core\PokemonGBA\IBloqueConNombre.cs" />
     <Compile Include="PokemonFrameWork\Batallas\ClaseEntrenador.cs" />
     <Compile Include="PokemonFrameWork\Batallas\Entrenador.cs" />
     <Compile Include="PokemonFrameWork\Batallas\EquipoPokemonEntrenador.cs" />

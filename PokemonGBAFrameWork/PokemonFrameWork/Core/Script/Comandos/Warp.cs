@@ -112,6 +112,10 @@ namespace PokemonGBAFrameWork.Script
 				coordenadaY = value;
 			}
 		}
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new Object[]{Bank,Map,Exit,CoordenadaX,CoordenadaY};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			bank=ptrRom[offsetComando++];

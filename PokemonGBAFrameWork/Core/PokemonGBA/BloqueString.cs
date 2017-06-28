@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of TratarString.
 	/// </summary>
-	public class BloqueString:IComparable
+	public class BloqueString:IComparable,IBloqueConNombre
 	{
 		enum CaracteresEspeciales
 		{
@@ -89,6 +89,8 @@ namespace PokemonGBAFrameWork
 		int offsetInicio;
 		string texto;
 		bool acabaEnFFByte;
+		
+		string idUnico;
 		
 		public BloqueString(int maxCaracteres)
 			: this("", maxCaracteres, true)
@@ -179,6 +181,20 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+		#region IBloqueConNombre implementation
+		string IBloqueConNombre.NombreBloque {
+			get {
+				if(idUnico==null)
+				{
+					idUnico="str"+DateTime.Now.Ticks;
+				}
+				return idUnico;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+		#endregion
 		#region IComparable implementation
 		public int CompareTo(object obj)
 		{

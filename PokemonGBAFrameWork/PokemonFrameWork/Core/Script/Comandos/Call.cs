@@ -67,7 +67,10 @@ namespace PokemonGBAFrameWork.Script
 			}
 		}
 		#region implemented abstract members of Comando
-
+		protected override System.Collections.Generic.IList<object> GetParams()
+		{
+			return new object[]{Script};
+		}
 		protected unsafe override void CargarCamando(byte* ptrRom,int offsetActual)
 		{
 			Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
