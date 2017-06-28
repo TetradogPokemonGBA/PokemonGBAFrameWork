@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
 	/// Description of CheckDailyFlags.

@@ -10,12 +10,13 @@ using System;
 using System.Text;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
-namespace PokemonGBAFrameWork.Script
+using PokemonGBAFrameWork.ComandosScript;
+namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of Script.
 	/// </summary>
-	public class Script:IDeclaracion,IBloqueConNombre
+	public class Script:IDeclaracion,IBloqueConNombre 
 	{
 		public const byte RETURN=0x3;
 		public const byte END=0x2;

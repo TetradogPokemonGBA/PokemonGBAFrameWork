@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using Gabriel.Cat;
 
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of Comando.

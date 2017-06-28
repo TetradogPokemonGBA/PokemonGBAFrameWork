@@ -417,68 +417,68 @@ namespace PokemonGBAFrameWork
 			objeto=obj.Index;
 			
 		}
-		public Script.Script Script(int posicionEquipo,RomData rom=null)
+		public Script Script(int posicionEquipo,RomData rom=null)
 		{
 			return Script(posicionEquipo,rom!=null?rom.Rom:null,rom!=null?rom.Edicion:null,rom!=null?rom.Compilacion:null);
 		}
-		public Script.Script Script(int posicionEquipo,RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		public Script Script(int posicionEquipo,RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			const int VARIABLEPOKEMONEQUIPO=0x8000;
 			byte[] aux;
 			int auxPos=OFFSETPOKEMONDESENCRIPTADO;
-			Script.Script scritpEditorPokemon=new Script.Script();
+			Script scritpEditorPokemon=new Script();
 			
-			scritpEditorPokemon.ComandosScript.Add(new Script.SetVar(VARIABLEPOKEMONEQUIPO,posicionEquipo));
-			scritpEditorPokemon.ComandosScript.Add(new Script.CallAsm(PosicionEncryptASMScript(rom,edicion,compilacion)));
+			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.SetVar(VARIABLEPOKEMONEQUIPO,posicionEquipo));
+			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.CallAsm(PosicionEncryptASMScript(rom,edicion,compilacion)));
 			//pongo los datos //mirar de poner el nombre de los parametros para asi poder identificar cada linea :)
 			if(personalidad.HasValue)
 			{
 				aux=Serializar.GetBytes(personalidad.Value);
 				for(int i=0;i<4;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}
 			else auxPos+=4;
 			if(idEntrenador.HasValue)
 			{
 				aux=Serializar.GetBytes(idEntrenador.Value);
 				for(int i=0;i<4;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=4;
 			if(nombrePokemon!=null){
 				aux=BloqueString.ToByteArray(nombrePokemon.Texto,false);
 				for(int i=0;i<aux.Length&&i<10;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=10;
 			if(idioma.HasValue)
 			{
 				aux=Serializar.GetBytes(idioma.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=2;
 			if(marcas.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Marcas.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Marcas.Value));
 			else auxPos++;
 			if(cheksum.HasValue)
 			{
 				aux=Serializar.GetBytes(idioma.Value);
 				for(int i=0;i<2;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=2;
 			if(relleno.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,relleno.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,relleno.Value));
 			else auxPos++;
 			if(especie.HasValue)
 			{
 				aux=Serializar.GetBytes(especie.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}else auxPos+=2;
 			if(objeto.HasValue)
 			{
 				aux=Serializar.GetBytes(objeto.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}else auxPos+=2;
 			//poner el resto de valores
@@ -486,21 +486,21 @@ namespace PokemonGBAFrameWork
 			{
 				aux=Serializar.GetBytes(experiencia.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}else auxPos+=4;
 
 			if(MasPP.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,MasPP.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,MasPP.Value));
 			else auxPos++;
 			if(Amistad.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Amistad.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Amistad.Value));
 			else auxPos++;
 			if(desconocido.HasValue)
 			{
 				aux=Serializar.GetBytes(desconocido.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
@@ -508,7 +508,7 @@ namespace PokemonGBAFrameWork
 			{
 				aux=Serializar.GetBytes(ataque1.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
@@ -516,7 +516,7 @@ namespace PokemonGBAFrameWork
 			{
 				aux=Serializar.GetBytes(ataque2.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
@@ -524,7 +524,7 @@ namespace PokemonGBAFrameWork
 			{
 				aux=Serializar.GetBytes(ataque3.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
@@ -532,74 +532,74 @@ namespace PokemonGBAFrameWork
 			{
 				aux=Serializar.GetBytes(ataque4.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
 			if(Amistad.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Amistad.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Amistad.Value));
 			else auxPos++;
 			if(PpAtaque1.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,PpAtaque1.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,PpAtaque1.Value));
 			else auxPos++;
 			if(PpAtaque2.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,PpAtaque2.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,PpAtaque2.Value));
 			else auxPos++;
 			if(PpAtaque3.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,PpAtaque3.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,PpAtaque3.Value));
 			else auxPos++;
 			if(PpAtaque4.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,PpAtaque4.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,PpAtaque4.Value));
 			else auxPos++;
 			if(EvSalud.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EvSalud.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EvSalud.Value));
 			else auxPos++;
 			if(EvAtaque.HasValue)//creo que va aqui
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EvAtaque.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EvAtaque.Value));
 			else auxPos++;
 			if(EvDefensa.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EvDefensa.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EvDefensa.Value));
 			else auxPos++;
 			if(EvVelocidad.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EvVelocidad.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EvVelocidad.Value));
 			else auxPos++;
 			if(EvAtaqueEspecial.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EvAtaqueEspecial.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EvAtaqueEspecial.Value));
 			else auxPos++;
 			if(EvDefensaEspecial.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EvDefensaEspecial.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EvDefensaEspecial.Value));
 			else auxPos++;
 			if(Carisma.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Carisma.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Carisma.Value));
 			else auxPos++;
 			if(Dulzura.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Dulzura.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Dulzura.Value));
 			else auxPos++;
 			if(Ingenio.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Ingenio.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Ingenio.Value));
 			else auxPos++;
 			if(Dureza.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Dureza.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Dureza.Value));
 			else auxPos++;
 			if(Feel.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Feel.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Feel.Value));
 			else auxPos++;
 			if(EstadoPokerus.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,EstadoPokerus.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,EstadoPokerus.Value));
 			else auxPos++;
 			if(Localizacion.HasValue)
-				scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,Localizacion.Value));
+				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Localizacion.Value));
 			else auxPos++;
 			if(origen.HasValue)
 			{
 				aux=Serializar.GetBytes(origen.Value);
 				for(int i=0;i<aux.Length;i++)
-					scritpEditorPokemon.ComandosScript.Add( new Script.WriteByteToOffset(auxPos++,aux[i]));
+					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
 			//cuando entienda como van los demás valores los pongo :)
-			scritpEditorPokemon.ComandosScript.Add(new Script.CallAsm(PosicionDecryptASMScript(rom,edicion,compilacion)));
+			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.CallAsm(PosicionDecryptASMScript(rom,edicion,compilacion)));
 
 			return scritpEditorPokemon;
 		}

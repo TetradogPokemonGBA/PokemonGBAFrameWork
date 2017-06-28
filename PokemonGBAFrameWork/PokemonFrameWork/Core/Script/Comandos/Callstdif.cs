@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class Callstdif : Gotostdif
 	{

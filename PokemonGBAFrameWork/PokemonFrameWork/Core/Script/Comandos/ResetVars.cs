@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
 	/// Resetea los valores de las variables 0x8000,0x8001,0x8002

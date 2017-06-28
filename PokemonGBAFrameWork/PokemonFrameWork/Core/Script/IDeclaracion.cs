@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of IDeclaracion.

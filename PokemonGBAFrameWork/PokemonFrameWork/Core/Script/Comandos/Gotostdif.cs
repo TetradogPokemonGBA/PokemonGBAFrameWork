@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using Gabriel.Cat.Extension;
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class Gotostdif : Gotostd
 	{

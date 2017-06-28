@@ -9,7 +9,7 @@
 using System;
 using Gabriel.Cat.Extension;
 
-namespace PokemonGBAFrameWork.Script
+namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
 	/// Description of LoadPointer.
