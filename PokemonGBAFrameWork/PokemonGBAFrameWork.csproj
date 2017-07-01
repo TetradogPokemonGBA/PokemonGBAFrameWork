@@ -85,6 +85,7 @@
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddVar.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Call.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CallAsm.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\LoadPointer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Nop.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Pause.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\RemoveItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\ResetVars.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\SetByte.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Setvar.cs" />
