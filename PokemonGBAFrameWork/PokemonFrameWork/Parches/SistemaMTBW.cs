@@ -15,7 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//sacado de aqui http://wahackforo.com/t-25561/fr-en-proceso-sistema-mt-bw
+//sacado de aqui https://wahackforo.com/t-44036/fire-red-tm-infinitas-sin-cantidad-bw-style
+//@GoGoJJTech , @FBI , @Koakuma.
 namespace PokemonGBAFrameWork
 {
 	public static class SistemaMTBW
