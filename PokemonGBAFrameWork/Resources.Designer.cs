@@ -61,6 +61,40 @@ namespace PokemonGBAFrameWork {
 		}
 		
 		/// <summary>
+		///   Busca una cadena traducida similar a .text
+		///.align 2
+		///.thumb
+		///.thumb_func
+		///
+		///main:
+		///cmp r5, #0x0
+		///bne end
+		///ldr r3, =(0x8OFFSET2 +1)
+		///bx r3
+		///
+		///end:
+		///mov r0, r7
+		///mov r1, #0x8
+		///mov r2, r4
+		///ldr r6, =(0x8OFFSET1+1)
+		///bl link
+		///ldr r3, =(0x8OFFSET2+1)
+		///bx r3
+		///
+		///link:
+		///bx r6
+		///
+		///.align 2
+		///
+		///.
+		/// </summary>
+		internal static string ASMMTBW {
+			get {
+				return ResourceManager.GetString("ASMMTBW", resourceCulture);
+			}
+		}
+		
+		/// <summary>
 		///   Busca un recurso adaptado de tipo System.Byte[].
 		/// </summary>
 		internal static byte[] ASMMugshotsFR {
