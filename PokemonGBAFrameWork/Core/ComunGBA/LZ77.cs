@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 //me gustaria acabar de optimizarlo e ir a velocidad de puntero :)
 namespace PokemonGBAFrameWork
 {
@@ -27,14 +28,15 @@ namespace PokemonGBAFrameWork
         {
             const byte BYTECOMPRESSIONLZ77 = 0x10;
             byte[] data;
-            StringBuilder strWatch = new StringBuilder();
             int dataLength;
             int offset;
             int i, iAux, pos;
             byte[] r;
             byte rPart1;
             int length;
-            int start;
+            int start; 
+            bool[] auxWatch=null;
+            
             if (datos[offsetInicio] == BYTECOMPRESSIONLZ77)
             {
                 dataLength = Longitud(datos, offsetInicio);
@@ -58,7 +60,7 @@ namespace PokemonGBAFrameWork
                             {
                                 if (pos != 8)
                                 {
-                                    if (strWatch[pos] == '0')
+                                	if (!auxWatch[pos])
                                     {
 
                                         *ptDatosDescomprimidos = *ptDatosComprimidos;
@@ -82,12 +84,7 @@ namespace PokemonGBAFrameWork
                                 }
                                 else
                                 {
-                                    strWatch.Clear();
-                                    strWatch.Append(Convert.ToString(*ptDatosComprimidos, 2));
-                                    if (strWatch.Length < 8)
-                                    {
-                                        strWatch.Insert(0, "0", 8 - strWatch.Length);
-                                    }
+                                    auxWatch=(*ptDatosComprimidos).ToBits();
                                     ptDatosComprimidos++;
                                     pos = 0;
                                 }
