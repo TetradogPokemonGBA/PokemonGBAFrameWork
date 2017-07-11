@@ -768,9 +768,7 @@ namespace PokemonGBAFrameWork
 			Pokemon[] pokedex=new Pokemon[GetTotalPokemon(rom,edicion,compilacion)];
 			int totalEntradasPokedex=DescripcionPokedex.GetTotalEntradas(rom,edicion,compilacion);
 			for(int i=0;i<pokedex.Length;i++)
-				try{
 				pokedex[i]=Pokemon.GetPokemon(rom,edicion,compilacion,i,totalEntradasPokedex);
-			}catch(Exception ex){ System.Diagnostics.Debugger.Break();}
 			return pokedex;
 			
 		}

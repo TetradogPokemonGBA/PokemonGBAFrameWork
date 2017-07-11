@@ -153,7 +153,13 @@ namespace PokemonGBAFrameWork
 			}
 			
 		}
-		public class Pokemon
+
+        public static bool EsCompatible(RomData romData)
+        {
+            return Ruta.VariableBancoMapaRutaValido.Diccionario.ContainsKey(romData.Compilacion) && Ruta.VariableBancoMapaRutaValido.Diccionario[romData.Compilacion].ContainsKey(romData.Edicion);
+        }
+
+        public class Pokemon
 		{
 			
 			public enum Stat

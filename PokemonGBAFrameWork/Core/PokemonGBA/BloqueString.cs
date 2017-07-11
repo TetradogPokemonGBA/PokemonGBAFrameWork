@@ -243,11 +243,17 @@ namespace PokemonGBAFrameWork
 			
 			return GetString(rom.Data,offsetInicio,longitud,acabaEnFFByte);
 		}
-		public static BloqueString GetString(BloqueBytes blBytes, int offsetInicio, int longitud, bool acabaEnFFByte = true)
+		
+		public static BloqueString GetString(BloqueBytes blData, int offsetInicio, int longitud, bool acabaEnFFByte = true)
 		{
-			if (blBytes == null || offsetInicio + longitud > blBytes.Bytes.Length || offsetInicio < 0 || longitud < 0)
+			
+			return GetString(blData.Bytes,offsetInicio,longitud,acabaEnFFByte);
+		}
+		public static BloqueString GetString(byte[] bStringGBA, int offsetInicio, int longitud, bool acabaEnFFByte = true)
+		{
+			if (bStringGBA == null || offsetInicio + longitud > bStringGBA.Length || offsetInicio < 0 || longitud < 0)
 				throw new ArgumentException();
-			return new BloqueString(blBytes.OffsetInicio + offsetInicio, ToString(blBytes.SubArray(offsetInicio,longitud)), acabaEnFFByte);
+			return new BloqueString(offsetInicio, ToString(bStringGBA.SubArray(offsetInicio,longitud)), acabaEnFFByte);
 		}
 		
 		public static BloqueString GetString(RomGba rom, int offsetInicio, byte marcaFin = 0xFF)
@@ -256,7 +262,11 @@ namespace PokemonGBAFrameWork
 		}
 		public static BloqueString GetString(BloqueBytes blDatos, int offsetInicio, byte marcaFin = 0xFF)
 		{//por revisar
-			return GetString(blDatos, offsetInicio, blDatos.Bytes.IndexByte(offsetInicio, marcaFin) - offsetInicio);
+			return GetString(blDatos.Bytes, offsetInicio,marcaFin);
+		}
+		public static BloqueString GetString(byte[] blDatos, int offsetInicio, byte marcaFin = 0xFF)
+		{//por revisar
+			return GetString(blDatos, offsetInicio, blDatos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
 		}
 		public static void Remove(RomGba rom,int offsetString)
 		{

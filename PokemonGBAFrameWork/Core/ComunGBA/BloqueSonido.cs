@@ -549,7 +549,7 @@ namespace PokemonGBAFrameWork
                         if (!llistaHeaders.ContainsKey(idHeaderEncontrado) && !llistaBannedHeaders.ContainsKey(idHeaderEncontrado))
                         {
                             try
-                            {
+                            {//mirar de quitar todos los try catch por rendimiento :)
                                 if (GetBloquesSonido(rom, idHeaderEncontrado, true).Count > 0)
                                 {
                                     llistaHeaders.Add(idHeaderEncontrado, idHeaderEncontrado);

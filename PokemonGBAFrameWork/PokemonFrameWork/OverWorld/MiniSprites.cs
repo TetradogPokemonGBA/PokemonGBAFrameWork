@@ -109,10 +109,8 @@ namespace PokemonGBAFrameWork
 			MiniSprite mini = CargarDatosMini(rom, edicion, compilacion, posicion, paletas);
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
-			try{
 				for(int i=0,f=GetTotalFrames(rom,mini,offsetTablaMinis,totalMinis);i<f;i++)
 					mini.blSprites.Add(BloqueSprite.GetSprite(rom,mini.Paleta,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
-			}catch{}
 			
 			return mini;
 			

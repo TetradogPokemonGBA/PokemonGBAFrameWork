@@ -56,11 +56,9 @@ namespace PokemonGBAFrameWork
 			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
 			dicAtaquesPokemon=AtaquesAprendidos.GetAtaquesAprendidosDic(this);
 			paletasMinis=PaletasMinis.GetPaletasMinis(this);
-		    minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));// deshabilitado hasta que tarde menos...
-			try{
-		
-				rutas=PokemonErrante.Ruta.GetRutas(this);
-			}catch{}
+		    minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));
+		    if(PokemonErrante.EsCompatible(this)) 
+		    	rutas=PokemonErrante.Ruta.GetRutas(this);
 			
 			/*if(Mugshots.EstaActivado(this))
 				mugshots=Mugshots.GetMugshots(this);

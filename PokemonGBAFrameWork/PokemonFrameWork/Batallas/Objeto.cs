@@ -109,7 +109,7 @@ namespace PokemonGBAFrameWork
 			//Battle script
 			ZonaBattleScript.Add(EdicionPokemon.EsmeraldaUsa,0x5839F0);
 			ZonaBattleScript.Add(EdicionPokemon.EsmeraldaEsp,0x5863EC);
-				//No estoy seguro me guio por un pointer que lleva a unos datos que luego busco en las roms y vuelvo a atrás :)
+			//No estoy seguro me guio por un pointer que lleva a unos datos que luego busco en las roms y vuelvo a atrás :)
 			ZonaBattleScript.Add(EdicionPokemon.RojoFuegoUsa,0x3DEF08,0x3DEF78);
 			ZonaBattleScript.Add(EdicionPokemon.VerdeHojaUsa,0x3DED44,0x3DEDB4);
 			ZonaBattleScript.Add(EdicionPokemon.VerdeHojaEsp,0x3D8C6C);
@@ -311,28 +311,31 @@ namespace PokemonGBAFrameWork
 			BloqueImagen blImg;
 			int offsetImagenYPaleta;
 			int offsetDatos=Zona.GetOffsetRom(rom,ZonaDatosObjeto,edicion,compilacion).Offset+index*(int)LongitudCampos.Total;
-			
-			BloqueBytes blDatos=BloqueBytes.GetBytes(rom.Data,offsetDatos,(int)LongitudCampos.Total);
+			OffsetRom aux;
+			byte[] blDatos=rom.Data.SubArray(offsetDatos,(int)LongitudCampos.Total);
 			Objeto objACargar=new Objeto();
 			
 			objACargar.Nombre.Texto=BloqueString.GetString(blDatos,0);
-			objACargar.index=Word.GetWord(blDatos.Bytes,14);
-			objACargar.price=Word.GetWord(blDatos.Bytes,16);
-			objACargar.holdEffect=blDatos.Bytes[17];
-			objACargar.parameter=blDatos.Bytes[18];
+			objACargar.index=Word.GetWord(blDatos,14);
+			objACargar.price=Word.GetWord(blDatos,16);
+			objACargar.holdEffect=blDatos[17];
+			objACargar.parameter=blDatos[18];
 			objACargar.blDescripcion=BloqueString.GetString(rom,new OffsetRom(blDatos, 20).Offset);
-			objACargar.keyItemValue=blDatos.Bytes[24];
-			objACargar.bagKeyItem=blDatos.Bytes[25];
-			objACargar.bolsillo=(BolsilloObjetos)blDatos.Bytes[26];
-			objACargar.tipo=blDatos.Bytes[27];
-			try{
-				objACargar.pointerBattleUsage=new OffsetRom(blDatos,28).Offset;
-			}catch{}
-			objACargar.battleUsage=DWord.GetDWord(blDatos.Bytes,32);
-			try{
-				objACargar.pointerFieldUsage=new OffsetRom(blDatos,36).Offset;
-			}catch{}
-			objACargar.extraParameter=DWord.GetDWord(blDatos.Bytes,40);
+			objACargar.keyItemValue=blDatos[24];
+			objACargar.bagKeyItem=blDatos[25];
+			objACargar.bolsillo=(BolsilloObjetos)blDatos[26];
+			objACargar.tipo=blDatos[27];
+			aux=new OffsetRom(blDatos,28);
+			if(aux.IsAPointer)
+				objACargar.pointerBattleUsage=aux.Offset;
+			
+			objACargar.battleUsage=DWord.GetDWord(blDatos,32);
+			
+			aux=new OffsetRom(blDatos,36);
+			if(aux.IsAPointer)
+				objACargar.pointerFieldUsage=aux.Offset;
+			//lo que hacia que fuera tan lento cargando era el uso de try catch!!
+			objACargar.extraParameter=DWord.GetDWord(blDatos,40);
 			
 			if(edicion.AbreviacionRom!=AbreviacionCanon.AXP&&edicion.AbreviacionRom!=AbreviacionCanon.AXV){
 				offsetImagenYPaleta=Zona.GetOffsetRom(rom,ZonaImagenesObjeto,edicion,compilacion).Offset+index*(OffsetRom.LENGTH+OffsetRom.LENGTH);
@@ -367,7 +370,7 @@ namespace PokemonGBAFrameWork
 			
 			
 			try{
-			BloqueString.Remove(rom,offsetDatos);
+				BloqueString.Remove(rom,offsetDatos);
 			}catch{}
 			
 			BloqueString.SetString(rom,offsetDatos,objeto.Nombre);
@@ -381,7 +384,7 @@ namespace PokemonGBAFrameWork
 			rom.Data[offsetDatos]=objeto.Parameter;
 			offsetDatos++;
 			try{
-			BloqueString.Remove(rom,new OffsetRom(rom,offsetDatos).Offset);
+				BloqueString.Remove(rom,new OffsetRom(rom,offsetDatos).Offset);
 			}catch{}
 			rom.Data.SetArray(offsetDatos, new	OffsetRom(BloqueString.SetString(rom,objeto.Descripcion)).BytesPointer);
 			offsetDatos+=OffsetRom.LENGTH;

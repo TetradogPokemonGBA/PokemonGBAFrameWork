@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
-
+//SE tiene que rehacer entero!!
 namespace PokemonGBAFrameWork
 {
     /// <summary>
