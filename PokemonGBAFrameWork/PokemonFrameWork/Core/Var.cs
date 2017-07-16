@@ -76,7 +76,7 @@ namespace PokemonGBAFrameWork
 
 		#endregion
 
-		protected static int GetOffsetRom(Var variable, EdicionPokemon edicionPokemon, Compilacion compilacion)
+		protected static int GetValue(Var variable, EdicionPokemon edicionPokemon, Compilacion compilacion)
 		{
 			if(!variable.Diccionario.ContainsKey(compilacion)||!variable.Diccionario[compilacion].ContainsKey(edicionPokemon))
 				throw new   RomFaltaInvestigacionException();
