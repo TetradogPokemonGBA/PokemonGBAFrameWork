@@ -13,7 +13,7 @@ using System;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
-	/// Description of Variable.
+	/// Esta clase se usa para guardar offsets u otros datos necesarios separados por ediciones y compilaciones
 	/// </summary>
 	public class Variable:Var
 	{
