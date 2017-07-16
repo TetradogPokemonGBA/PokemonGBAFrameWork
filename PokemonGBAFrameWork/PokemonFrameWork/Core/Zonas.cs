@@ -14,7 +14,7 @@ using Gabriel.Cat;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
-	/// Description of Zona.
+	/// Se usa para guardar los offsets de los pointers que estan en las rutinas.
 	/// </summary>
 	public class Zona:Var
 	{
