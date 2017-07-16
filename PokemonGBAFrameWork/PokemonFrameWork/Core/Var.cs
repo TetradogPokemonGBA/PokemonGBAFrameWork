@@ -24,7 +24,7 @@ namespace PokemonGBAFrameWork
 				diccionario.Add(Compilacion.Compilaciones[i],new LlistaOrdenada<EdicionPokemon, int>());
 			}
 		}
-		public Zona(Enum enumZona):this(enumZona.ToString())
+		public Var(Enum enumZona):this(enumZona.ToString())
 		{}
 		
 		public string Nombre {
