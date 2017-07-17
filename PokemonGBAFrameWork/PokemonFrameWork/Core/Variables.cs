@@ -13,9 +13,9 @@ using System;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
-	/// Description of Variable.
+	/// Esta clase se usa para guardar offsets u otros datos necesarios separados por ediciones y compilaciones
 	/// </summary>
-	public class Variable:Zona
+	public class Variable:Var
 	{
 
 		public Variable(string nombre):base(nombre)
@@ -23,10 +23,8 @@ namespace PokemonGBAFrameWork
 		public Variable(Enum nombre):base(nombre)
 		{}
 		public static int GetVariable(Variable variable,EdicionPokemon edicion,Compilacion compilacion)
-		{
-			if(!variable.Diccionario.ContainsKey(compilacion)||!variable.Diccionario[compilacion].ContainsKey(edicion))
-				throw new   RomFaltaInvestigacionException();
-			return variable.Diccionario[compilacion][edicion];
+		{ 
+		 	return GetValue(variable,edicion,compilacion);
 		}
 	}
 }
