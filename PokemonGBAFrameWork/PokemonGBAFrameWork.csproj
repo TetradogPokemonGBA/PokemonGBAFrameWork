@@ -138,6 +138,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\WriteByteToOffset.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\IDeclaracion.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Script.cs" />
+    <Compile Include="PokemonFrameWork\Core\Var.cs" />
     <Compile Include="PokemonFrameWork\Core\Variables.cs" />
     <Compile Include="PokemonFrameWork\Core\Zonas.cs" />
     <Compile Include="PokemonFrameWork\Mapa\Mapa.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="PokemonFrameWork\Mapa\PokemonSalvajes.cs" />
     <Compile Include="PokemonFrameWork\OverWorld\MiniSprites.cs" />
     <Compile Include="PokemonFrameWork\OverWorld\PaletasMinis.cs" />
+    <Compile Include="PokemonFrameWork\Parches\BorrarMos.cs" />
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="PokemonFrameWork\Parches\MOSinMedallas.cs" />
     <Compile Include="PokemonFrameWork\Parches\Mugshots.cs" />
     <Compile Include="PokemonFrameWork\Parches\PokemonEditorScripting.cs" />
+    <Compile Include="PokemonFrameWork\Parches\QuitarDiarioPartida.cs" />
     <Compile Include="PokemonFrameWork\Parches\QuitarSistemaDeAyudaRojoYVerde.cs" />
     <Compile Include="PokemonFrameWork\Parches\QuitarTutorialBatallaOak.cs" />
     <Compile Include="PokemonFrameWork\Parches\ScriptsDeGatilloCondicionMayorAFF.cs" />
