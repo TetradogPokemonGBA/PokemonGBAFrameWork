@@ -120,6 +120,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static ClaseEntrenador GetClaseEntrenador(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int index)
 		{
+			//los nombres no los carga bien...
 			int offsetRateMoney;
 			int offsetSpriteImg=Zona.GetOffsetRom(rom,ZonaImgSprite,edicion,compilacion).Offset+index*BloqueImagen.LENGTHHEADERCOMPLETO;
 			int offsetSpritePaleta=Zona.GetOffsetRom(rom,ZonaPaletaSprite,edicion,compilacion).Offset+index*Paleta.LENGTHHEADERCOMPLETO;

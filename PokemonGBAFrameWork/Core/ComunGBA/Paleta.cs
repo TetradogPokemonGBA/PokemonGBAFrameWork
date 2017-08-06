@@ -151,7 +151,7 @@ namespace PokemonGBAFrameWork
             Paleta paleta;
             int offsetPaletaData = new OffsetRom(rom, offsetPointerPaleta).Offset;
 
-            if (Lz77.CheckCompresionLZ77(rom.Data.Bytes, offsetPointerPaleta))
+            if (Lz77.CheckCompresionLZ77(rom.Data.Bytes, offsetPaletaData))
                 bytesPaletaDescomprimidos = Lz77.Descomprimir(rom.Data.Bytes, offsetPaletaData);
             else
                 bytesPaletaDescomprimidos = rom.Data.Bytes.SubArray(offsetPaletaData, TOTALBYTESPALETA);//son dos bytes por color
@@ -187,7 +187,7 @@ namespace PokemonGBAFrameWork
         }
         public static Paleta GetPaleta(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
         {
-            byte[] header = rom.Data.SubArray(offsetPointerPaleta + OffsetRom.LENGTH, LENGTHHEADER);
+            byte[] header = rom.Data.SubArray(offsetPointerPaleta + OffsetRom.LENGTH, LENGTHHEADER);//lo posiciono para leer la información que contiene sin el pointer
             Paleta paletaCargada = GetPaletaSinHeader(rom, offsetPointerPaleta, showBackgroundColor);
             paletaCargada.Header = header;
             return paletaCargada;
