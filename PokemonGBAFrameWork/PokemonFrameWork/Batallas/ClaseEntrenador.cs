@@ -124,7 +124,7 @@ namespace PokemonGBAFrameWork
 			int offsetRateMoney;
 			int offsetSpriteImg=Zona.GetOffsetRom(rom,ZonaImgSprite,edicion,compilacion).Offset+index*BloqueImagen.LENGTHHEADERCOMPLETO;
 			int offsetSpritePaleta=Zona.GetOffsetRom(rom,ZonaPaletaSprite,edicion,compilacion).Offset+index*Paleta.LENGTHHEADERCOMPLETO;
-			int offsetNombre=Zona.GetOffsetRom(rom,ZonaNombres,edicion,compilacion).Offset+(index)*(int)Longitud.Nombre;
+			int offsetNombre=Zona.GetOffsetRom(rom,ZonaNombres,edicion,compilacion).Offset+(index)*(int)Longitud.Nombre;//podria ser que no se posicionase bien...
 			ClaseEntrenador claseCargada=new ClaseEntrenador();
 			
 			claseCargada.blNombre=BloqueString.GetString(rom,offsetNombre);
