@@ -128,7 +128,12 @@ namespace PokemonGBAFrameWork
 						case AddItem.ID:comandoActual=new AddItem(ptrRom,offsetScript);break;
 						case RemoveItem.ID: comandoActual=new RemoveItem(ptrRom,offsetScript);break;
 						
-						//estos me los salto
+						//los pongo sin ordenar...falta ponerlos en su sitio cuando esten los demás comandos puestos :)
+						case Faceplayer.ID:comandoActual=new Faceplayer(ptrRom,offsetScript);break;
+						case Lock.ID:comandoActual=new Lock(ptrRom,offsetScript);break;
+						case Release.ID:comandoActual=new Release(ptrRom,offsetScript);break;
+						case Trainerbattle.ID:comandoActual=new Trainerbattle(ptrRom,offsetScript);break;
+					//estos me los salto	
 					case RETURN:
 					case END:
 						break;
@@ -200,8 +205,8 @@ namespace PokemonGBAFrameWork
 				strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
 			}
 			if(isEnd)
-				strSCript.Append("End");
-			else strSCript.Append("Return");
+				strSCript.Append("\nEnd");
+			else strSCript.Append("\nReturn");
 			
 			return strSCript.ToString();
 			

@@ -66,7 +66,7 @@ namespace PokemonGBAFrameWork
 						strLinea.Append(bloque.NombreBloque);
 					}else
 					{
-						strLinea.Append(((Hex)parametros[i]).ByteString);
+						strLinea.Append(((Hex)Serializar.GetBytes(parametros[i])).ByteString);
 					}
 						
 				}

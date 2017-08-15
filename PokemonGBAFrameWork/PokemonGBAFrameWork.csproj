@@ -109,6 +109,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CopyVar.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CopyVarIfNotZero.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CountPokemon.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Faceplayer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\FadeDefault.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\FadeIn.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\FedeOut.cs" />
@@ -122,8 +123,10 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Killscript.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\LoadByteFromPointer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\LoadPointer.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Lock.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Nop.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Pause.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Release.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\RemoveItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\ResetVars.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\SetByte.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Sound.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Special.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Special2.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Trainerbattle.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\WaitFanFare.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\WaitState.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Warp.cs" />

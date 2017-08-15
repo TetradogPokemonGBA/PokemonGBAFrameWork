@@ -230,14 +230,11 @@ namespace PokemonGBAFrameWork
 		{
 			StringBuilder strScript=new StringBuilder();
 			Script scriptBattleShiny=new Script();
-			//falta pasar los parametros a C#  y luego hacerlo :)
-			strScript.Append("#dynamic 0x800000 \r\n#org @ScriptTrainer");
-			strScript.Append(entrenador.Nombre);
-			strScript.Append("Shiny\r\nlock\r\nfaceplayer\r\n");
-			strScript.Append(ScriptLineaPokemonShinyEntrenador(entrenador,pokemon));
-			strScript.Append("\r\ntrainerbattle 0x0 ");
-			strScript.Append(((Hex)(indexEntrenador+1)).ByteString);
-			strScript.Append(" 0x0 0x0 0x0\r\nrelease\r\nend");
+			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Lock());
+			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Faceplayer());
+			scriptBattleShiny.ComandosScript.Add(ScriptLineaPokemonShinyEntrenador(entrenador,pokemon));
+			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Trainerbattle(0x0,(short)(indexEntrenador+1),0x0,new OffsetRom(0),new OffsetRom(0)));
+			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Release());
 			return scriptBattleShiny;
 		}
 	}
