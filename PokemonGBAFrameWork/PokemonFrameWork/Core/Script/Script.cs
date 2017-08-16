@@ -21,7 +21,7 @@ namespace PokemonGBAFrameWork
 		public const byte RETURN=0x3;
 		public const byte END=0x2;
 		
-		public static Hex OffsetInicioDynamic;
+		public static Hex OffsetInicioDynamic="800000";
 		Llista<Comando> comandosScript;
 		string nombreBloque;
 		

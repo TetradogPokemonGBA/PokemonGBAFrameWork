@@ -57,6 +57,7 @@ namespace PokemonGBAFrameWork
 				StringBuilder strLinea=new StringBuilder(Nombre);
 				IList<object> parametros=GetParams();
 				IBloqueConNombre bloque;
+				byte[] bytesAux;
 				for(int i=0;i<parametros.Count;i++)
 				{
 					strLinea.Append(" ");
@@ -66,8 +67,12 @@ namespace PokemonGBAFrameWork
 						strLinea.Append(bloque.NombreBloque);
 					}else
 					{
-						strLinea.Append(((Hex)Serializar.GetBytes(parametros[i])).ByteString);
-					}
+						bytesAux=Serializar.GetBytes(parametros[i]);
+						
+						if((Hex)bytesAux>0)
+						strLinea.Append(((Hex)bytesAux).ByteString);
+						else strLinea.Append("0x0");
+						}
 						
 				}
 				return strLinea.ToString();
