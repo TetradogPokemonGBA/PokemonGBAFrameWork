@@ -133,6 +133,7 @@ namespace PokemonGBAFrameWork
 						case Lock.ID:comandoActual=new Lock(ptrRom,offsetScript);break;
 						case Release.ID:comandoActual=new Release(ptrRom,offsetScript);break;
 						case Trainerbattle.ID:comandoActual=new Trainerbattle(ptrRom,offsetScript);break;
+						case ClearTrainerFlag.ID:comandoActual=new ClearTrainerFlag(ptrRom,offsetScript);break;
 					//estos me los salto	
 					case RETURN:
 					case END:

@@ -33,6 +33,7 @@ namespace PokemonGBAFrameWork
 		}
 		public unsafe static void SetWord(byte* ptrDatos,short word)
 		{
+
 			*ptrDatos = Convert.ToByte((word & 0xff));
 			
 			ptrDatos++;

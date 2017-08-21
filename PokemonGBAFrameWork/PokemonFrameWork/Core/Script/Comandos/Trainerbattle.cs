@@ -129,6 +129,7 @@ set{pointerToTheDefeatText=value;}
   protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
   {
     base.SetComando(ptrRomPosicionado,parametrosExtra);
+    ptrRomPosicionado++;
    *ptrRomPosicionado=kindOfBattle;
 
  ++ptrRomPosicionado;

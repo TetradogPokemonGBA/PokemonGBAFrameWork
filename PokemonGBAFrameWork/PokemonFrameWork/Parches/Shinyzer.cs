@@ -43,10 +43,24 @@ namespace PokemonGBAFrameWork
 
 
 		public static readonly byte[] RutinaRojoYVerde = {
-			0x00, 0x50, 0x00, 0x03, 0xBE, 0x70, 0x03, 0x02, 0xC9, 0x4E, 0x04, 0x08
+		    0x50,0x4F, 0x00, 0x03, 0xBE, 0x70, 0x03, 0x02, 0xA1, 0x4E, 0x04, 0x08
 		};
+/* C:\Users\tetra\Desktop\RomsPokemon USA and ESP\ESP\Pokémon Zafiro - copia (2).gba (16/08/2017 15:19:58)
+   Posición Inicial: 00D00553, Posición Final: 00D005B3, Longitud: 00000061 */
+//por mirar
+static readonly byte[] RutinaRubiYZafiro = {
+	0xF0, 0x24, 0xF8, 0x05, 0x04, 0x05, 0x43, 0x5D, 0x40, 0x65, 0x40, 0x70,
+	0xB4, 0x29, 0x0C, 0x28, 0x04, 0xDB, 0x43, 0x1B, 0x0C, 0x0D, 0x4C, 0x0E,
+	0x4D, 0x06, 0x1C, 0x66, 0x43, 0x76, 0x19, 0x32, 0x0C, 0x8A, 0x42, 0x04,
+	0xD0, 0x01, 0x30, 0x01, 0x3B, 0x00, 0x2B, 0xF5, 0xD1, 0x04, 0xE0, 0x09,
+	0x4A, 0x16, 0x60, 0x62, 0xBC, 0x3D, 0x60, 0x3C, 0xBD, 0x70, 0xBC, 0xD9,
+	0xE7, 0x01, 0x25, 0x9D, 0x40, 0x2C, 0x40, 0x00, 0x2C, 0x00, 0xD0, 0x39,
+	0x68, 0xF5, 0xE7, 0x10, 0x47, 0x6D, 0x4E, 0xC6, 0x41, 0x73, 0x60, 0x00,
+	0x00, 0x18, 0x48, 0x00, 0x03, 0xCA, 0xE8, 0x02, 0x02, 0x85, 0x0E, 0x04,
+	0x08
+};
 
-		public static readonly byte[] RutinaRubiYZafiro = {
+		public static readonly byte[] RutinaRubiYZafiro2 = {
 			0x18, 0x48, 0x00, 0x03, 0xCA, 0xE8, 0x02, 0x02, 0x85, 0x0E, 0x04, 0x08
 		};
 
@@ -204,9 +218,7 @@ namespace PokemonGBAFrameWork
 
 			if (pokemon.Length < MAXPOKEMONENTRENADOR)
 			{
-				pokemonFinal = new bool[MAXPOKEMONENTRENADOR];
-				for (int i =0; i< pokemon.Length;  i++)
-					pokemonFinal[i] = pokemon[i];
+				pokemonFinal=new bool[MAXPOKEMONENTRENADOR-pokemon.Length].AfegirValors(pokemon).ToArray();
 				
 			}
 			else if (pokemon.Length > MAXPOKEMONENTRENADOR)
@@ -215,25 +227,33 @@ namespace PokemonGBAFrameWork
 
 			pokemon = pokemonFinal;
 			pokemonFinal = new bool[BITSBYTE];
-			for (int i = 2,j=0; j<pokemon.Length; i++,j++)
+			for (int i =BITSBYTE-pokemon.Length,j=0; j<pokemon.Length; i++,j++)
 				pokemonFinal[i] = pokemon[j];
 
-			numPokemonShiny = pokemonFinal.ToByte();
+			numPokemonShiny = pokemonFinal.Reverse().ToArray().ToByte();
 			
 			return new ComandosScript.SetVar(VariableShinytzer,(int)(Hex)(numPokemonShiny.ToString().PadLeft(2, '0') + entrenador.EquipoPokemon.NumeroPokemon.ToString().PadLeft(2,'0')));
 		}
-		public static string SimpleScriptBattleShinyTrainerXSE(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
+		public static string SimpleScriptBattleShinyTrainerXSE(RomGba rom,int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
 		{
-			return SimpleScriptBattleShinyTrainer(indexEntrenador,entrenador,pokemon).GetDeclaracionXSE(true,"ScriptTrainer"+entrenador.Nombre+"Shiny");
+			return SimpleScriptBattleShinyTrainer(rom,indexEntrenador,entrenador,pokemon).GetDeclaracionXSE(true,"ScriptTrainer"+entrenador.Nombre+"Shiny");
 		}
-		public static Script SimpleScriptBattleShinyTrainer(int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
+		public static Script SimpleScriptBattleShinyTrainer(RomGba rom,int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
 		{
+			const bool POKEMONSHINY=true;
+			short sIndex=(short)(indexEntrenador+1);
 			StringBuilder strScript=new StringBuilder();
 			Script scriptBattleShiny=new Script();
+			
+			indexEntrenador++;//le sumo uno porque no empieza por 0 en la gba sino por 1
+			
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Lock());
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Faceplayer());
-			scriptBattleShiny.ComandosScript.Add(ScriptLineaPokemonShinyEntrenador(entrenador,pokemon));
-			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Trainerbattle(0x0,(short)(indexEntrenador+1),0x0,new OffsetRom(0),new OffsetRom(0)));
+			if (Extension.Contains(pokemon, POKEMONSHINY)){
+				scriptBattleShiny.ComandosScript.Add(ScriptLineaPokemonShinyEntrenador(entrenador, pokemon));
+			}
+			//scriptBattleShiny.ComandosScript.Add(new ComandosScript.ClearTrainerFlag(sIndex));
+			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Trainerbattle(0x0,sIndex,0x0,new OffsetRom(0),new OffsetRom(0)));
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Release());
 			return scriptBattleShiny;
 		}

@@ -171,6 +171,10 @@ namespace PokemonGBAFrameWork
 		}
 		public unsafe static void SetOffset(byte* ptrDatos,OffsetRom offset)
 		{
+			const byte ZERO=0x0;
+			const int BYTESOFFSETSINELFIN=3;
+			bool allIs0=true;
+			
 			byte* ptrBytesOffset;
 			fixed(byte* ptBytesOffset=offset.BytesPointer)
 			{
@@ -178,8 +182,15 @@ namespace PokemonGBAFrameWork
 				for(int i=0;i<LENGTH;i++)
 				{
 					*ptrDatos=*ptrBytesOffset;
+					if(allIs0&&*ptrBytesOffset!=ZERO&&i<BYTESOFFSETSINELFIN)
+						allIs0=false;
 					ptrDatos++;
 					ptrBytesOffset++;
+				}
+				if(allIs0)
+				{
+					ptrDatos--;//retrocedo porque habra un byte 0x8
+					*ptrDatos=ZERO;//pongo 0x0 porque los pointers que apuntan al offset 0 es que no estan puestos...
 				}
 			}
 		}

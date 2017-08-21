@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Gabriel.Cat;
-
+using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -58,6 +58,7 @@ namespace PokemonGBAFrameWork
 				IList<object> parametros=GetParams();
 				IBloqueConNombre bloque;
 				byte[] bytesAux;
+				int aux;
 				for(int i=0;i<parametros.Count;i++)
 				{
 					strLinea.Append(" ");
@@ -69,11 +70,23 @@ namespace PokemonGBAFrameWork
 					{
 						bytesAux=Serializar.GetBytes(parametros[i]);
 						
-						if((Hex)bytesAux>0)
-						strLinea.Append(((Hex)bytesAux).ByteString);
-						else strLinea.Append("0x0");
-						}
+						if(bytesAux.Length<4)
+							bytesAux=bytesAux.AddArray(new byte[4-bytesAux.Length]);
 						
+						aux=Serializar.ToInt(bytesAux);
+						
+						if(aux<=byte.MaxValue&&aux>=byte.MinValue)
+						{
+							strLinea.Append(((Hex)(byte)aux).ByteString);
+						}
+						else if(aux<=short.MaxValue&&aux>=byte.MinValue)
+						{
+							strLinea.Append(((Hex)(short)aux).ByteString);
+						}else{
+							strLinea.Append(((Hex)aux).ByteString);
+						}
+					}
+					
 				}
 				return strLinea.ToString();
 			}
@@ -122,7 +135,7 @@ namespace PokemonGBAFrameWork
 			return compatibilidad;
 			
 		}
-			
+		
 		public override string ToString()
 		{
 			return Nombre;

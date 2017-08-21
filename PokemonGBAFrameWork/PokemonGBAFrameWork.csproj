@@ -94,6 +94,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckDailyFlags.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckFlag.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckSound.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\ClearTrainerFlag.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Cmd24.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Cmd2C.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Compare.cs" />
