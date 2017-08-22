@@ -18,6 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class Script:IDeclaracion,IBloqueConNombre 
 	{
+		readonly string Enter=Serializar.ToString(new byte[]{0xD,0x0,0xA,0x0});//enter con el formato correcto// \r\n
 		public const byte RETURN=0x3;
 		public const byte END=0x2;
 		
@@ -192,22 +193,24 @@ namespace PokemonGBAFrameWork
 		/// <returns></returns>
 		public string GetDeclaracionXSE(bool isEnd=false,string etiqueta="Start")
 		{
+			
 			if(etiqueta==null)
 				throw new ArgumentNullException("etiqueta");
 			
 			StringBuilder strSCript=new StringBuilder();
 			strSCript.Append("#dynamic ");
 			strSCript.Append(OffsetInicioDynamic.ByteString);
-			strSCript.Append("\n");
+			strSCript.Append(Enter);
 			strSCript.Append("#org @");
 			strSCript.Append(etiqueta);
 			for(int i=0;i<ComandosScript.Count;i++){
-				strSCript.Append("\n");
+				strSCript.Append(Enter);
 				strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
 			}
+			strSCript.Append(Enter);
 			if(isEnd)
-				strSCript.Append("\nEnd");
-			else strSCript.Append("\nReturn");
+				strSCript.Append("end");
+			else strSCript.Append("return");
 			
 			return strSCript.ToString();
 			

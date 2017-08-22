@@ -54,7 +54,7 @@ namespace PokemonGBAFrameWork
 
 		public  string LineaEjecucionXSE {
 			get{
-				StringBuilder strLinea=new StringBuilder(Nombre);
+				StringBuilder strLinea=new StringBuilder(Nombre.ToLower());
 				IList<object> parametros=GetParams();
 				IBloqueConNombre bloque;
 				byte[] bytesAux;
