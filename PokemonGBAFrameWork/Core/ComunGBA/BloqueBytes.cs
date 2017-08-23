@@ -100,9 +100,9 @@ namespace PokemonGBAFrameWork
 		}
 		public int SearchEmptyBytes(int length,int inicio=0x800000)
 		{
-			int offsetEmpty=SearchEmptyBytes(length,0x0,inicio);
+			int offsetEmpty=SearchEmptyBytes(length,0xFF,inicio);
 			if (offsetEmpty < 0){
-				offsetEmpty = SearchEmptyBytes(length,0xFF,inicio);
+				offsetEmpty = SearchEmptyBytes(length,0x0,inicio);
 				
 				if(offsetEmpty<0)
 					throw new OutOfMemoryException("No se ha encontrado espacio libre...");
