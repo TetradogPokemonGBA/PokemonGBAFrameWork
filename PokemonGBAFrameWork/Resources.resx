@@ -292,4 +292,60 @@ bx r6
 
 </value>
   </data>
+  <data name="ShinyzerEsmeraldaEsp" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAgF0AA951AwLJ9QYI
+</value>
+  </data>
+  <data name="ShinyzerEsmeraldaUsa" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAgF0AA951AwLN9QYI
+</value>
+  </data>
+  <data name="ShinyzerRojoYVerdeEsp" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAUE8AA75wAwKhTgQI
+</value>
+  </data>
+  <data name="ShinyzerRojoYVerdeUsa10" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAAFAAA75wAwLJTgQI
+</value>
+  </data>
+  <data name="ShinyzerRojoYVerdeUsa11" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAAFAAA75wAwLdTgQI
+</value>
+  </data>
+  <data name="ShinyzerRubiYZafiroEsp" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAKEgAA8roAgKlEgQI
+</value>
+  </data>
+  <data name="ShinyzerRubiYZafiroUsa10" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAGEgAA8roAgKFDgQI
+</value>
+  </data>
+  <data name="ShinyzerRubiZafiroUsa11Y12" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAGEgAA8roAgKlDgQI
+</value>
+  </data>
 </root>

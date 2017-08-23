@@ -24,46 +24,7 @@ namespace PokemonGBAFrameWork
 		public static readonly int VariableShinytzer = (int)(Hex)"8003";//mirar de poder cambiarla...hasta que no lo sepa hacer será readonly
 		#region Rutina
 		//mas adelante poner el codigo fuente y usar la clase ASM
-		public static readonly byte[] RutinaComun = {
-			0x20, 0x0E, 0x03, 0x28, 0x03, 0xD1, 0x20, 0x48, 0x00, 0x78, 0x00, 0x28,
-			0x00, 0xD1, 0x70, 0x47, 0x3C, 0xB5, 0x43, 0x1E, 0x1C, 0x48, 0x03, 0x70,
-			0x44, 0x78, 0x00, 0x2C, 0x26, 0xD1, 0x0C, 0x1C, 0x1A, 0x4A, 0x00, 0xF0,
-			0x2A, 0xF8, 0x07, 0x23, 0x18, 0x40, 0x03, 0x1C, 0x17, 0x4A, 0x00, 0xF0,
-			0x24, 0xF8, 0x05, 0x04, 0x05, 0x43, 0x5D, 0x40, 0x65, 0x40, 0x70, 0xB4,
-			0x29, 0x0C, 0x28, 0x04, 0xDB, 0x43, 0x1B, 0x0C, 0x0D, 0x4C, 0x0E, 0x4D,
-			0x06, 0x1C, 0x66, 0x43, 0x76, 0x19, 0x32, 0x0C, 0x8A, 0x42, 0x04, 0xD0,
-			0x01, 0x30, 0x01, 0x3B, 0x00, 0x2B, 0xF5, 0xD1, 0x04, 0xE0, 0x09, 0x4A,
-			0x16, 0x60, 0x62, 0xBC, 0x3D, 0x60, 0x3C, 0xBD, 0x70, 0xBC, 0xD9, 0xE7,
-			0x01, 0x25, 0x9D, 0x40, 0x2C, 0x40, 0x00, 0x2C, 0x00, 0xD0, 0x39, 0x68,
-			0xF5, 0xE7, 0x10, 0x47, 0x6D, 0x4E, 0xC6, 0x41, 0x73, 0x60, 0x00, 0x00}
-		;
-		public static readonly byte[] RutinaEsmeralda = {
-			0x80, 0x5D, 0x00, 0x03, 0xDE, 0x75, 0x03, 0x02, 0xCD, 0xF5, 0x06, 0x08
-		};
-
-
-		public static readonly byte[] RutinaRojoYVerde = {
-		    0x50,0x4F, 0x00, 0x03, 0xBE, 0x70, 0x03, 0x02, 0xA1, 0x4E, 0x04, 0x08
-		};
-/* C:\Users\tetra\Desktop\RomsPokemon USA and ESP\ESP\Pokémon Zafiro - copia (2).gba (16/08/2017 15:19:58)
-   Posición Inicial: 00D00553, Posición Final: 00D005B3, Longitud: 00000061 */
-//por mirar
-static readonly byte[] RutinaRubiYZafiro = {
-	0xF0, 0x24, 0xF8, 0x05, 0x04, 0x05, 0x43, 0x5D, 0x40, 0x65, 0x40, 0x70,
-	0xB4, 0x29, 0x0C, 0x28, 0x04, 0xDB, 0x43, 0x1B, 0x0C, 0x0D, 0x4C, 0x0E,
-	0x4D, 0x06, 0x1C, 0x66, 0x43, 0x76, 0x19, 0x32, 0x0C, 0x8A, 0x42, 0x04,
-	0xD0, 0x01, 0x30, 0x01, 0x3B, 0x00, 0x2B, 0xF5, 0xD1, 0x04, 0xE0, 0x09,
-	0x4A, 0x16, 0x60, 0x62, 0xBC, 0x3D, 0x60, 0x3C, 0xBD, 0x70, 0xBC, 0xD9,
-	0xE7, 0x01, 0x25, 0x9D, 0x40, 0x2C, 0x40, 0x00, 0x2C, 0x00, 0xD0, 0x39,
-	0x68, 0xF5, 0xE7, 0x10, 0x47, 0x6D, 0x4E, 0xC6, 0x41, 0x73, 0x60, 0x00,
-	0x00, 0x18, 0x48, 0x00, 0x03, 0xCA, 0xE8, 0x02, 0x02, 0x85, 0x0E, 0x04,
-	0x08
-};
-
-		public static readonly byte[] RutinaRubiYZafiro2 = {
-			0x18, 0x48, 0x00, 0x03, 0xCA, 0xE8, 0x02, 0x02, 0x85, 0x0E, 0x04, 0x08
-		};
-
+		//de momento pondré los bytes directamente :)
 
 		#endregion
 		const byte BYTE1ON=0x88;
@@ -81,7 +42,7 @@ static readonly byte[] RutinaRubiYZafiro = {
 		static readonly Variable VariableEdicionArray2;
 		
 		static readonly Variable VariablePosicionInicio;
-		static readonly LlistaOrdenada<EdicionPokemon,byte[]> DicRutina;
+		static readonly LlistaOrdenada<EdicionPokemon,LlistaOrdenada<Compilacion,byte[]>> DicRutina;
 
 		const int SUMAENTREBYTES=2;
 		const int SUMAENTREARRAYS=3;
@@ -102,34 +63,49 @@ static readonly byte[] RutinaRubiYZafiro = {
 			VariablePosicionInicio.Add(0x405B1,EdicionPokemon.VerdeHojaEsp,EdicionPokemon.RojoFuegoEsp);
 			VariablePosicionInicio.Add(0x6AF91,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
 			
-			DicRutina=new LlistaOrdenada<EdicionPokemon, byte[]>();
+			DicRutina=new LlistaOrdenada<EdicionPokemon,LlistaOrdenada<Compilacion, byte[]>>();
 			
 			
 			//se tiene que mirar el codigo fuente...para la variable poderla cambiar
 			//falta añadir el codigo fuente de todos...de momento pondré los bytes compilados...mas adelante poner el codigo fuente :)
-			aux=RutinaRubiYZafiro;//Compilo RUBI y SHAPHIRE//los ultimos 4 bytes es un pointer a un texto
-			DicRutina.Add(EdicionPokemon.RubiUsa,aux);
-			DicRutina.Add(EdicionPokemon.ZafiroUsa,aux);
-			DicRutina.Add(EdicionPokemon.RubiEsp,aux);
-			DicRutina.Add(EdicionPokemon.ZafiroEsp,aux);
-			aux=RutinaRojoYVerde;//Compilo Verde y Rojo
-			DicRutina.Add(EdicionPokemon.VerdeHojaUsa,aux);
-			DicRutina.Add(EdicionPokemon.RojoFuegoUsa,aux);
-			DicRutina.Add(EdicionPokemon.VerdeHojaEsp,aux);
-			DicRutina.Add(EdicionPokemon.RojoFuegoEsp,aux);
-			
-			aux=RutinaEsmeralda;//RutinaEsmeralda.AsmBinary;
-			DicRutina.Add(EdicionPokemon.EsmeraldaUsa,aux);
-			DicRutina.Add(EdicionPokemon.EsmeraldaEsp,aux);
+			//aux=RutinaRubiYZafiro;//Compilo RUBI y SHAPHIRE//los ultimos 4 bytes es un pointer a un texto
+			DicRutina.Add(EdicionPokemon.RubiUsa,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroUsa10);
+			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[2],Resources.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina.Add(EdicionPokemon.ZafiroUsa,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroUsa10);
+			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[2],Resources.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina.Add(EdicionPokemon.RubiEsp,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.RubiEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroEsp);
+			DicRutina.Add(EdicionPokemon.ZafiroEsp,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.ZafiroEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroEsp);
+			//aux=RutinaRojoYVerde;//Compilo Verde y Rojo
+			DicRutina.Add(EdicionPokemon.VerdeHojaUsa,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.VerdeHojaUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeUsa10);
+			DicRutina[EdicionPokemon.VerdeHojaUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRojoYVerdeUsa11);
+			DicRutina.Add(EdicionPokemon.RojoFuegoUsa,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.RojoFuegoUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeUsa10);
+			DicRutina[EdicionPokemon.RojoFuegoUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRojoYVerdeUsa11);
+			DicRutina.Add(EdicionPokemon.VerdeHojaEsp,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.VerdeHojaEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeEsp);
+			DicRutina.Add(EdicionPokemon.RojoFuegoEsp,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.RojoFuegoEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeEsp);
+			//aux=RutinaEsmeralda;//RutinaEsmeralda.AsmBinary;
+			DicRutina.Add(EdicionPokemon.EsmeraldaUsa,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.EsmeraldaUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerEsmeraldaUsa);
+			DicRutina.Add(EdicionPokemon.EsmeraldaEsp,new LlistaOrdenada<Compilacion, byte[]>());
+			DicRutina[EdicionPokemon.EsmeraldaEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerEsmeraldaEsp);
 			
 			
 
 		}
-		public static bool EstaActivado(RomGba rom)
+		public static bool EstaActivado(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
-			return PosicionRutinaShinyzer(rom)>0;
+			return PosicionRutinaShinyzer(rom,edicion,compilacion)>0;
 		}
 		public static int Activar(RomData rom)
 		{
@@ -137,7 +113,7 @@ static readonly byte[] RutinaRubiYZafiro = {
 		}
 		public static int Activar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
-			int posicion = PosicionRutinaShinyzer(rom);
+			int posicion = PosicionRutinaShinyzer(rom,edicion,compilacion);
 			int offsetAct;
 			if(posicion<0){
 				//más adelante añadir la variable :) asi se puede personalizar :D
@@ -154,9 +130,8 @@ static readonly byte[] RutinaRubiYZafiro = {
 				rom.Data.SetArray(offsetAct,Array2ON);
 				offsetAct+=Array2ON.Length;
 				
-				posicion=rom.Data.SearchEmptyBytes(RutinaComun.Length+DicRutina[edicion].Length);
-				rom.Data.SetArray(posicion,RutinaComun);
-				rom.Data.SetArray(posicion+RutinaComun.Length,DicRutina[edicion]);//los ultimos 4 bytes son para un pointer que va aun texto...de momento dejo el que hay por defecto :)
+				posicion=rom.Data.SearchEmptyBytes(DicRutina[edicion][compilacion].Length);
+				rom.Data.SetArray(posicion,DicRutina[edicion][compilacion]);//los ultimos 4 bytes son para un pointer que va aun texto...de momento dejo el que hay por defecto :)
 				rom.Data.SetArray(offsetAct,new PokemonGBAFrameWork.OffsetRom(posicion+1).BytesPointer);//pongo el pointer a al rutina+1 porque asi es como se ponen los offsets de las rutinas :)
 				
 			}
@@ -165,11 +140,11 @@ static readonly byte[] RutinaRubiYZafiro = {
 		}
 		public static void Desactivar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
-			int posicion = PosicionRutinaShinyzer(rom);
+			int posicion = PosicionRutinaShinyzer(rom,edicion,compilacion);
 			int offsetAct;
 			if (posicion > 0)
 			{
-				rom.Data.Remove(posicion,RutinaComun.Length+DicRutina[edicion].Length);
+				rom.Data.Remove(posicion,DicRutina[edicion][compilacion].Length);
 				offsetAct=Variable.GetVariable(VariablePosicionInicio,edicion,compilacion);
 				rom.Data[offsetAct]=BYTE1OFF;
 				offsetAct+=SUMAENTREBYTES;
@@ -188,11 +163,11 @@ static readonly byte[] RutinaRubiYZafiro = {
 		/// </summary>
 		/// <param name="rom"></param>
 		/// <returns>devuelve -1 si no lo ha encontrado</returns>
-		public  static int PosicionRutinaShinyzer(RomGba rom)
+		public  static int PosicionRutinaShinyzer(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			if (rom == null)
 				throw new ArgumentNullException();
-			return rom.Data.SearchArray(RutinaComun);//mirar si esta en la parte común la variable
+			return rom.Data.SearchArray(DicRutina[edicion][compilacion]);//mirar si esta en la parte común la variable
 		}
 		public static ComandosScript.SetVar ScriptLineaPokemonShiny(short numPokemon)
 		{

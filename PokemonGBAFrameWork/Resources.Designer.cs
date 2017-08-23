@@ -179,5 +179,85 @@ namespace PokemonGBAFrameWork {
 				return ResourceManager.GetString("ASMShinyzer", resourceCulture);
 			}
 		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerEsmeraldaEsp {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerEsmeraldaEsp", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerEsmeraldaUsa {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerEsmeraldaUsa", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerRojoYVerdeEsp {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeEsp", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerRojoYVerdeUsa10 {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeUsa10", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerRojoYVerdeUsa11 {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeUsa11", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerRubiYZafiroEsp {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerRubiYZafiroEsp", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerRubiYZafiroUsa10 {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerRubiYZafiroUsa10", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ShinyzerRubiZafiroUsa11Y12 {
+			get {
+				object obj = ResourceManager.GetObject("ShinyzerRubiZafiroUsa11Y12", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
 	}
 }
