@@ -9,6 +9,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
@@ -258,25 +259,24 @@ namespace PokemonGBAFrameWork
             return bmpTiles;
         }
         public static byte[] GetDatosDescomprimidos(Bitmap bmp, Paleta paleta = null)
-        {
+        {//falta probar
             const int PIXELSPERBYTE = 2;
 
             byte[] bytesBmpGBADescomprimido;
-            int argbAux;
-            TwoKeysList<int, int, Color> diccionariColor;//index,argb,color
-
+            SortedList<Gabriel.Cat.V2.Color,int> dicPosColors;
+            Gabriel.Cat.V2.Color aux;
             if (bmp == null)
                 throw new ArgumentNullException("bmp");
+            bmp=Paleta.ToGBAColor(bmp);
             if (paleta == null)
                 paleta = Paleta.GetPaleta(bmp);
-
-            diccionariColor = new TwoKeysList<int, int, Color>();//index,argb,color
             bytesBmpGBADescomprimido = new byte[bmp.Width * bmp.Height / PIXELSPERBYTE];
-            for (int i = 0; i < paleta.Colores.Length; i++)
+            dicPosColors=new SortedList<Gabriel.Cat.V2.Color, int>();
+            for(int i=0;i<paleta.Colores.Length;i++)
             {
-                argbAux = paleta.Colores[i].ToArgb();
-                if (!diccionariColor.ContainsKey2(argbAux))
-                    diccionariColor.Add(i, argbAux, paleta.Colores[i]);
+            	aux=new Gabriel.Cat.V2.Color(paleta.Colores[i].ToArgb());
+            	if(!dicPosColors.ContainsKey(aux))
+            		dicPosColors.Add(aux,i);
             }
             unsafe
             {
@@ -291,11 +291,11 @@ namespace PokemonGBAFrameWork
 
                         for (int i = 0, f = bytesBmpGBADescomprimido.Length; i < f; i++)
                         {
-                            *ptrBmpGBADescomprimido = (byte)(diccionariColor.GetTkey1WhithTkey2((*ptrColor).ToArgb()) * 16);
+                        	*ptrBmpGBADescomprimido = (byte)(dicPosColors[*ptrColor] * 16);
                             //hago un color
                             ptrColor++;
                             //hago el otro
-                            *ptrBmpGBADescomprimido += (byte)(diccionariColor.GetTkey1WhithTkey2((*ptrColor).ToArgb()));
+                            *ptrBmpGBADescomprimido += (byte)(dicPosColors[*ptrColor]);
                             ptrBmpGBADescomprimido++;
                         }
 
