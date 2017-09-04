@@ -16,9 +16,9 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Script.
 	/// </summary>
-	public class Script:IDeclaracion,IBloqueConNombre 
+	public class Script:IDeclaracion,IBloqueConNombre
 	{
-		readonly string Enter=Serializar.ToString(new byte[]{0xD,0x0,0xA,0x0});//enter con el formato correcto// \r\n
+		const string ENTER="\r\n";//enter con el formato correcto// \r\n
 		public const byte RETURN=0x3;
 		public const byte END=0x2;
 		
@@ -128,14 +128,47 @@ namespace PokemonGBAFrameWork
 						case CountPokemon.ID:comandoActual=new CountPokemon(ptrRom,offsetScript);break;
 						case AddItem.ID:comandoActual=new AddItem(ptrRom,offsetScript);break;
 						case RemoveItem.ID: comandoActual=new RemoveItem(ptrRom,offsetScript);break;
-						
-						//los pongo sin ordenar...falta ponerlos en su sitio cuando esten los demás comandos puestos :)
+						case CheckItemRoom.ID: comandoActual=new CheckItemRoom(ptrRom,offsetScript);break;
+						case CheckItem.ID: comandoActual=new CheckItem(ptrRom,offsetScript);break;
+						case CheckItemType.ID: comandoActual=new CheckItemType(ptrRom,offsetScript);break;
+						case AddPcItem.ID: comandoActual=new AddPcItem(ptrRom,offsetScript);break;
+						case CheckPcItem.ID: comandoActual=new CheckPcItem(ptrRom,offsetScript);break;
+						case AddDecoration.ID: comandoActual=new AddDecoration(ptrRom,offsetScript);break;
+						case RemoveDecoration.ID: comandoActual=new RemoveDecoration(ptrRom,offsetScript);break;
+						case TestDecoration.ID: comandoActual=new TestDecoration(ptrRom,offsetScript);break;
+						case CheckDecoration.ID: comandoActual=new CheckDecoration(ptrRom,offsetScript);break;
+						case ApplyMovement.ID: comandoActual=new ApplyMovement(ptrRom,offsetScript);break;
+						case ApplyMovementPos.ID: comandoActual=new ApplyMovementPos(ptrRom,offsetScript);break;
+						case WaitMovement.ID: comandoActual=new WaitMovement(ptrRom,offsetScript);break;
+						case WaitMovementPos.ID: comandoActual=new WaitMovementPos(ptrRom,offsetScript);break;
+						case HideSprite.ID: comandoActual=new HideSprite(ptrRom,offsetScript);break;
+						case HideSpritePos.ID: comandoActual=new HideSpritePos(ptrRom,offsetScript);break;
+						case ShowSprite.ID: comandoActual=new ShowSprite(ptrRom,offsetScript);break;
+						case ShowSpritePos.ID: comandoActual=new ShowSpritePos(ptrRom,offsetScript);break;
+						case MoveSprite.ID: comandoActual=new MoveSprite(ptrRom,offsetScript);break;
+						case SpriteVisible.ID: comandoActual=new SpriteVisible(ptrRom,offsetScript);break;
+						case SpriteInvisible.ID: comandoActual=new SpriteInvisible(ptrRom,offsetScript);break;
 						case Faceplayer.ID:comandoActual=new Faceplayer(ptrRom,offsetScript);break;
-						case Lock.ID:comandoActual=new Lock(ptrRom,offsetScript);break;
-						case Release.ID:comandoActual=new Release(ptrRom,offsetScript);break;
+						case SpriteFace.ID:comandoActual=new SpriteFace(ptrRom,offsetScript);break;
 						case Trainerbattle.ID:comandoActual=new Trainerbattle(ptrRom,offsetScript);break;
+						case RepeatTrainerBattle.ID:comandoActual=new RepeatTrainerBattle(ptrRom,offsetScript);break;
+						case EndTrainerBattle.ID:comandoActual=new EndTrainerBattle(ptrRom,offsetScript);break;
+						case EndTrainerBattle2.ID:comandoActual=new EndTrainerBattle2(ptrRom,offsetScript);break;
+						case CheckTrainerFlag.ID:comandoActual=new CheckTrainerFlag(ptrRom,offsetScript);break;
 						case ClearTrainerFlag.ID:comandoActual=new ClearTrainerFlag(ptrRom,offsetScript);break;
-					//estos me los salto	
+						case SetTrainerFlag.ID:comandoActual=new EndTrainerBattle(ptrRom,offsetScript);break;
+						case MoveSprite2.ID:comandoActual=new EndTrainerBattle(ptrRom,offsetScript);break;
+						case MoveOffScreen.ID:comandoActual=new EndTrainerBattle(ptrRom,offsetScript);break;
+						case SpriteBehave.ID:comandoActual=new EndTrainerBattle(ptrRom,offsetScript);break;
+						case WaitMsg.ID:comandoActual=new EndTrainerBattle(ptrRom,offsetScript);break;
+						case PrepareMsg.ID:comandoActual=new PrepareMsg(ptrRom,offsetScript);break;
+						case CloseOnKeyPress.ID:comandoActual=new CloseOnKeyPress(ptrRom,offsetScript);break;
+						case LockAll.ID:comandoActual=new LockAll(ptrRom,offsetScript);break;
+						case Lock.ID:comandoActual=new Lock(ptrRom,offsetScript);break;
+						case ReleaseAll.ID:comandoActual=new ReleaseAll(ptrRom,offsetScript);break;
+						case Release.ID:comandoActual=new Release(ptrRom,offsetScript);break;
+						
+						//estos me los salto
 					case RETURN:
 					case END:
 						break;
@@ -200,14 +233,14 @@ namespace PokemonGBAFrameWork
 			StringBuilder strSCript=new StringBuilder();
 			strSCript.Append("#dynamic ");
 			strSCript.Append(OffsetInicioDynamic.ByteString);
-			strSCript.Append(Enter);
+			strSCript.Append(ENTER);
 			strSCript.Append("#org @");
 			strSCript.Append(etiqueta);
 			for(int i=0;i<ComandosScript.Count;i++){
-				strSCript.Append(Enter);
+				strSCript.Append(ENTER);
 				strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
 			}
-			strSCript.Append(Enter);
+			strSCript.Append(ENTER);
 			if(isEnd)
 				strSCript.Append("end");
 			else strSCript.Append("return");
