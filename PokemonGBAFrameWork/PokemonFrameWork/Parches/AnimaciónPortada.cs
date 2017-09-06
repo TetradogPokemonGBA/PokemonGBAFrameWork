@@ -11,7 +11,16 @@
 using System;
 using System.Collections.Generic;
 using Gabriel.Cat.Extension;
-
+/*
+ Falta poner los offsets de la rutina que corresponda a cada edicion y compilacion
+ 
+ FR10
+ //pointer,offsetRutinaCompilada
+ 00 89 18 08->9
+79 5A 70 08->31
+68 04 48 08->43
+01 8C 07 08->68
+ */
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -166,6 +175,16 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+		public int[] OffsetsImgData()
+		{
+			int aux;
+			SortedList<int,int> dic=new SortedList<int, int>();
+			for(int i=0;i<frames.Count;i++){
+				aux=frames[i].OffsetImgData.Offset;
+				if(!dic.ContainsKey(aux))
+					dic.Add(aux,aux);}
+			return dic.GetValues().ToArray();
+		}
 		public static bool EstaActivado(RomGba rom)
 		{
 			return rom.Data.SearchArray(RutinaOn)>0;
