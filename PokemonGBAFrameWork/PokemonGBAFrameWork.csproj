@@ -186,6 +186,7 @@
     <Compile Include="PokemonFrameWork\Mapa\PokemonSalvajes.cs" />
     <Compile Include="PokemonFrameWork\OverWorld\MiniSprites.cs" />
     <Compile Include="PokemonFrameWork\OverWorld\PaletasMinis.cs" />
+    <Compile Include="PokemonFrameWork\Parches\AnimaciónPortada.cs" />
     <Compile Include="PokemonFrameWork\Parches\BorrarMos.cs" />
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />

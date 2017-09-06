@@ -61,6 +61,16 @@ namespace PokemonGBAFrameWork {
 		}
 		
 		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ASMAnimarPortada {
+			get {
+				object obj = ResourceManager.GetObject("ASMAnimarPortada", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
 		///   Busca una cadena traducida similar a .text
 		///.align 2
 		///.thumb
