@@ -30,7 +30,7 @@ namespace PokemonGBAFrameWork
 			VariableQuitarTutorialBatallaOak.Add(EdicionPokemon.VerdeHojaEsp,0x80488);
 			//Creditos
 			Creditos=new Creditos();
-			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"SkySpecial15","sacado de https://wahackforo.com/t-41133/miniaporte-como-quitar-mensaje-oak-en-batalla");
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Knizz","sacado de https://wahackforo.com/t-41133/miniaporte-como-quitar-mensaje-oak-en-batalla");
 		}
 		public static bool EstaActivado(RomData rom)
 		{
