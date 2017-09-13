@@ -64,6 +64,7 @@
     <Compile Include="Core\ComunGBA\BloqueBytes.cs" />
     <Compile Include="Core\ComunGBA\BloqueImagen.cs" />
     <Compile Include="Core\ComunGBA\BloqueSonido.cs" />
+    <Compile Include="Core\ComunGBA\Creditos.cs" />
     <Compile Include="Core\ComunGBA\DWord.cs" />
     <Compile Include="Core\ComunGBA\Edicion.cs" />
     <Compile Include="Core\ComunGBA\LZ77.cs" />

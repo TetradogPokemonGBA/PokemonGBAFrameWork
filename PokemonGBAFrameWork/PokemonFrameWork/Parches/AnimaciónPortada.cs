@@ -5,8 +5,6 @@
  * Hora: 1:46
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- * Créditos a Darthatron por la investigación y a karatekid552 por la rutina acortada, ambos de Pokecommunity
- * Créditos a Ωmega por el tutorial :D https://wahackforo.com/t-47450/fr-animar-portada-al-estilo-liquid-crystal
  */
 using System;
 using System.Collections.Generic;
@@ -23,11 +21,13 @@ namespace PokemonGBAFrameWork
 	{
 		public struct FrameAnimacion
 		{
+			public static readonly byte[] Buffer={0xFF,0xFF};
+			public const int LENGHT=OffsetRom.LENGTH+1+1+2;//imgData,tiempoPausa,siguienteFrame,Buffer
+			
 			OffsetRom offsetImgData;
 			byte tiempoPausa;
 			byte posicionSiguienteFrame;
-			public static readonly byte[] Buffer={0xFF,0xFF};
-			public const int LENGHT=OffsetRom.LENGTH+1+1+2;//imgData,tiempoPausa,siguienteFrame,Buffer
+
 			public OffsetRom OffsetImgData
 			{
 				get{return offsetImgData;}
@@ -129,6 +129,7 @@ namespace PokemonGBAFrameWork
 				return offsetTablaNew;
 			}
 		}
+		
 		public static readonly ASM Rutina;
 		public static readonly Variable OffsetBytesAPoner;
 		public static readonly Variable OffsetPointerRutina;
@@ -136,6 +137,7 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] RutinaOff={0x0, 0x23, 0xC1, 0x5E, 0x06, 0x48};
 		public static readonly byte[] OffsetRutinaOff={0x8B, 0x0A, 0x00, 0x00};
 		public static readonly Variable[] OffsetsRutina;
+		public static readonly Creditos Creditos;
 		const int POSICIONOFFSETTABLA=52;
 		
 		List<FrameAnimacion> frames;
@@ -147,6 +149,7 @@ namespace PokemonGBAFrameWork
 			OffsetBytesAPoner=new Variable("Offset donde se tienen que poner los bytes");
 			OffsetPointerRutina=new Variable("Offset donde va el offset+1 de la rutina");
 			OffsetsRutina=new Variable[OFFSETSRUTINA];
+			Creditos=new Creditos();
 			for(int i=0;i<OFFSETSRUTINA;i++)
 				OffsetsRutina[i]=new Variable("Offset rutina "+i);
 			
@@ -181,6 +184,10 @@ namespace PokemonGBAFrameWork
 			OffsetsRutina[2].Add(EdicionPokemon.VerdeHojaUsa,0x78C01,0x78C15);
 			OffsetsRutina[2].Add(EdicionPokemon.RojoFuegoEsp,0x78C39);
 			OffsetsRutina[2].Add(EdicionPokemon.VerdeHojaEsp,0x78C39);
+			//Créditos
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Ωmega","el tutorial https://wahackforo.com/t-47450/fr-animar-portada-al-estilo-liquid-crystal");
+			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY],"Darthatron","Investigación");
+			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY],"karatekid552","Rutina acortada");
 		}
 		
 		public AnimaciónPortada()
