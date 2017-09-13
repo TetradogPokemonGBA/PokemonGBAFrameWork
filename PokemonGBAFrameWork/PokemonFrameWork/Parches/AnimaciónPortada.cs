@@ -12,14 +12,7 @@ using System;
 using System.Collections.Generic;
 using Gabriel.Cat.Extension;
 /*
- Falta poner los offsets de la rutina que corresponda a cada edicion y compilacion
- 
- FR10
- //pointer,offsetRutinaCompilada
- 00 89 18 08->9
-79 5A 70 08->31
-68 04 48 08->43
-01 8C 07 08->68
+ Falta probar
  */
 namespace PokemonGBAFrameWork
 {
@@ -34,7 +27,7 @@ namespace PokemonGBAFrameWork
 			byte tiempoPausa;
 			byte posicionSiguienteFrame;
 			public static readonly byte[] Buffer={0xFF,0xFF};
-			public const int LENGHT=OffsetRom.LENGTH+1+1+2;//tiempoPausa,siguienteFrame,Buffer
+			public const int LENGHT=OffsetRom.LENGTH+1+1+2;//imgData,tiempoPausa,siguienteFrame,Buffer
 			public OffsetRom OffsetImgData
 			{
 				get{return offsetImgData;}
@@ -142,16 +135,21 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] RutinaOn={0x07, 0x49, 0x08, 0x47, 0x08, 0xBC};
 		public static readonly byte[] RutinaOff={0x0, 0x23, 0xC1, 0x5E, 0x06, 0x48};
 		public static readonly byte[] OffsetRutinaOff={0x8B, 0x0A, 0x00, 0x00};
-		
+		static readonly Variable[] OffsetsRutina;
 		const int POSICIONOFFSETTABLA=52;
 		
 		List<FrameAnimacion> frames;
 		
 		static AnimaciónPortada()
 		{
+			const int OFFSETSRUTINA=4;
 			Rutina=ASM.Compilar(System.Text.ASCIIEncoding.ASCII.GetString(Resources.ASMAnimarPortada));
 			OffsetBytesAPoner=new Variable("Offset donde se tienen que poner los bytes");
 			OffsetPointerRutina=new Variable("Offset donde va el offset+1 de la rutina");
+			OffsetsRutina=new Variable[OFFSETSRUTINA];
+			for(int i=0;i<OFFSETSRUTINA;i++)
+				OffsetsRutina[i]=new Variable("Offset rutina "+i);
+			
 			//Bytes a poner
 			OffsetBytesAPoner.Add(EdicionPokemon.RojoFuegoUsa,0x78BFC,0x78C10);
 			OffsetBytesAPoner.Add(EdicionPokemon.VerdeHojaUsa,0x78BFC,0x78C10);
@@ -162,6 +160,27 @@ namespace PokemonGBAFrameWork
 			OffsetPointerRutina.Add(EdicionPokemon.VerdeHojaUsa,0x78C1C,0x78C30);
 			OffsetPointerRutina.Add(EdicionPokemon.VerdeHojaEsp,0x78C54);
 			OffsetPointerRutina.Add(EdicionPokemon.RojoFuegoEsp,0x78C54);
+			//pongo los offsets de la rutina
+			//primero es un texto que no se para que se usa..."El guardia no te dejará pasar!"
+			OffsetsRutina[0].Add(EdicionPokemon.RojoFuegoUsa,0x188900,0x188978);
+			OffsetsRutina[0].Add(EdicionPokemon.VerdeHojaUsa,0x1888DC,0x188954);
+			OffsetsRutina[0].Add(EdicionPokemon.RojoFuegoEsp,0x188D2E);
+			OffsetsRutina[0].Add(EdicionPokemon.VerdeHojaEsp,0x188D0A);
+			//segundo
+			OffsetsRutina[1].Add(EdicionPokemon.RojoFuegoUsa,0x705A79);
+			OffsetsRutina[1].Add(EdicionPokemon.VerdeHojaUsa,0x705355,0x7053C5);
+			OffsetsRutina[1].Add(EdicionPokemon.RojoFuegoEsp,0x6FC621);
+			OffsetsRutina[1].Add(EdicionPokemon.VerdeHojaEsp,0x6FBD19);
+			//tercero
+			OffsetsRutina[2].Add(EdicionPokemon.RojoFuegoUsa,0x480468,0x4804C8);
+			OffsetsRutina[2].Add(EdicionPokemon.VerdeHojaUsa,0x47FD44,0x47FDB4);
+			OffsetsRutina[2].Add(EdicionPokemon.RojoFuegoEsp,0x478CB0);
+			OffsetsRutina[2].Add(EdicionPokemon.VerdeHojaEsp,0x4783A8);
+			//cuarto
+			OffsetsRutina[2].Add(EdicionPokemon.RojoFuegoUsa,0x78C01,0x78C15);
+			OffsetsRutina[2].Add(EdicionPokemon.VerdeHojaUsa,0x78C01,0x78C15);
+			OffsetsRutina[2].Add(EdicionPokemon.RojoFuegoEsp,0x78C39);
+			OffsetsRutina[2].Add(EdicionPokemon.VerdeHojaEsp,0x78C39);
 		}
 		
 		public AnimaciónPortada()
@@ -173,6 +192,12 @@ namespace PokemonGBAFrameWork
 			get {
 				return frames;
 			}
+		}
+		public FrameAnimacion this[int indexFrame]{
+			
+			get{return frames[indexFrame];}
+			set{
+				frames[indexFrame]=value;}
 		}
 
 		public int[] OffsetsImgData()
@@ -225,6 +250,16 @@ namespace PokemonGBAFrameWork
 			
 			return animacion;
 		}
+		public static byte[] GetRutinaCompilada(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			byte[] rutinaCompilada=(byte[])Rutina.AsmBinary.Clone();
+			//sustituyo los offsets :)
+			rutinaCompilada.SetArray(0x9,new OffsetRom(Variable.GetVariable(OffsetsRutina[0],edicion,compilacion)).BytesPointer);
+			rutinaCompilada.SetArray(0x1F,new OffsetRom(Variable.GetVariable(OffsetsRutina[1],edicion,compilacion)).BytesPointer);
+			rutinaCompilada.SetArray(0x2B,new OffsetRom(Variable.GetVariable(OffsetsRutina[2],edicion,compilacion)).BytesPointer);
+			rutinaCompilada.SetArray(0x44,new OffsetRom(Variable.GetVariable(OffsetsRutina[3],edicion,compilacion)).BytesPointer);
+			return rutinaCompilada;
+		}
 		public static void Activar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int offsetTablaFrames=-1)
 		{
 			const int DEFAULTLENGTHTABLAFRAMES=10;
@@ -234,7 +269,7 @@ namespace PokemonGBAFrameWork
 			{
 				//inserto la rutina
 				//en la posicion 52 va el offset de la tabla
-				rutinaCompilada=(byte[])Rutina.AsmBinary.Clone();
+				rutinaCompilada=GetRutinaCompilada(edicion,compilacion);
 				if(offsetTablaFrames>0)
 				{
 					offsetTablaAux=offsetTablaFrames;
@@ -251,7 +286,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 		public static void Desctivar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,bool borrarTabla=false)
-		{
+		{//mas adelante borrar las imagenes también
 			if(EstaActivado(rom))
 			{
 				if(borrarTabla)
