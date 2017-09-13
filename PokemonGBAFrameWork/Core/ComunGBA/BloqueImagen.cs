@@ -23,6 +23,7 @@ namespace PokemonGBAFrameWork
     {
         public const int LENGTHHEADER = 4;
         public const int LENGTHHEADERCOMPLETO = OffsetRom.LENGTH + LENGTHHEADER;
+        public static readonly Creditos Creditos;
         static readonly byte[] DefaultHeader = { 0x0, 0x8 };
         static readonly byte[] DefaultHeader2 = { 0x0, 0x10 };
         int offset;
@@ -31,6 +32,11 @@ namespace PokemonGBAFrameWork
         BloqueBytes datosDescomprimidos;
         Llista<Paleta> paletas;
 
+        static BloqueImagen()
+        {
+        	Creditos=new Creditos();
+        	Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"Link12552","NSE->Calcular lado imagen a partir de los bytes descomprimidos");
+        }
         public BloqueImagen()
         {
             paletas = new Llista<Paleta>();
@@ -195,7 +201,7 @@ namespace PokemonGBAFrameWork
         #region Interpretando datos
         public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta, bool showBackground = false)
         {
-            int longitudLado = Convert.ToInt32(Math.Sqrt(datosImagenDescomprimida.Length / 32)) * 8;//sacado de NSE creditos a Link12552
+            int longitudLado = Convert.ToInt32(Math.Sqrt(datosImagenDescomprimida.Length / 32)) * 8;
             return BuildBitmap(datosImagenDescomprimida, paleta, longitudLado, longitudLado, showBackground);
         }
         public static Bitmap BuildBitmap(byte[] datosImagenDescomprimida, Paleta paleta, int width, int height, bool showBackground = false)

@@ -17,6 +17,14 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public static class Lz77
 	{
+		public static readonly Creditos Creditos;
+		
+		static Lz77()
+		{
+			Creditos=new Creditos();
+			//no he hablado con el usuario pero diria que ha sido él...
+			Creditos.Add("CodePlex","lastlinkx","coordinar proyecto y desarrollar NSE_Framework.Data 2.0-> comprimir y descomprimir");
+		}
 		// For picking what type of Compression Look-up we want
 		public enum CompressionMode
 		{

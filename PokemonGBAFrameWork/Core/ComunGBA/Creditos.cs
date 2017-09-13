@@ -16,9 +16,10 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class Creditos
 	{
-		public static readonly string[] Comunidades={"Wahackforo","PokemonCommunity"};
+		public static readonly string[] Comunidades={"Wahackforo","PokemonCommunity","Github"};
 		public const int WAHACKFORO=0;
 		public const int POKEMONCOMMUNITY=1;
+		public const int GITHUB=2;
 		
 		LlistaOrdenada<string,LlistaOrdenadaPerGrups<string,string>> dicCreditos;//key1 Comunidad,key2 usuario,value que ha hecho
 		public Creditos()

@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
-//codigo adaptado de https://github.com/doom-desire
+
 namespace PokemonGBAFrameWork
 {
     //mirar de hacer lo que hace Sappy :3 y poder importar desde wave,midi y exportar tambien :D
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork
             PointerHeader = 4,
             EndHeader = 8,
         }
-        
+        public static readonly Creditos Creditos;
         public static readonly System.Drawing.Color[] ColoresOndaPorDefecto = { System.Drawing.Color.Green, System.Drawing.Color.Blue, System.Drawing.Color.Red, System.Drawing.Color.Yellow, System.Drawing.Color.Violet, System.Drawing.Color.Blue, System.Drawing.Color.Brown, System.Drawing.Color.HotPink, System.Drawing.Color.Gray, System.Drawing.Color.Magenta };
         static readonly sbyte[] Lookup = new sbyte[] { 0, 1, 4, 9, 16, 25, 36, 49, -64, -49, -36, -25, -16, -9, -4, -1 };
         public static TwoKeysList<string, string, ushort> DiccionarioHeaderSignificadoCanalesMax = new TwoKeysList<string, string, ushort>();
@@ -52,6 +52,11 @@ namespace PokemonGBAFrameWork
         SByte[][] datos;
         ushort numeroDeCanalesMaximos;
 
+        static BloqueSonido()
+        {
+        	Creditos=new Creditos();
+        	Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"doom-desire","sus proyectos GBA");
+        }
         protected BloqueSonido(string header=null,int canales=1)
         {
             Header = header;
