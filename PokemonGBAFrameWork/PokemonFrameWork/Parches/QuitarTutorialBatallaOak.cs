@@ -5,7 +5,6 @@
  * Hora: 20:24
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- *sacado de https://wahackforo.com/t-41133/miniaporte-como-quitar-mensaje-oak-en-batalla
  */
 using System;
 
@@ -16,6 +15,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public static class QuitarTutorialBatallaOak
 	{
+		public static readonly Creditos Creditos;
 		public static readonly Variable VariableQuitarTutorialBatallaOak;
 		static readonly byte[] Off={0x20, 0x68, 0x10, 0x21, 0x08, 0x43 ,0x20};
 		const byte ON=0x0;
@@ -28,6 +28,9 @@ namespace PokemonGBAFrameWork
 			VariableQuitarTutorialBatallaOak.Add(EdicionPokemon.VerdeHojaUsa,0x80458,0x8046C);
 			VariableQuitarTutorialBatallaOak.Add(EdicionPokemon.RojoFuegoEsp,0x804B4);
 			VariableQuitarTutorialBatallaOak.Add(EdicionPokemon.VerdeHojaEsp,0x80488);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"SkySpecial15","sacado de https://wahackforo.com/t-41133/miniaporte-como-quitar-mensaje-oak-en-batalla");
 		}
 		public static bool EstaActivado(RomData rom)
 		{

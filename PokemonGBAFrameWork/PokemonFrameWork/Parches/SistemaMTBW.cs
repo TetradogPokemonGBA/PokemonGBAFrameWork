@@ -15,12 +15,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//sacado de aqui https://wahackforo.com/t-44036/fire-red-tm-infinitas-sin-cantidad-bw-style
-//@GoGoJJTech , @FBI , @Koakuma.
+//sacado de aqui
+
 namespace PokemonGBAFrameWork
 {
 	public static class SistemaMTBW
 	{
+		public static readonly Creditos Creditos;
 		//se tienen que editar 2 bytes de dos sitios diferentes cambiar A9 por 90  y al lado tiene que haber 20; si cancelas el aprendizaje pierdes la MT si no no...tiene que acabarse la investigacion hecha por el autor...
 		public static readonly Variable VariableOffsetMTBW1;
 		public static readonly Variable VariableOffsetMTBW2;
@@ -86,6 +87,11 @@ namespace PokemonGBAFrameWork
 			VariableOffsetASM.Add(EdicionPokemon.RojoFuegoUsa, 0x131EF4, 0x131F6C);
 			VariableOffsetASM.Add(EdicionPokemon.VerdeHojaEsp, 0x132048);
 			VariableOffsetASM.Add(EdicionPokemon.RojoFuegoEsp, 0x132070);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"GoGoJJTech","por el post https://wahackforo.com/t-44036/fire-red-tm-infinitas-sin-cantidad-bw-style");
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"FBI","por el post https://wahackforo.com/t-44036/fire-red-tm-infinitas-sin-cantidad-bw-style");
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Koakuma","por el post https://wahackforo.com/t-44036/fire-red-tm-infinitas-sin-cantidad-bw-style");
 			
 		}
 

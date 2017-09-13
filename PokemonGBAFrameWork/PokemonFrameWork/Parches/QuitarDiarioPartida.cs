@@ -5,7 +5,6 @@
  * Hora: 16:27
  * 
  * Código bajo licencia GNU
- * creditos investigación Darthatron visto en https://wahackforo.com/t-37039/fr-otros-eliminar-diario-previously-on-your-quest
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
@@ -18,6 +17,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public static class QuitarDiarioPartida
 	{
+		public static readonly Creditos Creditos;
 		public static readonly byte[] Desactivado1={0x01,0x30};
 		public static readonly byte[] Desactivado2={0xEF,0xD9};
 		
@@ -46,6 +46,9 @@ namespace PokemonGBAFrameWork
 			
 			VariableOffset2.Add(EdicionPokemon.RojoFuegoEsp,0x11112C);
 			VariableOffset2.Add(EdicionPokemon.VerdeHojaEsp,0x111104);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Darthatron","hacer investigación https://wahackforo.com/t-37039/fr-otros-eliminar-diario-previously-on-your-quest");
 			
 		}
 		public static bool EstaActivado(RomData rom)

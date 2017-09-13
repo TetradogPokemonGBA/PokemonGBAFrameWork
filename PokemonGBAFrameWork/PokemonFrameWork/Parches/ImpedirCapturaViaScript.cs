@@ -1,7 +1,6 @@
 ﻿/*
  * Creado por SharpDevelop.
  * Usuario: pikachu240
- * Creditos FBI por el codigo ASM https://www.pokecommunity.com/showpost.php?p=8509928&postcount=20
  * Fecha: 29/05/2017
  * Hora: 21:11
  * Licencia GNU GPL V3
@@ -18,6 +17,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public static class ImpedirCapturaViaScript
 	{
+		public static readonly Creditos Creditos;
 		public static int Variable=0x8000;
 		public const string PARAREEMPLAZARENLATURINA="VARIABLE";
 		public static readonly Variable VariablePosicionLinea;
@@ -31,6 +31,9 @@ namespace PokemonGBAFrameWork
 			VariablePosicionLinea.Add(EdicionPokemon.VerdeHojaUsa,0x2D452,0x2D466);
 			VariablePosicionLinea.Add(EdicionPokemon.VerdeHojaEsp,0x2D3D6);
 			VariablePosicionLinea.Add(EdicionPokemon.RojoFuegoEsp,0x2D3D6);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY],"FBI","el codigo ASM https://www.pokecommunity.com/showpost.php?p=8509928&postcount=20");
 		}
 		public static string GetASMCode()
 		{

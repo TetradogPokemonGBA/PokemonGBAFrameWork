@@ -1,11 +1,10 @@
 ﻿/*
  * Creado por SharpDevelop.
- * Usuario: tetra
+ * Usuario: pikachu240
  * Fecha: 20/05/2017
  * Hora: 16:11
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- *Creditos a Javi4315♪
  */
 using System;
 using System.Text;
@@ -22,7 +21,7 @@ namespace PokemonGBAFrameWork
 		const int OFFSETPOKEMONDESENCRIPTADO= 0x203F500;
         public static readonly LlistaOrdenada<EdicionPokemon,ASM> ASMDecrypt;
         public static readonly LlistaOrdenada<EdicionPokemon, ASM> ASMEncrypt;
-
+        public static readonly Creditos Creditos;
         #region Atributos
         int? personalidad;
 		int? idEntrenador;
@@ -71,6 +70,8 @@ namespace PokemonGBAFrameWork
             ASM codeASM;
             ASMDecrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
             ASMEncrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
+            Creditos=new Creditos();
+            Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Javi4315♪","Ha hecho la rutina y lo ha explicado en un tutorial");
             //pongo el codigo compilado para cada edición
         }
         public PokemonEditorScripting()

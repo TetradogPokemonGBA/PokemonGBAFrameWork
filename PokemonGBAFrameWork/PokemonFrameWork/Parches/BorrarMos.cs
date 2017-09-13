@@ -5,7 +5,7 @@
  * Hora: 14:54
  * 
  * Código bajo licencia GNU
- *  creditos al autor del descubrimiento JPAN de pokemoncommunity, sacado del post https://wahackforo.com/t-49334/fr-permitir-que-tus-pokemon-puedan-olvidar-cualquier-ataque
+ *  creditos al autor del descubrimiento  de pokemoncommunity, 
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
 	{
 		const byte ON=0x00;
 		const byte OFF=0x01;
-		
+		public static readonly Creditos Creditos;
 		public static readonly Variable VariableOffset1;
 		public static readonly Variable VariableOffset2;
 		
@@ -59,6 +59,9 @@ namespace PokemonGBAFrameWork
 			
 			VariableOffset2.Add(EdicionPokemon.RubiUsa,0x6F054,0x6F074,0x6F074);
 			VariableOffset2.Add(EdicionPokemon.ZafiroUsa,0x6F058,0x6F078,0x6F078);
+			//Créditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY],"JPAN","sacado del post https://wahackforo.com/t-49334/fr-permitir-que-tus-pokemon-puedan-olvidar-cualquier-ataque");
 
 		}
 		

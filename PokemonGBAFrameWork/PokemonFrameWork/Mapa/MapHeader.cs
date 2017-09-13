@@ -1,7 +1,6 @@
 ﻿/*
  * Creado por SharpDevelop.
  * Usuario: pikachu240
- * Creditos:shinyquagsire23,github,MEH/src/us/plxhack/MEH/IO/MapHeader.java
  * Fecha: 28/05/2017
  * Hora: 21:32
  * Licencia GNU GPL V3
@@ -16,6 +15,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class MapHeader
 	{
+		public static readonly Creditos Creditos;
 		public static readonly Zona ZonaBanks;
 		
 		int bank;
@@ -55,6 +55,10 @@ namespace PokemonGBAFrameWork
 			ZonaBanks.Add(EdicionPokemon.ZafiroUsa,0x53304,0x53344);
 			ZonaBanks.Add(EdicionPokemon.ZafiroEsp,0x53760);
 			ZonaBanks.Add(EdicionPokemon.RubiEsp,0x53760);
+			
+			//créditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"shinyquagsire23","adaptado de MEH/src/us/plxhack/MEH/IO/MapHeader.java");
 		}
 
 		public int Bank {

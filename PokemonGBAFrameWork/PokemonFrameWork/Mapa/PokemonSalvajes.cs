@@ -1,7 +1,6 @@
 ﻿/*
  * Creado por SharpDevelop.
  * Usuario: pikachu240
- * Sacado de MEH autor shinyQuagsire
  * Fecha: 29/05/2017
  * Hora: 7:01
  * Licencia GNU GPL V3
@@ -21,6 +20,7 @@ namespace PokemonGBAFrameWork
 		{
 			Hierba,Agua,Arboles,Pescando
 		}
+		public static readonly Creditos Creditos;
 		private static readonly int[] NumPokemonPorZona = new int[] { 12, 5, 5, 10 };
 		const byte DNACTIVADO=0x1;
 		/// <summary>
@@ -33,7 +33,11 @@ namespace PokemonGBAFrameWork
 		byte ratio;
 		PokemonSalvaje[][] pokemonSalvajes;//la tabla es para cada situación del parche dia y noche
 		
-		
+		static PokemonSalvajes()
+		{
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"shinyQuagsire","por hacer MEH");
+		}
 		public PokemonSalvajes(ZonaDondeAparecen zona=ZonaDondeAparecen.Hierba,bool dnActivado=false)
 		{
 			const int NORMAL=1;

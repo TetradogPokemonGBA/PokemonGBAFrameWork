@@ -1,6 +1,6 @@
 ﻿/*
  * Creado por SharpDevelop.
- * Usuario: tetra
+ * Usuario: pikachu240
  * Fecha: 24/05/2017
  * Hora: 2:46
  * Licencia GNU GPL V3

@@ -5,7 +5,6 @@
  * Time: 20:50
  * 
  * Código bajo licencia GNU
- * créditos:FraynSebas
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
@@ -20,15 +19,18 @@ namespace PokemonGBAFrameWork
 		public const byte ACTIVADO=0xE0;
 		public const byte DESACTIVADO=0xD1;
 		public static readonly Variable VariableQuitarSistemaDeAyudaRojoYVerde;
+		public static readonly Creditos Creditos;
 		static QuitarSistemaDeAyudaRojoYVerde()
 		{
 			VariableQuitarSistemaDeAyudaRojoYVerde=new Variable("Variable quitar sistema de ayuda Rojo y Verde");
 			VariableQuitarSistemaDeAyudaRojoYVerde.Add(EdicionPokemon.RojoFuegoEsp,0x13BA8B);
 			VariableQuitarSistemaDeAyudaRojoYVerde.Add(EdicionPokemon.VerdeHojaEsp,0x13BA63);
-		    VariableQuitarSistemaDeAyudaRojoYVerde.Add(EdicionPokemon.RojoFuegoUsa,0x13B8C3,0x13B93B);
+			VariableQuitarSistemaDeAyudaRojoYVerde.Add(EdicionPokemon.RojoFuegoUsa,0x13B8C3,0x13B93B);
 			VariableQuitarSistemaDeAyudaRojoYVerde.Add(EdicionPokemon.VerdeHojaUsa,0x13B89B,0x13B913);
-		
-		
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"FraynSebas","Hacer la investigación");
+			
 		}
 		public static bool EstaActivado(RomData rom)
 		{

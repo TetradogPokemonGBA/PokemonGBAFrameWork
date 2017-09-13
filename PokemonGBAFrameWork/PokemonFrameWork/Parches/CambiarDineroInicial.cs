@@ -5,7 +5,6 @@
  * Time: 21:25
  * 
  * Código bajo licencia GNU
- * Créditos:Sonicarvalho  wahack
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
@@ -17,6 +16,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public static class CambiarDineroInicial
 	{
+		public static readonly Creditos Creditos;
 		public const int MAX=999999;//diria que sin hacks no se puede...por mirar
 		public const int DEFAULT=3000;
 		public static readonly Variable VariableCambiarDineroInicial;
@@ -30,7 +30,10 @@ namespace PokemonGBAFrameWork
 			VariableCambiarDineroInicial.Add(EdicionPokemon.VerdeHojaUsa,0x54B60,0x54B74);
 			VariableCambiarDineroInicial.Add(0x54C54,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
 			VariableCambiarDineroInicial.Add(EdicionPokemon.EsmeraldaUsa,0x845BC);
-		VariableCambiarDineroInicial.Add(EdicionPokemon.EsmeraldaEsp,0x845D0);
+			VariableCambiarDineroInicial.Add(EdicionPokemon.EsmeraldaEsp,0x845D0);
+			//Créditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Sonicarvalho","Decir como se hace");
 		}
 		
 		public static int GetDineroInicial(RomData rom)

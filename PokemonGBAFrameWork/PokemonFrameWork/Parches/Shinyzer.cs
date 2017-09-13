@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
 {
 	public static class Shinyzer
 	{
+		public static readonly Creditos Creditos;
 		//public static readonly ASM RutinaEsmeralda=ASM.Compilar(Resources.ASMShinyzer);
 		public static readonly int VariableShinytzer = (int)(Hex)"8003";//mirar de poder cambiarla...hasta que no lo sepa hacer será readonly
 		#region Rutina
@@ -98,6 +99,9 @@ namespace PokemonGBAFrameWork
 			DicRutina.Add(EdicionPokemon.EsmeraldaEsp,new LlistaOrdenada<Compilacion, byte[]>());
 			DicRutina[EdicionPokemon.EsmeraldaEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerEsmeraldaEsp);
 			
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"HackMew","Ha hecho la rutina");
 			
 
 		}

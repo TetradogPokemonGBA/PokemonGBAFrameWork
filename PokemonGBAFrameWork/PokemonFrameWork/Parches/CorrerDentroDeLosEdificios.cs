@@ -5,7 +5,6 @@
  * Time: 20:06
  * 
  * Código bajo licencia GNU
- * créditos:Guilly Alpha de Wahack
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
@@ -19,6 +18,7 @@ namespace PokemonGBAFrameWork
 	{
 		const byte ACTIVADO=0x0;
 		const byte DESACTIVADO=0x8;
+		public static readonly Creditos Creditos;
 		public static readonly Variable VariableCorrerDentroDeLosEdificios;
 		static CorrerDentroDeLosEdificios()
 		{
@@ -33,6 +33,9 @@ namespace PokemonGBAFrameWork
 			VariableCorrerDentroDeLosEdificios.Add(EdicionPokemon.ZafiroUsa,0xE5E00,0xE5E20);
 			VariableCorrerDentroDeLosEdificios.Add(EdicionPokemon.EsmeraldaEsp,0x119E00);
 			VariableCorrerDentroDeLosEdificios.Add(EdicionPokemon.EsmeraldaUsa,0x11A1E8);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Guilly Alpha","Escribió como se hacia");
 			
 		}
 		public static bool EstaActivado(RomData rom)

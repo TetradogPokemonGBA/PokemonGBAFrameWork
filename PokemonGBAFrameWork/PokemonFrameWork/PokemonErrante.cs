@@ -154,6 +154,12 @@ namespace PokemonGBAFrameWork
 			
 		}
 
+		public static readonly Creditos Creditos;
+		static PokemonErrante()
+		{
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Ratzhier","Investigación");
+		}
         public static bool EsCompatible(RomData romData)
         {
             return Ruta.VariableBancoMapaRutaValido.Diccionario.ContainsKey(romData.Compilacion) && Ruta.VariableBancoMapaRutaValido.Diccionario[romData.Compilacion].ContainsKey(romData.Edicion);

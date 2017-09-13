@@ -22,7 +22,7 @@ namespace PokemonGBAFrameWork
 {
     //mirar de hacer lo que hace Sappy :3 y poder importar desde wave,midi y exportar tambien :D
     //poder añadir instrumentos,quitarlos y editarlos :D
-    public class BloqueSonido : ObjectAutoId
+    public class BloqueSonido : ObjectAutoId,IComparable
     {
         enum Posicion
         {
@@ -351,6 +351,24 @@ namespace PokemonGBAFrameWork
             bwSonido.Write((int)(bwSonido.BaseStream.Length) - 8);
             return msSonido;
         }
+
+		#region IComparable implementation
+
+
+		int IComparable.CompareTo(object obj)
+		{
+			BloqueSonido blSonido=obj as BloqueSonido;
+			int compareTo;
+			if(blSonido!=null)
+				compareTo=String.Compare(IdAuto,blSonido.IdAuto);
+			else compareTo=(int)CompareTo.Inferior;
+			return compareTo;
+				
+		}
+
+
+		#endregion
+
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();

@@ -5,7 +5,6 @@
  * Time: 20:37
  * 
  * Código bajo licencia GNU
- * créditos:♠Ϛﮠც㆚ꂅℛᎧ♠ de Wahack
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
@@ -19,6 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public static class EvolucionarSinNationalDex
 	{
+		public static readonly Creditos Creditos;
 		public static readonly byte[] Desactivado={0x97,0x28,0x14,0xDD};
 		public static readonly byte[] Activado={0x0,0x0,0x14,0xE0};
 		public static readonly Variable VariableEvolucionarSinNationalDex;
@@ -29,6 +29,9 @@ namespace PokemonGBAFrameWork
 			VariableEvolucionarSinNationalDex.Add(EdicionPokemon.VerdeHojaEsp,0xCEB56);
 			VariableEvolucionarSinNationalDex.Add(EdicionPokemon.RojoFuegoUsa,0xCE91A,0xCE92E);
 			VariableEvolucionarSinNationalDex.Add(EdicionPokemon.VerdeHojaUsa,0xCE8EE,0xCE902);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"♠Ϛﮠც㆚ꂅℛᎧ♠","Decir como se hace");
 		}
 		public static bool EstaActivado(RomData rom)
 		{

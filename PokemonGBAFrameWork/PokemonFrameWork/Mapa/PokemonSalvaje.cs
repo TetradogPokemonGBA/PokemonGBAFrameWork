@@ -1,7 +1,6 @@
 ﻿/*
  * Creado por SharpDevelop.
  * Usuario: pikachu240
- * Sacado de MEH autor shinyQuagsire
  * Fecha: 29/05/2017
  * Hora: 6:43
  * Licencia GNU GPL V3
@@ -18,11 +17,16 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class PokemonSalvaje
 	{
+		public static readonly Creditos Creditos;
 		public const int LENGHT=4;
 		Pokemon pokemon;
 		byte nivelMinimo;
 		byte nivelMaximo;
-		
+		static PokemonSalvaje()
+		{
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"shinyQuagsire","por hacer MEH");
+		}
 		public PokemonSalvaje()
 		{
 		}

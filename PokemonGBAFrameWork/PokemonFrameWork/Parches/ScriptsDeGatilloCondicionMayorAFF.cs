@@ -5,7 +5,6 @@
  * Time: 20:59
  * 
  * Código bajo licencia GNU
- *créditos:♠Ϛﮠც㆚ꂅℛᎧ♠ Wahack
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
@@ -21,6 +20,7 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] Activado={0x21,0x89};
 		public static readonly byte[] Desactivado={0x21,0x7A};
 		public static readonly Variable VariableScriptsDeGatilloCondicionMayorAFF;
+		public static readonly Creditos Creditos;
 		static ScriptsDeGatilloCondicionMayorAFF()
 		{
 			VariableScriptsDeGatilloCondicionMayorAFF=new Variable("Variable scripts de gatillo con condicion mayor que FF");
@@ -34,6 +34,9 @@ namespace PokemonGBAFrameWork
 			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.ZafiroUsa,0x68DA6,0x68DC6);
 			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.EsmeraldaEsp,0x9D086);
 			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.EsmeraldaEsp,0x9D072);
+			//Creditos
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"♠Ϛﮠც㆚ꂅℛᎧ♠"," por el post");
 		}
 		public static bool EstaActivado(RomData rom)
 		{

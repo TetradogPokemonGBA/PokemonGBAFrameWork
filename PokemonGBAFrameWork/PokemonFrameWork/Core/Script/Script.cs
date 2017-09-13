@@ -18,6 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class Script:IDeclaracion,IBloqueConNombre
 	{
+		public static readonly Creditos Creditos;
 		const string ENTER="\r\n";//enter con el formato correcto// \r\n
 		public const byte RETURN=0x3;
 		public const byte END=0x2;
@@ -25,7 +26,12 @@ namespace PokemonGBAFrameWork
 		public static Hex OffsetInicioDynamic="800000";
 		Llista<Comando> comandosScript;
 		string nombreBloque;
-		
+		static Script()
+		{
+			Creditos=new Creditos();
+			Creditos.Add("XSE","HackMew","Hacer la aplicacion y sus explicaciones");
+		}
+			
 		public Script()
 		{
 			comandosScript=new Llista<Comando>();
