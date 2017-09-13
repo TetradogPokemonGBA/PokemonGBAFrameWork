@@ -135,7 +135,7 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] RutinaOn={0x07, 0x49, 0x08, 0x47, 0x08, 0xBC};
 		public static readonly byte[] RutinaOff={0x0, 0x23, 0xC1, 0x5E, 0x06, 0x48};
 		public static readonly byte[] OffsetRutinaOff={0x8B, 0x0A, 0x00, 0x00};
-		static readonly Variable[] OffsetsRutina;
+		public static readonly Variable[] OffsetsRutina;
 		const int POSICIONOFFSETTABLA=52;
 		
 		List<FrameAnimacion> frames;
