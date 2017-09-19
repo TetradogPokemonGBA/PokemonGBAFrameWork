@@ -810,6 +810,10 @@ namespace PokemonGBAFrameWork
 		{
 			SetPokedex(rom.Rom,rom.Edicion,rom.Compilacion,rom.Pokedex,rom.Objetos.Count,AtaquesAprendidos.GetAtaquesAprendidosDic(rom));
 		}
+		public static void SetPokedex(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,IList<Pokemon> pokedex)
+		{
+			SetPokedex(rom,edicion,compilacion,pokedex,Objeto.GetTotal(rom,edicion,compilacion),AtaquesAprendidos.GetAtaquesAprendidosDic(rom,edicion,compilacion));
+		}
 		public static void SetPokedex(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,IList<Pokemon> pokedex,int totalObjetos,LlistaOrdenadaPerGrups<int,AtaquesAprendidos> dicAtaquesPokemon)
 		{
 			OffsetRom offsetNombre;

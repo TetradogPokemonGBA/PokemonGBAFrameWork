@@ -154,6 +154,49 @@ namespace PokemonGBAFrameWork
         {
             return Lz77.Comprimir(datosDescomprimidos.Bytes, 0);
         }
+        public void CambiarPosicionColor(int colorLeft,int colorRight,bool cambiarPaletas=true)
+        {//por probar :D
+        	if(colorLeft<0||colorLeft>Paleta.LENGTH||colorRight<0||colorRight>Paleta.LENGTH)
+        		throw new ArgumentOutOfRangeException();
+        	byte bColorLeft=(byte)colorLeft;
+        	byte bColorRight=(byte)colorRight;
+        	byte left;
+        	byte right;
+        	byte aux;
+        	unsafe{
+        		byte* ptrBytesImg;
+        		fixed(byte* ptBytesImg=datosDescomprimidos.Bytes)
+        		{
+        			ptrBytesImg=ptBytesImg;
+        			for(int i=0,f=datosDescomprimidos.Bytes.Length;i<f;i++)
+        			{
+        				left=(*ptrBytesImg).GetHalfByte();
+        				right=(*ptrBytesImg).GetHalfByte(false);
+        				//si  es el colorleft pongo colorRight y si el colorRight pongo colorLeft
+        				
+        				if(left==bColorLeft)
+        					left=bColorRight;
+        				else if(left==bColorRight)
+        					left=bColorLeft;
+        				
+        				if(right==bColorLeft)
+        					right=bColorRight;
+        				else if(right==bColorRight)
+        					right=bColorLeft;
+        				//formo el byte
+        				aux=left.SetHalfByte(right);
+        				//aplico los cambios
+        				*ptrBytesImg=aux;
+        				ptrBytesImg++;
+        				
+        			}
+        		}
+        	
+        	}
+        	if(cambiarPaletas)
+        		for(int i=0;i<paletas.Count;i++)
+        			paletas[i].CambiarPosicion(colorLeft,colorRight);
+        }
         public static void SetBloqueImagen(RomGba rom, int offsetHeader, BloqueImagen bloqueImg, bool borrarDatosAnterioresImg = true, bool setPaletasSacadasDeLaRom = false)
         {//mirar si va bien
 

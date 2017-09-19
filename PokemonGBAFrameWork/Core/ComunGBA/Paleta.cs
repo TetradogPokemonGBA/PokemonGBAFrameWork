@@ -121,6 +121,12 @@ namespace PokemonGBAFrameWork
 		#region IComparable implementation
 
 
+		public void CambiarPosicion(int colorLeft,int colorRight)
+		{
+			Color aux=colores[colorLeft];
+			colores[colorLeft]=colores[colorRight];
+			colores[colorRight]=aux;
+		}
 		public int CompareTo(Paleta other)
 		{
 			int compareTo;

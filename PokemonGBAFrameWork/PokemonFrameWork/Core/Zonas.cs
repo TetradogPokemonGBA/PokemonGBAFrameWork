@@ -29,5 +29,9 @@ namespace PokemonGBAFrameWork
 
 			return  new OffsetRom(rom,GetValue(zona,edicionPokemon,compilacion));
 		}
+		public static void SetOffsetRom(Zona zona,RomGba rom,EdicionPokemon edicionPokemon,Compilacion compilacion,OffsetRom offsetToSet)
+		{
+			OffsetRom.SetOffset(rom,GetOffsetRom(rom,zona,edicionPokemon,compilacion),offsetToSet.Offset);
+		}
 	}
 }
