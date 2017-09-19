@@ -234,20 +234,20 @@ namespace PokemonGBAFrameWork
                                                                               {
                                                                                   temp = datosImagenDescomprimida[posByteImgArray];
                                                                                   //pongo los pixels de dos en dos porque se leen diferente de la paleta
-                                                                                  //pixel izquierdo
+                                                                                  //pixel derecho
 
                                                                                   pos = (x1 + x2) * BYTESPERPIXEL + (y1 + y2) * bytesPorLado;
-                                                                                  color = colores[temp & 0xF];
+                                                                                  color = colores[temp.GetHalfByte(false)]; 
 
                                                                                   bytesBmp[pos] = color.B;
                                                                                   bytesBmp[pos + 1] = color.G;
                                                                                   bytesBmp[pos + 2] = color.R;
                                                                                   bytesBmp[pos + 3] = color.A;
 
-                                                                                  //pixel derecho
+                                                                                  //pixel izquierdo
                                                                                   pos += BYTESPERPIXEL;
 
-                                                                                  color = colores[(temp & 0xF0) >> 4];
+                                                                                  color = colores[temp.GetHalfByte(true)];
                                                                                   bytesBmp[pos] = color.B;
                                                                                   bytesBmp[pos + 1] = color.G;
                                                                                   bytesBmp[pos + 2] = color.R;
