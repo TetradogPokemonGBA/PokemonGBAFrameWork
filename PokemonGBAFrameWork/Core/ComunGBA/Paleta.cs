@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
+using PokemonGBAFrameWork.Extension;
 
 namespace PokemonGBAFrameWork
 {
@@ -200,13 +201,9 @@ namespace PokemonGBAFrameWork
 		}
 		public static Paleta GetPaleta(Bitmap img)
 		{//falta probar
-			return IGetPaleta(img.Clone(new Rectangle(0,0,img.Width,img.Height),System.Drawing.Imaging.PixelFormat.Format16bppRgb555));
+			return new Paleta(img.GetPaleta());
 		}
-		internal static Paleta IGetPaleta(Bitmap imgTratada)
-		{//falta probar
-			return new Paleta(imgTratada.Palette.Entries);
-			
-		}
+
 
 
 		public static void SetPaleta(RomGba rom, Paleta paleta)

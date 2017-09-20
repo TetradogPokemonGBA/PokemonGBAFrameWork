@@ -228,7 +228,7 @@ namespace PokemonGBAFrameWork
 			
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Lock());
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Faceplayer());
-			if (Extension.Contains(pokemon, POKEMONSHINY)){
+			if (Gabriel.Cat.Extension.Extension.Contains<bool>(pokemon, POKEMONSHINY)){
 				scriptBattleShiny.ComandosScript.Add(ScriptLineaPokemonShinyEntrenador(entrenador, pokemon));
 			}
 			//scriptBattleShiny.ComandosScript.Add(new ComandosScript.ClearTrainerFlag(sIndex));

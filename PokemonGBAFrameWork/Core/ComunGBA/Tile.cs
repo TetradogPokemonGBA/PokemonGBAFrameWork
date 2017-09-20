@@ -30,8 +30,8 @@ namespace PokemonGBAFrameWork
 			
 			//A=0
 			const int R = 1;
-			const int G = 2;
-			const int B = 3;
+			const int G = R+1;
+			const int B = G+1;
 			
 			byte? pos=0;
 			int bytesLinea=widthImg*BYTESPORCOLOR;

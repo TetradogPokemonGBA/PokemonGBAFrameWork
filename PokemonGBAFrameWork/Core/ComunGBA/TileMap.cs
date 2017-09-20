@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 using Gabriel.Cat.Extension;
-
+using PokemonGBAFrameWork.Extension;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -28,21 +28,28 @@ namespace PokemonGBAFrameWork
 		public TileMap(Bitmap bmp)
 		{
 			const int BYTESPORCOLOR=4;
+			
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
-			
-			if(bmp.Palette==null||bmp.Palette.Entries.Length>GranPaleta.LENGHT)
-				throw new ArgumentException("Error con la paleta");
+			Color[] imgPalete;
+			if(bmp==null)
+				throw new ArgumentNullException("bmp");
 			if(bmp.Width%Tile.SIZE!=0||bmp.Width%Tile.SIZE!=0)
 				throw new ArgumentException("La imagen tiene que ser divisible por "+Tile.SIZE);
+			if(bmp.Palette==null||bmp.Palette.Entries.Length>GranPaleta.LENGHT)
+				throw new ArgumentException("Error con la paleta");
+			
 			
 			tileSet=new TileSet();
-			
-			for(int i=0;i<bmp.Palette.Entries.Length;i++)
+			tileMap=new int[bmp.Width/Tile.SIZE,bmp.Height/Tile.SIZE];
+			bmp=Paleta.ToGBAColor(bmp);
+			imgPalete=bmp.GetPaleta();
+			for(int i=0;i<imgPalete.Length;i++)
 			{
-				tileSet.Paleta[i]=bmp.Palette.Entries[i];
+				tileSet.Paleta[i]=imgPalete[i];
 			}
+
 			unsafe{
 				
 				byte*[] ptrsImg=new byte*[Tile.SIZE];
@@ -95,6 +102,11 @@ namespace PokemonGBAFrameWork
 			get {
 				return tileSet;
 			}
+		}
+		public Tile this[int x,int y]
+		{
+			get{return tileSet.Tiles[Map[x,y]];}
+			set{Map[x,y]=tileSet.Tiles.IndexOf(value);}
 		}
 		public Bitmap BuildBitmap()
 		{
