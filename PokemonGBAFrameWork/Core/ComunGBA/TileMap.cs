@@ -100,5 +100,31 @@ namespace PokemonGBAFrameWork
 		{
 			return tileSet.BuildBitmap(tileMap);
 		}
+		public  Point GetPosicionTileMap(Point posicionImg)
+		{
+			return GetPosicionTileMap(tileMap,posicionImg);
+		}
+		public static Point GetPosicionTileMap(int[,] tileMap,Point posicionImg)
+		{
+			
+			int xMax=tileMap.GetLength(DimensionMatriz.X);
+			int yMax=tileMap.GetLength(DimensionMatriz.Y);
+			int x=posicionImg.X/Tile.SIZE;
+			int y=posicionImg.Y/Tile.SIZE;
+			
+			if(x<0)
+				x=0;
+			
+			else if(x>xMax)
+				x=xMax;
+			
+			if(y<0)
+				y=0;
+			
+			else if(y>yMax)
+				y=yMax;
+			
+			return new Point(x,y);
+		}
 	}
 }

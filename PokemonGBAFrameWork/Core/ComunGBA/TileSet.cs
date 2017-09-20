@@ -60,62 +60,67 @@ namespace PokemonGBAFrameWork
 			Bitmap bmp=new Bitmap(lenghtX*Tile.SIZE,lenghtY*Tile.SIZE);
 			int bytesLinea;
 			int bytesBloque;
-			int pos=0;
-			unsafe{
-				byte*[] ptrsImg=new byte*[Tile.SIZE];
-				byte*[] ptrsTile=new byte*[Tile.SIZE];
-				bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytes)=>{
-				                                         	
-				                                         	//pongo los tiles
-				                                         	bytesLinea=BYTESPORCOLOR*bmp.Width;
-				                                         	bytesBloque=bytesLinea*Tile.SIZE;
-				                                         	ptrsImg[0]=ptrBytes;
-				                                         	for(int i=1;i<ptrsImg.Length;i++)
-				                                         		ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
-				                                         	for(int y=0;y<lenghtY&&pos>=0;y++){
-				                                         		for(int x=0;x<lenghtX&&pos>=0;x++)
-				                                         		{
-				                                         			pos=tileMap[x,y];
-				                                         			if(pos>=0){
-				                                         				fixed(byte* ptrTile=tiles[pos].Datos)
-				                                         				{
-				                                         					ptrsTile[0]=ptrTile;
-				                                         					for(int i=1;i<ptrsTile.Length;i++)
-				                                         						ptrsTile[i]=ptrsTile[i-1]+Tile.SIZE;
-				                                         					//pongo cada linea de pixeles
-				                                         					for(int j=0;j<Tile.SIZE;j++)
-				                                         					{
-				                                         						//pongo toda la linea
-				                                         						for(int k=0;k<Tile.SIZE;k++)
-				                                         						{
-				                                         							//cojo el color que toca
-				                                         							colorActual=Paleta[*ptrsTile[j]];
-				                                         							//pongo el pixel
-				                                         							*ptrsImg[j]=colorActual.A;
-				                                         							ptrsImg[j]++;
-				                                         							*ptrsImg[j]=colorActual.R;
-				                                         							ptrsImg[j]++;
-				                                         							*ptrsImg[j]=colorActual.G;
-				                                         							ptrsImg[j]++;
-				                                         							*ptrsImg[j]=colorActual.B;
-				                                         							ptrsImg[j]++;
-				                                         							//avanzo el pointer del tile
-				                                         							ptrsTile[j]++;
-				                                         						}
-				                                         						
-				                                         					}
-				                                         				}
-				                                         				
-				                                         			}
-				                                         			//avanzo los pointers
-				                                         			for(int i=0;i<ptrsTile.Length;i++)
-				                                         				ptrsTile[i]=ptrsTile[i]+bytesBloque;
-				                                         		}
-				                                         	}
-				                                         	
-				                                         }));
+			int pos;
+			if(Tiles.Count>0){
+				unsafe{
+					
+					byte*[] ptrsImg=new byte*[Tile.SIZE];
+					byte*[] ptrsTile=new byte*[Tile.SIZE];
+					bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytes)=>{
+					                                         	
+					                                         	//pongo los tiles
+					                                         	bytesLinea=BYTESPORCOLOR*bmp.Width;
+					                                         	bytesBloque=bytesLinea*Tile.SIZE;
+					                                         	ptrsImg[0]=ptrBytes;
+					                                         	for(int i=1;i<ptrsImg.Length;i++)
+					                                         		ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
+					                                         	for(int y=0;y<lenghtY;y++){
+					                                         		for(int x=0;x<lenghtX;x++)
+					                                         		{
+					                                         			pos=tileMap[x,y];
+					                                         			
+					                                         			if(pos<0||pos>GranPaleta.LENGHT)
+					                                         				pos=0;
+					                                         			
+					                                         			fixed(byte* ptrTile=tiles[pos].Datos)
+					                                         			{
+					                                         				ptrsTile[0]=ptrTile;
+					                                         				for(int i=1;i<ptrsTile.Length;i++)
+					                                         					ptrsTile[i]=ptrsTile[i-1]+Tile.SIZE;
+					                                         				//pongo cada linea de pixeles
+					                                         				for(int j=0;j<Tile.SIZE;j++)
+					                                         				{
+					                                         					//pongo toda la linea
+					                                         					for(int k=0;k<Tile.SIZE;k++)
+					                                         					{
+					                                         						//cojo el color que toca
+					                                         						colorActual=Paleta[*ptrsTile[j]];
+					                                         						//pongo el pixel
+					                                         						*ptrsImg[j]=colorActual.A;
+					                                         						ptrsImg[j]++;
+					                                         						*ptrsImg[j]=colorActual.R;
+					                                         						ptrsImg[j]++;
+					                                         						*ptrsImg[j]=colorActual.G;
+					                                         						ptrsImg[j]++;
+					                                         						*ptrsImg[j]=colorActual.B;
+					                                         						ptrsImg[j]++;
+					                                         						//avanzo el pointer del tile
+					                                         						ptrsTile[j]++;
+					                                         					}
+					                                         					
+					                                         				}
+					                                         			}
+					                                         			
+					                                         		}
+					                                         		//avanzo los pointers
+					                                         		for(int i=0;i<ptrsTile.Length;i++)
+					                                         			ptrsTile[i]=ptrsTile[i]+bytesBloque;
+					                                         		
+					                                         	}
+					                                         	
+					                                         }));
+				}
 			}
-			
 			return bmp;
 		}
 	}
