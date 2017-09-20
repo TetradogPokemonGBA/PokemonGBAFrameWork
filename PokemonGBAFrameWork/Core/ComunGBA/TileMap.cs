@@ -31,8 +31,8 @@ namespace PokemonGBAFrameWork
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
-           
-			if(bmp.Palette==null||bmp.Palette.Entries>GranPaleta.LENGHT)
+			
+			if(bmp.Palette==null||bmp.Palette.Entries.Length>GranPaleta.LENGHT)
 				throw new ArgumentException("Error con la paleta");
 			if(bmp.Width%Tile.SIZE!=0||bmp.Width%Tile.SIZE!=0)
 				throw new ArgumentException("La imagen tiene que ser divisible por "+Tile.SIZE);
@@ -52,8 +52,9 @@ namespace PokemonGBAFrameWork
 					ptrsImg[0]=ptrImgData;
 					for(int i=1;i<ptrsImg.Length;i++)
 						ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
-					for(int i=0,x=0,y=0,f=bmp.Width*bmp.Height*BYTESPORCOLOR;i<f;i+=Tile.SIZEBYTESIMG)
+					for(int i=0,x=0,xFin=tileMap.GetLength(DimensionMatriz.X),y=0,f=bmp.Width*bmp.Height*BYTESPORCOLOR;i<f;i+=Tile.SIZEBYTESIMG)
 					{
+						
 						tileCargada=new Tile(ptrsImg,tileSet.Paleta,bmp.Width);
 						posTileEncontrada=-1;
 						for(int j=0;j<tileSet.Tiles.Count&&posTileEncontrada<0;j++)
@@ -67,7 +68,7 @@ namespace PokemonGBAFrameWork
 						}
 						tileMap[x,y]=posTileEncontrada;
 						x++;
-						if(x>tileMap.GetLength(DimensionMatriz.X))
+						if(x>xFin)
 						{
 							x=0;
 							y++;
@@ -98,6 +99,9 @@ namespace PokemonGBAFrameWork
 		public Bitmap ToBitmap()
 		{
 			//creo la imagen
+			Bitmap bmp=new Bitmap(tileMap.GetLength(DimensionMatriz.X)*Tile.SIZE,tileMap.GetLength(DimensionMatriz.Y)*Tile.SIZE);
+			//pongo los bytes en la imagen y listo :D
+			return bmp;
 		}
 	}
 }
