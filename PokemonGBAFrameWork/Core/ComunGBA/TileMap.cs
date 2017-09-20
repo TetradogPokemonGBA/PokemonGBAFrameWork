@@ -81,8 +81,8 @@ namespace PokemonGBAFrameWork
 				
 				
 			}
-			
-			
+			//pongo los colores a GBA :)
+			tileSet.Paleta.ConvertirGBAColor();
 		}
 
 		public int[,] Map {
@@ -96,12 +96,9 @@ namespace PokemonGBAFrameWork
 				return tileSet;
 			}
 		}
-		public Bitmap ToBitmap()
+		public Bitmap BuildBitmap()
 		{
-			//creo la imagen
-			Bitmap bmp=new Bitmap(tileMap.GetLength(DimensionMatriz.X)*Tile.SIZE,tileMap.GetLength(DimensionMatriz.Y)*Tile.SIZE);
-			//pongo los bytes en la imagen y listo :D
-			return bmp;
+			return tileSet.BuildBitmap(tileMap);
 		}
 	}
 }

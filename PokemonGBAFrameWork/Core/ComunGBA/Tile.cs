@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Drawing;
 using Gabriel.Cat.Extension;
 namespace PokemonGBAFrameWork
 {
@@ -63,6 +64,27 @@ namespace PokemonGBAFrameWork
 			}
 			if(!pos.HasValue)
 				throw new ArgumentException("Color no encontrado en la paleta...");
+		}
+
+		public byte[] Datos {
+			get {
+				return datos;
+			}
+		}
+
+		public GranPaleta Paleta {
+			get {
+				return paleta;
+			}
+			set {
+				paleta = value;
+			}
+		}
+		public Bitmap BuildBitmap()
+		{
+			TileSet tileSetAux=new TileSet();
+			tileSetAux.Tiles.Add(this);
+			return tileSetAux.BuildBitmap(new int[1,1]);
 		}
 		public override bool Equals(object obj)
 		{
