@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork
 			return GetPosicion(color.R,color.G,color.B);
 		}
 		public byte? GetPosicion(byte r,byte g,byte b)
-		{
+		{//por optimizar
 			byte? posicion=null;
 			for(byte i=0;i<LENGHT&&posicion<0;i++)
 			{

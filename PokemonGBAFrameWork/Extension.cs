@@ -20,24 +20,13 @@ namespace PokemonGBAFrameWork.Extension
 	/// </summary>
 	public static class Extension
 	{
+		/// <summary>
+		/// Bytes que ocupa un color Convertido con el método de extensión ToGbaBitmap
+		/// </summary>
+		public const int BYTESPORCOLOR=3;
 		
-		public static Bitmap ChangeFormat(this Bitmap bmp, PixelFormat newFormat)
-		{//sacado de tilemap-creator
-			/* better?
-            using (var temp = new Bitmap(bmp))
-            {
-                return temp.Clone(new Rectangle(0, 0, temp.Width, temp.Height), PixelFormat.Format24bppRgb);
-            }*/
-
-			// seems that Bitmap.Clone() does not work correctly?
-			Bitmap clone = new Bitmap(bmp.Width, bmp.Height, newFormat);
-			using (var g = Graphics.FromImage(clone))
-				g.DrawImage(bmp, new Rectangle(0, 0, clone.Width, clone.Height));
-
-			return clone;
-		}
 		public static Color[] GetPaleta(this Bitmap bmp)
-		{//de momento no va del todo bien...
+		{
 			const int BYTESPERCOLOR=4;
 			const int A=0,R=1,G=2,B=3;
 			const int ARGB=4;
@@ -48,7 +37,7 @@ namespace PokemonGBAFrameWork.Extension
 			Color[] paleta;
 			PixelFormat pixelFormat=PixelFormat.Format32bppArgb;
 			if((bmp.PixelFormat&pixelFormat)!=pixelFormat)
-				bmp=bmp.ChangeFormat(pixelFormat);
+				bmp=bmp.Clone(new Rectangle(0,0,bmp.Width,bmp.Height),pixelFormat);
 			unsafe{
 				byte* ptrColorBmp;
 				fixed(byte* ptrBytesBmp=bmp.GetBytes())
@@ -73,5 +62,16 @@ namespace PokemonGBAFrameWork.Extension
 			return paleta;
 			
 		}
+		
+		/// <summary>
+		/// Lo estandariza para poder trabajar de forma homogenia,los colores son los que se verian en la GBA 
+		/// </summary>
+		/// <param name="bmp"></param>
+		/// <returns></returns>
+		public static Bitmap ToGbaBitmap(this Bitmap bmp)
+		{
+			return Paleta.ToGBAColor(bmp).Clone(new Rectangle(0,0,bmp.Width,bmp.Height),PixelFormat.Format24bppRgb);//mirar si funciona
+		}
 	}
+	
 }

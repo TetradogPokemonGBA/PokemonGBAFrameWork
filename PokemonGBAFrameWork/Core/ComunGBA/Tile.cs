@@ -16,47 +16,55 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class Tile
 	{
-		const int BYTESPORCOLOR=4;
-		public const int SIZE=8;
-		public const int SIZEBYTESIMGLINEA=SIZE*BYTESPORCOLOR;
-		public const int SIZEBYTESIMG=SIZE*SIZEBYTESIMGLINEA;
+		
+		
+		public const int PIXELSPORLINEA=8;
+		public const int TOTALPIXELS=PIXELSPORLINEA*PIXELSPORLINEA;
+		/// <summary>
+		/// Longitud si no tiene Alfa
+		/// </summary>
+		public const int SIZEBYTESIMGLINEA=PIXELSPORLINEA*Extension.Extension.BYTESPORCOLOR;
+		/// <summary>
+		/// Longitud si no tiene Alfa
+		/// </summary>
+		public const int SIZEBYTESIMG=PIXELSPORLINEA*SIZEBYTESIMGLINEA;
 		
 		byte[] datos;
 		GranPaleta paleta;
 		public unsafe Tile(byte*[] ptrsImg,GranPaleta paleta,int widthImg)
 		{
-			if(ptrsImg.Length!=SIZE)
-				throw new ArgumentOutOfRangeException();
+			if(ptrsImg.Length!=PIXELSPORLINEA)
+				throw new ArgumentOutOfRangeException("ptrsImg",String.Format("Tienen que ser {0} para poder leer la imagen correctamente.",PIXELSPORLINEA));
 			
 			//A=0
-			const int R = 1;
-			const int G = R+1;
-			const int B = G+1;
+			int r = 0;
+			int g = r+1;
+			int b = g+1;
 			
 			byte? pos=0;
-			int bytesLinea=widthImg*BYTESPORCOLOR;
-			byte*[]ptrsData=new byte*[SIZE];
+			int bytesLinea=widthImg*Extension.Extension.BYTESPORCOLOR;
+			byte*[]ptrsData=new byte*[PIXELSPORLINEA];
 			
 			this.paleta=paleta;
-			datos=new byte[SIZE*SIZE];
+			datos=new byte[TOTALPIXELS];
 			fixed(byte* ptrData=datos)
 			{
 				ptrsData[0]=ptrData;
-				for(int i=1;i<SIZE;i++)
+				for(int i=1;i<PIXELSPORLINEA;i++)
 				{
 					ptrsData[i]=ptrsData[i-1]+bytesLinea;
 				}
 				
-				for(int i=0;i<datos.Length&&pos.HasValue;i+=SIZE)
+				for(int i=0;i<datos.Length&&pos.HasValue;i+=PIXELSPORLINEA)
 				{
 					
-					for(int j=0;j<SIZE&&pos.HasValue;j++)
+					for(int j=0;j<PIXELSPORLINEA&&pos.HasValue;j++)
 					{
-						pos=paleta.GetPosicion(*(ptrsImg[j]+R),*(ptrsImg[j]+G),*(ptrsImg[j]+B));
+						pos=paleta.GetPosicion(*(ptrsImg[j]+r),*(ptrsImg[j]+g),*(ptrsImg[j]+b));
 						if(pos.HasValue){
 							
 							*ptrsData[j]=pos.Value;
-							ptrsImg[j]+=BYTESPORCOLOR;
+							ptrsImg[j]+=Extension.Extension.BYTESPORCOLOR;
 							ptrsData[j]++;
 						}
 					}

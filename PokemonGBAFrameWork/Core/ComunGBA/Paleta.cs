@@ -260,7 +260,7 @@ namespace PokemonGBAFrameWork
 		}
 
 		public static Color ToGBAColor(Color color)
-		{
+		{//estaria bien no tener que usar conversiones y ser lo más simple posible :)
 			byte parteA, parteB;
 			ushort colorGBA;
 			parteA = (byte)((byte)(color.R / 8) + ((byte)((color.G / 8) & 0x7) << 5));
@@ -271,7 +271,7 @@ namespace PokemonGBAFrameWork
 		public static Bitmap ToGBAColor(Bitmap bmp)
 		{
 			int total = bmp.Height * bmp.Width;
-			bmp = bmp.Clone() as Bitmap;
+			bmp = bmp.Clone(new Rectangle(0,0,bmp.Width,bmp.Height),System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			unsafe
 			{
 				bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytesBmp) =>
@@ -287,6 +287,7 @@ namespace PokemonGBAFrameWork
 
 				                                         }));
 			}
+			
 			return bmp;
 		}
 

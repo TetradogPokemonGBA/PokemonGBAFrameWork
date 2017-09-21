@@ -53,24 +53,24 @@ namespace PokemonGBAFrameWork
 		}
 		public Bitmap BuildBitmap(int[,] tileMap)
 		{
-			const int BYTESPORCOLOR=4;
+			const int BYTESPORCOLOR=3;
 			Color colorActual;
 			int lenghtX=tileMap.GetLength(DimensionMatriz.X);
 			int lenghtY=tileMap.GetLength(DimensionMatriz.Y);
-			Bitmap bmp=new Bitmap(lenghtX*Tile.SIZE,lenghtY*Tile.SIZE);
+			Bitmap bmp=new Bitmap(lenghtX*Tile.PIXELSPORLINEA,lenghtY*Tile.PIXELSPORLINEA);
 			int bytesLinea;
 			int bytesBloque;
 			int pos;
 			if(Tiles.Count>0){
 				unsafe{
 					
-					byte*[] ptrsImg=new byte*[Tile.SIZE];
-					byte*[] ptrsTile=new byte*[Tile.SIZE];
+					byte*[] ptrsImg=new byte*[Tile.PIXELSPORLINEA];
+					byte*[] ptrsTile=new byte*[Tile.PIXELSPORLINEA];
 					bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytes)=>{
 					                                         	
 					                                         	//pongo los tiles
 					                                         	bytesLinea=BYTESPORCOLOR*bmp.Width;
-					                                         	bytesBloque=bytesLinea*Tile.SIZE;
+					                                         	bytesBloque=bytesLinea*Tile.PIXELSPORLINEA;
 					                                         	ptrsImg[0]=ptrBytes;
 					                                         	for(int i=1;i<ptrsImg.Length;i++)
 					                                         		ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
@@ -86,12 +86,12 @@ namespace PokemonGBAFrameWork
 					                                         			{
 					                                         				ptrsTile[0]=ptrTile;
 					                                         				for(int i=1;i<ptrsTile.Length;i++)
-					                                         					ptrsTile[i]=ptrsTile[i-1]+Tile.SIZE;
+					                                         					ptrsTile[i]=ptrsTile[i-1]+Tile.PIXELSPORLINEA;
 					                                         				//pongo cada linea de pixeles
-					                                         				for(int j=0;j<Tile.SIZE;j++)
+					                                         				for(int j=0;j<Tile.PIXELSPORLINEA;j++)
 					                                         				{
 					                                         					//pongo toda la linea
-					                                         					for(int k=0;k<Tile.SIZE;k++)
+					                                         					for(int k=0;k<Tile.PIXELSPORLINEA;k++)
 					                                         					{
 					                                         						//cojo el color que toca
 					                                         						colorActual=Paleta[*ptrsTile[j]];

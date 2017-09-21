@@ -27,39 +27,44 @@ namespace PokemonGBAFrameWork
 		}
 		public TileMap(Bitmap bmp)
 		{
-			const int BYTESPORCOLOR=4;
 			
+		
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
 			Color[] imgPalete;
+			byte[] imgData;
 			if(bmp==null)
 				throw new ArgumentNullException("bmp");
-			if(bmp.Width%Tile.SIZE!=0||bmp.Width%Tile.SIZE!=0)
-				throw new ArgumentException("La imagen tiene que ser divisible por "+Tile.SIZE);
+			if(bmp.Width%Tile.PIXELSPORLINEA!=0||bmp.Width%Tile.PIXELSPORLINEA!=0)
+				throw new ArgumentException("La imagen tiene que ser divisible por "+Tile.PIXELSPORLINEA);
 			if(bmp.Palette==null||bmp.Palette.Entries.Length>GranPaleta.LENGHT)
 				throw new ArgumentException("Error con la paleta");
 			
 			
 			tileSet=new TileSet();
-			tileMap=new int[bmp.Width/Tile.SIZE,bmp.Height/Tile.SIZE];
-			bmp=Paleta.ToGBAColor(bmp);
+			tileMap=new int[bmp.Width/Tile.PIXELSPORLINEA,bmp.Height/Tile.PIXELSPORLINEA];
+			
+			bmp=bmp.ToGbaBitmap();
+			imgData=bmp.GetBytes();
 			imgPalete=bmp.GetPaleta();
-			for(int i=0;i<imgPalete.Length;i++)
+			
+
+			for(int i=0;i<imgPalete.Length&&i<GranPaleta.LENGHT;i++)
 			{
 				tileSet.Paleta[i]=imgPalete[i];
 			}
 
 			unsafe{
 				
-				byte*[] ptrsImg=new byte*[Tile.SIZE];
-				fixed(byte* ptrImgData=bmp.GetBytes())
+				byte*[] ptrsImg=new byte*[Tile.PIXELSPORLINEA];
+				fixed(byte* ptrImgData=imgData)
 				{
-					bytesLinea=BYTESPORCOLOR*bmp.Width;
+					bytesLinea=Extension.Extension.BYTESPORCOLOR*bmp.Width;
 					ptrsImg[0]=ptrImgData;
 					for(int i=1;i<ptrsImg.Length;i++)
 						ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
-					for(int i=0,x=0,xFin=tileMap.GetLength(DimensionMatriz.X),y=0,f=bmp.Width*bmp.Height*BYTESPORCOLOR;i<f;i+=Tile.SIZEBYTESIMG)
+					for(int i=0,x=0,xFin=tileMap.GetLength(DimensionMatriz.X),y=0,f=bmp.Width*bmp.Height*Extension.Extension.BYTESPORCOLOR;i<f;i+=Tile.SIZEBYTESIMG)
 					{
 						
 						tileCargada=new Tile(ptrsImg,tileSet.Paleta,bmp.Width);
@@ -88,8 +93,6 @@ namespace PokemonGBAFrameWork
 				
 				
 			}
-			//pongo los colores a GBA :)
-			tileSet.Paleta.ConvertirGBAColor();
 		}
 
 		public int[,] Map {
@@ -121,8 +124,8 @@ namespace PokemonGBAFrameWork
 			
 			int xMax=tileMap.GetLength(DimensionMatriz.X);
 			int yMax=tileMap.GetLength(DimensionMatriz.Y);
-			int x=posicionImg.X/Tile.SIZE;
-			int y=posicionImg.Y/Tile.SIZE;
+			int x=posicionImg.X/Tile.PIXELSPORLINEA;
+			int y=posicionImg.Y/Tile.PIXELSPORLINEA;
 			
 			if(x<0)
 				x=0;
