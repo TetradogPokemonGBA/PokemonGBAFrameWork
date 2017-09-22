@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
-			int[] imgPalete;
+			Color[] imgPalete;
 			byte[] imgData;
 			if(bmp==null)
 				throw new ArgumentNullException("bmp");
@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork
 				imgData=bmp.GetBytes();
 			else imgData=Gabriel.Cat.Extension.Extension.GetBytes(bmp);
 			
-			imgPalete=bmp.GetPaletaInt();
+			imgPalete=bmp.GetPaleta();
 			
 			tileSet=new TileSet(new GranPaleta(imgPalete));
 			
@@ -83,7 +83,7 @@ namespace PokemonGBAFrameWork
 						}
 						tileMap[x,y]=posTileEncontrada;
 						x++;
-						if(x>xFin)
+						if(x==xFin)
 						{
 							x=0;
 							y++;
@@ -91,7 +91,10 @@ namespace PokemonGBAFrameWork
 						//avanzo los punteros
 						for(int j=0;j<ptrsImg.Length;j++)
 							ptrsImg[j]+=Tile.SIZEBYTESIMGLINEA;
+						
 					}
+					if(System.Diagnostics.Debugger.IsAttached)
+						System.Diagnostics.Debugger.Break();
 				}
 				
 				

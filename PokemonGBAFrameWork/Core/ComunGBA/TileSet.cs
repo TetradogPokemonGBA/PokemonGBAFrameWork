@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
@@ -20,17 +21,17 @@ namespace PokemonGBAFrameWork
 	{
 		public static int TilesPorLinea=5;
 		GranPaleta paleta;
-		Llista<Tile> tiles;
+		List<Tile> tiles;
 
 		public TileSet(GranPaleta paleta=null)
 		{
-			tiles=new Llista<Tile>();
+			tiles=new List<Tile>();
 			if(paleta==null)
 				paleta=new GranPaleta();
 			this.paleta=paleta;
 		}
 
-		public Llista<Tile> Tiles {
+		public List<Tile> Tiles {
 			get {
 				return tiles;
 			}

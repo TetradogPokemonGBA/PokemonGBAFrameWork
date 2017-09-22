@@ -30,16 +30,9 @@ namespace PokemonGBAFrameWork
 			if(paleta!=null)
 				for(int i=0;i<paleta.Length&&i<this.paleta.Length;i++)
 					this.paleta[i]=paleta[i];
-			UpdateDic();
+			ConvertirGBAColor();
 		}
-		public GranPaleta(int[] paleta):this()
-		{
-			for(int i=0;i<paleta.Length&&i<COUNT;i++){
-				if(!dic.ContainsKey(paleta[i]))
-					dic.Add(paleta[i],(byte)i);
-				this.paleta[i]=Color.FromArgb(paleta[i]);
-			}
-		}
+
 		
 		
 		public Color this[int index]
@@ -83,9 +76,10 @@ namespace PokemonGBAFrameWork
 			
 			byte? posicion=null;
 			int argb=0xFF<<24|r<<16|g<<8|b;//por mirar
+			
 			if(dic.ContainsKey(argb))
 				posicion=dic[argb];
-			
+
 			return posicion;
 		}
 	}
