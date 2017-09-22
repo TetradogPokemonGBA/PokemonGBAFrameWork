@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace PokemonGBAFrameWork
@@ -16,41 +17,75 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class GranPaleta
 	{
-		public const int LENGHT=256;
-		
+		public const int COUNT=256;
+		SortedList<int,byte> dic;
 		Color[] paleta;
 		public GranPaleta()
 		{
-			paleta=new Color[LENGHT];
+			dic=new SortedList<int, byte>();
+			paleta=new Color[COUNT];
 		}
+		public GranPaleta(Color[] paleta):this()
+		{
+			if(paleta!=null)
+				for(int i=0;i<paleta.Length&&i<this.paleta.Length;i++)
+					this.paleta[i]=paleta[i];
+			UpdateDic();
+		}
+		public GranPaleta(int[] paleta):this()
+		{
+			for(int i=0;i<paleta.Length&&i<COUNT;i++){
+				if(!dic.ContainsKey(paleta[i]))
+					dic.Add(paleta[i],(byte)i);
+				this.paleta[i]=Color.FromArgb(paleta[i]);
+			}
+		}
+		
+		
 		public Color this[int index]
 		{
 			get{return paleta[index];}
-			set{paleta[index]=value;}
+			set{paleta[index]=value;
+				UpdateDic();
+			}
 		}
 		public int Lenght
 		{
 			get{
-				return LENGHT;
+				return COUNT;
 			}
 		}
 		public void ConvertirGBAColor()
 		{
 			for(int i=0;i<paleta.Length;i++)
 				paleta[i]=Paleta.ToGBAColor(paleta[i]);
+			UpdateDic();
 		}
+
+		void UpdateDic()
+		{
+			int aux;
+			dic.Clear();
+			for(int i=0;i<paleta.Length;i++)
+			{
+				aux=0xFF<<24|paleta[i].R<<16|paleta[i].G<<8|paleta[i].B;
+				if(!dic.ContainsKey(aux))
+					dic.Add(aux,(byte)i);
+			}
+		}
+
 		public byte? GetPosicion(Color color)
 		{
 			return GetPosicion(color.R,color.G,color.B);
 		}
 		public byte? GetPosicion(byte r,byte g,byte b)
-		{//por optimizar
+		{
+			
 			byte? posicion=null;
-			for(byte i=0;i<LENGHT&&posicion<0;i++)
-			{
-				if(paleta[i].R==r&&paleta[i].G==g&&paleta[i].B==b)
-					posicion=i;
-			}
+			int argb=0xFF<<24|r<<16|g<<8|b;//por mirar
+			if(dic.ContainsKey(argb))
+				posicion=dic[argb];
+			
 			return posicion;
 		}
 	}

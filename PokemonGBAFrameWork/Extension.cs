@@ -24,45 +24,47 @@ namespace PokemonGBAFrameWork
 		/// Bytes que ocupa un color Convertido con el método de extensión ToGbaBitmap
 		/// </summary>
 		public const int BYTESPORCOLOR=4;
-		public const int R = 1;
-		public const int G = R + 1;
-		public const int B = G + 1;
+		//BGRA
+		public const int A=3;
+		public const int R = A-1;
+		public const int G = R - 1;
+		public const int B = G - 1;
 		
 		public static Color[] GetPaleta(this Bitmap bmp)
 		{
-			const int ARGB=4;
-			const int A=0;
-			LlistaOrdenada<int,int> dicColors=new LlistaOrdenada<int, int>();
-			int pos=0;
-			int aux;
-			int[] intPaleta;
-			Color[] paleta;
-			PixelFormat pixelFormat=PixelFormat.Format32bppArgb;
-			if((bmp.PixelFormat&pixelFormat)!=pixelFormat)
-				bmp=bmp.Clone(new Rectangle(0,0,bmp.Width,bmp.Height),pixelFormat);
-			unsafe{
-				byte* ptrColorBmp;
-				fixed(byte* ptrBytesBmp=bmp.GetBytes())
-				{
-					ptrColorBmp=ptrBytesBmp;
-					
-					for(int i=0,f=bmp.Width*bmp.Height;i<f;i++)
-					{
-						aux=Serializar.ToInt(new byte[]{*(ptrColorBmp+A),*(ptrColorBmp+R),*(ptrColorBmp+G),*(ptrColorBmp+B)});
-						ptrColorBmp+=ARGB;
-						if(!dicColors.ContainsKey(aux))
-							dicColors.Add(aux,pos++);
-					}
-				}
-				
-			}
-			paleta=new Color[dicColors.Count];
-			intPaleta=(int[])dicColors.Keys;
-			for(int i=0;i<dicColors.Count;i++)
-				paleta[i]=Color.FromArgb(intPaleta[i]);
+			int[] paletaInt=GetPaletaInt(bmp);
+			Color[] paleta=new Color[paletaInt.Length];
+			for(int i=0;i<paletaInt.Length;i++)
+				paleta[i]=Color.FromArgb(paletaInt[i]);
 			
 			return paleta;
 			
+		}
+		public static int[] GetPaletaInt(this Bitmap bmp)
+		{
+			const int ARGB=4;
+			LlistaOrdenada<int,int> dicColors=new LlistaOrdenada<int, int>();
+			int pos=0;
+			int aux;
+			BitmapData bmpData=bmp.LockBits( new Rectangle( 0 , 0 , bmp.Width , bmp.Height ) , ImageLockMode.ReadWrite , PixelFormat.Format32bppArgb );
+			unsafe{
+				
+				int* ptrColorBmp;
+				
+				ptrColorBmp=(int*)bmpData.Scan0;
+				
+				for(int i=0,f=bmp.Width*bmp.Height;i<f;i++)
+				{
+					aux=*ptrColorBmp;
+					ptrColorBmp++;
+					if(!dicColors.ContainsKey(aux))
+						dicColors.Add(aux,pos++);
+				}
+				
+				
+			}
+			bmp.UnlockBits(bmpData);
+			return (int[])dicColors.Keys;
 		}
 		
 		/// <summary>
@@ -73,18 +75,32 @@ namespace PokemonGBAFrameWork
 		public static byte[] GetBytes(this Bitmap bmp)
 		{
 			byte[] bytesImg;
-			bmp = bmp.Clone(new Rectangle(0,0,bmp.Width,bmp.Height),System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-			bytesImg=Gabriel.Cat.Extension.Extension.GetBytes(bmp);
+			BitmapData bmpData=bmp.LockBits( new Rectangle( 0 , 0 , bmp.Width , bmp.Height ) , ImageLockMode.ReadWrite , PixelFormat.Format32bppArgb );
 			unsafe{
-				fixed(byte* ptrBytesImg=bytesImg)
-					ToGbaColor(ptrBytesImg,bytesImg.Length);
+				byte* ptrBytesImg=(byte*)bmpData.Scan0;
+				byte* ptrBytes;
+				bytesImg=new byte[bmp.Width*bmp.Height*BYTESPORCOLOR];
+				fixed(byte* ptBytes=bytesImg)
+				{
+					ptrBytes=ptBytes;
+					for(int i=0;i<bytesImg.Length;i++)
+					{
+						*ptrBytes=*ptrBytesImg;
+						ptrBytes++;
+						ptrBytesImg++;
+					}
+					
+					ToGbaColor(ptBytes,bytesImg.Length);
+				}
 			}
+			bmp.UnlockBits(bmpData);
 			return bytesImg;
 		}
 		public static Bitmap ToGbaBitmap(this Bitmap bmp)
 		{
-			bmp.SetBytes(bmp.GetBytes());
-			return bmp;
+			Bitmap bmpNew=new Bitmap(bmp.Width,bmp.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			bmpNew.SetBytes(bmp.GetBytes());
+			return bmpNew;
 		}
 
 		static unsafe void ToGbaColor(byte* ptrBytesBmp,int total)
@@ -92,22 +108,17 @@ namespace PokemonGBAFrameWork
 			const byte SINTRANSPARENCIA=0xFF;
 			const int ARGB=4;
 			Color aux;
-
+			
 			for (int i = 0; i < total; i+=ARGB)
 			{
 				aux=Paleta.ToGBAColor(*(ptrBytesBmp+R),*(ptrBytesBmp+G),*(ptrBytesBmp+B));
 				
-				*ptrBytesBmp=SINTRANSPARENCIA;
-				ptrBytesBmp++;
+				*(ptrBytesBmp+A)=SINTRANSPARENCIA;
+				*(ptrBytesBmp+R)=aux.R;
+				*(ptrBytesBmp+G)=aux.G;
+				*(ptrBytesBmp+B)=aux.B;
 				
-				*ptrBytesBmp=aux.R;
-				ptrBytesBmp++;
-				
-				*ptrBytesBmp=aux.G;
-				ptrBytesBmp++;
-				
-				*ptrBytesBmp=aux.B;
-				ptrBytesBmp++;
+				ptrBytesBmp+=ARGB;
 			}
 
 			

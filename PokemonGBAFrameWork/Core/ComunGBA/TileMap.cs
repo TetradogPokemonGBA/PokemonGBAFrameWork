@@ -36,30 +36,27 @@ namespace PokemonGBAFrameWork
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
-			Color[] imgPalete;
+			int[] imgPalete;
 			byte[] imgData;
 			if(bmp==null)
 				throw new ArgumentNullException("bmp");
 			if(bmp.Width%Tile.PIXELSPORLINEA!=0||bmp.Width%Tile.PIXELSPORLINEA!=0)
 				throw new ArgumentException("La imagen tiene que ser divisible por "+Tile.PIXELSPORLINEA);
-			if(bmp.Palette==null||bmp.Palette.Entries.Length>GranPaleta.LENGHT)
+			if(bmp.Palette==null||bmp.Palette.Entries.Length>GranPaleta.COUNT)
 				throw new ArgumentException("Error con la paleta");
 			
 			
-			tileSet=new TileSet();
+			
 			tileMap=new int[bmp.Width/Tile.PIXELSPORLINEA,bmp.Height/Tile.PIXELSPORLINEA];
 			
 			if(!estaConvertidaAGba)
 				imgData=bmp.GetBytes();
 			else imgData=Gabriel.Cat.Extension.Extension.GetBytes(bmp);
 			
-			imgPalete=bmp.GetPaleta();
+			imgPalete=bmp.GetPaletaInt();
 			
-
-			for(int i=0;i<imgPalete.Length&&i<GranPaleta.LENGHT;i++)
-			{
-				tileSet.Paleta[i]=imgPalete[i];
-			}
+			tileSet=new TileSet(new GranPaleta(imgPalete));
+			
 
 			unsafe{
 				
@@ -93,7 +90,7 @@ namespace PokemonGBAFrameWork
 						}
 						//avanzo los punteros
 						for(int j=0;j<ptrsImg.Length;j++)
-							ptrsImg[i]+=Tile.SIZEBYTESIMGLINEA;
+							ptrsImg[j]+=Tile.SIZEBYTESIMGLINEA;
 					}
 				}
 				

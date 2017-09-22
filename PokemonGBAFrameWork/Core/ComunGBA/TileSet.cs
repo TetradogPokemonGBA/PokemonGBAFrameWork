@@ -21,10 +21,13 @@ namespace PokemonGBAFrameWork
 		public static int TilesPorLinea=5;
 		GranPaleta paleta;
 		Llista<Tile> tiles;
-		public TileSet()
+
+		public TileSet(GranPaleta paleta=null)
 		{
 			tiles=new Llista<Tile>();
-			paleta=new GranPaleta();
+			if(paleta==null)
+				paleta=new GranPaleta();
+			this.paleta=paleta;
 		}
 
 		public Llista<Tile> Tiles {
@@ -85,7 +88,7 @@ namespace PokemonGBAFrameWork
 					                                         		{
 					                                         			pos=tileMap[x,y];
 					                                         			
-					                                         			if(pos<0||pos>GranPaleta.LENGHT)
+					                                         			if(pos<0||pos>GranPaleta.COUNT)
 					                                         				pos=0;
 					                                         			
 					                                         			fixed(byte* ptrTile=tiles[pos].Datos)
