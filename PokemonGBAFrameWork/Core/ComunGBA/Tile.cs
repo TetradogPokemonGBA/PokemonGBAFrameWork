@@ -19,6 +19,7 @@ namespace PokemonGBAFrameWork
 		
 		
 		public const int PIXELSPORLINEA=8;
+        public const int TOTALLINEAS = PIXELSPORLINEA;
 		public const int TOTALPIXELS=PIXELSPORLINEA*PIXELSPORLINEA;
 		public const int SIZEBYTESIMGLINEA=PIXELSPORLINEA*Extension.BYTESPORCOLOR;
 		public const int SIZEBYTESIMG=PIXELSPORLINEA*SIZEBYTESIMGLINEA;
