@@ -316,7 +316,7 @@ namespace PokemonGBAFrameWork
             Gabriel.Cat.V2.Color aux;
             if (bmp == null)
                 throw new ArgumentNullException("bmp");
-            bmp=Paleta.ToGBAColor(bmp);
+            bmp=bmp.ToGbaBitmap();
             if (paleta == null)
                 paleta = Paleta.GetPaleta(bmp);
             bytesBmpGBADescomprimido = new byte[bmp.Width * bmp.Height / PIXELSPERBYTE];

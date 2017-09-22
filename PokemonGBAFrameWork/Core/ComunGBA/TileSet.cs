@@ -60,7 +60,6 @@ namespace PokemonGBAFrameWork
 		}
 		public Bitmap BuildBitmap(int[,] tileMap)
 		{
-			const int BYTESPORCOLOR=3;
 			Color colorActual;
 			int lenghtX=tileMap.GetLength(DimensionMatriz.X);
 			int lenghtY=tileMap.GetLength(DimensionMatriz.Y);
@@ -76,7 +75,7 @@ namespace PokemonGBAFrameWork
 					bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytes)=>{
 					                                         	
 					                                         	//pongo los tiles
-					                                         	bytesLinea=BYTESPORCOLOR*bmp.Width;
+					                                         	bytesLinea=Extension.BYTESPORCOLOR*bmp.Width;
 					                                         	bytesBloque=bytesLinea*Tile.PIXELSPORLINEA;
 					                                         	ptrsImg[0]=ptrBytes;
 					                                         	for(int i=1;i<ptrsImg.Length;i++)

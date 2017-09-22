@@ -239,7 +239,7 @@ namespace PokemonGBAFrameWork
 			rom.Data.SetArray(offset, new OffsetRom(offsetData).BytesPointer);
 		}
 
-		public static byte[] GetBytesGBA(Paleta paleta)
+		public static byte[] GetBytesGBA(Paleta paleta,bool comprimirLz77=true)
 		{
 			const int BYTESCOLORGBA = 2;
 			System.Drawing.Color[] coloresPaleta = paleta.Colores;
@@ -249,48 +249,30 @@ namespace PokemonGBAFrameWork
 
 			for (int i = 0; i < LENGTH; i++)
 			{
-				bytesAux[0] = (byte)((byte)(coloresPaleta[i].R / 8) + ((byte)((coloresPaleta[i].G / 8) & 0x7) << 5));
-				bytesAux[1] = (byte)((((byte)(coloresPaleta[i].B / 8)) << 2) + ((byte)(coloresPaleta[i].G / 8) >> 3));
-				bytesPaleta.SetArray(i * 2, bytesAux);
+				bytesPaleta[i] = (byte)((byte)(coloresPaleta[i].R / 8) + ((byte)((coloresPaleta[i].G / 8) & 0x7) << 5));
+				bytesPaleta[i+1] = (byte)((((byte)(coloresPaleta[i].B / 8)) << 2) + ((byte)(coloresPaleta[i].G / 8) >> 3));
+				
 			}
 			//la comprimo
-			bytesPaleta = Lz77.Comprimir(bytesPaleta);
+			if(comprimirLz77)
+				bytesPaleta = Lz77.Comprimir(bytesPaleta);
 
 			return bytesPaleta;
 		}
 
 		public static Color ToGBAColor(Color color)
+		{
+			return ToGBAColor(color.R,color.G,color.B);
+		}
+		public static Color ToGBAColor(byte r,byte g,byte b)
 		{//estaria bien no tener que usar conversiones y ser lo más simple posible :)
 			byte parteA, parteB;
 			ushort colorGBA;
-			parteA = (byte)((byte)(color.R / 8) + ((byte)((color.G / 8) & 0x7) << 5));
-			parteB = (byte)((((byte)(color.B / 8)) << 2) + ((byte)(color.G / 8) >> 3));
+			parteA = (byte)((byte)(r / 8) + ((byte)((g / 8) & 0x7) << 5));
+			parteB = (byte)((((byte)(b / 8)) << 2) + ((byte)(g / 8) >> 3));
 			colorGBA = Serializar.ToUShort(new byte[] { parteA, parteB });
 			return System.Drawing.Color.FromArgb(0xFF, (byte)((colorGBA & 0x1f) << 3), (byte)(((colorGBA >> 5) & 0x1f) << 3), (byte)(((colorGBA >> 10) & 0x1f) << 3));
 		}
-		public static Bitmap ToGBAColor(Bitmap bmp)
-		{
-			int total = bmp.Height * bmp.Width;
-			bmp = bmp.Clone(new Rectangle(0,0,bmp.Width,bmp.Height),System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-			unsafe
-			{
-				bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytesBmp) =>
-				                                         {
-
-				                                         	int* ptrColoresBmp = (int*)ptrBytesBmp;
-
-				                                         	for (int i = 0; i < total; i++)
-				                                         	{
-				                                         		*ptrColoresBmp = ToGBAColor(Color.FromArgb((int)*ptrColoresBmp)).ToArgb();
-				                                         		ptrColoresBmp++;
-				                                         	}
-
-				                                         }));
-			}
-			
-			return bmp;
-		}
-
 
 		public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
 		{

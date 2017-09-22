@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork
 			tileSet=new TileSet();
 			tileMap=new int[bmp.Width/Tile.PIXELSPORLINEA,bmp.Height/Tile.PIXELSPORLINEA];
 			
-			bmp=bmp.ToGbaBitmap();
+
 			imgData=bmp.GetBytes();
 			imgPalete=bmp.GetPaleta();
 			

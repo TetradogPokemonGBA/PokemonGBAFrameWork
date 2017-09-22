@@ -23,11 +23,14 @@ namespace PokemonGBAFrameWork
 		/// <summary>
 		/// Bytes que ocupa un color Convertido con el método de extensión ToGbaBitmap
 		/// </summary>
-		public const int BYTESPORCOLOR=3;
+		public const int BYTESPORCOLOR=4;
+		public const int R = 1;
+		public const int G = R + 1;
+		public const int B = G + 1;
 		
 		public static Color[] GetPaleta(this Bitmap bmp)
 		{
-			const int BYTESPERCOLOR=4;
+			//const int BYTESPERCOLOR=4;
 			const int A=0,R=1,G=2,B=3;
 			const int ARGB=4;
 			LlistaOrdenada<int,int> dicColors=new LlistaOrdenada<int, int>();
@@ -43,7 +46,7 @@ namespace PokemonGBAFrameWork
 				fixed(byte* ptrBytesBmp=bmp.GetBytes())
 				{
 					ptrColorBmp=ptrBytesBmp;
-						
+					
 					for(int i=0,f=bmp.Width*bmp.Height;i<f;i++)
 					{
 						aux=Serializar.ToInt(new byte[]{*(ptrColorBmp+A),*(ptrColorBmp+R),*(ptrColorBmp+G),*(ptrColorBmp+B)});
@@ -52,7 +55,7 @@ namespace PokemonGBAFrameWork
 							dicColors.Add(aux,pos++);
 					}
 				}
-			
+				
 			}
 			paleta=new Color[dicColors.Count];
 			intPaleta=(int[])dicColors.Keys;
@@ -64,13 +67,53 @@ namespace PokemonGBAFrameWork
 		}
 		
 		/// <summary>
-		/// Lo estandariza para poder trabajar de forma homogenia,los colores son los que se verian en la GBA 
+		/// Lo estandariza para poder trabajar de forma homogenia,los colores son los que se verian en la GBA
 		/// </summary>
 		/// <param name="bmp"></param>
 		/// <returns></returns>
+		public static byte[] GetBytes(this Bitmap bmp)
+		{
+			byte[] bytesImg;
+			bmp = bmp.Clone(new Rectangle(0,0,bmp.Width,bmp.Height),System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			bytesImg=Gabriel.Cat.Extension.Extension.GetBytes(bmp);
+			unsafe{
+				fixed(byte* ptrBytesImg=bytesImg)
+					ToGbaColor(ptrBytesImg,bytesImg.Length);
+			}
+			return bytesImg;
+		}
 		public static Bitmap ToGbaBitmap(this Bitmap bmp)
 		{
-			return Paleta.ToGBAColor(bmp).Clone(new Rectangle(0,0,bmp.Width,bmp.Height),PixelFormat.Format24bppRgb);//mirar si funciona
+			bmp.SetBytes(bmp.GetBytes());
+			return bmp;
+		}
+
+		static unsafe void ToGbaColor(byte* ptrBytesBmp,int total)
+		{
+			const byte A=0xFF;
+			const int R = 1;
+			const int G = R + 1;
+			const int B = G + 1;
+			Color aux;
+
+			for (int i = 0; i < total; i++)
+			{
+				aux=Paleta.ToGBAColor(*(ptrBytesBmp+R),*(ptrBytesBmp+G),*(ptrBytesBmp+B));
+				
+				*ptrBytesBmp=A;
+				ptrBytesBmp++;
+				
+				*ptrBytesBmp=aux.R;
+				ptrBytesBmp++;
+				
+				*ptrBytesBmp=aux.G;
+				ptrBytesBmp++;
+				
+				*ptrBytesBmp=aux.B;
+				ptrBytesBmp++;
+			}
+
+			
 		}
 	}
 	

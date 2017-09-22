@@ -42,11 +42,6 @@ namespace PokemonGBAFrameWork
 			if(ptrsImg.Length!=PIXELSPORLINEA)
 				throw new ArgumentOutOfRangeException("ptrsImg",String.Format("Tienen que ser {0} para poder leer la imagen correctamente.",PIXELSPORLINEA));
 			
-			//A=0
-			int r = 0;
-			int g = r+1;
-			int b = g+1;
-			
 			byte? pos=0;
 			int bytesLinea=widthImg*Extension.BYTESPORCOLOR;
 			byte*[]ptrsData=new byte*[PIXELSPORLINEA];
@@ -66,7 +61,7 @@ namespace PokemonGBAFrameWork
 					
 					for(int j=0;j<PIXELSPORLINEA&&pos.HasValue;j++)
 					{
-						pos=paleta.GetPosicion(*(ptrsImg[j]+r),*(ptrsImg[j]+g),*(ptrsImg[j]+b));
+						pos=paleta.GetPosicion(*(ptrsImg[j]+Extension.R),*(ptrsImg[j]+Extension.G),*(ptrsImg[j]+Extension.B));
 						if(pos.HasValue){
 							
 							*ptrsData[j]=pos.Value;
