@@ -30,9 +30,8 @@ namespace PokemonGBAFrameWork
 		
 		public static Color[] GetPaleta(this Bitmap bmp)
 		{
-			//const int BYTESPERCOLOR=4;
-			const int A=0,R=1,G=2,B=3;
 			const int ARGB=4;
+			const int A=0;
 			LlistaOrdenada<int,int> dicColors=new LlistaOrdenada<int, int>();
 			int pos=0;
 			int aux;
@@ -90,17 +89,15 @@ namespace PokemonGBAFrameWork
 
 		static unsafe void ToGbaColor(byte* ptrBytesBmp,int total)
 		{
-			const byte A=0xFF;
-			const int R = 1;
-			const int G = R + 1;
-			const int B = G + 1;
+			const byte SINTRANSPARENCIA=0xFF;
+			const int ARGB=4;
 			Color aux;
 
-			for (int i = 0; i < total; i++)
+			for (int i = 0; i < total; i+=ARGB)
 			{
 				aux=Paleta.ToGBAColor(*(ptrBytesBmp+R),*(ptrBytesBmp+G),*(ptrBytesBmp+B));
 				
-				*ptrBytesBmp=A;
+				*ptrBytesBmp=SINTRANSPARENCIA;
 				ptrBytesBmp++;
 				
 				*ptrBytesBmp=aux.R;

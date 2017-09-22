@@ -20,13 +20,7 @@ namespace PokemonGBAFrameWork
 		
 		public const int PIXELSPORLINEA=8;
 		public const int TOTALPIXELS=PIXELSPORLINEA*PIXELSPORLINEA;
-		/// <summary>
-		/// Longitud si no tiene Alfa
-		/// </summary>
 		public const int SIZEBYTESIMGLINEA=PIXELSPORLINEA*Extension.BYTESPORCOLOR;
-		/// <summary>
-		/// Longitud si no tiene Alfa
-		/// </summary>
 		public const int SIZEBYTESIMG=PIXELSPORLINEA*SIZEBYTESIMGLINEA;
 		
 		byte[] datos;
@@ -34,7 +28,7 @@ namespace PokemonGBAFrameWork
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="ptrsImg">La imagen tiene que ser RGB porque no se tiene en cuenta el canal alfa...</param>
+		/// <param name="ptrsImg">La imagen tiene que ser de Extension.ToGbaBitmap</param>
 		/// <param name="paleta"></param>
 		/// <param name="widthImg"></param>
 		public unsafe Tile(byte*[] ptrsImg,GranPaleta paleta,int widthImg)

@@ -24,10 +24,15 @@ namespace PokemonGBAFrameWork
 			tileMap=new int[width,height];
 			this.tileSet=tileSet;
 		}
-		public TileMap(Bitmap bmp)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="bmp"></param>
+		/// <param name="estaConvertidaAGba">Convertida con Extension.ToGbaBitmap</param>
+		public TileMap(Bitmap bmp,bool estaConvertidaAGba=false)
 		{
 			
-		
+			
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
@@ -44,8 +49,10 @@ namespace PokemonGBAFrameWork
 			tileSet=new TileSet();
 			tileMap=new int[bmp.Width/Tile.PIXELSPORLINEA,bmp.Height/Tile.PIXELSPORLINEA];
 			
-
-			imgData=bmp.GetBytes();
+			if(!estaConvertidaAGba)
+				imgData=bmp.GetBytes();
+			else imgData=Gabriel.Cat.Extension.Extension.GetBytes(bmp);
+			
 			imgPalete=bmp.GetPaleta();
 			
 
