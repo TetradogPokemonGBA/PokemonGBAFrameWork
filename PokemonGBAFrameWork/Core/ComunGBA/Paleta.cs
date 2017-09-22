@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
-using PokemonGBAFrameWork.Extension;
+
 
 namespace PokemonGBAFrameWork
 {

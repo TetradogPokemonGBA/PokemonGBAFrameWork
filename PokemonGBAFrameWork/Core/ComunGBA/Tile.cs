@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 		/// <summary>
 		/// Longitud si no tiene Alfa
 		/// </summary>
-		public const int SIZEBYTESIMGLINEA=PIXELSPORLINEA*Extension.Extension.BYTESPORCOLOR;
+		public const int SIZEBYTESIMGLINEA=PIXELSPORLINEA*Extension.BYTESPORCOLOR;
 		/// <summary>
 		/// Longitud si no tiene Alfa
 		/// </summary>
@@ -31,6 +31,12 @@ namespace PokemonGBAFrameWork
 		
 		byte[] datos;
 		GranPaleta paleta;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="ptrsImg">La imagen tiene que ser RGB porque no se tiene en cuenta el canal alfa...</param>
+		/// <param name="paleta"></param>
+		/// <param name="widthImg"></param>
 		public unsafe Tile(byte*[] ptrsImg,GranPaleta paleta,int widthImg)
 		{
 			if(ptrsImg.Length!=PIXELSPORLINEA)
@@ -42,7 +48,7 @@ namespace PokemonGBAFrameWork
 			int b = g+1;
 			
 			byte? pos=0;
-			int bytesLinea=widthImg*Extension.Extension.BYTESPORCOLOR;
+			int bytesLinea=widthImg*Extension.BYTESPORCOLOR;
 			byte*[]ptrsData=new byte*[PIXELSPORLINEA];
 			
 			this.paleta=paleta;
@@ -64,7 +70,7 @@ namespace PokemonGBAFrameWork
 						if(pos.HasValue){
 							
 							*ptrsData[j]=pos.Value;
-							ptrsImg[j]+=Extension.Extension.BYTESPORCOLOR;
+							ptrsImg[j]+=Extension.BYTESPORCOLOR;
 							ptrsData[j]++;
 						}
 					}

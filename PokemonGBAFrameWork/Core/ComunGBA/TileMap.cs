@@ -9,7 +9,6 @@
 using System;
 using System.Drawing;
 using Gabriel.Cat.Extension;
-using PokemonGBAFrameWork.Extension;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -60,11 +59,11 @@ namespace PokemonGBAFrameWork
 				byte*[] ptrsImg=new byte*[Tile.PIXELSPORLINEA];
 				fixed(byte* ptrImgData=imgData)
 				{
-					bytesLinea=Extension.Extension.BYTESPORCOLOR*bmp.Width;
+					bytesLinea=Extension.BYTESPORCOLOR*bmp.Width;
 					ptrsImg[0]=ptrImgData;
 					for(int i=1;i<ptrsImg.Length;i++)
 						ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
-					for(int i=0,x=0,xFin=tileMap.GetLength(DimensionMatriz.X),y=0,f=bmp.Width*bmp.Height*Extension.Extension.BYTESPORCOLOR;i<f;i+=Tile.SIZEBYTESIMG)
+					for(int i=0,x=0,xFin=tileMap.GetLength(DimensionMatriz.X),y=0,f=bmp.Width*bmp.Height*Extension.BYTESPORCOLOR;i<f;i+=Tile.SIZEBYTESIMG)
 					{
 						
 						tileCargada=new Tile(ptrsImg,tileSet.Paleta,bmp.Width);
@@ -119,6 +118,16 @@ namespace PokemonGBAFrameWork
 		{
 			return GetPosicionTileMap(tileMap,posicionImg);
 		}
+		public Tile GetTile(Point posicionImg)
+		{
+			return TileSet.Tiles[tileMap[posicionImg.X,posicionImg.Y]];
+		}
+		/// <summary>
+		/// Obtiene las coordenadas X,Y del TileMap
+		/// </summary>
+		/// <param name="tileMap"></param>
+		/// <param name="posicionImg">posición en el Bitmap</param>
+		/// <returns>posición TileMap</returns>
 		public static Point GetPosicionTileMap(int[,] tileMap,Point posicionImg)
 		{
 			

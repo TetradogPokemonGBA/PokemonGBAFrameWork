@@ -43,13 +43,20 @@ namespace PokemonGBAFrameWork
 			const int DEFAULTLIENA=5;
 			int width;
 			int height;
-			
+			int[,] tileMap;
 			if(TilesPorLinea<=0)
 				TilesPorLinea=DEFAULTLIENA;
 			
 			width=TilesPorLinea>Tiles.Count?Tiles.Count:TilesPorLinea;
 			height=Tiles.Count/TilesPorLinea+(width==TilesPorLinea&&Tiles.Count%TilesPorLinea!=0?1:0);
-			return BuildBitmap(new int[width,height]);
+			
+			tileMap=new int[width,height];
+			//los pongo por orden
+			for(int x=0,xMax=width,yMax=height,i=0;x<xMax;x++)
+				for(int y=0;y<yMax;y++,i++)
+					tileMap[x,y]=i;
+			
+			return BuildBitmap(tileMap);
 		}
 		public Bitmap BuildBitmap(int[,] tileMap)
 		{

@@ -13,7 +13,7 @@ using System.Drawing.Imaging;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
 
-namespace PokemonGBAFrameWork.Extension
+namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of Extension.
