@@ -14,16 +14,17 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Tile.
 	/// </summary>
-	public class Tile
+	public class Tile:IComparable<Tile>,IComparable
 	{
 		
 		
 		public const int PIXELSPORLINEA=8;
-        public const int TOTALLINEAS = PIXELSPORLINEA;
+		public const int TOTALLINEAS = PIXELSPORLINEA;
 		public const int TOTALPIXELS=PIXELSPORLINEA*PIXELSPORLINEA;
 		public const int SIZEBYTESIMGLINEA=PIXELSPORLINEA*Extension.BYTESPORCOLOR;
 		public const int SIZEBYTESIMG=PIXELSPORLINEA*SIZEBYTESIMGLINEA;
 		
+
 		byte[] datos;
 		GranPaleta paleta;
 		/// <summary>
@@ -32,40 +33,37 @@ namespace PokemonGBAFrameWork
 		/// <param name="ptrsImg">La imagen tiene que ser de Extension.ToGbaBitmap</param>
 		/// <param name="paleta"></param>
 		/// <param name="widthImg"></param>
-		public unsafe Tile(byte*[] ptrsImg,GranPaleta paleta,int widthImg)
+		public  Tile(int[] ptrsImg,byte[] img,GranPaleta paleta)
 		{
 			if(ptrsImg.Length!=PIXELSPORLINEA)
 				throw new ArgumentOutOfRangeException("ptrsImg",String.Format("Tienen que ser {0} para poder leer la imagen correctamente.",PIXELSPORLINEA));
 			
 			byte? pos=0;
-			int bytesLinea=widthImg*Extension.BYTESPORCOLOR;
-			byte*[]ptrsData=new byte*[PIXELSPORLINEA];
+			int[] ptrsData=new int[PIXELSPORLINEA];
 			
 			this.paleta=paleta;
 			datos=new byte[TOTALPIXELS];
-			fixed(byte* ptrData=datos)
+			
+			ptrsData[0]=0;
+			for(int i=1;i<PIXELSPORLINEA;i++)
 			{
-				ptrsData[0]=ptrData;
-				for(int i=1;i<PIXELSPORLINEA;i++)
-				{
-					ptrsData[i]=ptrsData[i-1]+bytesLinea;
-				}
+				ptrsData[i]=ptrsData[i-1]+Tile.PIXELSPORLINEA;
+			}
+			
+			for(int i=0;i<datos.Length&&pos.HasValue;i+=PIXELSPORLINEA)
+			{
 				
-				for(int i=0;i<datos.Length&&pos.HasValue;i+=PIXELSPORLINEA)
+				for(int j=0;j<PIXELSPORLINEA&&pos.HasValue;j++)
 				{
-					
-					for(int j=0;j<PIXELSPORLINEA&&pos.HasValue;j++)
-					{
-						pos=paleta.GetPosicion(*(ptrsImg[j]+Extension.R),*(ptrsImg[j]+Extension.G),*(ptrsImg[j]+Extension.B));
-						if(pos.HasValue){
-							
-							*ptrsData[j]=pos.Value;
-							ptrsImg[j]+=Extension.BYTESPORCOLOR;
-							ptrsData[j]++;
-						}
+					pos=paleta.GetPosicion((img[ptrsImg[j]+Extension.R]),(img[ptrsImg[j]+Extension.G]),(img[ptrsImg[j]+Extension.B]));
+					if(pos.HasValue){
+                        datos[ptrsData[j]]=pos.Value;
+						ptrsImg[j]+=Extension.BYTESPORCOLOR;
+						ptrsData[j]++;
 					}
 				}
 			}
+			
 			if(!pos.HasValue)
 				throw new ArgumentException("Color no encontrado en la paleta...");
 		}
@@ -87,7 +85,7 @@ namespace PokemonGBAFrameWork
 		public Bitmap BuildBitmap()
 		{
 			TileSet tileSetAux=new TileSet();
-			tileSetAux.Tiles.Add(this);
+			tileSetAux.Add(this);
 			return tileSetAux.BuildBitmap(new int[1,1]);
 		}
 		public override bool Equals(object obj)
@@ -100,5 +98,27 @@ namespace PokemonGBAFrameWork
 			
 		}
 
+		#region IComparable implementation
+		public int CompareTo(object obj)
+		{
+			return ICompareTo(obj as Tile);
+		}
+        #endregion
+        #region IComparable implementation
+        public int CompareTo(Tile other)
+        {
+            return ICompareTo(other);
+        }
+            public int ICompareTo(Tile other)
+		{
+			const int IGUALES=(int)Gabriel.Cat.CompareTo.Iguales;
+			int compareTo=other!=null?IGUALES:(int)Gabriel.Cat.CompareTo.Inferior;
+            if (compareTo == IGUALES)
+            {
+                compareTo = (int)datos.CompareTo(other.datos);
+            }
+			return compareTo;
+		}
+		#endregion
 	}
 }

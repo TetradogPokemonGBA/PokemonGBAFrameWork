@@ -21,26 +21,54 @@ namespace PokemonGBAFrameWork
 	{
 		public static int TilesPorLinea=5;
 		GranPaleta paleta;
-		List<Tile> tiles;
+		LlistaOrdenada<Tile> tiles;
 
 		public TileSet(GranPaleta paleta=null)
 		{
-			tiles=new List<Tile>();
+			tiles=new LlistaOrdenada<Tile>();
 			if(paleta==null)
 				paleta=new GranPaleta();
 			this.paleta=paleta;
 		}
 
-		public List<Tile> Tiles {
-			get {
-				return tiles;
-			}
+
+		public Tile this[int posicion]
+		{
+			get{return tiles.GetValueAt(posicion);}
+		}
+		public int this[Tile tile]
+		{
+
+			get{return tiles.IndexOf(tile);}
 		}
 
 		public GranPaleta Paleta {
 			get {
 				return paleta;
 			}
+		}
+		public int Count{
+			get{return tiles.Count;}
+		}
+		public void Add(Tile tile)
+		{
+			tiles.Add(tile);
+		}
+		public void Remove(Tile tile)
+		{
+			tiles.Remove(tile);
+		}
+		public int IndexOf(Tile tile)
+		{
+			return this[tile];
+		}
+        public bool Contains(Tile tile)
+        {
+            return tiles.ContainsKey(tile);
+        }
+		public Tile GetTile(int posicion)
+		{
+			return this[posicion];
 		}
 		public Bitmap BuildBitmap()
 		{
@@ -51,8 +79,8 @@ namespace PokemonGBAFrameWork
 			if(TilesPorLinea<=0)
 				TilesPorLinea=DEFAULTLIENA;
 			
-			width=TilesPorLinea>Tiles.Count?Tiles.Count:TilesPorLinea;
-			height=Tiles.Count/TilesPorLinea+(width==TilesPorLinea&&Tiles.Count%TilesPorLinea!=0?1:0);
+			width=TilesPorLinea>tiles.Count?tiles.Count:TilesPorLinea;
+			height=(tiles.Count/TilesPorLinea+(width==TilesPorLinea&&tiles.Count%TilesPorLinea!=0?1:0))+1;
 			
 			tileMap=new int[width,height];
 			//los pongo por orden
@@ -71,7 +99,7 @@ namespace PokemonGBAFrameWork
 			int bytesLinea;
 			int bytesBloque;
 			int pos;
-			if(Tiles.Count>0){
+			if(Count>0){
 				unsafe{
 					
 					byte*[] ptrsImg=new byte*[Tile.PIXELSPORLINEA];
@@ -92,7 +120,7 @@ namespace PokemonGBAFrameWork
 					                                         			if(pos<0||pos>GranPaleta.COUNT)
 					                                         				pos=0;
 					                                         			
-					                                         			fixed(byte* ptrTile=tiles[pos].Datos)
+					                                         			fixed(byte* ptrTile=this[pos].Datos)
 					                                         			{
 					                                         				ptrsTile[0]=ptrTile;
 					                                         				for(int i=1;i<ptrsTile.Length;i++)

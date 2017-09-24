@@ -31,21 +31,22 @@ namespace PokemonGBAFrameWork
 		/// <param name="estaConvertidaAGba">Convertida con Extension.ToGbaBitmap</param>
 		public TileMap(Bitmap bmp,bool estaConvertidaAGba=false)
 		{
-			
-			
+
 			int bytesLinea;
 			Tile tileCargada;
 			int posTileEncontrada;
 			Color[] imgPalete;
 			byte[] imgData;
-            int x = 0;
-            int xFin;
-            int y = 0;
-            int yFin;
-            int total;
-            int pos = 0;
-            int bytesBloque;
-            if (bmp==null)
+			int x = 0;
+			int xFin;
+			int y = 0;
+			int yFin;
+			int total;
+			int pos = 0;
+			int bytesBloque;
+			int[] ptrsImg;
+			
+			if (bmp==null)
 				throw new ArgumentNullException("bmp");
 			if(bmp.Width%Tile.PIXELSPORLINEA!=0||bmp.Width%Tile.PIXELSPORLINEA!=0)
 				throw new ArgumentException("La imagen tiene que ser divisible por "+Tile.PIXELSPORLINEA);
@@ -55,10 +56,10 @@ namespace PokemonGBAFrameWork
 			
 			
 			tileMap=new int[bmp.Width/Tile.PIXELSPORLINEA,bmp.Height/Tile.PIXELSPORLINEA];
-            xFin = tileMap.GetLength(DimensionMatriz.X);
-            yFin = tileMap.GetLength(DimensionMatriz.Y);
-            total = xFin * yFin;
-            if (!estaConvertidaAGba)
+			xFin = tileMap.GetLength(DimensionMatriz.X);
+			yFin = tileMap.GetLength(DimensionMatriz.Y);
+			total = xFin * yFin;
+			if (!estaConvertidaAGba)
 				imgData=bmp.GetBytes();
 			else imgData=Gabriel.Cat.Extension.Extension.GetBytes(bmp);
 			
@@ -67,56 +68,44 @@ namespace PokemonGBAFrameWork
 			tileSet=new TileSet(new GranPaleta(imgPalete));
 			
 
-			unsafe{
+			
+			
+			ptrsImg=new int[Tile.PIXELSPORLINEA];
+			
+			bytesLinea=Extension.BYTESPORCOLOR*bmp.Width;
+			bytesBloque = bytesLinea * Tile.TOTALLINEAS;
+			ptrsImg[0]=0;
+
+			for(int i=1;i<ptrsImg.Length;i++)
+				ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
+
+			while(ptrsImg[0]<imgData.Length)
+			{
 				
-				byte*[] ptrsImg=new byte*[Tile.PIXELSPORLINEA];
-				fixed(byte* ptrImgData=imgData)
-				{
-					bytesLinea=Extension.BYTESPORCOLOR*bmp.Width;
-                    bytesBloque = bytesLinea * Tile.TOTALLINEAS;
-					ptrsImg[0]=ptrImgData;
-
-					for(int i=1;i<ptrsImg.Length;i++)
-						ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
-
-					while(pos++<total)
-					{
-						
-						tileCargada=new Tile(ptrsImg,tileSet.Paleta,bmp.Width);
-						posTileEncontrada=-1;
-						for(int j=0;j<tileSet.Tiles.Count&&posTileEncontrada<0;j++)
-						{
-
-							if(tileSet.Tiles[j].Equals(tileCargada))
-								posTileEncontrada=j;
-						}
-						if(posTileEncontrada<0){
-                            if (tileCargada == null)
-                                System.Diagnostics.Debugger.Break();
-							tileSet.Tiles.Add(tileCargada);
-							posTileEncontrada=tileSet.Tiles.Count-1;
-						}
-						tileMap[x,y]=posTileEncontrada;
-                        //avanzo los punteros
-                        for (int j = 0; j < ptrsImg.Length; j++)
-                            ptrsImg[j] += Tile.SIZEBYTESIMGLINEA;
-                        //avanzo x para ver si puedo avanzar y
-                        x++;
-
-                        if (x == xFin&&y<yFin)
-                        {
-                            x = 0;
-                            y++;
-                            //si ya ha acabado las tiles de esa fila avanzo a la siguiente
-                            for (int j = 0; j < ptrsImg.Length; j++)
-                                ptrsImg[j] += bytesBloque;
-                        }
-						
-					}
-                   
+				tileCargada=new Tile(ptrsImg,imgData,tileSet.Paleta);
+				posTileEncontrada=tileSet.IndexOf(tileCargada);
+				
+				if(posTileEncontrada<0){
+                    if (!tileSet.Contains(tileCargada))
+                    {
+                        tileSet.Add(tileCargada);
+                        posTileEncontrada = tileSet.Count - 1;
+                    }
 				}
-				
-				
+				tileMap[x,y]=posTileEncontrada;
+
+				//avanzo x para ver si puedo avanzar y
+				x++;
+
+				if (x == xFin)
+				{
+					x = 0;
+					y++;
+					//si ya ha acabado las tiles de esa fila avanzo a la siguiente
+					for (int j = 0; j < ptrsImg.Length; j++)
+						ptrsImg[j] += bytesBloque;
+				}
+								
 			}
 		}
 
@@ -133,8 +122,8 @@ namespace PokemonGBAFrameWork
 		}
 		public Tile this[int x,int y]
 		{
-			get{return tileSet.Tiles[Map[x,y]];}
-			set{Map[x,y]=tileSet.Tiles.IndexOf(value);}
+			get{return tileSet[Map[x,y]];}
+			set{Map[x,y]=tileSet[value];}
 		}
 		public Bitmap BuildBitmap()
 		{
@@ -146,7 +135,7 @@ namespace PokemonGBAFrameWork
 		}
 		public Tile GetTile(Point posicionImg)
 		{
-			return TileSet.Tiles[tileMap[posicionImg.X,posicionImg.Y]];
+			return TileSet[tileMap[posicionImg.X,posicionImg.Y]];
 		}
 		/// <summary>
 		/// Obtiene las coordenadas X,Y del TileMap
