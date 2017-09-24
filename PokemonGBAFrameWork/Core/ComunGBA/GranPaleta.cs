@@ -82,5 +82,38 @@ namespace PokemonGBAFrameWork
 
 			return posicion;
 		}
+		public static byte[] GetMap(GranPaleta paleta,byte[] bytesARGB)
+		{
+			if(paleta==null||bytesARGB==null||bytesARGB.Length%4!=0)
+				throw new ArgumentException();
+			byte[] map=new byte[bytesARGB.Length/4];
+			bool todoBien=true;
+			unsafe{
+				byte* ptrMap;
+				int* ptrBytesARGB;
+				fixed(byte* ptBytesARGB=bytesARGB)
+				{
+					fixed(byte* ptMap=map)
+					{
+						ptrBytesARGB=(int*)ptBytesARGB;
+						ptrMap=ptMap;
+						for(int i=0;i<map.Length&&todoBien;i++)
+						{
+							todoBien=paleta.dic.ContainsKey(*ptrBytesARGB);
+							if(todoBien)
+							{
+								*ptrMap=paleta.dic[*ptrBytesARGB];
+								ptrMap++;
+								ptrBytesARGB++;
+							}
+							
+						}
+					}
+				}
+			}
+			if(!todoBien)
+				throw new ArgumentException("Color no encontrado en la paleta!");
+			return map;
+		}
 	}
 }

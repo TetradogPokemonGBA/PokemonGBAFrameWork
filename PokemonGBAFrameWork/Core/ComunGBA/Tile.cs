@@ -33,39 +33,63 @@ namespace PokemonGBAFrameWork
 		/// <param name="ptrsImg">La imagen tiene que ser de Extension.ToGbaBitmap</param>
 		/// <param name="paleta"></param>
 		/// <param name="widthImg"></param>
-		public  Tile(int[] ptrsImg,byte[] img,GranPaleta paleta)
+		public  Tile(int[] ptrsImg,byte[] imgMap,GranPaleta paleta)
 		{
 			if(ptrsImg.Length!=PIXELSPORLINEA)
 				throw new ArgumentOutOfRangeException("ptrsImg",String.Format("Tienen que ser {0} para poder leer la imagen correctamente.",PIXELSPORLINEA));
 			
-			byte? pos=0;
 			int[] ptrsData=new int[PIXELSPORLINEA];
 			
 			this.paleta=paleta;
 			datos=new byte[TOTALPIXELS];
 			
 			ptrsData[0]=0;
-			for(int i=1;i<PIXELSPORLINEA;i++)
-			{
-				ptrsData[i]=ptrsData[i-1]+Tile.PIXELSPORLINEA;
-			}
-			
-			for(int i=0;i<datos.Length&&pos.HasValue;i+=PIXELSPORLINEA)
-			{
-				
-				for(int j=0;j<PIXELSPORLINEA&&pos.HasValue;j++)
+			unsafe{
+				int* posicionesImg;
+				int* posicionesTile;
+				byte* ptrDatos;
+				byte* ptrImgMap;
+				fixed(int* posTile=ptrsData)
 				{
-					pos=paleta.GetPosicion((img[ptrsImg[j]+Extension.R]),(img[ptrsImg[j]+Extension.G]),(img[ptrsImg[j]+Extension.B]));
-					if(pos.HasValue){
-                        datos[ptrsData[j]]=pos.Value;
-						ptrsImg[j]+=Extension.BYTESPORCOLOR;
-						ptrsData[j]++;
+					posicionesTile=posTile;
+					posicionesTile++;
+					for(int i=1;i<PIXELSPORLINEA;i++)
+					{
+						*posicionesTile=*(posicionesTile-1)+Tile.PIXELSPORLINEA;
+						posicionesTile++;
+					}
+					posicionesTile=posTile;
+					fixed(int* posImg=ptrsImg)
+					{
+						fixed(byte* ptDatos=datos)
+						{
+							fixed(byte* ptImgMap=imgMap)
+							{
+								
+								ptrImgMap=ptImgMap;
+								ptrDatos=ptDatos;
+								posicionesImg=posImg;
+								
+								for(int i=0;i<datos.Length;i+=PIXELSPORLINEA)
+								{
+									//pongo la linea
+									for(int j=0;j<PIXELSPORLINEA;j++)
+									{
+										ptrDatos[*posicionesTile]=ptrImgMap[*posicionesImg];
+										(*posicionesTile)=(*posicionesTile)+1;
+										(*posicionesImg)=(*posicionesImg)+1;
+										
+									}
+									//avanzo a la siguiente linea
+									posicionesTile++;
+									posicionesImg++;
+								}
+							}
+						}
 					}
 				}
 			}
-			
-			if(!pos.HasValue)
-				throw new ArgumentException("Color no encontrado en la paleta...");
+
 		}
 
 		public byte[] Datos {
@@ -103,20 +127,20 @@ namespace PokemonGBAFrameWork
 		{
 			return ICompareTo(obj as Tile);
 		}
-        #endregion
-        #region IComparable implementation
-        public int CompareTo(Tile other)
-        {
-            return ICompareTo(other);
-        }
-            public int ICompareTo(Tile other)
+		#endregion
+		#region IComparable implementation
+		public int CompareTo(Tile other)
+		{
+			return ICompareTo(other);
+		}
+		public int ICompareTo(Tile other)
 		{
 			const int IGUALES=(int)Gabriel.Cat.CompareTo.Iguales;
 			int compareTo=other!=null?IGUALES:(int)Gabriel.Cat.CompareTo.Inferior;
-            if (compareTo == IGUALES)
-            {
-                compareTo = (int)datos.CompareTo(other.datos);
-            }
+			if (compareTo == IGUALES)
+			{
+				compareTo = (int)datos.CompareTo(other.datos);
+			}
 			return compareTo;
 		}
 		#endregion

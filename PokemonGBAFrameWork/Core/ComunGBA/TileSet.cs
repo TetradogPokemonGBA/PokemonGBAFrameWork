@@ -21,11 +21,13 @@ namespace PokemonGBAFrameWork
 	{
 		public static int TilesPorLinea=5;
 		GranPaleta paleta;
-		LlistaOrdenada<Tile> tiles;
+		List<Tile> tiles;
+		List<Tile> tilesOrdenados;
 
 		public TileSet(GranPaleta paleta=null)
 		{
-			tiles=new LlistaOrdenada<Tile>();
+			tiles=new List<Tile>();
+			tilesOrdenados=new List<Tile>();
 			if(paleta==null)
 				paleta=new GranPaleta();
 			this.paleta=paleta;
@@ -34,12 +36,16 @@ namespace PokemonGBAFrameWork
 
 		public Tile this[int posicion]
 		{
-			get{return tiles.GetValueAt(posicion);}
+			get{return tiles[posicion];}
 		}
 		public int this[Tile tile]
 		{
-
-			get{return tiles.IndexOf(tile);}
+			get{
+				int index=Gabriel.Cat.Extension.Extension.BinarySearch(tilesOrdenados,tile);
+				if(index>=0)
+					index= tiles.IndexOf(tilesOrdenados[index]);
+				return index;
+			}
 		}
 
 		public GranPaleta Paleta {
@@ -53,19 +59,23 @@ namespace PokemonGBAFrameWork
 		public void Add(Tile tile)
 		{
 			tiles.Add(tile);
+			tilesOrdenados.Add(tile);
+			tilesOrdenados.Sort();
 		}
 		public void Remove(Tile tile)
 		{
-			tiles.Remove(tile);
+			int index=tilesOrdenados.IndexOf(tile);
+			tiles.Remove(tilesOrdenados[index]);
+			tilesOrdenados.RemoveAt(index);
 		}
 		public int IndexOf(Tile tile)
 		{
 			return this[tile];
 		}
-        public bool Contains(Tile tile)
-        {
-            return tiles.ContainsKey(tile);
-        }
+		public bool Contains(Tile tile)
+		{
+			return this[tile]>0;
+		}
 		public Tile GetTile(int posicion)
 		{
 			return this[posicion];

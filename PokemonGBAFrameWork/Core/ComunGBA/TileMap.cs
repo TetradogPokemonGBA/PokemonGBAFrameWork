@@ -45,7 +45,8 @@ namespace PokemonGBAFrameWork
 			int pos = 0;
 			int bytesBloque;
 			int[] ptrsImg;
-			
+			byte[] mapImg;
+			GranPaleta paleta;
 			if (bmp==null)
 				throw new ArgumentNullException("bmp");
 			if(bmp.Width%Tile.PIXELSPORLINEA!=0||bmp.Width%Tile.PIXELSPORLINEA!=0)
@@ -66,34 +67,36 @@ namespace PokemonGBAFrameWork
 			imgPalete=bmp.GetPaleta();
 			
 			tileSet=new TileSet(new GranPaleta(imgPalete));
+			paleta=tileSet.Paleta;
 			
-
+			mapImg=GranPaleta.GetMap(paleta,imgData);
 			
 			
 			ptrsImg=new int[Tile.PIXELSPORLINEA];
 			
-			bytesLinea=Extension.BYTESPORCOLOR*bmp.Width;
+			bytesLinea=bmp.Width;
 			bytesBloque = bytesLinea * Tile.TOTALLINEAS;
 			ptrsImg[0]=0;
 
 			for(int i=1;i<ptrsImg.Length;i++)
 				ptrsImg[i]=ptrsImg[i-1]+bytesLinea;
 
-			while(ptrsImg[0]<imgData.Length)
+			while(ptrsImg[0]<mapImg.Length)
 			{
 				
-				tileCargada=new Tile(ptrsImg,imgData,tileSet.Paleta);
+				tileCargada=new Tile(ptrsImg,mapImg,paleta);
+				//parte terriblemente lenta!
+				//algo pasa que al final no se ven bien...por mirar...
 				posTileEncontrada=tileSet.IndexOf(tileCargada);
-				
 				if(posTileEncontrada<0){
-                    if (!tileSet.Contains(tileCargada))
-                    {
-                        tileSet.Add(tileCargada);
-                        posTileEncontrada = tileSet.Count - 1;
-                    }
+					
+					tileSet.Add(tileCargada);
+					posTileEncontrada = tileSet.Count - 1;
+					
 				}
+				
 				tileMap[x,y]=posTileEncontrada;
-
+				
 				//avanzo x para ver si puedo avanzar y
 				x++;
 
@@ -105,7 +108,7 @@ namespace PokemonGBAFrameWork
 					for (int j = 0; j < ptrsImg.Length; j++)
 						ptrsImg[j] += bytesBloque;
 				}
-								
+				
 			}
 		}
 
