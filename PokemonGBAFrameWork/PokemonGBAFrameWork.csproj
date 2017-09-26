@@ -47,6 +47,9 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gabriel.Cat.Utilitats">
+      <HintPath>..\..\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\bin\Release\Gabriel.Cat.Utilitats.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -195,6 +198,7 @@
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
+    <Compile Include="PokemonFrameWork\Parches\GanarExperienciaAlCapturarUnPokemon.cs" />
     <Compile Include="PokemonFrameWork\Parches\ImpedirCapturaViaScript.cs" />
     <Compile Include="PokemonFrameWork\Parches\MOSinMedallas.cs" />
     <Compile Include="PokemonFrameWork\Parches\Mugshots.cs" />
@@ -221,12 +225,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats.csproj">
-      <Project>{6fdf9bb1-ae07-4820-beee-a2f52cfbe770}</Project>
-      <Name>Gabriel.Cat.Utilitats</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
