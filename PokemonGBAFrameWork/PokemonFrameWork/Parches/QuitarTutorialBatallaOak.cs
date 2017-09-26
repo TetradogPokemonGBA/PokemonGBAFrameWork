@@ -32,6 +32,13 @@ namespace PokemonGBAFrameWork
 			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Knizz","sacado de https://wahackforo.com/t-41133/miniaporte-como-quitar-mensaje-oak-en-batalla");
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableQuitarTutorialBatallaOak.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableQuitarTutorialBatallaOak.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom,rom.Edicion,rom.Compilacion);

@@ -95,7 +95,13 @@ namespace PokemonGBAFrameWork
 			return bytesAnimacion;
 			
 		}
-		
+				public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=ZonaAnimacionSprites.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=ZonaAnimacionSprites.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static AnimacionSprites GetDefault()
 		{
 			AnimacionSprites animacionDefault=new AnimacionSprites();

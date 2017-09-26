@@ -69,7 +69,13 @@ namespace PokemonGBAFrameWork
 		{
 			return EstaActivado(rom.Rom, rom.Edicion, rom.Compilacion);
 		}
-
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+					bool compatible=VariableOffset1.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableOffset1.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomGba romGBA, EdicionPokemon edicion,Compilacion compilacion)
 		{
 			return romGBA.Data[Variable.GetVariable(VariableOffset1, edicion, compilacion)]==ON&&romGBA.Data[Variable.GetVariable( VariableOffset2, edicion, compilacion)]==ON;

@@ -51,6 +51,13 @@ namespace PokemonGBAFrameWork
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Darthatron","hacer investigación https://wahackforo.com/t-37039/fr-otros-eliminar-diario-previously-on-your-quest");
 			
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableOffset1.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableOffset1.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom,rom.Edicion,rom.Compilacion);

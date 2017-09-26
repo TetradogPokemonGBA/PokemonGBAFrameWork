@@ -35,7 +35,13 @@ namespace PokemonGBAFrameWork
 			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Sonicarvalho","Decir como se hace");
 		}
-		
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableCambiarDineroInicial.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableCambiarDineroInicial.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static int GetDineroInicial(RomData rom)
 		{
 			return GetDineroInicial(rom.Rom,rom.Edicion,rom.Compilacion);

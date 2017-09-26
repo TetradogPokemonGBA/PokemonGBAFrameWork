@@ -35,7 +35,13 @@ namespace PokemonGBAFrameWork
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"CryStal Kaktus","Por el aporte");
 
 		}
-
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableMOSinMedallas.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableMOSinMedallas.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom, rom.Edicion, rom.Compilacion);

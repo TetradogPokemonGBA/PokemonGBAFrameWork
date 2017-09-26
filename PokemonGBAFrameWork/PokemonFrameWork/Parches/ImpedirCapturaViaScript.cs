@@ -35,6 +35,13 @@ namespace PokemonGBAFrameWork
 			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY],"FBI","el codigo ASM https://www.pokecommunity.com/showpost.php?p=8509928&postcount=20");
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariablePosicionLinea.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariablePosicionLinea.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static string GetASMCode()
 		{
 			return Resources.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable);

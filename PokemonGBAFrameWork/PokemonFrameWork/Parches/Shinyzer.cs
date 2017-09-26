@@ -105,6 +105,13 @@ namespace PokemonGBAFrameWork
 			
 
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=DicRutina.ContainsKey(edicion);
+			if(compatible)
+				compatible=DicRutina[edicion].ContainsKey(compilacion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			if (rom == null)

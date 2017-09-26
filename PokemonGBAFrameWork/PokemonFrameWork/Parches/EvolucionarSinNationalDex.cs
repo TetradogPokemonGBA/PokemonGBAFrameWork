@@ -33,6 +33,13 @@ namespace PokemonGBAFrameWork
 			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"♠Ϛﮠც㆚ꂅℛᎧ♠","Decir como se hace");
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableEvolucionarSinNationalDex.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableEvolucionarSinNationalDex.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom,rom.Edicion,rom.Compilacion);

@@ -32,6 +32,13 @@ namespace PokemonGBAFrameWork
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"FraynSebas","Hacer la investigación");
 			
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableQuitarSistemaDeAyudaRojoYVerde.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableQuitarSistemaDeAyudaRojoYVerde.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom,rom.Edicion,rom.Compilacion);

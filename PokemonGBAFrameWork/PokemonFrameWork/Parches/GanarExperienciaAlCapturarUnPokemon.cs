@@ -81,7 +81,14 @@ namespace PokemonGBAFrameWork
 			VarOffset2Off.Add(EdicionPokemon.RojoFuegoUsa,0x015B59,0x15B6D);
 			VarOffset2Off.Add(EdicionPokemon.VerdeHojaUsa,0x15B59,0x15B8D);
 			VarOffset2Off.Add(EdicionPokemon.RojoFuegoEsp,0x15AC9);
-			VarOffset2Off.Add(EdicionPokemon.VerdeHojaEsp,0x15AC9);	
+			VarOffset2Off.Add(EdicionPokemon.VerdeHojaEsp,0x15AC9);
+		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VarOffset2Off.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VarOffset2Off.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
 		}
 		public static byte[] GetRutina(EdicionPokemon edicion,Compilacion compilacion)
 		{

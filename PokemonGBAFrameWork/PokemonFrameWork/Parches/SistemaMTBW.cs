@@ -94,7 +94,13 @@ namespace PokemonGBAFrameWork
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Koakuma","por el post https://wahackforo.com/t-44036/fire-red-tm-infinitas-sin-cantidad-bw-style");
 			
 		}
-
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableASMOffset1.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableASMOffset1.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom, rom.Edicion, rom.Compilacion);

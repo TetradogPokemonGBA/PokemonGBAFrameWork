@@ -221,6 +221,13 @@ namespace PokemonGBAFrameWork
 		{
 			return rom.Data.SearchArray(RutinaOn)>0;
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+					bool compatible=OffsetPointerRutina.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=OffsetPointerRutina.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static int GetOffsetTabla(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			int pos;

@@ -38,6 +38,13 @@ namespace PokemonGBAFrameWork
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Guilly Alpha","Escribió como se hacia");
 			
 		}
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=VariableCorrerDentroDeLosEdificios.Diccionario.ContainsKey(compilacion);
+			if(compatible)
+				compatible=VariableCorrerDentroDeLosEdificios.Diccionario[compilacion].ContainsKey(edicion);
+			return compatible;
+		}
 		public static bool EstaActivado(RomData rom)
 		{
 			return EstaActivado(rom.Rom,rom.Edicion,rom.Compilacion);

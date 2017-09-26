@@ -19,11 +19,11 @@ namespace PokemonGBAFrameWork
 	public class PokemonEditorScripting
 	{
 		const int OFFSETPOKEMONDESENCRIPTADO= 0x203F500;
-        public static readonly LlistaOrdenada<EdicionPokemon,ASM> ASMDecrypt;
-        public static readonly LlistaOrdenada<EdicionPokemon, ASM> ASMEncrypt;
-        public static readonly Creditos Creditos;
-        #region Atributos
-        int? personalidad;
+		public static readonly LlistaOrdenada<EdicionPokemon,ASM> ASMDecrypt;
+		public static readonly LlistaOrdenada<EdicionPokemon, ASM> ASMEncrypt;
+		public static readonly Creditos Creditos;
+		#region Atributos
+		int? personalidad;
 		int? idEntrenador;
 		BloqueString nombrePokemon;//max 10
 		short? idioma;
@@ -63,24 +63,24 @@ namespace PokemonGBAFrameWork
 		//cuando esten separdos los pongo
 		int? ivsHueboHabilidad;
 		int? cintaYObediencia;
-        #endregion
+		#endregion
 
-        static PokemonEditorScripting()
-        {
-            ASM codeASM;
-            ASMDecrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
-            ASMEncrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
-            Creditos=new Creditos();
-            Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Javi4315♪","Ha hecho la rutina y lo ha explicado en un tutorial");
-            //pongo el codigo compilado para cada edición
-        }
-        public PokemonEditorScripting()
+		static PokemonEditorScripting()
+		{
+			ASM codeASM;
+			ASMDecrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
+			ASMEncrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
+			Creditos=new Creditos();
+			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Javi4315♪","Ha hecho la rutina y lo ha explicado en un tutorial");
+			//pongo el codigo compilado para cada edición
+		}
+		public PokemonEditorScripting()
 		{
 			nombreEntrenadorOriginal=new BloqueString(7);
 			nombrePokemon=new BloqueString(10);
 		}
-        #region Propiedades
-        public int? Personalidad {
+		#region Propiedades
+		public int? Personalidad {
 			get {
 				return personalidad;
 			}
@@ -401,9 +401,9 @@ namespace PokemonGBAFrameWork
 				origen = value;
 			}
 		}
-#endregion
+		#endregion
 
-        public void SetPokemon(Pokemon pokemon)
+		public void SetPokemon(Pokemon pokemon)
 		{
 			if(pokemon==null)
 				throw new ArgumentNullException();
@@ -604,23 +604,27 @@ namespace PokemonGBAFrameWork
 
 			return scritpEditorPokemon;
 		}
-		
+		public static bool Compatible(EdicionPokemon edicion,Compilacion compilacion)
+		{
+			bool compatible=ASMDecrypt.ContainsKey(edicion);
+			return compatible;
+		}
 
 		public static int PosicionEncryptASMScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
-            return Posicion(rom, edicion, compilacion, ASMEncrypt);
-        }
+			return Posicion(rom, edicion, compilacion, ASMEncrypt);
+		}
 		public static int PosicionDecryptASMScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
-            return Posicion(rom, edicion, compilacion, ASMDecrypt);   
+			return Posicion(rom, edicion, compilacion, ASMDecrypt);
 		}
 
-        static int Posicion(RomGba rom, EdicionPokemon edicion, Compilacion compilacion,LlistaOrdenada<EdicionPokemon,ASM> dicASM)
-        {
-            if(!dicASM.ContainsKey(edicion))
-                throw new RomFaltaInvestigacionException();
-            return rom.Data.SearchArray(dicASM[edicion].AsmBinary);
-        }
+		static int Posicion(RomGba rom, EdicionPokemon edicion, Compilacion compilacion,LlistaOrdenada<EdicionPokemon,ASM> dicASM)
+		{
+			if(!dicASM.ContainsKey(edicion))
+				throw new RomFaltaInvestigacionException();
+			return rom.Data.SearchArray(dicASM[edicion].AsmBinary);
+		}
 		
 		public static bool EstaActivado(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
@@ -628,25 +632,25 @@ namespace PokemonGBAFrameWork
 		}
 		public static void Activar(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
-            if (!EstaActivado(rom, edicion, compilacion))
-            {
-                    //Pongo el asm encryptar
-                    rom.Data.SetArray(ASMEncrypt[edicion].AsmBinary);
-                    //pongo el asm desencryptar
-                    rom.Data.SetArray(ASMDecrypt[edicion].AsmBinary);
-              
-            }
+			if (!EstaActivado(rom, edicion, compilacion))
+			{
+				//Pongo el asm encryptar
+				rom.Data.SetArray(ASMEncrypt[edicion].AsmBinary);
+				//pongo el asm desencryptar
+				rom.Data.SetArray(ASMDecrypt[edicion].AsmBinary);
+				
+			}
 		}
 		public static void Desactivar(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
 		{
-            if (EstaActivado(rom, edicion, compilacion))
-            {
-                //Quito el asm encryptar
-                rom.Data.Remove(PosicionEncryptASMScript(rom, edicion, compilacion), ASMEncrypt[edicion].AsmBinary.Length);
-                //Quito el asm desencryptar
-                rom.Data.Remove(PosicionDecryptASMScript(rom, edicion, compilacion),ASMDecrypt[edicion].AsmBinary.Length);
+			if (EstaActivado(rom, edicion, compilacion))
+			{
+				//Quito el asm encryptar
+				rom.Data.Remove(PosicionEncryptASMScript(rom, edicion, compilacion), ASMEncrypt[edicion].AsmBinary.Length);
+				//Quito el asm desencryptar
+				rom.Data.Remove(PosicionDecryptASMScript(rom, edicion, compilacion),ASMDecrypt[edicion].AsmBinary.Length);
 
-            }
-        }
+			}
+		}
 	}
 }
