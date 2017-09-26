@@ -117,7 +117,7 @@ namespace PokemonGBAFrameWork
 			//pongo el pointer que toca
 			rom.Data.SetArray(Variable.GetVariable(VarOffsetOffset2,edicion,compilacion),new OffsetRom(Variable.GetVariable(VarOffset2,edicion,compilacion)).BytesPointer);
 		}
-		public static void Desctivar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		public static void Desactivar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			byte[] rutina=GetRutina(edicion,compilacion);
 			int offsetRutina=IOffsetRutina(rom,rutina);
