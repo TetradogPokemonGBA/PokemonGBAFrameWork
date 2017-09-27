@@ -32,6 +32,7 @@ namespace PokemonGBAFrameWork
 			VariableMOSinMedallas.Add(EdicionPokemon.VerdeHojaEsp, 0x124782);
 			VariableMOSinMedallas.Add(EdicionPokemon.RojoFuegoEsp, 0x1247AA);
 			//Creditos
+			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"CryStal Kaktus","Por el aporte");
 
 		}
