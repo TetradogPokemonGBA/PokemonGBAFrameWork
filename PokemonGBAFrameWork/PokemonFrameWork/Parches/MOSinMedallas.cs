@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork
 			VariableMOSinMedallas = new Variable("MOSinMedallasOffset");
 			//pongo las zonas :D
 			VariableMOSinMedallas.Add(EdicionPokemon.RojoFuegoUsa, 0x12462E,0x146A6);
-			VariableMOSinMedallas.Add(EdicionPokemon.RojoFuegoUsa, 0x124606, 0x12467E);
+			VariableMOSinMedallas.Add(EdicionPokemon.VerdeHojaUsa, 0x124606, 0x12467E);
 			VariableMOSinMedallas.Add(EdicionPokemon.VerdeHojaEsp, 0x124782);
 			VariableMOSinMedallas.Add(EdicionPokemon.RojoFuegoEsp, 0x1247AA);
 			//Creditos

@@ -33,7 +33,7 @@ namespace PokemonGBAFrameWork
 			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.RubiUsa,0x68DA2,0x68DC2);
 			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.ZafiroUsa,0x68DA6,0x68DC6);
 			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.EsmeraldaEsp,0x9D086);
-			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.EsmeraldaEsp,0x9D072);
+			VariableScriptsDeGatilloCondicionMayorAFF.Add(EdicionPokemon.EsmeraldaUsa,0x9D072);
 			//Creditos
 			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"♠Ϛﮠც㆚ꂅℛᎧ♠"," por el post");
