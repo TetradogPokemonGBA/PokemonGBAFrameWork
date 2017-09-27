@@ -7,6 +7,8 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
+using System.Text;
 using Gabriel.Cat;
 
 namespace PokemonGBAFrameWork
@@ -42,6 +44,42 @@ namespace PokemonGBAFrameWork
 			get {
 				return dicCreditos;
 			}
+		}
+		public override string ToString()
+		{
+			return ToString("");
+		}
+		public string ToString(string app)
+		{
+			StringBuilder str=new StringBuilder();
+			//comunidad\n
+			//\tusuario:\n
+			//\t\tquehahecho\n
+			str.Append(app);
+			str.Append("\n");
+			foreach(KeyValuePair<string,LlistaOrdenadaPerGrups<string,string>> comunidad in dicCreditos)
+			{
+				if(comunidad.Value.Count()>0){
+					str.Append("\t");
+					str.Append(comunidad.Key);
+					str.Append("\n");
+					foreach(KeyValuePair<string,string[]> usuario in comunidad.Value)
+					{
+						if(usuario.Value.Length>0){
+							str.Append("\t\t");
+							str.Append(usuario.Key);
+							str.Append("\n");
+							for(int i=0;i<usuario.Value.Length;i++)
+							{
+								str.Append("\t\t\t");
+								str.Append(usuario.Value[i]);
+								str.Append("\n");
+							}
+						}
+					}
+				}
+			}
+			return str.ToString();
 		}
 	}
 }
