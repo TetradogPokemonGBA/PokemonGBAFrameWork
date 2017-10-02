@@ -21,6 +21,7 @@ namespace PokemonGBAFrameWork
 		
 		const byte DISSABLEMOSINMEDALLAS = 0x1;
 		const byte ENABLEMOSINMEDALLAS = 0x0;
+		public const string DESCRIPCION="Si está activo se pueden usar MO sin tener la medalla que la active para usar fuera de batalla.";
 		public static readonly Variable VariableMOSinMedallas;
 		public static readonly Creditos Creditos;
 		static MOSinMedallas()

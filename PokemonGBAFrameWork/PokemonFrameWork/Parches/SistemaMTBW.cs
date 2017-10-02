@@ -21,6 +21,7 @@ namespace PokemonGBAFrameWork
 {
 	public static class SistemaMTBW
 	{
+		public const string DESCRIPCION="Permite hacer que las MT no se gasten al ser usadas.";
 		public static readonly Creditos Creditos;
 		//se tienen que editar 2 bytes de dos sitios diferentes cambiar A9 por 90  y al lado tiene que haber 20; si cancelas el aprendizaje pierdes la MT si no no...tiene que acabarse la investigacion hecha por el autor...
 		public static readonly Variable VariableOffsetMTBW1;

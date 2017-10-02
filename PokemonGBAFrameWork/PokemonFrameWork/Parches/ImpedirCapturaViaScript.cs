@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 		public static readonly Variable VariablePosicionLinea;
 		public static readonly byte[] RutinaOn={0x01,0x48,0x00,0x47,0x00,0x00 ,0xFF ,0xFF,0xFF,0x08};
 		public static readonly byte[] RutinaOff = {	0x0C, 0x48, 0x01, 0x68, 0x80, 0x20, 0x00, 0x02, 0x08, 0x40};
-
+		public const string DESCRIPCION="Permite hacer incapturable via scripting un pokemon";
 		static ImpedirCapturaViaScript()
 		{
 			VariablePosicionLinea=new Variable("ImpedirCapturaViaScript,Variable donde dice donde se tiene que poner la linea para que el codigo funcione");

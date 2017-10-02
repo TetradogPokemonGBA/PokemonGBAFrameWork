@@ -138,6 +138,7 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] OffsetRutinaOff={0x8B, 0x0A, 0x00, 0x00};
 		public static readonly Variable[] OffsetsRutina;
 		public static readonly Creditos Creditos;
+		public const string DESCRIPCION="Permite poner un sprite que se mueva en la portada";
 		const int POSICIONOFFSETTABLA=52;
 		
 		List<FrameAnimacion> frames;

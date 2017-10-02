@@ -18,6 +18,7 @@ namespace PokemonGBAFrameWork
 	{
 		public static readonly Creditos Creditos;
 		public static readonly Zona ZonaAnimacionSprites;
+		public const string DESCRIPCION="Los pokemon se pueden mover en batalla como lo hacen en el esmeralda, falta poner el sprite del segundo frame.";
 		public const byte SPRITELARGEST=0x0F;
 		const byte EMPTY=0x0;
 		public static readonly byte[] MarcaFin={0xFF,0xFF,0x0,0x0};

@@ -26,6 +26,7 @@ namespace PokemonGBAFrameWork
 		
 		public static readonly Variable VariableOffset1;
 		public static readonly Variable VariableOffset2;
+		public const string DESCRIPCION="Permite quitar el dinario de la partida (el hagamos memoria)";
 		
 		static QuitarDiarioPartida()
 		{

@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
 		static readonly byte[] Off={0x20, 0x68, 0x10, 0x21, 0x08, 0x43 ,0x20};
 		const byte ON=0x0;
 		const int LENGTH = 7;
+		public const string DESCRIPCION="Sirve para quitar el tutorial que hace el profesor oak, se usa principalmente para tener batallas en las que se puede perder ya que este modo lo permite, pero el tutorial lo hacia inaccesible...ahora esta arreglado con esto.";
 		
 		static QuitarTutorialBatallaOak()
 		{

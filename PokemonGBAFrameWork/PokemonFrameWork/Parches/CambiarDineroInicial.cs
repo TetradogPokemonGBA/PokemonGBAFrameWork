@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
 		public const int MAX=999999;//diria que sin hacks no se puede...por mirar
 		public const int DEFAULT=3000;
 		public static readonly Variable VariableCambiarDineroInicial;
+		public const string DESCRIPCION="Permite cambiar el dinero inicial";
 		static CambiarDineroInicial()
 		{
 			VariableCambiarDineroInicial=new Variable("Variable Cambiar dinero inicial");

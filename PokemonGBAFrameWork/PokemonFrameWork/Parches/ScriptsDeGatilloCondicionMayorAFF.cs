@@ -21,6 +21,7 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] Desactivado={0x21,0x7A};
 		public static readonly Variable VariableScriptsDeGatilloCondicionMayorAFF;
 		public static readonly Creditos Creditos;
+		public const string DESCRIPCION="Las variables pueden tener valores superiores a FF en los scripts de gatillo.";
 		static ScriptsDeGatilloCondicionMayorAFF()
 		{
 			VariableScriptsDeGatilloCondicionMayorAFF=new Variable("Variable scripts de gatillo con condicion mayor que FF");

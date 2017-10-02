@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
 		public const byte DESACTIVADO=0xD1;
 		public static readonly Variable VariableQuitarSistemaDeAyudaRojoYVerde;
 		public static readonly Creditos Creditos;
+		public const string DESCRIPCION="Permite quitar el sistema de ayuda (que se activa al darle a R o L)";
 		static QuitarSistemaDeAyudaRojoYVerde()
 		{
 			VariableQuitarSistemaDeAyudaRojoYVerde=new Variable("Variable quitar sistema de ayuda Rojo y Verde");

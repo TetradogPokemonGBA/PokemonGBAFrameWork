@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
 		const byte DESACTIVADO=0x8;
 		public static readonly Creditos Creditos;
 		public static readonly Variable VariableCorrerDentroDeLosEdificios;
+		public const string DESCRIPCION="Permite correr dentro de los edificios.";
 		static CorrerDentroDeLosEdificios()
 		{
 			VariableCorrerDentroDeLosEdificios=new Variable("Variable offset correr dentro de los edificios");

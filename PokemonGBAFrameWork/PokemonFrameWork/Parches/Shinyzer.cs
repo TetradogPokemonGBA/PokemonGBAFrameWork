@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
 {
 	public static class Shinyzer
 	{
+		public const string DESCRIPCION="Permite controlar cuando sale un pokemon shiny.";
 		public static readonly Creditos Creditos;
 		//public static readonly ASM RutinaEsmeralda=ASM.Compilar(Resources.ASMShinyzer);
 		public static readonly int VariableShinytzer = (int)(Hex)"8003";//mirar de poder cambiarla...hasta que no lo sepa hacer será readonly

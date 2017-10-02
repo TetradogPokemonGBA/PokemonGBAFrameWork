@@ -22,6 +22,7 @@ namespace PokemonGBAFrameWork
 		public static readonly byte[] Desactivado={0x97,0x28,0x14,0xDD};
 		public static readonly byte[] Activado={0x0,0x0,0x14,0xE0};
 		public static readonly Variable VariableEvolucionarSinNationalDex;
+		public const string DESCRIPCION="Permite evolucionar los pokemon a evoluciones que estan fuera de la pokedex local, pj eevee->Espeon sin necesidad de tener la pokedex nacional";
 		static EvolucionarSinNationalDex()
 		{
 			VariableEvolucionarSinNationalDex=new Variable("Variable evolucionar sin national Dex");

@@ -22,6 +22,7 @@ namespace PokemonGBAFrameWork
 		public static readonly LlistaOrdenada<EdicionPokemon,ASM> ASMDecrypt;
 		public static readonly LlistaOrdenada<EdicionPokemon, ASM> ASMEncrypt;
 		public static readonly Creditos Creditos;
+		public const string DESCRIPCION="Permite editar un pokemon del equipo mediante scripting";
 		#region Atributos
 		int? personalidad;
 		int? idEntrenador;

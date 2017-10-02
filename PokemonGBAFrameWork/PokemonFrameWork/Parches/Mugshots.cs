@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 		public static readonly LlistaOrdenada<EdicionPokemon, ASM> AsmMugshots;
 		static readonly LlistaOrdenada<EdicionPokemon, int> TablaMugshotsPosicion;
 		static readonly Size SizeMugshot = new Size(80, 80);
-
+		public const string DESCRIPCION="Permite usar Mugshots(Imagenes encima de la caja de texto)";
 		Llista<BloqueImagen> mugshots;
 
 		static Mugshots()

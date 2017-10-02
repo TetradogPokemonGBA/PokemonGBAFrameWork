@@ -22,7 +22,7 @@ namespace PokemonGBAFrameWork
 		public static readonly Creditos Creditos;
 		public static readonly Variable VariableOffset1;
 		public static readonly Variable VariableOffset2;
-		
+		public const string DESCRIPCION="Permite borrar una MO cuando se necesite como si fuera una ataque más.";
 		static BorrarMos()
 		{
 			VariableOffset1=new Variable("Borrar MOs offset1");
