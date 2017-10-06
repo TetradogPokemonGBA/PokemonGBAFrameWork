@@ -199,6 +199,7 @@
     <Compile Include="PokemonFrameWork\Parches\AnimaciónPortada.cs" />
     <Compile Include="PokemonFrameWork\Parches\BorrarMos.cs" />
     <Compile Include="PokemonFrameWork\Parches\CambiarDineroInicial.cs" />
+    <Compile Include="PokemonFrameWork\Parches\ColorearStats.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
     <Compile Include="PokemonFrameWork\Parches\GanarExperienciaAlCapturarUnPokemon.cs" />

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle ("PokemonGBAFrameWork")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("github.com/TetradogPokemonGBA/PokemonGBAFrameWork/")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("PokemonGBAFrameWork")]
