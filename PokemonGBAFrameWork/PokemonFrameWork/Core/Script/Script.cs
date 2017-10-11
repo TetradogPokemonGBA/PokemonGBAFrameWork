@@ -173,7 +173,41 @@ namespace PokemonGBAFrameWork
 						case Lock.ID:comandoActual=new Lock(ptrRom,offsetScript);break;
 						case ReleaseAll.ID:comandoActual=new ReleaseAll(ptrRom,offsetScript);break;
 						case Release.ID:comandoActual=new Release(ptrRom,offsetScript);break;
-						
+						case WaitKeyPress.ID:comandoActual=new WaitKeyPress(ptrRom,offsetScript);break;
+						case YesNoBox.ID:comandoActual=new YesNoBox(ptrRom,offsetScript);break;
+						case Multichoice.ID:comandoActual=new Multichoice(ptrRom,offsetScript);break;
+						case Multichoice2.ID:comandoActual=new Multichoice2(ptrRom,offsetScript);break;
+						case Multichoice3.ID:comandoActual=new Multichoice3(ptrRom,offsetScript);break;
+						case ShowBox.ID:comandoActual=new ShowBox(ptrRom,offsetScript);break;
+						case HideBox.ID:comandoActual=new HideBox(ptrRom,offsetScript);break;
+						case ClearBox.ID:comandoActual=new ClearBox(ptrRom,offsetScript);break;
+						case ShowPokePic.ID:comandoActual=new ShowPokePic(ptrRom,offsetScript);break;
+						case HidePokePic.ID:comandoActual=new HidePokePic(ptrRom,offsetScript);break;
+						case ShowContestWinner.ID:comandoActual=new ShowContestWinner(ptrRom,offsetScript);break;
+						case Braille.ID:comandoActual=new Braille(ptrRom,offsetScript);break;
+						case GivePokemon.ID:comandoActual=new GivePokemon(ptrRom,offsetScript);break;
+						case GiveEgg.ID:comandoActual=new GiveEgg(ptrRom,offsetScript);break;
+						case SetPkmnPP.ID:comandoActual=new SetPkmnPP(ptrRom,offsetScript);break;
+						case CheckAttack.ID:comandoActual=new CheckAttack(ptrRom,offsetScript);break;
+						case BufferPokemon.ID:comandoActual=new BufferPokemon(ptrRom,offsetScript);break;
+						case BufferFirstPokemon.ID:comandoActual=new BufferFirstPokemon(ptrRom,offsetScript);break;
+						case BufferPartyPokemon.ID:comandoActual=new BufferPartyPokemon(ptrRom,offsetScript);break;
+						case BufferItem.ID:comandoActual=new BufferItem(ptrRom,offsetScript);break;
+						case BufferDecoration.ID:comandoActual=new BufferDecoration(ptrRom,offsetScript);break;
+						case BufferAttack.ID:comandoActual=new BufferAttack(ptrRom,offsetScript);break;
+						case BufferNumber.ID:comandoActual=new BufferNumber(ptrRom,offsetScript);break;
+						case BufferStd.ID:comandoActual=new BufferStd(ptrRom,offsetScript);break;
+						case BufferString.ID:comandoActual=new BufferString(ptrRom,offsetScript);break;
+						case PokeMart.ID:comandoActual=new PokeMart(ptrRom,offsetScript);break;
+						case PokeMart2.ID:comandoActual=new PokeMart2(ptrRom,offsetScript);break;
+						case PokeMart3.ID:comandoActual=new PokeMart3(ptrRom,offsetScript);break;
+						case PokeCasino.ID:comandoActual=new PokeCasino(ptrRom,offsetScript);break;
+						case Cmd8A.ID:comandoActual=new Cmd8A(ptrRom,offsetScript);break;
+						case ChooseContestPkmn.ID:comandoActual=new ChooseContestPkmn(ptrRom,offsetScript);break;
+						case StartContest.ID:comandoActual=new StartContest(ptrRom,offsetScript);break;
+						case ShowContestResults.ID:comandoActual=new ShowContestResults(ptrRom,offsetScript);break;
+						case ContestLinkTransfer.ID:comandoActual=new ContestLinkTransfer(ptrRom,offsetScript);break;
+						case PokemonGBAFrameWork.ComandosScript.Random.ID:comandoActual=new PokemonGBAFrameWork.ComandosScript.Random(ptrRom,offsetScript);break;
 						//estos me los salto
 					case RETURN:
 					case END:

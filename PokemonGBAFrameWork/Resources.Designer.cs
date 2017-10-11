@@ -71,6 +71,26 @@ namespace PokemonGBAFrameWork {
 		}
 		
 		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ASMEditorPokemonFRDencrypt {
+			get {
+				object obj = ResourceManager.GetObject("ASMEditorPokemonFRDencrypt", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Busca un recurso adaptado de tipo System.Byte[].
+		/// </summary>
+		internal static byte[] ASMEditorPokemonFREncrypt {
+			get {
+				object obj = ResourceManager.GetObject("ASMEditorPokemonFREncrypt", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
 		///   Busca una cadena traducida similar a .text
 		///.align 2
 		///.thumb
