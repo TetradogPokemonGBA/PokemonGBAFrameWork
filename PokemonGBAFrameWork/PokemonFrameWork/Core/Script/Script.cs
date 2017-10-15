@@ -209,6 +209,7 @@ namespace PokemonGBAFrameWork
 						case ContestLinkTransfer.ID:comandoActual=new ContestLinkTransfer(ptrRom,offsetScript);break;
 						case PokemonGBAFrameWork.ComandosScript.Random.ID:comandoActual=new PokemonGBAFrameWork.ComandosScript.Random(ptrRom,offsetScript);break;
 						//estos me los salto
+						//falta añadir asta CRY incluido
 					case RETURN:
 					case END:
 						break;
