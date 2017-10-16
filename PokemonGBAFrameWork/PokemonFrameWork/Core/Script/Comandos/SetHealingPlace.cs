@@ -11,6 +11,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// </summary>
 	public class SetHealingPlace:Comando
 	{
+		//Script de nivel de tipo 3 
 		//https://www.pokecommunity.com/showthread.php?t=189304 para los lugares
 		public const byte ID=0x9F;
 		public const int SIZE=3;
