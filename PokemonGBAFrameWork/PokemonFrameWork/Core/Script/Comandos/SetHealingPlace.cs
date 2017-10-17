@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class SetHealingPlace:Comando
 	{
 		//Script de nivel de tipo 3 
-		//https://www.pokecommunity.com/showthread.php?t=189304 para los lugares
+		//https://www.pokecommunity.com/showthread.php?t=189304 para los lugares mmm mirar si se pueden sacar porque si los obtengo y luego obtengo los mapas obtendré información personalizada de cada rom que es lo ideal :)
 		public const byte ID=0x9F;
 		public const int SIZE=3;
 		short lugar;

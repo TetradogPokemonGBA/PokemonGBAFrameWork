@@ -56,9 +56,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return efectoDeDesvanecimiento;}
 			set{efectoDeDesvanecimiento=value;}
 		}
-		public FedeScreen.EfectoFedeScreen Efecto
+		public FadeScreen.EfectoFedeScreen Efecto
 		{
-			get{return (FedeScreen.EfectoFedeScreen)EfectoDeDesvanecimiento;}
+			get{return (FadeScreen.EfectoFedeScreen)EfectoDeDesvanecimiento;}
 			set{efectoDeDesvanecimiento=(byte)value;}
 			
 		}

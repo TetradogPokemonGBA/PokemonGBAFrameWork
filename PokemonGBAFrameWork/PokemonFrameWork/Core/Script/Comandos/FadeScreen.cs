@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// <summary>
 	/// Description of FedeScreen.
 	/// </summary>
-	public class FedeScreen:Comando
+	public class FadeScreen:Comando
 	{
 		public enum EfectoFedeScreen:byte{
 			Entrar=0x0,
@@ -20,18 +20,18 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const int SIZE=2;
 		Byte efectoDeDesvanecimiento;
 		
-		public FedeScreen(Byte efectoDeDesvanecimiento)
+		public FadeScreen(Byte efectoDeDesvanecimiento)
 		{
 			EfectoDeDesvanecimiento=efectoDeDesvanecimiento;
 			
 		}
 		
-		public FedeScreen(RomGba rom,int offset):base(rom,offset)
+		public FadeScreen(RomGba rom,int offset):base(rom,offset)
 		{
 		}
-		public FedeScreen(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public FadeScreen(byte[] bytesScript,int offset):base(bytesScript,offset)
 		{}
-		public unsafe FedeScreen(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe FadeScreen(byte* ptRom,int offset):base(ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

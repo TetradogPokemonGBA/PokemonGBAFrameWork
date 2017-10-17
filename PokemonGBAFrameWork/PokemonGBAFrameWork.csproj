@@ -123,6 +123,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckItemRoom.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckItemType.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckMoney.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckPcItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckSound.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\CheckTrainerFlag.cs" />
