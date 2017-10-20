@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x7C;
   public const int SIZE=3;
-  short ataqueAComprobar;
+  ushort ataqueAComprobar;
  
-  public CheckAttack(short ataqueAComprobar) 
+  public CheckAttack(ushort ataqueAComprobar) 
   {
    AtaqueAComprobar=ataqueAComprobar;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short AtaqueAComprobar
+                         public ushort AtaqueAComprobar
 {
 get{ return ataqueAComprobar;}
 set{ataqueAComprobar=value;}

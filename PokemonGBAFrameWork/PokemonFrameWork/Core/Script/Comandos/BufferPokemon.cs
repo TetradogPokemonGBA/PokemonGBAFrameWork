@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0x7D;
   public const int SIZE=4;
   Byte buffer;
- short pokemon;
+ ushort pokemon;
  
-  public BufferPokemon(Byte buffer,short pokemon) 
+  public BufferPokemon(Byte buffer,ushort pokemon) 
   {
    Buffer=buffer;
  Pokemon=pokemon;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public short Pokemon
+ public ushort Pokemon
 {
 get{ return pokemon;}
 set{pokemon=value;}

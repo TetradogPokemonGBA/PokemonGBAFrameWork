@@ -13,10 +13,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4F;
 		public const int SIZE=7;
-		short personajeAUsar;
+		ushort personajeAUsar;
 		OffsetRom datosMovimiento;
 		
-		public ApplyMovement(short personajeAUsar,OffsetRom datosMovimiento)
+		public ApplyMovement(ushort personajeAUsar,OffsetRom datosMovimiento)
 		{
 			PersonajeAUsar=personajeAUsar;
 			DatosMovimiento=datosMovimiento;
@@ -51,7 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public short PersonajeAUsar
+		public ushort PersonajeAUsar
 		{
 			get{ return personajeAUsar;}
 			set{personajeAUsar=value;}

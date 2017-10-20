@@ -13,12 +13,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x44;
 		public const int SIZE=5;
-		short objetoAAñadir;
+		ushort objetoAAñadir;
 
-		short cantidad;
+		ushort cantidad;
 
 		
-		public AddItem(short objetoAAñadir,short cantidad)
+		public AddItem(ushort objetoAAñadir,ushort cantidad)
 		{
 			ObjetoAAñadir=objetoAAñadir;
 
@@ -57,13 +57,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		
 
-		public short ObjetoAAñadir
+		public ushort ObjetoAAñadir
 		{
 			get{ return objetoAAñadir;}
 			set{objetoAAñadir=value;}
 		}
 
-		public short Cantidad
+		public ushort Cantidad
 		{
 			get{ return cantidad;}
 			set{cantidad=value;}

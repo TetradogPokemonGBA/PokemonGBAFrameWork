@@ -49,8 +49,8 @@ namespace PokemonGBAFrameWork
 		public static readonly Zona ZonaBattleScript;
 		
 		BloqueString blNombre;
-		short index;
-		short price;
+		ushort index;
+		ushort price;
 		byte holdEffect;
 		byte parameter;
 		BloqueString blDescripcion;
@@ -131,7 +131,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Index {
+		public ushort Index {
 			get {
 				return index;
 			}
@@ -140,7 +140,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Price {
+		public ushort Price {
 			get {
 				return price;
 			}

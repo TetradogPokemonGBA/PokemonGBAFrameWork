@@ -28,12 +28,17 @@ namespace PokemonGBAFrameWork
 		const int POSOFFSET1 = 12;
 		//empezando por el final
 		const int POSOFFSET2 = 4;
+		static readonly ushort Variable=(ushort)0x80F4;
+		//empezando por el principio
+		const int POSVAR=2;
 		static CambiarPlayer()
 		{
 			Creditos = new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY], "FBI", "Rutina y post : https://www.pokecommunity.com/showpost.php?p=8620314&postcount=465");
 			RutinaKanto = ASM.Compilar(Resources.ASMCambiarPJKanto);
+			
 			VarOffsetPonerRutina = new Variable("Donde se pone el offset de la rutina compilada");
+			
 			VarOffsetPonerRutina.Add(EdicionPokemon.RojoFuegoUsa, 0x5CA4C, 0x5CA60);
 			VarOffsetPonerRutina.Add(EdicionPokemon.VerdeHojaUsa, 0x5CA4C, 0x5CA60);
 			VarOffsetPonerRutina.Add(EdicionPokemon.RojoFuegoEsp, 0x5CB20);
@@ -72,6 +77,7 @@ namespace PokemonGBAFrameWork
 			byte[] rutina;
 			if(!EstaActivado(rom,edicion,compilacion)){
 				rutina=(byte[])RutinaKanto.AsmBinary.Clone();
+				Word.SetWord(rutina,2,Variable);
 				inicio=Variable.GetVariable(VarOffsetPonerRutina,edicion,compilacion);
 				rutina.SetArray(rutina.Length-POSOFFSET1,new OffsetRom(Variable.GetVariable(VarOffsetRutina1,edicion,compilacion)).BytesPointer);
 				rutina.SetArray(rutina.Length-POSOFFSET2,new OffsetRom(Variable.GetVariable(VarOffsetRutina2,edicion,compilacion)).BytesPointer);
@@ -111,7 +117,7 @@ namespace PokemonGBAFrameWork
 		{
 			Script scriptCambiarSprite=new Script();
 			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetFlag(0x406));
-			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetVar(0x8000,index));
+			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetVar(Variable,index));
 			//me falta refescar la pantalla...
 			return scriptCambiarSprite;
 		}

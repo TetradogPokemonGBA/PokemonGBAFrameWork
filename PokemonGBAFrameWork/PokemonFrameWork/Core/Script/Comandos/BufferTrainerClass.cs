@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xDD;
   public const int SIZE=4;
   Byte buffer;
- short claseEntrenador;
+ ushort claseEntrenador;
  
-  public BufferTrainerClass(Byte buffer,short claseEntrenador) 
+  public BufferTrainerClass(Byte buffer,ushort claseEntrenador) 
   {
    Buffer=buffer;
  ClaseEntrenador=claseEntrenador;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public short ClaseEntrenador
+ public ushort ClaseEntrenador
 {
 get{ return claseEntrenador;}
 set{claseEntrenador=value;}

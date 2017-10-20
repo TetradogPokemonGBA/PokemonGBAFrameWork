@@ -18,8 +18,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x16;
 		public const int SIZE=0x5;
 		
-		short variable;
-		short valor;
+		ushort variable;
+		ushort valor;
 		
 		public SetVar(int variable,int valor)
 		{
@@ -60,7 +60,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return variable;
 			}
 			set {
-				variable =(short) value;
+				variable =(ushort) value;
 			}
 		}
 
@@ -69,14 +69,14 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return valor;
 			}
 			set {
-				valor =(short) value;
+				valor =(ushort) value;
 			}
 		}
 		#endregion
 		
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new object[]{(short)Variable,(short)Valor};
+			return new object[]{(ushort)Variable,(ushort)Valor};
 		}
 
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)

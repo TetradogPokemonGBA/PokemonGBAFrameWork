@@ -14,10 +14,10 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xD4;
   public const int SIZE=6;
   Byte buffer;
- short objetoAGuardar;
- short cantidad;
+ ushort objetoAGuardar;
+ ushort cantidad;
  
-  public BufferItems(Byte buffer,short objetoAGuardar,short cantidad) 
+  public BufferItems(Byte buffer,ushort objetoAGuardar,ushort cantidad) 
   {
    Buffer=buffer;
  ObjetoAGuardar=objetoAGuardar;
@@ -58,12 +58,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public short ObjetoAGuardar
+ public ushort ObjetoAGuardar
 {
 get{ return objetoAGuardar;}
 set{objetoAGuardar=value;}
 }
- public short Cantidad
+ public ushort Cantidad
 {
 get{ return cantidad;}
 set{cantidad=value;}

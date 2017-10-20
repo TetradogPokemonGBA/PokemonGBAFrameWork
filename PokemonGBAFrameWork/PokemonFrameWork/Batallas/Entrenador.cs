@@ -56,10 +56,10 @@ namespace PokemonGBAFrameWork
 		byte spriteIndex;
 		BloqueString nombre;//max 10
 		//faltan 2 bytes [14,15]
-		short item1;
-		short item2;
-		short item3;
-		short item4;
+		ushort item1;
+		ushort item2;
+		ushort item3;
+		ushort item4;
 		//faltan 4 bytes
 		int inteligencia;
 		
@@ -130,7 +130,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Item1 {
+		public ushort Item1 {
 			get {
 				return item1;
 			}
@@ -139,7 +139,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Item2 {
+		public ushort Item2 {
 			get {
 				return item2;
 			}
@@ -148,7 +148,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Item3 {
+		public ushort Item3 {
 			get {
 				return item3;
 			}
@@ -157,7 +157,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Item4 {
+		public ushort Item4 {
 			get {
 				return item4;
 			}
