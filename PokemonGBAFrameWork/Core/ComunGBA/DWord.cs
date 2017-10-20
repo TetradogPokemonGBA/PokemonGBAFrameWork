@@ -31,9 +31,22 @@ namespace PokemonGBAFrameWork
 		{
 			if (offset < 0 || offset + LENGTH> rom.Length)
 				throw new ArgumentOutOfRangeException();
-			int zonaWord = (int)offset;
+			unsafe{
+				fixed(byte* ptrRom=rom)
+					SetDWord(ptrRom,offset,dWord);
+			
+			}
+
+		}
+		public unsafe static void SetDWord(byte* ptrDatos,int offset, int dWord)
+		{
+			SetDWord(ptrDatos+offset,dWord);
+		}
+		public unsafe static void SetDWord(byte* ptrDatosPosicionados, int dWord)
+		{
 			byte[] bytesDWord=Serializar.GetBytes(dWord);
-			rom.SetArray(offset,bytesDWord);
+			fixed(byte* ptrBytesDWord=bytesDWord)
+				MetodosUnsafe.WriteBytes(ptrDatosPosicionados,ptrBytesDWord,LENGTH);
 
 		}
 
@@ -45,7 +58,20 @@ namespace PokemonGBAFrameWork
 		{
 			if (offsetDWord + LENGTH > bytes.Length)
 				throw new ArgumentOutOfRangeException();
-			byte[] bytesDWord=bytes.SubArray(offsetDWord,LENGTH);
+			int result;
+			unsafe{
+				fixed(byte* ptrBytes=bytes)
+					result=GetDWord(ptrBytes+offsetDWord);
+			}
+			return result;
+		}
+		public unsafe static int GetDWord(byte* ptrDatos,int offset)
+		{
+			return GetDWord(ptrDatos+offset);
+		}
+		public unsafe static int GetDWord(byte* ptrBytesPosicionado)
+		{
+			byte[] bytesDWord=MetodosUnsafe.ReadBytes(ptrBytesPosicionado,LENGTH);
 			return Serializar.ToInt(bytesDWord);
 		}
 	}

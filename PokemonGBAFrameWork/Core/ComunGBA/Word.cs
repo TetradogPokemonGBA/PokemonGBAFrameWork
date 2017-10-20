@@ -31,14 +31,14 @@ namespace PokemonGBAFrameWork
 			byte* ptComando=ptrRom+offset;
 			SetWord(ptComando,word);
 		}
-		public unsafe static void SetWord(byte* ptrDatos,short word)
+		public unsafe static void SetWord(byte* ptrDatosPosicionados,short word)
 		{
 
-			*ptrDatos = Convert.ToByte((word & 0xff));
+			*ptrDatosPosicionados = Convert.ToByte((word & 0xff));
 			
-			ptrDatos++;
+			ptrDatosPosicionados++;
 			
-			*ptrDatos = Convert.ToByte(((word >> 8) & 0xff));
+			*ptrDatosPosicionados = Convert.ToByte(((word >> 8) & 0xff));
 		}
 		public  static void SetWord(byte[] rom, int offset, short word)
 		{
@@ -69,13 +69,13 @@ namespace PokemonGBAFrameWork
 			byte* ptComando=ptrRom+offset;
 			return GetWord(ptComando);
 		}
-		public unsafe static short GetWord(byte* ptr)
+		public unsafe static short GetWord(byte* ptrPosicionado)
 		{
 			byte[] bytesWord=new byte[Word.LENGTH];
 			for(int i=0;i<bytesWord.Length;i++)
 			{
-				bytesWord[i]=*ptr;
-				ptr++;
+				bytesWord[i]=*ptrPosicionado;
+				ptrPosicionado++;
 			}
 			return Word.GetWord(bytesWord);
 		}

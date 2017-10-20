@@ -519,7 +519,7 @@ namespace PokemonGBAFrameWork
 						comandoActual = new Cmd96(ptrRom, offsetScript);
 						break;
 					case FadeScreen.ID:
-						comandoActual = new FadeScreen(ptrRom, offsetScript);
+						comandoActual = new FadeScreen(ptrRom, offsetScript); 
 						break;
 					case FadeScreenDelay.ID:
 						comandoActual = new FadeScreenDelay(ptrRom, offsetScript);
@@ -551,7 +551,7 @@ namespace PokemonGBAFrameWork
 					case PokemonGBAFrameWork.ComandosScript.Cry.ID:
 						comandoActual = new PokemonGBAFrameWork.ComandosScript.Cry(ptrRom, offsetScript);
 						break;
-						
+						//falta poner los comandos que faltan,revisarlos y poner sus posibles opciones :)
 					case RETURN:
 					case END:
 						break;

@@ -11,6 +11,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// </summary>
 	public class SetHealingPlace:Comando
 	{
+		//hacer metodo para sacar el mapa del lugar indicado en el script y de un mapa sacar un lugar, RomData o Mapas y HealingPlaces(tiene que existir en algun lado la asociación)
 		//Script de nivel de tipo 3 
 		//https://www.pokecommunity.com/showthread.php?t=189304 para los lugares mmm mirar si se pueden sacar porque si los obtengo y luego obtengo los mapas obtendré información personalizada de cada rom que es lo ideal :)
 		public const byte ID=0x9F;
