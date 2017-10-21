@@ -105,12 +105,12 @@ namespace PokemonGBAFrameWork
 		}
 		public static Script GetSimpleScript(RomData romData,MiniSprite mini)
 		{
-			return GetSimpleScript(romData.Minis,mini);
+			return GetSimpleScript(romData.Minis,mini,romData.Edicion,romData.Compilacion);
 		}
-		public static Script GetSimpleScript(IList<MiniSprite> minis,MiniSprite mini)
+		public static Script GetSimpleScript(IList<MiniSprite> minis,MiniSprite mini,EdicionPokemon edicion=null,Compilacion compilacion=null)
 		{
 			int index=minis.IndexOf(mini);
-			return GetSimpleScript(index);
+			return GetSimpleScript(index,edicion,compilacion);
 			
 		}
 		public static Script GetSimpleScript(int index,EdicionPokemon edicion=null,Compilacion compilacion=null)
