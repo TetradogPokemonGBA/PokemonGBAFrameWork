@@ -119,7 +119,7 @@ namespace PokemonGBAFrameWork
 			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetFlag(0x406));
 			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetVar(Variable,index));
 			if(edicion!=null&&compilacion!=null)
-				scriptCambiarSprite.ComandosScript.Add(Refresh.Comando(edicion,compilacion));
+				scriptCambiarSprite.ComandosScript.Add(RefreshMiniPlayer.Comando(edicion,compilacion));
 			//me falta refescar la pantalla...
 			return scriptCambiarSprite;
 		}

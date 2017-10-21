@@ -13,11 +13,11 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Refresh.
 	/// </summary>
-	public static class Refresh
+	public static class RefreshMiniPlayer
 	{
 		static readonly Variable callToRefresh;
 		const uint ASUMAR=0x80000000;
-		static Refresh()
+		static RefreshMiniPlayer()
 		{
 			callToRefresh=new Variable("Offset rutina");
 			callToRefresh.Add(EdicionPokemon.RojoFuegoUsa,0x5BE61,0x5BE75);
