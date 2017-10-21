@@ -17,62 +17,122 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of DWord.
 	/// </summary>
-	public static class DWord
+	public  class DWord:IComparable,IComparable<DWord>
 	{
 		public const int LENGTH=4;
 		
-		
-		public static void SetDWord(RomGba rom, int offset, int dWord)
+		byte[] dWord;
+		public DWord(int dWord)
 		{
-			SetDWord(rom.Data.Bytes, offset, dWord);
+			this.dWord=Serializar.GetBytes(dWord);
 		}
-		
-		public  static void SetDWord(byte[] rom, int offset, int dWord)
+		public DWord(uint dWord)
 		{
-			if (offset < 0 || offset + LENGTH> rom.Length)
-				throw new ArgumentOutOfRangeException();
+			this.dWord=Serializar.GetBytes(dWord);
+		}
+		public DWord(RomData rom,int offsetDWord):this(rom.Rom,offsetDWord)
+		{}
+		public DWord(RomGba rom,int offsetDWord):this(rom.Data,offsetDWord)
+		{}
+		public DWord(BloqueBytes rom,int offsetDWord):this(rom.Bytes,offsetDWord)
+		{}
+		public DWord(byte[] rom,int offsetDWord)
+		{
 			unsafe{
 				fixed(byte* ptrRom=rom)
-					SetDWord(ptrRom,offset,dWord);
+				{
+					dWord=new DWord(ptrRom+offsetDWord).dWord;
+				}
+				
+			}
+		}
+		public unsafe DWord(byte* ptrRom,int offsetDWord):this(ptrRom+offsetDWord)
+		{}
+		public unsafe DWord(byte* ptrRomPosicionado)
+		{
+			dWord=MetodosUnsafe.ReadBytes(ptrRomPosicionado,LENGTH);
+		}
+		public byte[] Data
+		{
+			get{return dWord;}
+		}
+		
+		#region IComparable implementation
+		public int CompareTo(object obj)
+		{
+			return CompareTo(obj as DWord);
+		}
+		#endregion
+		#region IComparable implementation
+		public int CompareTo(DWord other)
+		{
+			int compareTo;
+			if(other!=null)
+			{
+				compareTo=(int)dWord.CompareTo(other.dWord);
+			}else compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
 			
+			return compareTo;
+		}
+		#endregion
+		#region Equals and GetHashCode implementation
+		public override bool Equals(object obj)
+		{
+			DWord other = obj as DWord;
+			bool isEquals;
+			if (other == null)
+				isEquals= false;
+			else isEquals= this.dWord.ArrayEqual(other.dWord);
+			return isEquals;
+		}
+
+		public override int GetHashCode()
+		{
+			int hashCode = 0;
+			unchecked {
+				if (dWord != null)
+					hashCode += 1000000007 * dWord.GetHashCode();
 			}
-
-		}
-		public unsafe static void SetDWord(byte* ptrDatos,int offset, int dWord)
-		{
-			SetDWord(ptrDatos+offset,dWord);
-		}
-		public unsafe static void SetDWord(byte* ptrDatosPosicionados, int dWord)
-		{
-			byte[] bytesDWord=Serializar.GetBytes(dWord);
-			fixed(byte* ptrBytesDWord=bytesDWord)
-				MetodosUnsafe.WriteBytes(ptrDatosPosicionados,ptrBytesDWord,LENGTH);
-
+			return hashCode;
 		}
 
-		public static int GetDWord(RomGba rom, int offset)
-		{
-			return GetDWord(rom.Data.Bytes, offset);
+		public static bool operator ==(DWord lhs, DWord rhs) {
+			bool iguales;
+			if (ReferenceEquals(lhs, rhs))
+				iguales= true;
+			else if (ReferenceEquals(lhs, null) || ReferenceEquals(rhs, null))
+				iguales= false;
+			else iguales= lhs.Equals(rhs);
+			
+			return iguales;
+			
 		}
-		public static int GetDWord(byte[] bytes,int offsetDWord)
-		{
-			if (offsetDWord + LENGTH > bytes.Length)
-				throw new ArgumentOutOfRangeException();
-			int result;
-			unsafe{
-				fixed(byte* ptrBytes=bytes)
-					result=GetDWord(ptrBytes+offsetDWord);
-			}
-			return result;
+
+		public static bool operator !=(DWord lhs, DWord rhs) {
+			return !(lhs == rhs);
 		}
-		public unsafe static int GetDWord(byte* ptrDatos,int offset)
+
+		#endregion
+		public static implicit operator byte[](DWord dWord)
 		{
-			return GetDWord(ptrDatos+offset);
+			return dWord.dWord;
 		}
-		public unsafe static int GetDWord(byte* ptrBytesPosicionado)
+		public static implicit operator uint(DWord dWord)
 		{
-			byte[] bytesDWord=MetodosUnsafe.ReadBytes(ptrBytesPosicionado,LENGTH);
-			return Serializar.ToInt(bytesDWord);
+			return Serializar.ToUInt(dWord.dWord);
 		}
+		public static implicit operator DWord(uint dWord)
+		{
+			return new DWord(dWord);
+		}
+		public static explicit operator int(DWord word)
+		{
+			return Convert.ToInt32((uint)word);
+		}
+		public static explicit operator DWord(int word)
+		{
+			return Convert.ToUInt32((int)word);
+		}
+		
 	}
 }

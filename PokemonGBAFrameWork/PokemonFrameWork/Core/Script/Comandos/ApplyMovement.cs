@@ -13,10 +13,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4F;
 		public const int SIZE=7;
-		ushort personajeAUsar;
+		Word personajeAUsar;
 		OffsetRom datosMovimiento;
 		
-		public ApplyMovement(ushort personajeAUsar,OffsetRom datosMovimiento)
+		public ApplyMovement(Word personajeAUsar,OffsetRom datosMovimiento)
 		{
 			PersonajeAUsar=personajeAUsar;
 			DatosMovimiento=datosMovimiento;
@@ -51,7 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public ushort PersonajeAUsar
+		public Word PersonajeAUsar
 		{
 			get{ return personajeAUsar;}
 			set{personajeAUsar=value;}
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			personajeAUsar=Word.GetWord(ptrRom,offsetComando);
+			personajeAUsar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			datosMovimiento=new OffsetRom(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);
 			offsetComando+=OffsetRom.LENGTH;
@@ -77,7 +77,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			Word.SetWord(ptrRomPosicionado,PersonajeAUsar);
+			Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,PersonajeAUsar);
 			ptrRomPosicionado+=Word.LENGTH;
 			OffsetRom.SetOffset(ptrRomPosicionado,DatosMovimiento);
 			ptrRomPosicionado+=OffsetRom.LENGTH;

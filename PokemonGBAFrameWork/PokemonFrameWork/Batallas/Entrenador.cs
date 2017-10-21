@@ -56,12 +56,12 @@ namespace PokemonGBAFrameWork
 		byte spriteIndex;
 		BloqueString nombre;//max 10
 		//faltan 2 bytes [14,15]
-		ushort item1;
-		ushort item2;
-		ushort item3;
-		ushort item4;
+		Word item1;
+		Word item2;
+		Word item3;
+		Word item4;
 		//faltan 4 bytes
-		int inteligencia;
+		DWord inteligencia;
 		
 		EquipoPokemonEntrenador equipo;
 		static Entrenador()
@@ -130,7 +130,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Item1 {
+		public Word Item1 {
 			get {
 				return item1;
 			}
@@ -139,7 +139,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Item2 {
+		public Word Item2 {
 			get {
 				return item2;
 			}
@@ -148,7 +148,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Item3 {
+		public Word Item3 {
 			get {
 				return item3;
 			}
@@ -157,7 +157,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Item4 {
+		public Word Item4 {
 			get {
 				return item4;
 			}
@@ -166,7 +166,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int Inteligencia {
+		public DWord Inteligencia {
 			get {
 				return inteligencia;
 			}
@@ -220,11 +220,11 @@ namespace PokemonGBAFrameWork
 			entranadorCargado.MusicaBatalla =(byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & MAXMUSIC);
 			entranadorCargado.TrainerClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];//quizas es la clase de entrenador :D y no el rango de dinero que da...
 			entranadorCargado.Nombre.Texto = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
-			entranadorCargado.Inteligencia = DWord.GetDWord(bytesEntrenador.Bytes,(int)Posicion.Inteligencia);//mirar si es asi :D
-			entranadorCargado.Item1= Word.GetWord(bytesEntrenador.Bytes,(int)Posicion.Item1);//mirar si es asi :D
-			entranadorCargado.Item2 = Word.GetWord(bytesEntrenador.Bytes,(int)Posicion.Item2);//mirar si es asi :D
-			entranadorCargado.Item3 = Word.GetWord(bytesEntrenador.Bytes,(int)Posicion.Item3);//mirar si es asi :D
-			entranadorCargado.Item4 = Word.GetWord(bytesEntrenador.Bytes,(int)Posicion.Item4);//mirar si es asi :D
+			entranadorCargado.Inteligencia =new DWord(bytesEntrenador.Bytes,(int)Posicion.Inteligencia);//mirar si es asi :D 
+			entranadorCargado.Item1= new Word(bytesEntrenador.Bytes,(int)Posicion.Item1);//mirar si es asi :D
+			entranadorCargado.Item2 = new Word(bytesEntrenador.Bytes,(int)Posicion.Item2);//mirar si es asi :D
+			entranadorCargado.Item3 = new Word(bytesEntrenador.Bytes,(int)Posicion.Item3);//mirar si es asi :D
+			entranadorCargado.Item4 =new Word(bytesEntrenador.Bytes,(int)Posicion.Item4);//mirar si es asi :D
 			entranadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
 			entranadorCargado.EquipoPokemon = EquipoPokemonEntrenador.GetEquipo(rom, bytesEntrenador);
 			
@@ -272,11 +272,11 @@ namespace PokemonGBAFrameWork
 			
 			bloqueEntrenador.Bytes[(int)Posicion.MoneyClass]= entrenador.TrainerClass;
 			BloqueString.SetString(rom,bloqueEntrenador.OffsetInicio + (int)Posicion.Nombre, entrenador.Nombre);
-			DWord.SetDWord(bloqueEntrenador.Bytes,(int)Posicion.Inteligencia,entrenador.Inteligencia);//mirar si va asi :D
-			Word.SetWord(bloqueEntrenador.Bytes,(int)Posicion.Item1,entrenador.Item1);//mirar si va asi :D
-			Word.SetWord(bloqueEntrenador.Bytes,(int)Posicion.Item2,entrenador.Item2);//mirar si va asi :D
-			Word.SetWord(bloqueEntrenador.Bytes,(int)Posicion.Item3,entrenador.Item3);//mirar si va asi :D
-			Word.SetWord(bloqueEntrenador.Bytes,(int)Posicion.Item4,entrenador.Item4);//mirar si va asi :D
+			bloqueEntrenador.Bytes.SetArray((int)Posicion.Inteligencia,entrenador.Inteligencia.Data);//mirar si va asi :D
+			bloqueEntrenador.Bytes.SetArray((int)Posicion.Item1,entrenador.Item1.Data);//mirar si va asi :D
+			bloqueEntrenador.Bytes.SetArray((int)Posicion.Item2,entrenador.Item2.Data);//mirar si va asi :D
+			bloqueEntrenador.Bytes.SetArray((int)Posicion.Item3,entrenador.Item3.Data);//mirar si va asi :D
+			bloqueEntrenador.Bytes.SetArray((int)Posicion.Item4,entrenador.Item4.Data);//mirar si va asi :D
 			bloqueEntrenador.Bytes[(int)Posicion.Sprite]= entrenador.SpriteIndex;
 			//pongo los datos
 			EquipoPokemonEntrenador.SetEquipo(rom, bloqueEntrenador,entrenador.EquipoPokemon);

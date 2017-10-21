@@ -95,7 +95,7 @@
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
-    <Compile Include="PokemonFrameWork\Core\Script\ComandosComplejos\Refresh.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\ComandosComplejos\RefreshMiniPlayer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddDecoration.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddPcItem.cs" />

@@ -18,13 +18,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x16;
 		public const int SIZE=0x5;
 		
-		ushort variable;
-		ushort valor;
+		Word variable;
+		Word valor;
 		
 		public SetVar(int variable,int valor)
 		{
-			Variable=variable;
-			Valor=valor;
+			Variable=Convert.ToUInt16(variable);
+			Valor=Convert.ToUInt16(valor);
 		}
 		public SetVar(RomGba rom,int offset):base(rom,offset)
 		{}
@@ -55,21 +55,21 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public int Variable {
+		public Word Variable {
 			get {
 				return variable;
 			}
 			set {
-				variable =(ushort) value;
+				variable = value;
 			}
 		}
 
-		public int Valor {
+		public Word Valor {
 			get {
 				return valor;
 			}
 			set {
-				valor =(ushort) value;
+				valor = value;
 			}
 		}
 		#endregion
@@ -81,24 +81,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variable=Word.GetWord(ptrRom,offsetComando);
-			valor=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			variable=new Word(ptrRom,offsetComando);
+			valor=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-		
+			
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado,variable);
+			Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,variable);
 			ptrRomPosicionado+=Word.LENGTH;
 			
-			Word.SetWord(ptrRomPosicionado,valor);
+			Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,valor);
 			ptrRomPosicionado+=Word.LENGTH;
 			
 		}
 	}
 	
-		public class SubVar:SetVar
+	public class SubVar:SetVar
 	{
 		public const byte ID=0x18;
 		

@@ -13,12 +13,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x44;
 		public const int SIZE=5;
-		ushort objetoAAñadir;
+		Word objetoAAñadir;
 
-		ushort cantidad;
+		Word cantidad;
 
 		
-		public AddItem(ushort objetoAAñadir,ushort cantidad)
+		public AddItem(Word objetoAAñadir,Word cantidad)
 		{
 			ObjetoAAñadir=objetoAAñadir;
 
@@ -57,13 +57,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		
 
-		public ushort ObjetoAAñadir
+		public Word ObjetoAAñadir
 		{
 			get{ return objetoAAñadir;}
 			set{objetoAAñadir=value;}
 		}
 
-		public ushort Cantidad
+		public Word Cantidad
 		{
 			get{ return cantidad;}
 			set{cantidad=value;}
@@ -74,11 +74,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			objetoAAñadir=Word.GetWord(ptrRom,offsetComando);
+			objetoAAñadir=new Word(ptrRom,offsetComando);
 
 			offsetComando+=Word.LENGTH;
 
-			cantidad=Word.GetWord(ptrRom,offsetComando);
+			cantidad=new Word(ptrRom,offsetComando);
 
 			offsetComando+=Word.LENGTH;
 
@@ -87,11 +87,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			Word.SetWord(ptrRomPosicionado,ObjetoAAñadir);
+			fixed(byte* ptrDecoracion=ObjetoAAñadir.Data)
+				Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,ptrDecoracion,ObjetoAAñadir.Data.Length);
+			
 
 			ptrRomPosicionado+=Word.LENGTH;
 
-			Word.SetWord(ptrRomPosicionado,Cantidad);
+			fixed(byte* ptrDecoracion=Cantidad.Data)
+				Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,ptrDecoracion,Cantidad.Data.Length);
+			
 
 			ptrRomPosicionado+=Word.LENGTH;
 

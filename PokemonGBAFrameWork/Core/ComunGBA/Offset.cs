@@ -89,14 +89,14 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public uint Offset
+		public int Offset
 		{
 			get{
 				
 				if(!IsAPointer)
 					throw new ArgumentException("No es un pointer valido...");
 				
-				uint offset=Serializar.ToUInt(new byte[]{bytesPointer[0],bytesPointer[1],bytesPointer[2],0x0});
+				int offset=Serializar.ToInt(new byte[]{bytesPointer[0],bytesPointer[1],bytesPointer[2],0x0});
 				if(bytesPointer[POSICIONIDENTIFICADOR]==BYTEIDENTIFICADOR32MB)
 					offset+=DIECISEISMEGAS;
 				return offset;

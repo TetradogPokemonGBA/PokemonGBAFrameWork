@@ -49,19 +49,19 @@ namespace PokemonGBAFrameWork
 		public static readonly Zona ZonaBattleScript;
 		
 		BloqueString blNombre;
-		ushort index;
-		ushort price;
+		Word index;
+		Word price;
 		byte holdEffect;
 		byte parameter;
 		BloqueString blDescripcion;
-		int pointerFieldUsage;
+		OffsetRom pointerFieldUsage;
 		byte keyItemValue;
 		byte bagKeyItem;
 		BolsilloObjetos bolsillo;
 		byte tipo;
-		int battleUsage;
-		int pointerBattleUsage;
-		int extraParameter;
+		DWord battleUsage;
+		OffsetRom pointerBattleUsage;
+		DWord extraParameter;
 		BloqueImagen blImagenObjeto;
 
 
@@ -131,7 +131,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Index {
+		public Word Index {
 			get {
 				return index;
 			}
@@ -140,7 +140,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Price {
+		public Word Price {
 			get {
 				return price;
 			}
@@ -180,7 +180,7 @@ namespace PokemonGBAFrameWork
 				return blDescripcion;
 			}
 		}
-		public int PointerFieldUsage {
+		public OffsetRom PointerFieldUsage {
 			get {
 				return pointerFieldUsage;
 			}
@@ -215,7 +215,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int BattleUsage {
+		public DWord BattleUsage {
 			get {
 				return battleUsage;
 			}
@@ -223,7 +223,7 @@ namespace PokemonGBAFrameWork
 				battleUsage = value;
 			}
 		}
-		public int PointerBattleUsage {
+		public OffsetRom PointerBattleUsage {
 			get {
 				return pointerBattleUsage;
 			}
@@ -232,7 +232,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int ExtraParameter {
+		public DWord ExtraParameter {
 			get {
 				return extraParameter;
 			}
@@ -316,8 +316,8 @@ namespace PokemonGBAFrameWork
 			Objeto objACargar=new Objeto();
 			
 			objACargar.Nombre.Texto=BloqueString.GetString(blDatos,0);
-			objACargar.index=Word.GetWord(blDatos,14);
-			objACargar.price=Word.GetWord(blDatos,16);
+			objACargar.index=new Word(blDatos,14);
+			objACargar.price=new Word(blDatos,16);
 			objACargar.holdEffect=blDatos[17];
 			objACargar.parameter=blDatos[18];
 			objACargar.blDescripcion=BloqueString.GetString(rom,new OffsetRom(blDatos, 20).Offset);
@@ -327,15 +327,15 @@ namespace PokemonGBAFrameWork
 			objACargar.tipo=blDatos[27];
 			aux=new OffsetRom(blDatos,28);
 			if(aux.IsAPointer)
-				objACargar.pointerBattleUsage=aux.Offset;
+				objACargar.pointerBattleUsage=aux;
 			
-			objACargar.battleUsage=DWord.GetDWord(blDatos,32);
+			objACargar.battleUsage=new DWord(blDatos,32);
 			
 			aux=new OffsetRom(blDatos,36);
 			if(aux.IsAPointer)
-				objACargar.pointerFieldUsage=aux.Offset;
+				objACargar.pointerFieldUsage=aux;
 			//lo que hacia que fuera tan lento cargando era el uso de try catch!!
-			objACargar.extraParameter=DWord.GetDWord(blDatos,40);
+			objACargar.extraParameter=new DWord(blDatos,40);
 			
 			if(edicion.AbreviacionRom!=AbreviacionCanon.AXP&&edicion.AbreviacionRom!=AbreviacionCanon.AXV){
 				offsetImagenYPaleta=Zona.GetOffsetRom(rom,ZonaImagenesObjeto,edicion,compilacion).Offset+index*(OffsetRom.LENGTH+OffsetRom.LENGTH);
@@ -375,9 +375,9 @@ namespace PokemonGBAFrameWork
 			
 			BloqueString.SetString(rom,offsetDatos,objeto.Nombre);
 			offsetDatos+=(int)LongitudCampos.NombreCompilado;
-			Word.SetWord(rom,offsetDatos,objeto.Index);
+			rom.Data.SetArray(offsetDatos,objeto.Index);
 			offsetDatos+=(int)LongitudCampos.Index;
-			Word.SetWord(rom,offsetDatos,objeto.Price);
+			rom.Data.SetArray(offsetDatos,objeto.Price);
 			offsetDatos+=(int)LongitudCampos.Price;
 			rom.Data[offsetDatos]=objeto.HoldEffect;
 			offsetDatos++;
@@ -395,15 +395,15 @@ namespace PokemonGBAFrameWork
 			rom.Data[offsetDatos]=(byte)objeto.Bolsillo;
 			offsetDatos++;
 			rom.Data[offsetDatos]=objeto.Tipo;
-			if(objeto.PointerBattleUsage>0)
-				rom.Data.SetArray(offsetDatos,new OffsetRom(objeto.PointerBattleUsage).BytesPointer);
+			if(objeto.PointerBattleUsage!=null)
+				rom.Data.SetArray(offsetDatos,objeto.PointerBattleUsage.BytesPointer);
 			offsetDatos+=OffsetRom.LENGTH;
-			DWord.SetDWord(rom,offsetDatos,objeto.BattleUsage);
+			rom.Data.SetArray(offsetDatos,objeto.BattleUsage);
 			offsetDatos+=DWord.LENGTH;
-			if(objeto.PointerBattleUsage>0)
-				rom.Data.SetArray(offsetDatos,new OffsetRom(objeto.PointerFieldUsage).BytesPointer);
+			if(objeto.PointerBattleUsage!=null)
+				rom.Data.SetArray(offsetDatos,objeto.PointerFieldUsage.BytesPointer);
 			offsetDatos+=OffsetRom.LENGTH;
-			DWord.SetDWord(rom,offsetDatos,objeto.ExtraParameter);
+			rom.Data.SetArray(offsetDatos,objeto.ExtraParameter);
 			
 			if(edicion.AbreviacionRom!=AbreviacionCanon.AXP&&edicion.AbreviacionRom!=AbreviacionCanon.AXV){
 				offsetImagenYPaleta=Zona.GetOffsetRom(rom,ZonaImagenesObjeto,edicion,compilacion).Offset+index*(OffsetRom.LENGTH+OffsetRom.LENGTH);

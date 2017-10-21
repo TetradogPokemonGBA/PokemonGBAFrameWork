@@ -17,74 +17,118 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Word.
 	/// </summary>
-	public static class Word
+	public class Word:IComparable,IComparable<Word>
 	{
 		public const int LENGTH=2;
 		
-		
-		public static void SetWord(RomGba rom, int offset, ushort word)
+		byte[] word;
+		public Word(short word)
 		{
-			SetWord(rom.Data.Bytes, offset, word);
+			this.word=Serializar.GetBytes(word);
 		}
-		public unsafe static void SetWord(byte* ptrRom,int offset,ushort word)
+		public Word(ushort word)
 		{
-			byte* ptComando=ptrRom+offset;
-			SetWord(ptComando,word);
+			this.word=Serializar.GetBytes(word);
 		}
-		public unsafe static void SetWord(byte* ptrDatosPosicionados,ushort word)
+		public Word(RomData rom,int offsetWord):this(rom.Rom,offsetWord)
+		{}
+		public Word(RomGba rom,int offsetWord):this(rom.Data,offsetWord)
+		{}
+		public Word(BloqueBytes rom,int offsetWord):this(rom.Bytes,offsetWord)
+		{}
+		public Word(byte[] rom,int offsetWord)
 		{
-
-			*ptrDatosPosicionados = Convert.ToByte((word & 0xff));
-			
-			ptrDatosPosicionados++;
-			
-			*ptrDatosPosicionados = Convert.ToByte(((word >> 8) & 0xff));
-		}
-		public  static void SetWord(byte[] rom, int offset, ushort word)
-		{
-			if (offset < 0 || offset + LENGTH> rom.Length)
-				throw new ArgumentOutOfRangeException();
-			int zonaWord = (int)offset;
-			unsafe
-			{
-				fixed (byte* ptDatos = rom)
+			unsafe{
+				fixed(byte* ptrRom=rom)
 				{
-					SetWord(ptDatos,offset,word);
-					
+					word=new Word(ptrRom+offsetWord).word;
 				}
+				
 			}
-
 		}
-
-		public static ushort GetWord(RomGba rom, int offsetWord)
+		public unsafe Word(byte* ptrRom,int offsetWord):this(ptrRom+offsetWord)
+		{}
+		public unsafe Word(byte* ptrRomPosicionado)
 		{
-			return GetWord(rom.Data.Bytes, offsetWord);
+			word=MetodosUnsafe.ReadBytes(ptrRomPosicionado,LENGTH);
 		}
-		public static ushort GetWord(byte[] bytes, int offsetWord=0)
+		public byte[] Data
 		{
-			return GetWordOrDWord(bytes, offsetWord);
+			get{return word;}
 		}
-		public unsafe static ushort GetWord(byte* ptrRom,int offset)
+		
+		#region IComparable implementation
+		public int CompareTo(object obj)
 		{
-			byte* ptComando=ptrRom+offset;
-			return GetWord(ptComando);
+			return CompareTo(obj as Word);
 		}
-		public unsafe static ushort GetWord(byte* ptrPosicionado)
+		#endregion
+		#region IComparable implementation
+		public int CompareTo(Word other)
 		{
-			byte[] bytesWord=new byte[Word.LENGTH];
-			for(int i=0;i<bytesWord.Length;i++)
+			int compareTo;
+			if(other!=null)
 			{
-				bytesWord[i]=*ptrPosicionado;
-				ptrPosicionado++;
-			}
-			return Word.GetWord(bytesWord);
+				compareTo=(int)word.CompareTo(other.word);
+			}else compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
+			
+			return compareTo;
 		}
-		static ushort GetWordOrDWord(byte[] bytes,int offsetWord)
+		#endregion
+		public override bool Equals(object obj)
 		{
-			if (offsetWord + LENGTH > bytes.Length)
-				throw new ArgumentOutOfRangeException();
-			byte[] bytesWord=bytes.SubArray(offsetWord,LENGTH);
-			return Serializar.ToUShort(bytesWord);
+			Word other = obj as Word;
+			bool isEquals;
+			if (other == null)
+				isEquals= false;
+			else isEquals= this.word.ArrayEqual(other.word);
+			return isEquals;
+		}
+
+		public override int GetHashCode()
+		{
+			int hashCode = 0;
+			unchecked {
+				if (word != null)
+					hashCode += 1000000007 * word.GetHashCode();
+			}
+			return hashCode;
+		}
+
+		public static bool operator ==(Word lhs, Word rhs) {
+			bool iguales;
+			if (ReferenceEquals(lhs, rhs))
+				iguales= true;
+			else if (ReferenceEquals(lhs, null) || ReferenceEquals(rhs, null))
+				iguales= false;
+			else iguales= lhs.Equals(rhs);
+			
+			return iguales;
+			
+		}
+
+		public static bool operator !=(Word lhs, Word rhs) {
+			return !(lhs == rhs);
+		}
+		public static implicit operator ushort(Word word)
+		{
+			return Serializar.ToUShort(word.word);
+		}
+		public static implicit operator byte[](Word word)
+		{
+			return word.word;
+		}
+		public static implicit operator Word(ushort word)
+		{
+			return new Word(word);
+		}
+		public static explicit operator short(Word word)
+		{
+			return Convert.ToInt16((ushort)word);
+		}
+		public static explicit operator Word(short word)
+		{
+			return Convert.ToUInt16((short)word);
 		}
 	}
 }

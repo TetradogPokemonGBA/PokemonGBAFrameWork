@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4B;
 		public const int SIZE=3;
-		ushort decoracion;
+		Word decoracion;
 		
-		public AddDecoration(ushort decoracion)
+		public AddDecoration(Word decoracion)
 		{
 			Decoracion=decoracion;
 			
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public ushort Decoracion
+		public Word Decoracion
 		{
 			get{ return decoracion;}
 			set{decoracion=value;}
@@ -61,14 +61,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			decoracion=Word.GetWord(ptrRom,offsetComando);
+			decoracion=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			Word.SetWord(ptrRomPosicionado,Decoracion);
+			fixed(byte* ptrDecoracion=Decoracion.Data)
+				Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,ptrDecoracion,Decoracion.Data.Length);
 			ptrRomPosicionado+=Word.LENGTH;
 			
 		}
