@@ -27,8 +27,9 @@ namespace PokemonGBAFrameWork
 		public const int TREINTAYDOSMEGAS=DIECISEISMEGAS*2;
 		
 		byte[] bytesPointer;
-		
-		public OffsetRom(int offset=0)
+		public OffsetRom(int offset):this(Convert.ToUInt32(offset))
+		{}
+		public OffsetRom(uint offset=0)
 		{
 			bytesPointer = Serializar.GetBytes(offset);
 			bytesPointer[POSICIONIDENTIFICADOR]=offset > DIECISEISMEGAS ? BYTEIDENTIFICADOR32MB : BYTEIDENTIFICADOR16MB;
@@ -88,14 +89,14 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int Offset
+		public uint Offset
 		{
 			get{
 				
 				if(!IsAPointer)
 					throw new ArgumentException("No es un pointer valido...");
 				
-				int offset=Serializar.ToInt(new byte[]{bytesPointer[0],bytesPointer[1],bytesPointer[2],0x0});
+				uint offset=Serializar.ToUInt(new byte[]{bytesPointer[0],bytesPointer[1],bytesPointer[2],0x0});
 				if(bytesPointer[POSICIONIDENTIFICADOR]==BYTEIDENTIFICADOR32MB)
 					offset+=DIECISEISMEGAS;
 				return offset;

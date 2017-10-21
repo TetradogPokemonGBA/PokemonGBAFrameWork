@@ -113,11 +113,13 @@ namespace PokemonGBAFrameWork
 			return GetSimpleScript(index);
 			
 		}
-		public static Script GetSimpleScript(int index)
+		public static Script GetSimpleScript(int index,EdicionPokemon edicion=null,Compilacion compilacion=null)
 		{
 			Script scriptCambiarSprite=new Script();
 			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetFlag(0x406));
 			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetVar(Variable,index));
+			if(edicion!=null&&compilacion!=null)
+				scriptCambiarSprite.ComandosScript.Add(Refresh.Comando(edicion,compilacion));
 			//me falta refescar la pantalla...
 			return scriptCambiarSprite;
 		}

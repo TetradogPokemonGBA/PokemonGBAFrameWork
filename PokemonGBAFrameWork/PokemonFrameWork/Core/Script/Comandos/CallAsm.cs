@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const int SIZE=1+OffsetRom.LENGTH;
 		
 		OffsetRom offsetAsm;//en el futuro poner el codigo asm :) ...por mirar...
-		public CallAsm(int offset):this(new OffsetRom(offset))
+		public CallAsm(uint offset):this(new OffsetRom(offset))
 		{}
 		public CallAsm(OffsetRom offsetAsm)
 		{this.offsetAsm=offsetAsm;}

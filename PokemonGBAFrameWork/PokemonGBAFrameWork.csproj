@@ -95,6 +95,7 @@
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\ComandosComplejos\Refresh.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddDecoration.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddItem.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddPcItem.cs" />
@@ -353,6 +354,9 @@
       <CustomToolNamespace>PokemonGBAFrameWork</CustomToolNamespace>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PokemonFrameWork\Core\Script\ComandosComplejos" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
