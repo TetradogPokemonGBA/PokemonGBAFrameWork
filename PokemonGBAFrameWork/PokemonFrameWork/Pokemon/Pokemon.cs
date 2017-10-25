@@ -113,11 +113,12 @@ namespace PokemonGBAFrameWork
 		public static readonly Zona ZonaNombre;
 		public static readonly Zona ZonaStats;
 		
-		int ordenNacional;
-		int ordenLocal;
-		int ordenGameFreak;
+		Word ordenNacional;
+		Word ordenLocal;
+		Word ordenGameFreak;
 		
-		int objeto1, objeto2;
+		Word objeto1;
+		Word objeto2;
 		
 		BloqueString blNombre;
 		DescripcionPokedex descripcion;
@@ -172,13 +173,13 @@ namespace PokemonGBAFrameWork
 			ataquesAprendidos=new AtaquesAprendidos();
 		}
 		
-		public int OrdenNacional
+		public Word OrdenNacional
 		{
 			get{return ordenNacional;}
 			set{ordenNacional=value;}
 		}
 
-		public int OrdenLocal {
+		public Word OrdenLocal {
 			get {
 				return ordenLocal;
 			}
@@ -187,7 +188,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int OrdenGameFreak {
+		public Word OrdenGameFreak {
 			get {
 				return ordenGameFreak;
 			}
@@ -432,7 +433,7 @@ namespace PokemonGBAFrameWork
 		#endregion
 
 		//item1 indexItems([12](%)+[13](/)*256);
-		public int Objeto1
+		public Word Objeto1
 		{
 			get
 			{
@@ -440,13 +441,13 @@ namespace PokemonGBAFrameWork
 			}
 			set
 			{
-				if (value < 0 || value > short.MaxValue)
-					throw new ArgumentOutOfRangeException();
+				if(value==null)
+					value=new Word(0);
 				objeto1 = value;
 			}
 		}
 		//item2 indexItems([14](%)+[15](/)*256);
-		public int Objeto2
+		public Word Objeto2
 		{
 			get
 			{
@@ -454,8 +455,8 @@ namespace PokemonGBAFrameWork
 			}
 			set
 			{
-				if (value < 0 || value > short.MaxValue)
-					throw new ArgumentOutOfRangeException();
+				if(value==null)
+					value=new Word(0);
 				objeto2 = value;
 			}
 		}
@@ -588,20 +589,19 @@ namespace PokemonGBAFrameWork
 			}
 		}
 		//PadBase 26,27??que es eso?? no se usa???
-		public ushort PadBase
+		public Word PadBase
 		{
 			get
 			{
-				return Gabriel.Cat.Serializar.ToUShort(new byte[] {
-				                                       	blStats.Bytes[26],
-				                                       	blStats.Bytes[27]
-				                                       });
+				return new Word(blStats,26);
 			}
 			set
 			{
-				byte[] bytesPadBase = Gabriel.Cat.Serializar.GetBytes(value);
-				blStats.Bytes[26] = bytesPadBase[0];
-				blStats.Bytes[27] = bytesPadBase[1];
+				if(value==null)
+					value=new Word(0);
+				
+				blStats.Bytes[26] = value.Data[0];
+				blStats.Bytes[27] = value.Data[1];
 			}
 		}
 
@@ -659,8 +659,8 @@ namespace PokemonGBAFrameWork
 		}
 		public void GetObjetosDeLosStats()
 		{
-			Objeto1 = blStats.Bytes[12] + blStats.Bytes[13] * 256;
-			Objeto2 = blStats.Bytes[14] + blStats.Bytes[15] * 256;
+			Objeto1 =new Word( blStats.Bytes[12] + blStats.Bytes[13] * 256);
+			Objeto2 =new Word( blStats.Bytes[14] + blStats.Bytes[15] * 256);
 		}
 		public NivelEvs GetEvs(StatEvs stat)
 		{
@@ -736,19 +736,19 @@ namespace PokemonGBAFrameWork
 		public static Pokemon GetPokemon(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int ordenGameFreak,int totalEntradasPokedex)
 		{
 			Pokemon pokemon=new Pokemon();
-			pokemon.OrdenGameFreak=ordenGameFreak;
+			pokemon.OrdenGameFreak=new Word(ordenGameFreak);
 			try{
-				pokemon.OrdenLocal=Word.GetWord(rom, Zona.GetOffsetRom(rom, ZonaOrdenLocal, edicion, compilacion).Offset + (pokemon.OrdenGameFreak-1) * 2);
-			}catch{pokemon.OrdenLocal=-1;}
+				pokemon.OrdenLocal=new Word(rom, Zona.GetOffsetRom(rom, ZonaOrdenLocal, edicion, compilacion).Offset + (pokemon.OrdenGameFreak-1) * 2);
+			}catch{}
 			try{
-				pokemon.OrdenNacional=Word.GetWord(rom, Zona.GetOffsetRom(rom, ZonaOrdenNacional, edicion, compilacion).Offset + (pokemon.OrdenGameFreak-1) * 2);
-			}catch{pokemon.OrdenNacional=-1;}
+				pokemon.OrdenNacional=new Word(rom, Zona.GetOffsetRom(rom, ZonaOrdenNacional, edicion, compilacion).Offset + (pokemon.OrdenGameFreak-1) * 2);
+			}catch{}
 			pokemon.Sprites=SpritesPokemon.GetSpritesPokemon(rom,edicion,compilacion,ordenGameFreak);
 			pokemon.Nombre=BloqueString.GetString(rom,Zona.GetOffsetRom(rom,ZonaNombre,edicion,compilacion).Offset+(ordenGameFreak*(int)LongitudCampos.NombreCompilado));
 			pokemon.blStats=BloqueBytes.GetBytes(rom.Data,Zona.GetOffsetRom(rom,ZonaStats,edicion,compilacion).Offset+(ordenGameFreak*(int)LongitudCampos.TotalStats),(int)LongitudCampos.TotalStats);
 			pokemon.GetObjetosDeLosStats();
 			
-			if(pokemon.OrdenNacional>=0&&pokemon.OrdenNacional<=totalEntradasPokedex&&false){
+			if(pokemon.OrdenNacional>=0&&pokemon.OrdenNacional<=totalEntradasPokedex&&false){//el &&false es porque de momento no se como se hace esta parte...
 				pokemon.Cry=Cry.GetCry(rom,pokemon.OrdenNacional);
 				pokemon.Growl=Growl.GetGrowl(rom,pokemon.OrdenNacional);
 			}
@@ -785,8 +785,8 @@ namespace PokemonGBAFrameWork
 			
 			pokemon.SetObjetosEnLosStats(totalObjetos);
 			
-			Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenLocal,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,(short)pokemon.OrdenLocal);
-			Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenNacional,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,(short)pokemon.OrdenNacional);
+			Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenLocal,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,pokemon.OrdenLocal);
+			Word.SetWord(rom,Zona.GetOffsetRom(rom,ZonaOrdenNacional,edicion,compilacion).Offset+pokemon.OrdenGameFreak*Word.LENGTH,pokemon.OrdenNacional);
 			
 			BloqueString.Remove(rom,offsetNombre);
 			BloqueString.SetString(rom,offsetNombre,pokemon.Nombre);

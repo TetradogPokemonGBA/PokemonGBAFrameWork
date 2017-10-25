@@ -166,6 +166,26 @@ namespace PokemonGBAFrameWork
 					rom.Data.SetArray(posicion,ptrAPoner.BytesPointer);
 			}while(posicion>0);
 		}
+		public  static void SetOffset(RomData data,int offsetDatos,OffsetRom offset)
+		{
+			SetOffset(data.Rom,offsetDatos,offset);
+		}
+		public  static void SetOffset(RomGba rom,int offsetDatos,OffsetRom offset)
+		{
+			SetOffset(rom.Data,offsetDatos,offset);
+		}
+		public  static void SetOffset(BloqueBytes data,int offsetDatos,OffsetRom offset)
+		{
+			SetOffset(data.Bytes,offsetDatos,offset);
+		}
+		
+		public  static void SetOffset(byte[] rom,int offsetDatos,OffsetRom offset)
+		{
+			unsafe{
+				fixed(byte* ptrRom=rom)
+					SetOffset(ptrRom,offsetDatos,offset);
+			}
+		}
 		public unsafe static void SetOffset(byte* ptrRom,int offsetDatos,OffsetRom offset)
 		{
 			SetOffset(ptrRom+offsetDatos,offset);

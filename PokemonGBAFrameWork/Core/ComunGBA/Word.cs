@@ -106,7 +106,34 @@ namespace PokemonGBAFrameWork
 			return iguales;
 			
 		}
+		public static void SetWord(RomData rom,int offset,Word word)
+		{
+			SetWord(rom.Rom,word);
+		}
+		public static void SetWord(RomGba rom,int offset,Word word)
+		{
+			SetWord(rom.Data,word);
+		}
+		public static void SetWord(BloqueBytes datos,int offset,Word word)
+		{
+			SetWord(datos.Bytes,word);
+		}
+		public static void SetWord(byte[] datos,int offset,Word word)
+		{
+			unsafe{
+				fixed(byte* ptrDatos=datos)
+					SetWord(ptrDatos,offset,word);
 
+			}
+		}
+		public static unsafe  void SetWord(byte* ptrDatos,int offset,Word word)
+		{
+			SetWord(ptrDatos+offset,word);
+		}
+		public static unsafe  void SetWord(byte* ptrDatosPosicionados,Word word)
+		{
+			MetodosUnsafe.WriteBytes(ptrDatosPosicionados,word);
+		}
 		public static bool operator !=(Word lhs, Word rhs) {
 			return !(lhs == rhs);
 		}

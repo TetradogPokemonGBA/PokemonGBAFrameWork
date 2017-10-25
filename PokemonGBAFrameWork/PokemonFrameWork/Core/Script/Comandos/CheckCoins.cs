@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0xB3;
 		public const int SIZE=3;
-		ushort variableAUsar;
+		Word variableAUsar;
 		
-		public CheckCoins(ushort variableAUsar)
+		public CheckCoins(Word variableAUsar)
 		{
 			VariableAUsar=variableAUsar;
 			
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public ushort VariableAUsar
+		public Word VariableAUsar
 		{
 			get{ return variableAUsar;}
 			set{variableAUsar=value;}
@@ -61,7 +61,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variableAUsar=Word.GetWord(ptrRom,offsetComando);
+			variableAUsar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			
 		}

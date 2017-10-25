@@ -160,12 +160,12 @@ namespace PokemonGBAFrameWork
 			Creditos=new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Ratzhier","Investigación");
 		}
-        public static bool EsCompatible(RomData romData)
-        {
-            return Ruta.VariableBancoMapaRutaValido.Diccionario.ContainsKey(romData.Compilacion) && Ruta.VariableBancoMapaRutaValido.Diccionario[romData.Compilacion].ContainsKey(romData.Edicion);
-        }
+		public static bool EsCompatible(RomData romData)
+		{
+			return Ruta.VariableBancoMapaRutaValido.Diccionario.ContainsKey(romData.Compilacion) && Ruta.VariableBancoMapaRutaValido.Diccionario[romData.Compilacion].ContainsKey(romData.Edicion);
+		}
 
-        public class Pokemon
+		public class Pokemon
 		{
 			
 			public enum Stat
@@ -185,8 +185,8 @@ namespace PokemonGBAFrameWork
 			public const int MAXTURNOSDORMIDO=7;
 			
 			PokemonGBAFrameWork.Pokemon pokemon;
-			int vida;
-			int nivel;
+			Word vida;
+			Word nivel;
 			byte stats;
 			
 			//falta Rubi y Zafiro esp y usa
@@ -229,7 +229,7 @@ namespace PokemonGBAFrameWork
 
 
 			}
-			public Pokemon(PokemonGBAFrameWork.Pokemon pokemon, int vida=1, int nivel=1, byte stats=0)
+			public Pokemon(PokemonGBAFrameWork.Pokemon pokemon, Word vida=null, Word nivel=null, byte stats=0)
 			{
 				PokemonErrante = pokemon;
 				Vida = vida;
@@ -250,7 +250,7 @@ namespace PokemonGBAFrameWork
 				}
 			}
 
-			public int Vida
+			public Word Vida
 			{
 				get
 				{
@@ -259,12 +259,13 @@ namespace PokemonGBAFrameWork
 
 				set
 				{
-					if (value < 0 || value > short.MaxValue) throw new ArgumentOutOfRangeException();//mirar de especificar el maximo
+					if(value==null)
+						value=new Word(1);
 					vida = value;
 				}
 			}
 
-			public int Nivel
+			public Word Nivel
 			{
 				get
 				{
@@ -273,7 +274,8 @@ namespace PokemonGBAFrameWork
 
 				set
 				{
-					if (value < 0) throw new ArgumentOutOfRangeException();
+					if(value==null)
+						value=new Word(1);
 					nivel = value;
 				}
 			}
@@ -371,49 +373,20 @@ namespace PokemonGBAFrameWork
 			//script
 			public static void SetPokemonScript(RomGba rom, EdicionPokemon edicion, Compilacion compilacion,int offset, Pokemon pokemonErrante)
 			{
-				rom.Data.SetArray(offset, BytesScript( edicion, compilacion, pokemonErrante));
+				rom.Data.SetArray(offset, GetScript( edicion, compilacion, pokemonErrante).GetDeclaracion(rom));
 			}
-			public static byte[] BytesScript(EdicionPokemon edicion,Compilacion compilacion ,Pokemon pokemonErrante)
-			{
-				//mas adelante pasarlo a la zona de scripts
-				byte[] bytes;
-				string[] campos;
-				campos = BytesScriptString(edicion,compilacion,pokemonErrante).Replace("\r\n", ",").Replace("  ", ",").Replace(" ",",").Split(',');
-				bytes = new byte[campos.Length];
-				for (int i = 0; i < bytes.Length; i++)
-					bytes[i] = Convert.ToByte((int)(Hex)campos[i]);
-				return bytes;
-			}
-			public static string BytesScriptString(EdicionPokemon edicion, Compilacion compilacion, Pokemon pokemonErrante)
+
+			public static Script GetScript(EdicionPokemon edicion, Compilacion compilacion,Pokemon pokemonErrante)
 			{
 
-				//mas adelante pasarlo a la zona de scripts
-				string script, variableQueToca, stringQueToca;
-				stringQueToca = ((Hex)Variable.GetVariable(VariableSpecialPokemonErrante, edicion, compilacion)).Number;
-				stringQueToca = stringQueToca.PadLeft(4, '0');
-				script = "25 " + stringQueToca.Substring(2, 2) + " " + stringQueToca.Substring(0, 2);
-				stringQueToca = ((Hex)Variable.GetVariable(VariablePokemonErranteVar, edicion, compilacion)).Number;
-				variableQueToca = ((Hex)pokemonErrante.PokemonErrante.OrdenNacional).Number.PadLeft(4, '0');
-				script += "\r\n16 " + stringQueToca.Substring(2, 2) + " " + stringQueToca.Substring(0, 2) + " " + variableQueToca.Substring(2, 2) + " " + variableQueToca.Substring(0, 2);
-				stringQueToca = ((Hex)Variable.GetVariable(VariableVitalidadVar, edicion, compilacion)).Number;
-				variableQueToca = ((Hex)pokemonErrante.Vida).Number.PadLeft(4, '0');
-				script += "\r\n16 " + stringQueToca.Substring(2, 2) + " " + stringQueToca.Substring(0, 2) + " " + variableQueToca.Substring(2, 2) + " " + variableQueToca.Substring(0, 2);
-				stringQueToca = ((Hex)Variable.GetVariable(VariableNivelYEstadoVar, edicion, compilacion)).Number;
-				script += "\r\n16 " + stringQueToca.Substring(2, 2) + " " + stringQueToca.Substring(0, 2) + " " + ((Hex)pokemonErrante.Nivel).Number.PadLeft(2, '0') + " " + ((Hex)pokemonErrante.Stats).Number.PadLeft(2, '0');
-				script += "\r\n02";
-				return script;
-			}
-			public static string Script(EdicionPokemon edicion, Compilacion compilacion,Pokemon pokemonErrante)
-			{
+				Script scriptPokemonErrante=new Script();
+				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(new Word((short)Variable.GetVariable(VariableSpecialPokemonErrante, edicion, compilacion))));
+				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((short)Variable.GetVariable(VariablePokemonErranteVar, edicion, compilacion)),pokemonErrante.PokemonErrante.OrdenNacional));
+				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((short)Variable.GetVariable(VariableVitalidadVar, edicion, compilacion)),pokemonErrante.Vida));
+				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((short)Variable.GetVariable(VariableNivelYEstadoVar, edicion, compilacion)),new Word((ushort)(Hex)((Hex)pokemonErrante.Stats).ToString() + ((Hex)pokemonErrante.Nivel).ToString())));//por mirar
+				return scriptPokemonErrante;
 
-				const string CABEZERASCRIPT = "#dynamic 0x800000\r\n#org @ScriptPokemonErrante";
-				string script = CABEZERASCRIPT;
-				script += "\r\nspecial " + ((Hex)Variable.GetVariable(VariableSpecialPokemonErrante, edicion, compilacion)).ByteString;
-				script += "\r\nsetvar  " + ((Hex)Variable.GetVariable(VariablePokemonErranteVar, edicion, compilacion)).ByteString+ " " + ((Hex)pokemonErrante.PokemonErrante.OrdenNacional).ByteString;
-				script += "\r\nsetvar  " + ((Hex)Variable.GetVariable(VariableVitalidadVar, edicion, compilacion)).ByteString + " " + ((Hex)pokemonErrante.Vida).ByteString;
-				script += "\r\nsetvar  " + ((Hex)Variable.GetVariable(VariableNivelYEstadoVar, edicion, compilacion)).ByteString+ " " + ((Hex)pokemonErrante.Stats).ByteString + ((Hex)pokemonErrante.Nivel).Number;
-				script += "\r\nend";
-				return script;
+				
 			}
 
 		}

@@ -18,8 +18,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x25;
 		public const int SIZE=1+Word.LENGTH;
 		
-		short eventoALlamar;
-		public Special(short eventoALlamar)
+		Word eventoALlamar;
+		public Special(Word eventoALlamar)
 		{
 			EventoALlamar=eventoALlamar;
 		}
@@ -54,7 +54,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short EventoALlamar {
+		public Word EventoALlamar {
 			get {
 				return eventoALlamar;
 			}
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			eventoALlamar=Word.GetWord(ptrRom,offsetComando);
+			eventoALlamar=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

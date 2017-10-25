@@ -73,14 +73,14 @@ namespace PokemonGBAFrameWork
 			Pokemon.Orden=orden;
 			pokemon.NivelMinimo=rom.Data[offsetPokemon++];
 			pokemon.NivelMaximo=rom.Data[offsetPokemon++];
-			pokemon.Pokemon=pokedex[Word.GetWord(rom,offsetPokemon)];
+			pokemon.Pokemon=pokedex[new Word(rom,offsetPokemon)];
 			return pokemon;
 		}
 		public static void SetPokemonSalvaje(RomGba rom,int offsetPokemon,PokemonSalvaje pokemonSalvaje)
 		{
 			rom.Data[offsetPokemon++]=pokemonSalvaje.NivelMinimo;
 			rom.Data[offsetPokemon++]=pokemonSalvaje.NivelMaximo;
-			Word.SetWord(rom,offsetPokemon,(short)pokemonSalvaje.Pokemon.OrdenNacional);
+			Word.SetWord(rom,offsetPokemon,new Word((short)pokemonSalvaje.Pokemon.OrdenNacional));
 		}
 	}
 }

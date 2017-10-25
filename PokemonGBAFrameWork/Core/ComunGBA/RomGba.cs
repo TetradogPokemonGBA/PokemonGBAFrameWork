@@ -123,7 +123,7 @@ namespace PokemonGBAFrameWork
 		}
 		public void Load()
 		{
-			FileStream fs=new FileStream(FullPath,FileMode.Open,FileAccess.Read);
+			FileStream fs=new FileStream(FullPath,FileMode.Open,FileAccess.Read,FileShare.Read);
 			romData=new BloqueBytes(fs.ReadToEnd());
 			fs.Close();
 		}

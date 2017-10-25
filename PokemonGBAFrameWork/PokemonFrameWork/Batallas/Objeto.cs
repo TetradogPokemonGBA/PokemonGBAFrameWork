@@ -375,9 +375,10 @@ namespace PokemonGBAFrameWork
 			
 			BloqueString.SetString(rom,offsetDatos,objeto.Nombre);
 			offsetDatos+=(int)LongitudCampos.NombreCompilado;
-			rom.Data.SetArray(offsetDatos,objeto.Index);
+			Word.SetWord(rom,offsetDatos,objeto.Index);//por mirar
+	
 			offsetDatos+=(int)LongitudCampos.Index;
-			rom.Data.SetArray(offsetDatos,objeto.Price);
+			Word.SetWord(rom,offsetDatos,objeto.Index);//por mirar
 			offsetDatos+=(int)LongitudCampos.Price;
 			rom.Data[offsetDatos]=objeto.HoldEffect;
 			offsetDatos++;
@@ -396,14 +397,14 @@ namespace PokemonGBAFrameWork
 			offsetDatos++;
 			rom.Data[offsetDatos]=objeto.Tipo;
 			if(objeto.PointerBattleUsage!=null)
-				rom.Data.SetArray(offsetDatos,objeto.PointerBattleUsage.BytesPointer);
+				OffsetRom.SetOffset(rom.Data.Bytes,offsetDatos,objeto.PointerBattleUsage);
 			offsetDatos+=OffsetRom.LENGTH;
-			rom.Data.SetArray(offsetDatos,objeto.BattleUsage);
+			DWord.SetDword(rom,offsetDatos,objeto.BattleUsage);
 			offsetDatos+=DWord.LENGTH;
 			if(objeto.PointerBattleUsage!=null)
-				rom.Data.SetArray(offsetDatos,objeto.PointerFieldUsage.BytesPointer);
+				OffsetRom.SetOffset(rom.Data.Bytes,offsetDatos,objeto.PointerFieldUsage);
 			offsetDatos+=OffsetRom.LENGTH;
-			rom.Data.SetArray(offsetDatos,objeto.ExtraParameter);
+			DWord.SetDword(rom,offsetDatos,objeto.ExtraParameter);
 			
 			if(edicion.AbreviacionRom!=AbreviacionCanon.AXP&&edicion.AbreviacionRom!=AbreviacionCanon.AXV){
 				offsetImagenYPaleta=Zona.GetOffsetRom(rom,ZonaImagenesObjeto,edicion,compilacion).Offset+index*(OffsetRom.LENGTH+OffsetRom.LENGTH);

@@ -30,15 +30,15 @@ namespace PokemonGBAFrameWork
 		
 		BloqueString blEspecie;
 		BloqueString blDescripcion;//en el set si es Rubi o Zafiro se divide en dos paginas
-		short peso;
-		short altura;
-		short escalaPokemon;
-		short escalaEntrenador;
+		Word peso;
+		Word altura;
+		Word escalaPokemon;
+		Word escalaEntrenador;
 		//datos que desconozco
-		short numero;
-		short direccionPokemon;
-		short direccionEntrenador;
-		short numero2;
+		Word numero;
+		Word direccionPokemon;
+		Word direccionEntrenador;
+		Word numero2;
 		
 		static DescripcionPokedex()
 		{
@@ -74,7 +74,7 @@ namespace PokemonGBAFrameWork
 		/// <summary>
 		/// Se tiene que dividir entre 10 para obtener la medida en Kg
 		/// </summary>
-		public short Peso {
+		public Word Peso {
 			get {
 				return peso;
 			}
@@ -85,7 +85,7 @@ namespace PokemonGBAFrameWork
 		/// <summary>
 		/// Se tiene que dividir entre 10 para obtener la medida en metros
 		/// </summary>
-		public short Altura {
+		public Word Altura {
 			get {
 				return altura;
 			}
@@ -94,7 +94,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short EscalaPokemon {
+		public Word EscalaPokemon {
 			get {
 				return escalaPokemon;
 			}
@@ -103,7 +103,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short EscalaEntrenador {
+		public Word EscalaEntrenador {
 			get {
 				return escalaEntrenador;
 			}
@@ -112,7 +112,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Numero {
+		public Word Numero {
 			get {
 				return numero;
 			}
@@ -121,7 +121,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short DireccionPokemon {
+		public Word DireccionPokemon {
 			get {
 				return direccionPokemon;
 			}
@@ -130,7 +130,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short DireccionEntrenador {
+		public Word DireccionEntrenador {
 			get {
 				return direccionEntrenador;
 			}
@@ -139,7 +139,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short Numero2 {
+		public Word Numero2 {
 			get {
 				return numero2;
 			}
@@ -159,9 +159,9 @@ namespace PokemonGBAFrameWork
 			DescripcionPokedex descripcionPokemon=new DescripcionPokedex();
 			descripcionPokemon.blEspecie=BloqueString.GetString(rom,posicionActual,(int)LongitudCampos.NombreEspecie);
 			posicionActual+=(int)LongitudCampos.NombreEspecie;
-			descripcionPokemon.Altura=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.Altura=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
-			descripcionPokemon.Peso=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.Peso=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
 			descripcionPokemon.blDescripcion=BloqueString.GetString(rom,new OffsetRom(rom,posicionActual).Offset);
 			posicionActual+=OffsetRom.LENGTH;
@@ -170,17 +170,17 @@ namespace PokemonGBAFrameWork
 				descripcionPokemon.blDescripcion.Texto+="\n"+BloqueString.GetString(rom,new OffsetRom(rom,posicionActual).Offset).Texto;
 				posicionActual+=OffsetRom.LENGTH;
 			}
-			descripcionPokemon.Numero=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.Numero=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
-			descripcionPokemon.EscalaPokemon=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.EscalaPokemon=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
-			descripcionPokemon.DireccionPokemon=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.DireccionPokemon=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
-			descripcionPokemon.EscalaEntrenador=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.EscalaEntrenador=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
-			descripcionPokemon.DireccionEntrenador=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.DireccionEntrenador=new Word(rom,posicionActual);
 			posicionActual+=Word.LENGTH;
-			descripcionPokemon.Numero2=Word.GetWord(rom,posicionActual);
+			descripcionPokemon.Numero2=new Word(rom,posicionActual);
 			
 			return descripcionPokemon;
 			

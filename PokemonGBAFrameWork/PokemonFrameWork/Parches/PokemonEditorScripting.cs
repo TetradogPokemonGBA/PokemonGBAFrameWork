@@ -25,24 +25,24 @@ namespace PokemonGBAFrameWork
 		public const string DESCRIPCION="Permite editar un pokemon del equipo mediante scripting";
 		
 		#region Atributos
-		int? personalidad;
-		int? idEntrenador;
+		DWord personalidad;
+		DWord idEntrenador;
 		BloqueString nombrePokemon;//max 10
-		short? idioma;
+		Word idioma;
 		BloqueString nombreEntrenadorOriginal;//max 7
 		byte? marcas;
-		short? cheksum;
+		Word cheksum;
 		byte? relleno;//???
-		short? especie;
-		short? objeto;
-		int? experiencia;
+		Word especie;
+		Word objeto;
+		DWord experiencia;
 		byte? masPP;
 		byte? amistad;
-		short? desconocido;
-		short? ataque1;
-		short? ataque2;
-		short? ataque3;
-		short? ataque4;
+		Word desconocido;
+		Word ataque1;
+		Word ataque2;
+		Word ataque3;
+		Word ataque4;
 		byte? ppAtaque1;
 		byte? ppAtaque2;
 		byte? ppAtaque3;
@@ -61,10 +61,10 @@ namespace PokemonGBAFrameWork
 		byte? feel;
 		byte? estadoPokerus;
 		byte? localizacion;
-		short? origen;
+		Word origen;
 		//cuando esten separdos los pongo
-		int? ivsHueboHabilidad;
-		int? cintaYObediencia;
+		DWord ivsHueboHabilidad;
+		DWord cintaYObediencia;
 		#endregion
 
 		static PokemonEditorScripting()
@@ -82,7 +82,7 @@ namespace PokemonGBAFrameWork
 			nombrePokemon=new BloqueString(10);
 		}
 		#region Propiedades
-		public int? Personalidad {
+		public DWord Personalidad {
 			get {
 				return personalidad;
 			}
@@ -91,7 +91,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int? IdEntrenador {
+		public DWord IdEntrenador {
 			get {
 				return idEntrenador;
 			}
@@ -109,7 +109,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Idioma {
+		public Word Idioma {
 			get {
 				return idioma;
 			}
@@ -127,7 +127,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Cheksum {
+		public Word Cheksum {
 			get {
 				return cheksum;
 			}
@@ -144,7 +144,7 @@ namespace PokemonGBAFrameWork
 				relleno = value;
 			}
 		}
-		public short? Especie {
+		public Word Especie {
 			get {
 				return especie;
 			}
@@ -153,7 +153,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Objeto {
+		public Word Objeto {
 			get {
 				return objeto;
 			}
@@ -162,7 +162,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public int? Experiencia {
+		public DWord Experiencia {
 			get {
 				return experiencia;
 			}
@@ -189,7 +189,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Desconocido {
+		public Word Desconocido {
 			get {
 				return desconocido;
 			}
@@ -198,7 +198,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Ataque1 {
+		public Word Ataque1 {
 			get {
 				return ataque1;
 			}
@@ -207,7 +207,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Ataque2 {
+		public Word Ataque2 {
 			get {
 				return ataque2;
 			}
@@ -216,7 +216,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Ataque3 {
+		public Word Ataque3 {
 			get {
 				return ataque3;
 			}
@@ -225,7 +225,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Ataque4 {
+		public Word Ataque4 {
 			get {
 				return ataque4;
 			}
@@ -395,7 +395,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public short? Origen {
+		public Word Origen {
 			get {
 				return origen;
 			}
@@ -410,7 +410,7 @@ namespace PokemonGBAFrameWork
 			if(pokemon==null)
 				throw new ArgumentNullException();
 			
-			especie=Convert.ToInt16(pokemon.OrdenNacional);
+			especie=new Word(Convert.ToInt16(pokemon.OrdenNacional));
 		}
 		public void SetObjeto(Objeto obj)
 		{
@@ -432,18 +432,18 @@ namespace PokemonGBAFrameWork
 			Script scritpEditorPokemon=new Script();
 			
 			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.SetVar(VARIABLEPOKEMONEQUIPO,posicionEquipo));
-			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.CallAsm(PosicionEncryptASMScript(rom,edicion,compilacion)));
+			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.CallAsm(PosicionEncryptASMScript(rom,edicion,compilacion)+1));//sumo uno porque las rutinas ASM se les llama así :)
 			//pongo los datos //mirar de poner el nombre de los parametros para asi poder identificar cada linea :)
-			if(personalidad.HasValue)
+			if(personalidad!=null)
 			{
-				aux=Serializar.GetBytes(personalidad.Value);
+				aux=Serializar.GetBytes(personalidad.Data);
 				for(int i=0;i<4;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}
 			else auxPos+=4;
-			if(idEntrenador.HasValue)
+			if(idEntrenador!=null)
 			{
-				aux=Serializar.GetBytes(idEntrenador.Value);
+				aux=Serializar.GetBytes(idEntrenador.Data);
 				for(int i=0;i<4;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=4;
@@ -452,42 +452,42 @@ namespace PokemonGBAFrameWork
 				for(int i=0,totalMax=(int)Pokemon.LongitudCampos.NombreCompilado;i<aux.Length&&i<totalMax;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=10;
-			if(idioma.HasValue)
+			if(idioma!=null)
 			{
-				aux=Serializar.GetBytes(idioma.Value);
+				aux=idioma.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=2;
 			if(marcas.HasValue)
 				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Marcas.Value));
 			else auxPos++;
-			if(cheksum.HasValue)
+			if(cheksum!=null)
 			{
-				aux=Serializar.GetBytes(idioma.Value);
+				aux=idioma.Data;
 				for(int i=0;i<2;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 			}else auxPos+=2;
 			if(relleno.HasValue)
 				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,relleno.Value));
 			else auxPos++;
-			if(especie.HasValue)
+			if(especie!=null)
 			{
-				aux=Serializar.GetBytes(especie.Value);
+				aux=especie.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}else auxPos+=2;
-			if(objeto.HasValue)
+			if(objeto!=null)
 			{
-				aux=Serializar.GetBytes(objeto.Value);
+				aux=objeto.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}else auxPos+=2;
 			//poner el resto de valores
-			if(experiencia.HasValue)
+			if(experiencia!=null)
 			{
-				aux=Serializar.GetBytes(experiencia.Value);
+				aux=experiencia.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
@@ -499,41 +499,41 @@ namespace PokemonGBAFrameWork
 			if(Amistad.HasValue)
 				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Amistad.Value));
 			else auxPos++;
-			if(desconocido.HasValue)
+			if(desconocido!=null)
 			{
-				aux=Serializar.GetBytes(desconocido.Value);
+				aux=desconocido.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
-			if(ataque1.HasValue)
+			if(ataque1!=null)
 			{
-				aux=Serializar.GetBytes(ataque1.Value);
+				aux=ataque1.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
-			if(ataque2.HasValue)
+			if(ataque2!=null)
 			{
-				aux=Serializar.GetBytes(ataque2.Value);
+				aux=ataque2.Data);
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
-			if(ataque3.HasValue)
+			if(ataque3!=null)
 			{
-				aux=Serializar.GetBytes(ataque3.Value);
+				aux=ataque3.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
 			}
 			else auxPos+=2;
-			if(ataque4.HasValue)
+			if(ataque4!=null)
 			{
-				aux=Serializar.GetBytes(ataque4.Value);
+				aux=ataque4.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 
@@ -593,9 +593,9 @@ namespace PokemonGBAFrameWork
 			if(Localizacion.HasValue)
 				scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,Localizacion.Value));
 			else auxPos++;
-			if(origen.HasValue)
+			if(origen!=null)
 			{
-				aux=Serializar.GetBytes(origen.Value);
+				aux=origen.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 

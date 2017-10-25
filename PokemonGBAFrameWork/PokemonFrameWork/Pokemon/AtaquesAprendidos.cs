@@ -22,17 +22,20 @@ namespace PokemonGBAFrameWork
 		public class AtaqueAprendido:ObjectAutoId,IComparable<AtaqueAprendido>,IComparable
 		{
 			
-			short ataque;
+			Word ataque;// :S no acabo de ver que sea asi...porque no se lee ni se escribe como seria un word...o eso me parece...por mirar...
 			byte nivel;
 
-			public AtaqueAprendido(short ataque=0, byte nivel=1)
+			public AtaqueAprendido(Word ataque=null, byte nivel=1)
 			{
 
+				if(ataque==null)
+					ataque=new Word(0);
+				
 				this.ataque = ataque;
 				this.nivel = nivel;
 			}
 
-			public short Ataque
+			public Word Ataque
 			{
 				get
 				{
@@ -237,7 +240,7 @@ namespace PokemonGBAFrameWork
 			for(int i=0;i<bloque.Bytes.Length;i+=2)
 			{
 				
-				ataquesAprendidos.Ataques.Add(new AtaqueAprendido((short)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue+1)),(byte)(bloque.Bytes[i+1]>>1)));
+				ataquesAprendidos.Ataques.Add(new AtaqueAprendido(new Word(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue+1)),(byte)(bloque.Bytes[i+1]>>1)));
 			}
 			ataquesAprendidos.Ataques.Sort();//por si lo hacen de forma externa que lo lea bien :)
 			ataquesAprendidos.OffsetBytesAtaqueAprendido = offset;

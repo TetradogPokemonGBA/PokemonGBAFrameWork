@@ -17,19 +17,19 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class PokemonEntrenador
 	{
-		ushort especie;//quinto byte
+		Word especie;//quinto byte
 		byte ivs;//primer byte
-		ushort level;//segundo byte no se porque son dos bytes...tendria que ser 1...
-		ushort item;//septimo byte
+		Word level;//segundo byte no se porque son dos bytes...tendria que ser 1...
+		Word item;//septimo byte
 		//a partir del byte 9//puede que los movimientos no esten cambiados por lo tanto no estarian...
-		ushort move1;
-		ushort move2;
-		ushort move3;
-		ushort move4;
+		Word move1;
+		Word move2;
+		Word move3;
+		Word move4;
 		
 
 		
-		public ushort Especie
+		public Word Especie
 		{
 			get
 			{
@@ -55,7 +55,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Nivel
+		public Word Nivel
 		{
 			get
 			{
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Item
+		public Word Item
 		{
 			get
 			{
@@ -81,7 +81,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Move1
+		public Word Move1
 		{
 			get
 			{
@@ -94,7 +94,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Move2
+		public Word Move2
 		{
 			get
 			{
@@ -107,7 +107,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Move3
+		public Word Move3
 		{
 			get
 			{
@@ -120,7 +120,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public ushort Move4
+		public Word Move4
 		{
 			get
 			{

@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gabriel.Cat.Extension;
 using Gabriel.Cat;
-
+//de momento se tiene que rehacer...
 namespace PokemonGBAFrameWork
 {
 	public static class Shinyzer

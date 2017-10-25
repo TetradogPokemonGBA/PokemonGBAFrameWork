@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGBAFrameWork.PokemonFrameWork.Parches
+namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of ColorearStats.

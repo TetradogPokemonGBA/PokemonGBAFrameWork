@@ -21,10 +21,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		Word variable;
 		Word valor;
 		
-		public SetVar(int variable,int valor)
+		public SetVar(Word variable,Word valor)
 		{
-			Variable=Convert.ToUInt16(variable);
-			Valor=Convert.ToUInt16(valor);
+			Variable=variable;
+			Valor=valor;
 		}
 		public SetVar(RomGba rom,int offset):base(rom,offset)
 		{}
@@ -89,12 +89,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 			
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,variable);
+			Word.SetWord(ptrRomPosicionado,variable);
 			ptrRomPosicionado+=Word.LENGTH;
 			
-			Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,valor);
-			ptrRomPosicionado+=Word.LENGTH;
-			
+			Word.SetWord(ptrRomPosicionado,valor);
+		
 		}
 	}
 	

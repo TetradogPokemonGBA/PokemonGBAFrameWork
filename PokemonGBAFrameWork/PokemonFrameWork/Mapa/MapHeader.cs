@@ -18,16 +18,16 @@ namespace PokemonGBAFrameWork
 		public static readonly Creditos Creditos;
 		public static readonly Zona ZonaBanks;
 		
-		int bank;
-		int indexMap;
+		DWord bank;
+		DWord indexMap;
 		OffsetRom offsetHeader;
 		OffsetRom offsetMap;
 		OffsetRom offsetSprites;
 		OffsetRom offsetScript;
 		OffsetRom offsetConnector;
 		
-		short hSong;
-		short hMap;
+		Word hSong;
+		Word hMap;
 		
 		byte bLabelID;
 		byte bFlash;
@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public static MapHeader GetMapHeader(RomGba rom, EdicionPokemon edicion,Compilacion compilacion,int bank,int indexMap)
+		public static MapHeader GetMapHeader(RomGba rom, EdicionPokemon edicion,Compilacion compilacion,DWord bank,DWord indexMap)
 		{
 			int offsetActual;
 			MapHeader mapa=new MapHeader();
@@ -96,9 +96,9 @@ namespace PokemonGBAFrameWork
 			offsetActual+=OffsetRom.LENGTH;
 			mapa.offsetConnector=new OffsetRom(rom,offsetActual);
 			offsetActual+=OffsetRom.LENGTH;
-			mapa.hSong=Word.GetWord(rom,offsetActual);
+			mapa.hSong=new Word(rom,offsetActual);
 			offsetActual+=Word.LENGTH;
-			mapa.hMap=Word.GetWord(rom,offsetActual);
+			mapa.hMap=new Word(rom,offsetActual);
 			offsetActual+=Word.LENGTH;
 			mapa.bLabelID=rom.Data[offsetActual++];
 			mapa.bFlash=rom.Data[offsetActual++];
@@ -114,7 +114,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static void SetMapHeader(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,MapHeader mapHeader)
 		{
-			int offsetMap	=new OffsetRom(rom,new OffsetRom(rom,Zona.GetOffsetRom(rom,ZonaBanks,edicion,compilacion).Offset+mapHeader.bank*OffsetRom.LENGTH).Offset+mapHeader.indexMap*OffsetRom.LENGTH).Offset;
+			int offsetMap	=new OffsetRom(rom,new OffsetRom(rom,Zona.GetOffsetRom(rom,ZonaBanks,edicion,compilacion).Offset+(int)mapHeader.bank*OffsetRom.LENGTH).Offset+(int)mapHeader.indexMap*OffsetRom.LENGTH).Offset;
 		
 			rom.Data.SetArray(offsetMap,mapHeader.offsetMap.BytesPointer);
 			offsetMap+=OffsetRom.LENGTH;

@@ -126,17 +126,17 @@ namespace PokemonGBAFrameWork
 			{
 				bytesPokemonEquipo = bloqueDatosEquipo.Bytes.SubArray(i * tamañoPokemon, tamañoPokemon);
 				equipoCargado.Equipo[i] = new PokemonEntrenador();
-				equipoCargado.Equipo[i].Especie =(ushort) (Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Especie, (int)Longitud.PokemonIndex)));
-				equipoCargado.Equipo[i].Nivel = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Nivel, (int)Longitud.Nivel).ReverseArray());
+				equipoCargado.Equipo[i].Especie =new Word(bytesPokemonEquipo,(int)Posicion.Especie);//por mirar 
+				equipoCargado.Equipo[i].Nivel = new Word(bytesPokemonEquipo,(int)Posicion.Nivel); 
 				equipoCargado.Equipo[i].Ivs = bytesPokemonEquipo[(int)Posicion.Ivs];
 				if (hayItems)
-					equipoCargado.Equipo[i].Item = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Item, (int)Longitud.Item));
+					equipoCargado.Equipo[i].Item =new Word(bytesPokemonEquipo,(int)Posicion.Item); //por mirar...
 				if (hayAtaquesCustom)
 				{
-					equipoCargado.Equipo[i].Move1 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move1, (int)Longitud.Ataque).ReverseArray()); 
-					equipoCargado.Equipo[i].Move2 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move2, (int)Longitud.Ataque).ReverseArray());
-					equipoCargado.Equipo[i].Move3 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move3, (int)Longitud.Ataque).ReverseArray());
-					equipoCargado.Equipo[i].Move4 = Serializar.ToUShort(bytesPokemonEquipo.SubArray((int)Posicion.Move4, (int)Longitud.Ataque).ReverseArray());
+					equipoCargado.Equipo[i].Move1 = new Word(bytesPokemonEquipo,(int)Posicion.Move1); 
+					equipoCargado.Equipo[i].Move2 = new Word(bytesPokemonEquipo,(int)Posicion.Move2); 
+					equipoCargado.Equipo[i].Move3 = new Word(bytesPokemonEquipo,(int)Posicion.Move3); 
+					equipoCargado.Equipo[i].Move4 = new Word(bytesPokemonEquipo,(int)Posicion.Move4); 
 				}
 			}
 
@@ -187,16 +187,17 @@ namespace PokemonGBAFrameWork
 				{
 					bloquePokemon = new BloqueBytes(tamañoPokemon);
 					//pongo los datos
-					bloquePokemon.Bytes.SetArray((int)Posicion.Especie, Serializar.GetBytes(equipo.Equipo[i].Especie).ReverseArray());
-					bloquePokemon.Bytes.SetArray((int)Posicion.Nivel, Serializar.GetBytes(equipo.Equipo[i].Nivel).ReverseArray());
-					bloquePokemon.Bytes.SetArray((int)Posicion.Item, Serializar.GetBytes(equipo.Equipo[i].Item));
+					Word.SetWord(bloqueEntrenador,(int)Posicion.Especie,equipo.Equipo[i].Especie);
+					Word.SetWord(bloqueEntrenador,(int)Posicion.Nivel,equipo.Equipo[i].Nivel);
+					Word.SetWord(bloqueEntrenador,(int)Posicion.Item,equipo.Equipo[i].Item);//por mirar
+					
 					bloquePokemon.Bytes[(int)Posicion.Ivs] = equipo.Equipo[i].Ivs;
 					if (hayAtaquesCustom)
 					{
-						bloquePokemon.Bytes.SetArray((int)Posicion.Move1, Serializar.GetBytes(equipo.Equipo[i].Move1).ReverseArray());
-						bloquePokemon.Bytes.SetArray((int)Posicion.Move2, Serializar.GetBytes(equipo.Equipo[i].Move2).ReverseArray());
-						bloquePokemon.Bytes.SetArray((int)Posicion.Move3, Serializar.GetBytes(equipo.Equipo[i].Move3).ReverseArray());
-						bloquePokemon.Bytes.SetArray((int)Posicion.Move4, Serializar.GetBytes(equipo.Equipo[i].Move4).ReverseArray());
+						Word.SetWord(bloqueEntrenador,(int)Posicion.Move1,equipo.Equipo[i].Move1);
+						Word.SetWord(bloqueEntrenador,(int)Posicion.Move2,equipo.Equipo[i].Move2);
+						Word.SetWord(bloqueEntrenador,(int)Posicion.Move3,equipo.Equipo[i].Move3);
+						Word.SetWord(bloqueEntrenador,(int)Posicion.Move4,equipo.Equipo[i].Move4);
 					}
 					bloqueEquipo.Bytes.SetArray(index * tamañoPokemon, bloquePokemon.Bytes);
 					index++;
