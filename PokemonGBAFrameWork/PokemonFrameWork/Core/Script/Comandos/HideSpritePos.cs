@@ -13,11 +13,11 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x54;
   public const int SIZE=5;
-  short personajeAOcultar;
+  Word personajeAOcultar;
  Byte coordenadaX;
  Byte coordenadaY;
  
-  public HideSpritePos(short personajeAOcultar,Byte coordenadaX,Byte coordenadaY) 
+  public HideSpritePos(Word personajeAOcultar,Byte coordenadaX,Byte coordenadaY) 
   {
    PersonajeAOcultar=personajeAOcultar;
  CoordenadaX=coordenadaX;
@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short PersonajeAOcultar
+                         public Word PersonajeAOcultar
 {
 get{ return personajeAOcultar;}
 set{personajeAOcultar=value;}
@@ -75,7 +75,7 @@ set{coordenadaY=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   personajeAOcultar=Word.GetWord(ptrRom,offsetComando);
+   personajeAOcultar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  coordenadaX=*(ptrRom+offsetComando);
  offsetComando++;

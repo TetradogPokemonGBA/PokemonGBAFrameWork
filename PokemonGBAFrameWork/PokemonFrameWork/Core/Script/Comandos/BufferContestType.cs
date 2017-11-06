@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xE1;
   public const int SIZE=4;
   Byte buffer;
- ushort tipoConcurso;
+ Word tipoConcurso;
  
-  public BufferContestType(Byte buffer,ushort tipoConcurso) 
+  public BufferContestType(Byte buffer,Word tipoConcurso) 
   {
    Buffer=buffer;
  TipoConcurso=tipoConcurso;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public ushort TipoConcurso
+ public Word TipoConcurso
 {
 get{ return tipoConcurso;}
 set{tipoConcurso=value;}
@@ -70,7 +70,7 @@ set{tipoConcurso=value;}
   {
    buffer=*(ptrRom+offsetComando);
  offsetComando++;
- tipoConcurso=Word.GetWord(ptrRom,offsetComando);
+ tipoConcurso=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

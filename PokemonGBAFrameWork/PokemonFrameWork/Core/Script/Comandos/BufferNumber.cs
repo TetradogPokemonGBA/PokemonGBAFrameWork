@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x83;
 		public const int SIZE=4;
 		Byte buffer;
-		ushort variableToStore;
+		Word variableToStore;
 		
-		public BufferNumber(Byte buffer,ushort variableToStore)
+		public BufferNumber(Byte buffer,Word variableToStore)
 		{
 			Buffer=buffer;
 			VariableToStore=variableToStore;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return buffer;}
 			set{buffer=value;}
 		}
-		public ushort VariableToStore
+		public Word VariableToStore
 		{
 			get{ return variableToStore;}
 			set{variableToStore=value;}
@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			buffer=*(ptrRom+offsetComando);
 			offsetComando++;
-			variableToStore=Word.GetWord(ptrRom,offsetComando);
+			variableToStore=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			
 		}

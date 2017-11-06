@@ -272,7 +272,7 @@ namespace PokemonGBAFrameWork
 			
 			bloqueEntrenador.Bytes[(int)Posicion.MoneyClass]= entrenador.TrainerClass;
 			BloqueString.SetString(rom,bloqueEntrenador.OffsetInicio + (int)Posicion.Nombre, entrenador.Nombre);
-			DWord.SetDword(bloqueEntrenador,(int)Posicion.Inteligencia,entrenador.Inteligencia);//mirar si va asi :D
+			DWord.SetDWord(bloqueEntrenador,(int)Posicion.Inteligencia,entrenador.Inteligencia);//mirar si va asi :D
 			Word.SetWord(bloqueEntrenador,(int)Posicion.Item1,entrenador.Item1);//mirar si va asi :D
 			Word.SetWord(bloqueEntrenador,(int)Posicion.Item2,entrenador.Item2);//mirar si va asi :D
 			Word.SetWord(bloqueEntrenador,(int)Posicion.Item3,entrenador.Item3);//mirar si va asi :D

@@ -18,10 +18,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x19;
 		public const int SIZE=0x5;
 		
-		short variableDestino;
-		short variableOrigen;
+		Word variableDestino;
+		Word variableOrigen;
 		
-		public CopyVar(short variableDestino,short variableOrigen)
+		public CopyVar(Word variableDestino,Word variableOrigen)
 		{
 			VariableDestino=variableDestino;
 			VariableOrigen=variableOrigen;
@@ -54,7 +54,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short VariableDestino {
+		public Word VariableDestino {
 			get {
 				return variableDestino;
 			}
@@ -63,7 +63,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short VariableOrigen {
+		public Word VariableOrigen {
 			get {
 				return variableOrigen;
 			}
@@ -77,8 +77,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variableDestino=Word.GetWord(ptrRom,offsetComando);
-			variableOrigen=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			variableDestino=new Word(ptrRom,offsetComando);
+			variableOrigen=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

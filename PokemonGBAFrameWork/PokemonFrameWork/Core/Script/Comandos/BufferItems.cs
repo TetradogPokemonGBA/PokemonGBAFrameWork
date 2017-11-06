@@ -14,10 +14,10 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xD4;
   public const int SIZE=6;
   Byte buffer;
- ushort objetoAGuardar;
- ushort cantidad;
+ Word objetoAGuardar;
+ Word cantidad;
  
-  public BufferItems(Byte buffer,ushort objetoAGuardar,ushort cantidad) 
+  public BufferItems(Byte buffer,Word objetoAGuardar,Word cantidad) 
   {
    Buffer=buffer;
  ObjetoAGuardar=objetoAGuardar;
@@ -58,12 +58,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public ushort ObjetoAGuardar
+ public Word ObjetoAGuardar
 {
 get{ return objetoAGuardar;}
 set{objetoAGuardar=value;}
 }
- public ushort Cantidad
+ public Word Cantidad
 {
 get{ return cantidad;}
 set{cantidad=value;}
@@ -77,9 +77,9 @@ set{cantidad=value;}
   {
    buffer=*(ptrRom+offsetComando);
  offsetComando++;
- objetoAGuardar=Word.GetWord(ptrRom,offsetComando);
+ objetoAGuardar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- cantidad=Word.GetWord(ptrRom,offsetComando);
+ cantidad=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

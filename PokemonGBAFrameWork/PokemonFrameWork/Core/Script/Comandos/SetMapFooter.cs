@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xA7;
   public const int SIZE=3;
-  short footer;
+  Word footer;
  
-  public SetMapFooter(short footer) 
+  public SetMapFooter(Word footer) 
   {
    Footer=footer;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Footer
+                         public Word Footer
 {
 get{ return footer;}
 set{footer=value;}
@@ -61,7 +61,7 @@ set{footer=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   footer=Word.GetWord(ptrRom,offsetComando);
+   footer=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

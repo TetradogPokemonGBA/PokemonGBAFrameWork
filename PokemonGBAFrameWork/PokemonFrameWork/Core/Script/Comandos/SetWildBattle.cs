@@ -13,11 +13,11 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xB6;
   public const int SIZE=6;
-  short pokemon;
+  Word pokemon;
  Byte nivel;
- short objeto;
+ Word objeto;
  
-  public SetWildBattle(short pokemon,Byte nivel,short objeto) 
+  public SetWildBattle(Word pokemon,Byte nivel,Word objeto) 
   {
    Pokemon=pokemon;
  Nivel=nivel;
@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Pokemon
+                         public Word Pokemon
 {
 get{ return pokemon;}
 set{pokemon=value;}
@@ -63,7 +63,7 @@ set{pokemon=value;}
 get{ return nivel;}
 set{nivel=value;}
 }
- public short Objeto
+ public Word Objeto
 {
 get{ return objeto;}
 set{objeto=value;}
@@ -75,11 +75,11 @@ set{objeto=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   pokemon=Word.GetWord(ptrRom,offsetComando);
+   pokemon=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  nivel=*(ptrRom+offsetComando);
  offsetComando++;
- objeto=Word.GetWord(ptrRom,offsetComando);
+ objeto=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

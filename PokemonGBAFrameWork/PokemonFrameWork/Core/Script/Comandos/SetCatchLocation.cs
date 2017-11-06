@@ -13,10 +13,10 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xD2;
   public const int SIZE=4;
-  short pokemon;
- short catchLocation;
+  Word pokemon;
+ Word catchLocation;
  
-  public SetCatchLocation(short pokemon,short catchLocation) 
+  public SetCatchLocation(Word pokemon,Word catchLocation) 
   {
    Pokemon=pokemon;
  CatchLocation=catchLocation;
@@ -51,12 +51,12 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Pokemon
+                         public Word Pokemon
 {
 get{ return pokemon;}
 set{pokemon=value;}
 }
- public short CatchLocation
+ public Word CatchLocation
 {
 get{ return catchLocation;}
 set{catchLocation=value;}
@@ -68,9 +68,9 @@ set{catchLocation=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   pokemon=Word.GetWord(ptrRom,offsetComando);
+   pokemon=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- catchLocation=Word.GetWord(ptrRom,offsetComando);
+ catchLocation=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

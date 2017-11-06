@@ -14,11 +14,11 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xB1;
   public const int SIZE=7;
   Byte unknow1;
- short unknow2;
+ Word unknow2;
  Byte unknow3;
- short unknow4;
+ Word unknow4;
  
-  public CmdB1(Byte unknow1,short unknow2,Byte unknow3,short unknow4) 
+  public CmdB1(Byte unknow1,Word unknow2,Byte unknow3,Word unknow4) 
   {
    Unknow1=unknow1;
  Unknow2=unknow2;
@@ -60,7 +60,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return unknow1;}
 set{unknow1=value;}
 }
- public short Unknow2
+ public Word Unknow2
 {
 get{ return unknow2;}
 set{unknow2=value;}
@@ -70,7 +70,7 @@ set{unknow2=value;}
 get{ return unknow3;}
 set{unknow3=value;}
 }
- public short Unknow4
+ public Word Unknow4
 {
 get{ return unknow4;}
 set{unknow4=value;}
@@ -84,11 +84,11 @@ set{unknow4=value;}
   {
    unknow1=*(ptrRom+offsetComando);
  offsetComando++;
- unknow2=Word.GetWord(ptrRom,offsetComando);
+ unknow2=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  unknow3=*(ptrRom+offsetComando);
  offsetComando++;
- unknow4=Word.GetWord(ptrRom,offsetComando);
+ unknow4=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

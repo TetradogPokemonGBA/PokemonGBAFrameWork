@@ -15,9 +15,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const int SIZE=5;
 		Byte pokemon;
 		Byte slotAtaque;
-		short pPAPoner;
+		Word pPAPoner;
 		
-		public SetPkmnPP(Byte pokemon,Byte slotAtaque,short pPAPoner)
+		public SetPkmnPP(Byte pokemon,Byte slotAtaque,Word pPAPoner)
 		{
 			Pokemon=pokemon;
 			SlotAtaque=slotAtaque;
@@ -63,7 +63,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return slotAtaque;}
 			set{slotAtaque=value;}
 		}
-		public short PPAPoner
+		public Word PPAPoner
 		{
 			get{ return pPAPoner;}
 			set{pPAPoner=value;}
@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			offsetComando++;
 			slotAtaque=*(ptrRom+offsetComando);
 			offsetComando++;
-			pPAPoner=Word.GetWord(ptrRom,offsetComando);
+			pPAPoner=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			
 		}

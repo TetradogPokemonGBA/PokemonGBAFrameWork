@@ -16,9 +16,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		//https://www.pokecommunity.com/showthread.php?t=189304 para los lugares mmm mirar si se pueden sacar porque si los obtengo y luego obtengo los mapas obtendré información personalizada de cada rom que es lo ideal :)
 		public const byte ID=0x9F;
 		public const int SIZE=3;
-		short lugar;
+		Word lugar;
 		
-		public SetHealingPlace(short lugar)
+		public SetHealingPlace(Word lugar)
 		{
 			Lugar=lugar;
 			
@@ -52,7 +52,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public short Lugar
+		public Word Lugar
 		{
 			get{ return lugar;}
 			set{lugar=value;}
@@ -64,7 +64,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			lugar=Word.GetWord(ptrRom,offsetComando);
+			lugar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			
 		}

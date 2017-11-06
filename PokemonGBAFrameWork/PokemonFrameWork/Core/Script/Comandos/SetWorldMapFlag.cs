@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xD0;
   public const int SIZE=3;
-  short flag;
+  Word flag;
  
-  public SetWorldMapFlag(short flag) 
+  public SetWorldMapFlag(Word flag) 
   {
    Flag=flag;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Flag
+                         public Word Flag
 {
 get{ return flag;}
 set{flag=value;}
@@ -61,7 +61,7 @@ set{flag=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   flag=Word.GetWord(ptrRom,offsetComando);
+   flag=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

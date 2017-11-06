@@ -18,9 +18,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x1B;
 		public const int SIZE=5;
 		
-		short bank1;
-		short bank2;
-		public CompareBanks(short bank1,short bank2)
+		Word bank1;
+		Word bank2;
+		public CompareBanks(Word bank1,Word bank2)
 		{
 			Bank1=bank1;
 			Bank2=bank2;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short Bank1 {
+		public Word Bank1 {
 			get {
 				return bank1;
 			}
@@ -65,7 +65,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short Bank2 {
+		public Word Bank2 {
 			get {
 				return bank2;
 			}
@@ -79,8 +79,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bank1=Word.GetWord(ptrRom,offsetComando);
-			bank2=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			bank1=new Word(ptrRom,offsetComando);
+			bank2=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

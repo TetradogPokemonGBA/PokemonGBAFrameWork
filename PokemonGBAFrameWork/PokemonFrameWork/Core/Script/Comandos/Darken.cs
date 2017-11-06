@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x99;
   public const int SIZE=3;
-  short tamañoDestello;
+  Word tamañoDestello;
  
-  public Darken(short tamañoDestello) 
+  public Darken(Word tamañoDestello) 
   {
    TamañoDestello=tamañoDestello;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short TamañoDestello
+                         public Word TamañoDestello
 {
 get{ return tamañoDestello;}
 set{tamañoDestello=value;}
@@ -61,7 +61,7 @@ set{tamañoDestello=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   tamañoDestello=Word.GetWord(ptrRom,offsetComando);
+   tamañoDestello=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

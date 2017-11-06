@@ -14,8 +14,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x7A;
 		public const int SIZE=3;
 
-		short pokemon;
-		public GiveEgg(short pokemon)
+		Word pokemon;
+		public GiveEgg(Word pokemon)
 		{
 			this.pokemon=pokemon;
 		}
@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public unsafe GiveEgg(byte* ptRom,int offset):base(ptRom,offset)
 		{}
 
-		public short Pokemon {
+		public Word Pokemon {
 			get {
 				return pokemon;
 			}
@@ -65,7 +65,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			pokemon=Word.GetWord(ptrRom,offsetComando);
+			pokemon=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

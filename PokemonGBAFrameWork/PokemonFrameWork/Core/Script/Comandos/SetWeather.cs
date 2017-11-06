@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xA4;
   public const int SIZE=3;
-  short tiempoNuevo;
+  Word tiempoNuevo;
  
-  public SetWeather(short tiempoNuevo) 
+  public SetWeather(Word tiempoNuevo) 
   {
    TiempoNuevo=tiempoNuevo;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short TiempoNuevo
+                         public Word TiempoNuevo
 {
 get{ return tiempoNuevo;}
 set{tiempoNuevo=value;}
@@ -61,7 +61,7 @@ set{tiempoNuevo=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   tiempoNuevo=Word.GetWord(ptrRom,offsetComando);
+   tiempoNuevo=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

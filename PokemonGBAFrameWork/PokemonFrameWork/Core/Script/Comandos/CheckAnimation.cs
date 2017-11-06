@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x9E;
 		public const int SIZE=3;
-		ushort animacion;
+		Word animacion;
 		
-		public CheckAnimation(ushort animacion)
+		public CheckAnimation(Word animacion)
 		{
 			Animacion=animacion;
 			
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public ushort Animacion
+		public Word Animacion
 		{
 			get{ return animacion;}
 			set{animacion=value;}
@@ -61,7 +61,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			animacion=Word.GetWord(ptrRom,offsetComando);
+			animacion=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			
 		}

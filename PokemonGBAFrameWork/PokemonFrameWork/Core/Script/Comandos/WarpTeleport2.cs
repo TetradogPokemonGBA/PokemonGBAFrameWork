@@ -16,10 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
   Byte banco;
  Byte mapa;
  Byte salida;
- short coordenadaX;
- short coordenadaY;
+ Word coordenadaX;
+ Word coordenadaY;
  
-  public WarpTeleport2(Byte banco,Byte mapa,Byte salida,short coordenadaX,short coordenadaY) 
+  public WarpTeleport2(Byte banco,Byte mapa,Byte salida,Word coordenadaX,Word coordenadaY) 
   {
    Banco=banco;
  Mapa=mapa;
@@ -72,12 +72,12 @@ set{mapa=value;}
 get{ return salida;}
 set{salida=value;}
 }
- public short CoordenadaX
+ public Word CoordenadaX
 {
 get{ return coordenadaX;}
 set{coordenadaX=value;}
 }
- public short CoordenadaY
+ public Word CoordenadaY
 {
 get{ return coordenadaY;}
 set{coordenadaY=value;}
@@ -95,9 +95,9 @@ set{coordenadaY=value;}
  offsetComando++;
  salida=*(ptrRom+offsetComando);
  offsetComando++;
- coordenadaX=Word.GetWord(ptrRom,offsetComando);
+ coordenadaX=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- coordenadaY=Word.GetWord(ptrRom,offsetComando);
+ coordenadaY=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xCC;
   public const int SIZE=4;
   Byte variable;
- short valorAComparar;
+ Word valorAComparar;
  
-  public CompareHiddenVar(Byte variable,short valorAComparar) 
+  public CompareHiddenVar(Byte variable,Word valorAComparar) 
   {
    Variable=variable;
  ValorAComparar=valorAComparar;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return variable;}
 set{variable=value;}
 }
- public short ValorAComparar
+ public Word ValorAComparar
 {
 get{ return valorAComparar;}
 set{valorAComparar=value;}
@@ -70,7 +70,7 @@ set{valorAComparar=value;}
   {
    variable=*(ptrRom+offsetComando);
  offsetComando++;
- valorAComparar=Word.GetWord(ptrRom,offsetComando);
+ valorAComparar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

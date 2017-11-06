@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x4C;
   public const int SIZE=3;
-  short decoracion;
+  Word decoracion;
  
-  public RemoveDecoration(short decoracion) 
+  public RemoveDecoration(Word decoracion) 
   {
    Decoracion=decoracion;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Decoracion
+                         public Word Decoracion
 {
 get{ return decoracion;}
 set{decoracion=value;}
@@ -61,7 +61,7 @@ set{decoracion=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   decoracion=Word.GetWord(ptrRom,offsetComando);
+   decoracion=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

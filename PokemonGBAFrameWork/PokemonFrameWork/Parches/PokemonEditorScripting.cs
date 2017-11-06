@@ -431,7 +431,7 @@ namespace PokemonGBAFrameWork
 			int auxPos=OFFSETPOKEMONDESENCRIPTADO;
 			Script scritpEditorPokemon=new Script();
 			
-			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.SetVar(VARIABLEPOKEMONEQUIPO,posicionEquipo));
+			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.SetVar(VARIABLEPOKEMONEQUIPO,(ushort)posicionEquipo));
 			scritpEditorPokemon.ComandosScript.Add(new ComandosScript.CallAsm(PosicionEncryptASMScript(rom,edicion,compilacion)+1));//sumo uno porque las rutinas ASM se les llama así :)
 			//pongo los datos //mirar de poner el nombre de los parametros para asi poder identificar cada linea :)
 			if(personalidad!=null)
@@ -517,7 +517,7 @@ namespace PokemonGBAFrameWork
 			else auxPos+=2;
 			if(ataque2!=null)
 			{
-				aux=ataque2.Data);
+				aux=ataque2.Data;
 				for(int i=0;i<aux.Length;i++)
 					scritpEditorPokemon.ComandosScript.Add( new ComandosScript.WriteByteToOffset(auxPos++,aux[i]));
 

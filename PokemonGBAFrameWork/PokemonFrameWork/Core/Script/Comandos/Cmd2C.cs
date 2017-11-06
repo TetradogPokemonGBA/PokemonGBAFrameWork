@@ -17,10 +17,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x2C;
 		public const int SIZE=1+Word.LENGTH*2;
-		short desconocido1;
-		short desconocido2;
+		Word desconocido1;
+		Word desconocido2;
 		
-		public Cmd2C(short desconocido1,short desconocido2)	
+		public Cmd2C(Word desconocido1,Word desconocido2)	
 		{
 			Desconocido1=desconocido1;
 			Desconocido2=desconocido2;
@@ -54,7 +54,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public short Desconocido1 {
+		public Word Desconocido1 {
 			get {
 				return desconocido1;
 			}
@@ -63,7 +63,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short Desconocido2 {
+		public Word Desconocido2 {
 			get {
 				return desconocido2;
 			}
@@ -77,8 +77,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			desconocido1=Word.GetWord(ptrRom,offsetComando);
-			desconocido2=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			desconocido1=new Word(ptrRom,offsetComando);
+			desconocido2=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

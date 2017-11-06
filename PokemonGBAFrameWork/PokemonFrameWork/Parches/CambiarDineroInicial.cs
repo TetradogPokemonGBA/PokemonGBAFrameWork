@@ -43,13 +43,13 @@ namespace PokemonGBAFrameWork
 				compatible=VariableCambiarDineroInicial.Diccionario[compilacion].ContainsKey(edicion);
 			return compatible;
 		}
-		public static int GetDineroInicial(RomData rom)
+		public static DWord GetDineroInicial(RomData rom)
 		{
 			return GetDineroInicial(rom.Rom,rom.Edicion,rom.Compilacion);
 		}
-		public static int GetDineroInicial(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		public static DWord GetDineroInicial(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
-			return DWord.GetDWord(rom,Variable.GetVariable(VariableCambiarDineroInicial,edicion,compilacion));
+			return new DWord(rom,Variable.GetVariable(VariableCambiarDineroInicial,edicion,compilacion));
 		}
 		public static void SetDineroInicial(RomData rom,int dineroIncial=DEFAULT)
 		{
@@ -57,7 +57,12 @@ namespace PokemonGBAFrameWork
 		}
 		public static void SetDineroInicial(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int dineroInicial=DEFAULT)
 		{
-			DWord.SetDWord(rom,Variable.GetVariable(VariableCambiarDineroInicial,edicion,compilacion),dineroInicial);
+            SetDineroInicial(rom, edicion, compilacion, new DWord(dineroInicial));
+			
 		}
-	}
+        public static void SetDineroInicial(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, DWord dineroInicial)
+        {
+            DWord.SetDWord(rom, Variable.GetVariable(VariableCambiarDineroInicial, edicion, compilacion), dineroInicial);
+        }
+        }
 }

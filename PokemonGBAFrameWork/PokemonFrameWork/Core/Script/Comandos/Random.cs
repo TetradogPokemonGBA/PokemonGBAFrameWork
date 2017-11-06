@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x8F;
   public const int SIZE=3;
-  short numeroFin;
+  Word numeroFin;
  
-  public Random(short numeroFin) 
+  public Random(Word numeroFin) 
   {
    NumeroFin=numeroFin;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short NumeroFin
+                         public Word NumeroFin
 {
 get{ return numeroFin;}
 set{numeroFin=value;}
@@ -61,7 +61,7 @@ set{numeroFin=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   numeroFin=Word.GetWord(ptrRom,offsetComando);
+   numeroFin=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

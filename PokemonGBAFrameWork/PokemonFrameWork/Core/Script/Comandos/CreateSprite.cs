@@ -15,12 +15,12 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const int SIZE=9;
   Byte spriteAUsar;
  Byte personajeVirtual;
- short coordenadaX;
- short coordenadaY;
+ Word coordenadaX;
+ Word coordenadaY;
  Byte comportamiento;
  Byte orientacion;
  
-  public CreateSprite(Byte spriteAUsar,Byte personajeVirtual,short coordenadaX,short coordenadaY,Byte comportamiento,Byte orientacion) 
+  public CreateSprite(Byte spriteAUsar,Byte personajeVirtual,Word coordenadaX,Word coordenadaY,Byte comportamiento,Byte orientacion) 
   {
    SpriteAUsar=spriteAUsar;
  PersonajeVirtual=personajeVirtual;
@@ -69,12 +69,12 @@ set{spriteAUsar=value;}
 get{ return personajeVirtual;}
 set{personajeVirtual=value;}
 }
- public short CoordenadaX
+ public Word CoordenadaX
 {
 get{ return coordenadaX;}
 set{coordenadaX=value;}
 }
- public short CoordenadaY
+ public Word CoordenadaY
 {
 get{ return coordenadaY;}
 set{coordenadaY=value;}
@@ -100,9 +100,9 @@ set{orientacion=value;}
  offsetComando++;
  personajeVirtual=*(ptrRom+offsetComando);
  offsetComando++;
- coordenadaX=Word.GetWord(ptrRom,offsetComando);
+ coordenadaX=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- coordenadaY=Word.GetWord(ptrRom,offsetComando);
+ coordenadaY=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  comportamiento=*(ptrRom+offsetComando);
  offsetComando++;

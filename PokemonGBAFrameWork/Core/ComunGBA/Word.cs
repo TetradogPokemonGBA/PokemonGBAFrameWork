@@ -108,15 +108,15 @@ namespace PokemonGBAFrameWork
 		}
 		public static void SetWord(RomData rom,int offset,Word word)
 		{
-			SetWord(rom.Rom,word);
+			SetWord(rom.Rom,offset,word);
 		}
 		public static void SetWord(RomGba rom,int offset,Word word)
 		{
-			SetWord(rom.Data,word);
+			SetWord(rom.Data, offset, word);
 		}
 		public static void SetWord(BloqueBytes datos,int offset,Word word)
 		{
-			SetWord(datos.Bytes,word);
+			SetWord(datos.Bytes, offset, word);
 		}
 		public static void SetWord(byte[] datos,int offset,Word word)
 		{
@@ -149,13 +149,14 @@ namespace PokemonGBAFrameWork
 		{
 			return new Word(word);
 		}
-		public static explicit operator short(Word word)
+        public static implicit operator Word(short word)
+        {
+            return new Word(word);
+        }
+        public static explicit operator short(Word word)
 		{
 			return Convert.ToInt16((ushort)word);
 		}
-		public static explicit operator Word(short word)
-		{
-			return Convert.ToUInt16((short)word);
-		}
+
 	}
 }

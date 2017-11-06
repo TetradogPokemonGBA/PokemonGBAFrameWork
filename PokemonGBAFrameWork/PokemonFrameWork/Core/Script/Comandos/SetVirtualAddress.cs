@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0xB8;
 		public const int SIZE=5;
-		int valor;
+		DWord valor;
 		
-		public SetVirtualAddress(int valor)
+		public SetVirtualAddress(DWord valor)
 		{
 			Valor=valor;
 			
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public int Valor
+		public DWord Valor
 		{
 			get{ return valor;}
 			set{valor=value;}
@@ -61,7 +61,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			valor=DWord.GetDWord(ptrRom,offsetComando);
+			valor=new DWord(ptrRom,offsetComando);
 			offsetComando+=DWord.LENGTH;
 			
 		}

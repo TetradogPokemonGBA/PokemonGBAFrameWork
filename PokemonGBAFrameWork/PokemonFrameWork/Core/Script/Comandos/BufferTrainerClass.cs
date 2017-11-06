@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xDD;
   public const int SIZE=4;
   Byte buffer;
- ushort claseEntrenador;
+ Word claseEntrenador;
  
-  public BufferTrainerClass(Byte buffer,ushort claseEntrenador) 
+  public BufferTrainerClass(Byte buffer,Word claseEntrenador) 
   {
    Buffer=buffer;
  ClaseEntrenador=claseEntrenador;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public ushort ClaseEntrenador
+ public Word ClaseEntrenador
 {
 get{ return claseEntrenador;}
 set{claseEntrenador=value;}
@@ -70,7 +70,7 @@ set{claseEntrenador=value;}
   {
    buffer=*(ptrRom+offsetComando);
  offsetComando++;
- claseEntrenador=Word.GetWord(ptrRom,offsetComando);
+ claseEntrenador=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

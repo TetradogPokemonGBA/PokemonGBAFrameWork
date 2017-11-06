@@ -18,9 +18,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x28;
 		public const int SIZE=1+Word.LENGTH;
 		
-		short delay;
+		Word delay;
 		
-		public Pause(short delay)
+		public Pause(Word delay)
 		{
 			Delay=delay;
 		}
@@ -55,7 +55,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 		
-		public short Delay {
+		public Word Delay {
 			get {
 				return delay;
 			}
@@ -69,7 +69,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			delay=Word.GetWord(ptrRom,offsetComando);
+			delay=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

@@ -13,12 +13,12 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xA2;
   public const int SIZE=9;
-  short coordenadaX;
- short coordenadaY;
- short tile;
- short atributoTile;
+  Word coordenadaX;
+ Word coordenadaY;
+ Word tile;
+ Word atributoTile;
  
-  public SetMapTile(short coordenadaX,short coordenadaY,short tile,short atributoTile) 
+  public SetMapTile(Word coordenadaX,Word coordenadaY,Word tile,Word atributoTile) 
   {
    CoordenadaX=coordenadaX;
  CoordenadaY=coordenadaY;
@@ -55,22 +55,22 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short CoordenadaX
+                         public Word CoordenadaX
 {
 get{ return coordenadaX;}
 set{coordenadaX=value;}
 }
- public short CoordenadaY
+ public Word CoordenadaY
 {
 get{ return coordenadaY;}
 set{coordenadaY=value;}
 }
- public short Tile
+ public Word Tile
 {
 get{ return tile;}
 set{tile=value;}
 }
- public short AtributoTile
+ public Word AtributoTile
 {
 get{ return atributoTile;}
 set{atributoTile=value;}
@@ -82,13 +82,13 @@ set{atributoTile=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   coordenadaX=Word.GetWord(ptrRom,offsetComando);
+   coordenadaX=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- coordenadaY=Word.GetWord(ptrRom,offsetComando);
+ coordenadaY=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- tile=Word.GetWord(ptrRom,offsetComando);
+ tile=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
- atributoTile=Word.GetWord(ptrRom,offsetComando);
+ atributoTile=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

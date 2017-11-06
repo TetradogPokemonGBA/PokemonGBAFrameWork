@@ -164,14 +164,14 @@ namespace PokemonGBAFrameWork
 		}
 		#endregion
 		
-		public static Mapa GetMapa(RomData rom,int bank,int indexMap)
+		public static Mapa GetMapa(RomData rom,DWord bank,DWord indexMap)
 		{
 			return GetMapa(rom.Rom,rom.Edicion,rom.Compilacion,bank,indexMap);
 		}
-		public static Mapa GetMapa(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int bank,int indexMap)
+		public static Mapa GetMapa(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,DWord bank,DWord indexMap)
 		{
 			
-			int offsetNombreMapa=GetOffsetNombre(rom,edicion,Zona.GetOffsetRom(rom,ZonaNombres,edicion,compilacion).Offset,indexMap).Offset;//obtengo el offset del mapa
+			int offsetNombreMapa=GetOffsetNombre(rom,edicion,Zona.GetOffsetRom(rom,ZonaNombres,edicion,compilacion).Offset,(int)indexMap).Offset;//obtengo el offset del mapa
 			Mapa mapa=new Mapa();
 			mapa.Nombre=BloqueString.GetString(rom,offsetNombreMapa);
 			mapa.header=MapHeader.GetMapHeader(rom,edicion,compilacion,bank,indexMap);
@@ -185,18 +185,18 @@ namespace PokemonGBAFrameWork
 		{
 			List<Mapa> mapas=new List<Mapa>();
 			for(int b=0,bf=MapHeader.GetTotalBanks(rom,edicion,compilacion);b<bf;b++)
-				mapas.AddRange(GetMapasBank(rom,edicion,compilacion,b));
+				mapas.AddRange(GetMapasBank(rom,edicion,compilacion,new DWord(b)));
 			return mapas;
 		}
-		public static IList<Mapa>  GetMapasBank(RomData rom,int bank)
+		public static IList<Mapa>  GetMapasBank(RomData rom,DWord bank)
 		{
 			return GetMapasBank(rom.Rom,rom.Edicion,rom.Compilacion,bank);
 		}
-		public static IList<Mapa> GetMapasBank(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int bank)
+		public static IList<Mapa> GetMapasBank(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,DWord bank)
 		{
 			List<Mapa> mapas=new List<Mapa>();
 			for(int m=0,mf=1/*MapHeader.GetTotalMapsBank(rom,edicion,compilacion,bank)*/;m<mf;m++)
-				mapas.Add(GetMapa(rom,edicion,compilacion,bank,m));
+				mapas.Add(GetMapa(rom,edicion,compilacion,bank,new DWord(m)));
 			return mapas;
 		}
 		

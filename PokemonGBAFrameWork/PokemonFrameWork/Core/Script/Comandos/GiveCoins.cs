@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xB4;
   public const int SIZE=3;
-  short numeroDeFichasADar;
+  Word numeroDeFichasADar;
  
-  public GiveCoins(short numeroDeFichasADar) 
+  public GiveCoins(Word numeroDeFichasADar) 
   {
    NumeroDeFichasADar=numeroDeFichasADar;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short NumeroDeFichasADar
+                         public Word NumeroDeFichasADar
 {
 get{ return numeroDeFichasADar;}
 set{numeroDeFichasADar=value;}
@@ -61,7 +61,7 @@ set{numeroDeFichasADar=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   numeroDeFichasADar=Word.GetWord(ptrRom,offsetComando);
+   numeroDeFichasADar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

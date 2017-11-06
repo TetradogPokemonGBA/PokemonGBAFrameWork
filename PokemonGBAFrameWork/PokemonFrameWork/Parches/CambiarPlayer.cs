@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork
 		const int POSOFFSET1 = 12;
 		//empezando por el final
 		const int POSOFFSET2 = 4;
-		static readonly ushort Variable=(ushort)0x80F4;
+		static readonly Word VariableRutina=(Word)0x80F4;
 		//empezando por el principio
 		const int POSVAR=2;
 		static CambiarPlayer()
@@ -73,11 +73,12 @@ namespace PokemonGBAFrameWork
 		}
 		public static void Activar(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
+            
 			int inicio;
 			byte[] rutina;
 			if(!EstaActivado(rom,edicion,compilacion)){
 				rutina=(byte[])RutinaKanto.AsmBinary.Clone();
-				Word.SetWord(rutina,2,Variable);
+				Word.SetWord(rutina,2, VariableRutina);
 				inicio=Variable.GetVariable(VarOffsetPonerRutina,edicion,compilacion);
 				rutina.SetArray(rutina.Length-POSOFFSET1,new OffsetRom(Variable.GetVariable(VarOffsetRutina1,edicion,compilacion)).BytesPointer);
 				rutina.SetArray(rutina.Length-POSOFFSET2,new OffsetRom(Variable.GetVariable(VarOffsetRutina2,edicion,compilacion)).BytesPointer);
@@ -116,11 +117,11 @@ namespace PokemonGBAFrameWork
 		public static Script GetSimpleScript(int index,EdicionPokemon edicion=null,Compilacion compilacion=null)
 		{
 			Script scriptCambiarSprite=new Script();
-			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetFlag(0x406));
-			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetVar(Variable,index));
+			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetFlag((ushort)0x406));
+			scriptCambiarSprite.ComandosScript.Add(new ComandosScript.SetVar(VariableRutina, index));
 			if(edicion!=null&&compilacion!=null)
-				scriptCambiarSprite.ComandosScript.Add(RefreshMiniPlayer.Comando(edicion,compilacion));
-			//me falta refescar la pantalla...
+				scriptCambiarSprite.ComandosScript.Add(RefreshMiniPlayer.Comando(edicion,compilacion));//falta probarlo :)
+			
 			return scriptCambiarSprite;
 		}
 	}

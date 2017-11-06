@@ -13,11 +13,11 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x75;
   public const int SIZE=5;
-  short pokemon;
+  Word pokemon;
  Byte coordenadaX;
  Byte coordenadaY;
  
-  public ShowPokePic(short pokemon,Byte coordenadaX,Byte coordenadaY) 
+  public ShowPokePic(Word pokemon,Byte coordenadaX,Byte coordenadaY) 
   {
    Pokemon=pokemon;
  CoordenadaX=coordenadaX;
@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Pokemon
+                         public Word Pokemon
 {
 get{ return pokemon;}
 set{pokemon=value;}
@@ -75,7 +75,7 @@ set{coordenadaY=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   pokemon=Word.GetWord(ptrRom,offsetComando);
+   pokemon=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  coordenadaX=*(ptrRom+offsetComando);
  offsetComando++;

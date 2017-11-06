@@ -18,10 +18,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const int ID=0x21;
 		public const int SIZE=0x5;
 		
-		short variable;
-		short valorAComparar;
+		Word variable;
+		Word valorAComparar;
 		
-		public Compare(short variable,short valorAComparar)
+		public Compare(Word variable,Word valorAComparar)
 		{
 			Variable=variable;
 			ValorAComparar=valorAComparar;
@@ -59,7 +59,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short Variable {
+		public Word Variable {
 			get {
 				return variable;
 			}
@@ -67,7 +67,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				variable = value;
 			}
 		}
-		public short ValorAComparar {
+		public Word ValorAComparar {
 			get {
 				return valorAComparar;
 			}
@@ -82,8 +82,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variable=Word.GetWord(ptrRom,offsetComando);
-			valorAComparar=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			variable=new Word(ptrRom,offsetComando);
+			valorAComparar=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

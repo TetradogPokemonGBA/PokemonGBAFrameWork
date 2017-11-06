@@ -18,10 +18,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x26;
 		public const int SIZE=1+1+Word.LENGTH;
 		
-		short variable;
-		short eventoALlamar;
+		Word variable;
+		Word eventoALlamar;
 		
-		public Special2(short eventoALlamar,short variable)
+		public Special2(Word eventoALlamar,Word variable)
 		{
 			EventoALlamar=eventoALlamar;
 			Variable=variable;
@@ -57,7 +57,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short EventoALlamar {
+		public Word EventoALlamar {
 			get {
 				return eventoALlamar;
 			}
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		/// <summary>
 		/// Es la variable donde se guardará el resultado del evento
 		/// </summary>
-		public short Variable {
+		public Word Variable {
 			get {
 				return variable;
 			}
@@ -82,8 +82,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variable=Word.GetWord(ptrRom,offsetComando);
-			eventoALlamar=Word.GetWord(ptrRom,offsetComando+Word.LENGTH);
+			variable=new Word(ptrRom,offsetComando);
+			eventoALlamar=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

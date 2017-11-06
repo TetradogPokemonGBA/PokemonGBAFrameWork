@@ -634,4 +634,47 @@ linker:
  
 .align 2</value>
   </data>
+  <data name="VarsBPEUSA" xml:space="preserve">
+    <value>__aeabi_idiv = 0x82E7088|1
+__aeabi_idivmod = 0x82E7088|1
+__aeabi_uidiv = 0x82E7088|1
+__aeabi_uidivmod = 0x82E7088|1
+Random = 0x0806f5cc|1
+GetMonData = 0x0806a518|1
+SetMonData = 0x0806acac|1
+CalculateMonStats = 0x08068d0c|1
+CalculateBoxMonChecksum = 0x08068c78|1
+DecryptBoxMon = 0x0806a24c|1
+EncryptBoxMon = 0x0806a228|1
+gPlayerParty = 0x20244ec
+gSpecialVar_0x8004 = 0x020375e0
+gSpecialVar_0x8005 = 0x020375e2
+gSpecialVar_0x8006 = 0x020375e4
+gScriptResult = 0x020375f0</value>
+  </data>
+  <data name="VarsBPR10USA" xml:space="preserve">
+    <value>__aeabi_idiv = 0x081E3B68|1
+__aeabi_idivmod = 0x081E3B68|1
+__aeabi_uidiv = 0x081E3B68|1
+__aeabi_uidivmod = 0x081E3B68|1
+Random = 0x08044ec8|1
+GetMonData = 0x0803fbe8|1
+SetMonData = 0x0804037c|1
+CalculateMonStats = 0x0803e47c|1
+CalculateBoxMonChecksum = 0x0803e3e8|1
+DecryptBoxMon = 0x0803f91c|1
+EncryptBoxMon = 0x0803f8f8|1
+gPlayerParty = 0x02024284
+gSpecialVar_0x8004 = 0x020370c0
+gSpecialVar_0x8005 = 0x020370c2
+gSpecialVar_0x8006 = 0x020370c4
+gScriptResult = 0x020370d0</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="c_pokemon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Extra\c.pokemon.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="c_types" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Extra\c.types.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

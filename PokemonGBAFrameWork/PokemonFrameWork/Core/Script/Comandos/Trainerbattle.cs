@@ -15,16 +15,16 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const int SIZE=14;
   Byte kindOfBattle;
 
- short battleToStart;
+ Word battleToStart;
 
- short reserved;
+ Word reserved;
 
  OffsetRom pointerToTheChallengeText;
 
  OffsetRom pointerToTheDefeatText;
 
  
-  public Trainerbattle(Byte kindOfBattle,short battleToStart,short reserved,OffsetRom pointerToTheChallengeText,OffsetRom pointerToTheDefeatText) 
+  public Trainerbattle(Byte kindOfBattle,Word battleToStart,Word reserved,OffsetRom pointerToTheChallengeText,OffsetRom pointerToTheDefeatText) 
   {
    KindOfBattle=kindOfBattle;
 
@@ -75,13 +75,13 @@ get{ return kindOfBattle;}
 set{kindOfBattle=value;}
 }
 
- public short BattleToStart
+ public Word BattleToStart
 {
 get{ return battleToStart;}
 set{battleToStart=value;}
 }
 
- public short Reserved
+ public Word Reserved
 {
 get{ return reserved;}
 set{reserved=value;}
@@ -108,11 +108,11 @@ set{pointerToTheDefeatText=value;}
 
  offsetComando++;
 
- battleToStart=Word.GetWord(ptrRom,offsetComando);
+ battleToStart=new Word(ptrRom,offsetComando);
 
  offsetComando+=Word.LENGTH;
 
- reserved=Word.GetWord(ptrRom,offsetComando);
+ reserved=new Word(ptrRom,offsetComando);
 
  offsetComando+=Word.LENGTH;
 

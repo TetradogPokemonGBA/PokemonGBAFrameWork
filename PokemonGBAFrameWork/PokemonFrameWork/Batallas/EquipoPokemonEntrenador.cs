@@ -87,7 +87,7 @@ namespace PokemonGBAFrameWork
 		}
 		public bool HayAtaquesCustom()
 		{
-			const byte NOASIGNADO = 0x0;
+			const ushort NOASIGNADO = 0x0;
 			bool hayAtaquesCustom = false;
 			for (int i = 0; i < equipoPokemon.Length && !hayAtaquesCustom; i++)
 				if (equipoPokemon[i] != null)
@@ -96,7 +96,7 @@ namespace PokemonGBAFrameWork
 		}
 		public bool HayObjetosEquipados()
 		{
-			const byte NOASIGNADO = 0x0;
+			const ushort NOASIGNADO = 0x0;
 			bool hayObjetosEquipados = false;
 			for (int i = 0; i < equipoPokemon.Length && !hayObjetosEquipados; i++)
 				if (equipoPokemon[i] != null)

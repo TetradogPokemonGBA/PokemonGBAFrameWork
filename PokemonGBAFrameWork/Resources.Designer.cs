@@ -9,327 +9,426 @@
 //------------------------------------------------------------------------------
 
 namespace PokemonGBAFrameWork {
-	using System;
-	
-	
-	/// <summary>
-	///   Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
-	/// </summary>
-	// StronglyTypedResourceBuilder generó automáticamente esta clase
-	// a través de una herramienta como ResGen o Visual Studio.
-	// Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
-	// con la opción /str o recompile su proyecto de VS.
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
-	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-	internal class Resources {
-		
-		private static global::System.Resources.ResourceManager resourceMan;
-		
-		private static global::System.Globalization.CultureInfo resourceCulture;
-		
-		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-		internal Resources() {
-		}
-		
-		/// <summary>
-		///   Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
-		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-		internal static global::System.Resources.ResourceManager ResourceManager {
-			get {
-				if (object.ReferenceEquals(resourceMan, null)) {
-					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokemonGBAFrameWork.Resources", typeof(Resources).Assembly);
-					resourceMan = temp;
-				}
-				return resourceMan;
-			}
-		}
-		
-		/// <summary>
-		///   Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
-		///   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
-		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-		internal static global::System.Globalization.CultureInfo Culture {
-			get {
-				return resourceCulture;
-			}
-			set {
-				resourceCulture = value;
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ASMAnimarPortada {
-			get {
-				object obj = ResourceManager.GetObject("ASMAnimarPortada", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca una cadena traducida similar a .text
-		///.align 2
-		///.thumb
-		///.thumb_func
-		///
-		///@hook from 0805CA4C via r0
-		///                            
-		///main:
-		/// @flag check
-		///checkFlag:
-		/// mov r0, #0xFF 
-		/// lsl r0, r0, #0x2
-		/// add r0, r0, #0xA @0x3FC + 0xA = @406
-		/// ldr r2, =(0x806E6D0 +1)
-		/// push {r1, r3}
-		/// bl linker
-		/// pop {r1, r3}
-		/// cmp r0, #0x1
-		/// bne noCrash
-		///
-		///setOW:
-		/// ldr r0, =(0x20370B8)
-		/// ldrb r0, [r0]
-		/// cmp r0, #0xFF
-		/// beq noCrash
-		/// mov r3, r0
-		/// 
-		///noCrash:
-		/// mov r8, r3
-		/// lsl r4, r4, #0x10
-		/// lsr r4, r4, #0x10
-		/// lsl r5, r5, #0x10
-		/// ldr r0, =(0x805CA54 +1)
-		/// bx  [resto de la cadena truncado]&quot;;.
-		/// </summary>
-		internal static string ASMCambiarPJKanto {
-			get {
-				return ResourceManager.GetString("ASMCambiarPJKanto", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ASMEditorPokemonFRDencrypt {
-			get {
-				object obj = ResourceManager.GetObject("ASMEditorPokemonFRDencrypt", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ASMEditorPokemonFREncrypt {
-			get {
-				object obj = ResourceManager.GetObject("ASMEditorPokemonFREncrypt", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca una cadena traducida similar a .text
-		///.align 2
-		///.thumb
-		///.thumb_func
-		///
-		///main:
-		///cmp r5, #0x0
-		///bne end
-		///ldr r3, =(0x8OFFSET2 +1)
-		///bx r3
-		///
-		///end:
-		///mov r0, r7
-		///mov r1, #0x8
-		///mov r2, r4
-		///ldr r6, =(0x8OFFSET1+1)
-		///bl link
-		///ldr r3, =(0x8OFFSET2+1)
-		///bx r3
-		///
-		///link:
-		///bx r6
-		///
-		///.align 2
-		///
-		///.
-		/// </summary>
-		internal static string ASMMTBW {
-			get {
-				return ResourceManager.GetString("ASMMTBW", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ASMMugshotsFR {
-			get {
-				object obj = ResourceManager.GetObject("ASMMugshotsFR", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca una cadena traducida similar a .text
-		///.align 2
-		///.thumb
-		///.thumb_func
-		///
-		///main:
-		/// ldr r0, =(0x2022B4C)
-		/// ldr r1, [r0]
-		/// ldr r2, .VAR
-		/// ldrb r2, [r2]
-		/// cmp r2, #0x1
-		/// beq uncatchable
-		/// ldr r0, = (0x802D490 +1)
-		/// bx r0
-		///
-		///uncatchable:
-		/// ldr r0, = (0x802D460 +1)
-		/// bx r0
-		/// 
-		/// 
-		///
-		///.align 2
-		///.VAR:
-		/// .word 0x020270B8 + (0xVARIABLE * 2).
-		/// </summary>
-		internal static string ASMPokemonInCapturable {
-			get {
-				return ResourceManager.GetString("ASMPokemonInCapturable", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Busca una cadena traducida similar a .text
-		///.align 2
-		///.thumb
-		///.thumb_func
-		///
-		///shiny_hack_main:
-		/// lsr r0, r4, #0x18
-		/// cmp r0, #0x3
-		/// bne return
-		/// ldr r0, .SHINY_COUNTER
-		/// ldrb r0, [r0]
-		/// cmp r0, #0x0
-		/// bne shiny_hack
-		///
-		///return:
-		/// bx lr
-		///
-		///shiny_hack:
-		/// push {r2-r5, lr}
-		/// sub r3, r0, #0x1
-		/// ldr r0, .SHINY_COUNTER
-		/// strb r3, [r0]
-		/// ldrb r4, [r0, #0x1]
-		/// cmp r4, #0x0
-		/// bne is_trainer
-		/// add r4, r1, #0x0
-		///
-		///no_trainer:
-		/// ldr r2, .RANDOM
-		/// bl branch_r2
-		/// mov r3, #0x7
-		/// and r0, r3
-		/// add r3, r0, #0x0
-		/// ldr r2, .RANDOM
-		/// bl branch_r2
-		/// lsl r5, r0, #0x10		/// [resto de la cadena truncado]&quot;;.
-		/// </summary>
-		internal static string ASMShinyzer {
-			get {
-				return ResourceManager.GetString("ASMShinyzer", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerEsmeraldaEsp {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerEsmeraldaEsp", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerEsmeraldaUsa {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerEsmeraldaUsa", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerRojoYVerdeEsp {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeEsp", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerRojoYVerdeUsa10 {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeUsa10", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerRojoYVerdeUsa11 {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeUsa11", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerRubiYZafiroEsp {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerRubiYZafiroEsp", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerRubiYZafiroUsa10 {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerRubiYZafiroUsa10", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-		
-		/// <summary>
-		///   Busca un recurso adaptado de tipo System.Byte[].
-		/// </summary>
-		internal static byte[] ShinyzerRubiZafiroUsa11Y12 {
-			get {
-				object obj = ResourceManager.GetObject("ShinyzerRubiZafiroUsa11Y12", resourceCulture);
-				return ((byte[])(obj));
-			}
-		}
-	}
+    using System;
+    
+    
+    /// <summary>
+    ///   Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+    /// </summary>
+    // StronglyTypedResourceBuilder generó automáticamente esta clase
+    // a través de una herramienta como ResGen o Visual Studio.
+    // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
+    // con la opción /str o recompile su proyecto de VS.
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    public class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokemonGBAFrameWork.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+        ///   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ASMAnimarPortada {
+            get {
+                object obj = ResourceManager.GetObject("ASMAnimarPortada", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a .text
+        ///.align 2
+        ///.thumb
+        ///.thumb_func
+        ///
+        ///@hook from 0805CA4C via r0
+        ///                            
+        ///main:
+        /// @flag check
+        ///checkFlag:
+        /// mov r0, #0xFF 
+        /// lsl r0, r0, #0x2
+        /// add r0, r0, #0xA @0x3FC + 0xA = @406
+        /// ldr r2, =(0x806E6D0 +1)
+        /// push {r1, r3}
+        /// bl linker
+        /// pop {r1, r3}
+        /// cmp r0, #0x1
+        /// bne noCrash
+        ///
+        ///setOW:
+        /// ldr r0, =(0x20370B8)
+        /// ldrb r0, [r0]
+        /// cmp r0, #0xFF
+        /// beq noCrash
+        /// mov r3, r0
+        /// 
+        ///noCrash:
+        /// mov r8, r3
+        /// lsl r4, r4, #0x10
+        /// lsr r4, r4, #0x10
+        /// lsl r5, r5, #0x10
+        /// ldr r0, =(0x805CA54 +1)
+        /// bx  [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        public static string ASMCambiarPJKanto {
+            get {
+                return ResourceManager.GetString("ASMCambiarPJKanto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ASMEditorPokemonFRDencrypt {
+            get {
+                object obj = ResourceManager.GetObject("ASMEditorPokemonFRDencrypt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ASMEditorPokemonFREncrypt {
+            get {
+                object obj = ResourceManager.GetObject("ASMEditorPokemonFREncrypt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a .text
+        ///.align 2
+        ///.thumb
+        ///.thumb_func
+        ///
+        ///main:
+        ///cmp r5, #0x0
+        ///bne end
+        ///ldr r3, =(0x8OFFSET2 +1)
+        ///bx r3
+        ///
+        ///end:
+        ///mov r0, r7
+        ///mov r1, #0x8
+        ///mov r2, r4
+        ///ldr r6, =(0x8OFFSET1+1)
+        ///bl link
+        ///ldr r3, =(0x8OFFSET2+1)
+        ///bx r3
+        ///
+        ///link:
+        ///bx r6
+        ///
+        ///.align 2
+        ///
+        ///.
+        /// </summary>
+        public static string ASMMTBW {
+            get {
+                return ResourceManager.GetString("ASMMTBW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ASMMugshotsFR {
+            get {
+                object obj = ResourceManager.GetObject("ASMMugshotsFR", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a .text
+        ///.align 2
+        ///.thumb
+        ///.thumb_func
+        ///
+        ///main:
+        /// ldr r0, =(0x2022B4C)
+        /// ldr r1, [r0]
+        /// ldr r2, .VAR
+        /// ldrb r2, [r2]
+        /// cmp r2, #0x1
+        /// beq uncatchable
+        /// ldr r0, = (0x802D490 +1)
+        /// bx r0
+        ///
+        ///uncatchable:
+        /// ldr r0, = (0x802D460 +1)
+        /// bx r0
+        /// 
+        /// 
+        ///
+        ///.align 2
+        ///.VAR:
+        /// .word 0x020270B8 + (0xVARIABLE * 2).
+        /// </summary>
+        public static string ASMPokemonInCapturable {
+            get {
+                return ResourceManager.GetString("ASMPokemonInCapturable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a .text
+        ///.align 2
+        ///.thumb
+        ///.thumb_func
+        ///
+        ///shiny_hack_main:
+        /// lsr r0, r4, #0x18
+        /// cmp r0, #0x3
+        /// bne return
+        /// ldr r0, .SHINY_COUNTER
+        /// ldrb r0, [r0]
+        /// cmp r0, #0x0
+        /// bne shiny_hack
+        ///
+        ///return:
+        /// bx lr
+        ///
+        ///shiny_hack:
+        /// push {r2-r5, lr}
+        /// sub r3, r0, #0x1
+        /// ldr r0, .SHINY_COUNTER
+        /// strb r3, [r0]
+        /// ldrb r4, [r0, #0x1]
+        /// cmp r4, #0x0
+        /// bne is_trainer
+        /// add r4, r1, #0x0
+        ///
+        ///no_trainer:
+        /// ldr r2, .RANDOM
+        /// bl branch_r2
+        /// mov r3, #0x7
+        /// and r0, r3
+        /// add r3, r0, #0x0
+        /// ldr r2, .RANDOM
+        /// bl branch_r2
+        /// lsl r5, r0, #0x10        /// [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        public static string ASMShinyzer {
+            get {
+                return ResourceManager.GetString("ASMShinyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a #ifndef GUARD_POKEMON_H
+        ///#define GUARD_POKEMON_H
+        ///
+        ///#define MON_DATA_PERSONALITY        0
+        ///#define MON_DATA_OT_ID              1
+        ///#define MON_DATA_NICKNAME           2
+        ///#define MON_DATA_LANGUAGE           3
+        ///#define MON_DATA_SANITY_BIT1        4
+        ///#define MON_DATA_SANITY_BIT2        5
+        ///#define MON_DATA_SANITY_BIT3        6
+        ///#define MON_DATA_OT_NAME            7
+        ///#define MON_DATA_MARKINGS           8
+        ///#define MON_DATA_CHECKSUM           9
+        ///#define MON_DATA_10                10
+        ///#define MON_DATA_SPECIES        [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        public static string c_pokemon {
+            get {
+                return ResourceManager.GetString("c_pokemon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a #ifndef POKEAGB_TYPES_H_
+        ///#define POKEAGB_TYPES_H_
+        ///
+        ///
+        ///typedef unsigned char u8;
+        ///typedef unsigned short int u16;
+        ///typedef unsigned int u32;
+        ///typedef signed char s8;
+        ///typedef signed short int s16;
+        ///typedef signed int s32;
+        ///typedef volatile u8 vu8;
+        ///typedef volatile u16 vu16;
+        ///typedef volatile u32 vu32;
+        ///typedef volatile s8 vs8;
+        ///typedef volatile s16 vs16;
+        ///typedef volatile s32 vs32;
+        ///
+        ///
+        ///#endif /* POKEAGB_TYPES_H_ */
+        ///.
+        /// </summary>
+        public static string c_types {
+            get {
+                return ResourceManager.GetString("c_types", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerEsmeraldaEsp {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerEsmeraldaEsp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerEsmeraldaUsa {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerEsmeraldaUsa", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerRojoYVerdeEsp {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeEsp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerRojoYVerdeUsa10 {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeUsa10", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerRojoYVerdeUsa11 {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerRojoYVerdeUsa11", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerRubiYZafiroEsp {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerRubiYZafiroEsp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerRubiYZafiroUsa10 {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerRubiYZafiroUsa10", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] ShinyzerRubiZafiroUsa11Y12 {
+            get {
+                object obj = ResourceManager.GetObject("ShinyzerRubiZafiroUsa11Y12", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a __aeabi_idiv = 0x82E7088|1
+        ///__aeabi_idivmod = 0x82E7088|1
+        ///__aeabi_uidiv = 0x82E7088|1
+        ///__aeabi_uidivmod = 0x82E7088|1
+        ///Random = 0x0806f5cc|1
+        ///GetMonData = 0x0806a518|1
+        ///SetMonData = 0x0806acac|1
+        ///CalculateMonStats = 0x08068d0c|1
+        ///CalculateBoxMonChecksum = 0x08068c78|1
+        ///DecryptBoxMon = 0x0806a24c|1
+        ///EncryptBoxMon = 0x0806a228|1
+        ///gPlayerParty = 0x20244ec
+        ///gSpecialVar_0x8004 = 0x020375e0
+        ///gSpecialVar_0x8005 = 0x020375e2
+        ///gSpecialVar_0x8006 = 0x020375e4
+        ///gScriptResult = 0x020375f0.
+        /// </summary>
+        public static string VarsBPEUSA {
+            get {
+                return ResourceManager.GetString("VarsBPEUSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a __aeabi_idiv = 0x081E3B68|1
+        ///__aeabi_idivmod = 0x081E3B68|1
+        ///__aeabi_uidiv = 0x081E3B68|1
+        ///__aeabi_uidivmod = 0x081E3B68|1
+        ///Random = 0x08044ec8|1
+        ///GetMonData = 0x0803fbe8|1
+        ///SetMonData = 0x0804037c|1
+        ///CalculateMonStats = 0x0803e47c|1
+        ///CalculateBoxMonChecksum = 0x0803e3e8|1
+        ///DecryptBoxMon = 0x0803f91c|1
+        ///EncryptBoxMon = 0x0803f8f8|1
+        ///gPlayerParty = 0x02024284
+        ///gSpecialVar_0x8004 = 0x020370c0
+        ///gSpecialVar_0x8005 = 0x020370c2
+        ///gSpecialVar_0x8006 = 0x020370c4
+        ///gScriptResult = 0x020370d0.
+        /// </summary>
+        public static string VarsBPR10USA {
+            get {
+                return ResourceManager.GetString("VarsBPR10USA", resourceCulture);
+            }
+        }
+    }
 }

@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Gabriel.Cat.Utilitats">
-      <HintPath>..\..\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\bin\Release\Gabriel.Cat.Utilitats.dll</HintPath>
+      <HintPath>..\..\Mis Programas\Gabriel.Cat.Utilitats\Gabriel.Cat.Utilitats\bin\Release\Gabriel.Cat.Utilitats.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -63,7 +63,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ComunGBA\ASM\Thumb.cs" />
+    <Compile Include="Core\ComunGBA\Rutinas\ASM\Thumb.cs" />
     <Compile Include="Core\ComunGBA\BloqueBytes.cs" />
     <Compile Include="Core\ComunGBA\BloqueImagen.cs" />
     <Compile Include="Core\ComunGBA\BloqueSonido.cs" />
@@ -76,12 +76,13 @@
     <Compile Include="Core\ComunGBA\Paleta.cs" />
     <Compile Include="Core\ComunGBA\Excepciones.cs" />
     <Compile Include="Core\ComunGBA\RomGba.cs" />
+    <Compile Include="Core\ComunGBA\Rutinas\C\Var.cs" />
     <Compile Include="Core\ComunGBA\Tile.cs" />
     <Compile Include="Core\ComunGBA\TileMap.cs" />
     <Compile Include="Core\ComunGBA\TileSet.cs" />
     <Compile Include="Core\ComunGBA\Word.cs" />
     <Compile Include="Core\PokemonGBA\BloqueString.cs" />
-    <Compile Include="Core\ComunGBA\ASM\ASM.cs" />
+    <Compile Include="Core\ComunGBA\Rutinas\ASM\ASM.cs" />
     <Compile Include="Core\PokemonGBA\IBloqueConNombre.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="PokemonFrameWork\Batallas\ClaseEntrenador.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="PokemonFrameWork\Core\Compilacion.cs" />
     <Compile Include="PokemonFrameWork\Core\EdicionPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\RomData.cs" />
+    <Compile Include="PokemonFrameWork\Core\Rutinas\VarsPokemon.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comando.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\ComandosComplejos\RefreshMiniPlayer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\AddDecoration.cs" />
@@ -346,17 +348,22 @@
     <Compile Include="Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <CustomToolNamespace>PokemonGBAFrameWork</CustomToolNamespace>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="PokemonFrameWork\Core\Script\ComandosComplejos" />
+    <None Include="Extra\c.pokemon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Extra\c.types.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

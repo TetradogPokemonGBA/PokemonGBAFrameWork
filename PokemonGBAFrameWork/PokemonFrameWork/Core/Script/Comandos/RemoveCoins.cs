@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0xB5;
   public const int SIZE=3;
-  short numeroDeFichasACoger;
+  Word numeroDeFichasACoger;
  
-  public RemoveCoins(short numeroDeFichasACoger) 
+  public RemoveCoins(Word numeroDeFichasACoger) 
   {
    NumeroDeFichasACoger=numeroDeFichasACoger;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short NumeroDeFichasACoger
+                         public Word NumeroDeFichasACoger
 {
 get{ return numeroDeFichasACoger;}
 set{numeroDeFichasACoger=value;}
@@ -61,7 +61,7 @@ set{numeroDeFichasACoger=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   numeroDeFichasACoger=Word.GetWord(ptrRom,offsetComando);
+   numeroDeFichasACoger=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

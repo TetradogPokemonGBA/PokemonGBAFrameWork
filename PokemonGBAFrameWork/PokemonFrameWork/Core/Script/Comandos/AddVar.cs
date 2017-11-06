@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x17;
 
-		public AddVar(int variable,int valorAAñadir):base(variable,valorAAñadir)
+		public AddVar(Word variable,Word valorAAñadir):base(variable,valorAAñadir)
 		{}
 			
 		public AddVar(RomGba rom, int offset) : base(rom, offset)

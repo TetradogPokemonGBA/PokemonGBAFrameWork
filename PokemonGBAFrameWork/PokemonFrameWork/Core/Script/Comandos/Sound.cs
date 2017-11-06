@@ -18,8 +18,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x2F;
 		public const int SIZE=0x3;
 
-		short sonido;
-		public Sound(short sonido)
+		Word sonido;
+		public Sound(Word sonido)
 		{
 			Sonido=sonido;
 		}
@@ -47,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short Sonido {
+		public Word Sonido {
 			get {
 				return sonido;
 			}
@@ -66,7 +66,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			sonido=Word.GetWord(ptrRom,offsetComando);
+			sonido=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x31;
 
-		public FanFare(short sonido):base(sonido)
+		public FanFare(Word sonido):base(sonido)
 		{}
 		public FanFare(RomGba rom,int offset):base(rom,offset)
 		{
@@ -108,7 +108,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class PlaySong2:Sound
 	{
 		public const byte ID=0x34;
-		public PlaySong2(short sonido):base(sonido)
+		public PlaySong2(Word sonido):base(sonido)
 		{}
 		public PlaySong2(RomGba rom,int offset):base(rom,offset)
 		{
@@ -138,7 +138,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x36;
 
-		public FadeSong(short sonido):base(sonido)
+		public FadeSong(Word sonido):base(sonido)
 		{}
 		public FadeSong(RomGba rom,int offset):base(rom,offset)
 		{
@@ -171,7 +171,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		
 		byte desconocido;
 		
-		public PlaySong(short sonido,byte desconocido):base(sonido)
+		public PlaySong(Word sonido,byte desconocido):base(sonido)
 		{
 			Desconocido=desconocido;
 		}

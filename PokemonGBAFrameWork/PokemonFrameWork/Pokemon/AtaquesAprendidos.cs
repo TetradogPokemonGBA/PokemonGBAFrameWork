@@ -193,7 +193,7 @@ namespace PokemonGBAFrameWork
 			}
 
 			for (int i = ataques.Count; i < MAXATACKSFIGHT; i++)
-				ataques.Add(new AtaqueAprendido(-1));
+				ataques.Add(new AtaqueAprendido());
 
 			return (AtaqueAprendido[])ataques.Values;
 
@@ -240,7 +240,8 @@ namespace PokemonGBAFrameWork
 			for(int i=0;i<bloque.Bytes.Length;i+=2)
 			{
 				
-				ataquesAprendidos.Ataques.Add(new AtaqueAprendido(new Word(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue+1)),(byte)(bloque.Bytes[i+1]>>1)));
+
+				ataquesAprendidos.Ataques.Add(new AtaqueAprendido(new Word((ushort)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue+1))),(byte)(bloque.Bytes[i+1]>>1)));
 			}
 			ataquesAprendidos.Ataques.Sort();//por si lo hacen de forma externa que lo lea bien :)
 			ataquesAprendidos.OffsetBytesAtaqueAprendido = offset;

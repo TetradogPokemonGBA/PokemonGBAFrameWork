@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0x9D;
   public const int SIZE=4;
   Byte animacion;
- short variableAUsar;
+ Word variableAUsar;
  
-  public SetAnimation(Byte animacion,short variableAUsar) 
+  public SetAnimation(Byte animacion,Word variableAUsar) 
   {
    Animacion=animacion;
  VariableAUsar=variableAUsar;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return animacion;}
 set{animacion=value;}
 }
- public short VariableAUsar
+ public Word VariableAUsar
 {
 get{ return variableAUsar;}
 set{variableAUsar=value;}
@@ -70,7 +70,7 @@ set{variableAUsar=value;}
   {
    animacion=*(ptrRom+offsetComando);
  offsetComando++;
- variableAUsar=Word.GetWord(ptrRom,offsetComando);
+ variableAUsar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

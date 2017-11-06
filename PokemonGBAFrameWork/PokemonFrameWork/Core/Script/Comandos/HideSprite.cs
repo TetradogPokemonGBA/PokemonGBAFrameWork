@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x53;
   public const int SIZE=3;
-  short personajeAOcultar;
+  Word personajeAOcultar;
  
-  public HideSprite(short personajeAOcultar) 
+  public HideSprite(Word personajeAOcultar) 
   {
    PersonajeAOcultar=personajeAOcultar;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short PersonajeAOcultar
+                         public Word PersonajeAOcultar
 {
 get{ return personajeAOcultar;}
 set{personajeAOcultar=value;}
@@ -61,7 +61,7 @@ set{personajeAOcultar=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   personajeAOcultar=Word.GetWord(ptrRom,offsetComando);
+   personajeAOcultar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

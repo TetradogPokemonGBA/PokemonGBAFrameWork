@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 		public const string DESCRIPCION="Permite controlar cuando sale un pokemon shiny.";
 		public static readonly Creditos Creditos;
 		//public static readonly ASM RutinaEsmeralda=ASM.Compilar(Resources.ASMShinyzer);
-		public static readonly int VariableShinytzer = (int)(Hex)"8003";//mirar de poder cambiarla...hasta que no lo sepa hacer será readonly
+		public static readonly Word VariableShinytzer = (ushort)(Hex)"8003";//mirar de poder cambiarla...hasta que no lo sepa hacer será readonly
 		#region Rutina
 		//mas adelante poner el codigo fuente y usar la clase ASM
 		//de momento pondré los bytes directamente :)
@@ -181,7 +181,7 @@ namespace PokemonGBAFrameWork
 				throw new ArgumentNullException();
 			return rom.Data.SearchArray(DicRutina[edicion][compilacion]);//mirar si esta en la parte común la variable
 		}
-		public static ComandosScript.SetVar ScriptLineaPokemonShiny(short numPokemon)
+		public static ComandosScript.SetVar ScriptLineaPokemonShiny(Word numPokemon)
 		{
 			if (numPokemon<0)
 				throw new ArgumentOutOfRangeException();
@@ -228,7 +228,7 @@ namespace PokemonGBAFrameWork
 		public static Script SimpleScriptBattleShinyTrainer(RomGba rom,int indexEntrenador,Entrenador  entrenador,params bool[] pokemon)
 		{
 			const bool POKEMONSHINY=true;
-			short sIndex=(short)(indexEntrenador+1);
+			Word sIndex=(ushort)(indexEntrenador+1);
 			StringBuilder strScript=new StringBuilder();
 			Script scriptBattleShiny=new Script();
 			
@@ -240,7 +240,7 @@ namespace PokemonGBAFrameWork
 				scriptBattleShiny.ComandosScript.Add(ScriptLineaPokemonShinyEntrenador(entrenador, pokemon));
 			}
 			//scriptBattleShiny.ComandosScript.Add(new ComandosScript.ClearTrainerFlag(sIndex));
-			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Trainerbattle(0x0,sIndex,0x0,new OffsetRom(0),new OffsetRom(0)));
+			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Trainerbattle(0x0,sIndex,(ushort)0x0,new OffsetRom(0),new OffsetRom(0)));
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Release());
 			return scriptBattleShiny;
 		}

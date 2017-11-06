@@ -96,31 +96,31 @@ namespace PokemonGBAFrameWork
 			return hashCode;
 		}
 
-		public static void SetDword(RomData rom,int offset,DWord dWord)
+		public static void SetDWord(RomData rom,int offset,DWord dWord)
 		{
-			SetDword(rom.Rom,dWord);
+			SetDWord(rom.Rom,offset,dWord);
 		}
-		public static void SetDword(RomGba rom,int offset,DWord dWord)
+		public static void SetDWord(RomGba rom,int offset,DWord dWord)
 		{
-			SetDword(rom.Data,dWord);
+			SetDWord(rom.Data, offset, dWord);
 		}
-		public static void SetDword(BloqueBytes datos,int offset,DWord dWord)
+		public static void SetDWord(BloqueBytes datos,int offset,DWord dWord)
 		{
-			SetDword(datos.Bytes,dWord);
+			SetDWord(datos.Bytes, offset, dWord);
 		}
-		public static void SetDword(byte[] datos,int offset,DWord dWord)
+		public static void SetDWord(byte[] datos,int offset,DWord dWord)
 		{
 			unsafe{
 				fixed(byte* ptrDatos=datos)
-					SetDword(ptrDatos,dWord);
+					SetDWord(ptrDatos, offset, dWord);
 
 			}
 		}
-		public static unsafe  void SetDword(byte* ptrDatos,int offset,DWord dWord)
+		public static unsafe  void SetDWord(byte* ptrDatos,int offset,DWord dWord)
 		{
-			SetDword(ptrDatos+offset,dWord);
+			SetDWord(ptrDatos+offset,dWord);
 		}
-		public static unsafe  void SetDword(byte* ptrDatosPosicionados,DWord dWord)
+		public static unsafe  void SetDWord(byte* ptrDatosPosicionados,DWord dWord)
 		{
 			MetodosUnsafe.WriteBytes(ptrDatosPosicionados,dWord);
 		}

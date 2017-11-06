@@ -13,10 +13,10 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x65;
   public const int SIZE=4;
-  short personaje;
+  Word personaje;
  Byte comportamiento;
  
-  public SpriteBehave(short personaje,Byte comportamiento) 
+  public SpriteBehave(Word personaje,Byte comportamiento) 
   {
    Personaje=personaje;
  Comportamiento=comportamiento;
@@ -51,7 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Personaje
+                         public Word Personaje
 {
 get{ return personaje;}
 set{personaje=value;}
@@ -68,7 +68,7 @@ set{comportamiento=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   personaje=Word.GetWord(ptrRom,offsetComando);
+   personaje=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  comportamiento=*(ptrRom+offsetComando);
  offsetComando++;

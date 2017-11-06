@@ -19,10 +19,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public const int SIZE = 5;
 		
-		short coordenadaX;
-		short coordenadaY;
+		Word coordenadaX;
+		Word coordenadaY;
 		
-		public GetPlayerPos(short coordenadaX,short coordenadaY)
+		public GetPlayerPos(Word coordenadaX,Word coordenadaY)
 		{
 			CoordenadaX=coordenadaX;
 			CoordenadaY=coordenadaY;
@@ -64,7 +64,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short CoordenadaX {
+		public Word CoordenadaX {
 			get {
 				return coordenadaX;
 			}
@@ -73,7 +73,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short CoordenadaY {
+		public Word CoordenadaY {
 			get {
 				return coordenadaY;
 			}
@@ -87,9 +87,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			coordenadaX=Word.GetWord(ptrRom,offsetComando);
+			coordenadaX=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
-			coordenadaY=Word.GetWord(ptrRom,offsetComando);
+			coordenadaY=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

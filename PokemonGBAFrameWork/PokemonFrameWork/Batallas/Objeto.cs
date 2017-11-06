@@ -399,12 +399,12 @@ namespace PokemonGBAFrameWork
 			if(objeto.PointerBattleUsage!=null)
 				OffsetRom.SetOffset(rom.Data.Bytes,offsetDatos,objeto.PointerBattleUsage);
 			offsetDatos+=OffsetRom.LENGTH;
-			DWord.SetDword(rom,offsetDatos,objeto.BattleUsage);
+			DWord.SetDWord(rom,offsetDatos,objeto.BattleUsage);
 			offsetDatos+=DWord.LENGTH;
 			if(objeto.PointerBattleUsage!=null)
 				OffsetRom.SetOffset(rom.Data.Bytes,offsetDatos,objeto.PointerFieldUsage);
 			offsetDatos+=OffsetRom.LENGTH;
-			DWord.SetDword(rom,offsetDatos,objeto.ExtraParameter);
+			DWord.SetDWord(rom,offsetDatos,objeto.ExtraParameter);
 			
 			if(edicion.AbreviacionRom!=AbreviacionCanon.AXP&&edicion.AbreviacionRom!=AbreviacionCanon.AXV){
 				offsetImagenYPaleta=Zona.GetOffsetRom(rom,ZonaImagenesObjeto,edicion,compilacion).Offset+index*(OffsetRom.LENGTH+OffsetRom.LENGTH);

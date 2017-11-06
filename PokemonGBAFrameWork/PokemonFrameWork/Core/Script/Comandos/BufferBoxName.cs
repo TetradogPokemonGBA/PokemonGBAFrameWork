@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0xC6;
   public const int SIZE=4;
   Byte buffer;
- ushort cajaPcAGuardar;
+ Word cajaPcAGuardar;
  
-  public BufferBoxName(Byte buffer,ushort cajaPcAGuardar) 
+  public BufferBoxName(Byte buffer,Word cajaPcAGuardar) 
   {
    Buffer=buffer;
  CajaPcAGuardar=cajaPcAGuardar;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public ushort CajaPcAGuardar
+ public Word CajaPcAGuardar
 {
 get{ return cajaPcAGuardar;}
 set{cajaPcAGuardar=value;}
@@ -70,7 +70,7 @@ set{cajaPcAGuardar=value;}
   {
    buffer=*(ptrRom+offsetComando);
  offsetComando++;
- cajaPcAGuardar=Word.GetWord(ptrRom,offsetComando);
+ cajaPcAGuardar=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

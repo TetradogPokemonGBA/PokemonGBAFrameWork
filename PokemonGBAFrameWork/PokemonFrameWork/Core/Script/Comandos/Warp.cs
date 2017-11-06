@@ -21,10 +21,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		byte bank;
 		byte map;
 		byte exit;
-		short coordenadaX;
-		short coordenadaY;
+		Word coordenadaX;
+		Word coordenadaY;
 		
-		public Warp(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY)
+		public Warp(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY)
 		{
 			Bank=bank;
 			Map=map;
@@ -95,7 +95,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short CoordenadaX {
+		public Word CoordenadaX {
 			get {
 				return coordenadaX;
 			}
@@ -104,7 +104,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public short CoordenadaY {
+		public Word CoordenadaY {
 			get {
 				return coordenadaY;
 			}
@@ -121,9 +121,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 			bank=ptrRom[offsetComando++];
 			map=ptrRom[offsetComando++];
 			exit=ptrRom[offsetComando++];
-			coordenadaX=Word.GetWord(ptrRom,offsetComando);
+			coordenadaX=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
-			coordenadaY=Word.GetWord(ptrRom,offsetComando);
+			coordenadaY=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
@@ -144,7 +144,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3B;
 
-		public WarpWalk(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public WarpWalk(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}
@@ -182,7 +182,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3D;
 
-		public WarpTeleport(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public WarpTeleport(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}
@@ -220,7 +220,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3E;
 
-		public Warp3(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public Warp3(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}
@@ -258,7 +258,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x40;
 
-		public Warp4(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public Warp4(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}
@@ -295,7 +295,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Warp5:Warp
 	{
 		public const byte ID = 0x41;
-		public Warp5(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public Warp5(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}
@@ -333,7 +333,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3A;
 
-		public WarpMuted(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public WarpMuted(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}
@@ -371,7 +371,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3F;
 
-		public SetWarpplace(byte bank,byte map,byte exit,short coordenadaX,short coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public SetWarpplace(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
 		{
 
 		}

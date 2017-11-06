@@ -101,7 +101,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x18;
 		
-		public SubVar(int variable,int valorARestar):base(variable,valorARestar)
+		public SubVar(Word variable,Word valorARestar):base(variable,valorARestar)
 		{}
 		public SubVar(RomGba rom,int offset):base(rom,offset)
 		{}

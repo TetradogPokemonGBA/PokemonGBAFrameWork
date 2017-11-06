@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork
 	public static class RefreshMiniPlayer
 	{
 		static readonly Variable callToRefresh;
-		const uint ASUMAR=0x80000000;
+		const int ASUMAR=0x08000000;
 		static RefreshMiniPlayer()
 		{
 			callToRefresh=new Variable("Offset rutina");
@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static ComandosScript.CallAsm Comando(EdicionPokemon edicion,Compilacion compilacion)
 		{
-			return new ComandosScript.CallAsm((ASUMAR+(uint)Variable.GetVariable(callToRefresh,edicion,compilacion)));
+			return new ComandosScript.CallAsm((ASUMAR+Variable.GetVariable(callToRefresh,edicion,compilacion)));
 			
 		}
 		

@@ -13,9 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
  {
   public const byte ID=0x48;
   public const int SIZE=3;
-  short objeto;
+  Word objeto;
  
-  public CheckItemType(short objeto) 
+  public CheckItemType(Word objeto) 
   {
    Objeto=objeto;
  
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return SIZE;
    }
   }
-                         public short Objeto
+                         public Word Objeto
 {
 get{ return objeto;}
 set{objeto=value;}
@@ -61,7 +61,7 @@ set{objeto=value;}
   }
   protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
   {
-   objeto=Word.GetWord(ptrRom,offsetComando);
+   objeto=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

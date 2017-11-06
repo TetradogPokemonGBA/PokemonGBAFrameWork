@@ -648,19 +648,19 @@ namespace PokemonGBAFrameWork
 		
 		public void SetObjetosEnLosStats(int totalObjetos)
 		{
-			if (totalObjetos < 0 || totalObjetos > short.MaxValue)
+			if (totalObjetos < 0 || totalObjetos > ushort.MaxValue)
 				throw new ArgumentOutOfRangeException();
 
 			blStats.Bytes[12] = (byte)(Objeto1 % totalObjetos);
 			blStats.Bytes[14] = (byte)(Objeto2 % totalObjetos);
 
 			blStats.Bytes[13] = (byte)(Objeto1 / totalObjetos);
-			blStats.Bytes[13] = (byte)(Objeto2 / totalObjetos);
+			blStats.Bytes[15] = (byte)(Objeto2 / totalObjetos);
 		}
 		public void GetObjetosDeLosStats()
 		{
-			Objeto1 =new Word( blStats.Bytes[12] + blStats.Bytes[13] * 256);
-			Objeto2 =new Word( blStats.Bytes[14] + blStats.Bytes[15] * 256);
+			Objeto1 =new Word( blStats.Bytes,12);
+			Objeto2 =new Word(blStats.Bytes,14);
 		}
 		public NivelEvs GetEvs(StatEvs stat)
 		{
@@ -736,7 +736,7 @@ namespace PokemonGBAFrameWork
 		public static Pokemon GetPokemon(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int ordenGameFreak,int totalEntradasPokedex)
 		{
 			Pokemon pokemon=new Pokemon();
-			pokemon.OrdenGameFreak=new Word(ordenGameFreak);
+			pokemon.OrdenGameFreak=new Word((ushort)ordenGameFreak);
 			try{
 				pokemon.OrdenLocal=new Word(rom, Zona.GetOffsetRom(rom, ZonaOrdenLocal, edicion, compilacion).Offset + (pokemon.OrdenGameFreak-1) * 2);
 			}catch{}

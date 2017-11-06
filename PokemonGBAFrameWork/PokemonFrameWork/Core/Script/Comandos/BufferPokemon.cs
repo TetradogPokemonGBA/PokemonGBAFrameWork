@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
   public const byte ID=0x7D;
   public const int SIZE=4;
   Byte buffer;
- ushort pokemon;
+ Word pokemon;
  
-  public BufferPokemon(Byte buffer,ushort pokemon) 
+  public BufferPokemon(Byte buffer,Word pokemon) 
   {
    Buffer=buffer;
  Pokemon=pokemon;
@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 get{ return buffer;}
 set{buffer=value;}
 }
- public ushort Pokemon
+ public Word Pokemon
 {
 get{ return pokemon;}
 set{pokemon=value;}
@@ -70,7 +70,7 @@ set{pokemon=value;}
   {
    buffer=*(ptrRom+offsetComando);
  offsetComando++;
- pokemon=Word.GetWord(ptrRom,offsetComando);
+ pokemon=new Word(ptrRom,offsetComando);
  offsetComando+=Word.LENGTH;
  
   }

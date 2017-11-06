@@ -13,10 +13,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x90;
 		public const int SIZE=6;
-		int dineroADar;
+        DWord dineroADar;
 		Byte comprobarEjecucionComando;
 		
-		public GiveMoney(int dineroADar,Byte comprobarEjecucionComando)
+		public GiveMoney(DWord dineroADar,Byte comprobarEjecucionComando)
 		{
 			DineroADar=dineroADar;
 			ComprobarEjecucionComando=comprobarEjecucionComando;
@@ -51,7 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public int DineroADar
+		public DWord DineroADar
 		{
 			get{ return dineroADar;}
 			set{dineroADar=value;}
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			dineroADar=DWord.GetDWord(ptrRom+offsetComando);
+			dineroADar=new DWord(ptrRom+offsetComando);
 			offsetComando+=DWord.LENGTH;
 			comprobarEjecucionComando=*(ptrRom+offsetComando);
 			offsetComando++;
