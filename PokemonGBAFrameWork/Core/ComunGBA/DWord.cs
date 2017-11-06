@@ -85,7 +85,10 @@ namespace PokemonGBAFrameWork
 			else isEquals= this.dWord.ArrayEqual(other.dWord);
 			return isEquals;
 		}
-
+	public override string ToString()
+		{
+			return (Hex)((uint)this);
+		}
 		public override int GetHashCode()
 		{
 			int hashCode = 0;

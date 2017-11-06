@@ -94,7 +94,10 @@ namespace PokemonGBAFrameWork
 			}
 			return hashCode;
 		}
-
+		public override string ToString()
+		{
+			return (Hex)((uint)((ushort)this));
+		}
 		public static bool operator ==(Word lhs, Word rhs) {
 			bool iguales;
 			if (ReferenceEquals(lhs, rhs))

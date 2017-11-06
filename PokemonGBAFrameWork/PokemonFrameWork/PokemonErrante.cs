@@ -378,12 +378,13 @@ namespace PokemonGBAFrameWork
 
 			public static Script GetScript(EdicionPokemon edicion, Compilacion compilacion,Pokemon pokemonErrante)
 			{
-
+				Hex nivelYEstado;
 				Script scriptPokemonErrante=new Script();
 				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(new Word((ushort)Variable.GetVariable(VariableSpecialPokemonErrante, edicion, compilacion))));
 				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion, compilacion)),pokemonErrante.PokemonErrante.OrdenNacional));
 				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariableVitalidadVar, edicion, compilacion)),pokemonErrante.Vida));
-				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariableNivelYEstadoVar, edicion, compilacion)),new Word((ushort)((Hex)((Hex)pokemonErrante.Stats).ToString() + (((Hex)pokemonErrante.Nivel.Data).ToString())))));//por mirar
+				nivelYEstado=(Hex) (((Hex)pokemonErrante.Stats).ToString().PadLeft(2,'0') + "" +((Hex)(byte)(ushort)pokemonErrante.Nivel).ToString());
+				scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariableNivelYEstadoVar, edicion, compilacion)),new Word((ushort)nivelYEstado)));//por mirar
 				return scriptPokemonErrante;
 
 				
