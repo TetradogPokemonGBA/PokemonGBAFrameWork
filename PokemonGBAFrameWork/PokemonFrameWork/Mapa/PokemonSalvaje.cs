@@ -80,7 +80,7 @@ namespace PokemonGBAFrameWork
 		{
 			rom.Data[offsetPokemon++]=pokemonSalvaje.NivelMinimo;
 			rom.Data[offsetPokemon++]=pokemonSalvaje.NivelMaximo;
-			Word.SetWord(rom,offsetPokemon,new Word((short)pokemonSalvaje.Pokemon.OrdenNacional));
+			Word.SetWord(rom,offsetPokemon,pokemonSalvaje.Pokemon.OrdenNacional);
 		}
 	}
 }

@@ -410,7 +410,7 @@ namespace PokemonGBAFrameWork
 			if(pokemon==null)
 				throw new ArgumentNullException();
 			
-			especie=new Word(Convert.ToInt16(pokemon.OrdenNacional));
+			especie=pokemon.OrdenNacional;
 		}
 		public void SetObjeto(Objeto obj)
 		{

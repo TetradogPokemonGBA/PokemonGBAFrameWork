@@ -176,6 +176,18 @@ namespace PokemonGBAFrameWork
 			{//- Variable de la disponibilidad (0x100 = disponible, 0x0 = no disponible) = Esmeralda 0x5F29; FR 0x5071
 				Activo=0x100,Inactivo=0
 			}
+			public enum Dormido:int
+			{
+				NoDormido=0,//000
+				UnTurno,//001
+				DosTurnos,//010
+				TresTurnos,//011
+				CuatroTurnos,//100
+				CincoTurnos,//101
+				SeisTurnos,//110
+				SieteTurnos//111
+				
+			}
 			public static readonly Variable VariableSpecialPokemonErrante;
 			public static readonly Variable VariablePokemonErranteVar;
 			public static readonly Variable VariableVitalidadVar;
@@ -334,25 +346,25 @@ namespace PokemonGBAFrameWork
 
 			
 
-			public int Dormido
+			public Dormido TurnosDormido
 			{
+                //no funciona...por arreglar...
 				get{
 					bool[] fix={false,false,false,false,false};
-					return (stats.ToBits().SubArray(0,3)).AfegirValors(fix).ToArray().ToByte();
-				}
+					byte bTurnos=fix.AfegirValors(stats.ToBits().SubArray(0,3)).ToArray().ToByte();
+                    return (Dormido)bTurnos;
+
+                }
 				set{
 					
 					IList<bool> bitsStat;
 					bool[] bitsAPoner;
-					if(value>MAXTURNOSDORMIDO)
-						value=MAXTURNOSDORMIDO;
-					else if(value<0)
-						value=0;
+
 					//pongo los turnos
 					bitsAPoner=((byte)value).ToBits();
 					bitsStat=stats.ToBits();
 					for(int i=0,f=3;i<f;i++)
-						bitsStat[i]=bitsAPoner[i];
+						bitsStat[i]=bitsAPoner[5+i];
 					stats=bitsStat.ToTaula().ToByte();
 				}
 			}

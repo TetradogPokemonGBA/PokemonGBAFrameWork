@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x2B;
 
-		public CheckFlag(short flag):base(flag)
+		public CheckFlag(Word flag):base(flag)
 		{}
 		public CheckFlag(RomGba rom, int offset) : base(rom, offset)
 		{

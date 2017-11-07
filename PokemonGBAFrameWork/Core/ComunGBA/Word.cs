@@ -22,10 +22,7 @@ namespace PokemonGBAFrameWork
 		public const int LENGTH=2;
 		
 		byte[] word;
-		public Word(short word)
-		{
-			this.word=Serializar.GetBytes(word);
-		}
+
 		public Word(ushort word)
 		{
 			this.word=Serializar.GetBytes(word);
@@ -69,7 +66,7 @@ namespace PokemonGBAFrameWork
 			int compareTo;
 			if(other!=null)
 			{
-				compareTo=(int)word.CompareTo(other.word);
+				compareTo=((ushort)this).CompareTo((ushort)other);
 			}else compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
 			
 			return compareTo;
@@ -96,7 +93,7 @@ namespace PokemonGBAFrameWork
 		}
 		public override string ToString()
 		{
-			return (Hex)((uint)((ushort)this));
+			return ((ushort)this)+"";
 		}
 		public static bool operator ==(Word lhs, Word rhs) {
 			bool iguales;
@@ -152,13 +149,14 @@ namespace PokemonGBAFrameWork
 		{
 			return new Word(word);
 		}
-        public static implicit operator Word(short word)
-        {
-            return new Word(word);
-        }
-        public static explicit operator short(Word word)
+		
+		public static implicit operator Hex(Word word)
 		{
-			return Convert.ToInt16((ushort)word);
+			return (Hex)word.word.ReverseArray();
+		}
+		public static implicit operator Word(Hex word)
+		{
+			return new Word((ushort)word);
 		}
 
 	}

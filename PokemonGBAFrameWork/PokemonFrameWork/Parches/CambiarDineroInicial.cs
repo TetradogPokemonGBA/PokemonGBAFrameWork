@@ -51,11 +51,11 @@ namespace PokemonGBAFrameWork
 		{
 			return new DWord(rom,Variable.GetVariable(VariableCambiarDineroInicial,edicion,compilacion));
 		}
-		public static void SetDineroInicial(RomData rom,int dineroIncial=DEFAULT)
+		public static void SetDineroInicial(RomData rom,uint dineroIncial=DEFAULT)
 		{
 			SetDineroInicial(rom.Rom,rom.Edicion,rom.Compilacion,dineroIncial);
 		}
-		public static void SetDineroInicial(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,int dineroInicial=DEFAULT)
+		public static void SetDineroInicial(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,uint dineroInicial=DEFAULT)
 		{
             SetDineroInicial(rom, edicion, compilacion, new DWord(dineroInicial));
 			

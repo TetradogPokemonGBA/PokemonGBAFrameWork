@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x1A;
 		
-		public CopyVarIfNotZero(short variableDestino,short variableOrigen):base(variableDestino,variableOrigen)
+		public CopyVarIfNotZero(Word variableDestino,Word variableOrigen):base(variableDestino,variableOrigen)
 		{}
 
 		public CopyVarIfNotZero(RomGba rom, int offset) : base(rom, offset)

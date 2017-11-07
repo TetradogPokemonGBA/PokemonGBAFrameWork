@@ -18,8 +18,8 @@ namespace PokemonGBAFrameWork
 		public static readonly Creditos Creditos;
 		public static readonly Zona ZonaBanks;
 		
-		DWord bank;
-		DWord indexMap;
+		int bank;
+		int indexMap;
 		OffsetRom offsetHeader;
 		OffsetRom offsetMap;
 		OffsetRom offsetSprites;
@@ -61,7 +61,7 @@ namespace PokemonGBAFrameWork
 			Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"shinyquagsire23","adaptado de MEH/src/us/plxhack/MEH/IO/MapHeader.java");
 		}
 
-		public DWord Bank {
+		public int Bank {
 			get {
 				return bank;
 			}
@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public DWord IndexMap {
+		public int IndexMap {
 			get {
 				return indexMap;
 			}
@@ -79,13 +79,13 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public static MapHeader GetMapHeader(RomGba rom, EdicionPokemon edicion,Compilacion compilacion,DWord bank,DWord indexMap)
+		public static MapHeader GetMapHeader(RomGba rom, EdicionPokemon edicion,Compilacion compilacion,int bank,int indexMap)
 		{
 			int offsetActual;
 			MapHeader mapa=new MapHeader();
 			mapa.indexMap=indexMap;
 			mapa.bank=bank;
-			mapa.offsetHeader	=new OffsetRom(rom,new OffsetRom(rom,Zona.GetOffsetRom(rom,ZonaBanks,edicion,compilacion).Offset+(int)bank*OffsetRom.LENGTH).Offset+(int)indexMap*OffsetRom.LENGTH);
+			mapa.offsetHeader	=new OffsetRom(rom,new OffsetRom(rom,Zona.GetOffsetRom(rom,ZonaBanks,edicion,compilacion).Offset+bank*OffsetRom.LENGTH).Offset+indexMap*OffsetRom.LENGTH);
 			offsetActual=mapa.offsetHeader.Offset;
 			mapa.offsetHeader=new OffsetRom(offsetActual);
 			mapa.offsetMap=new OffsetRom(rom,offsetActual);
