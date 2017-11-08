@@ -340,6 +340,7 @@
     <Compile Include="PokemonFrameWork\Pokemon\DescripcionPokedex.cs" />
     <Compile Include="PokemonFrameWork\Pokemon\Growl.cs" />
     <Compile Include="PokemonFrameWork\Pokemon\Habilidad.cs" />
+    <Compile Include="PokemonFrameWork\Pokemon\Habitat.cs" />
     <Compile Include="PokemonFrameWork\Pokemon\Huella.cs" />
     <Compile Include="PokemonFrameWork\Pokemon\Pokemon.cs" />
     <Compile Include="PokemonFrameWork\Pokemon\SpritesPokemon.cs" />

@@ -57,19 +57,19 @@ namespace PokemonGBAFrameWork.ComandosScript
 		
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{brailleData.Offset};
+			return new Object[]{brailleData};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			brailleData=new OffsetRom(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);
+			brailleData=new OffsetRom(ptrRom,offsetComando);//por mirar
 			offsetComando+=OffsetRom.LENGTH;
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			OffsetRom.SetOffset(ptrRomPosicionado,BrailleData);
-			ptrRomPosicionado+=OffsetRom.LENGTH;
 			
 		}
 	}

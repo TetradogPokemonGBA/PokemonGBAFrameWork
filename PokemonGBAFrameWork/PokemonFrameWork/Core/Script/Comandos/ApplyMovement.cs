@@ -64,24 +64,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 		
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{personajeAUsar,datosMovimiento.Offset};
+			return new Object[]{personajeAUsar,datosMovimiento};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			personajeAUsar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			datosMovimiento=new OffsetRom(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);
-			offsetComando+=OffsetRom.LENGTH;
-			
+
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,PersonajeAUsar);
+			ptrRomPosicionado++;
+			Word.SetWord(ptrRomPosicionado,PersonajeAUsar);
 			ptrRomPosicionado+=Word.LENGTH;
 			OffsetRom.SetOffset(ptrRomPosicionado,DatosMovimiento);
-			ptrRomPosicionado+=OffsetRom.LENGTH;
-			
+		
 		}
 	}
 }

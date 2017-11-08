@@ -76,7 +76,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{Bank,OffsetToByteToCompare.Offset};
+			return new Object[]{Bank,OffsetToByteToCompare};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{

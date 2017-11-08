@@ -77,8 +77,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 			efectoDeDesvanecimiento=*(ptrRom+offsetComando);
 			offsetComando++;
 			retardo=*(ptrRom+offsetComando);
-			offsetComando++;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
@@ -86,8 +84,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 			*ptrRomPosicionado=efectoDeDesvanecimiento;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado=retardo;
-			++ptrRomPosicionado;
-			
 		}
 	}
 }

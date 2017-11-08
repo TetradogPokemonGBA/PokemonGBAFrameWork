@@ -71,16 +71,14 @@ namespace PokemonGBAFrameWork.ComandosScript
 			dineroACoger=new DWord(ptrRom+offsetComando);
 			offsetComando+=DWord.LENGTH;
 			comprobarEjecucionComando=*(ptrRom+offsetComando);
-			offsetComando++;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			DWord.SetDWord(ptrRomPosicionado,DineroACoger);
 			ptrRomPosicionado+=DWord.LENGTH;
 			*ptrRomPosicionado=comprobarEjecucionComando;
-			++ptrRomPosicionado;
 			
 		}
 	}

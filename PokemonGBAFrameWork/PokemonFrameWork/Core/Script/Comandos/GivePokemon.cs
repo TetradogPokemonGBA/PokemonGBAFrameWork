@@ -81,8 +81,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 			nivel=*(ptrRom+offsetComando);
 			offsetComando++;
 			objetoEquipado=new Word(ptrRom,offsetComando);
-			offsetComando+=Word.LENGTH;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

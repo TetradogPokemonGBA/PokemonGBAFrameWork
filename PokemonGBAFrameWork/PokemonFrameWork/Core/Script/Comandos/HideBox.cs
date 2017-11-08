@@ -92,12 +92,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 			ancho=*(ptrRom+offsetComando);
 			offsetComando++;
 			alto=*(ptrRom+offsetComando);
-			offsetComando++;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			*ptrRomPosicionado=posicionX;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado=posicionY;
@@ -105,8 +104,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 			*ptrRomPosicionado=ancho;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado=alto;
-			++ptrRomPosicionado;
-			
 		}
 	}
 }

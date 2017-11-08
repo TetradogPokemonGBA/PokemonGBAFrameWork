@@ -65,15 +65,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			lugar=new Word(ptrRom,offsetComando);
-			offsetComando+=Word.LENGTH;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			Word.SetWord(ptrRomPosicionado,Lugar);
-			ptrRomPosicionado+=Word.LENGTH;
-			
 		}
 	}
 }

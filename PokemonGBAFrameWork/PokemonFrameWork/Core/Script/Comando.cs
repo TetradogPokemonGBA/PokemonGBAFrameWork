@@ -58,6 +58,8 @@ namespace PokemonGBAFrameWork
 				IBloqueConNombre bloque;
 				Word auxWord;
 				DWord auxDWord;
+				OffsetRom auxOffsetRom;
+				Hex valor;
 				for (int i = 0; i < parametros.Count; i++) {
 					strLinea.Append(" ");
 					bloque = parametros[i] as IBloqueConNombre;
@@ -67,14 +69,20 @@ namespace PokemonGBAFrameWork
 					} else {
 						
 						strLinea.Append("0x");
-						try{
-							auxWord=(Word)parametros[i];
-							strLinea.Append(((Hex)auxWord).ToString());
-						}catch{
-							
-							auxDWord=(DWord)parametros[i];
-							strLinea.Append(((Hex)auxDWord).ToString());
+						try {
+							auxWord = (Word)parametros[i];
+							valor = (Hex)auxWord;
+						} catch {
+							try {
+								auxDWord = (DWord)parametros[i];
+								valor = (Hex)auxDWord;
+							} catch {
+								//si es un OffsetRom
+								auxOffsetRom = (OffsetRom)parametros[i];
+								valor = (Hex)auxOffsetRom.Offset;
+							}
 						}
+						strLinea.Append(valor.ToString());
 						
 						
 					}
@@ -113,7 +121,6 @@ namespace PokemonGBAFrameWork
 		protected virtual unsafe void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			*ptrRomPosicionado = IdComando;
-			ptrRomPosicionado++;
 		}
 		public bool CheckCompatibilidad(PokemonGBAFrameWork.AbreviacionCanon abreviacion)
 		{

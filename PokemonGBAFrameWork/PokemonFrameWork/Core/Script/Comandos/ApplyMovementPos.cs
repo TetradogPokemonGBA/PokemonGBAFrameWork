@@ -78,7 +78,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{personajeAUsar,datosMovimiento.Offset,coordenadaX,coordenadaY};
+			return new Object[]{personajeAUsar,datosMovimiento,coordenadaX,coordenadaY};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
@@ -89,12 +89,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 			coordenadaX=*(ptrRom+offsetComando);
 			offsetComando++;
 			coordenadaY=*(ptrRom+offsetComando);
-			offsetComando++;
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			Word.SetWord(ptrRomPosicionado,PersonajeAUsar);
 			ptrRomPosicionado+=Word.LENGTH;
 			OffsetRom.SetOffset(ptrRomPosicionado,datosMovimiento);
@@ -102,8 +102,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			*ptrRomPosicionado=coordenadaX;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado=coordenadaY;
-			++ptrRomPosicionado;
-			
+		
 		}
 	}
 }

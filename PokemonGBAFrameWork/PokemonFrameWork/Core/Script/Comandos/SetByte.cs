@@ -66,8 +66,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			*ptrRomPosicionado=byteAPoner;
 			ptrRomPosicionado++;
+			*ptrRomPosicionado=byteAPoner;
 		}
 
 		public override int Size {
@@ -130,7 +130,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 			*ptrRomPosicionado=memoryBankToUse;
 			ptrRomPosicionado++;
 			*ptrRomPosicionado=ByteAPoner;
-			ptrRomPosicionado++;
 		}
 	}
 }

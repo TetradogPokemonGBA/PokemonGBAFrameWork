@@ -79,25 +79,18 @@ namespace PokemonGBAFrameWork.ComandosScript
 			offsetComando+=Word.LENGTH;
 
 			cantidad=new Word(ptrRom,offsetComando);
-
-			offsetComando+=Word.LENGTH;
-
-			
+		
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			fixed(byte* ptrDecoracion=ObjetoAAñadir.Data)
-				Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,ptrDecoracion,ObjetoAAñadir.Data.Length);
+			ptrRomPosicionado++;
+			Word.SetWord(ptrRomPosicionado,ObjetoAAñadir);
 			
 
 			ptrRomPosicionado+=Word.LENGTH;
+			Word.SetWord(ptrRomPosicionado,Cantidad);
 
-			fixed(byte* ptrDecoracion=Cantidad.Data)
-				Gabriel.Cat.MetodosUnsafe.WriteBytes(ptrRomPosicionado,ptrDecoracion,Cantidad.Data.Length);
-			
-
-			ptrRomPosicionado+=Word.LENGTH;
 
 			
 		}

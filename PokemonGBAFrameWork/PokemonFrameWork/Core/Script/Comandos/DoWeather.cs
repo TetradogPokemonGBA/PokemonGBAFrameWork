@@ -48,18 +48,6 @@ namespace PokemonGBAFrameWork.ComandosScript
    }
   }
                          
-  protected override System.Collections.Generic.IList<object> GetParams()
-  {
-   return new Object[]{};
-  }
-  protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-  {
-   
-  }
-  protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-  {
-    base.SetComando(ptrRomPosicionado,parametrosExtra);
-   
-  }
+ 
  }
 }
