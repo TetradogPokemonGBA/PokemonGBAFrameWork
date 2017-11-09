@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.ComandosScript
  public class CmdD5:Comando
  {
   public const byte ID=0xD5;
-  public const int SIZE=3;
+  public const int SIZE=1;
   
   public CmdD5() 
   {

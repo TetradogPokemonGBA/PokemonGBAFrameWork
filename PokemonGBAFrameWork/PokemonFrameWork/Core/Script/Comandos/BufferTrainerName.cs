@@ -64,7 +64,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return entrenador; }
 			set{ entrenador = value; }
 		}
- 
+ 		protected override AbreviacionCanon GetCompatibilidad()
+		{
+			return AbreviacionCanon.BPE;
+		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ buffer, entrenador };

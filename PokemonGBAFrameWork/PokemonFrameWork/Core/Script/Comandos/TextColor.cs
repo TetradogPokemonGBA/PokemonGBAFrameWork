@@ -3,7 +3,7 @@
  * Licencia GNU GPL V3
  */
 using System;
-
+//mirar de poner una enumeracion con los colores posibles :)
 namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
@@ -58,7 +58,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return color; }
 			set{ color = value; }
 		}
- 
+		protected override AbreviacionCanon GetCompatibilidad()
+		{
+			return AbreviacionCanon.BPG|AbreviacionCanon.BPR;
+		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ color };

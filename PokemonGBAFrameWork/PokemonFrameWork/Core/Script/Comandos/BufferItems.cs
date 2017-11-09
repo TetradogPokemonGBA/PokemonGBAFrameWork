@@ -70,7 +70,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return cantidad; }
 			set{ cantidad = value; }
 		}
- 
+ 		protected override AbreviacionCanon GetCompatibilidad()
+		{
+			return AbreviacionCanon.BPG|AbreviacionCanon.BPR;
+		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ buffer, objetoAGuardar, cantidad };

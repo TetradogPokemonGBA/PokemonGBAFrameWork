@@ -52,6 +52,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-
+		protected override AbreviacionCanon GetCompatibilidad()
+		{
+			return AbreviacionCanon.BPE;
+		}
 	}
 }

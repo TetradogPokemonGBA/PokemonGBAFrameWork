@@ -37,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Changes the catch location for a specified Pokémon in player's party.";
+				return "Cambia el lugar donde se ha capturado un pokemon del equipo.";
 			}
 		}
 
