@@ -15,17 +15,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// </summary>
 	public class WaitFanFare:Comando
 	{
-		public const byte ID=0x32;
+		public const byte ID = 0x32;
 
 		public WaitFanFare()
-		{}
-		public WaitFanFare(RomGba rom,int offset):base(rom,offset)
 		{
 		}
-		public WaitFanFare(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe WaitFanFare(byte* ptRom,int offset):base(ptRom,offset)
-		{}
+		public WaitFanFare(RomGba rom, int offset)
+			: base(rom, offset)
+		{
+		}
+		public WaitFanFare(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
+		{
+		}
+		public unsafe WaitFanFare(byte* ptRom, int offset)
+			: base(ptRom, offset)
+		{
+		}
 		public override string Descripcion {
 			get {
 				return "Espera a que acabe la reproduccion de un fanfare";

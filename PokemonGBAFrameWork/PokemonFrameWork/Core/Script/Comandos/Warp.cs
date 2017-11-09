@@ -24,23 +24,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 		Word coordenadaX;
 		Word coordenadaY;
 		
-		public Warp(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY)
+		public Warp(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 		{
-			Bank=bank;
-			Map=map;
-			Exit=exit;
-			CoordenadaX=coordenadaX;
-			CoordenadaY=coordenadaY;
+			Bank = bank;
+			Map = map;
+			Exit = exit;
+			CoordenadaX = coordenadaX;
+			CoordenadaY = coordenadaY;
 		}
-		public Warp(RomGba rom, int offset) : base(rom, offset)
-		{
-		}
-
-		public Warp(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public Warp(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public unsafe Warp(byte* ptRom, int offset) : base(ptRom, offset)
+		public Warp(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
+		{
+		}
+
+		public unsafe Warp(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -114,49 +117,53 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{Bank,Map,Exit,CoordenadaX,CoordenadaY};
+			return new Object[]{ Bank, Map, Exit, CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bank=ptrRom[offsetComando++];
-			map=ptrRom[offsetComando++];
-			exit=ptrRom[offsetComando++];
-			coordenadaX=new Word(ptrRom,offsetComando);
-			offsetComando+=Word.LENGTH;
-			coordenadaY=new Word(ptrRom,offsetComando);
+			bank = ptrRom[offsetComando++];
+			map = ptrRom[offsetComando++];
+			exit = ptrRom[offsetComando++];
+			coordenadaX = new Word(ptrRom, offsetComando);
+			offsetComando += Word.LENGTH;
+			coordenadaY = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=bank;
+			*ptrRomPosicionado = bank;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=map;
+			*ptrRomPosicionado = map;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=exit;
+			*ptrRomPosicionado = exit;
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado,coordenadaX);
-			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetWord(ptrRomPosicionado,coordenadaY);
+			Word.SetWord(ptrRomPosicionado, coordenadaX);
+			ptrRomPosicionado += Word.LENGTH;
+			Word.SetWord(ptrRomPosicionado, coordenadaY);
 		}
 	}
 	public class WarpWalk:Warp
 	{
 		public const byte ID = 0x3B;
 
-		public WarpWalk(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public WarpWalk(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public WarpWalk(RomGba rom, int offset) : base(rom, offset)
+		public WarpWalk(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public WarpWalk(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public WarpWalk(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpWalk(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe WarpWalk(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -182,19 +189,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3D;
 
-		public WarpTeleport(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public WarpTeleport(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public WarpTeleport(RomGba rom, int offset) : base(rom, offset)
+		public WarpTeleport(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public WarpTeleport(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public WarpTeleport(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpTeleport(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe WarpTeleport(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -220,19 +231,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3E;
 
-		public Warp3(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public Warp3(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public Warp3(RomGba rom, int offset) : base(rom, offset)
+		public Warp3(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public Warp3(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public Warp3(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp3(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe Warp3(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -258,19 +273,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x40;
 
-		public Warp4(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public Warp4(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public Warp4(RomGba rom, int offset) : base(rom, offset)
+		public Warp4(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public Warp4(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public Warp4(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp4(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe Warp4(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -295,19 +314,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Warp5:Warp
 	{
 		public const byte ID = 0x41;
-		public Warp5(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public Warp5(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public Warp5(RomGba rom, int offset) : base(rom, offset)
+		public Warp5(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public Warp5(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public Warp5(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp5(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe Warp5(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -333,19 +356,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3A;
 
-		public WarpMuted(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public WarpMuted(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public WarpMuted(RomGba rom, int offset) : base(rom, offset)
+		public WarpMuted(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public WarpMuted(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public WarpMuted(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpMuted(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe WarpMuted(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -371,19 +398,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x3F;
 
-		public SetWarpplace(byte bank,byte map,byte exit,Word coordenadaX,Word coordenadaY):base(bank,map,exit,coordenadaX,coordenadaY)
+		public SetWarpplace(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public SetWarpplace(RomGba rom, int offset) : base(rom, offset)
+		public SetWarpplace(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public SetWarpplace(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public SetWarpplace(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
 		{
 		}
 
-		public unsafe SetWarpplace(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe SetWarpplace(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 

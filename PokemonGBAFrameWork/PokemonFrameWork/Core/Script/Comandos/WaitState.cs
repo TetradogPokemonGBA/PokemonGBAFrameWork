@@ -15,18 +15,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// </summary>
 	public class WaitState:Comando
 	{
-		public const byte ID=0x27;
-		public const int SIZE=1;
+		public const byte ID = 0x27;
+		public const int SIZE = 1;
 		
 		public WaitState()
-		{}
-		public WaitState(RomGba rom,int offset):base(rom,offset)
 		{
 		}
-		public WaitState(byte[] bytesScript,int offset):base(bytesScript,offset)
-		{}
-		public unsafe WaitState(byte* ptRom,int offset):base(ptRom,offset)
-		{}
+		public WaitState(RomGba rom, int offset)
+			: base(rom, offset)
+		{
+		}
+		public WaitState(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
+		{
+		}
+		public unsafe WaitState(byte* ptRom, int offset)
+			: base(ptRom, offset)
+		{
+		}
 		public override string Descripcion {
 			get {
 				return "Pone a esperar al script a que cambie el estado del special o comando";

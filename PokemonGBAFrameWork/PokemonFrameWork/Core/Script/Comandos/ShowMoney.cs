@@ -82,19 +82,16 @@ namespace PokemonGBAFrameWork.ComandosScript
 			coordenadaY = *(ptrRom + offsetComando);
 			offsetComando++;
 			comprobarEjecucionComando = *(ptrRom + offsetComando);
-			offsetComando++;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			ptrRomPosicionado++;
 			*ptrRomPosicionado = coordenadaX;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado = coordenadaY;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado = comprobarEjecucionComando;
-			++ptrRomPosicionado;
-			
 		}
 	}
 }

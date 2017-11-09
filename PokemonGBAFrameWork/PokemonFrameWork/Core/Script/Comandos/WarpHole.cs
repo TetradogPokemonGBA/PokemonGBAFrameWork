@@ -22,21 +22,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 		byte bank;
 		byte map;
 		
-		public WarpHole(byte bank,byte map)
+		public WarpHole(byte bank, byte map)
 		{
-			Bank=bank;
-			Map=map;
+			Bank = bank;
+			Map = map;
 		}
 
-		public WarpHole(RomGba rom, int offset) : base(rom, offset)
-		{
-		}
-
-		public WarpHole(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public WarpHole(RomGba rom, int offset)
+			: base(rom, offset)
 		{
 		}
 
-		public unsafe WarpHole(byte* ptRom, int offset) : base(ptRom, offset)
+		public WarpHole(byte[] bytesScript, int offset)
+			: base(bytesScript, offset)
+		{
+		}
+
+		public unsafe WarpHole(byte* ptRom, int offset)
+			: base(ptRom, offset)
 		{
 		}
 
@@ -82,20 +85,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{Bank,Map};
+			return new Object[]{ Bank, Map };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bank=ptrRom[offsetComando++];
-			map=ptrRom[offsetComando];
+			bank = ptrRom[offsetComando++];
+			map = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=bank;
+			*ptrRomPosicionado = bank;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=map;
+			*ptrRomPosicionado = map;
 		}
 
 	}

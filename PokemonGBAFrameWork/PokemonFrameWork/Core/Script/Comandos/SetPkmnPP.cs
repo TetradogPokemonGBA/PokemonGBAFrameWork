@@ -80,19 +80,16 @@ namespace PokemonGBAFrameWork.ComandosScript
 			slotAtaque=*(ptrRom+offsetComando);
 			offsetComando++;
 			pPAPoner=new Word(ptrRom,offsetComando);
-			offsetComando+=Word.LENGTH;
-			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			ptrRomPosicionado++;
 			*ptrRomPosicionado=pokemon;
 			++ptrRomPosicionado;
 			*ptrRomPosicionado=slotAtaque;
 			++ptrRomPosicionado;
 			Word.SetWord(ptrRomPosicionado,PPAPoner);
-			ptrRomPosicionado+=Word.LENGTH;
-			
 		}
 	}
 }
