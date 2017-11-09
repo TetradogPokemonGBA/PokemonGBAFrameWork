@@ -551,7 +551,201 @@ namespace PokemonGBAFrameWork
 					case PokemonGBAFrameWork.ComandosScript.Cry.ID:
 						comandoActual = new PokemonGBAFrameWork.ComandosScript.Cry(ptrRom, offsetScript);
 						break;
-						//falta poner los comandos que faltan,revisarlos y poner sus posibles opciones :)
+						
+						case SetMapTile.ID:
+						comandoActual = new SetMapTile(ptrRom, offsetScript);
+						break;
+						case ResetWeather.ID:
+						comandoActual = new ResetWeather(ptrRom, offsetScript);
+						break;
+						case SetWeather.ID:
+						comandoActual = new SetWeather(ptrRom, offsetScript);
+						break;
+						case DoWeather.ID:
+						comandoActual = new DoWeather(ptrRom, offsetScript);
+						break;
+						case CmdA6.ID:
+						comandoActual = new CmdA6(ptrRom, offsetScript);
+						break;
+						case SetMapFooter.ID:
+						comandoActual = new SetMapFooter(ptrRom, offsetScript);
+						break;
+						case SpriteLevelUp.ID:
+						comandoActual = new SpriteLevelUp(ptrRom, offsetScript);
+						break;
+						case RestoreSpriteLevel.ID:
+						comandoActual = new RestoreSpriteLevel(ptrRom, offsetScript);
+						break;
+						case CreateSprite.ID:
+						comandoActual = new CreateSprite(ptrRom, offsetScript);
+						break;
+						case SpriteFace2.ID:
+						comandoActual = new SpriteFace2(ptrRom, offsetScript);
+						break;
+						case SetDoorOpened.ID:
+						comandoActual = new SetDoorOpened(ptrRom, offsetScript);
+						break;
+						case SetDoorClosed.ID:
+						comandoActual = new SetDoorClosed(ptrRom, offsetScript);
+						break;
+						case DoorChange.ID:
+						comandoActual = new DoorChange(ptrRom, offsetScript);
+						break;
+						case SetDoorOpened2.ID:
+						comandoActual = new SetDoorOpened2(ptrRom, offsetScript);
+						break;
+						case CmdB1.ID:
+						comandoActual = new CmdB1(ptrRom, offsetScript);
+						break;
+						case CmdB2.ID:
+						comandoActual = new CmdB2(ptrRom, offsetScript);
+						break;
+						case CheckCoins.ID:
+						comandoActual = new CheckCoins(ptrRom, offsetScript);
+						break;
+						case GiveCoins.ID:
+						comandoActual = new GiveCoins(ptrRom, offsetScript);
+						break;
+						case RemoveCoins.ID:
+						comandoActual = new RemoveCoins(ptrRom, offsetScript);
+						break;
+						case SetWildBattle.ID:
+						comandoActual = new SetWildBattle(ptrRom, offsetScript);
+						break;
+						case DoWildBattle.ID:
+						comandoActual = new DoWildBattle(ptrRom, offsetScript);
+						break;
+						case SetVirtualAddress.ID:
+						comandoActual = new SetVirtualAddress(ptrRom, offsetScript);
+						break;
+						case VirtualGoto.ID:
+						comandoActual = new VirtualGoto(ptrRom, offsetScript);
+						break;
+						case VirtualCall.ID:
+						comandoActual = new VirtualCall(ptrRom, offsetScript);
+						break;
+						case VirtualGotoIf.ID:
+						comandoActual = new VirtualGotoIf(ptrRom, offsetScript);
+						break;
+						case VirtualCallIf.ID:
+						comandoActual = new VirtualCallIf(ptrRom, offsetScript);
+						break;
+						case VirtualMsgBox.ID:
+						comandoActual = new VirtualMsgBox(ptrRom, offsetScript);
+						break;
+						case VirtualLoadPointer.ID:
+						comandoActual = new VirtualLoadPointer(ptrRom, offsetScript);
+						break;
+						case VirtualBuffer.ID:
+						comandoActual = new VirtualBuffer(ptrRom, offsetScript);
+						break;
+						case ShowCoins.ID:
+						comandoActual = new ShowCoins(ptrRom, offsetScript);
+						break;
+						case HideCoins.ID:
+						comandoActual = new HideCoins(ptrRom, offsetScript);
+						break;
+						case UpdateCoins.ID:
+						comandoActual = new UpdateCoins(ptrRom, offsetScript);
+						break;
+						case CmdC3.ID:
+						comandoActual = new CmdC3(ptrRom, offsetScript);
+						break;
+						case Warp6.ID:
+						comandoActual = new Warp6(ptrRom, offsetScript);
+						break;
+						case WaitCry.ID:
+						comandoActual = new WaitCry(ptrRom, offsetScript);
+						break;
+						case BufferBoxName.ID:
+						comandoActual = new BufferBoxName(ptrRom, offsetScript);
+						break;
+						case TextColor.ID:
+						comandoActual = new TextColor(ptrRom, offsetScript);
+						break;
+						case CmdC8.ID:
+						comandoActual = new CmdC8(ptrRom, offsetScript);
+						break;
+						case CmdC9.ID:
+						comandoActual = new CmdC9(ptrRom, offsetScript);
+						break;
+						case SignMsg.ID:
+						comandoActual = new SignMsg(ptrRom, offsetScript);
+						break;
+						case NormalMsg.ID:
+						comandoActual = new NormalMsg(ptrRom, offsetScript);
+						break;
+						case CompareHiddenVar.ID:
+						comandoActual = new CompareHiddenVar(ptrRom, offsetScript);
+						break;
+						case SetOvedience.ID:
+						comandoActual = new SetOvedience(ptrRom, offsetScript);
+						break;
+						case CheckObedience.ID:
+						comandoActual = new CheckObedience(ptrRom, offsetScript);
+						break;
+						case ExecuteRam.ID:
+						comandoActual = new ExecuteRam(ptrRom, offsetScript);
+						break;
+						case SetWorldMapFlag.ID:
+						comandoActual = new SetWorldMapFlag(ptrRom, offsetScript);
+						break;
+						case WarpTeleport2.ID:
+						comandoActual = new WarpTeleport2(ptrRom, offsetScript);
+						break;
+						case SetCatchLocation.ID:
+						comandoActual = new SetCatchLocation(ptrRom, offsetScript);
+						break;
+						case Braille2.ID:
+						comandoActual = new Braille2(ptrRom, offsetScript);
+						break;
+						case BufferItems.ID:
+						comandoActual = new BufferItems(ptrRom, offsetScript);
+						break;
+						case CmdD5.ID:
+						comandoActual = new CmdD5(ptrRom, offsetScript);
+						break;
+						case CmdD6.ID:
+						comandoActual = new CmdD6(ptrRom, offsetScript);
+						break;
+						case Warp7.ID:
+						comandoActual = new Warp7(ptrRom, offsetScript);
+						break;
+						case CmdD8.ID:
+						comandoActual = new CmdD8(ptrRom, offsetScript);
+						break;
+						case CmdD9.ID:
+						comandoActual = new CmdD9(ptrRom, offsetScript);
+						break;
+						case HideBox2.ID:
+						comandoActual = new HideBox2(ptrRom, offsetScript);
+						break;
+						case PrepareMsg3.ID:
+						comandoActual = new PrepareMsg3(ptrRom, offsetScript);
+						break;
+						case FadeScreen3.ID:
+						comandoActual = new FadeScreen3(ptrRom, offsetScript);
+						break;
+						case BufferTrainerClass.ID:
+						comandoActual = new BufferTrainerClass(ptrRom, offsetScript);
+						break;
+						case BufferTrainerName.ID:
+						comandoActual = new BufferTrainerName(ptrRom, offsetScript);
+						break;
+						case PokenavCall.ID:
+						comandoActual = new PokenavCall(ptrRom, offsetScript);
+						break;
+						case Warp8.ID:
+						comandoActual = new Warp8(ptrRom, offsetScript);
+						break;
+						case BufferContestType.ID:
+						comandoActual = new BufferContestType(ptrRom, offsetScript);
+						break;
+						case BufferItems2.ID:
+						comandoActual = new BufferItems2(ptrRom, offsetScript);
+						break;
+
+						//falta revisarlos y poner sus posibles opciones :) y con el tiempo acabar de hacerlo cómodo :)
 					case RETURN:
 					case END:
 						break;

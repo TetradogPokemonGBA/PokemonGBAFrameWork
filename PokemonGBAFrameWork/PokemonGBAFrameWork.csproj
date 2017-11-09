@@ -105,6 +105,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\ApplyMovement.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\ApplyMovementPos.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\Braille.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\Braille2.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\BufferAttack.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\BufferBoxName.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\BufferContestType.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\VirtualCallIf.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\VirtualGoto.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\VirtualGotoIf.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\Comandos\VirtualLoadPointer.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\VirtualMsgBox.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\WaitCry.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\WaitFanFare.cs" />

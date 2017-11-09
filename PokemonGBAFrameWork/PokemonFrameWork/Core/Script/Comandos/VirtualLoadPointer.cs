@@ -7,35 +7,35 @@ using System;
 namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
-	/// Description of cmdA6.
+	/// Description of VirtualLoadPointer.
 	/// </summary>
-	public class CmdA6:Comando
+	public class VirtualLoadPointer:Comando
 	{
-		public const byte ID = 0xA6;
-		public const int SIZE = 2;
-		Byte unknow;
+		public const byte ID = 0xBE;
+		public const int SIZE = 5;
+		OffsetRom text;
  
-		public CmdA6(Byte unknow)
+		public VirtualLoadPointer(OffsetRom text)
 		{
-			Unknow = unknow;
+			Text = text;
  
 		}
    
-		public CmdA6(RomGba rom, int offset)
+		public VirtualLoadPointer(RomGba rom, int offset)
 			: base(rom, offset)
 		{
 		}
-		public CmdA6(byte[] bytesScript, int offset)
+		public VirtualLoadPointer(byte[] bytesScript, int offset)
 			: base(bytesScript, offset)
 		{
 		}
-		public unsafe CmdA6(byte* ptRom, int offset)
+		public unsafe VirtualLoadPointer(byte* ptRom, int offset)
 			: base(ptRom, offset)
 		{
 		}
 		public override string Descripcion {
 			get {
-				return "Bajo investigación...";
+				return "Prepara un pointer para un dialogo de texto.";
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "cmdA6";
+				return "VirtualLoadPointer";
 			}
 		}
 		public override int Size {
@@ -54,23 +54,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Unknow {
-			get{ return unknow; }
-			set{ unknow = value; }
+		public OffsetRom Text {
+			get{ return text; }
+			set{ text = value; }
 		}
  
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ unknow };
+			return new Object[]{ text };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			unknow = *(ptrRom + offsetComando);		}
+			text =  new OffsetRom(ptrRom, offsetComando);
+		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			*ptrRomPosicionado = unknow; 
+			OffsetRom.SetOffset(ptrRomPosicionado, text);
 		}
 	}
 }

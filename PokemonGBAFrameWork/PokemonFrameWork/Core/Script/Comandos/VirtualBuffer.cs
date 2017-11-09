@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			buffer=*(ptrRom+offsetComando);
 			offsetComando++;
-			texto=new OffsetRom(ptrRom,offsetComando)
+			texto=new OffsetRom(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
