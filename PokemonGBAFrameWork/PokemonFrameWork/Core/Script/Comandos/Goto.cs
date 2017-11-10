@@ -13,7 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x5;
 
-		public Goto(Script script):base(script)
+		/*public Goto(Script script):base(script)
+		{}*/
+		public Goto(OffsetRom script):base(script)
 		{}
 		public Goto(RomGba rom, int offset) : base(rom, offset)
 		{

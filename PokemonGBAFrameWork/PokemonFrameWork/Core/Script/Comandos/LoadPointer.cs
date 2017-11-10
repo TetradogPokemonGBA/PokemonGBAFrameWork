@@ -22,7 +22,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 		byte memoryBankToUse;
 
 		
-		public LoadPointer(byte memoryBankToUse,Script scriptToLoad):base(scriptToLoad)
+		/*public LoadPointer(byte memoryBankToUse,Script scriptToLoad):base(scriptToLoad)
+		{
+			MemoryBankToUse=memoryBankToUse;
+		}*/
+		public LoadPointer(byte memoryBankToUse,OffsetRom scriptToLoad):base(scriptToLoad)
 		{
 			MemoryBankToUse=memoryBankToUse;
 		}
