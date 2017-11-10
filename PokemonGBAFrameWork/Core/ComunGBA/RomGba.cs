@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Es la rom cargada en la ram
 	/// </summary>
-	public class RomGba:ObjectAutoId 
+	public class RomGba:ObjectAutoId
 	{
 		public const string EXTENSION=".gba";
 		
@@ -31,7 +31,7 @@ namespace PokemonGBAFrameWork
 		public RomGba(string pathRom):this(new FileInfo(pathRom))
 		{
 
-		
+			
 		}
 		public RomGba(FileInfo romFile)
 		{
@@ -40,26 +40,26 @@ namespace PokemonGBAFrameWork
 			if(romFile==null)
 				throw new ArgumentNullException();
 			
-     		nombre=System.IO.Path.GetFileNameWithoutExtension(romFile.FullName);
-			path=romFile.FullName.Substring(0,romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length); 
-		
+			nombre=System.IO.Path.GetFileNameWithoutExtension(romFile.FullName);
+			path=romFile.FullName.Substring(0,romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length);
+			
 		}
 		private RomGba()
 		{}
-        #endregion
-        #region propiedades
+		#endregion
+		#region propiedades
 		public Edicion Edicion {
 			get {
-        		if(edicion==null)
-        			LoadEdicion();
-				return edicion;
+				//no se porque si pongo if(edicion==null) pasa del if olimpicamente...
+				this.edicion =Edicion.GetEdicion(this);
+				return this.edicion;
 			}
 		}
 
 		public BloqueBytes Data {
 			get {
-        		if(romData==null)
-        			Load();
+				if(romData==null)
+					Load();
 				return romData;
 			}
 		}
@@ -69,11 +69,14 @@ namespace PokemonGBAFrameWork
 				return nombre;
 			}
 			set{
+				string pathAnterior=FullPath;
 				
-				if(String.IsNullOrEmpty(value))//null or ""
-					nombre="Hack "+edicion.NombreCompleto;
-				else nombre=value;
-			
+				if(Data!=null){
+					if(String.IsNullOrEmpty(value))//null or ""
+						nombre="Hack "+edicion.NombreCompleto;
+					else nombre=value;
+				}
+				System.IO.File.Move(pathAnterior,FullPath);
 			}
 		}
 
@@ -82,40 +85,37 @@ namespace PokemonGBAFrameWork
 				return path;
 			}
 			set {
-        		if(!Directory.Exists(value))
-        			throw new ArgumentException();
+				if(!Directory.Exists(value))
+					throw new ArgumentException();
 				path = value;
 			}
 		}
 
-        public string FullPath{
-        	get{
-        		string nombreArchivoConExtension=Nombre+EXTENSION;
-        		return System.IO.Path.Combine(path,nombreArchivoConExtension);}
-        }
-        public byte this[int index]
-        {
-        	get{return Data[index];}
-        	set{Data[index]=value;}
-        }
-        #endregion
-        
-        #region Metodos
-        /// <summary>
-        /// Carga la edicion de los datos en memoria
-        /// </summary>
-		public void LoadEdicion()
-		{
-			edicion=Edicion.GetEdicion(this);
+		public string FullPath{
+			get{
+				string nombreArchivoConExtension=Nombre+EXTENSION;
+				return System.IO.Path.Combine(path,nombreArchivoConExtension);}
 		}
+		public byte this[int index]
+		{
+			get{return Data[index];}
+			set{Data[index]=value;}
+		}
+		#endregion
+		
+		#region Metodos
+
 		/// <summary>
 		/// Pone la edicion en los datos en memoria
 		/// </summary>
 		public void SaveEdicion()
 		{
-			Edicion.SetEdicion(this,edicion);
+			Edicion.SetEdicion(this,Edicion);
 		}
-		
+		public void LoadEdicion()
+		{
+			edicion=null;//asi cuando la lean por la propiedad la cargaran...
+		}
 		public void Save()
 		{
 			if(File.Exists(FullPath))
@@ -144,7 +144,7 @@ namespace PokemonGBAFrameWork
 		/// <returns>Ruta backup</returns>
 		public string BackUp()
 		{
-			string path=Path+"BackUp."+DateTime.Now.Ticks+"."+Nombre+EXTENSION; 
+			string path=Path+"BackUp."+DateTime.Now.Ticks+"."+Nombre+EXTENSION;
 			File.WriteAllBytes(path,Data.Bytes);
 			return path;
 			
@@ -158,14 +158,14 @@ namespace PokemonGBAFrameWork
 			RomGba rom=new RomGba();
 			rom.Path=Path;
 			rom.Nombre=Nombre;
-			rom.edicion=this.Edicion.Clone(); 
+			rom.edicion=this.Edicion.Clone();
 			rom.romData=rom.Data.Clon();
 			return rom;
 		}
 		#endregion
 		
 		#region Overrides
-		public override string ToString() 
+		public override string ToString()
 		{
 			return string.Format("[RomGba Nombre={0}]", Nombre);
 		}

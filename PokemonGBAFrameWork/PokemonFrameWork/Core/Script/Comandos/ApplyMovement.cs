@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			personajeAUsar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
-			datosMovimiento=new OffsetRom(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);
+			datosMovimiento=new OffsetRom(ptrRom,offsetComando);
 
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)

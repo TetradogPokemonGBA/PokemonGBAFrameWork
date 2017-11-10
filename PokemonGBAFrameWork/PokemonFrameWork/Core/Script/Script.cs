@@ -60,7 +60,10 @@ namespace PokemonGBAFrameWork
 		}
 		unsafe void Cargar(byte* ptrRom, int offsetScript)
 		{
+			//quizas no siempre acaba en end o return y acaba por ejemplo llamando a otra funcion...por mirar...
 			//obtengo los comandos hasta encontrar return o end
+			//podria ser que un byteComandoActual depende de una edicion u otra llama a una funcion...u otra???sino no me lo explico...
+			//RojoFuegoEsp->1657F0 el call que hay llama a un script que contiene comandos de Esmeralda...es raro...
 			byte byteComandoActual;
 			Comando comandoActual;
 			

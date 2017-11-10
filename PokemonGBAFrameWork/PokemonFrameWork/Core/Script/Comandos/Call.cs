@@ -73,7 +73,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom,int offsetActual)
 		{
-			Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
+			//podria ser que llamara a otra cosa que no fuese un script???
+			//Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
 		}
 
 		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)

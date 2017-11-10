@@ -17,7 +17,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class LoadPointer:Call
 	{
 		public const byte ID=0xF;
-		public const int SIZE=0x6;
+		public const int SIZE=Call.SIZE+1;
 		
 		byte memoryBankToUse;
 
