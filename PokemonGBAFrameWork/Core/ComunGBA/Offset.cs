@@ -63,18 +63,9 @@ namespace PokemonGBAFrameWork
 		{}
 		public unsafe OffsetRom(byte* ptrDatos)
 		{
-			byte* ptrBytesPointer;
-			bytesPointer=new byte[LENGTH];
-			fixed(byte* ptBytesPointer=bytesPointer)
-			{
-				ptrBytesPointer=ptBytesPointer;
-				for(int i=0;i<LENGTH;i++)
-				{
-					*ptrBytesPointer=*ptrDatos;
-					ptrBytesPointer++;
-					ptrDatos++;
-				}
-			}
+			bytesPointer=MetodosUnsafe.ReadBytes(ptrDatos,LENGTH);
+			if(!this.IsAPointer)
+				throw new PointerMalFormadoException(); 
 		}
 
 		public byte[] BytesPointer {

@@ -60,6 +60,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return condicion; }
 			set{ condicion = value; }
 		}
+		//si es un script poner el script directamente :) e implementar la interficie IDeclaracion
 		public OffsetRom FuncionPersonalizada {
 			get{ return funcionPersonalizada; }
 			set{ funcionPersonalizada = value; }

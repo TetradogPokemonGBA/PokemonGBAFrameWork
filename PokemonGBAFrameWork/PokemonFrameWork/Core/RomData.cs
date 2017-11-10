@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class RomData:ObjectAutoId
 	{
-		
+		//si se añaden más hacer propiedad y poner en el metodo UnLoad la forma de liberar la memoria
 		Compilacion compilacion;
 		EdicionPokemon edicion;
 		RomGba rom;
@@ -39,27 +39,20 @@ namespace PokemonGBAFrameWork
 		PokemonErrante.Ruta[] rutas;
 		//extras
 		Mugshots mugshots;
-		public RomData(string path):this(new RomGba(path))
-		{}
-		public RomData(FileInfo path):this(new RomGba(path))
-		{}
+		public RomData(string path)
+			: this(new RomGba(path))
+		{
+		}
+		public RomData(FileInfo path)
+			: this(new RomGba(path))
+		{
+		}
 		public RomData(RomGba rom)
 		{
-			Rom=rom;
-			ataques=new Llista<Ataque>(Ataque.GetAtaques(this));
-			entrenadores=new Llista<Entrenador>(Entrenador.GetEntrenadores(this));
-			clasesEntrenadores=new Llista<ClaseEntrenador>(ClaseEntrenador.GetClasesEntrenador(this));
-			pokedex=new Llista<Pokemon>(Pokemon.GetPokedex(this));
-			tipos=new Llista<Tipo>(Tipo.GetTipos(this));
-			habilidades=new Llista<Habilidad>(Habilidad.GetHabilidades(this));
-			pokeballsBatalla=new Llista<PokeballBatalla>(PokeballBatalla.GetPokeballsBatalla(this));
-			objetos=new Llista<Objeto>(Objeto.GetObjetos(this));
-			dicAtaquesPokemon=AtaquesAprendidos.GetAtaquesAprendidosDic(this);
-			paletasMinis=PaletasMinis.GetPaletasMinis(this);
-		    minis=new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this,paletasMinis));
-		    if(PokemonErrante.EsCompatible(this)) 
-		    	rutas=PokemonErrante.Ruta.GetRutas(this);
+			Rom = rom;
+			rom.UnLoaded+=UnLoad;
 			
+			//falta ponerlo en su sitio cuando esté acabado
 			/*if(Mugshots.EstaActivado(this))
 				mugshots=Mugshots.GetMugshots(this);
 			else mugshots=new Mugshots();*/
@@ -82,88 +75,147 @@ namespace PokemonGBAFrameWork
 			get {
 				return rom;
 			}
-			set{
-				rom=value;
-				edicion=EdicionPokemon.GetEdicionPokemon(rom);
-				compilacion=Compilacion.GetCompilacion(this);
+			set {
+				rom = value;
+				edicion = EdicionPokemon.GetEdicionPokemon(rom);
+				compilacion = Compilacion.GetCompilacion(this);
 				
 			}
 		}
 
 		public Llista<Ataque> Ataques {
 			get {
+				if (ataques == null)
+					ataques = new Llista<Ataque>(Ataque.GetAtaques(this));
 				return ataques;
 			}
 		}
 
 		public Llista<Entrenador> Entrenadores {
 			get {
+				if (entrenadores == null)
+					entrenadores = new Llista<Entrenador>(Entrenador.GetEntrenadores(this));
 				return entrenadores;
 			}
 		}
 
 		public Llista<ClaseEntrenador> ClasesEntrenadores {
 			get {
+				if (clasesEntrenadores == null)
+					clasesEntrenadores = new Llista<ClaseEntrenador>(ClaseEntrenador.GetClasesEntrenador(this));
 				return clasesEntrenadores;
 			}
 		}
 		public Llista<Pokemon> Pokedex {
 			get {
+				if (pokedex == null)
+					pokedex = new Llista<Pokemon>(Pokemon.GetPokedex(this));
 				return pokedex;
 			}
 		}
 
 		public Llista<Tipo> Tipos {
 			get {
+				if (tipos == null)
+					tipos = new Llista<Tipo>(Tipo.GetTipos(this));
 				return tipos;
 			}
 		}
 
 		public Llista<Habilidad> Habilidades {
 			get {
+				if (habilidades == null)
+					habilidades = new Llista<Habilidad>(Habilidad.GetHabilidades(this));
 				return habilidades;
 			}
 		}
 
 		public Llista<PokeballBatalla> PokeballsBatalla {
 			get {
+				if (pokeballsBatalla == null)
+					pokeballsBatalla = new Llista<PokeballBatalla>(PokeballBatalla.GetPokeballsBatalla(this));
 				return pokeballsBatalla;
 			}
 		}
 
 		public Llista<Objeto> Objetos {
 			get {
+				if (objetos == null)
+					objetos = new Llista<Objeto>(Objeto.GetObjetos(this));
 				return objetos;
 			}
 		}
 
 		public Llista<MiniSprite> Minis {
 			get {
+				if(minis==null)
+					minis = new Llista<MiniSprite>(MiniSprite.GetMiniSprites(this, paletasMinis));
 				return minis;
 			}
 		}
 
 		public PaletasMinis PaletasMinis {
 			get {
+				if (paletasMinis == null)
+					paletasMinis = PaletasMinis.GetPaletasMinis(this);
 				return paletasMinis;
 			}
 		}
-
+		/// <summary>
+		/// Son las rutas donde el pokemon errante salta (si es null es porque falta desarrollar la compatibilidad)
+		/// </summary>
 		public PokemonErrante.Ruta[] Rutas {
 			get {
+				if (rutas==null&&PokemonErrante.EsCompatible(this))
+					rutas = PokemonErrante.Ruta.GetRutas(this);
 				return rutas;
 			}
 		}
 		internal Mugshots Mugshots {
 			get {
+				
 				return mugshots;
 			}
 		}
 
 		public LlistaOrdenadaPerGrups<int, AtaquesAprendidos> DicAtaquesPokemon {
 			get {
+				if (dicAtaquesPokemon == null)
+					dicAtaquesPokemon = AtaquesAprendidos.GetAtaquesAprendidosDic(this);
 				return dicAtaquesPokemon;
 			}
+		}
+
+		void UnLoad(object sender, EventArgs e)
+		{
+			UnLoad();
+		}
+
+		public void UnLoad()
+		{
+			rom.UnLoaded-=UnLoad;
+			rom.UnLoad();
+			rom.UnLoaded+=UnLoad;
+			
+			compilacion=null;
+			edicion=null;
+
+			
+			//datos rom
+			ataques=null;
+			entrenadores=null;
+			clasesEntrenadores=null;
+			pokedex=null;
+			tipos=null;
+			habilidades=null;
+			pokeballsBatalla=null;
+			objetos=null;
+			minis=null;
+			paletasMinis=null;
+			dicAtaquesPokemon=null;
+			rutas=null;
+			//extras
+			mugshots=null;
 		}
 		public void Save()
 		{

@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Gabriel.Cat;
 using Gabriel.Cat.Extension;
@@ -856,6 +857,25 @@ namespace PokemonGBAFrameWork
 				bytesDeclaracion[offset] = RETURN;
 			
 			return bytesDeclaracion;
+		}
+		
+		public static IList<Script> FromXSE(string pathArchivoXSE)
+		{
+			if(!System.IO.File.Exists(pathArchivoXSE))
+				throw new System.IO.FileNotFoundException("No se ha podido encontrar el archivo...");
+			return FromXSE(System.IO.File.ReadAllLines(pathArchivoXSE));
+		}
+		public static IList<Script> FromXSE(IList<string> scriptXSE)
+		{
+			if(scriptXSE==null)
+				throw new ArgumentNullException("scriptXSE");
+			//quitar el dinamic
+			//tener en cuenta los define...
+			//quitar lineas en blanco
+			//anidar scripts anidados
+			SortedList<string,Script> dicScriptsCargados=new SortedList<string, Script>();
+			//por hacer...
+			return dicScriptsCargados.Values;
 		}
 	}
 }

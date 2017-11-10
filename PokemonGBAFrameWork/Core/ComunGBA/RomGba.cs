@@ -26,7 +26,7 @@ namespace PokemonGBAFrameWork
 		Edicion edicion;
 		BloqueBytes romData;
 		string nombre;
-		
+		public event EventHandler UnLoaded;
 		#region Constructores
 		public RomGba(string pathRom):this(new FileInfo(pathRom))
 		{
@@ -42,10 +42,7 @@ namespace PokemonGBAFrameWork
 			
      		nombre=System.IO.Path.GetFileNameWithoutExtension(romFile.FullName);
 			path=romFile.FullName.Substring(0,romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length); 
-			
-			Load();
-			LoadEdicion();
-			
+		
 		}
 		private RomGba()
 		{}
@@ -53,12 +50,16 @@ namespace PokemonGBAFrameWork
         #region propiedades
 		public Edicion Edicion {
 			get {
+        		if(edicion==null)
+        			LoadEdicion();
 				return edicion;
 			}
 		}
 
 		public BloqueBytes Data {
 			get {
+        		if(romData==null)
+        			Load();
 				return romData;
 			}
 		}
@@ -94,8 +95,8 @@ namespace PokemonGBAFrameWork
         }
         public byte this[int index]
         {
-        	get{return romData[index];}
-        	set{romData[index]=value;}
+        	get{return Data[index];}
+        	set{Data[index]=value;}
         }
         #endregion
         
@@ -119,13 +120,23 @@ namespace PokemonGBAFrameWork
 		{
 			if(File.Exists(FullPath))
 				File.Delete(FullPath);
+			
+			SaveEdicion();
 			Data.Bytes.Save(FullPath);
 		}
 		public void Load()
 		{
-			FileStream fs=new FileStream(FullPath,FileMode.Open,FileAccess.Read,FileShare.Read);
-			romData=new BloqueBytes(fs.ReadToEnd());
-			fs.Close();
+			romData=new BloqueBytes(File.ReadAllBytes(FullPath));
+		}
+		/// <summary>
+		/// Descarga los datos de la memoria ram
+		/// </summary>
+		public void UnLoad()
+		{
+			romData=null;
+			edicion=null;
+			if(UnLoaded!=null)
+				UnLoaded(this,new EventArgs());
 		}
 		/// <summary>
 		/// Crea una backup de los datos en memoria
@@ -147,7 +158,7 @@ namespace PokemonGBAFrameWork
 			RomGba rom=new RomGba();
 			rom.Path=Path;
 			rom.Nombre=Nombre;
-			rom.edicion=this.edicion.Clone(); 
+			rom.edicion=this.Edicion.Clone(); 
 			rom.romData=rom.Data.Clon();
 			return rom;
 		}
@@ -156,7 +167,7 @@ namespace PokemonGBAFrameWork
 		#region Overrides
 		public override string ToString() 
 		{
-			return string.Format("[RomGba Nombre={0}]", nombre);
+			return string.Format("[RomGba Nombre={0}]", Nombre);
 		}
 
 		#endregion

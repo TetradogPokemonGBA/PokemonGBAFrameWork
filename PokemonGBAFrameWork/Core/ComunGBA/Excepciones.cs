@@ -36,4 +36,8 @@ namespace PokemonGBAFrameWork
 	{
 		public ScriptMalFormadoException():base("Script mal formado"){}
 	}
+	public class PointerMalFormadoException:Exception
+	{
+		public PointerMalFormadoException():base("Pointer mal formado"){}
+	}
 }
