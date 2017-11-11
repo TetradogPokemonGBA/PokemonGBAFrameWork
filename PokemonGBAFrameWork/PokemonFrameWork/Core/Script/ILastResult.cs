@@ -8,7 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
-
+//implementar en todos los comandos, esta interficie sirve para dar información al usuario asi que los objetos pueden tener rangos de valores y valores exactos a poder ser todos los posibles por el comando y si se puede tener en cuenta el contexto para descartar valores...por ejemplo compare hara que lastresult tenga unos valores pero si antes del compare se especifica el valor habran menos...se tiene que estudiar para que esté lo más acotado posible ;)
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
