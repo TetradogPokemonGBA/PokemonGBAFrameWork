@@ -17,7 +17,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Script.
 	/// </summary>
-	public class Script:IDeclaracion,IBloqueConNombre
+	public class Script:IDeclaracion,IBloqueConNombre,ILastResult,IEndScript
 	{
 		public static readonly Creditos Creditos;
 		const string ENTER = "\r\n";
@@ -28,6 +28,7 @@ namespace PokemonGBAFrameWork
 		public static Hex OffsetInicioDynamic = "800000";
 		Llista<Comando> comandosScript;
 		string nombreBloque;
+		bool? isEndFinished;
 		static Script()
 		{
 			Creditos = new Creditos();
@@ -66,13 +67,13 @@ namespace PokemonGBAFrameWork
 			//RojoFuegoEsp->1657F0 el call que hay llama a un script que contiene comandos de Esmeralda...es raro...
 			byte byteComandoActual;
 			Comando comandoActual;
-			
+			IEndScript endScriptComando=null;
 			do {
 				comandoActual = null;
 				byteComandoActual = ptrRom[offsetScript];
 				offsetScript++;
 				switch (byteComandoActual) {
-				//pongo los comandos
+						//pongo los comandos
 					case Nop.ID:
 						comandoActual = new Nop(ptrRom, offsetScript);
 						break;
@@ -362,19 +363,19 @@ namespace PokemonGBAFrameWork
 						comandoActual = new ClearTrainerFlag(ptrRom, offsetScript);
 						break;
 					case SetTrainerFlag.ID:
-						comandoActual = new EndTrainerBattle(ptrRom, offsetScript);
+						comandoActual = new SetTrainerFlag(ptrRom, offsetScript);
 						break;
 					case MoveSprite2.ID:
-						comandoActual = new EndTrainerBattle(ptrRom, offsetScript);
+						comandoActual = new MoveSprite2(ptrRom, offsetScript);
 						break;
 					case MoveOffScreen.ID:
-						comandoActual = new EndTrainerBattle(ptrRom, offsetScript);
+						comandoActual = new MoveOffScreen(ptrRom, offsetScript);
 						break;
 					case SpriteBehave.ID:
-						comandoActual = new EndTrainerBattle(ptrRom, offsetScript);
+						comandoActual = new SpriteBehave(ptrRom, offsetScript);
 						break;
 					case WaitMsg.ID:
-						comandoActual = new EndTrainerBattle(ptrRom, offsetScript);
+						comandoActual = new WaitMsg(ptrRom, offsetScript);
 						break;
 					case PrepareMsg.ID:
 						comandoActual = new PrepareMsg(ptrRom, offsetScript);
@@ -499,8 +500,8 @@ namespace PokemonGBAFrameWork
 					case PokemonGBAFrameWork.ComandosScript.Random.ID:
 						comandoActual = new PokemonGBAFrameWork.ComandosScript.Random(ptrRom, offsetScript);
 						break;
-				//estos me los salto
-				//falta añadir asta CRY incluido
+						//estos me los salto
+						//falta añadir asta CRY incluido
 					case GiveMoney.ID:
 						comandoActual = new GiveMoney(ptrRom, offsetScript);
 						break;
@@ -523,7 +524,7 @@ namespace PokemonGBAFrameWork
 						comandoActual = new Cmd96(ptrRom, offsetScript);
 						break;
 					case FadeScreen.ID:
-						comandoActual = new FadeScreen(ptrRom, offsetScript); 
+						comandoActual = new FadeScreen(ptrRom, offsetScript);
 						break;
 					case FadeScreenDelay.ID:
 						comandoActual = new FadeScreenDelay(ptrRom, offsetScript);
@@ -556,196 +557,196 @@ namespace PokemonGBAFrameWork
 						comandoActual = new PokemonGBAFrameWork.ComandosScript.Cry(ptrRom, offsetScript);
 						break;
 						
-						case SetMapTile.ID:
+					case SetMapTile.ID:
 						comandoActual = new SetMapTile(ptrRom, offsetScript);
 						break;
-						case ResetWeather.ID:
+					case ResetWeather.ID:
 						comandoActual = new ResetWeather(ptrRom, offsetScript);
 						break;
-						case SetWeather.ID:
+					case SetWeather.ID:
 						comandoActual = new SetWeather(ptrRom, offsetScript);
 						break;
-						case DoWeather.ID:
+					case DoWeather.ID:
 						comandoActual = new DoWeather(ptrRom, offsetScript);
 						break;
-						case CmdA6.ID:
+					case CmdA6.ID:
 						comandoActual = new CmdA6(ptrRom, offsetScript);
 						break;
-						case SetMapFooter.ID:
+					case SetMapFooter.ID:
 						comandoActual = new SetMapFooter(ptrRom, offsetScript);
 						break;
-						case SpriteLevelUp.ID:
+					case SpriteLevelUp.ID:
 						comandoActual = new SpriteLevelUp(ptrRom, offsetScript);
 						break;
-						case RestoreSpriteLevel.ID:
+					case RestoreSpriteLevel.ID:
 						comandoActual = new RestoreSpriteLevel(ptrRom, offsetScript);
 						break;
-						case CreateSprite.ID:
+					case CreateSprite.ID:
 						comandoActual = new CreateSprite(ptrRom, offsetScript);
 						break;
-						case SpriteFace2.ID:
+					case SpriteFace2.ID:
 						comandoActual = new SpriteFace2(ptrRom, offsetScript);
 						break;
-						case SetDoorOpened.ID:
+					case SetDoorOpened.ID:
 						comandoActual = new SetDoorOpened(ptrRom, offsetScript);
 						break;
-						case SetDoorClosed.ID:
+					case SetDoorClosed.ID:
 						comandoActual = new SetDoorClosed(ptrRom, offsetScript);
 						break;
-						case DoorChange.ID:
+					case DoorChange.ID:
 						comandoActual = new DoorChange(ptrRom, offsetScript);
 						break;
-						case SetDoorOpened2.ID:
+					case SetDoorOpened2.ID:
 						comandoActual = new SetDoorOpened2(ptrRom, offsetScript);
 						break;
-						case CmdB1.ID:
+					case CmdB1.ID:
 						comandoActual = new CmdB1(ptrRom, offsetScript);
 						break;
-						case CmdB2.ID:
+					case CmdB2.ID:
 						comandoActual = new CmdB2(ptrRom, offsetScript);
 						break;
-						case CheckCoins.ID:
+					case CheckCoins.ID:
 						comandoActual = new CheckCoins(ptrRom, offsetScript);
 						break;
-						case GiveCoins.ID:
+					case GiveCoins.ID:
 						comandoActual = new GiveCoins(ptrRom, offsetScript);
 						break;
-						case RemoveCoins.ID:
+					case RemoveCoins.ID:
 						comandoActual = new RemoveCoins(ptrRom, offsetScript);
 						break;
-						case SetWildBattle.ID:
+					case SetWildBattle.ID:
 						comandoActual = new SetWildBattle(ptrRom, offsetScript);
 						break;
-						case DoWildBattle.ID:
+					case DoWildBattle.ID:
 						comandoActual = new DoWildBattle(ptrRom, offsetScript);
 						break;
-						case SetVirtualAddress.ID:
+					case SetVirtualAddress.ID:
 						comandoActual = new SetVirtualAddress(ptrRom, offsetScript);
 						break;
-						case VirtualGoto.ID:
+					case VirtualGoto.ID:
 						comandoActual = new VirtualGoto(ptrRom, offsetScript);
 						break;
-						case VirtualCall.ID:
+					case VirtualCall.ID:
 						comandoActual = new VirtualCall(ptrRom, offsetScript);
 						break;
-						case VirtualGotoIf.ID:
+					case VirtualGotoIf.ID:
 						comandoActual = new VirtualGotoIf(ptrRom, offsetScript);
 						break;
-						case VirtualCallIf.ID:
+					case VirtualCallIf.ID:
 						comandoActual = new VirtualCallIf(ptrRom, offsetScript);
 						break;
-						case VirtualMsgBox.ID:
+					case VirtualMsgBox.ID:
 						comandoActual = new VirtualMsgBox(ptrRom, offsetScript);
 						break;
-						case VirtualLoadPointer.ID:
+					case VirtualLoadPointer.ID:
 						comandoActual = new VirtualLoadPointer(ptrRom, offsetScript);
 						break;
-						case VirtualBuffer.ID:
+					case VirtualBuffer.ID:
 						comandoActual = new VirtualBuffer(ptrRom, offsetScript);
 						break;
-						case ShowCoins.ID:
+					case ShowCoins.ID:
 						comandoActual = new ShowCoins(ptrRom, offsetScript);
 						break;
-						case HideCoins.ID:
+					case HideCoins.ID:
 						comandoActual = new HideCoins(ptrRom, offsetScript);
 						break;
-						case UpdateCoins.ID:
+					case UpdateCoins.ID:
 						comandoActual = new UpdateCoins(ptrRom, offsetScript);
 						break;
-						case CmdC3.ID:
+					case CmdC3.ID:
 						comandoActual = new CmdC3(ptrRom, offsetScript);
 						break;
-						case Warp6.ID:
+					case Warp6.ID:
 						comandoActual = new Warp6(ptrRom, offsetScript);
 						break;
-						case WaitCry.ID:
+					case WaitCry.ID:
 						comandoActual = new WaitCry(ptrRom, offsetScript);
 						break;
-						case BufferBoxName.ID:
+					case BufferBoxName.ID:
 						comandoActual = new BufferBoxName(ptrRom, offsetScript);
 						break;
-						case TextColor.ID:
+					case TextColor.ID:
 						comandoActual = new TextColor(ptrRom, offsetScript);
 						break;
-						case CmdC8.ID:
+					case CmdC8.ID:
 						comandoActual = new CmdC8(ptrRom, offsetScript);
 						break;
-						case CmdC9.ID:
+					case CmdC9.ID:
 						comandoActual = new CmdC9(ptrRom, offsetScript);
 						break;
-						case SignMsg.ID:
+					case SignMsg.ID:
 						comandoActual = new SignMsg(ptrRom, offsetScript);
 						break;
-						case NormalMsg.ID:
+					case NormalMsg.ID:
 						comandoActual = new NormalMsg(ptrRom, offsetScript);
 						break;
-						case CompareHiddenVar.ID:
+					case CompareHiddenVar.ID:
 						comandoActual = new CompareHiddenVar(ptrRom, offsetScript);
 						break;
-						case SetOvedience.ID:
+					case SetOvedience.ID:
 						comandoActual = new SetOvedience(ptrRom, offsetScript);
 						break;
-						case CheckObedience.ID:
+					case CheckObedience.ID:
 						comandoActual = new CheckObedience(ptrRom, offsetScript);
 						break;
-						case ExecuteRam.ID:
+					case ExecuteRam.ID:
 						comandoActual = new ExecuteRam(ptrRom, offsetScript);
 						break;
-						case SetWorldMapFlag.ID:
+					case SetWorldMapFlag.ID:
 						comandoActual = new SetWorldMapFlag(ptrRom, offsetScript);
 						break;
-						case WarpTeleport2.ID:
+					case WarpTeleport2.ID:
 						comandoActual = new WarpTeleport2(ptrRom, offsetScript);
 						break;
-						case SetCatchLocation.ID:
+					case SetCatchLocation.ID:
 						comandoActual = new SetCatchLocation(ptrRom, offsetScript);
 						break;
-						case Braille2.ID:
+					case Braille2.ID:
 						comandoActual = new Braille2(ptrRom, offsetScript);
 						break;
-						case BufferItems.ID:
+					case BufferItems.ID:
 						comandoActual = new BufferItems(ptrRom, offsetScript);
 						break;
-						case CmdD5.ID:
+					case CmdD5.ID:
 						comandoActual = new CmdD5(ptrRom, offsetScript);
 						break;
-						case CmdD6.ID:
+					case CmdD6.ID:
 						comandoActual = new CmdD6(ptrRom, offsetScript);
 						break;
-						case Warp7.ID:
+					case Warp7.ID:
 						comandoActual = new Warp7(ptrRom, offsetScript);
 						break;
-						case CmdD8.ID:
+					case CmdD8.ID:
 						comandoActual = new CmdD8(ptrRom, offsetScript);
 						break;
-						case CmdD9.ID:
+					case CmdD9.ID:
 						comandoActual = new CmdD9(ptrRom, offsetScript);
 						break;
-						case HideBox2.ID:
+					case HideBox2.ID:
 						comandoActual = new HideBox2(ptrRom, offsetScript);
 						break;
-						case PrepareMsg3.ID:
+					case PrepareMsg3.ID:
 						comandoActual = new PrepareMsg3(ptrRom, offsetScript);
 						break;
-						case FadeScreen3.ID:
+					case FadeScreen3.ID:
 						comandoActual = new FadeScreen3(ptrRom, offsetScript);
 						break;
-						case BufferTrainerClass.ID:
+					case BufferTrainerClass.ID:
 						comandoActual = new BufferTrainerClass(ptrRom, offsetScript);
 						break;
-						case BufferTrainerName.ID:
+					case BufferTrainerName.ID:
 						comandoActual = new BufferTrainerName(ptrRom, offsetScript);
 						break;
-						case PokenavCall.ID:
+					case PokenavCall.ID:
 						comandoActual = new PokenavCall(ptrRom, offsetScript);
 						break;
-						case Warp8.ID:
+					case Warp8.ID:
 						comandoActual = new Warp8(ptrRom, offsetScript);
 						break;
-						case BufferContestType.ID:
+					case BufferContestType.ID:
 						comandoActual = new BufferContestType(ptrRom, offsetScript);
 						break;
-						case BufferItems2.ID:
+					case BufferItems2.ID:
 						comandoActual = new BufferItems2(ptrRom, offsetScript);
 						break;
 
@@ -753,17 +754,21 @@ namespace PokemonGBAFrameWork
 					case RETURN:
 					case END:
 						break;
-				//si no esta hago una excepcion
+						//si no esta hago una excepcion
 					default:
 						throw new ScriptMalFormadoException();
 				}
+				
 				if (comandoActual != null) {
+					endScriptComando = comandoActual as IEndScript;
 					comandosScript.Add(comandoActual);
 					offsetScript += comandoActual.Size;
 					offsetScript--;//resto el comando porque ya lo sumo antes
 				}
 				
-			} while(byteComandoActual != END && byteComandoActual != RETURN);
+			} while(byteComandoActual != END && byteComandoActual != RETURN && endScriptComando == null || !endScriptComando.IsEnd);
+			//tiene que ser un campo calculado...que lea el script y luego devuelva el valor...
+			isEndFinished = endScriptComando == null ? (byteComandoActual == END) : new Nullable<bool>();//si acaba con un goto/call/comandoIEndScript será null si acaba en end será true y si es return pues false
 		}
 		
 
@@ -773,6 +778,47 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+		#region ILastResult implementation
+		public IList<object> LastResult {
+			get {
+				ILastResult lastResult = null;
+				ILastResult aux;
+				for (int i = 0; i < comandosScript.Count; i++) {
+					aux = comandosScript[i] as ILastResult;
+					if (aux != null)
+						lastResult = aux;
+				}
+				return lastResult != null ? lastResult.LastResult : new object[0];
+			}
+		}
+
+		#region IEndScript implementation
+
+
+		public bool IsEnd {
+			get {
+				IEndScript iEnd = null;
+				IEndScript aux;
+				for (int i = 0; i < comandosScript.Count && iEnd == null; i++) {
+					aux = comandosScript[i] as IEndScript;
+					if (aux != null && aux.IsEnd)
+						iEnd = aux;
+				}
+				return iEnd != null;
+			}
+		}
+		/// <summary>
+		/// Es el valor que tiene al leerse de la rom si es null es porque acaba con un comando IEndScript
+		/// </summary>
+		public bool? IsEndFinished {
+			get {
+				return isEndFinished;
+			}
+		}
+
+		#endregion
+
+		#endregion
 		#region IBloqueConNombre implementation
 		public string NombreBloque {
 			get {
@@ -864,21 +910,22 @@ namespace PokemonGBAFrameWork
 		
 		public static IList<Script> FromXSE(string pathArchivoXSE)
 		{
-			if(!System.IO.File.Exists(pathArchivoXSE))
+			if (!System.IO.File.Exists(pathArchivoXSE))
 				throw new System.IO.FileNotFoundException("No se ha podido encontrar el archivo...");
 			return FromXSE(System.IO.File.ReadAllLines(pathArchivoXSE));
 		}
 		public static IList<Script> FromXSE(IList<string> scriptXSE)
 		{
-			if(scriptXSE==null)
+			if (scriptXSE == null)
 				throw new ArgumentNullException("scriptXSE");
 			//quitar el dinamic
 			//tener en cuenta los define...
 			//quitar lineas en blanco
 			//anidar scripts anidados
-			SortedList<string,Script> dicScriptsCargados=new SortedList<string, Script>();
+			SortedList<string,Script> dicScriptsCargados = new SortedList<string, Script>();
 			//por hacer...
 			return dicScriptsCargados.Values;
 		}
 	}
+	
 }

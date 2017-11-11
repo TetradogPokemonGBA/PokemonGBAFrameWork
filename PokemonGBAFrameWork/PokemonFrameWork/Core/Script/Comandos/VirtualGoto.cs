@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// <summary>
 	/// Description of VirtualGoto.
 	/// </summary>
-	public class VirtualGoto:Comando
+	public class VirtualGoto:Comando,IEndScript
 	{
 		public const byte ID = 0xB9;
 		public const int SIZE = 5;
@@ -58,7 +58,14 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return funcionPersonalizada; }
 			set{ funcionPersonalizada = value; }
 		}
- 
+
+		#region IEndScript implementation
+		public bool IsEnd {
+			get {
+				return true;
+			}
+		}
+		#endregion 
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ funcionPersonalizada };

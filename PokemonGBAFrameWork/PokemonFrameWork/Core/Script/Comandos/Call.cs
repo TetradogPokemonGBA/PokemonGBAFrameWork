@@ -9,22 +9,22 @@
 using System;
 
 namespace PokemonGBAFrameWork.ComandosScript
-{
+{//mirar si es obligatorio que acabe en return si no es asi se tendrá que leer el script y devolver ese valor...
 	/// <summary>
 	/// Description of Call.
 	/// </summary>
-	public class Call:Comando//,IDeclaracion
+	public class Call:Comando,IEndScript//,IDeclaracion
 	{
 		public const byte ID=0x4;
 		public const int SIZE=1+OffsetRom.LENGTH;
-		
-	/*	Script script;
+		/*
+		Script script;
 		
 		public Call(Script script)
 		{
 			Script=script;
-		}
-		*/
+		}*/
+		
 			OffsetRom script;
 		
 		public Call(OffsetRom script)
@@ -61,7 +61,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		/*public Script Script
+	/*	public Script Script
 		{
 			get{
 				return script;
@@ -86,6 +86,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 				
 			}
 		}	
+		public virtual bool IsEnd
+		{
+			get{return false;}
+		}
 		#region implemented abstract members of Comando
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
@@ -95,17 +99,17 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			//podria ser que llamara a otra cosa que no fuese un script???
 			//Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
-			Script=new OffsetRom(ptrRom,offsetActual);
+			 Script=new OffsetRom(ptrRom,offsetActual);
 		}
 
 		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)
 		{
-		//	OffsetRom offset;
+			OffsetRom offset;
 			base.SetComando(ptrRom,parametrosExtra);
 			ptrRom++;
 			try{
-				//offset=new OffsetRom(parametrosExtra[0]);
-				//OffsetRom.SetOffset(ptrRom,offset);
+			//	offset=new OffsetRom(parametrosExtra[0]);
+			//	OffsetRom.SetOffset(ptrRom,offset);
 				OffsetRom.SetOffset(ptrRom,Script);
 			}catch{
 				
@@ -118,8 +122,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		#endregion
 
 		#region IDeclaracion implementation
-/*
-		public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
+
+		/*public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
 		{
 			return script.GetDeclaracion(rom,parametrosExtra);
 		}

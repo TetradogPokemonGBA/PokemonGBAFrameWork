@@ -46,6 +46,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return "Continua con otro script";
 			}
 		}
+		public override bool IsEnd {
+			get {
+				return true;
+			}
+		}
 	}
 }
 

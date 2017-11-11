@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-			OffsetRom offset=new OffsetRom(parametrosExtra[0]);
+			OffsetRom offset=Script;//=new OffsetRom(parametrosExtra[0]);
 			*ptrRomPosicionado=IdComando;
 			ptrRomPosicionado++;
 			*ptrRomPosicionado=memoryBankToUse;

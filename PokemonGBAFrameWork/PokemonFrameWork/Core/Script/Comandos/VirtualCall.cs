@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// <summary>
 	/// Description of VirtualCall.
 	/// </summary>
-	public class VirtualCall:Comando
+	public class VirtualCall:Comando,IEndScript
 	{
 		public const byte ID = 0xBA;
 		public const int SIZE = 5;
@@ -58,14 +58,18 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return funcionPersonalizada; }
 			set{ funcionPersonalizada = value; }
 		}
- 
+		public bool IsEnd {
+			get {
+				return false;
+			}
+		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ funcionPersonalizada};
+			return new Object[]{ funcionPersonalizada };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			funcionPersonalizada =  new OffsetRom(ptrRom, offsetComando);
+			funcionPersonalizada = new OffsetRom(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

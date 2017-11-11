@@ -306,6 +306,8 @@
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\WriteByteToOffset.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Comandos\YesNoBox.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\IDeclaracion.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\IEndScript.cs" />
+    <Compile Include="PokemonFrameWork\Core\Script\ILastResult.cs" />
     <Compile Include="PokemonFrameWork\Core\Script\Script.cs" />
     <Compile Include="PokemonFrameWork\Core\Var.cs" />
     <Compile Include="PokemonFrameWork\Core\Variables.cs" />
