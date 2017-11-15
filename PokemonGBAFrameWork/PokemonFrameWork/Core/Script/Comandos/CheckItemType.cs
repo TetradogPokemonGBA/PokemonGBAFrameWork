@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x48;
 		public const int SIZE = 3;
+		public const string NOMBRE="CheckItemType";
+		public const string DESCRIPCION="Comprueba el tipo del objeto, el resultado se guarda en LASTRESULT";
 		Word objeto;
  
 		public CheckItemType(Word objeto)
@@ -35,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Comprueba el tipo del objeto, el resultado se guarda en LASTRESULT";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckItemType";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

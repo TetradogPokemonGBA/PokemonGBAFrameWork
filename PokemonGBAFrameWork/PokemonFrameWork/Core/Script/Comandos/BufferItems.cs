@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xD4;
 		public const int SIZE = 6;
+		public const string NOMBRE="BufferItems";
+		public const string DESCRIPCION="Stores a plural item name within a specified buffer.";
 		Byte buffer;
 		Word objetoAGuardar;
 		Word cantidad;
@@ -39,7 +41,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Stores a plural item name within a specified buffer.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +52,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferItems";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

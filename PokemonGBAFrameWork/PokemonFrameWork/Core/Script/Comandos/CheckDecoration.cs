@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4E;
 		public const int SIZE=3;
+		public const string NOMBRE="CheckDecoration";
+		public const string DESCRIPCION="Comprueba si un objeto decorativo esta en el pc del player";
 		Word decoracion;
 		
 		public CheckDecoration(Word decoracion)
@@ -30,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Comprueba si un objeto decorativo esta en el pc del player";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckDecoration";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

@@ -13,6 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x9E;
 		public const int SIZE=3;
+		
+		public const string NOMBRE="CheckAnimation";
+		public const string DESCRIPCION="comprueba si una animación se está reproduciendo actualmente o no. De esta manera, se detendrá hasta que la animación se haya completado.";
 		Word animacion;
 		
 		public CheckAnimation(Word animacion)
@@ -30,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "comprueba si una animación se está reproduciendo actualmente o no. De esta manera, se detendrá hasta que la animación se haya completado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckAnimation";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

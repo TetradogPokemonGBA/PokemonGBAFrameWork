@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x84;
 		public const int SIZE = 4;
+		public const string NOMBRE="BufferStd";
+		public const string DESCRIPCION="Guarda una string estandar en el buffer especificado.";
 		Byte buffer;
 		Word standarString;
  
@@ -37,7 +39,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Guarda una string estandar en el buffer especificado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +50,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferStd";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

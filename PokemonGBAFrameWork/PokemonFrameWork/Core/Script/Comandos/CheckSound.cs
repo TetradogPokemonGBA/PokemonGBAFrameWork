@@ -16,6 +16,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckSound:Comando
 	{
 		public const byte ID=0x30;
+		public const string NOMBRE="CheckSound";
+		public const string DESCRIPCION="Comprueba si esta reproduciendose el sonido,fanfare o canción";
 
 		public CheckSound()
 		{}
@@ -28,7 +30,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Comprueba si esta reproduciendose el sonido,fanfare o canción";
+				return DESCRIPCION;
 			}
 		}
 
@@ -39,7 +41,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckSound";
+				return NOMBRE;
 			}
 		}
 	}

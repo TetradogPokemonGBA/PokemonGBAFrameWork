@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4B;
 		public const int SIZE=3;
+		public const string NOMBRE="AddDecoration";
+		public const string DESCRIPCION="Añade un objeto decorativo en el pc del player";
 		Word decoracion;
 		
 		public AddDecoration(Word decoracion)
@@ -30,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Añade un objeto decorativo en el pc del player";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "AddDecoration";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

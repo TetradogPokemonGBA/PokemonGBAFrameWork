@@ -12,7 +12,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class AddVar : SetVar
 	{
 		public const byte ID = 0x17;
-
+		public const string NOMBRE="Addvar";
+		public const string DESCRIPCION="Añade cualquier valor a la variable";
 		public AddVar(Word variable,Word valorAAñadir):base(variable,valorAAñadir)
 		{}
 			
@@ -31,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		#region implemented abstract members of Comando
 		public override string Descripcion {
 			get {
-				return "Añade cualquier valor a la variable";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Addvar";
+				return NOMBRE;
 			}
 		}
 	#endregion

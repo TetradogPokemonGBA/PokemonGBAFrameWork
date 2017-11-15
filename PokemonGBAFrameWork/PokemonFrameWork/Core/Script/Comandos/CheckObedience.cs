@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xCE;
 		public const int SIZE = 3;
+		public const string NOMBRE="CheckObedience";
+		public const string DESCRIPCION="Comprueba si el pokemon del equipo especificado obedece o no y guarda el valor en LASTRESULT.";
 		Word pokemon;
  
 		public CheckObedience(Word pokemon)
@@ -35,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Comprueba si el pokemon del equipo especificado obedece o no y guarda el valor en LASTRESULT.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckObedience";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

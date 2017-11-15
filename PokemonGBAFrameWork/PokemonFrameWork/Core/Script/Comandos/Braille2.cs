@@ -13,6 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0xD3;
 		public const int SIZE=5;
+				public const string NOMBRE="Braille2";
+		public const string DESCRIPCION="Establece la variable 0x8004 en un valor basado en el ancho de la cadena en braille en el texto.";
+		
 		OffsetRom brailleData;
 		
 		public Braille2(OffsetRom brailleData)
@@ -30,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Establece la variable 0x8004 en un valor basado en el ancho de la cadena en braille en el texto.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Braille2";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

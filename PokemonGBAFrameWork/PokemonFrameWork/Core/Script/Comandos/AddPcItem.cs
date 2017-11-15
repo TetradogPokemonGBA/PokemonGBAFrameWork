@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x49;
 		public const int SIZE=5;
+		public const string NOMBRE="AddPcItem";
+		public const string DESCRIPCION="Añade la cantidad del objeto especificado en el pc del player";
 		Word objeto;
 		Word cantidad;
 		
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Añade la cantidad del objeto especificado en el pc del player";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "AddPcItem";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -80,7 +82,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			Word.SetWord(ptrRomPosicionado,Objeto);
 			ptrRomPosicionado+=Word.LENGTH;
 			Word.SetWord(ptrRomPosicionado,Cantidad);
-		
+			
 		}
 	}
 }

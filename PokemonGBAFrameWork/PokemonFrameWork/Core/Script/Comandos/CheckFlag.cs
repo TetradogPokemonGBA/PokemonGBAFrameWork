@@ -12,6 +12,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckFlag : SetFlag
 	{
 		public const byte ID = 0x2B;
+		public const string NOMBRE="CheckFlag";
+		public const string DESCRIPCION="Comprueba el estado del flag y lo guarda en 'lastresult'";
 
 		public CheckFlag(Word flag):base(flag)
 		{}
@@ -29,7 +31,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Comprueba el estado del flag y lo guarda en 'lastresult'";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "CheckFlag";
+				return NOMBRE;
 			}
 		}
 	}

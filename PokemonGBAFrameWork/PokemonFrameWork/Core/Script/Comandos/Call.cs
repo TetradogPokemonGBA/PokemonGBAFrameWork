@@ -17,6 +17,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4;
 		public const int SIZE=1+OffsetRom.LENGTH;
+		
+		public const string NOMBRE="Call";
+		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";
 		/*
 		Script script;
 		
@@ -40,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Continua con la ejecución de otro script que tiene que tener return";
+				return DESCRIPCION;
 			}
 		}
 
@@ -52,7 +55,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Call";
+				return NOMBRE;
 			}
 		}
 

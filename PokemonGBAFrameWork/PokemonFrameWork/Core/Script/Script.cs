@@ -924,6 +924,7 @@ namespace PokemonGBAFrameWork
 			//anidar scripts anidados
 			SortedList<string,Script> dicScriptsCargados = new SortedList<string, Script>();
 			//por hacer...
+			
 			return dicScriptsCargados.Values;
 		}
 	}

@@ -18,6 +18,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID=0x23;
 		public const int SIZE=1+OffsetRom.LENGTH;
 		
+		public const string NOMBRE="CallAsm";
+		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";
 		OffsetRom offsetAsm;//en el futuro poner el codigo asm :) ...por mirar...
 		public CallAsm(int offset):this(new OffsetRom(offset))
 		{}
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Continua con la ejecución de otro script que tiene que tener return";
+				return DESCRIPCION;
 			}
 		}
 
@@ -44,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "CallAsm";
+				return NOMBRE;
 			}
 		}
 

@@ -14,6 +14,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID = 0xB;
 
 		public const int SIZE = 3;
+		public const string NOMBRE="Callstdif";
+		public const string DESCRIPCION="llama a la función si se cumple la condición";
 		
 		public Callstdif(byte funcionAsm,byte condicion):base(funcionAsm,condicion)
 		{}
@@ -32,13 +34,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Callstdif";
+				return NOMBRE;
 			}
 		}
 
 		public override string Descripcion {
 			get {
-				return "llama a la función si se cumple la condición";
+				return DESCRIPCION;
 			}
 		}
 

@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x92;
 		public const int SIZE=6;
+		public const string NOMBRE="CheckMoney";
+		public const string DESCRIPCION="Comprueba si el jugador tiene el dinero especificado.";
         DWord dineroAComprobar;
 		Byte comprobarEjecucionComando;
 		
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Comprueba si el jugador tiene el dinero especificado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckMoney";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

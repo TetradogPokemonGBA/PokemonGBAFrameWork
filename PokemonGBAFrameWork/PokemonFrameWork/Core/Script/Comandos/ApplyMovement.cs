@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x4F;
 		public const int SIZE=7;
+		public const string NOMBRE="ApplyMovement";
+		public const string DESCRIPCION="Aplica los movimientos al persoanje especificado";
 		Word personajeAUsar;
 		OffsetRom datosMovimiento;
 		
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Aplica los movimientos al persoanje especificado";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ApplyMovement";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -80,7 +82,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			Word.SetWord(ptrRomPosicionado,PersonajeAUsar);
 			ptrRomPosicionado+=Word.LENGTH;
 			OffsetRom.SetOffset(ptrRomPosicionado,DatosMovimiento);
-		
+			
 		}
 	}
 }

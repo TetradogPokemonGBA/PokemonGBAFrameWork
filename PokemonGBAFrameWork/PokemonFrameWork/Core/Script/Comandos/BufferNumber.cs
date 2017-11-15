@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x83;
 		public const int SIZE=4;
+		public const string NOMBRE="BufferNumber";
+		public const string DESCRIPCION="Variable version on buffernumber.";
 		Byte buffer;
 		Word variableToStore;
 		
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Variable version on buffernumber.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferNumber";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x44;
 		public const int SIZE=5;
+		public const string NOMBRE="AddItem";
+		public const string DESCRIPCION="Añade la cantidad del objeto especificado";
 		Word objetoAAñadir;
 
 		Word cantidad;
@@ -36,7 +38,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Añade la cantidad del objeto especificado";
+				return DESCRIPCION;
 			}
 		}
 
@@ -47,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "AddItem";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

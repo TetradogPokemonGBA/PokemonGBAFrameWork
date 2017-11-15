@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x82;
 		public const int SIZE=4;
+				public const string NOMBRE="BufferAttack";
+		public const string DESCRIPCION="Guarda el nombre del ataque en el buffer especificado.";
 		Byte buffer;
 		Word ataque;
 		
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Guarda el nombre del ataque en el buffer especificado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferAttack";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xE1;
 		public const int SIZE = 4;
+		public const string NOMBRE = "BufferContestType";
+		public const string DESCRIPCION = "Guarda el nombre del concurso seleccionado en el buffer especificado.";
 		Byte buffer;
 		Word tipoConcurso;
  
@@ -37,7 +39,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Guarda el nombre del concurso seleccionado en el buffer especificado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +50,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferContestType";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -64,7 +66,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return tipoConcurso; }
 			set{ tipoConcurso = value; }
 		}
- 		protected override AbreviacionCanon GetCompatibilidad()
+		protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPE;
 		}

@@ -12,7 +12,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckAttack:Comando
 	{
 		public const byte ID=0x7C;
-		public const int SIZE=3;
+		public const int SIZE=3;		
+		public const string NOMBRE="CheckAttack";
+		public const string DESCRIPCION="Comprueba que haya un pokemon en el equipo con un ataque en particular";
 		Word ataqueAComprobar;
 		
 		public CheckAttack(Word ataqueAComprobar)
@@ -30,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Comprueba que haya un pokemon en el equipo con un ataque en particular";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckAttack";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

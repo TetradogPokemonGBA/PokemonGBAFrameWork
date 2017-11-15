@@ -16,6 +16,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckDailyFlags:Comando
 	{
 		public const byte ID=0x2D;
+		public const string NOMBRE="CheckDailyFlags";
+		public const string DESCRIPCION="chekcs the daily flags to see if any of them have been set already,but only if they were set previously.Then it clears those flags";
 		
 		public CheckDailyFlags()
 		{}
@@ -29,7 +31,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "chekcs the daily flags to see if any of them have been set already,but only if they were set previously.Then it clears those flags";
+				return DESCRIPCION;
 			}
 		}
 
@@ -40,7 +42,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckDailyFlags";
+				return NOMBRE;
 			}
 		}
 		protected override AbreviacionCanon GetCompatibilidad()

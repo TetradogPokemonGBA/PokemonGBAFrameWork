@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x50;
 		public const int SIZE=9;
+				public const string NOMBRE="ApplyMovementPos";
+		public const string DESCRIPCION="Mueve el personaje y luego establece las coordenadas X/Y";
 		Word personajeAUsar;
 		OffsetRom datosMovimiento;
 		Byte coordenadaX;
@@ -36,7 +38,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Mueve el personaje y luego establece las coordenadas X/Y";
+				return DESCRIPCION;
 			}
 		}
 
@@ -47,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ApplyMovementPos";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

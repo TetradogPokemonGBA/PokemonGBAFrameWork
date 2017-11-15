@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x46;
 		public const int SIZE = 5;
+		public const string NOMBRE="CheckItemRoom";
+		public const string DESCRIPCION="Comprueba si el player tiene espacio para los objetos en la mochila";
 		Word objeto;
 		Word cantidad;
  
@@ -37,7 +39,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Comprueba si el player tiene espacio para los objetos en la mochila";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +50,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckItemRoom";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

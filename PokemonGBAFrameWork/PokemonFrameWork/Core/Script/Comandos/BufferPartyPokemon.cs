@@ -13,6 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x7F;
 		public const int SIZE = 4;
+		public const string NOMBRE="BufferPartyPokemon";
+		public const string DESCRIPCION="Guarda el nombre del pokemon seleccionado del equipo en el Buffer especificado";
+		
 		Byte buffer;
 		Word pokemon;
  
@@ -37,7 +40,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Guarda el nombre del pokemon seleccionado del equipo en el Buffer especificado";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferPartyPokemon";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

@@ -13,6 +13,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xC6;
 		public const int SIZE = 4;
+				public const string NOMBRE="BufferBoxName";
+		public const string DESCRIPCION="Guarda el nombre de la caja especificada en el buffer especificado";
+		
 		Byte buffer;
 		Word cajaPcAGuardar;
  
@@ -37,7 +40,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Guarda el nombre de la caja especificada en el buffer especificado";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "BufferBoxName";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

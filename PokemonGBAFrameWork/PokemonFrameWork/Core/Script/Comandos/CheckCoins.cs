@@ -13,6 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0xB3;
 		public const int SIZE=3;
+		public const string NOMBRE="CheckCoins";
+		public const string DESCRIPCION="Guarda el numero de monedas en la variable.";
 		Word variableAUsar;
 		
 		public CheckCoins(Word variableAUsar)
@@ -30,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Guarda el numero de monedas en la variable.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CheckCoins";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
