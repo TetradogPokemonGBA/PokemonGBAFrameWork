@@ -325,6 +325,7 @@
     <Compile Include="PokemonFrameWork\Parches\CambiarPlayer.cs" />
     <Compile Include="PokemonFrameWork\Parches\ColorearStats.cs" />
     <Compile Include="PokemonFrameWork\Parches\CorrerDentroDeLosEdificios.cs" />
+    <Compile Include="PokemonFrameWork\Parches\DesactivarAnimacionMTMO.cs" />
     <Compile Include="PokemonFrameWork\Parches\EvolucionarSinNationalDex.cs" />
     <Compile Include="PokemonFrameWork\Parches\GanarExperienciaAlCapturarUnPokemon.cs" />
     <Compile Include="PokemonFrameWork\Parches\ImpedirCapturaViaScript.cs" />
