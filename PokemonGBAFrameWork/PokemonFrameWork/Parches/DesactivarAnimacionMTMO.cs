@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork
 			Desactivado1 = new byte[]{ 0x0B, 0xD0 };
 			
 			Activado2 = new byte[]{ 0x00, 0xF0 , 0x0E , 0xFA };
-			Desactivado2 = new byte[]{ 0x5A, 0xF7, 0x78, 0xFE };
+			Desactivado2 = new byte[]{ 0x5A, 0xF7, 0x78, 0xFE };//3Byte->8C verde10,3Byte->5A verde11,A partir3Byte->F4 FD RojoFuego
 			
 			VariableDesactivarMTMO1=new Variable("Desactivar animación aprender MT/MO parte1");
 			VariableDesactivarMTMO2=new Variable("Desactivar animación aprender MT/MO parte2");
@@ -92,6 +92,17 @@ namespace PokemonGBAFrameWork
 			int offset2=Variable.GetVariable(VariableDesactivarMTMO2,edicion,compilacion);
 			rom.Data.SetArray(offset1,Desactivado1);
 			rom.Data.SetArray(offset2,Desactivado2);
+			//3Byte->8C verde10,3Byte->5A verde11,A partir3Byte->F4 FD RojoFuego
+			if(edicion.AbreviacionRom==AbreviacionCanon.BPR){
+				if(edicion.Idioma==Idioma.Español)
+				rom.Data.SetArray(offset2+2,new byte[]{0xF4, 0xFD});
+			}
+			else{
+			
+				if(compilacion==Compilacion.Compilaciones[0])
+					rom[offset2+2]=0x8C;
+				else rom[offset2+2]=0x5A;
+			}
 		}
 	}
 }
