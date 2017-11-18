@@ -304,6 +304,58 @@ namespace PokemonGBAFrameWork {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a .equ GAMECODE_BPRE, 0
+        ///.equ GAMECODE_BPEE, 1
+        ///.equ GAMECODE_AXVE, 2
+        ///
+        ///.equ GAMECODE, #GAME
+        ///
+        ///.THUMB
+        ///.ALIGN 2
+        ///
+        ///CMP R4, #1
+        ///BNE END
+        ///
+        ///MOV R0, R5
+        ///MOV R1, #3
+        ///BL BOX
+        ///
+        ///PUSH {R0-R7}
+        ///LDR R0, .SCRIPT
+        ///LDR R0, [R0]
+        ///LDR R1, .SCRIPT1
+        ///LDR R2, .SCRIPT2
+        ///CMP R0, R1
+        ///BEQ LOAD
+        ///CMP R0, R2
+        ///BNE END_
+        ///
+        ///LOAD:
+        ///LDR R0, .8007
+        ///LDRH R0, [R0]
+        ///LSL R0, R0, #3
+        ///LDR R5, .TABLE
+        ///ADD R5, R0
+        ///LDR R0, [R5]
+        ///LDR R1, .TILE
+        ///SWI 0x12
+        ///
+        ///MOV R2, R1
+        ///LDR R0, [R5, #4]
+        ///LDR R1, .PAL
+        ///SWI 0x12
+        ///
+        ///MOV R0, #0x7F
+        ///LSL R0, R0, #8
+        ///ADD  [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        public static string MensajeObjetoRecivido_EsmeraldaUSA_RojoFuegoUSA10 {
+            get {
+                return ResourceManager.GetString("MensajeObjetoRecivido_EsmeraldaUSA_RojoFuegoUSA10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
         public static byte[] ShinyzerEsmeraldaEsp {
