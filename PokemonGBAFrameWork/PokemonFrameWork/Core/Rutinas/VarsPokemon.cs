@@ -17,20 +17,20 @@ namespace PokemonGBAFrameWork.Rutinas.C
 	public static class VarsPokemon
 	{
 		public static Creditos Creditos;
-		public static LlistaOrdenada<string,Var> Diccionario;
+		public static LlistaOrdenada<string,Variable> Diccionario;
 		
 		static VarsPokemon()
 		{
 			Creditos=new Creditos();//los creditos falta ponerlo bien...de momento pongo de donde lo he sacado 
 			Creditos.Add(Creditos.Comunidades[Creditos.GITHUB],"kaisermg5","tener repositorio https://github.com/kaisermg5/simple-pokemon-data-hack");
-			Diccionario=new LlistaOrdenada<string, Var>();
+			Diccionario=new LlistaOrdenada<string, Variable>();
 			//añado edicion por edicion las variables
 			
-			AddFromResource(EdicionPokemon.EsmeraldaUsa,Resources.VarsBPEUSA);
-			AddFromResource(EdicionPokemon.RojoFuegoUsa,Resources.VarsBPR10USA);
+			AddFromResource(Compilacion.Compilaciones[0],EdicionPokemon.EsmeraldaUsa,Resources.VarsBPEUSA);
+			AddFromResource(Compilacion.Compilaciones[0],EdicionPokemon.RojoFuegoUsa,Resources.VarsBPR10USA);
 
 		}
-		static void AddFromResource(EdicionPokemon edicion,string recurso)
+		static void AddFromResource(Compilacion compilacion,EdicionPokemon edicion,string recurso)
 		{
 			const int CAMPONOMBRE=0,CAMPOVALOR=2;
 			string[] camposVariable;
@@ -39,14 +39,14 @@ namespace PokemonGBAFrameWork.Rutinas.C
 			{
 				//nombre = valor
 				camposVariable=variables[i].Split(' ');
-				Add(edicion,camposVariable[CAMPONOMBRE],camposVariable[CAMPOVALOR]);
+				Add(compilacion,edicion,camposVariable[CAMPONOMBRE],camposVariable[CAMPOVALOR]);
 			}
 		}
-		public static void Add(Edicion edicion,string variable,string valor)
+		public static void Add(Compilacion compilacion,Edicion edicion,string variable,string valor)
 		{
 			if(!Diccionario.ContainsKey(variable))
-				Diccionario.Add(variable,new Var(variable));
-			Diccionario[variable].Add(edicion,valor);
+				Diccionario.Add(variable,new Variable(variable));
+			Diccionario[variable].Add(compilacion,edicion,valor);
 		}
 
 	}
