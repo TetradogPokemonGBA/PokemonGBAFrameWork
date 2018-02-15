@@ -186,7 +186,7 @@ namespace PokemonGBAFrameWork
 				CincoTurnos,//101
 				SeisTurnos,//110
 				SieteTurnos//111
-				
+					
 			}
 			public static readonly Variable VariableSpecialPokemonErrante;
 			public static readonly Variable VariablePokemonErranteVar;
@@ -215,31 +215,37 @@ namespace PokemonGBAFrameWork
 
 				VariableSpecialPokemonErrante.Add(0x12B,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
 				VariableSpecialPokemonErrante.Add(0x129,EdicionPokemon.RojoFuegoUsa,EdicionPokemon.VerdeHojaUsa,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
-
-
+				//falta saber como activar el evento en rubi y zafiro se activa al pasar la liga y ver la tv...
+//-4 en la var del pokemon para los datos encripatos :D
 				VariablePokemonErranteVar.Add(0x4F24,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
 				VariablePokemonErranteVar.Add(0x506C,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
 				VariablePokemonErranteVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5100, 0x5114);
 				VariablePokemonErranteVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5100, 0x5114);
+				//investigacion mia :D
+				VariablePokemonErranteVar.Add(0x4B54,EdicionPokemon.RubiEsp);
 
 				VariableVitalidadVar.Add(0x4F25,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
 				VariableVitalidadVar.Add(0x506D,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
 				VariableVitalidadVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5101, 0x5115);
 				VariableVitalidadVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5101, 0x5115);//logica
-
+				//logica
+				VariableVitalidadVar.Add(0x4B55,EdicionPokemon.RubiEsp);
+				
 				VariableNivelYEstadoVar.Add(0x4F26,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
 				VariableNivelYEstadoVar.Add(0x506E,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
 
 				VariableNivelYEstadoVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5102, 0x5116);//logica
 				VariableNivelYEstadoVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5102, 0x5116);//logica
+				//logica
+				VariableNivelYEstadoVar.Add(0x4B56,EdicionPokemon.RubiEsp);
 
 				VariableDisponibleVar.Add(0x5F29,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
 				VariableDisponibleVar.Add( 0x5071,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
 
 				VariableDisponibleVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5105, 0x5119);//logica
 				VariableDisponibleVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5105, 0x5119);//logica
-
-
+				//logica
+				VariableDisponibleVar.Add(0x4B59,EdicionPokemon.RubiEsp);
 			}
 			public Pokemon(PokemonGBAFrameWork.Pokemon pokemon, Word vida=null, Word nivel=null, byte stats=0)
 			{
@@ -348,13 +354,13 @@ namespace PokemonGBAFrameWork
 
 			public Dormido TurnosDormido
 			{
-                //no funciona...por arreglar...
+				//no funciona...por arreglar...
 				get{
 					bool[] fix={false,false,false,false,false};
 					byte bTurnos=fix.AfegirValors(stats.ToBits().SubArray(0,3)).ToArray().ToByte();
-                    return (Dormido)bTurnos;
+					return (Dormido)bTurnos;
 
-                }
+				}
 				set{
 					
 					IList<bool> bitsStat;
