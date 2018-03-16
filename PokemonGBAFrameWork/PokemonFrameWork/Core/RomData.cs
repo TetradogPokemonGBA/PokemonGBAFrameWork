@@ -10,14 +10,14 @@
  */
 using System;
 using System.IO;
-using Gabriel.Cat;
+using Gabriel.Cat.S.Utilitats;
 
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of RomData.
 	/// </summary>
-	public class RomData:ObjectAutoId
+	public class RomData
 	{
 		//si se añaden más hacer propiedad y poner en el metodo UnLoad la forma de liberar la memoria
 		Compilacion compilacion;

@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-using Gabriel.Cat.Extension;
+
 //de momento es para la region de Kanto...
 namespace PokemonGBAFrameWork
 {

@@ -3,14 +3,14 @@
  * Código bajo licencia GNU
  */
 using System;
-using Gabriel.Cat;
+using Gabriel.Cat.S.Utilitats;
 
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of Zona.
 	/// </summary>
-	public class Var:IComparable,IClauUnicaPerObjecte
+	public class Var:IComparable
 	{
 
 		string nombre;

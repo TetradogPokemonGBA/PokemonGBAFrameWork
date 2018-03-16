@@ -9,8 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Gabriel.Cat;
-using Gabriel.Cat.Extension;
+using Gabriel.Cat.S.Utilitats;
+
 namespace PokemonGBAFrameWork
 {
 	/// <summary>

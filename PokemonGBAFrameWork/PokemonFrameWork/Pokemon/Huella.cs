@@ -10,7 +10,6 @@
  */
 using System;
 using System.Drawing;
-using Gabriel.Cat.Extension;
 
 //por revisar
 namespace PokemonGBAFrameWork

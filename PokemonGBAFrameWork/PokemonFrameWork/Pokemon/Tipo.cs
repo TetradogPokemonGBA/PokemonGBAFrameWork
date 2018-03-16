@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace PokemonGBAFrameWork
 {
 	
-	public  class Tipo:ObjectAutoId
+	public  class Tipo
 	{
 		public enum LongitudCampo
 		{ Nombre=7 }
