@@ -6,10 +6,9 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
-using Gabriel.Cat.S.Utilitats;
 using System;
-
-
+using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 
 namespace PokemonGBAFrameWork
 {

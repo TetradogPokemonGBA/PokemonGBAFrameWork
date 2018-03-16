@@ -8,13 +8,13 @@
  * creditos a hackmew por la rutina <3
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Gabriel.Cat.Extension;
+using Gabriel.Cat;
 //de momento se tiene que rehacer...
 namespace PokemonGBAFrameWork
 {

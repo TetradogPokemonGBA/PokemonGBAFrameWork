@@ -9,14 +9,14 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-
+using Gabriel.Cat;
 
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of Compilacion.
 	/// </summary>
-	public class Compilacion:IComparable
+	public class Compilacion:IComparable,IClauUnicaPerObjecte
 	{
 		public static readonly Compilacion[] Compilaciones=new Compilacion[]{new Compilacion(0),new Compilacion(1),new Compilacion(2)};
 	    int compilacion;

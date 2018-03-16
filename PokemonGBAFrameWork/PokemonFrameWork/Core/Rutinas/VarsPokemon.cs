@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-using Gabriel.Cat.S.Utilitats;
+using Gabriel.Cat;
 
 namespace PokemonGBAFrameWork.Rutinas.C
 {

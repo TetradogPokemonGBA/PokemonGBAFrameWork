@@ -9,7 +9,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using Gabriel.Cat.S.Utilitats;
+using Gabriel.Cat;
 
 namespace PokemonGBAFrameWork
 {

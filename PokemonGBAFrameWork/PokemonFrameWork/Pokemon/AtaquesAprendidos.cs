@@ -11,16 +11,15 @@
 using System;
 using System.Collections.Generic;
 using Gabriel.Cat;
-using Gabriel.Cat.S.Utilitats;
 
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of AtaquesAprendidos.
 	/// </summary>
-	public class AtaquesAprendidos:IComparable
+	public class AtaquesAprendidos:ObjectAutoId,IComparable
 	{
-		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable
+		public class AtaqueAprendido:ObjectAutoId,IComparable<AtaqueAprendido>,IComparable
 		{
 			
 			Word ataque;// :S no acabo de ver que sea asi...porque no se lee ni se escribe como seria un word...o eso me parece...por mirar...

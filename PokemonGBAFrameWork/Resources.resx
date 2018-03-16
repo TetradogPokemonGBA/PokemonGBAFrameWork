@@ -1,0 +1,1223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ASMMugshotsFR" type="System.Byte[], mscorlib">
+    <value>
+        LyoNCk5vdGU6IGJvdGggaW1hZ2UgYW5kIHBhbGV0dGUgc2hvdWxkIGJlIExaNzcgY29tcHJlc3NlZCEN
+        ClRhYmxlIGZvcm1hdDogW2ltYWdlIHBvaW50ZXJdW3BhbCBwb2ludGVyXS4uLi4uLi4uLi4NCiovDQou
+        ZXF1aXYgdGFibGVfbG9jYXRpb24sIDB4ODkwMDAwMA0KLnRodW1iDQpwdXNoIHtyNC1yNSwgbHJ9DQpz
+        dWIgc3AsIHNwLCAjMHgxOA0KbGRyIHIwLCA9MHgyMDM3MEMwDQpsZHJoIHIwLCBbcjAsICMyXQ0KbW92
+        IHIxLCAjMA0KbW92IHIyLCAjMHgxNA0KbXVsIHIyLCByMA0KbW92IHIzLCAjNA0KbW92IHIwLCAjMTAN
+        CnN0ciByMCwgW3NwXQ0Kc3RyIHIwLCBbc3AsICM0XQ0KbW92IHIwLCAjMHhEDQpzdHIgcjAsIFtzcCwg
+        IzhdDQptb3YgcjAsICMweDQwDQpzdHIgcjAsIFtzcCwgIzB4Q10NCmFkZCByMCwgc3AsICMweDEwDQps
+        ZHIgcjQsID0weDgxMEZFNTENCmJsIGJ4X3I0DQphZGQgcjAsIHNwLCAjMHgxMA0KbGRyIHI0LCA9MHg4
+        MDAzQ0U1DQpibCBieF9yNA0KbGRyIHI0LCA9MHgyMDM5OTkwDQpzdHJiIHIwLCBbcjRdDQpsZHIgcjQs
+        ID0weDgwMDNGQTENCmJsIGJ4X3I0DQpsZHIgcjAsID0weDIwMzcwQzANCmxkcmggcjAsIFtyMF0NCmxk
+        ciByMSwgPXRhYmxlX2xvY2F0aW9uDQpsc2wgcjAsIHIwLCAjMw0KYWRkIHIwLCByMCwgcjENCmxkciBy
+        NSwgW3IwLCAjNF0NCmxkciByMCwgW3IwXQ0KbGRyIHIxLCA9MHg2MDA4ODAwDQpzd2kgMHgxMg0KbW92
+        IHIwLCByNQ0KbW92IHIxLCAjMHhkMA0KbW92IHIyLCAjMHgyMA0KbGRyIHI0LCA9MHg4MDcwM0E5DQpi
+        bCBieF9yNA0KbW92IHIwLCAjMA0KbGRyIHI0LCA9MHg4MDAyMEJEDQpibCBieF9yNA0KYWRkIHNwLCBz
+        cCwgIzB4MTgNCnBvcCB7cjQtcjUsIHBjfQ0KDQpieF9yNDogYnggcjQ=
+</value>
+  </data>
+  <data name="ASMPokemonInCapturable" xml:space="preserve">
+    <value>.text
+.align 2
+.thumb
+.thumb_func
+
+main:
+ ldr r0, =(0x2022B4C)
+ ldr r1, [r0]
+ ldr r2, .VAR
+ ldrb r2, [r2]
+ cmp r2, #0x1
+ beq uncatchable
+ ldr r0, = (0x802D490 +1)
+ bx r0
+
+uncatchable:
+ ldr r0, = (0x802D460 +1)
+ bx r0
+ 
+ 
+
+.align 2
+.VAR:
+ .word 0x020270B8 + (0xVARIABLE * 2)</value>
+  </data>
+  <data name="ASMShinyzer" xml:space="preserve">
+    <value>.text
+.align 2
+.thumb
+.thumb_func
+
+shiny_hack_main:
+ lsr r0, r4, #0x18
+ cmp r0, #0x3
+ bne return
+ ldr r0, .SHINY_COUNTER
+ ldrb r0, [r0]
+ cmp r0, #0x0
+ bne shiny_hack
+
+return:
+ bx lr
+
+shiny_hack:
+ push {r2-r5, lr}
+ sub r3, r0, #0x1
+ ldr r0, .SHINY_COUNTER
+ strb r3, [r0]
+ ldrb r4, [r0, #0x1]
+ cmp r4, #0x0
+ bne is_trainer
+ add r4, r1, #0x0
+
+no_trainer:
+ ldr r2, .RANDOM
+ bl branch_r2
+ mov r3, #0x7
+ and r0, r3
+ add r3, r0, #0x0
+ ldr r2, .RANDOM
+ bl branch_r2
+ lsl r5, r0, #0x10
+ orr r5, r0
+ eor r5, r3
+ eor r5, r4
+ push {r4-r6}
+ lsr r1, r5, #0x10
+ lsl r0, r5, #0x10
+ mvn r3, r3
+ lsr r3, r3, #0x10
+ ldr r4, .RND_MULTIPLIER
+ ldr r5, .RND_INCREMENT
+
+rnd_loop:
+ add r6, r0, #0x0
+ mul r6, r4
+ add r6, r5
+ lsr r2, r6, #0x10
+ cmp r2, r1
+ beq rnd_end
+ add r0, #0x1
+ sub r3, #0x1
+ cmp r3, #0x0
+ bne rnd_loop
+ b not_found
+ 
+rnd_end:
+ ldr r2, .RND_ADDRESS
+ str r6, [r2]
+ pop {r1, r5-r6}
+ str r5, [r7]
+
+shiny_ret:
+ pop {r2-r5, pc}
+
+not_found:
+ pop {r4-r6}
+ b no_trainer
+
+is_trainer:
+ mov r5, #0x1
+ lsl r5, r3
+ and r4, r5
+ cmp r4, #0x0
+ beq trainer_ret
+ ldr r1, [r7]
+
+trainer_ret:
+ b shiny_ret
+
+branch_r2:
+ bx r2
+ 
+.align 2
+.RND_MULTIPLIER:
+ .word 0x41C64E6D
+.RND_INCREMENT:
+ .word 0x00006073
+.RND_ADDRESS:
+ .word 0x03005D80
+.SHINY_COUNTER:
+ .word 0x020375DE
+.RANDOM:
+ .word 0x0806F5CC|1
+ </value>
+  </data>
+  <data name="ASMMTBW" xml:space="preserve">
+    <value>.text
+.align 2
+.thumb
+.thumb_func
+
+main:
+cmp r5, #0x0
+bne end
+ldr r3, =(0x8OFFSET2 +1)
+bx r3
+
+end:
+mov r0, r7
+mov r1, #0x8
+mov r2, r4
+ldr r6, =(0x8OFFSET1+1)
+bl link
+ldr r3, =(0x8OFFSET2+1)
+bx r3
+
+link:
+bx r6
+
+.align 2
+
+</value>
+  </data>
+  <data name="ShinyzerEsmeraldaEsp" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAgF0AA951AwLJ9QYI
+</value>
+  </data>
+  <data name="ShinyzerEsmeraldaUsa" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAgF0AA951AwLN9QYI
+</value>
+  </data>
+  <data name="ShinyzerRojoYVerdeEsp" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAUE8AA75wAwKhTgQI
+</value>
+  </data>
+  <data name="ShinyzerRojoYVerdeUsa10" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAAFAAA75wAwLJTgQI
+</value>
+  </data>
+  <data name="ShinyzerRojoYVerdeUsa11" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAAFAAA75wAwLdTgQI
+</value>
+  </data>
+  <data name="ShinyzerRubiYZafiroEsp" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAKEgAA8roAgKlEgQI
+</value>
+  </data>
+  <data name="ShinyzerRubiYZafiroUsa10" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAGEgAA8roAgKFDgQI
+</value>
+  </data>
+  <data name="ShinyzerRubiZafiroUsa11Y12" type="System.Byte[], mscorlib">
+    <value>
+        IA4DKAPRIEgAeAAoANFwRzy1Qx4cSANwRHgALCbRDBwaSgDwKvgHIxhAAxwXSgDwJPgFBAVDXUBlQHC0
+        KQwoBNtDGwwNTA5NBhxmQ3YZMgyKQgTQATABOwAr9dEE4AlKFmBivD1gPL1wvNnnASWdQCxAACwA0Dlo
+        9ecQR21OxkFzYAAAGEgAA8roAgKlDgQI
+</value>
+  </data>
+  <data name="ASMAnimarPortada" type="System.Byte[], mscorlib">
+    <value>
+        LnRodW1iDQpTdGFydDoNCiAgICAgICAgcHVzaCB7cjAtcjN9DQogICAgICAgIGxkciByMywgLlJBTV9B
+        ZGRyZXNzDQogICAgICAgIGxkciByMSwgLkFuaV9UYWJsZQ0KICAgICAgICBsZHJiIHIyLCBbcjMsICMw
+        eDFdDQogICAgICAgIGxzbCByMiwgIzB4Mw0KICAgICAgICBhZGQgcjEsIHIyDQogICAgICAgIGxkcmIg
+        cjAsIFtyMSwgIzB4NF0NCiAgICAgICAgbGRyYiByMiwgW3IzXQ0KICAgICAgICBjbXAgcjIsIHIwDQog
+        ICAgICAgIGJnZSBMb2FkRnJhbWUNCiAgICAgICAgYWRkIHIyLCAjMHgxDQogICAgICAgIHN0cmIgcjIs
+        IFtyM10NCiAgICAgICAgYiBGaW5pc2gNCkxvYWRGcmFtZToNCiAgICAgICAgbW92IHIyLCAjMHgwDQog
+        ICAgICAgIHN0cmIgcjIsIFtyM10NCiAgICAgICAgbGRyYiByMiwgW3IxLCAjMHg1XQ0KICAgICAgICBz
+        dHJiIHIyLCBbcjMsICMweDFdDQogICAgICAgIGxkciByMCwgW3IxXQ0KICAgICAgICBsZHIgcjEsIC5W
+        UkFNX0FuaW1hdGVkX0ltYWdlDQogICAgICAgIHN3aSAjMHgxMg0KDQpGaW5pc2g6DQogICAgICAgIHBv
+        cCB7cjAtcjN9DQpFeGl0UmlnaHROb3c6DQogICAgICAgIGxkciByMSwgW3IwXQ0KICAgICAgICBsZHIg
+        cjAsIC5GcmFtZV9Db3VudA0KICAgICAgICBwdXNoIHtyM30NCiAgICAgICAgbGRyIHIzLCAuT2xkX1Jv
+        dXRpbmUNCiAgICAgICAgYnggcjMNCg0KLmFsaWduIDINCi5BbmlfVGFibGU6DQogICAgICAgIC53b3Jk
+        IDB4MDhZWVlZWVkgQFBvbmVyIGFxde0gZWwgb2Zmc2V0IGRlIHR1IHRhYmxhIGRlIHNlY3VlbmNpYQ0K
+        LlJBTV9BZGRyZXNzOg0KICAgICAgICAud29yZCAweDAyMDM3MGMwDQouVlJBTV9BbmltYXRlZF9JbWFn
+        ZToNCiAgICAgICAgLndvcmQgMHgwNjAwNDAwMA0KLkZyYW1lX0NvdW50Og0KICAgICAgICAud29yZCAw
+        eDAwMDBGRkZGDQouT2xkX1JvdXRpbmU6DQogICAgICAgIC53b3JkIDB4MDgwNzhDMDE=
+</value>
+  </data>
+  <data name="ASMEditorPokemonFRDencrypt" type="System.Byte[], mscorlib">
+    <value>
+        LmFsaWduIDINCi50aHVtYg0KDQpwdXNoIHtyMC1yNyxscn0NCmxkciByMSwgLnZhcl84MDAwDQpsZHJo
+        IHIxLCBbcjFdDQptb3YgcjAsICMweDY0DQptdWwgcjEsIHIwDQpsZHIgcjAsIC5wYXJ0eQ0KYWRkIHIw
+        LCByMCwgcjENCmxkciByMSwgW3IwXQ0KbGRyIHIyLCBbcjAsIzB4NF0NCmVvciByMSwgcjINCm1vdiBy
+        NiwgcjENCmxkciByMiwgLm1lbW9yeQ0KbW92IHI3LCAjMHgwDQpsZHIgcjcsIFtyMCwjMHg1MF0NCm1v
+        diByNSwgcjANCmxkciByMCwgW3IwXQ0KDQpzZWd1aXIyOg0KbGRyIHIxLCA9MHgxODAwMDAwMA0KY21w
+        IHIwLCByMQ0KYmxvIHNlZ3VpcjMNCnN1YiByMCwgcjAsIHIxDQpiIHNlZ3VpcjINCg0Kc2VndWlyMzoN
+        CmxkciByMSwgPTB4MTgwMDAwMA0KY21wIHIwLCByMQ0KYmxvIHNlZ3VpcjQNCnN1YiByMCwgcjAsIHIx
+        DQpiIHNlZ3VpcjMNCg0Kc2VndWlyNDoNCmxkciByMSwgPTB4MTgwMDAwDQpjbXAgcjAsIHIxDQpibG8g
+        c2VndWlyNQ0Kc3ViIHIwLCByMCwgcjENCmIgc2VndWlyNA0KDQpzZWd1aXI1Og0KbGRyIHIxLCA9MHgx
+        ODAwMA0KY21wIHIwLCByMQ0KYmxvIHNlZ3VpcjYNCnN1YiByMCwgcjAsIHIxDQpiIHNlZ3VpcjUNCg0K
+        c2VndWlyNjoNCmxkciByMSwgPTB4MTgwMA0KY21wIHIwLCByMQ0KYmxvIHNlZ3VpcjcNCnN1YiByMCwg
+        cjAsIHIxDQpiIHNlZ3VpcjYNCg0Kc2VndWlyNzoNCmxkciByMSwgPTB4MTgwDQpjbXAgcjAsIHIxDQpi
+        bG8gc2VndWlyOA0Kc3ViIHIwLCByMCwgcjENCmIgc2VndWlyNw0KDQpzZWd1aXI4Og0KbGRyIHIxLCA9
+        MHgxOA0KY21wIHIwLCByMQ0KYmxvIGNvbnRpbnVhcg0Kc3ViIHIwLCByMCwgcjENCmIgc2VndWlyOA0K
+        DQpjb250aW51YXI6DQpzdHIgcjAsIFtyMiwjMHg1MF0NCm1vdiByMCwgcjUNCm1vdiByNSwgIzB4MA0K
+        bGRyIHIzLCBbcjBdDQpzdHIgcjMsIFtyMl0NCmxkciByMywgW3IwLCMweDRdDQpzdHIgcjMsIFtyMiwj
+        MHg0XQ0KbGRyIHIzLCBbcjAsIzB4OF0NCnN0ciByMywgW3IyLCMweDhdDQpsZHIgcjMsIFtyMCwjMHhD
+        XQ0Kc3RyIHIzLCBbcjIsIzB4Q10NCmxkciByMywgW3IwLCMweDEwXQ0Kc3RyIHIzLCBbcjIsIzB4MTBd
+        DQpsZHIgcjMsIFtyMCwjMHgxNF0NCnN0ciByMywgW3IyLCMweDE0XQ0KbGRyIHIzLCBbcjAsIzB4MThd
+        DQpzdHIgcjMsIFtyMiwjMHgxOF0NCmxkciByMywgW3IwLCMweDFDXQ0Kc3RyIHIzLCBbcjIsIzB4MUNd
+        DQptb3YgcjUsICMweDUwDQpsZHIgcjUsIC5tZW1vcnkNCmxkciByNCwgPTB4NTANCmxkcmIgcjUsIFty
+        NSxyNF0NCm1vdiByMSwgcjYNCmNtcCByNSwgIzB4Ng0KYmxvIGdfcHJpDQpjbXAgcjUsICMweEMNCmJs
+        byBhX3ByaQ0KY21wIHI1LCAjMHgxMg0KYmxvIGVfcHJpDQpjbXAgcjUsICMweDE4DQpibG8gbV9wcmkN
+        Cg0KZ19wcmk6DQptb3YgcjMsICMweDANCmxkciByMywgW3IwLCMweDIwXQ0KZW9yIHIzLCByMQ0Kc3Ry
+        IHIzLCBbcjIsIzB4MjBdDQpsZHIgcjMsIFtyMCwjMHgyNF0NCmVvciByMywgcjENCnN0ciByMywgW3Iy
+        LCMweDI0XQ0KbGRyIHIzLCBbcjAsIzB4MjhdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyOF0N
+        CmIgc2VndW5kYQ0KDQphX3ByaToNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4MjBdDQplb3Ig
+        cjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyQ10NCmxkciByMywgW3IwLCMweDI0XQ0KZW9yIHIzLCByMQ0K
+        c3RyIHIzLCBbcjIsIzB4MzBdDQpsZHIgcjMsIFtyMCwjMHgyOF0NCmVvciByMywgcjENCnN0ciByMywg
+        W3IyLCMweDM0XQ0KYiBzZWd1bmRhDQoNCmVfcHJpOg0KbW92IHIzLCAjMHgwDQpsZHIgcjMsIFtyMCwj
+        MHgyMF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDM4XQ0KbGRyIHIzLCBbcjAsIzB4MjRdDQpl
+        b3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzQ10NCmxkciByMywgW3IwLCMweDI4XQ0KZW9yIHIzLCBy
+        MQ0Kc3RyIHIzLCBbcjIsIzB4NDBdDQpiIHNlZ3VuZGENCg0KbV9wcmk6DQptb3YgcjMsICMweDANCmxk
+        ciByMywgW3IwLCMweDIwXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDRdDQpsZHIgcjMsIFty
+        MCwjMHgyNF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDQ4XQ0KbGRyIHIzLCBbcjAsIzB4Mjhd
+        DQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0Q10NCg0Kc2VndW5kYToNCm1vdiByMywgIzB4MA0K
+        Y21wIHI1LCAjMHg2DQpiZXEgZ19zZWcNCmNtcCByNSwgIzB4Nw0KYmVxIGdfc2VnDQpjbXAgcjUsICMw
+        eEMNCmJlcSBnX3NlZw0KY21wIHI1LCAjMHhEDQpiZXEgZ19zZWcNCmNtcCByNSwgIzB4MTINCmJlcSBn
+        X3NlZw0KY21wIHI1LCAjMHgxMw0KYmVxIGdfc2VnDQpjbXAgcjUsICMweDANCmJlcSBhX3NlZw0KY21w
+        IHI1LCAjMHgxDQpiZXEgYV9zZWcNCmNtcCByNSwgIzB4RQ0KYmVxIGFfc2VnDQpjbXAgcjUsICMweEYN
+        CmJlcSBhX3NlZw0KY21wIHI1LCAjMHgxNA0KYmVxIGFfc2VnDQpjbXAgcjUsICMweDE1DQpiZXEgYV9z
+        ZWcNCmNtcCByNSwgIzB4Mg0KYmVxIGVfc2VnDQpjbXAgcjUsICMweDMNCmJlcSBlX3NlZw0KY21wIHI1
+        LCAjMHg4DQpiZXEgZV9zZWcNCmNtcCByNSwgIzB4OQ0KYmVxIGVfc2VnDQpjbXAgcjUsICMweDE2DQpi
+        ZXEgZV9zZWcNCmNtcCByNSwgIzB4MTcNCmJlcSBlX3NlZw0KY21wIHI1LCAjMHg0DQpiZXEgbV9zZWcN
+        CmNtcCByNSwgIzB4NQ0KYmVxIG1fc2VnDQpjbXAgcjUsICMweEENCmJlcSBtX3NlZw0KY21wIHI1LCAj
+        MHhCDQpiZXEgbV9zZWcNCmNtcCByNSwgIzB4MTANCmJlcSBtX3NlZw0KY21wIHI1LCAjMHgxMQ0KYmVx
+        IG1fc2VnDQoNCmdfc2VnOg0KbW92IHIzLCAjMHgwDQpsZHIgcjMsIFtyMCwjMHgyQ10NCmVvciByMywg
+        cjENCnN0ciByMywgW3IyLCMweDIwXQ0KbGRyIHIzLCBbcjAsIzB4MzBdDQplb3IgcjMsIHIxDQpzdHIg
+        cjMsIFtyMiwjMHgyNF0NCmxkciByMywgW3IwLCMweDM0XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIs
+        IzB4MjhdDQpiIHRlcmNlcmENCg0KYV9zZWc6DQptb3YgcjMsICMweDANCmxkciByMywgW3IwLCMweDJD
+        XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MkNdDQpsZHIgcjMsIFtyMCwjMHgzMF0NCmVvciBy
+        MywgcjENCnN0ciByMywgW3IyLCMweDMwXQ0KbGRyIHIzLCBbcjAsIzB4MzRdDQplb3IgcjMsIHIxDQpz
+        dHIgcjMsIFtyMiwjMHgzNF0NCmIgdGVyY2VyYQ0KDQplX3NlZzoNCm1vdiByMywgIzB4MA0KbGRyIHIz
+        LCBbcjAsIzB4MkNdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzOF0NCmxkciByMywgW3IwLCMw
+        eDMwXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4M0NdDQpsZHIgcjMsIFtyMCwjMHgzNF0NCmVv
+        ciByMywgcjENCnN0ciByMywgW3IyLCMweDQwXQ0KYiB0ZXJjZXJhDQoNCm1fc2VnOg0KbW92IHIzLCAj
+        MHgwDQpsZHIgcjMsIFtyMCwjMHgyQ10NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDQ0XQ0KbGRy
+        IHIzLCBbcjAsIzB4MzBdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0OF0NCmxkciByMywgW3Iw
+        LCMweDM0XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NENdDQoNCnRlcmNlcmE6DQptb3YgcjMs
+        ICMweDANCmNtcCByNSwgIzB4OA0KYmVxIGdfdGVyDQpjbXAgcjUsICMweEENCmJlcSBnX3Rlcg0KY21w
+        IHI1LCAjMHhFDQpiZXEgZ190ZXINCmNtcCByNSwgIzB4MTANCmJlcSBnX3Rlcg0KY21wIHI1LCAjMHgx
+        NA0KYmVxIGdfdGVyDQpjbXAgcjUsICMweDE2DQpiZXEgZ190ZXINCmNtcCByNSwgIzB4Mg0KYmVxIGFf
+        dGVyDQpjbXAgcjUsICMweDQNCmJlcSBhX3Rlcg0KY21wIHI1LCAjMHhDDQpiZXEgYV90ZXINCmNtcCBy
+        NSwgIzB4MTENCmJlcSBhX3Rlcg0KY21wIHI1LCAjMHgxMg0KYmVxIGFfdGVyDQpjbXAgcjUsICMweDE3
+        DQpiZXEgYV90ZXINCmNtcCByNSwgIzB4MA0KYmVxIGVfdGVyDQpjbXAgcjUsICMweDUNCmJlcSBlX3Rl
+        cg0KY21wIHI1LCAjMHg2DQpiZXEgZV90ZXINCmNtcCByNSwgIzB4Qg0KYmVxIGVfdGVyDQpjbXAgcjUs
+        ICMweDEzDQpiZXEgZV90ZXINCmNtcCByNSwgIzB4MTUNCmJlcSBlX3Rlcg0KY21wIHI1LCAjMHgxDQpi
+        ZXEgbV90ZXINCmNtcCByNSwgIzB4Mw0KYmVxIG1fdGVyDQpjbXAgcjUsICMweDcNCmJlcSBtX3Rlcg0K
+        Y21wIHI1LCAjMHg5DQpiZXEgbV90ZXINCmNtcCByNSwgIzB4RA0KYmVxIG1fdGVyDQpjbXAgcjUsICMw
+        eEYNCmJlcSBtX3Rlcg0KDQpnX3RlcjoNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4MzhdDQpl
+        b3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyMF0NCmxkciByMywgW3IwLCMweDNDXQ0KZW9yIHIzLCBy
+        MQ0Kc3RyIHIzLCBbcjIsIzB4MjRdDQpsZHIgcjMsIFtyMCwjMHg0MF0NCmVvciByMywgcjENCnN0ciBy
+        MywgW3IyLCMweDI4XQ0KYiBjdWFydGENCg0KYV90ZXI6DQptb3YgcjMsICMweDANCmxkciByMywgW3Iw
+        LCMweDM4XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MkNdDQpsZHIgcjMsIFtyMCwjMHgzQ10N
+        CmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDMwXQ0KbGRyIHIzLCBbcjAsIzB4NDBdDQplb3IgcjMs
+        IHIxDQpzdHIgcjMsIFtyMiwjMHgzNF0NCmIgY3VhcnRhDQoNCmVfdGVyOg0KbW92IHIzLCAjMHgwDQps
+        ZHIgcjMsIFtyMCwjMHgzOF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDM4XQ0KbGRyIHIzLCBb
+        cjAsIzB4M0NdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzQ10NCmxkciByMywgW3IwLCMweDQw
+        XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDBdDQpiIGN1YXJ0YQ0KDQptX3RlcjoNCm1vdiBy
+        MywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4MzhdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0NF0N
+        CmxkciByMywgW3IwLCMweDNDXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDhdDQpsZHIgcjMs
+        IFtyMCwjMHg0MF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDRDXQ0KDQpjdWFydGE6DQptb3Yg
+        cjMsICMweDANCmNtcCByNSwgIzB4OQ0KYmVxIGdfY3VhDQpjbXAgcjUsICMweEINCmJlcSBnX2N1YQ0K
+        Y21wIHI1LCAjMHhGDQpiZXEgZ19jdWENCmNtcCByNSwgIzB4MTENCmJlcSBnX2N1YQ0KY21wIHI1LCAj
+        MHgxNQ0KYmVxIGdfY3VhDQpjbXAgcjUsICMweDE3DQpiZXEgZ19jdWENCmNtcCByNSwgIzB4Mw0KYmVx
+        IGFfY3VhDQpjbXAgcjUsICMweDUNCmJlcSBhX2N1YQ0KY21wIHI1LCAjMHhEDQpiZXEgYV9jdWENCmNt
+        cCByNSwgIzB4MTANCmJlcSBhX2N1YQ0KY21wIHI1LCAjMHgxMw0KYmVxIGFfY3VhDQpjbXAgcjUsICMw
+        eDE2DQpiZXEgYV9jdWENCmNtcCByNSwgIzB4MQ0KYmVxIGVfY3VhDQpjbXAgcjUsICMweDQNCmJlcSBl
+        X2N1YQ0KY21wIHI1LCAjMHg3DQpiZXEgZV9jdWENCmNtcCByNSwgIzB4QQ0KYmVxIGVfY3VhDQpjbXAg
+        cjUsICMweDEyDQpiZXEgZV9jdWENCmNtcCByNSwgIzB4MTQNCmJlcSBlX2N1YQ0KY21wIHI1LCAjMHgw
+        DQpiZXEgbV9jdWENCmNtcCByNSwgIzB4Mg0KYmVxIG1fY3VhDQpjbXAgcjUsICMweDYNCmJlcSBtX2N1
+        YQ0KY21wIHI1LCAjMHg4DQpiZXEgbV9jdWENCmNtcCByNSwgIzB4Qw0KYmVxIG1fY3VhDQpjbXAgcjUs
+        ICMweEUNCmJlcSBtX2N1YQ0KDQpnX2N1YToNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4NDRd
+        DQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyMF0NCmxkciByMywgW3IwLCMweDQ4XQ0KZW9yIHIz
+        LCByMQ0Kc3RyIHIzLCBbcjIsIzB4MjRdDQpsZHIgcjMsIFtyMCwjMHg0Q10NCmVvciByMywgcjENCnN0
+        ciByMywgW3IyLCMweDI4XQ0KYiBzYWxpcg0KDQphX2N1YToNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBb
+        cjAsIzB4NDRdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyQ10NCmxkciByMywgW3IwLCMweDQ4
+        XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MzBdDQpsZHIgcjMsIFtyMCwjMHg0Q10NCmVvciBy
+        MywgcjENCnN0ciByMywgW3IyLCMweDM0XQ0KYiBzYWxpcg0KDQplX2N1YToNCm1vdiByMywgIzB4MA0K
+        bGRyIHIzLCBbcjAsIzB4NDRdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzOF0NCmxkciByMywg
+        W3IwLCMweDQ4XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4M0NdDQpsZHIgcjMsIFtyMCwjMHg0
+        Q10NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDQwXQ0KYiBzYWxpcg0KDQptX2N1YToNCm1vdiBy
+        MywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4NDRdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0NF0N
+        CmxkciByMywgW3IwLCMweDQ4XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDhdDQpsZHIgcjMs
+        IFtyMCwjMHg0Q10NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDRDXQ0KDQpzYWxpcjoNCnN0ciBy
+        NywgW3IyLCMweDUwXQ0KcG9wIHtyMC1yNyxwY30NCg0KLnBhcnR5OiAud29yZCAweDAyMDI0Mjg0DQou
+        dmFyXzgwMDA6IC53b3JkIDB4MDIwMzcwQjgNCi5tZW1vcnk6IC53b3JkIDB4MDIwM2Y1MDA=
+</value>
+  </data>
+  <data name="ASMEditorPokemonFREncrypt" type="System.Byte[], mscorlib">
+    <value>
+        LmFsaWduIDINCi50aHVtYg0KDQpwdXNoIHtyMC1yNyxscn0NCmxkcmggcjAsIC5tZW1vcnkNCmFkZCBy
+        MCwgIzB4MjANCm1vdiByMiwgIzB4MA0KbW92IHIzLCAjMHgyDQptb3YgcjQsICMweDANCg0KY2hlY2tz
+        dW06DQpjbXAgcjIsICMweDMwDQpiZXEgZW5jcmlwdGFyMg0KbGRyaCByMSwgW3IwLHIyXQ0KYWRkIHI0
+        LCByNCwgcjENCmFkZCByMiwgcjIsIHIzDQpiIGNoZWNrc3VtDQoNCmVuY3JpcHRhcjI6DQpsZHIgcjEs
+        IC52YXJfODAwMA0KbGRyaCByMSwgW3IxXQ0KbW92IHIwLCAjMHg2NA0KbXVsIHIxLCByMA0KbGRyIHIw
+        LCAucGFydHkNCmFkZCByMiwgcjAsIHIxDQpsZHIgcjAsIC5tZW1vcnkNCmxkciByNywgW3IwLCMweDUw
+        XQ0Kc3RyaCByNCwgW3IwLCMweDFDXQ0KbGRyIHIxLCBbcjBdDQpsZHIgcjUsIFtyMCwjMHg0XQ0KZW9y
+        IHIxLCByNQ0KbW92IHI2LCByMQ0KbW92IHI1LCByMA0KbGRyIHIwLCBbcjBdDQoNCnNlZ3VpcjI6DQps
+        ZHIgcjEsID0weDE4MDAwMDAwDQpjbXAgcjAsIHIxDQpibG8gc2VndWlyMw0Kc3ViIHIwLCByMCwgcjEN
+        CmIgc2VndWlyMg0KDQpzZWd1aXIzOg0KbGRyIHIxLCA9MHgxODAwMDAwDQpjbXAgcjAsIHIxDQpibG8g
+        c2VndWlyNA0Kc3ViIHIwLCByMCwgcjENCmIgc2VndWlyMw0KDQpzZWd1aXI0Og0KbGRyIHIxLCA9MHgx
+        ODAwMDANCmNtcCByMCwgcjENCmJsbyBzZWd1aXI1DQpzdWIgcjAsIHIwLCByMQ0KYiBzZWd1aXI0DQoN
+        CnNlZ3VpcjU6DQpsZHIgcjEsID0weDE4MDAwDQpjbXAgcjAsIHIxDQpibG8gc2VndWlyNg0Kc3ViIHIw
+        LCByMCwgcjENCmIgc2VndWlyNQ0KDQpzZWd1aXI2Og0KbGRyIHIxLCA9MHgxODAwDQpjbXAgcjAsIHIx
+        DQpibG8gc2VndWlyNw0Kc3ViIHIwLCByMCwgcjENCmIgc2VndWlyNg0KDQpzZWd1aXI3Og0KbGRyIHIx
+        LCA9MHgxODANCmNtcCByMCwgcjENCmJsbyBzZWd1aXI4DQpzdWIgcjAsIHIwLCByMQ0KYiBzZWd1aXI3
+        DQoNCnNlZ3Vpcjg6DQpsZHIgcjEsID0weDE4DQpjbXAgcjAsIHIxDQpibG8gY29udGludWFyDQpzdWIg
+        cjAsIHIwLCByMQ0KYiBzZWd1aXI4DQoNCmNvbnRpbnVhcjoNCnN0ciByMCwgW3IyLCMweDUwXQ0KbW92
+        IHIwLCByNQ0KbW92IHI1LCAjMHgwDQpsZHIgcjMsIFtyMF0NCnN0ciByMywgW3IyXQ0KbGRyIHIzLCBb
+        cjAsIzB4NF0NCnN0ciByMywgW3IyLCMweDRdDQpsZHIgcjMsIFtyMCwjMHg4XQ0Kc3RyIHIzLCBbcjIs
+        IzB4OF0NCmxkciByMywgW3IwLCMweENdDQpzdHIgcjMsIFtyMiwjMHhDXQ0KbGRyIHIzLCBbcjAsIzB4
+        MTBdDQpzdHIgcjMsIFtyMiwjMHgxMF0NCmxkciByMywgW3IwLCMweDE0XQ0Kc3RyIHIzLCBbcjIsIzB4
+        MTRdDQpsZHIgcjMsIFtyMCwjMHgxOF0NCnN0ciByMywgW3IyLCMweDE4XQ0KbGRyIHIzLCBbcjAsIzB4
+        MUNdDQpzdHIgcjMsIFtyMiwjMHgxQ10NCm1vdiByNSwgIzB4NTANCmxkciByNCwgPTB4NTANCmxkcmIg
+        cjUsIFtyMixyNF0NCm1vdiByMSwgcjYNCmNtcCByNSwgIzB4Ng0KYmxvIGdfcHJpDQpjbXAgcjUsICMw
+        eEMNCmJsbyBhX3ByaQ0KY21wIHI1LCAjMHgxMg0KYmxvIGVfcHJpDQpjbXAgcjUsICMweDE4DQpibG8g
+        bV9wcmkNCg0KZ19wcmk6DQptb3YgcjMsICMweDANCmxkciByMywgW3IwLCMweDIwXQ0KZW9yIHIzLCBy
+        MQ0Kc3RyIHIzLCBbcjIsIzB4MjBdDQpsZHIgcjMsIFtyMCwjMHgyNF0NCmVvciByMywgcjENCnN0ciBy
+        MywgW3IyLCMweDI0XQ0KbGRyIHIzLCBbcjAsIzB4MjhdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwj
+        MHgyOF0NCmIgc2VndW5kYQ0KDQphX3ByaToNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4MkNd
+        DQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyMF0NCmxkciByMywgW3IwLCMweDMwXQ0KZW9yIHIz
+        LCByMQ0Kc3RyIHIzLCBbcjIsIzB4MjRdDQpsZHIgcjMsIFtyMCwjMHgzNF0NCmVvciByMywgcjENCnN0
+        ciByMywgW3IyLCMweDI4XQ0KYiBzZWd1bmRhDQoNCmVfcHJpOg0KbW92IHIzLCAjMHgwDQpsZHIgcjMs
+        IFtyMCwjMHgzOF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDIwXQ0KbGRyIHIzLCBbcjAsIzB4
+        M0NdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyNF0NCmxkciByMywgW3IwLCMweDQwXQ0KZW9y
+        IHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MjhdDQpiIHNlZ3VuZGENCg0KbV9wcmk6DQptb3YgcjMsICMw
+        eDANCmxkciByMywgW3IwLCMweDQ0XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MjBdDQpsZHIg
+        cjMsIFtyMCwjMHg0OF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDI0XQ0KbGRyIHIzLCBbcjAs
+        IzB4NENdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyOF0NCg0Kc2VndW5kYToNCm1vdiByMywg
+        IzB4MA0KY21wIHI1LCAjMHg2DQpiZXEgZ19zZWcNCmNtcCByNSwgIzB4Nw0KYmVxIGdfc2VnDQpjbXAg
+        cjUsICMweEMNCmJlcSBnX3NlZw0KY21wIHI1LCAjMHhEDQpiZXEgZ19zZWcNCmNtcCByNSwgIzB4MTIN
+        CmJlcSBnX3NlZw0KY21wIHI1LCAjMHgxMw0KYmVxIGdfc2VnDQpjbXAgcjUsICMweDANCmJlcSBhX3Nl
+        Zw0KY21wIHI1LCAjMHgxDQpiZXEgYV9zZWcNCmNtcCByNSwgIzB4RQ0KYmVxIGFfc2VnDQpjbXAgcjUs
+        ICMweEYNCmJlcSBhX3NlZw0KY21wIHI1LCAjMHgxNA0KYmVxIGFfc2VnDQpjbXAgcjUsICMweDE1DQpi
+        ZXEgYV9zZWcNCmNtcCByNSwgIzB4Mg0KYmVxIGVfc2VnDQpjbXAgcjUsICMweDMNCmJlcSBlX3NlZw0K
+        Y21wIHI1LCAjMHg4DQpiZXEgZV9zZWcNCmNtcCByNSwgIzB4OQ0KYmVxIGVfc2VnDQpjbXAgcjUsICMw
+        eDE2DQpiZXEgZV9zZWcNCmNtcCByNSwgIzB4MTcNCmJlcSBlX3NlZw0KY21wIHI1LCAjMHg0DQpiZXEg
+        bV9zZWcNCmNtcCByNSwgIzB4NQ0KYmVxIG1fc2VnDQpjbXAgcjUsICMweEENCmJlcSBtX3NlZw0KY21w
+        IHI1LCAjMHhCDQpiZXEgbV9zZWcNCmNtcCByNSwgIzB4MTANCmJlcSBtX3NlZw0KY21wIHI1LCAjMHgx
+        MQ0KYmVxIG1fc2VnDQoNCmdfc2VnOg0KbW92IHIzLCAjMHgwDQpsZHIgcjMsIFtyMCwjMHgyMF0NCmVv
+        ciByMywgcjENCnN0ciByMywgW3IyLCMweDJDXQ0KbGRyIHIzLCBbcjAsIzB4MjRdDQplb3IgcjMsIHIx
+        DQpzdHIgcjMsIFtyMiwjMHgzMF0NCmxkciByMywgW3IwLCMweDI4XQ0KZW9yIHIzLCByMQ0Kc3RyIHIz
+        LCBbcjIsIzB4MzRdDQpiIHRlcmNlcmENCg0KYV9zZWc6DQptb3YgcjMsICMweDANCmxkciByMywgW3Iw
+        LCMweDJDXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MkNdDQpsZHIgcjMsIFtyMCwjMHgzMF0N
+        CmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDMwXQ0KbGRyIHIzLCBbcjAsIzB4MzRdDQplb3IgcjMs
+        IHIxDQpzdHIgcjMsIFtyMiwjMHgzNF0NCmIgdGVyY2VyYQ0KDQplX3NlZzoNCm1vdiByMywgIzB4MA0K
+        bGRyIHIzLCBbcjAsIzB4MzhdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgyQ10NCmxkciByMywg
+        W3IwLCMweDNDXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MzBdDQpsZHIgcjMsIFtyMCwjMHg0
+        MF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDM0XQ0KYiB0ZXJjZXJhDQoNCm1fc2VnOg0KbW92
+        IHIzLCAjMHgwDQpsZHIgcjMsIFtyMCwjMHg0NF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDJD
+        XQ0KbGRyIHIzLCBbcjAsIzB4NDhdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzMF0NCmxkciBy
+        MywgW3IwLCMweDRDXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MzRdDQoNCnRlcmNlcmE6DQpt
+        b3YgcjMsICMweDANCmNtcCByNSwgIzB4OA0KYmVxIGdfdGVyDQpjbXAgcjUsICMweEENCmJlcSBnX3Rl
+        cg0KY21wIHI1LCAjMHhFDQpiZXEgZ190ZXINCmNtcCByNSwgIzB4MTANCmJlcSBnX3Rlcg0KY21wIHI1
+        LCAjMHgxNA0KYmVxIGdfdGVyDQpjbXAgcjUsICMweDE2DQpiZXEgZ190ZXINCmNtcCByNSwgIzB4Mg0K
+        YmVxIGFfdGVyDQpjbXAgcjUsICMweDQNCmJlcSBhX3Rlcg0KY21wIHI1LCAjMHhDDQpiZXEgYV90ZXIN
+        CmNtcCByNSwgIzB4MTENCmJlcSBhX3Rlcg0KY21wIHI1LCAjMHgxMg0KYmVxIGFfdGVyDQpjbXAgcjUs
+        ICMweDE3DQpiZXEgYV90ZXINCmNtcCByNSwgIzB4MA0KYmVxIGVfdGVyDQpjbXAgcjUsICMweDUNCmJl
+        cSBlX3Rlcg0KY21wIHI1LCAjMHg2DQpiZXEgZV90ZXINCmNtcCByNSwgIzB4Qg0KYmVxIGVfdGVyDQpj
+        bXAgcjUsICMweDEzDQpiZXEgZV90ZXINCmNtcCByNSwgIzB4MTUNCmJlcSBlX3Rlcg0KY21wIHI1LCAj
+        MHgxDQpiZXEgbV90ZXINCmNtcCByNSwgIzB4Mw0KYmVxIG1fdGVyDQpjbXAgcjUsICMweDcNCmJlcSBt
+        X3Rlcg0KY21wIHI1LCAjMHg5DQpiZXEgbV90ZXINCmNtcCByNSwgIzB4RA0KYmVxIG1fdGVyDQpjbXAg
+        cjUsICMweEYNCmJlcSBtX3Rlcg0KDQpnX3RlcjoNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4
+        MjBdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzOF0NCmxkciByMywgW3IwLCMweDI0XQ0KZW9y
+        IHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4M0NdDQpsZHIgcjMsIFtyMCwjMHgyOF0NCmVvciByMywgcjEN
+        CnN0ciByMywgW3IyLCMweDQwXQ0KYiBjdWFydGENCg0KYV90ZXI6DQptb3YgcjMsICMweDANCmxkciBy
+        MywgW3IwLCMweDJDXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4MzhdDQpsZHIgcjMsIFtyMCwj
+        MHgzMF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDNDXQ0KbGRyIHIzLCBbcjAsIzB4MzRdDQpl
+        b3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0MF0NCmIgY3VhcnRhDQoNCmVfdGVyOg0KbW92IHIzLCAj
+        MHgwDQpsZHIgcjMsIFtyMCwjMHgzOF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDM4XQ0KbGRy
+        IHIzLCBbcjAsIzB4M0NdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHgzQ10NCmxkciByMywgW3Iw
+        LCMweDQwXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDBdDQpiIGN1YXJ0YQ0KDQptX3RlcjoN
+        Cm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4NDRdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwj
+        MHgzOF0NCmxkciByMywgW3IwLCMweDQ4XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4M0NdDQps
+        ZHIgcjMsIFtyMCwjMHg0Q10NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDQwXQ0KDQpjdWFydGE6
+        DQptb3YgcjMsICMweDANCmNtcCByNSwgIzB4OQ0KYmVxIGdfY3VhDQpjbXAgcjUsICMweEINCmJlcSBn
+        X2N1YQ0KY21wIHI1LCAjMHhGDQpiZXEgZ19jdWENCmNtcCByNSwgIzB4MTENCmJlcSBnX2N1YQ0KY21w
+        IHI1LCAjMHgxNQ0KYmVxIGdfY3VhDQpjbXAgcjUsICMweDE3DQpiZXEgZ19jdWENCmNtcCByNSwgIzB4
+        Mw0KYmVxIGFfY3VhDQpjbXAgcjUsICMweDUNCmJlcSBhX2N1YQ0KY21wIHI1LCAjMHhEDQpiZXEgYV9j
+        dWENCmNtcCByNSwgIzB4MTANCmJlcSBhX2N1YQ0KY21wIHI1LCAjMHgxMw0KYmVxIGFfY3VhDQpjbXAg
+        cjUsICMweDE2DQpiZXEgYV9jdWENCmNtcCByNSwgIzB4MQ0KYmVxIGVfY3VhDQpjbXAgcjUsICMweDQN
+        CmJlcSBlX2N1YQ0KY21wIHI1LCAjMHg3DQpiZXEgZV9jdWENCmNtcCByNSwgIzB4QQ0KYmVxIGVfY3Vh
+        DQpjbXAgcjUsICMweDEyDQpiZXEgZV9jdWENCmNtcCByNSwgIzB4MTQNCmJlcSBlX2N1YQ0KY21wIHI1
+        LCAjMHgwDQpiZXEgbV9jdWENCmNtcCByNSwgIzB4Mg0KYmVxIG1fY3VhDQpjbXAgcjUsICMweDYNCmJl
+        cSBtX2N1YQ0KY21wIHI1LCAjMHg4DQpiZXEgbV9jdWENCmNtcCByNSwgIzB4Qw0KYmVxIG1fY3VhDQpj
+        bXAgcjUsICMweEUNCmJlcSBtX2N1YQ0KDQpnX2N1YToNCm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAs
+        IzB4MjBdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0NF0NCmxkciByMywgW3IwLCMweDI0XQ0K
+        ZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDhdDQpsZHIgcjMsIFtyMCwjMHgyOF0NCmVvciByMywg
+        cjENCnN0ciByMywgW3IyLCMweDRDXQ0KYiBzYWxpcg0KDQphX2N1YToNCm1vdiByMywgIzB4MA0KbGRy
+        IHIzLCBbcjAsIzB4MkNdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0NF0NCmxkciByMywgW3Iw
+        LCMweDMwXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDhdDQpsZHIgcjMsIFtyMCwjMHgzNF0N
+        CmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDRDXQ0KYiBzYWxpcg0KDQplX2N1YToNCm1vdiByMywg
+        IzB4MA0KbGRyIHIzLCBbcjAsIzB4MzhdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwjMHg0NF0NCmxk
+        ciByMywgW3IwLCMweDNDXQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDhdDQpsZHIgcjMsIFty
+        MCwjMHg0MF0NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDRDXQ0KYiBzYWxpcg0KDQptX2N1YToN
+        Cm1vdiByMywgIzB4MA0KbGRyIHIzLCBbcjAsIzB4NDRdDQplb3IgcjMsIHIxDQpzdHIgcjMsIFtyMiwj
+        MHg0NF0NCmxkciByMywgW3IwLCMweDQ4XQ0KZW9yIHIzLCByMQ0Kc3RyIHIzLCBbcjIsIzB4NDhdDQps
+        ZHIgcjMsIFtyMCwjMHg0Q10NCmVvciByMywgcjENCnN0ciByMywgW3IyLCMweDRDXQ0KDQpzYWxpcjoN
+        CnN0ciByNywgW3IyLCMweDUwXQ0KcG9wIHtyMC1yNyxwY30NCg0KLnBhcnR5OiAud29yZCAweDAyMDI0
+        Mjg0DQoudmFyXzgwMDA6IC53b3JkIDB4MDIwMzcwQjgNCi5tZW1vcnk6IC53b3JkIDB4MDIwM2Y1MDA=
+</value>
+  </data>
+  <data name="ASMCambiarPJKanto" xml:space="preserve">
+    <value>.text
+.align 2
+.thumb
+.thumb_func
+
+@hook from 0805CA4C via r0
+                            
+main:
+ @flag check
+checkFlag:
+ mov r0, #0xFF 
+ lsl r0, r0, #0x2
+ add r0, r0, #0xA @0x3FC + 0xA = @406
+ ldr r2, =(0x806E6D0 +1)
+ push {r1, r3}
+ bl linker
+ pop {r1, r3}
+ cmp r0, #0x1
+ bne noCrash
+
+setOW:
+ ldr r0, =(0x20370B8)
+ ldrb r0, [r0]
+ cmp r0, #0xFF
+ beq noCrash
+ mov r3, r0
+ 
+noCrash:
+ mov r8, r3
+ lsl r4, r4, #0x10
+ lsr r4, r4, #0x10
+ lsl r5, r5, #0x10
+ ldr r0, =(0x805CA54 +1)
+ bx r0
+ 
+linker:
+ bx r2
+ 
+.align 2</value>
+  </data>
+  <data name="VarsBPEUSA" xml:space="preserve">
+    <value>__aeabi_idiv = 0x82E7088|1
+__aeabi_idivmod = 0x82E7088|1
+__aeabi_uidiv = 0x82E7088|1
+__aeabi_uidivmod = 0x82E7088|1
+Random = 0x0806f5cc|1
+GetMonData = 0x0806a518|1
+SetMonData = 0x0806acac|1
+CalculateMonStats = 0x08068d0c|1
+CalculateBoxMonChecksum = 0x08068c78|1
+DecryptBoxMon = 0x0806a24c|1
+EncryptBoxMon = 0x0806a228|1
+gPlayerParty = 0x20244ec
+gSpecialVar_0x8004 = 0x020375e0
+gSpecialVar_0x8005 = 0x020375e2
+gSpecialVar_0x8006 = 0x020375e4
+gScriptResult = 0x020375f0</value>
+  </data>
+  <data name="VarsBPR10USA" xml:space="preserve">
+    <value>__aeabi_idiv = 0x081E3B68|1
+__aeabi_idivmod = 0x081E3B68|1
+__aeabi_uidiv = 0x081E3B68|1
+__aeabi_uidivmod = 0x081E3B68|1
+Random = 0x08044ec8|1
+GetMonData = 0x0803fbe8|1
+SetMonData = 0x0804037c|1
+CalculateMonStats = 0x0803e47c|1
+CalculateBoxMonChecksum = 0x0803e3e8|1
+DecryptBoxMon = 0x0803f91c|1
+EncryptBoxMon = 0x0803f8f8|1
+gPlayerParty = 0x02024284
+gSpecialVar_0x8004 = 0x020370c0
+gSpecialVar_0x8005 = 0x020370c2
+gSpecialVar_0x8006 = 0x020370c4
+gScriptResult = 0x020370d0</value>
+  </data>
+  <data name="c_pokemon" xml:space="preserve">
+    <value>#ifndef GUARD_POKEMON_H
+#define GUARD_POKEMON_H
+
+#define MON_DATA_PERSONALITY        0
+#define MON_DATA_OT_ID              1
+#define MON_DATA_NICKNAME           2
+#define MON_DATA_LANGUAGE           3
+#define MON_DATA_SANITY_BIT1        4
+#define MON_DATA_SANITY_BIT2        5
+#define MON_DATA_SANITY_BIT3        6
+#define MON_DATA_OT_NAME            7
+#define MON_DATA_MARKINGS           8
+#define MON_DATA_CHECKSUM           9
+#define MON_DATA_10                10
+#define MON_DATA_SPECIES           11
+#define MON_DATA_HELD_ITEM         12
+#define MON_DATA_MOVE1             13
+#define MON_DATA_MOVE2             14
+#define MON_DATA_MOVE3             15
+#define MON_DATA_MOVE4             16
+#define MON_DATA_PP1               17
+#define MON_DATA_PP2               18
+#define MON_DATA_PP3               19
+#define MON_DATA_PP4               20
+#define MON_DATA_PP_BONUSES        21
+#define MON_DATA_COOL              22
+#define MON_DATA_BEAUTY            23
+#define MON_DATA_CUTE              24
+#define MON_DATA_EXP               25
+#define MON_DATA_HP_EV             26
+#define MON_DATA_ATK_EV            27
+#define MON_DATA_DEF_EV            28
+#define MON_DATA_SPD_EV            29
+#define MON_DATA_SPATK_EV          30
+#define MON_DATA_SPDEF_EV          31
+#define MON_DATA_FRIENDSHIP        32
+#define MON_DATA_SMART             33
+#define MON_DATA_POKERUS           34
+#define MON_DATA_MET_LOCATION      35
+#define MON_DATA_MET_LEVEL         36
+#define MON_DATA_MET_GAME          37
+#define MON_DATA_POKEBALL          38
+#define MON_DATA_HP_IV             39
+#define MON_DATA_ATK_IV            40
+#define MON_DATA_DEF_IV            41
+#define MON_DATA_SPD_IV            42
+#define MON_DATA_SPATK_IV          43
+#define MON_DATA_SPDEF_IV          44
+#define MON_DATA_IS_EGG            45
+#define MON_DATA_ALT_ABILITY       46
+#define MON_DATA_TOUGH             47
+#define MON_DATA_SHEEN             48
+#define MON_DATA_OT_GENDER         49
+#define MON_DATA_COOL_RIBBON       50
+#define MON_DATA_BEAUTY_RIBBON     51
+#define MON_DATA_CUTE_RIBBON       52
+#define MON_DATA_SMART_RIBBON      53
+#define MON_DATA_TOUGH_RIBBON      54
+#define MON_DATA_STATUS            55
+#define MON_DATA_LEVEL             56
+#define MON_DATA_HP                57
+#define MON_DATA_MAX_HP            58
+#define MON_DATA_ATK               59
+#define MON_DATA_DEF               60
+#define MON_DATA_SPD               61
+#define MON_DATA_SPATK             62
+#define MON_DATA_SPDEF             63
+#define MON_DATA_MAIL              64
+#define MON_DATA_SPECIES2          65
+#define MON_DATA_IVS               66
+#define MON_DATA_CHAMPION_RIBBON   67
+#define MON_DATA_WINNING_RIBBON    68
+#define MON_DATA_VICTORY_RIBBON    69
+#define MON_DATA_ARTIST_RIBBON     70
+#define MON_DATA_EFFORT_RIBBON     71
+#define MON_DATA_GIFT_RIBBON_1     72
+#define MON_DATA_GIFT_RIBBON_2     73
+#define MON_DATA_GIFT_RIBBON_3     74
+#define MON_DATA_GIFT_RIBBON_4     75
+#define MON_DATA_GIFT_RIBBON_5     76
+#define MON_DATA_GIFT_RIBBON_6     77
+#define MON_DATA_GIFT_RIBBON_7     78
+#define MON_DATA_FATEFUL_ENCOUNTER 79
+#define MON_DATA_OBEDIENCE         80
+#define MON_DATA_KNOWN_MOVES       81
+#define MON_DATA_RIBBON_COUNT      82
+#define MON_DATA_RIBBONS           83
+#define MON_DATA_ATK2              84
+#define MON_DATA_DEF2              85
+#define MON_DATA_SPD2              86
+#define MON_DATA_SPATK2            87
+#define MON_DATA_SPDEF2            88
+
+#define OT_ID_RANDOM_NO_SHINY 2
+#define OT_ID_PRESET 1
+#define OT_ID_PLAYER_ID 0
+
+#define MON_GIVEN_TO_PARTY      0x0
+#define MON_GIVEN_TO_PC         0x1
+#define MON_CANT_GIVE           0x2
+
+#define PLAYER_HAS_TWO_USABLE_MONS              0x0
+#define PLAYER_HAS_ONE_MON                      0x1
+#define PLAYER_HAS_ONE_USABLE_MON               0x2
+
+#define MON_MALE       0x00
+#define MON_FEMALE     0xFE
+#define MON_GENDERLESS 0xFF
+
+#define TYPE_NORMAL   0x00
+#define TYPE_FIGHTING 0x01
+#define TYPE_FLYING   0x02
+#define TYPE_POISON   0x03
+#define TYPE_GROUND   0x04
+#define TYPE_ROCK     0x05
+#define TYPE_BUG      0x06
+#define TYPE_GHOST    0x07
+#define TYPE_STEEL    0x08
+#define TYPE_MYSTERY  0x09
+#define TYPE_FIRE     0x0a
+#define TYPE_WATER    0x0b
+#define TYPE_GRASS    0x0c
+#define TYPE_ELECTRIC 0x0d
+#define TYPE_PSYCHIC  0x0e
+#define TYPE_ICE      0x0f
+#define TYPE_DRAGON   0x10
+#define TYPE_DARK     0x11
+
+#define NUMBER_OF_MON_TYPES     0x12
+
+#define PARTY_SIZE 6
+#define MAX_TOTAL_EVS 510
+#define NUM_STATS 6
+#define UNOWN_FORM_COUNT 28
+#define MAX_MON_LEVEL 100
+
+
+enum
+{
+    EGG_GROUP_NONE,
+    EGG_GROUP_MONSTER,
+    EGG_GROUP_WATER_1,
+    EGG_GROUP_BUG,
+    EGG_GROUP_FLYING,
+    EGG_GROUP_FIELD,
+    EGG_GROUP_FAIRY,
+    EGG_GROUP_GRASS,
+    EGG_GROUP_HUMAN_LIKE,
+    EGG_GROUP_WATER_3,
+    EGG_GROUP_MINERAL,
+    EGG_GROUP_AMORPHOUS,
+    EGG_GROUP_WATER_2,
+    EGG_GROUP_DITTO,
+    EGG_GROUP_DRAGON,
+    EGG_GROUP_UNDISCOVERED
+};
+
+enum
+{
+    NATURE_HARDY,
+    NATURE_LONELY,
+    NATURE_BRAVE,
+    NATURE_ADAMANT,
+    NATURE_NAUGHTY,
+    NATURE_BOLD,
+    NATURE_DOCILE,
+    NATURE_RELAXED,
+    NATURE_IMPISH,
+    NATURE_LAX,
+    NATURE_TIMID,
+    NATURE_HASTY,
+    NATURE_SERIOUS,
+    NATURE_JOLLY,
+    NATURE_NAIVE,
+    NATURE_MODEST,
+    NATURE_MILD,
+    NATURE_QUIET,
+    NATURE_BASHFUL,
+    NATURE_RASH,
+    NATURE_CALM,
+    NATURE_GENTLE,
+    NATURE_SASSY,
+    NATURE_CAREFUL,
+    NATURE_QUIRKY,
+};
+
+struct PokemonSubstruct0
+{
+    u16 species;
+    u16 heldItem;
+    u32 experience;
+    u8 ppBonuses;
+    u8 friendship;
+};
+
+struct PokemonSubstruct1
+{
+    u16 moves[4];
+    u8 pp[4];
+};
+
+struct PokemonSubstruct2
+{
+    u8 hpEV;
+    u8 attackEV;
+    u8 defenseEV;
+    u8 speedEV;
+    u8 spAttackEV;
+    u8 spDefenseEV;
+    u8 cool;
+    u8 beauty;
+    u8 cute;
+    u8 smart;
+    u8 tough;
+    u8 sheen;
+};
+
+struct PokemonSubstruct3
+{
+ /* 0x00 */ u8 pokerus;
+ /* 0x01 */ u8 metLocation;
+
+ /* 0x02 */ u16 metLevel:7;
+ /* 0x02 */ u16 metGame:4;
+ /* 0x03 */ u16 pokeball:4;
+ /* 0x03 */ u16 otGender:1;
+
+ /* 0x04 */ u32 hpIV:5;
+ /* 0x04 */ u32 attackIV:5;
+ /* 0x05 */ u32 defenseIV:5;
+ /* 0x05 */ u32 speedIV:5;
+ /* 0x05 */ u32 spAttackIV:5;
+ /* 0x06 */ u32 spDefenseIV:5;
+ /* 0x07 */ u32 isEgg:1;
+ /* 0x07 */ u32 altAbility:1;
+
+ /* 0x08 */ u32 coolRibbon:3;
+ /* 0x08 */ u32 beautyRibbon:3;
+ /* 0x08 */ u32 cuteRibbon:3;
+ /* 0x09 */ u32 smartRibbon:3;
+ /* 0x09 */ u32 toughRibbon:3;
+ /* 0x09 */ u32 championRibbon:1;
+ /* 0x0A */ u32 winningRibbon:1;
+ /* 0x0A */ u32 victoryRibbon:1;
+ /* 0x0A */ u32 artistRibbon:1;
+ /* 0x0A */ u32 effortRibbon:1;
+ /* 0x0A */ u32 giftRibbon1:1;
+ /* 0x0A */ u32 giftRibbon2:1;
+ /* 0x0A */ u32 giftRibbon3:1;
+ /* 0x0A */ u32 giftRibbon4:1;
+ /* 0x0B */ u32 giftRibbon5:1;
+ /* 0x0B */ u32 giftRibbon6:1;
+ /* 0x0B */ u32 giftRibbon7:1;
+ /* 0x0B */ u32 fatefulEncounter:4;
+ /* 0x0B */ u32 obedient:1;
+};
+
+union PokemonSubstruct
+{
+    struct PokemonSubstruct0 type0;
+    struct PokemonSubstruct1 type1;
+    struct PokemonSubstruct2 type2;
+    struct PokemonSubstruct3 type3;
+    u16 raw[6];
+};
+
+struct BoxPokemon
+{
+    u32 personality;
+    u32 otId;
+    u8 nickname[10];
+    u8 language;
+    u8 isBadEgg:1;
+    u8 hasSpecies:1;
+    u8 isEgg:1;
+    u8 unused:5;
+    u8 otName[7];
+    u8 markings;
+    u16 checksum;
+    u16 unknown;
+
+    union
+    {
+        u32 raw[12];
+        union PokemonSubstruct substructs[4];
+    } secure;
+};
+
+struct Pokemon
+{
+    struct BoxPokemon box;
+    u32 status;
+    u8 level;
+    u8 mail;
+    u16 hp;
+    u16 maxHP;
+    u16 attack;
+    u16 defense;
+    u16 speed;
+    u16 spAttack;
+    u16 spDefense;
+};
+
+struct PokemonStorage
+{
+    /*0x0000*/ u8 currentBox;
+    /*0x0001*/ struct BoxPokemon boxes[14][30];
+    /*0x8344*/ u8 boxNames[14][9];
+    /*0x83C2*/ u8 boxWallpapers[14];
+};
+
+struct UnknownPokemonStruct
+{
+    u16 species;
+    u16 heldItem;
+    u16 moves[4];
+    u8 level;
+    u8 ppBonuses;
+    u8 hpEV;
+    u8 attackEV;
+    u8 defenseEV;
+    u8 speedEV;
+    u8 spAttackEV;
+    u8 spDefenseEV;
+    u32 otId;
+    u32 hpIV:5;
+    u32 attackIV:5;
+    u32 defenseIV:5;
+    u32 speedIV:5;
+    u32 spAttackIV:5;
+    u32 spDefenseIV:5;
+    u32 gap:1;
+    u32 altAbility:1;
+    u32 personality;
+    u8 nickname[11];
+    u8 friendship;
+};
+
+#define BATTLE_STATS_NO 8
+
+struct BattlePokemon
+{
+    /*0x00*/ u16 species;
+    /*0x02*/ u16 attack;
+    /*0x04*/ u16 defense;
+    /*0x06*/ u16 speed;
+    /*0x08*/ u16 spAttack;
+    /*0x0A*/ u16 spDefense;
+    /*0x0C*/ u16 moves[4];
+    /*0x14*/ u32 hpIV:5;
+    /*0x14*/ u32 attackIV:5;
+    /*0x15*/ u32 defenseIV:5;
+    /*0x15*/ u32 speedIV:5;
+    /*0x16*/ u32 spAttackIV:5;
+    /*0x17*/ u32 spDefenseIV:5;
+    /*0x17*/ u32 isEgg:1;
+    /*0x17*/ u32 altAbility:1;
+    /*0x18*/ s8 statStages[BATTLE_STATS_NO];
+    /*0x20*/ u8 ability;
+    /*0x21*/ u8 type1;
+    /*0x22*/ u8 type2;
+    /*0x23*/ u8 unknown;
+    /*0x24*/ u8 pp[4];
+    /*0x28*/ u16 hp;
+    /*0x2A*/ u8 level;
+    /*0x2B*/ u8 friendship;
+    /*0x2C*/ u16 maxHP;
+    /*0x2E*/ u16 item;
+    /*0x30*/ u8 nickname[11];
+    /*0x3B*/ u8 ppBonuses;
+    /*0x3C*/ u8 otName[8];
+    /*0x44*/ u32 experience;
+    /*0x48*/ u32 personality;
+    /*0x4C*/ u32 status1;
+    /*0x50*/ u32 status2;
+    /*0x54*/ u32 otId;
+};
+
+enum
+{
+    STAT_STAGE_HP,       // 0
+    STAT_STAGE_ATK,      // 1
+    STAT_STAGE_DEF,      // 2
+    STAT_STAGE_SPEED,    // 3
+    STAT_STAGE_SPATK,    // 4
+    STAT_STAGE_SPDEF,    // 5
+    STAT_STAGE_ACC,      // 6
+    STAT_STAGE_EVASION,  // 7
+};
+
+enum
+{
+    STAT_HP,     // 0
+    STAT_ATK,    // 1
+    STAT_DEF,    // 2
+    STAT_SPD,    // 3
+    STAT_SPATK,  // 4
+    STAT_SPDEF,  // 5
+};
+
+struct BaseStats
+{
+ /* 0x00 */ u8 baseHP;
+ /* 0x01 */ u8 baseAttack;
+ /* 0x02 */ u8 baseDefense;
+ /* 0x03 */ u8 baseSpeed;
+ /* 0x04 */ u8 baseSpAttack;
+ /* 0x05 */ u8 baseSpDefense;
+ /* 0x06 */ u8 type1;
+ /* 0x07 */ u8 type2;
+ /* 0x08 */ u8 catchRate;
+ /* 0x09 */ u8 expYield;
+ /* 0x0A */ u16 evYield_HP:2;
+ /* 0x0A */ u16 evYield_Attack:2;
+ /* 0x0A */ u16 evYield_Defense:2;
+ /* 0x0A */ u16 evYield_Speed:2;
+ /* 0x0B */ u16 evYield_SpAttack:2;
+ /* 0x0B */ u16 evYield_SpDefense:2;
+ /* 0x0C */ u16 item1;
+ /* 0x0E */ u16 item2;
+ /* 0x10 */ u8 genderRatio;
+ /* 0x11 */ u8 eggCycles;
+ /* 0x12 */ u8 friendship;
+ /* 0x13 */ u8 growthRate;
+ /* 0x14 */ u8 eggGroup1;
+ /* 0x15 */ u8 eggGroup2;
+ /* 0x16 */ u8 ability1;
+ /* 0x17 */ u8 ability2;
+ /* 0x18 */ u8 safariZoneFleeRate;
+ /* 0x19 */ u8 bodyColor : 7;
+            u8 noFlip : 1;
+};
+
+struct BattleMove
+{
+    u8 effect;
+    u8 power;
+    u8 type;
+    u8 accuracy;
+    u8 pp;
+    u8 secondaryEffectChance;
+    u8 target;
+    u8 priority;
+    u8 flags;
+};
+
+#define FLAG_MAKES_CONTACT          0x1
+#define FLAG_PROTECT_AFFECTED       0x2
+#define FLAG_MAGICCOAT_AFFECTED     0x4
+#define FLAG_SNATCH_AFFECTED        0x8
+#define FLAG_MIRROR_MOVE_AFFECTED   0x10
+#define FLAG_KINGSROCK_AFFECTED     0x20
+
+struct SpindaSpot
+{
+    u8 x, y;
+    u16 image[16];
+};
+
+struct __attribute__((packed)) LevelUpMove
+{
+    u16 move:9;
+    u16 level:7;
+};
+
+enum
+{
+    GROWTH_MEDIUM_FAST,
+    GROWTH_ERRATIC,
+    GROWTH_FLUCTUATING,
+    GROWTH_MEDIUM_SLOW,
+    GROWTH_FAST,
+    GROWTH_SLOW
+};
+
+enum
+{
+    BODY_COLOR_RED,
+    BODY_COLOR_BLUE,
+    BODY_COLOR_YELLOW,
+    BODY_COLOR_GREEN,
+    BODY_COLOR_BLACK,
+    BODY_COLOR_BROWN,
+    BODY_COLOR_PURPLE,
+    BODY_COLOR_GRAY,
+    BODY_COLOR_WHITE,
+    BODY_COLOR_PINK
+};
+
+#define EVO_FRIENDSHIP       0x0001 // Pokémon levels up with friendship ≥ 220
+#define EVO_FRIENDSHIP_DAY   0x0002 // Pokémon levels up during the day with friendship ≥ 220
+#define EVO_FRIENDSHIP_NIGHT 0x0003 // Pokémon levels up at night with friendship ≥ 220
+#define EVO_LEVEL            0x0004 // Pokémon reaches the specified level
+#define EVO_TRADE            0x0005 // Pokémon is traded
+#define EVO_TRADE_ITEM       0x0006 // Pokémon is traded while it's holding the specified item
+#define EVO_ITEM             0x0007 // specified item is used on Pokémon
+#define EVO_LEVEL_ATK_GT_DEF 0x0008 // Pokémon reaches the specified level with attack &gt; defense
+#define EVO_LEVEL_ATK_EQ_DEF 0x0009 // Pokémon reaches the specified level with attack = defense
+#define EVO_LEVEL_ATK_LT_DEF 0x000a // Pokémon reaches the specified level with attack &lt; defense
+#define EVO_LEVEL_SILCOON    0x000b // Pokémon reaches the specified level with a Silcoon personality value
+#define EVO_LEVEL_CASCOON    0x000c // Pokémon reaches the specified level with a Cascoon personality value
+#define EVO_LEVEL_NINJASK    0x000d // Pokémon reaches the specified level (special value for Ninjask)
+#define EVO_LEVEL_SHEDINJA   0x000e // Pokémon reaches the specified level (special value for Shedinja)
+#define EVO_BEAUTY           0x000f // Pokémon levels up with beauty ≥ specified value
+
+struct Evolution
+{
+    u16 method;
+    u16 param;
+    u16 targetSpecies;
+};
+
+struct EvolutionData
+{
+    struct Evolution evolutions[5];
+};
+
+u32 GetMonData(struct Pokemon *mon, s32 field, u8* data);
+void SetMonData(struct Pokemon *mon, s32 field, const void *data);
+
+#endif // GUARD_POKEMON_H
+</value>
+  </data>
+  <data name="c_types" xml:space="preserve">
+    <value>#ifndef POKEAGB_TYPES_H_
+#define POKEAGB_TYPES_H_
+
+
+typedef unsigned char u8;
+typedef unsigned short int u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short int s16;
+typedef signed int s32;
+typedef volatile u8 vu8;
+typedef volatile u16 vu16;
+typedef volatile u32 vu32;
+typedef volatile s8 vs8;
+typedef volatile s16 vs16;
+typedef volatile s32 vs32;
+
+
+#endif /* POKEAGB_TYPES_H_ */
+</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MensajeObjetoRecivido_EsmeraldaUSA_RojoFuegoUSA10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PokemonFrameWork\CodigoASM\MensajeObjetoRecivido.EsmeraldaUSA.RojoFuegoUSA10.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+</root>

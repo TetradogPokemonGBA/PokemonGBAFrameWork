@@ -8,8 +8,8 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-
-using Gabriel.Cat.S.Utilitats;
+using Gabriel.Cat;
+using Gabriel.Cat.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
