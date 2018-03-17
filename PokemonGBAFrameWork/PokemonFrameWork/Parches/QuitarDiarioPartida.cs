@@ -7,6 +7,7 @@
  * Código bajo licencia GNU
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 

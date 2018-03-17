@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork
 		public int CompareTo(object obj)
 		{
 			Var other=obj as Var;
-			int compareTo=other!=null?nombre.CompareTo(other.nombre):(int)Gabriel.Cat.CompareTo.Inferior;
+			int compareTo=other!=null?nombre.CompareTo(other.nombre):(int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
 

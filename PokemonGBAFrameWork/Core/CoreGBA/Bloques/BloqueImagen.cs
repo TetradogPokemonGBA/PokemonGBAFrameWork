@@ -194,7 +194,7 @@ namespace PokemonGBAFrameWork
             {
                 offsetHeaderAux = new OffsetRom(rom, offsetHeader);
                 if (offsetHeaderAux.IsAPointer)
-                    rom.Data.Remove(Convert.ToInt32(offsetHeaderAux.Offset), Lz77.Longitud(rom.Data.Bytes, bloqueImg.Offset));
+                    rom.Data.Remove(Convert.ToInt32(offsetHeaderAux.Offset), LZ77.Longitud(rom.Data.Bytes, bloqueImg.Offset));
             }
             bloqueImg.offset = offsetHeader;
             if (setPaletasSacadasDeLaRom)

@@ -119,10 +119,10 @@ namespace PokemonGBAFrameWork
 			if(edicion!=null)
 			{
 				compareTo=idioma.CompareTo(edicion.idioma);
-				if(compareTo==(int)Gabriel.Cat.CompareTo.Iguales)
+				if(compareTo==(int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals)
 					compareTo=abreviacionCanon.CompareTo(edicion.abreviacionCanon);
 				                          
-			}else compareTo=(int)Gabriel.Cat.CompareTo.Iguales;
+			}else compareTo=(int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals;
 			return compareTo;
 		}
 		public static EdicionPokemon GetEdicionPokemon(RomGba rom)

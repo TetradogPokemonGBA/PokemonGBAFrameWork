@@ -7,6 +7,7 @@
  * Código bajo licencia GNU
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFrameWork

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Utilitats;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-
+using Gabriel.Cat.S.Extension;
 namespace PokemonGBAFrameWork
 {
     public class TileMap
@@ -53,7 +54,7 @@ namespace PokemonGBAFrameWork
             total = xFin * yFin;
             if (!estaConvertidaAGba)
                 imgData = bmp.GetBytes();
-            else imgData = Gabriel.Cat.Extension.Extension.GetBytes(bmp);
+            else imgData = Gabriel.Cat.S.Extension.BitmapExtension.GetBytes(bmp);
 
             imgPalete = bmp.GetPaleta();
 

@@ -6,6 +6,8 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 
 //falta hacerlo universal

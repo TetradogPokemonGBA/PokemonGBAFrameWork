@@ -8,6 +8,7 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -740,12 +741,12 @@ namespace PokemonGBAFrameWork
 			int compareTo;
 			if (other != null)
 			{
-				compareTo = (int)Gabriel.Cat.CompareTo.Iguales;
-				for (int i = 0; i < blDatosAtaque.Bytes.Length && compareTo == (int)Gabriel.Cat.CompareTo.Iguales; i++)
+				compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals;
+				for (int i = 0; i < blDatosAtaque.Bytes.Length && compareTo == (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals; i++)
 					compareTo = blDatosAtaque.Bytes[i].CompareTo(other.blDatosAtaque.Bytes[i]);
 
 			}
-			else compareTo = (int)Gabriel.Cat.CompareTo.Inferior;
+			else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
 		public static DatosAtaque GetDatosAtaque(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion)

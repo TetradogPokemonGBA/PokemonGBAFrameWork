@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class Paleta : IComparable<Paleta>
+    public class Paleta :IComparable, IComparable<Paleta>
     {
         public static System.Drawing.Color BackgroundColorDefault = System.Drawing.Color.Transparent;
         public const int LENGTHHEADER = 4;
@@ -114,6 +114,11 @@ namespace PokemonGBAFrameWork
             Color aux = colores[colorLeft];
             colores[colorLeft] = colores[colorRight];
             colores[colorRight] = aux;
+        }
+
+        int IComparable.CompareTo(object obj)
+        {
+            return CompareTo(obj as Paleta);
         }
         public int CompareTo(Paleta other)
         {
@@ -278,6 +283,7 @@ namespace PokemonGBAFrameWork
             rom.Data.Remove(offsetPaletaActual, LENGTHHEADERCOMPLETO);
 
         }
+
     }
 
 }

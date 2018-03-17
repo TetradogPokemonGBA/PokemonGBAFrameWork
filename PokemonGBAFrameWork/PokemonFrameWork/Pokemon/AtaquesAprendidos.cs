@@ -12,15 +12,15 @@ using System;
 using System.Collections.Generic;
 using Gabriel.Cat;
 using Gabriel.Cat.S.Utilitats;
-
+using Gabriel.Cat.S.Extension;
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
 	/// Description of AtaquesAprendidos.
 	/// </summary>
-	public class AtaquesAprendidos:IComparable
+	public class AtaquesAprendidos:ObjectAutoId,IComparable
 	{
-		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable
+		public class AtaqueAprendido:ObjectAutoId,IComparable<AtaqueAprendido>,IComparable
 		{
 			
 			Word ataque;// :S no acabo de ver que sea asi...porque no se lee ni se escribe como seria un word...o eso me parece...por mirar...
@@ -70,8 +70,8 @@ namespace PokemonGBAFrameWork
 			}
 			public int CompareTo(AtaqueAprendido other)
 			{
-				int compareTo =other!=null ? Nivel.CompareTo(other.Nivel) : (int)Gabriel.Cat.CompareTo.Inferior;
-				if (compareTo == (int)Gabriel.Cat.CompareTo.Iguales)
+				int compareTo =other!=null ? Nivel.CompareTo(other.Nivel) : (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
+				if (compareTo == (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals)
 					compareTo = Ataque.CompareTo(other.Ataque);
 				return compareTo;
 			}
@@ -140,7 +140,7 @@ namespace PokemonGBAFrameWork
 		{
 			byte[] bytesGBA = new byte[ataques.Count * 2 + MarcaFin.Length];
 
-			Ataques.Sort();
+			Ataques.SortByQuickSort();
 
 			unsafe
 			{
@@ -171,7 +171,7 @@ namespace PokemonGBAFrameWork
 			byte nivelByte =(byte) nivel;
 			LlistaOrdenada<AtaqueAprendido> ataques=new LlistaOrdenada<AtaqueAprendido>();
 
-			Ataques.Sort();
+			Ataques.SortByQuickSort();
 
 			while (posNivel < Ataques.Count-1 && Ataques[posNivel].Nivel <= nivel)
 				posNivel++;
@@ -225,7 +225,7 @@ namespace PokemonGBAFrameWork
 			int compareTo;
 			if(blSonido!=null)
 				compareTo=String.Compare(IdAuto,blSonido.IdAuto);
-			else compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
+			else compareTo=(int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
 		#endregion
@@ -244,7 +244,7 @@ namespace PokemonGBAFrameWork
 
 				ataquesAprendidos.Ataques.Add(new AtaqueAprendido(new Word((ushort)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue+1))),(byte)(bloque.Bytes[i+1]>>1)));
 			}
-			ataquesAprendidos.Ataques.Sort();//por si lo hacen de forma externa que lo lea bien :)
+			ataquesAprendidos.Ataques.SortByQuickSort();//por si lo hacen de forma externa que lo lea bien :)
 			ataquesAprendidos.OffsetBytesAtaqueAprendido = offset;
 			return ataquesAprendidos;
 		}

@@ -8,6 +8,8 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 
@@ -716,7 +718,7 @@ namespace PokemonGBAFrameWork
 				}
 				
 				
-			}else compareTo=(int)Gabriel.Cat.CompareTo.Inferior;
+			}else compareTo=(int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
 		public int CalculaHp(int nivel,int evs=0,int ivs=0)

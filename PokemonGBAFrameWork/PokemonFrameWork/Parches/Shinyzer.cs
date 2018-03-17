@@ -8,6 +8,7 @@
  * creditos a hackmew por la rutina <3
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -236,7 +237,7 @@ namespace PokemonGBAFrameWork
 			
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Lock());
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Faceplayer());
-			if (Gabriel.Cat.Extension.Extension.Contains<bool>(pokemon, POKEMONSHINY)){
+			if (Gabriel.Cat.S.Extension.ExtensionIList.Contains<bool>(pokemon, POKEMONSHINY)){
 				scriptBattleShiny.ComandosScript.Add(ScriptLineaPokemonShinyEntrenador(entrenador, pokemon));
 			}
 			//scriptBattleShiny.ComandosScript.Add(new ComandosScript.ClearTrainerFlag(sIndex));

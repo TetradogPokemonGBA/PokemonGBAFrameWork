@@ -52,7 +52,7 @@ namespace PokemonGBAFrameWork
         { }
         public unsafe OffsetRom(byte* ptrDatos)
         {
-            bytesPointer = MetodosUnsafe.ReadBytes(ptrDatos, LENGTH);
+            bytesPointer = Gabriel.Cat.S.Extension.ExtensionByteArray.ReadBytes(ptrDatos, LENGTH);
             if (!this.IsAPointer)
                 throw new PointerMalFormadoException();
         }
@@ -139,7 +139,7 @@ namespace PokemonGBAFrameWork
             int compareTo;
             if (other != null)
                 compareTo = Serializar.ToInt(bytesPointer).CompareTo(Serializar.ToInt(bytesPointer));
-            else compareTo = (int)Gabriel.Cat.CompareTo.Inferior;
+            else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             return compareTo;
         }
         #endregion

@@ -5,10 +5,12 @@
  * Hora: 2:46
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
+ *
  */
-using Gabriel.Cat.S.Utilitats;
 using System;
+using Gabriel.Cat.S.Utilitats;
 
+using Gabriel.Cat.S.Extension;
 
 
 namespace PokemonGBAFrameWork
@@ -68,7 +70,7 @@ namespace PokemonGBAFrameWork
 				while(true)
 					paletas.Paletas.Add(Paleta.GetPaleta(rom,offsetTablaPaleta+paletas.Paletas.Count*Paleta.LENGTHHEADERCOMPLETO));
 			}catch{}
-			paletas.Paletas.Sort();
+			paletas.Paletas.SortByQuickSort();
 			return paletas;
 		}
 	}

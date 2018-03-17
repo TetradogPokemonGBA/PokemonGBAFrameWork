@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Utilitats;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-
+using Gabriel.Cat.S.Extension;
+using PokemonGBAFrameWork.Extension;
 namespace PokemonGBAFrameWork
 {
     public class TileSet
@@ -30,7 +32,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                int index = Gabriel.Cat.Extension.Extension.BinarySearch(tilesOrdenados, tile);
+                int index = Gabriel.Cat.S.Extension.ExtensionIList.BinarySearch(tilesOrdenados, tile);
                 if (index >= 0)
                     index = tiles.IndexOf(tilesOrdenados[index]);
                 return index;
@@ -72,7 +74,7 @@ namespace PokemonGBAFrameWork
         {
             return this[posicion];
         }
-        public FastBitmapLib.FastBitmap BuildBitmap()
+        public  Bitmap BuildBitmap()
         {
             const int DEFAULTLIENA = 5;
             int width;
@@ -92,12 +94,12 @@ namespace PokemonGBAFrameWork
 
             return BuildBitmap(tileMap);
         }
-        public FastBitmapLib.FastBitmap BuildBitmap(int[,] tileMap)
+        public Bitmap BuildBitmap(int[,] tileMap)
         {
             Color colorActual;
             int lenghtX = tileMap.GetLength(DimensionMatriz.X);
-            int lenghtY = tileMap.GetLength(DimensionMatriz.Y);
-            FastBitmapLib.FastBitmap bmp = new FastBitmapLib.FastBitmap(lenghtX * Tile.PIXELSPORLINEA, lenghtY * Tile.PIXELSPORLINEA);
+            int lenghtY = tileMap.GetLength(DimensionMatriz.Y); 
+            Bitmap bmp = new Bitmap(lenghtX * Tile.PIXELSPORLINEA, lenghtY * Tile.PIXELSPORLINEA);
             int bytesLinea;
             int bytesBloque;
             int pos;
@@ -111,7 +113,7 @@ namespace PokemonGBAFrameWork
                     bmp.TrataBytes((MetodoTratarBytePointer)((ptrBytes) => {
 
                         //pongo los tiles
-                        bytesLinea = Extension.BYTESPORCOLOR * bmp.Width;
+                        bytesLinea = Extension.Extension.BYTESPORCOLOR * bmp.Width;
                         bytesBloque = bytesLinea * Tile.PIXELSPORLINEA;
                         ptrsImg[0] = ptrBytes;
                         for (int i = 1; i < ptrsImg.Length; i++)

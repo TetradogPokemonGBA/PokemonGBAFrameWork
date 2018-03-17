@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
-
+using Gabriel.Cat.S.Extension;
 namespace PokemonGBAFrameWork.Extension
 {
     public static class Extension

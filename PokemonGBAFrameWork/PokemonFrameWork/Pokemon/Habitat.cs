@@ -8,6 +8,7 @@
  */
 using System;
 using Gabriel.Cat;
+using Gabriel.Cat.S.Utilitats;
 
 namespace PokemonGBAFrameWork
 {

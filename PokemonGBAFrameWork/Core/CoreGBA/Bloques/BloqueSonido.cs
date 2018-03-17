@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Utilitats;
+﻿using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,7 +11,7 @@ namespace PokemonGBAFrameWork
 {
     //mirar de hacer lo que hace Sappy :3 y poder importar desde wave,midi y exportar tambien :D
     //poder añadir instrumentos,quitarlos y editarlos :D
-    public class BloqueSonido :ObjecteAutoId,  IComparable
+    public class BloqueSonido :ObjectAutoId,  IComparable
     {
         enum Posicion
         {

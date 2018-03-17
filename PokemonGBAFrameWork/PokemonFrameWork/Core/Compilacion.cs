@@ -30,7 +30,7 @@ namespace PokemonGBAFrameWork
 		public  int CompareTo(object obj)
 		{
 			Compilacion compilacion=obj as Compilacion;
-			int compareTo=compilacion!=null?this.compilacion.CompareTo(compilacion.compilacion):(int)Gabriel.Cat.CompareTo.Inferior;
+			int compareTo=compilacion!=null?this.compilacion.CompareTo(compilacion.compilacion):(int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
 		public override string ToString()

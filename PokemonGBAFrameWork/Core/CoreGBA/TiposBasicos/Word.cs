@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Utilitats;
+﻿using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,7 +37,7 @@ namespace PokemonGBAFrameWork
         { }
         public unsafe Word(byte* ptrRomPosicionado)
         {
-            word = MetodosUnsafe.ReadBytes(ptrRomPosicionado, LENGTH);
+            word = Gabriel.Cat.S.Extension.ExtensionByteArray.ReadBytes(ptrRomPosicionado, LENGTH);
         }
         public byte[] Data
         {
@@ -57,7 +58,7 @@ namespace PokemonGBAFrameWork
             {
                 compareTo = ((ushort)this).CompareTo((ushort)other);
             }
-            else compareTo = (int)Gabriel.Cat.CompareTo.Inferior;
+            else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 
             return compareTo;
         }
@@ -125,7 +126,7 @@ namespace PokemonGBAFrameWork
         }
         public static unsafe void SetWord(byte* ptrDatosPosicionados, Word word)
         {
-            MetodosUnsafe.WriteBytes(ptrDatosPosicionados, word);
+            Gabriel.Cat.S.Extension.ExtensionByteArray.WriteBytes(ptrDatosPosicionados, word);
         }
         public static bool operator !=(Word lhs, Word rhs)
         {
