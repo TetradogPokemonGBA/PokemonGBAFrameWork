@@ -193,7 +193,7 @@ namespace PokemonGBAFrameWork
         }
         public static Paleta GetPaleta(Bitmap img)
         {//falta probar
-            return new Paleta(img.GetPaleta());
+            return new Paleta(Extension.Extension.GetPaleta(img));
         }
 
 

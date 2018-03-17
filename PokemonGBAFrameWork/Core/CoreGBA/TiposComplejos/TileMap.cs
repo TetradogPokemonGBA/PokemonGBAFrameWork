@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork
                 imgData = bmp.GetBytes();
             else imgData = Gabriel.Cat.S.Extension.BitmapExtension.GetBytes(bmp);
 
-            imgPalete = bmp.GetPaleta();
+            imgPalete = Extension.Extension.GetPaleta(bmp);
 
             tileSet = new TileSet(new GranPaleta(imgPalete));
             paleta = tileSet.Paleta;

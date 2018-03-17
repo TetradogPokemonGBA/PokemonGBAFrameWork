@@ -158,7 +158,7 @@ namespace PokemonGBAFrameWork
 
 		public static ASM GetASMOn(EdicionPokemon edicion,Compilacion compilacion)
 		{
-			StringBuilder strASM=new StringBuilder(Resources.ASMMTBW);
+			StringBuilder strASM=new StringBuilder(Resource.ASMMTBW);
 			strASM.Replace("OFFSET1",(Hex)GetOffset(edicion,compilacion,VariableASMOffset1));
 			strASM.Replace("OFFSET2",(Hex)GetOffset(edicion,compilacion,VariableASMOffset2));
 			return ASM.Compilar(strASM.ToString());

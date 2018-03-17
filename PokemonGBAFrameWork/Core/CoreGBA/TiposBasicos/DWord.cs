@@ -45,7 +45,7 @@ namespace PokemonGBAFrameWork
         }
         public unsafe DWord(byte* ptrRomPosicionado)
         {
-            dWord = Gabriel.Cat.S.Extension.ExtensionByteArray.ReadBytes(ptrRomPosicionado, LENGTH);
+            dWord = MetodosUnsafe.ReadBytes(ptrRomPosicionado, LENGTH);
         }
         public byte[] Data
         {
@@ -125,7 +125,7 @@ namespace PokemonGBAFrameWork
         }
         public static unsafe void SetDWord(byte* ptrDatosPosicionados, DWord dWord)
         {
-            Gabriel.Cat.S.Extension.ExtensionByteArray.WriteBytes(ptrDatosPosicionados, dWord);
+            MetodosUnsafe.WriteBytes(ptrDatosPosicionados, dWord);
         }
 
 

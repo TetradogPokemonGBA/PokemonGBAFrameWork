@@ -301,31 +301,31 @@ namespace PokemonGBAFrameWork
             const int PIXELSPERBYTE = 2;
 
             byte[] bytesBmpGBADescomprimido;
-            SortedList<Gabriel.Cat.V2.Color, int> dicPosColors;
-            Gabriel.Cat.V2.Color aux;
+            SortedList<Gabriel.Cat.S.Utilitats.V2.Color, int> dicPosColors;
+            Gabriel.Cat.S.Utilitats.V2.Color aux;
             if (bmp == null)
                 throw new ArgumentNullException("bmp");
             if (!estaConvertidaAGba)
-                bmp = bmp.ToGbaBitmap();
+                bmp = Extension.Extension.ToGbaBitmap(bmp);
             if (paleta == null)
                 paleta = Paleta.GetPaleta(bmp);
             bytesBmpGBADescomprimido = new byte[bmp.Width * bmp.Height / PIXELSPERBYTE];
-            dicPosColors = new SortedList<Gabriel.Cat.V2.Color, int>();
+            dicPosColors = new SortedList<Gabriel.Cat.S.Utilitats.V2.Color, int>();
             for (int i = 0; i < paleta.Colores.Length; i++)
             {
-                aux = new Gabriel.Cat.V2.Color(paleta.Colores[i].ToArgb());
+                aux = new Gabriel.Cat.S.Utilitats.V2.Color(paleta.Colores[i].ToArgb());
                 if (!dicPosColors.ContainsKey(aux))
                     dicPosColors.Add(aux, i);
             }
             unsafe
             {
-                Gabriel.Cat.V2.Color* ptrColor;
+                Gabriel.Cat.S.Utilitats.V2.Color* ptrColor;
                 byte* ptrBmpGBADescomprimido;
                 fixed (byte* ptBmpGBADescomprimido = bytesBmpGBADescomprimido)
                 {
                     fixed (byte* ptBytesColorsBmp = bmp.GetBytes())
                     {
-                        ptrColor = (Gabriel.Cat.V2.Color*)ptBytesColorsBmp;
+                        ptrColor = (Gabriel.Cat.S.Utilitats.V2.Color*)ptBytesColorsBmp;
                         ptrBmpGBADescomprimido = ptBmpGBADescomprimido;
 
                         for (int i = 0, f = bytesBmpGBADescomprimido.Length; i < f; i++)

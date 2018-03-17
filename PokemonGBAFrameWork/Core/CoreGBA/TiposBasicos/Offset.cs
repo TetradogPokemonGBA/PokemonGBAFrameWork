@@ -52,7 +52,7 @@ namespace PokemonGBAFrameWork
         { }
         public unsafe OffsetRom(byte* ptrDatos)
         {
-            bytesPointer = Gabriel.Cat.S.Extension.ExtensionByteArray.ReadBytes(ptrDatos, LENGTH);
+            bytesPointer = MetodosUnsafe.ReadBytes(ptrDatos, LENGTH);
             if (!this.IsAPointer)
                 throw new PointerMalFormadoException();
         }

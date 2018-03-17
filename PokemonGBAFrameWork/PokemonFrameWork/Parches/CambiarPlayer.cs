@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork
 		{
 			Creditos = new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY], "FBI", "Rutina y post : https://www.pokecommunity.com/showpost.php?p=8620314&postcount=465");
-			RutinaKanto = ASM.Compilar(Resources.ASMCambiarPJKanto);
+			RutinaKanto = ASM.Compilar(Resource.ASMCambiarPJKanto);
 			
 			VarOffsetPonerRutina = new Variable("Donde se pone el offset de la rutina compilada");
 			

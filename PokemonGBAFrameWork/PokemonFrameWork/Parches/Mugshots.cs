@@ -32,7 +32,7 @@ namespace PokemonGBAFrameWork
 			AsmMugshots = new LlistaOrdenada<EdicionPokemon, ASM>();
 			TablaMugshotsPosicion = new LlistaOrdenada<EdicionPokemon, int>();
 
-			asmMugshots = ASM.Compilar(System.Text.ASCIIEncoding.ASCII.GetString(Resources.ASMMugshotsFR).Replace(REEMPLAZAR, "800000"));//mirar si es compatible con LF
+			asmMugshots = ASM.Compilar(Resource.ASMMugshotsFR.Replace(REEMPLAZAR, "800000"));//mirar si es compatible con LF
 
 			AsmMugshots.Add(EdicionPokemon.RojoFuegoUsa, asmMugshots);
 			//falta añadir la posicion donde esta el pointer a la tabla

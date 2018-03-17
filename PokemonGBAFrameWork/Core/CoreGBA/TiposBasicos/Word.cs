@@ -37,7 +37,7 @@ namespace PokemonGBAFrameWork
         { }
         public unsafe Word(byte* ptrRomPosicionado)
         {
-            word = Gabriel.Cat.S.Extension.ExtensionByteArray.ReadBytes(ptrRomPosicionado, LENGTH);
+            word = MetodosUnsafe.ReadBytes(ptrRomPosicionado, LENGTH);
         }
         public byte[] Data
         {
@@ -126,7 +126,7 @@ namespace PokemonGBAFrameWork
         }
         public static unsafe void SetWord(byte* ptrDatosPosicionados, Word word)
         {
-            Gabriel.Cat.S.Extension.ExtensionByteArray.WriteBytes(ptrDatosPosicionados, word);
+            MetodosUnsafe.WriteBytes(ptrDatosPosicionados, word);
         }
         public static bool operator !=(Word lhs, Word rhs)
         {

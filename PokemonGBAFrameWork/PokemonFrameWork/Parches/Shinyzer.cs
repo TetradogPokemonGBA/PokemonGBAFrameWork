@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 	{
 		public const string DESCRIPCION="Permite controlar cuando sale un pokemon shiny.";
 		public static readonly Creditos Creditos;
-		//public static readonly ASM RutinaEsmeralda=ASM.Compilar(Resources.ASMShinyzer);
+		//public static readonly ASM RutinaEsmeralda=ASM.Compilar(Resource.ASMShinyzer);
 		public static readonly Word VariableShinytzer = (ushort)(Hex)"8003";//mirar de poder cambiarla...hasta que no lo sepa hacer será readonly
 		#region Rutina
 		//mas adelante poner el codigo fuente y usar la clase ASM
@@ -73,33 +73,33 @@ namespace PokemonGBAFrameWork
 			//falta añadir el codigo fuente de todos...de momento pondré los bytes compilados...mas adelante poner el codigo fuente :)
 			//aux=RutinaRubiYZafiro;//Compilo RUBI y SHAPHIRE//los ultimos 4 bytes es un pointer a un texto
 			DicRutina.Add(EdicionPokemon.RubiUsa,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroUsa10);
-			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRubiZafiroUsa11Y12);
-			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[2],Resources.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRubiYZafiroUsa10);
+			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[1],Resource.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina[EdicionPokemon.RubiUsa].Add(Compilacion.Compilaciones[2],Resource.ShinyzerRubiZafiroUsa11Y12);
 			DicRutina.Add(EdicionPokemon.ZafiroUsa,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroUsa10);
-			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRubiZafiroUsa11Y12);
-			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[2],Resources.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRubiYZafiroUsa10);
+			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[1],Resource.ShinyzerRubiZafiroUsa11Y12);
+			DicRutina[EdicionPokemon.ZafiroUsa].Add(Compilacion.Compilaciones[2],Resource.ShinyzerRubiZafiroUsa11Y12);
 			DicRutina.Add(EdicionPokemon.RubiEsp,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.RubiEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroEsp);
+			DicRutina[EdicionPokemon.RubiEsp].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRubiYZafiroEsp);
 			DicRutina.Add(EdicionPokemon.ZafiroEsp,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.ZafiroEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRubiYZafiroEsp);
+			DicRutina[EdicionPokemon.ZafiroEsp].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRubiYZafiroEsp);
 			//aux=RutinaRojoYVerde;//Compilo Verde y Rojo
 			DicRutina.Add(EdicionPokemon.VerdeHojaUsa,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.VerdeHojaUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeUsa10);
-			DicRutina[EdicionPokemon.VerdeHojaUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRojoYVerdeUsa11);
+			DicRutina[EdicionPokemon.VerdeHojaUsa].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRojoYVerdeUsa10);
+			DicRutina[EdicionPokemon.VerdeHojaUsa].Add(Compilacion.Compilaciones[1],Resource.ShinyzerRojoYVerdeUsa11);
 			DicRutina.Add(EdicionPokemon.RojoFuegoUsa,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.RojoFuegoUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeUsa10);
-			DicRutina[EdicionPokemon.RojoFuegoUsa].Add(Compilacion.Compilaciones[1],Resources.ShinyzerRojoYVerdeUsa11);
+			DicRutina[EdicionPokemon.RojoFuegoUsa].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRojoYVerdeUsa10);
+			DicRutina[EdicionPokemon.RojoFuegoUsa].Add(Compilacion.Compilaciones[1],Resource.ShinyzerRojoYVerdeUsa11);
 			DicRutina.Add(EdicionPokemon.VerdeHojaEsp,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.VerdeHojaEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeEsp);
+			DicRutina[EdicionPokemon.VerdeHojaEsp].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRojoYVerdeEsp);
 			DicRutina.Add(EdicionPokemon.RojoFuegoEsp,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.RojoFuegoEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerRojoYVerdeEsp);
+			DicRutina[EdicionPokemon.RojoFuegoEsp].Add(Compilacion.Compilaciones[0],Resource.ShinyzerRojoYVerdeEsp);
 			//aux=RutinaEsmeralda;//RutinaEsmeralda.AsmBinary;
 			DicRutina.Add(EdicionPokemon.EsmeraldaUsa,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.EsmeraldaUsa].Add(Compilacion.Compilaciones[0],Resources.ShinyzerEsmeraldaUsa);
+			DicRutina[EdicionPokemon.EsmeraldaUsa].Add(Compilacion.Compilaciones[0],Resource.ShinyzerEsmeraldaUsa);
 			DicRutina.Add(EdicionPokemon.EsmeraldaEsp,new LlistaOrdenada<Compilacion, byte[]>());
-			DicRutina[EdicionPokemon.EsmeraldaEsp].Add(Compilacion.Compilaciones[0],Resources.ShinyzerEsmeraldaEsp);
+			DicRutina[EdicionPokemon.EsmeraldaEsp].Add(Compilacion.Compilaciones[0],Resource.ShinyzerEsmeraldaEsp);
 			
 			//Creditos
 			Creditos=new Creditos();

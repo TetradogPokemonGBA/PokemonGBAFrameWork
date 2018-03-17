@@ -8,7 +8,7 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using Gabriel.Cat.S.Drawing;
+
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;

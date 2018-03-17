@@ -147,7 +147,7 @@ namespace PokemonGBAFrameWork
 		static AnimaciónPortada()
 		{
 			const int OFFSETSRUTINA=4;
-			Rutina=ASM.Compilar(System.Text.ASCIIEncoding.ASCII.GetString(Resources.ASMAnimarPortada));
+			Rutina=ASM.Compilar(Resource.ASMAnimarPortada);
 			OffsetBytesAPoner=new Variable("Offset donde se tienen que poner los bytes");
 			OffsetPointerRutina=new Variable("Offset donde va el offset+1 de la rutina");
 			OffsetsRutina=new Variable[OFFSETSRUTINA];
