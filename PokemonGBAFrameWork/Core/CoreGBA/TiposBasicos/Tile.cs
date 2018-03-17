@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace PokemonGBAFrameWork
@@ -11,7 +12,7 @@ namespace PokemonGBAFrameWork
         public const int PIXELSPORLINEA = 8;
         public const int TOTALLINEAS = PIXELSPORLINEA;
         public const int TOTALPIXELS = PIXELSPORLINEA * PIXELSPORLINEA;
-        public const int SIZEBYTESIMGLINEA = PIXELSPORLINEA * Extension.BYTESPORCOLOR;
+        public const int SIZEBYTESIMGLINEA = PIXELSPORLINEA * PokemonGBAFrameWork.Extension.Extension.BYTESPORCOLOR;
         public const int SIZEBYTESIMG = PIXELSPORLINEA * SIZEBYTESIMGLINEA;
 
 
@@ -102,7 +103,7 @@ namespace PokemonGBAFrameWork
                 paleta = value;
             }
         }
-        public FastBitmapLib.FastBitmap BuildBitmap()
+        public Bitmap BuildBitmap()
         {
             TileSet tileSetAux = new TileSet();
             tileSetAux.Add(this);
@@ -131,8 +132,8 @@ namespace PokemonGBAFrameWork
         }
         public int ICompareTo(Tile other)
         {
-            const int IGUALES = (int)Gabriel.Cat.CompareTo.Iguales;
-            int compareTo = other != null ? IGUALES : (int)Gabriel.Cat.CompareTo.Inferior;
+            const int IGUALES = (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals;
+            int compareTo = other != null ? IGUALES : (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             if (compareTo == IGUALES)
             {
                 compareTo = (int)datos.CompareTo(other.datos);

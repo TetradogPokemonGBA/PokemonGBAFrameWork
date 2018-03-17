@@ -125,7 +125,7 @@ namespace PokemonGBAFrameWork
             }
             else
             {
-                compareTo = (int)Gabriel.Cat.CompareTo.Inferior;
+                compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             }
             return compareTo;
         }
@@ -145,8 +145,8 @@ namespace PokemonGBAFrameWork
             Paleta paleta;
             int offsetPaletaData = new OffsetRom(rom, offsetPointerPaleta).Offset;
 
-            if (Lz77.CheckCompresionLZ77(rom.Data.Bytes, offsetPaletaData))
-                bytesPaletaDescomprimidos = Lz77.Descomprimir(rom.Data.Bytes, offsetPaletaData);
+            if (LZ77.CheckCompresionLZ77(rom.Data.Bytes, offsetPaletaData))
+                bytesPaletaDescomprimidos = LZ77.Descomprimir(rom.Data.Bytes, offsetPaletaData);
             else
                 bytesPaletaDescomprimidos = rom.Data.Bytes.SubArray(offsetPaletaData, TOTALBYTESPALETA);//son dos bytes por color
 
@@ -186,7 +186,7 @@ namespace PokemonGBAFrameWork
             paletaCargada.Header = header;
             return paletaCargada;
         }
-        public static Paleta GetPaleta(FastBitmapLib.FastBitmap img)
+        public static Paleta GetPaleta(Bitmap img)
         {//falta probar
             return new Paleta(img.GetPaleta());
         }
@@ -242,7 +242,7 @@ namespace PokemonGBAFrameWork
             }
             //la comprimo
             if (comprimirLz77)
-                bytesPaleta = Lz77.Comprimir(bytesPaleta);
+                bytesPaleta = LZ77.Comprimir(bytesPaleta);
 
             return bytesPaleta;
         }
@@ -273,7 +273,7 @@ namespace PokemonGBAFrameWork
             offsetDatos = new OffsetRom(rom, offsetPaletaActual);
             //borro los datos
             if (offsetDatos.IsAPointer)
-                rom.Data.Remove(offsetDatos.Offset, Lz77.Longitud(rom.Data.Bytes, offsetDatos.Offset));
+                rom.Data.Remove(offsetDatos.Offset, LZ77.Longitud(rom.Data.Bytes, offsetDatos.Offset));
             //borro el header
             rom.Data.Remove(offsetPaletaActual, LENGTHHEADERCOMPLETO);
 

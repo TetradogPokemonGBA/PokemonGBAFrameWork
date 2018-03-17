@@ -1,6 +1,7 @@
 ﻿using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace PokemonGBAFrameWork
 {
     //mirar de hacer lo que hace Sappy :3 y poder importar desde wave,midi y exportar tambien :D
     //poder añadir instrumentos,quitarlos y editarlos :D
-    public class BloqueSonido :  IComparable
+    public class BloqueSonido :ObjecteAutoId,  IComparable
     {
         enum Posicion
         {
@@ -285,7 +286,7 @@ namespace PokemonGBAFrameWork
             else coloresOnda = colores;
 
             Pen penOnda;
-            FastBitmapLib.FastBitmap bmpOnda = new FastBitmapLib.FastBitmap(datos.Length, HEIGHTWAVEIMAGE);
+            Bitmap bmpOnda = new Bitmap(datos.Length, HEIGHTWAVEIMAGE);
             Graphics gOnda = Graphics.FromImage(bmpOnda);
             //pongo las lineas :D
             for (int j = 0; j < Datos.Length; j++)
