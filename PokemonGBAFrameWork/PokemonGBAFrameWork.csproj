@@ -2,8 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Copyright>GNU V3 NO COMERCIAL</Copyright>
+    <Copyright>GNU V3</Copyright>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://creativecommons.org/licenses/by-nc-sa/4.0/</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</RepositoryUrl>
+    <PackageReleaseNotes>Permite leer lo que se ha adaptado de las roms de pokemon gba.
+De momento no compila el codigo asm de manera propia pero si hay suerte más adelante se podrá.</PackageReleaseNotes>
+    <Company>NOCOMERCIAL</Company>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>pokemon,gba,framework</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
