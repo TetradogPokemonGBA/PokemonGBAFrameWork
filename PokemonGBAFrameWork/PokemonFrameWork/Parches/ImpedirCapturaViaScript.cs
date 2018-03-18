@@ -45,7 +45,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static string GetASMCode()
 		{
-			return Resource.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable);
+			return Recursos.RecursosStrings.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable);
 		}
 		public static bool EstaActivado(RomData rom)
 		{

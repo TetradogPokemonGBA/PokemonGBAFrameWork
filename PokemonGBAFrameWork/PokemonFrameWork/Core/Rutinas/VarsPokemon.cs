@@ -26,8 +26,8 @@ namespace PokemonGBAFrameWork.Rutinas.C
 			Diccionario=new LlistaOrdenada<string, Variable>();
 			//añado edicion por edicion las variables
 			
-			AddFromResource(Compilacion.Compilaciones[0],EdicionPokemon.EsmeraldaUsa,Resource.VarsBPEUSA);
-			AddFromResource(Compilacion.Compilaciones[0],EdicionPokemon.RojoFuegoUsa,Resource.VarsBPR10USA);
+			AddFromResource(Compilacion.Compilaciones[0],EdicionPokemon.EsmeraldaUsa, Recursos.RecursosStrings.VarsBPEUSA);
+			AddFromResource(Compilacion.Compilaciones[0],EdicionPokemon.RojoFuegoUsa, Recursos.RecursosStrings.VarsBPR10USA);
 
 		}
 		static void AddFromResource(Compilacion compilacion,EdicionPokemon edicion,string recurso)

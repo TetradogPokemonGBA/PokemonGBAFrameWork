@@ -38,7 +38,7 @@ namespace PokemonGBAFrameWork
 			const int NUMVARIABLESRUTINA = 4;
 			Creditos = new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY], "~Andrea", "Hacer la rutina y el post https://www.pokecommunity.com/showthread.php?t=393573");
-			RutinaEsmeraldaUsa = ASM.Compilar(Resource.MensajeObjetoRecivido_EsmeraldaUSA_RojoFuegoUSA10.Replace(MARCA, ESMERALDA));
+			RutinaEsmeraldaUsa = ASM.Compilar(Recursos.RecursosStrings.ASMMensjaeObjetoRecividoConImagenEsmeraldaUSAYRojoFuego10USA.Replace(MARCA, ESMERALDA));
 			Activado = new byte[] { 0x00, 0x48, 0x00, 0x47 };
 			Desactivado = new byte[] { 0x03, 0xD1, 0x28, 0x1C, 0x03, 0x21, 0x0D, 0xF7 };
 			OffsetOverride = new Variable("Es la posicion donde se pone los bytes de activado y luego el puntero+1 a la rutina");
