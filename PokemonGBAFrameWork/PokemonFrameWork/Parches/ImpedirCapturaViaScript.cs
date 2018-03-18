@@ -97,7 +97,7 @@ namespace PokemonGBAFrameWork
 		{
 			const int IDENTIFICARLARUTINAENROM=9;
 			int offsetLinea=PokemonGBAFrameWork.Variable.GetVariable(VariablePosicionLinea,edicion,compilacion);
-			byte[] bytesRutinaCompilada=ASM.Compilar(Resource.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable)).AsmBinary;
+			byte[] bytesRutinaCompilada=ASM.Compilar(Recursos.RecursosStrings.ASMPokemonInCapturable.Replace(PARAREEMPLAZARENLATURINA,(Hex)Variable)).AsmBinary;
 			int offsetRutina=rom.Data.SearchArray(bytesRutinaCompilada.SubArray(IDENTIFICARLARUTINAENROM));
 			if(offsetRutina>0)
 				rom.Data.Remove(offsetRutina,bytesRutinaCompilada.Length);

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 //de momento se tiene que rehacer...
 namespace PokemonGBAFrameWork
 {
-	public static class Shinyzer
+	/*public static class Shinyzer
 	{
 		public const string DESCRIPCION="Permite controlar cuando sale un pokemon shiny.";
 		public static readonly Creditos Creditos;
@@ -245,5 +245,5 @@ namespace PokemonGBAFrameWork
 			scriptBattleShiny.ComandosScript.Add(new ComandosScript.Release());
 			return scriptBattleShiny;
 		}
-	}
+	}*/
 }

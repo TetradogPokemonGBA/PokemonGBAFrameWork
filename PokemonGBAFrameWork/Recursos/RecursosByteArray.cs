@@ -6,5 +6,8 @@ namespace PokemonGBAFrameWork.Recursos
 {
    public static class RecursosByteArray
     {
+
+     
+
     }
 }

@@ -69,10 +69,13 @@ namespace PokemonGBAFrameWork
 
 		static PokemonEditorScripting()
 		{
-			ASM codeASM;
+
 			ASMDecrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
 			ASMEncrypt = new LlistaOrdenada<EdicionPokemon, ASM>();
-			Creditos=new Creditos();
+
+            ASMDecrypt.Add(EdicionPokemon.RojoFuegoEsp, ASM.Compilar(Recursos.RecursosStrings.ASMEditorPokemonFRDencrypt));
+            ASMEncrypt.Add(EdicionPokemon.RojoFuegoEsp, ASM.Compilar(Recursos.RecursosStrings.ASMEditorPokemonFREncrypt));
+            Creditos =new Creditos();
 			Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO],"Javi4315♪","Ha hecho la rutina y lo ha explicado en un tutorial");
 			//pongo el codigo compilado para cada edición
 		}
