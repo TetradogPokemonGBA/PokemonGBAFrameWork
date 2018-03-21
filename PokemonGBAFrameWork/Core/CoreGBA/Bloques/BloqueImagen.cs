@@ -356,17 +356,6 @@ namespace PokemonGBAFrameWork
             return new BloqueBytes(LZ77.Comprimir(GetDatosDescomprimidos(img, null, estaConvertidaAGba)));
         }
         #endregion
-        #region Conversiones
-        public static implicit operator Bitmap(BloqueImagen bloqueImg)
-        {
-            return bloqueImg[0];
-        }
-        public static Bitmap operator +(BloqueImagen bloqueImagen, Paleta paleta)
-        {
-            return bloqueImagen[paleta];
-        }
-        #endregion
-
         public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
         {
             //PointerHeaderID
@@ -381,5 +370,17 @@ namespace PokemonGBAFrameWork
             //borro el header
             rom.Data.Remove(offsetSpriteActual, LENGTHHEADERCOMPLETO);
         }
+        #region Conversiones
+        public static implicit operator Bitmap(BloqueImagen bloqueImg)
+        {
+            return bloqueImg[0];
+        }
+        public static Bitmap operator +(BloqueImagen bloqueImagen, Paleta paleta)
+        {
+            return bloqueImagen[paleta];
+        }
+        #endregion
+
+       
     }
 }

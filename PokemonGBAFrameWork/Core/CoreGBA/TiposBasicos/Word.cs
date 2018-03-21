@@ -145,11 +145,11 @@ namespace PokemonGBAFrameWork
             return new Word(word);
         }
 
-        public static implicit operator Hex(Word word)
+        public static explicit operator Hex(Word word)
         {
             return (Hex)word.word.ReverseArray();
         }
-        public static implicit operator Word(Hex word)
+        public static explicit operator Word(Hex word)
         {
             return new Word((ushort)word);
         }
