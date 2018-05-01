@@ -98,6 +98,14 @@ namespace PokemonGBAFrameWork
 			}
 			private set{ abreviacionCanon = value; }
 		}
+        public bool RegionKanto
+        {
+            get { return this.AbreviacionRom == AbreviacionCanon.BPG || this.AbreviacionRom == AbreviacionCanon.BPR; }
+        }
+        public bool RegionHoenn
+        {
+            get { return !RegionKanto; }
+        }
 		public bool EstaModificada {
 			get{ return (char)idioma != InicialIdioma || Abreviacion != AbreviacionRom.ToString(); }
 		}

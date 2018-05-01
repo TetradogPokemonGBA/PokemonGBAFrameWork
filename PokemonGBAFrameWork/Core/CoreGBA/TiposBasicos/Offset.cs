@@ -96,6 +96,12 @@ namespace PokemonGBAFrameWork
                 bytesPointer = new byte[] { bytesPointer[3], bytesPointer[2], bytesPointer[1], identificado };
             }
         }
+        public override string ToString()
+        {
+            const int CARACTERESSTRING = 8;
+            return ((Hex)bytesPointer.ReverseArray()).ToString().PadLeft(CARACTERESSTRING, '0');
+        }
+
 
         #region Equals and GetHashCode implementation
         public override bool Equals(object obj)
