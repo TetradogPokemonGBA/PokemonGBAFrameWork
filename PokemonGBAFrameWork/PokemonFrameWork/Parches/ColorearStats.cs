@@ -22,9 +22,9 @@ namespace PokemonGBAFrameWork
     {
         public static readonly Creditos Creditos;
 
-        public static Color StatsNormal = Paleta.ToGBAColor(Color.Black);
-        public static Color StatsHigher = Paleta.ToGBAColor(Color.Blue);
-        public static Color StatsLower = Paleta.ToGBAColor(Color.Red);
+        public static Color StatsNormal = Color.Black;
+        public static Color StatsHigher = Color.Blue;
+        public static Color StatsLower = Color.Red;
         #region RutinaKanto
         public static readonly Variable Offset1Kanto;
         public static readonly Variable Offset2Kanto;
@@ -75,6 +75,7 @@ namespace PokemonGBAFrameWork
 
             Creditos = new Creditos();
             Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY], "Spherical Ice", "Rutina post: https://www.pokecommunity.com/showpost.php?p=9043890&postcount=816");
+            Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY], "Againsts", "Modificación Rutina para que vaya bien en el parche SummaryBW post: https://www.pokecommunity.com/showpost.php?p=9749083&postcount=7");
 
             #region Kanto
             VarsKanto = new Llista<KeyValuePair<string, Variable>>();
@@ -219,8 +220,8 @@ namespace PokemonGBAFrameWork
             OffsetLeftStatsEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x61CE82);
             OffsetLeftStatsEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x61F79E);
 
-            DisplayedStringEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x02021FC4);//es una variable falta saber como se mira para la version esp
-            //falta version en español                                   2020F14C
+            DisplayedStringEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x02021FC4);
+            DisplayedStringEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x02021FC4);
 
             OffsetHeaderLeftEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x1C379E);
             OffsetHeaderLeftEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x1C33BE);
@@ -234,7 +235,8 @@ namespace PokemonGBAFrameWork
         #region Tratamiento Colores
         public static byte[] ColorToGBA(Color color)
         {
-            return new byte[] { color.B, color.G, color.R };
+            color = Paleta.ToGBAColor(color);
+            return new byte[] { color.B, color.G, color.R,0x0 };
         }
         public static Color GBAToColor(byte[] gbaBytes)
         {
@@ -252,6 +254,7 @@ namespace PokemonGBAFrameWork
             byte[] color;
             StringBuilder strRutina;
             strRutina = new StringBuilder(rutina);
+            bool parcheSumaryBW = false;
             if (edicion.RegionKanto)
             {
                 for (int i = 0; i < VarsKanto.Count; i++)
@@ -260,6 +263,12 @@ namespace PokemonGBAFrameWork
                 strRutina.Replace("BBBBBB", new OffsetRom(rom.Data.SetArrayIfNotExist(ColorToGBA(StatsHigher))).ToString());
                 strRutina.Replace("RRRRRR", new OffsetRom(rom.Data.SetArrayIfNotExist(ColorToGBA(StatsLower))).ToString());
                 strRutina.Replace("NNNNNN", new OffsetRom(rom.Data.SetArrayIfNotExist(ColorToGBA(StatsNormal))).ToString());
+
+                if (parcheSumaryBW)//cuando lo haga pongo un método que lo mire :D
+                {
+                    strRutina.Replace("add r2,#0x32", "add r2,#0x3C");
+                    strRutina.Replace("add r2,#0xF", "add r2,#0x2");
+                }
             }
             else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
             {
