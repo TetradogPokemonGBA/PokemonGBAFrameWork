@@ -1,0 +1,744 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ColorearStats_AtaqueEspecial_FR" xml:space="preserve">
+    <value>.thumb
+@ 00 49 08 47 XX XX XX XX at x13717C
+
+mov r2,r8
+ldr r1, [r2]
+ldrb r2,[r1,#8]
+add r2,#0x32
+lsl r2,r2,#0x18
+lsr r2,r2,#0x18
+push {r0-r3}
+ldr r0, =(0x0203B140)
+ldr r0, [r0]
+ldr r2, =(0x3290)
+add r0, r0, r2
+mov r1, #0
+bl decryptbranch
+bl getnaturebranch
+cmp r0, #3 @ Adamant
+beq blue
+cmp r0, #8 @ Impish
+beq blue
+cmp r0, #13 @ Jolly
+beq blue
+cmp r0, #15 @ Modest
+beq red
+cmp r0, #16 @ Mild
+beq red
+cmp r0, #17 @ Quiet
+beq red
+cmp r0, #19 @ Rash
+beq red
+cmp r0, #23 @ Careful
+beq blue
+
+black:
+ldr r6, blackfont
+b end
+
+red:
+ldr r6, redfont
+b end
+
+blue:
+ldr r6, bluefont
+
+end:
+pop {r0-r3}
+ldr r1, =(0xOFFSET5+1)
+bx r1
+
+decryptbranch:
+ldr r2, =(0xOFFSET2+1)
+bx r2
+
+getnaturebranch:
+ldr r2, =(0xOFFSET3+1)
+bx r2
+
+.align 2
+blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+  </data>
+  <data name="ColorearStats_Ataque_FR" xml:space="preserve">
+    <value>.thumb
+@ 00 49 08 47 XX XX XX XX at x137134
+
+ldr r1, [r2]
+ldrb r2,[r1,#4]
+add r2,#0x32
+lsl r2,r2,#0x18
+lsr r2,r2,#0x18
+push {r0-r3}
+ldr r0, =(0x0203B140)
+ldr r0, [r0]
+ldr r2, =(0x3290)
+add r0, r0, r2
+mov r1, #0
+bl decryptbranch
+bl getnaturebranch
+cmp r0, #1 @ Lonely
+beq red
+cmp r0, #2 @ Brave
+beq red
+cmp r0, #3 @ Adamant
+beq red
+cmp r0, #4 @ Naughty
+beq red
+cmp r0, #5 @ Bold
+beq blue
+cmp r0, #10 @ Timid
+beq blue
+cmp r0, #15 @ Modest
+beq blue
+cmp r0, #20 @ Calm
+beq blue
+
+black:
+ldr r6, blackfont
+b end
+
+red:
+ldr r6, redfont
+b end
+
+blue:
+ldr r6, bluefont
+
+end:
+pop {r0-r3}
+ldr r1, =(0xOFFSET7+1)
+bx r1
+
+decryptbranch:
+ldr r2, =(0xOFFSET2+1)
+bx r2
+
+getnaturebranch:
+ldr r2, =(0xOFFSET3+1)
+bx r2
+
+.align 2
+blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+  </data>
+  <data name="ColorearStats_DefensaEspecial_FR" xml:space="preserve">
+    <value>.thumb
+@ 00 49 08 47 XX XX XX XX at x1371A4
+
+ldr r1, [r2]
+ldrb r2,[r1,#0xA]
+add r2,#0x32
+lsl r2,r2,#0x18
+lsr r2,r2,#0x18
+push {r0-r3}
+ldr r0, =(0x0203B140)
+ldr r0, [r0]
+ldr r2, =(0x3290)
+add r0, r0, r2
+mov r1, #0
+bl decryptbranch
+bl getnaturebranch
+cmp r0, #4 @ Naughty
+beq blue
+cmp r0, #9 @ Lax
+beq blue
+cmp r0, #14 @ Naive
+beq blue
+cmp r0, #19 @ Rash
+beq blue
+cmp r0, #20 @ Calm
+beq red
+cmp r0, #21 @ Gentle
+beq red
+cmp r0, #22 @ Sassy
+beq red
+cmp r0, #23 @ Careful
+beq red
+
+black:
+ldr r6, blackfont
+b end
+
+red:
+ldr r6, redfont
+b end
+
+blue:
+ldr r6, bluefont
+
+end:
+pop {r0-r3}
+ldr r1, =(0xOFFSET6+1)
+bx r1
+
+decryptbranch:
+ldr r2, =(0xOFFSET2+1)
+bx r2
+
+getnaturebranch:
+ldr r2, =(0xOFFSET3+1)
+bx r2
+
+.align 2
+blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+  </data>
+  <data name="ColorearStats_Defensa_FR" xml:space="preserve">
+    <value>.thumb
+@ 00 49 08 47 XX XX XX XX at x137158
+
+ldr r1, [r2]
+ldrb r2,[r1,#6]
+add r2,#0x32
+lsl r2,r2,#0x18
+lsr r2,r2,#0x18
+push {r0-r3}
+ldr r0, =(0x0203B140)
+ldr r0, [r0]
+ldr r2, =(0x3290)
+add r0, r0, r2
+mov r1, #0
+bl decryptbranch
+bl getnaturebranch
+cmp r0, #1 @ Lonely
+beq blue
+cmp r0, #5 @ Nold
+beq red
+cmp r0, #7 @ Relaxed
+beq red
+cmp r0, #8 @ Impish
+beq red
+cmp r0, #9 @ Lax
+beq red
+cmp r0, #11 @ Hasty
+beq blue
+cmp r0, #16 @ Mild
+beq blue
+cmp r0, #21 @ Gentle
+beq blue
+
+black:
+ldr r6, blackfont
+b end
+
+red:
+ldr r6, redfont
+b end
+
+blue:
+ldr r6, bluefont
+
+end:
+pop {r0-r3}
+ldr r1, =(0xOFFSET1+1)
+bx r1
+
+decryptbranch:
+ldr r2, =(0xOFFSET2+1)
+bx r2
+
+getnaturebranch:
+ldr r2, =(0xOFFSET3+1)
+bx r2
+
+.align 2
+blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+  </data>
+  <data name="ColorearStats_LeftStats_Esmeralda" xml:space="preserve">
+    <value>.text
+.thumb
+.thumb_func
+.align 2
+
+main:
+    push {r5}
+    sub sp, sp, #0x20
+    ldr r0, [r4] @pokemon summary pointer
+    add r0, #0xA3 @poke nature
+    ldrb r1, [r0]
+    ldr r0, nature_stat_table
+    lsl r2, r1, #2
+    add r2, r1, r2 @multiply by 5
+    add r2, r2, r0 @r2 contains nature info
+    ldr r3, left_stats_string
+    mov r1, sp
+    mov r5, #0
+    
+handle_hp:
+    ldrb r0, [r3, r5]
+    strb r0, [r1, r5]
+    add r5, #1
+    cmp r5, #6
+    bne handle_hp
+    add r3, #6
+    add r1, #6
+    mov r5, #0
+    
+handle_atk:
+    ldrb r0, [r2]
+    cmp r0, #1
+    beq red_font_atk
+    cmp r0, #0xFF
+    bne copy_atk
+    bl blue_font
+    b copy_atk
+    
+red_font_atk:
+    bl red_font
+    
+copy_atk:
+    ldrb r0, [r3, r5]
+    strb r0, [r1, r5]
+    add r5, #1
+    cmp r5, #3
+    bne copy_atk
+    add r3, #3
+    add r1, #3
+    mov r5, #0
+    
+handle_def:
+    add r2, #1
+    ldrb r0, [r2]
+    cmp r0, #1
+    beq red_font_def
+    cmp r0, #0xFF
+    beq blue_font_def
+    bl default_font
+    b copy_def
+    
+red_font_def:
+    bl red_font
+    b copy_def
+    
+blue_font_def:
+    bl blue_font
+    
+copy_def:
+    ldrb r0, [r3, r5]
+    strb r0, [r1, r5]
+    add r5, #1
+    cmp r5, #3
+    bne copy_def
+    
+copy_string:
+    ldr r0, displayed_string
+    mov r1, sp
+    ldr r2, special_f7_string_fct
+    bl callvia_r2
+    
+return:
+    mov r0, r9
+    add sp, sp, #0x20
+    pop {r5}
+    ldr r2, =(0xOFFSET1 + 1)
+    b callvia_r2
+    
+blue_font: @FC 01 07
+    mov r0, #0xBLUEB
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLUEG
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #7BLUER @color of the lowered stat
+    strb r0, [r1]
+    add r1, #1
+    bx lr
+    
+red_font: @FC 01 05
+    mov r0, #0xREDB
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #REDG
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #REDR @color of the raised stat
+    strb r0, [r1]
+    add r1, #1
+    bx lr
+    
+default_font: @FC 01 01
+     mov r0, #0xBLACKB
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLACKG
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLACKR @color of the raised stat
+    strb r0, [r1]
+    add r1, #1
+    bx lr
+    
+callvia_r2:
+    bx r2
+    
+.align 2
+
+nature_stat_table: .word 0xOFFSETNATURE
+left_stats_string: .word 0xOFFSETLEFTSTATS
+displayed_string: .word 0xDISPLAYEDSTRING
+special_f7_string_fct: .word 0xOFFSETSPECIALF7
+
+@at 0x1C379E insert: 00 00 00 4A 10 47 XX+1 XX XX 08 where XX is the address of the inserted routine</value>
+  </data>
+  <data name="ColorearStats_RevertirColorANegro_FR" xml:space="preserve">
+    <value>.thumb
+@ 00 49 08 47 XX XX XX XX at 081371F0
+
+ldr r1, [r2]
+ldrb r2,[r1,#0xE]
+add r2,#0xF
+lsl r2,r2,#0x18
+lsr r2,r2,#0x18
+ldr r6, blackfont
+ldr r1, =(0xOFFSET4+1)
+bx r1
+
+.align 2
+blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00</value>
+  </data>
+  <data name="ColorearStats_RightStats_Esmeralda" xml:space="preserve">
+    <value>.text
+.thumb
+.thumb_func
+.align 2
+
+main:
+    push {r5}
+    sub sp, sp, #0x20
+    ldr r0, [r4] @pokemon summary pointer
+    add r0, #0xA3 @poke nature
+    ldrb r1, [r0]
+    ldr r0, nature_stat_table
+    lsl r2, r1, #2
+    add r2, r1, r2 @multiply by 5
+    add r2, r2, r0 @r2 contains nature info
+    add r2, #3 @r2 contains beg of spatk stat
+    ldr r3, right_stats_string
+    mov r1, sp
+    mov r5, #0
+
+handle_spatk:
+    ldrb r0, [r2]
+    cmp r0, #1
+    beq red_font_spatk
+    cmp r0, #0xFF
+    bne copy_spatk
+    bl blue_font
+    b copy_spatk
+    
+red_font_spatk:
+    bl red_font
+    
+copy_spatk:
+    ldrb r0, [r3, r5]
+    strb r0, [r1, r5]
+    add r5, #1
+    cmp r5, #3
+    bne copy_spatk
+    add r3, #3
+    add r1, #3
+    mov r5, #0
+    
+handle_spdef:
+    add r2, #1
+    ldrb r0, [r2]
+    cmp r0, #1
+    beq red_font_spdef
+    cmp r0, #0xFF
+    beq blue_font_spdef
+    bl default_font
+    b copy_spdef
+    
+red_font_spdef:
+    bl red_font
+    b copy_spdef
+    
+blue_font_spdef:
+    bl blue_font
+    
+copy_spdef:
+    ldrb r0, [r3, r5]
+    strb r0, [r1, r5]
+    add r5, #1
+    cmp r5, #3
+    bne copy_spdef
+    add r3, #3
+    add r1, #3
+    mov r5, #0
+    
+handle_spd:
+    sub r2, #2
+    ldrb r0, [r2]
+    cmp r0, #1
+    beq red_font_spd
+    cmp r0, #0xFF
+    beq blue_font_spd
+    bl default_font
+    b copy_spd
+    
+red_font_spd:
+    bl red_font
+    b copy_spd
+    
+blue_font_spd:
+    bl blue_font
+    
+copy_spd:
+    ldrb r0, [r3, r5]
+    strb r0, [r1, r5]
+    add r5, #1
+    cmp r5, #3
+    bne copy_spd
+    add r3, #3
+    add r1, #3
+    
+return:
+    ldr r0, displayed_string
+    mov r1, sp
+    ldr r2, special_f7_string_fct
+    bl callvia_r2
+    add sp, sp, #0x20
+    pop {r5}
+    ldr r2, =(0xOFFSET2 + 1)
+    bx r2
+    
+blue_font: @FC 01 07
+    mov r0, #0xBLUEB
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLUEG
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLUER @color of the lowered stat
+    strb r0, [r1]
+    add r1, #1
+    bx lr
+    
+red_font: @FC 01 05
+    mov r0, #0xREDB
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #REDG
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #REDR @color of the raised stat
+    strb r0, [r1]
+    add r1, #1
+    bx lr
+    
+default_font: @FC 01 01
+       mov r0, #0xBLACKB
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLACKG
+    strb r0, [r1]
+    add r1, #1
+    mov r0, #BLACKR @color of the raised stat
+    strb r0, [r1]
+    add r1, #1
+    bx lr
+    
+callvia_r2:
+    bx r2    
+    
+.align 2
+
+nature_stat_table: .word 0xOFFSETNATURE
+right_stats_string: .word 0xOFFSETRIGHTSTATS
+displayed_string: .word 0xDISPLAYEDSTRING
+special_f7_string_fct: .word 0xOFFSETSPECIALF7
+
+@at 0x1C3864 insert 00 4A 10 47 XX+1 XX XX 08</value>
+  </data>
+  <data name="ColorearStats_Velocidad_FR" xml:space="preserve">
+    <value>.thumb
+@ 00 49 08 47 XX XX XX XX at x1371C8
+
+mov r2,r8
+ldr r1, [r2]
+ldrb r2,[r1,#0xC]
+add r2,#0x32
+lsl r2,r2,#0x18
+lsr r2,r2,#0x18
+push {r0-r3}
+ldr r0, =(0x0203B140)
+ldr r0, [r0]
+ldr r2, =(0x3290)
+add r0, r0, r2
+mov r1, #0
+bl decryptbranch
+bl getnaturebranch
+cmp r0, #2 @ Brave
+beq blue
+cmp r0, #7 @ Relaxed
+beq blue
+cmp r0, #10 @ Timid
+beq red
+cmp r0, #11 @ Hasty
+beq red
+cmp r0, #13 @ Jolly
+beq red
+cmp r0, #14 @ Naive
+beq red
+cmp r0, #17 @ Quiet
+beq blue
+cmp r0, #22 @ Sassy
+beq blue
+
+black:
+ldr r6, blackfont
+b end
+
+red:
+ldr r6, redfont
+b end
+
+blue:
+ldr r6, bluefont
+
+end:
+pop {r0-r3}
+ldr r1, =(0xOFFSET8+1)
+bx r1
+
+decryptbranch:
+ldr r2, =(0xOFFSET2+1)
+bx r2
+
+getnaturebranch:
+ldr r2, =(0xOFFSET3+1)
+bx r2
+
+.align 2
+blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+  </data>
+</root>
