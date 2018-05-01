@@ -56,7 +56,7 @@ namespace PokemonGBAFrameWork
                     value[0] = new PokemonEntrenador();
                 }
                 else if (value.Length > MAXPOKEMONENTRENADOR)
-                    value = value.SubList(0, MAXPOKEMONENTRENADOR).ToArray();
+                    value = value.SubList(0, MAXPOKEMONENTRENADOR);
                 else
                     equipoPokemon.SetIList(value);
                 equipoPokemon = value;

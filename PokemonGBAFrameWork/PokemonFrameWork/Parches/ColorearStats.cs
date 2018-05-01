@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -219,7 +220,7 @@ namespace PokemonGBAFrameWork
             OffsetLeftStatsEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x61F79E);
 
             DisplayedStringEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x02021FC4);//es una variable falta saber como se mira para la version esp
-            //falta version en español
+            //falta version en español                                   2020F14C
 
             OffsetHeaderLeftEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x1C379E);
             OffsetHeaderLeftEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x1C33BE);
@@ -247,6 +248,7 @@ namespace PokemonGBAFrameWork
             const int R = 2, G = 1, B = 0;
             string[] COLORES = { "BLUE", "RED", "BLACK" };
             string[] PARTESCOLOR = { "B", "G", "R" };
+            char[] varDisplayString;
             byte[] color;
             StringBuilder strRutina;
             strRutina = new StringBuilder(rutina);
@@ -261,8 +263,12 @@ namespace PokemonGBAFrameWork
             }
             else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
             {
-                for (int i = 0; i < VarsEsmeralda.Count; i++)
+                for (int i = 0,f= VarsEsmeralda.Count - 1; i < f; i++)
                     strRutina.Replace(VarsEsmeralda[i].Key, new OffsetRom(Variable.GetVariable(VarsEsmeralda[i].Value, edicion, compilacion)).ToString());
+
+                varDisplayString = ((Hex)Variable.GetVariable(VarsEsmeralda[VarsEsmeralda.Count - 1].Value, edicion, compilacion)).ToString().PadLeft(8,'0').ToCharArray();
+                varDisplayString.Invertir();
+                strRutina.Replace(VarsEsmeralda[VarsEsmeralda.Count-1].Key,new string( varDisplayString));
 
                 //parte colores BLUE,RED,BLACK B,G,R
                 color = ColorToGBA(StatsNormal);

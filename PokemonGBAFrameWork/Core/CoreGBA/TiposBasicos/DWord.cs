@@ -163,7 +163,7 @@ namespace PokemonGBAFrameWork
         }
         public static implicit operator Hex(DWord dWord)
         {
-            return (Hex)dWord.dWord.ReverseArray();
+            return (Hex)dWord.dWord.InvertirClone();
         }
         public static implicit operator DWord(Hex dWord)
         {

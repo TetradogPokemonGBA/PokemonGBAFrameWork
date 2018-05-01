@@ -99,7 +99,7 @@ namespace PokemonGBAFrameWork
         public override string ToString()
         {
             const int CARACTERESSTRING = 8;
-            return ((Hex)bytesPointer.ReverseArray()).ToString().PadLeft(CARACTERESSTRING, '0');
+            return ((Hex)bytesPointer.InvertirClone()).ToString().PadLeft(CARACTERESSTRING, '0');
         }
 
 

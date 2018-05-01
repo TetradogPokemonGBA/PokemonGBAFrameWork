@@ -394,10 +394,10 @@ namespace PokemonGBAFrameWork
             bloqueACargar.OffsetDatos = offsetSound;
             bloqueACargar.numeroDeCanalesMaximos = numeroDeCanalesMaximo;
             bloqueACargar.Datos = new sbyte[numeroDeCanales][];//Mas adelante sacarlo de la rom y ponerlos todos :)
-            bloqueACargar.EstaComprimido = Serializar.ToShort(rom.Data.SubArray((int)offsetSound + (int)Posicion.EstaComprimido, sizeof(short)).ReverseArray()) == 0x1;
-            bloqueACargar.RepetirCiclicamente = Serializar.ToShort(rom.Data.SubArray((int)offsetSound + (int)Posicion.RepetirCiclicamente, sizeof(short)).ReverseArray()) == 0x4000;
-            bloqueACargar.SampleRate = Serializar.ToInt(rom.Data.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray()) >> 10;
-            bloqueACargar.InicioRepeticion = Serializar.ToInt(rom.Data.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).ReverseArray());
+            bloqueACargar.EstaComprimido = Serializar.ToShort(rom.Data.SubArray((int)offsetSound + (int)Posicion.EstaComprimido, sizeof(short)).InvertirClone()) == 0x1;
+            bloqueACargar.RepetirCiclicamente = Serializar.ToShort(rom.Data.SubArray((int)offsetSound + (int)Posicion.RepetirCiclicamente, sizeof(short)).InvertirClone()) == 0x4000;
+            bloqueACargar.SampleRate = Serializar.ToInt(rom.Data.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).InvertirClone()) >> 10;
+            bloqueACargar.InicioRepeticion = Serializar.ToInt(rom.Data.SubArray((int)offsetSound + (int)Posicion.SampleRate, sizeof(int)).InvertirClone());
             bloqueACargar.Length = Serializar.ToInt(rom.Data.SubArray((int)offsetSound + (int)Posicion.Length, sizeof(int)));//habrá una lenght para cada canal?
 
             if (bloqueACargar.Length + offsetSound < rom.Data.Length)

@@ -147,7 +147,7 @@ namespace PokemonGBAFrameWork
 
         public static explicit operator Hex(Word word)
         {
-            return (Hex)word.word.ReverseArray();
+            return (Hex)word.word.InvertirClone();
         }
         public static explicit operator Word(Hex word)
         {

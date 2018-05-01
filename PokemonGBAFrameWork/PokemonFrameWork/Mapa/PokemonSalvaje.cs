@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork
 			PokemonSalvaje pokemon=new PokemonSalvaje();
 			Pokemon.OrdenPokemon orden=Pokemon.Orden;
 			Pokemon.Orden=Pokemon.OrdenPokemon.Nacional;//supongo que es este pero no lo se...por mirar...
-			pokedex=pokedex.SortByQuickSort();
+			pokedex.SortByQuickSort();
 			Pokemon.Orden=orden;
 			pokemon.NivelMinimo=rom.Data[offsetPokemon++];
 			pokemon.NivelMaximo=rom.Data[offsetPokemon++];
