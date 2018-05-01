@@ -22,9 +22,9 @@ namespace PokemonGBAFrameWork
     {
         public static readonly Creditos Creditos;
 
-        public static Color StatsNormal = Color.Black;
-        public static Color StatsHigher = Color.Blue;
-        public static Color StatsLower = Color.Red;
+        public static Color StatsNormal = Color.White;
+        public static Color StatsHigher = Color.White;
+        public static Color StatsLower = Color.White;
         #region RutinaKanto
         public static readonly Variable Offset1Kanto;
         public static readonly Variable Offset2Kanto;
@@ -235,7 +235,7 @@ namespace PokemonGBAFrameWork
         #region Tratamiento Colores
         public static byte[] ColorToGBA(Color color)
         {
-            color = Paleta.ToGBAColor(color);
+
             return new byte[] { color.B, color.G, color.R,0x0 };
         }
         public static Color GBAToColor(byte[] gbaBytes)
@@ -280,13 +280,15 @@ namespace PokemonGBAFrameWork
 
                 //parte colores BLUE,RED,BLACK B,G,R
                 color = ColorToGBA(StatsNormal);
-                for (int i = 0; i < color.Length; i++)
+                for (int i = 0,f= color.Length-1; i < f; i++)
                     strRutina.Replace(COLORES[2] + PARTESCOLOR[i], (Hex)color[i]);
+
                 color = ColorToGBA(StatsLower);
-                for (int i = 0; i < color.Length; i++)
+                for (int i = 0, f = color.Length - 1; i < f; i++)
                     strRutina.Replace(COLORES[1] + PARTESCOLOR[i], (Hex)color[i]);
+
                 color = ColorToGBA(StatsHigher);
-                for (int i = 0; i < color.Length; i++)
+                for (int i = 0, f = color.Length - 1; i < f; i++)
                     strRutina.Replace(COLORES[0] + PARTESCOLOR[i], (Hex)color[i]);
             }
             else
@@ -304,7 +306,7 @@ namespace PokemonGBAFrameWork
         }
         public static bool Compatible(EdicionPokemon edicion, Compilacion compilacion)
         {
-            bool compatible = edicion.RegionKanto || (edicion.AbreviacionRom == AbreviacionCanon.BPE && edicion.Idioma == Idioma.Ingles);
+            bool compatible = edicion.RegionKanto || edicion.AbreviacionRom == AbreviacionCanon.BPE ;
 
             return compatible;
         }
