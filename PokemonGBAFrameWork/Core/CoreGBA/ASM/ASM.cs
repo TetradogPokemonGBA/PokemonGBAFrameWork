@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public  class ASM
 	{
-		public static readonly string RutaThumb=Environment.CurrentDirectory+System.IO.Path.AltDirectorySeparatorChar+"thumb.bat";
+		public static readonly string RutaThumb=System.IO.Path.Combine(Environment.CurrentDirectory,"thumb.bat");
 		public const string MESNAJEFINCORRECTO="Assembled successfully.";
 		
 		string asmCode;

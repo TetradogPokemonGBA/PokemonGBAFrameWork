@@ -463,10 +463,10 @@ blue_font: @FC 01 07
     mov r0, #0xBLUEB
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLUEG
+    mov r0, #0xBLUEG
     strb r0, [r1]
     add r1, #1
-    mov r0, #7BLUER @color of the lowered stat
+    mov r0, #0xBLUER @color of the lowered stat
     strb r0, [r1]
     add r1, #1
     bx lr
@@ -475,10 +475,10 @@ red_font: @FC 01 05
     mov r0, #0xREDB
     strb r0, [r1]
     add r1, #1
-    mov r0, #REDG
+    mov r0, #0xREDG
     strb r0, [r1]
     add r1, #1
-    mov r0, #REDR @color of the raised stat
+    mov r0, #0xREDR @color of the raised stat
     strb r0, [r1]
     add r1, #1
     bx lr
@@ -487,10 +487,10 @@ default_font: @FC 01 01
      mov r0, #0xBLACKB
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLACKG
+    mov r0, #0xBLACKG
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLACKR @color of the raised stat
+    mov r0, #0xBLACKR @color of the raised stat
     strb r0, [r1]
     add r1, #1
     bx lr
@@ -633,10 +633,10 @@ blue_font: @FC 01 07
     mov r0, #0xBLUEB
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLUEG
+    mov r0, #0xBLUEG
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLUER @color of the lowered stat
+    mov r0, #0xBLUER @color of the lowered stat
     strb r0, [r1]
     add r1, #1
     bx lr
@@ -645,10 +645,10 @@ red_font: @FC 01 05
     mov r0, #0xREDB
     strb r0, [r1]
     add r1, #1
-    mov r0, #REDG
+    mov r0, #0xREDG
     strb r0, [r1]
     add r1, #1
-    mov r0, #REDR @color of the raised stat
+    mov r0, #0xREDR @color of the raised stat
     strb r0, [r1]
     add r1, #1
     bx lr
@@ -657,10 +657,10 @@ default_font: @FC 01 01
        mov r0, #0xBLACKB
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLACKG
+    mov r0, #0xBLACKG
     strb r0, [r1]
     add r1, #1
-    mov r0, #BLACKR @color of the raised stat
+    mov r0, #0xBLACKR @color of the raised stat
     strb r0, [r1]
     add r1, #1
     bx lr

@@ -22,9 +22,9 @@ namespace PokemonGBAFrameWork
     {
         public static readonly Creditos Creditos;
 
-        public static Color StatsNormal = Color.Black;
-        public static Color StatsHigher = Color.Blue;
-        public static Color StatsLower = Color.Red;
+        public static Color StatsNormal = Paleta.ToGBAColor(Color.Black);
+        public static Color StatsHigher = Paleta.ToGBAColor(Color.Blue);
+        public static Color StatsLower = Paleta.ToGBAColor(Color.Red);
         #region RutinaKanto
         public static readonly Variable Offset1Kanto;
         public static readonly Variable Offset2Kanto;
@@ -267,7 +267,6 @@ namespace PokemonGBAFrameWork
                     strRutina.Replace(VarsEsmeralda[i].Key, new OffsetRom(Variable.GetVariable(VarsEsmeralda[i].Value, edicion, compilacion)).ToString());
 
                 varDisplayString = ((Hex)Variable.GetVariable(VarsEsmeralda[VarsEsmeralda.Count - 1].Value, edicion, compilacion)).ToString().PadLeft(8,'0').ToCharArray();
-                varDisplayString.Invertir();
                 strRutina.Replace(VarsEsmeralda[VarsEsmeralda.Count-1].Key,new string( varDisplayString));
 
                 //parte colores BLUE,RED,BLACK B,G,R
@@ -316,7 +315,7 @@ namespace PokemonGBAFrameWork
                 //Rubi y Zafiro
             }
 
-            return romGBA.Data.SearchArray(rutinaABuscar) > 0;
+            return romGBA.Data.SearchArray(rutinaABuscar.SubArray(20)) > 0;
         }
         public static void Activar(RomData rom)
         {
@@ -407,7 +406,7 @@ namespace PokemonGBAFrameWork
                 for (int i = 0; i < vars.Count; i++)
                 {
                     rutinaActual = ASM.Compilar(SetOffsetsRutina(romGBA, vars[i].Key.Key, edicion, compilacion)).AsmBinary;
-                    offsetRutinaActual = romGBA.Data.SearchArray(rutinaActual);//mirar de hacer una subArray para que los colores no den problemas
+                    offsetRutinaActual = romGBA.Data.SearchArray(rutinaActual.SubArray(20));//mirar de hacer una subArray para que los colores no den problemas
                     //borro la rutina de la rom
                     romGBA.Data.Remove(offsetRutinaActual, rutinaActual.Length);
                     //desactivo la rutina

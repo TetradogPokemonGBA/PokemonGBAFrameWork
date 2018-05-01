@@ -26,7 +26,7 @@ De momento no compila el codigo asm de manera propia pero si hay suerte más ade
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.0.4.3-preview1.0.1" />
+    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.0.4.3-preview1.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview2-26406-04" />
   </ItemGroup>
 
