@@ -379,6 +379,7 @@ namespace PokemonGBAFrameWork
         {
             int offsetRutinaActual;
             byte[] rutinaActual;
+            KeyValuePair<KeyValuePair<string, Variable>, byte[]> aux;
             List<KeyValuePair<KeyValuePair<string, Variable>, byte[]>> vars;
             if (EstaActivado(romGBA, edicion, compilacion))
             {
@@ -390,8 +391,14 @@ namespace PokemonGBAFrameWork
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_AtaqueEspecial_FR, OffsetHeaderAtaqueEspecialKanto), HeaderKantoAtaqueEspecial));
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_DefensaEspecial_FR, OffsetHeaderDefensaEspecialKanto), HeaderKantoDefensaEspecial));
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_Velocidad_FR, OffsetHeaderVelocidadKanto), HeaderKantoVelocidad));
-                    vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_RevertirColorANegro_FR, OffsetHeaderRevertirColorANegroKanto), HeaderKantoRevertirColorANegro));
+                    aux=(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_RevertirColorANegro_FR, OffsetHeaderRevertirColorANegroKanto), HeaderKantoRevertirColorANegro));
 
+                    rutinaActual = ASM.Compilar(SetOffsetsRutina(romGBA, aux.Key.Key, edicion, compilacion)).AsmBinary;
+                    offsetRutinaActual = romGBA.Data.SearchArray(rutinaActual.SubArray(15));//mirar de hacer una subArray para que los colores no den problemas
+                    //borro la rutina de la rom
+                    romGBA.Data.Remove(offsetRutinaActual, rutinaActual.Length);
+                    //desactivo la rutina
+                    romGBA.Data.SetArray(aux.Value, Variable.GetVariable(aux.Key.Value, edicion, compilacion));
                 }
                 else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
                 {

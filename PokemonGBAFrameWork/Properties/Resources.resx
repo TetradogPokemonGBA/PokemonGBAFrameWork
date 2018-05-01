@@ -177,9 +177,9 @@ ldr r2, =(0xOFFSET3+1)
 bx r2
 
 .align 2
-blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
-redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
-bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0xRRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0xBBBBBB @ ROM location that contains: 00 07 0A 00</value>
   </data>
   <data name="ColorearStats_Ataque_FR" xml:space="preserve">
     <value>.thumb
@@ -240,9 +240,9 @@ ldr r2, =(0xOFFSET3+1)
 bx r2
 
 .align 2
-blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
-redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
-bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0xRRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0xBBBBBB @ ROM location that contains: 00 07 0A 00</value>
   </data>
   <data name="ColorearStats_DefensaEspecial_FR" xml:space="preserve">
     <value>.thumb
@@ -303,9 +303,9 @@ ldr r2, =(0xOFFSET3+1)
 bx r2
 
 .align 2
-blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
-redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
-bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0xRRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0xBBBBBB @ ROM location that contains: 00 07 0A 00</value>
   </data>
   <data name="ColorearStats_Defensa_FR" xml:space="preserve">
     <value>.thumb
@@ -366,9 +366,9 @@ ldr r2, =(0xOFFSET3+1)
 bx r2
 
 .align 2
-blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
-redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
-bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0xRRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0xBBBBBB @ ROM location that contains: 00 07 0A 00</value>
   </data>
   <data name="ColorearStats_LeftStats_Esmeralda" xml:space="preserve">
     <value>.text
@@ -521,7 +521,7 @@ ldr r1, =(0xOFFSET4+1)
 bx r1
 
 .align 2
-blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00</value>
+blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00</value>
   </data>
   <data name="ColorearStats_RightStats_Esmeralda" xml:space="preserve">
     <value>.text
@@ -737,8 +737,8 @@ ldr r2, =(0xOFFSET3+1)
 bx r2
 
 .align 2
-blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
-redfont: .word 0x08RRRRRR @ ROM location that contains: 00 01 0A 00
-bluefont: .word 0x08BBBBBB @ ROM location that contains: 00 07 0A 00</value>
+blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00
+redfont: .word 0xRRRRRR @ ROM location that contains: 00 01 0A 00
+bluefont: .word 0xBBBBBB @ ROM location that contains: 00 07 0A 00</value>
   </data>
 </root>

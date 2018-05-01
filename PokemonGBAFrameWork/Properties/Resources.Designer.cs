@@ -276,7 +276,7 @@ namespace PokemonGBAFrameWork.Properties {
         ///bx r1
         ///
         ///.align 2
-        ///blackfont: .word 0x08NNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00.
+        ///blackfont: .word 0xNNNNNN @ In a vanilla FR ROM, this contains: 00 0E 0A 00.
         /// </summary>
         internal static string ColorearStats_RevertirColorANegro_FR {
             get {
