@@ -22,9 +22,9 @@ namespace PokemonGBAFrameWork
     {
         public static readonly Creditos Creditos;
 
-        public static Color StatsNormal = Color.White;
-        public static Color StatsHigher = Color.White;
-        public static Color StatsLower = Color.White;
+        public static Color StatsNormal = Color.Black;
+        public static Color StatsHigher = Color.Blue;
+        public static Color StatsLower = Color.Red;
         #region RutinaKanto
         public static readonly Variable Offset1Kanto;
         public static readonly Variable Offset2Kanto;
@@ -326,7 +326,7 @@ namespace PokemonGBAFrameWork
                 //Rubi y Zafiro
             }
 
-            return romGBA.Data.SearchArray(rutinaABuscar.SubArray(20)) > 0;
+            return romGBA.Data.SearchArray(rutinaABuscar.SubArray(15)) > 0;
         }
         public static void Activar(RomData rom)
         {
@@ -402,14 +402,8 @@ namespace PokemonGBAFrameWork
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_AtaqueEspecial_FR, OffsetHeaderAtaqueEspecialKanto), HeaderKantoAtaqueEspecial));
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_DefensaEspecial_FR, OffsetHeaderDefensaEspecialKanto), HeaderKantoDefensaEspecial));
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_Velocidad_FR, OffsetHeaderVelocidadKanto), HeaderKantoVelocidad));
-                    aux=(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_RevertirColorANegro_FR, OffsetHeaderRevertirColorANegroKanto), HeaderKantoRevertirColorANegro));
+                    vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_RevertirColorANegro_FR, OffsetHeaderRevertirColorANegroKanto), HeaderKantoRevertirColorANegro));
 
-                    rutinaActual = ASM.Compilar(SetOffsetsRutina(romGBA, aux.Key.Key, edicion, compilacion)).AsmBinary;
-                    offsetRutinaActual = romGBA.Data.SearchArray(rutinaActual.SubArray(15));//mirar de hacer una subArray para que los colores no den problemas
-                    //borro la rutina de la rom
-                    romGBA.Data.Remove(offsetRutinaActual, rutinaActual.Length);
-                    //desactivo la rutina
-                    romGBA.Data.SetArray( Variable.GetVariable(aux.Key.Value, edicion, compilacion), aux.Value);
                 }
                 else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
                 {
@@ -424,7 +418,7 @@ namespace PokemonGBAFrameWork
                 for (int i = 0; i < vars.Count; i++)
                 {
                     rutinaActual = ASM.Compilar(SetOffsetsRutina(romGBA, vars[i].Key.Key, edicion, compilacion)).AsmBinary;
-                    offsetRutinaActual = romGBA.Data.SearchArray(rutinaActual.SubArray(20));//mirar de hacer una subArray para que los colores no den problemas
+                    offsetRutinaActual = romGBA.Data.SearchArray(rutinaActual.SubArray(15));//mirar de hacer una subArray para que los colores no den problemas
                     //borro la rutina de la rom
                     romGBA.Data.Remove(offsetRutinaActual, rutinaActual.Length);
                     //desactivo la rutina
