@@ -211,7 +211,7 @@ namespace PokemonGBAFrameWork
 
         public static void SetBloqueImagenSinHeader(RomGba rom, int offsetImagen, BloqueImagen bloqueImg)
         {
-            rom.Data.SetArray(offsetImagen, new OffsetRom(rom, rom.Data.SetArray(bloqueImg.DatosComprimidos())).BytesPointer);
+            rom.Data.SetArray(offsetImagen, new OffsetRom(rom, rom.Data.SearchEmptySpaceAndSetArray(bloqueImg.DatosComprimidos())).BytesPointer);
         }
 
         public static BloqueImagen GetBloqueImagenSinHeader(RomGba rom, int offsetPointerData)

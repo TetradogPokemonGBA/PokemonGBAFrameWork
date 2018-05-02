@@ -81,7 +81,7 @@ namespace PokemonGBAFrameWork
 			}
 			offsetRutina=rom.Data.SearchArray(bytesRutinaCompilada);
 			if(offsetRutina<0)
-				offsetRutina=rom.Data.SetArray(bytesRutinaCompilada);
+				offsetRutina=rom.Data.SearchEmptySpaceAndSetArray(bytesRutinaCompilada);
 			
 			bytesLinea=RutinaOn.Clone() as byte[];
 			bytesLinea.SetArray(6,new OffsetRom(offsetRutina+1).BytesPointer);

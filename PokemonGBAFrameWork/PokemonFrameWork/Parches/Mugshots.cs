@@ -163,7 +163,7 @@ namespace PokemonGBAFrameWork
 			if (!EstaActivado(rom, edicion, compilacion))
 			{
 				//pongo el codigo asm
-				rom.Data.SetArray(AsmMugshots[edicion].AsmBinary);
+				rom.Data.SearchEmptySpaceAndSetArray(AsmMugshots[edicion].AsmBinary);
 
 			}
 			oldMugshots = GetMugshots(rom, edicion, compilacion);
@@ -205,7 +205,7 @@ namespace PokemonGBAFrameWork
 					auxOffsetImg = rom.Data.SearchArray(mugshots[i].Offset, datosImgComprimidos);
 					if (auxOffsetImg < 0)
 					{
-						auxOffsetImg = rom.Data.SetArray(datosImgComprimidos);
+						auxOffsetImg = rom.Data.SearchEmptySpaceAndSetArray(datosImgComprimidos);
 					}
 				}
 
@@ -219,7 +219,7 @@ namespace PokemonGBAFrameWork
 					auxOffsetPaleta = rom.Data.SearchArray(mugshots[i].Paletas[0].Offset, datosPaletaComprimida);
 					if (auxOffsetPaleta < 0)
 					{
-						auxOffsetPaleta = rom.Data.SetArray(datosPaletaComprimida);
+						auxOffsetPaleta = rom.Data.SearchEmptySpaceAndSetArray(datosPaletaComprimida);
 					}
 				}
 
@@ -234,7 +234,7 @@ namespace PokemonGBAFrameWork
 			int offset = rom.Data.SearchEmptyBytes(OffsetRom.LENGTH * 2 * mugshots.Count);
 			//busco el inicio de la rutina
 			//cambio el offset de la tabla de mugshots en la rutina
-			rom.Data.SetArray(new OffsetRom(offset).BytesPointer, GetOffsetRutina(rom, edicion, compilacio) + TablaMugshotsPosicion[edicion]);
+			rom.Data.SearchEmptySpaceAndSetArray(new OffsetRom(offset).BytesPointer, GetOffsetRutina(rom, edicion, compilacio) + TablaMugshotsPosicion[edicion]);
 
 			return offset;
 

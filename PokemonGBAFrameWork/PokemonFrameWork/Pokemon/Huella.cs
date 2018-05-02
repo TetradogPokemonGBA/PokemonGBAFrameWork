@@ -205,7 +205,7 @@ namespace PokemonGBAFrameWork
 			if (huella == null ||  huella.BytesHuellaGBA.Bytes.Length != LENGHT|| rom == null || edicion == null || posicion < 0)
 				throw new ArgumentException();
 
-			OffsetRom.SetOffset(rom,new OffsetRom(Zona.GetOffsetRom(rom, ZonaHuella, edicion, compilacion).Offset + posicion * OffsetRom.LENGTH), rom.Data.SetArray(huella.BytesHuellaGBA.Bytes));
+			OffsetRom.SetOffset(rom,new OffsetRom(Zona.GetOffsetRom(rom, ZonaHuella, edicion, compilacion).Offset + posicion * OffsetRom.LENGTH), rom.Data.SearchEmptySpaceAndSetArray(huella.BytesHuellaGBA.Bytes));
 		}
 		static byte[] WriteImage(Bitmap bmp)
 		{

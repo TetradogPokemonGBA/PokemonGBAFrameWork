@@ -129,14 +129,14 @@ namespace PokemonGBAFrameWork
 			int rutinaCompilada;
 			byte[] rutina = null;
 			if (!EstaActivado(romGBA, edicion, compilacion)) {
-				romGBA.Data.SetArray(Activado, offsetOverride);
+				romGBA.Data.SetArray(offsetOverride, Activado);
 				offsetOverride += Activado.Length;
 				rutina = RutinaEsmeraldaUsa.AsmBinary;
 				
 				if (edicion.AbreviacionRom == AbreviacionCanon.BPE) {
 					
 					offsetEsmeralda = Variable.GetVariable(OffsetEsmeralda, edicion, compilacion);
-					romGBA.Data.SetArray(Activado2EsmeraldaOnly, offsetEsmeralda);
+					romGBA.Data.SetArray(offsetEsmeralda, Activado2EsmeraldaOnly);
 					
 				}
 				
@@ -145,7 +145,7 @@ namespace PokemonGBAFrameWork
 					rutina.SetArray(VariablesASustituirEnLaRutina[i].Key, new OffsetRom(Variable.GetVariable(VariablesASustituirEnLaRutina[i].Value, edicion, compilacion)).BytesPointer);
 				
 
-				rutinaCompilada = romGBA.Data.SetArray(rutina);
+				rutinaCompilada = romGBA.Data.SearchEmptySpaceAndSetArray(rutina);
 				romGBA.Data.SetArray(offsetOverride, new OffsetRom(rutinaCompilada + 1).BytesPointer);
 			}
 		}
@@ -162,9 +162,9 @@ namespace PokemonGBAFrameWork
 				offsetOverride = Variable.GetVariable(OffsetOverride, edicion, compilacion);
 				offsetRutina = new OffsetRom(romGBA, offsetOverride + Activado.Length);
 				romGBA.Data.Remove(offsetRutina.Offset - 1, LengthRutina);
-				romGBA.Data.SetArray(Desactivado, offsetOverride);
+				romGBA.Data.SetArray(offsetOverride, Desactivado);
 				if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
-					romGBA.Data.SetArray(Desactivado2EsmeraldaOnly, Variable.GetVariable(OffsetEsmeralda, edicion, compilacion));
+					romGBA.Data.SetArray( Variable.GetVariable(OffsetEsmeralda, edicion, compilacion), Desactivado2EsmeraldaOnly);
 			}
 		}
 	}

@@ -127,7 +127,7 @@ namespace PokemonGBAFrameWork
 				rom.Data.SetArray(GetOffset( edicion, compilacion, VariableOffsetMTBW2), NewSystem);
 				rom.Data.SetArray(GetOffset( edicion, compilacion, VariableOffsetMTBW3), NewSystem);
 				rom.Data[GetOffset(edicion,compilacion,VariableOffsetMTBWB)]=NEWSYSTEMPARTB;
-				offsetASM=rom.Data.SetArray(GetASMOn(edicion,compilacion).AsmBinary);
+				offsetASM=rom.Data.SearchEmptySpaceAndSetArray(GetASMOn(edicion,compilacion).AsmBinary);
 				offsetNewSystemASM=GetOffset(edicion,compilacion,VariableOffsetASM);
 				rom.Data.SetArray(offsetNewSystemASM,NewSystemASM);
 				rom.Data.SetArray(offsetNewSystemASM+NewSystemASM.Length,new OffsetRom(offsetASM+1).BytesPointer);

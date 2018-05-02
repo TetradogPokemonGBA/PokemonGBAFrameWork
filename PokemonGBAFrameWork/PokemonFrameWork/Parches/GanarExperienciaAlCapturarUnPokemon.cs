@@ -119,7 +119,7 @@ namespace PokemonGBAFrameWork
 			int offsetDondePonerElOffsetDeLaRutina;
 			//pongo la rutina
 			if(offsetRutina<0)
-				offsetRutina=rom.Data.SetArray(rutina);
+				offsetRutina=rom.Data.SearchEmptySpaceAndSetArray(rutina);
 			offsetDondePonerElOffsetDeLaRutina=Variable.GetVariable(VarOffsetPointerRutina,edicion,compilacion);
 			rom.Data[offsetDondePonerElOffsetDeLaRutina++]=RUTINAON;
 			rom.Data.SetArray(offsetDondePonerElOffsetDeLaRutina,new OffsetRom(offsetRutina+1).BytesPointer);

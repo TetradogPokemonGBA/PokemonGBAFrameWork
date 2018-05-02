@@ -224,7 +224,7 @@ namespace PokemonGBAFrameWork
         {
 
             byte[] bytesGbaString = ToByteArray(str, acabaEnFFByte);
-            rom.Data.SetArray(bytesGbaString, offsetInicio);
+            rom.Data.SetArray(offsetInicio, bytesGbaString);
 
         }
         public static void SetString(RomGba rom, int offsetInicio, BloqueString str)

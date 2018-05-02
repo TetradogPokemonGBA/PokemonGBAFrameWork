@@ -84,7 +84,7 @@ namespace PokemonGBAFrameWork
 				rutina.SetArray(rutina.Length-POSOFFSET2,new OffsetRom(Variable.GetVariable(VarOffsetRutina2,edicion,compilacion)).BytesPointer);
 				rom.Data.SetArray(inicio,Part1InsertOffsetRutina);
 				inicio+=Part1InsertOffsetRutina.Length;
-				rom.Data.SetArray(inicio,new OffsetRom(rom.Data.SetArray(rutina)+1).BytesPointer);
+				rom.Data.SetArray(inicio,new OffsetRom(rom.Data.SearchEmptySpaceAndSetArray(rutina)+1).BytesPointer);
 			}
 		}
 		public static void Desactivar(RomData rom)

@@ -64,8 +64,8 @@ namespace PokemonGBAFrameWork
 		{
 			//llamo al compilador y si no da el mensaje de compilado correctamente lanza una excepcion con el mensaje
 			ASM asmResult;
-			string pathAsmCode=System.IO.Path.GetTempFileName();
-			string pathAsmCompilado=System.IO.Path.GetTempFileName()+".bin";
+			string pathAsmCode=System.IO.Path.GetTempFileName()+".asmGba";
+			string pathAsmCompilado=System.IO.Path.GetTempFileName()+".gbaBin";
 			string mensajeFinProceso;
 			byte[] codigoCompilado;
 			System.Diagnostics.Process proceso;

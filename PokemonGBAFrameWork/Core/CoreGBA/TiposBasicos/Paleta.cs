@@ -227,7 +227,7 @@ namespace PokemonGBAFrameWork
                     rom.Data.Remove(offsetAux.Offset, bytesPaleta.Length);
             }
 
-            offsetData = rom.Data.SetArray(bytesPaleta);
+            offsetData = rom.Data.SearchEmptySpaceAndSetArray(bytesPaleta);
             rom.Data.SetArray(offset, new OffsetRom(offsetData).BytesPointer);
         }
 

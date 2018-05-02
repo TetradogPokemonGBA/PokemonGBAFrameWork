@@ -91,7 +91,7 @@ namespace PokemonGBAFrameWork
         {
             Bytes.SetArray(inicio, datos);
         }
-        public int SetArray(byte[] datos, int inicio = 0x800000)
+        public int SearchEmptySpaceAndSetArray(byte[] datos, int inicio = 0x800000)
         {
             int offsetEmpty = SearchEmptyBytes(datos.Length, inicio);
             SetArray(offsetEmpty, datos);
@@ -101,7 +101,7 @@ namespace PokemonGBAFrameWork
         {
             int offset = SearchArray(data);
             if (offset < 0)
-                offset = SetArray(data);
+                offset = SearchEmptySpaceAndSetArray(data);
             return offset;
         }
         public int SearchEmptyBytes(int length, int inicio = 0x800000)

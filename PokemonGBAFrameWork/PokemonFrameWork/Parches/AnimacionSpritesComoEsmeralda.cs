@@ -148,7 +148,7 @@ namespace PokemonGBAFrameWork
 			const int LENGHTFRAME=4;
 			byte[] bytesAnimacion=animacion.ToBytes();
 			int offsetAnimacionAnterior;
-			int offsetAnimacion=rom.Data.SetArray(bytesAnimacion);
+			int offsetAnimacion=rom.Data.SearchEmptySpaceAndSetArray(bytesAnimacion);
 			AnimacionSprites animacionAnt=GetAnimacion(rom,edicion,compilacion);
 			
 			if(animacion.Frames.Count>2&&animacion.Frames[2]!=2)

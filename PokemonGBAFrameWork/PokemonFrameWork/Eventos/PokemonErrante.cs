@@ -150,7 +150,7 @@ namespace PokemonGBAFrameWork
 					}
 				}
 				
-				OffsetRom.SetOffset(rom,new OffsetRom(Variable.GetVariable( VariableOffsetTablaFilasRuta, edicion, compilacion)), rom.Data.SetArray(bytesRutas));
+				OffsetRom.SetOffset(rom,new OffsetRom(Variable.GetVariable( VariableOffsetTablaFilasRuta, edicion, compilacion)), rom.Data.SearchEmptySpaceAndSetArray(bytesRutas));
 			}
 			
 		}

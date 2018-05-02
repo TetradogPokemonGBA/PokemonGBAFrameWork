@@ -640,9 +640,9 @@ namespace PokemonGBAFrameWork
 			if (!EstaActivado(rom, edicion, compilacion))
 			{
 				//Pongo el asm encryptar
-				rom.Data.SetArray(ASMEncrypt[edicion].AsmBinary);
+				rom.Data.SearchEmptySpaceAndSetArray(ASMEncrypt[edicion].AsmBinary);
 				//pongo el asm desencryptar
-				rom.Data.SetArray(ASMDecrypt[edicion].AsmBinary);
+				rom.Data.SearchEmptySpaceAndSetArray(ASMDecrypt[edicion].AsmBinary);
 				
 			}
 		}

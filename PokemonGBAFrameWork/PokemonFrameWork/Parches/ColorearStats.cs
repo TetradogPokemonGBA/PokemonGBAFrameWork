@@ -53,8 +53,8 @@ namespace PokemonGBAFrameWork
         static readonly Llista<KeyValuePair<string, Variable>> VarsKanto;
         #endregion
         #region RutinaEsmeralda
-        public static readonly Variable Offset1Esmeralda;
-        public static readonly Variable Offset2Esmeralda;
+        public static readonly Variable OffsetLeftEsmeralda;
+        public static readonly Variable OffsetRightEsmeralda;
         public static readonly Variable OffsetNatureEsmeralda;
         public static readonly Variable OffsetRightStatsEsmeralda;
         public static readonly Variable OffsetLeftStatsEsmeralda;
@@ -180,8 +180,8 @@ namespace PokemonGBAFrameWork
             #region Esmeralda falta acabar...
             VarsEsmeralda = new Llista<KeyValuePair<string, Variable>>();
 
-            Offset1Esmeralda = new Variable("ColorearStats Offset1 Esmeralda");
-            Offset2Esmeralda = new Variable("ColorearStats Offset2 Esmeralda");
+            OffsetLeftEsmeralda = new Variable("ColorearStats Offset1 Esmeralda");
+            OffsetRightEsmeralda = new Variable("ColorearStats Offset2 Esmeralda");
 
             OffsetNatureEsmeralda = new Variable("ColorearStats OffsetNature Esmeralda");
             OffsetRightStatsEsmeralda = new Variable("ColorearStats OffsetRightStats Esmeralda");
@@ -192,8 +192,8 @@ namespace PokemonGBAFrameWork
             OffsetHeaderLeftEsmeralda = new Variable("ColorearStats HeaderLeft Esmeralda");
             OffsetHeaderRightEsmeralda = new Variable("ColorearStats HeaderRight Esmeralda");
 
-            VarsEsmeralda.Add(new KeyValuePair<string, Variable>("OFFSET1", Offset1Esmeralda));
-            VarsEsmeralda.Add(new KeyValuePair<string, Variable>("OFFSET2", Offset2Esmeralda));
+            VarsEsmeralda.Add(new KeyValuePair<string, Variable>("OFFSET1", OffsetLeftEsmeralda));
+            VarsEsmeralda.Add(new KeyValuePair<string, Variable>("OFFSET2", OffsetRightEsmeralda));
 
             VarsEsmeralda.Add(new KeyValuePair<string, Variable>("OFFSETNATURE", OffsetNatureEsmeralda));
             VarsEsmeralda.Add(new KeyValuePair<string, Variable>("OFFSETRIGHTSTATS", OffsetRightStatsEsmeralda));
@@ -202,11 +202,11 @@ namespace PokemonGBAFrameWork
 
             VarsEsmeralda.Add(new KeyValuePair<string, Variable>("DISPLAYEDSTRING", DisplayedStringEsmeralda));
 
-            Offset1Esmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x1C37A8);
-            Offset1Esmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x133C8);
+            OffsetLeftEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x1C37A8); 
+            OffsetLeftEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x1C33C8); 
 
-            Offset2Esmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x1C386C);
-            Offset2Esmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x1C348C);
+            OffsetRightEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x1C386C);
+            OffsetRightEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x1C348C); 
 
             OffsetNatureEsmeralda.Add(EdicionPokemon.EsmeraldaUsa, 0x31E818);
             OffsetNatureEsmeralda.Add(EdicionPokemon.EsmeraldaEsp, 0x324AD4);
@@ -353,9 +353,9 @@ namespace PokemonGBAFrameWork
                     for (int i = 0; i < varsKanto.Count; i++)
                     {
                         offsetHeader = Variable.GetVariable(varsKanto[i].Value, edicion, compilacion);
-                        romGBA.Data.SetArray(HeaderKantoPart1, offsetHeader);
+                        romGBA.Data.SetArray(offsetHeader, HeaderKantoPart1);
                         offsetHeader += HeaderKantoPart1.Length;
-                        romGBA.Data.SetArray(new OffsetRom(romGBA.Data.SetArrayIfNotExist(ASM.Compilar(SetOffsetsRutina(romGBA, varsKanto[i].Key, edicion, compilacion)).AsmBinary) + 1).BytesPointer, offsetHeader);
+                        romGBA.Data.SetArray(offsetHeader,new OffsetRom(romGBA.Data.SetArrayIfNotExist(ASM.Compilar(SetOffsetsRutina(romGBA, varsKanto[i].Key, edicion, compilacion)).AsmBinary) + 1).BytesPointer);
                     }
 
                 }
@@ -365,14 +365,14 @@ namespace PokemonGBAFrameWork
                     //activo las rutinas
 
                     offsetHeader = Variable.GetVariable(OffsetHeaderLeftEsmeralda, edicion, compilacion);
-                    romGBA.Data.SetArray(HeaderLeftPart1, offsetHeader);
+                    romGBA.Data.SetArray(offsetHeader, HeaderLeftPart1);
                     offsetHeader += HeaderLeftPart1.Length;
-                    romGBA.Data.SetArray(new OffsetRom(romGBA.Data.SetArrayIfNotExist(ASM.Compilar(SetOffsetsRutina(romGBA, Properties.Resources.ColorearStats_LeftStats_Esmeralda, edicion, compilacion)).AsmBinary) + 1).BytesPointer, offsetHeader);
+                    romGBA.Data.SetArray(offsetHeader, new OffsetRom(romGBA.Data.SetArrayIfNotExist(ASM.Compilar(SetOffsetsRutina(romGBA, Properties.Resources.ColorearStats_LeftStats_Esmeralda, edicion, compilacion)).AsmBinary) + 1).BytesPointer);
 
                     offsetHeader = Variable.GetVariable(OffsetHeaderRightEsmeralda, edicion, compilacion);
-                    romGBA.Data.SetArray(HeaderRightPart1, offsetHeader);
+                    romGBA.Data.SetArray(offsetHeader, HeaderRightPart1);
                     offsetHeader += HeaderRightPart1.Length;
-                    romGBA.Data.SetArray(new OffsetRom(romGBA.Data.SetArrayIfNotExist(ASM.Compilar(SetOffsetsRutina(romGBA, Properties.Resources.ColorearStats_RightStats_Esmeralda, edicion, compilacion)).AsmBinary) + 1).BytesPointer, offsetHeader);
+                    romGBA.Data.SetArray(offsetHeader,new OffsetRom(romGBA.Data.SetArrayIfNotExist(ASM.Compilar(SetOffsetsRutina(romGBA, Properties.Resources.ColorearStats_RightStats_Esmeralda, edicion, compilacion)).AsmBinary) + 1).BytesPointer);
 
                 }
                 else
@@ -409,7 +409,7 @@ namespace PokemonGBAFrameWork
                     //borro la rutina de la rom
                     romGBA.Data.Remove(offsetRutinaActual, rutinaActual.Length);
                     //desactivo la rutina
-                    romGBA.Data.SetArray(aux.Value, Variable.GetVariable(aux.Key.Value, edicion, compilacion));
+                    romGBA.Data.SetArray( Variable.GetVariable(aux.Key.Value, edicion, compilacion), aux.Value);
                 }
                 else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
                 {
@@ -428,7 +428,7 @@ namespace PokemonGBAFrameWork
                     //borro la rutina de la rom
                     romGBA.Data.Remove(offsetRutinaActual, rutinaActual.Length);
                     //desactivo la rutina
-                    romGBA.Data.SetArray(vars[i].Value, Variable.GetVariable(vars[i].Key.Value, edicion, compilacion));
+                    romGBA.Data.SetArray( Variable.GetVariable(vars[i].Key.Value, edicion, compilacion), vars[i].Value);
                 }
             }
         }

@@ -296,7 +296,7 @@ namespace PokemonGBAFrameWork
 				
 				rutinaCompilada.SetArray(POSICIONOFFSETTABLA,new OffsetRom(offsetTablaAux).BytesPointer);
 				
-				rom.Data.SetArray(Variable.GetVariable(OffsetPointerRutina,edicion,compilacion),new OffsetRom(rom.Data.SetArray(rutinaCompilada)+1).BytesPointer);//le sumo uno porque es el offset de una rutina
+				rom.Data.SetArray(Variable.GetVariable(OffsetPointerRutina,edicion,compilacion),new OffsetRom(rom.Data.SearchEmptySpaceAndSetArray(rutinaCompilada)+1).BytesPointer);//le sumo uno porque es el offset de una rutina
 				rom.Data.SetArray(Variable.GetVariable(OffsetBytesAPoner,edicion,compilacion),RutinaOn);
 				
 			}

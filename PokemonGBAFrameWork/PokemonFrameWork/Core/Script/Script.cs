@@ -893,7 +893,7 @@ namespace PokemonGBAFrameWork
 					bytesDeclaracionAux = comandoHaDeclarar.GetDeclaracion(rom);
 					offsetDeclaracion = rom.Data.SearchArray(bytesDeclaracionAux);
 					if (offsetDeclaracion < 0)
-						offsetDeclaracion = rom.Data.SetArray(bytesDeclaracionAux);
+						offsetDeclaracion = rom.Data.SearchEmptySpaceAndSetArray(bytesDeclaracionAux);
 				}
 				bytesDeclaracion.SetArray(offset, comandosScript[i].GetComandoArray(offsetDeclaracion));
 				

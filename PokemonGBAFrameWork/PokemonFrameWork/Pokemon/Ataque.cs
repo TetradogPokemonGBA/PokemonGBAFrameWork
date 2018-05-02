@@ -276,7 +276,7 @@ namespace PokemonGBAFrameWork
 				offsetDatosConcurso=new OffsetRom(rom, offsetPointerDatos);
 				if(new OffsetRom(rom,offsetPointerDatos).IsAPointer)
 					rom.Data.Remove(offsetDatosConcurso.Offset, (int)LongitudCampos.DatosConcurso);//quito los viejos
-				OffsetRom.SetOffset(rom, offsetDatosConcurso, rom.Data.SetArray(ataqueAPoner.DatosConcursosHoenn.Bytes));//pongo los nuevos
+				OffsetRom.SetOffset(rom, offsetDatosConcurso, rom.Data.SearchEmptySpaceAndSetArray(ataqueAPoner.DatosConcursosHoenn.Bytes));//pongo los nuevos
 			}
 			
 			QuitarLimite(rom,edicion,compilacion,posicionAtaque);
@@ -355,12 +355,12 @@ namespace PokemonGBAFrameWork
 		{
 			//quito el limite
 			if(posicion>GetTotalAtaques(rom,edicion,compilacion)){
-				rom.Data.SetArray(BytesDesLimitadoAtaques,Variable.GetVariable(VariableLimitadoAtaques, edicion, compilacion));
+				rom.Data.SetArray(Variable.GetVariable(VariableLimitadoAtaques, edicion, compilacion),BytesDesLimitadoAtaques);
 				if(edicion.AbreviacionRom!=AbreviacionCanon.BPG&&edicion.AbreviacionRom!=AbreviacionCanon.BPR)
 				{
 					//quito la limitacion de los concursos de hoenn
-					rom.Data.SetArray(BytesDesLimitadoAtaquesConcurso, Variable.GetVariable(VariableAtaqueConcurso, edicion, compilacion));
-					rom.Data.SetArray(BytesDesLimitadoAnimacionAtaques, Variable.GetVariable(VariableAnimacionAtaqueConcurso, edicion, compilacion));
+					rom.Data.SetArray( Variable.GetVariable(VariableAtaqueConcurso, edicion, compilacion), BytesDesLimitadoAtaquesConcurso);
+					rom.Data.SetArray(Variable.GetVariable(VariableAnimacionAtaqueConcurso, edicion, compilacion),BytesDesLimitadoAnimacionAtaques);
 					
 				}
 			}
@@ -755,7 +755,7 @@ namespace PokemonGBAFrameWork
 		}
 		public static void SetDatosAtaque(RomGba rom, EdicionPokemon edicion, Compilacion compilacion, int posicion,DatosAtaque datosAtaque)
 		{
-			rom.Data.SetArray(datosAtaque.blDatosAtaque.Bytes, Zona.GetOffsetRom(rom,ZonaDatosAtaques, edicion, compilacion).Offset + posicion * Longitud);
+			rom.Data.SetArray(Zona.GetOffsetRom(rom,ZonaDatosAtaques, edicion, compilacion).Offset + posicion * Longitud, datosAtaque.blDatosAtaque.Bytes);
 		}
 
 		

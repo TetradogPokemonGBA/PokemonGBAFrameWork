@@ -258,7 +258,7 @@ namespace PokemonGBAFrameWork
 		{
 			int offsetPointer = GetOffsetPointer(rom, edicion, compilacion, ordenGameFreakPokemon);
 			int offset = new OffsetRom(rom,offsetPointer).Offset;
-			int offsetData=rom.Data.SetArray(ataquesAprendidos.ToBytesGBA());
+			int offsetData=rom.Data.SearchEmptySpaceAndSetArray(ataquesAprendidos.ToBytesGBA());
 			BloqueBytes bloqueOri = BloqueBytes.GetBytes(rom.Data,offset, MarcaFin);
 			dicAtaquesPokemon.Remove(offset, ataquesAprendidos);
 			if(!dicAtaquesPokemon.ContainsKey(offset))//si ya no hay ningun pokemon que use esos datos los borro
