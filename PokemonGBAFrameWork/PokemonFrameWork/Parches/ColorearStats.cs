@@ -8,7 +8,6 @@
  */
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -270,7 +269,7 @@ namespace PokemonGBAFrameWork
                     strRutina.Replace("add r2,#0xF", "add r2,#0x2");
                 }
             }
-            else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
+            else if (edicion.EsEsmeralda)
             {
                 for (int i = 0,f= VarsEsmeralda.Count - 1; i < f; i++)
                     strRutina.Replace(VarsEsmeralda[i].Key, new OffsetRom(Variable.GetVariable(VarsEsmeralda[i].Value, edicion, compilacion)).ToString());
@@ -306,7 +305,7 @@ namespace PokemonGBAFrameWork
         }
         public static bool Compatible(EdicionPokemon edicion, Compilacion compilacion)
         {
-            bool compatible = edicion.RegionKanto || edicion.AbreviacionRom == AbreviacionCanon.BPE ;
+            bool compatible = edicion.RegionKanto || edicion.EsEsmeralda;
 
             return compatible;
         }
@@ -317,7 +316,7 @@ namespace PokemonGBAFrameWork
             {
                 rutinaABuscar = ASM.Compilar(SetOffsetsRutina(romGBA, Properties.Resources.ColorearStats_Ataque_FR, edicion, compilacion)).AsmBinary;
             }
-            else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
+            else if (edicion.EsEsmeralda)
             {
                 rutinaABuscar = ASM.Compilar(SetOffsetsRutina(romGBA, Properties.Resources.ColorearStats_RightStats_Esmeralda, edicion, compilacion)).AsmBinary;
             }
@@ -359,7 +358,7 @@ namespace PokemonGBAFrameWork
                     }
 
                 }
-                else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
+                else if (edicion.EsEsmeralda)
                 {
                     //pongo las rutinas
                     //activo las rutinas
@@ -390,7 +389,6 @@ namespace PokemonGBAFrameWork
         {
             int offsetRutinaActual;
             byte[] rutinaActual;
-            KeyValuePair<KeyValuePair<string, Variable>, byte[]> aux;
             List<KeyValuePair<KeyValuePair<string, Variable>, byte[]>> vars;
             if (EstaActivado(romGBA, edicion, compilacion))
             {
@@ -405,7 +403,7 @@ namespace PokemonGBAFrameWork
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_RevertirColorANegro_FR, OffsetHeaderRevertirColorANegroKanto), HeaderKantoRevertirColorANegro));
 
                 }
-                else if (edicion.AbreviacionRom == AbreviacionCanon.BPE)
+                else if (edicion.EsEsmeralda)
                 {
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_LeftStats_Esmeralda, OffsetHeaderLeftEsmeralda), HeaderLeftEsmeralda));
                     vars.Add(new KeyValuePair<KeyValuePair<string, Variable>, byte[]>(new KeyValuePair<string, Variable>(Properties.Resources.ColorearStats_RightStats_Esmeralda, OffsetHeaderRightEsmeralda), HeaderRightEsmeralda));

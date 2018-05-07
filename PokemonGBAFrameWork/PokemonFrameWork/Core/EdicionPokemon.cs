@@ -106,7 +106,36 @@ namespace PokemonGBAFrameWork
         {
             get { return !RegionKanto; }
         }
-		public bool EstaModificada {
+        public bool EstaEnEspañol
+        {
+            get { return Idioma == Idioma.Español; }
+        }
+        public bool EstaEnIngles
+        {
+            get { return Idioma == Idioma.Ingles; }
+        }
+        public bool EsZafiro
+        {
+            get { return AbreviacionRom == AbreviacionCanon.AXP; }
+        }
+        public bool EsRubi
+        {
+            get { return AbreviacionRom == AbreviacionCanon.AXV; }
+        }
+        public bool EsRojoFuego
+        {
+            get { return AbreviacionRom == AbreviacionCanon.BPR; }
+        }
+        public bool EsVerdeHoja
+        {
+            get { return AbreviacionRom == AbreviacionCanon.BPG; }
+        }
+        public bool EsEsmeralda
+        {
+            get { return AbreviacionRom == AbreviacionCanon.BPE; }
+        }
+
+        public bool EstaModificada {
 			get{ return (char)idioma != InicialIdioma || Abreviacion != AbreviacionRom.ToString(); }
 		}
 		#endregion
@@ -183,7 +212,7 @@ namespace PokemonGBAFrameWork
 					case AbreviacionCanon.BPR:
 					case AbreviacionCanon.BPG:
 						valida = Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicionPokemon, Compilacion.Compilaciones[0]).IsAPointer;
-						if (!valida && edicionPokemon.AbreviacionRom != AbreviacionCanon.BPE)
+						if (!valida && edicionPokemon.RegionKanto)
 							valida = Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicionPokemon, Compilacion.Compilaciones[1]).IsAPointer;
 						break;
 
