@@ -138,9 +138,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = exit;
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado, coordenadaX);
+			Word.SetData(ptrRomPosicionado, coordenadaX);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetWord(ptrRomPosicionado, coordenadaY);
+			Word.SetData(ptrRomPosicionado, coordenadaY);
 		}
 	}
 	public class WarpWalk:Warp

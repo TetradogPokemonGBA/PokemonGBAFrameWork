@@ -136,11 +136,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 			++ptrRomPosicionado;
 
-			Word.SetWord(ptrRomPosicionado, battleToStart);
+			Word.SetData(ptrRomPosicionado, battleToStart);
 
 			ptrRomPosicionado += Word.LENGTH;
 
-			Word.SetWord(ptrRomPosicionado, reserved);
+			Word.SetData(ptrRomPosicionado, reserved);
 
 			ptrRomPosicionado += Word.LENGTH;
 

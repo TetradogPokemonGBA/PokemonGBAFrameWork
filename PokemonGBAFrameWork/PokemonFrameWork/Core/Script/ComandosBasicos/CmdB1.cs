@@ -97,11 +97,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = unknow1;
 			++ptrRomPosicionado; 
-			Word.SetWord(ptrRomPosicionado, Unknow2);
+			Word.SetData(ptrRomPosicionado, Unknow2);
 			ptrRomPosicionado += Word.LENGTH;
 			*ptrRomPosicionado = unknow3;
 			++ptrRomPosicionado; 
-			Word.SetWord(ptrRomPosicionado, Unknow4);
+			Word.SetData(ptrRomPosicionado, Unknow4);
 		}
 	}
 }

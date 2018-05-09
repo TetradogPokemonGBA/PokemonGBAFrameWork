@@ -75,7 +75,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado,flag);
+			Word.SetData(ptrRomPosicionado,flag);
 		}
 	}
 	public class ClearFlag:SetFlag

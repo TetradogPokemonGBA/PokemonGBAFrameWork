@@ -82,6 +82,7 @@ namespace PokemonGBAFrameWork
         public BloqueString(int maxCaracteres)
             : this("", maxCaracteres, true)
         {
+         
         }
         public BloqueString(string texto)
             : this(-1, texto, MAXIMODECARACTERESDESHABILITADO, true)
@@ -279,6 +280,7 @@ namespace PokemonGBAFrameWork
         #region Tratar String Pokemon
         public static string ToString(byte[] bytesGBA)
         {
+            const int MARCAFIN = 1;
             int longitudAdemas = 0;
             char[] chString;
             unsafe
@@ -332,7 +334,7 @@ namespace PokemonGBAFrameWork
                         }
                         ptrBytesGBA++;
                     }
-                    chString = new char[bytesGBA.Length + longitudAdemas];
+                    chString = new char[bytesGBA.Length + longitudAdemas-MARCAFIN];
                     ptrBytesGBA = ptBytesGBA;
                     fixed (char* ptChString = chString)
                     {
@@ -967,26 +969,33 @@ namespace PokemonGBAFrameWork
 
 
         public static byte[] ToByteArray(string texto, bool acabaEnFF = true)
-        {//por mirar
+        {
 
             if (texto == null)
                 throw new ArgumentNullException();
+
             const byte MARCAFIN = 0xFF;
+
             byte[] bytesTexto;
-            texto = texto.Replace("\r", "").Replace("\n", "\\n").Replace("\v", "\\v");
-            texto = ParseaTexto(texto);
-            bytesTexto = new byte[texto.Length + (acabaEnFF ? 1 : 0)];
+            StringBuilder strTexto = new StringBuilder(texto);
+
+            strTexto.Replace("\r", "");
+            strTexto.Replace("\n", "\\n");
+            strTexto.Replace("\v", "\\v");
+            ParseaTexto(strTexto);
+
+            bytesTexto = new byte[strTexto.Length + (acabaEnFF ? 1 : 0)];
             unsafe
             {
                 char* ptrTexto;
                 byte* ptrBytesTexto;
-                fixed (char* ptTexto = texto)
+                fixed (char* ptTexto = strTexto.ToString())
                 {
                     fixed (byte* ptBytesTexto = bytesTexto)
                     {
                         ptrBytesTexto = ptBytesTexto;
                         ptrTexto = ptTexto;
-                        for (int i = 0; i < texto.Length; i++)
+                        for (int i = 0; i < strTexto.Length; i++)
                         {
                             switch (*ptrTexto)
                             {
@@ -1494,11 +1503,9 @@ namespace PokemonGBAFrameWork
             return bytesTexto;
         }
 
-        private static string ParseaTexto(string texto)
+        private static void ParseaTexto(StringBuilder textoParseado)
         {
-            if (texto == null)
-                texto = "";
-            StringBuilder textoParseado = new StringBuilder(texto);
+
             if (textoParseado.Length == 0)
             {
                 textoParseado.Clear();
@@ -1536,7 +1543,7 @@ namespace PokemonGBAFrameWork
                 textoParseado.Replace("\\n", (char)CaracteresEspeciales.EspN + "");
 
             }
-            return textoParseado.ToString();
+          
         }
 
         #endregion

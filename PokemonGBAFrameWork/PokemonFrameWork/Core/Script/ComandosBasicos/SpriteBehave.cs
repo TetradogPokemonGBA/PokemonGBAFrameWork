@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado, Personaje);
+			Word.SetData(ptrRomPosicionado, Personaje);
 			ptrRomPosicionado += Word.LENGTH;
 			*ptrRomPosicionado = comportamiento;
 		}

@@ -89,7 +89,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			++ptrRomPosicionado;
 			*ptrRomPosicionado=slotAtaque;
 			++ptrRomPosicionado;
-			Word.SetWord(ptrRomPosicionado,PPAPoner);
+			Word.SetData(ptrRomPosicionado,PPAPoner);
 		}
 	}
 }

@@ -17,9 +17,13 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="GBACore\Bloques\" />
-    <Folder Include="GBACore\Rutinas\ASM\" />
     <Folder Include="GBACore\Utilidades\" />
     <Folder Include="PokemonFrameWork\Core\Bloques\" />
     <Folder Include="PokemonFrameWork\Core\Variables\" />

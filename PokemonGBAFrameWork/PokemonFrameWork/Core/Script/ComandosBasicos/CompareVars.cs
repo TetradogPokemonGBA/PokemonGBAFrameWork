@@ -90,8 +90,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetWord(ptrRomPosicionado,variableA);
-			Word.SetWord(ptrRomPosicionado+Word.LENGTH,variableB);
+			Word.SetData(ptrRomPosicionado,variableA);
+			Word.SetData(ptrRomPosicionado+Word.LENGTH,variableB);
 		}
 	}
 }

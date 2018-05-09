@@ -109,9 +109,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 			++ptrRomPosicionado; 
 			*ptrRomPosicionado = salida;
 			++ptrRomPosicionado; 
-			Word.SetWord(ptrRomPosicionado, CoordenadaX);
+			Word.SetData(ptrRomPosicionado, CoordenadaX);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetWord(ptrRomPosicionado, CoordenadaY);
+			Word.SetData(ptrRomPosicionado, CoordenadaY);
 		}
 	}
 }

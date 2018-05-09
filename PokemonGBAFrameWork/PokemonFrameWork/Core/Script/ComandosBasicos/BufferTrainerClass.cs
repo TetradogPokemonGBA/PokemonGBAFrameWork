@@ -86,7 +86,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = buffer;
 			++ptrRomPosicionado; 
-			Word.SetWord(ptrRomPosicionado, ClaseEntrenador);
+			Word.SetData(ptrRomPosicionado, ClaseEntrenador);
 
 		}
 	}

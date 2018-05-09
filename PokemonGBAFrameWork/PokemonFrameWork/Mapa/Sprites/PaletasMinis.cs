@@ -57,10 +57,7 @@ namespace PokemonGBAFrameWork
 				return paletas.Filtra((p)=>p.SortID==idPaleta)[0];
 			}
 		}
-		public static PaletasMinis GetPaletasMinis(RomData rom)
-		{
-			return GetPaletasMinis(rom.Rom,rom.Edicion,rom.Compilacion);
-		}
+
 		public static PaletasMinis GetPaletasMinis(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
 		{
 			PaletasMinis paletas=new PaletasMinis();

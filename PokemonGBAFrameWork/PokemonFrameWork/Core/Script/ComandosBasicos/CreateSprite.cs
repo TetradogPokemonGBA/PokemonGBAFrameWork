@@ -122,9 +122,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 			++ptrRomPosicionado; 
 			*ptrRomPosicionado = personajeVirtual;
 			++ptrRomPosicionado; 
-			Word.SetWord(ptrRomPosicionado, CoordenadaX);
+			Word.SetData(ptrRomPosicionado, CoordenadaX);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetWord(ptrRomPosicionado, CoordenadaY);
+			Word.SetData(ptrRomPosicionado, CoordenadaY);
 			ptrRomPosicionado += Word.LENGTH;
 			*ptrRomPosicionado = comportamiento;
 			++ptrRomPosicionado; 
