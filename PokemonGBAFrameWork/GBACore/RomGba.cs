@@ -11,8 +11,10 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public class RomGba 
     {
-        public const string EXTENSION = ".gba";
 
+        public const string EXTENSION = ".gba";
+        public const int MAXLENGTH = 33554432;
+        public const int MINLENGHT = 1;//mirar cual es el minimo
         string path;
         Edicion edicion;
         BloqueBytes romData;
@@ -168,6 +170,19 @@ namespace PokemonGBAFrameWork
             rom.romData = rom.Data.Clon();
             return rom;
         }
+
+        public void ChangeSize(int sizeRom)
+        {
+            if (sizeRom > MAXLENGTH)
+                sizeRom = MAXLENGTH;
+            else if (sizeRom < MINLENGHT)
+                sizeRom = MINLENGHT;
+               
+            byte[] array = Data.Bytes;
+            Array.Resize(ref array, sizeRom);
+            Data.Bytes = array;
+
+        }
         #endregion
 
         #region Overrides
@@ -175,7 +190,14 @@ namespace PokemonGBAFrameWork
         {
             return string.Format("[RomGba Nombre={0}]", Nombre);
         }
-
+        public override bool Equals(object obj)
+        {
+            RomGba other = obj as RomGba;
+            bool equals = other != null;
+            if (equals)
+                equals = Data.Bytes.ArrayEqual(other.Data.Bytes);
+            return equals;
+        }
         #endregion
     }
 }

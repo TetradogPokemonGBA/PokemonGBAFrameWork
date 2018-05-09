@@ -165,7 +165,7 @@ namespace PokemonGBAFrameWork
 
 
     public static byte[] Comprimir(byte[] datos, CompressionMode Mode = CompressionMode.New)
-    {
+    {//mirar si se puede optimizar más :D
         const byte BYTECOMPRESSLZ77 = 0x10;
         const int BYTESHEADER = 3;
         byte[] header = BitConverter.GetBytes(datos.Length);
