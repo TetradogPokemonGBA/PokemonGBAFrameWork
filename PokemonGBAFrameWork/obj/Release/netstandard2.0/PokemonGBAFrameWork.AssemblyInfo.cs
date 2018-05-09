@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("PokemonGBAFrameWork")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("GNUV3 NO COMERCIAL")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.3")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0.3-preview1")]

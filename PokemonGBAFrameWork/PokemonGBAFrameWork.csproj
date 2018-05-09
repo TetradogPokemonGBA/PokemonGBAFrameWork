@@ -2,6 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0.3-preview1</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>GNUV3 NO COMERCIAL</Copyright>
+    <PackageProjectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageLicenseUrl>https://creativecommons.org/licenses/by-nc-sa/4.0/</PackageLicenseUrl>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="GBACore\Bloques\" />
+    <Folder Include="GBACore\Utilidades\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.0.4.3-preview1.0.2" />
+  </ItemGroup>
 
 </Project>
