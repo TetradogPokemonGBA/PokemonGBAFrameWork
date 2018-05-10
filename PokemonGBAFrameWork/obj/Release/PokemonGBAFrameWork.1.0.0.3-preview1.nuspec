@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>PokemonGBAFrameWork</id>
+    <version>1.0.0.3-preview1</version>
+    <authors>PokemonGBAFrameWork</authors>
+    <owners>PokemonGBAFrameWork</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://creativecommons.org/licenses/by-nc-sa/4.0/</licenseUrl>
+    <projectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</projectUrl>
+    <description>Package Description</description>
+    <copyright>GNUV3 NO COMERCIAL</copyright>
+    <repository type="Git" url="https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Gabriel.Cat.S.Utilitats" version="1.0.4.3-preview1.0.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\tetra\Programas\PokemonGBAFrameWork\PokemonGBAFrameWork\bin\Release\netstandard2.0\PokemonGBAFrameWork.dll" target="lib\netstandard2.0\PokemonGBAFrameWork.dll" />
+  </files>
+</package>

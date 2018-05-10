@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.2": {
+      "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.5.0-preview2-26406-04",
@@ -60,12 +60,12 @@
     }
   },
   "libraries": {
-    "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.2": {
-      "sha512": "iucOSYQHWa3BZDyzs6E2BF53cuIC9GdR7oGKP5nyagpZh+h0jD69uKyII8nMp/+cUYBAmTa3LxCB9ttc1s8dfA==",
+    "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.3": {
+      "sha512": "mEV6NWWosv9egHGu5fUhzM8yysvkY5tYmfQtuX/heT3/M8/lIltLafIuS/ywkJ0yu+6bDFCCSZV8KeTxMs3dVA==",
       "type": "package",
-      "path": "gabriel.cat.s.utilitats/1.0.4.3-preview1.0.2",
+      "path": "gabriel.cat.s.utilitats/1.0.4.3-preview1.0.3",
       "files": [
-        "gabriel.cat.s.utilitats.1.0.4.3-preview1.0.2.nupkg.sha512",
+        "gabriel.cat.s.utilitats.1.0.4.3-preview1.0.3.nupkg.sha512",
         "gabriel.cat.s.utilitats.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll"
       ]
@@ -311,7 +311,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Gabriel.Cat.S.Utilitats >= 1.0.4.3-preview1.0.2",
+      "Gabriel.Cat.S.Utilitats >= 1.0.4.3-preview1.0.3",
       "NETStandard.Library >= 2.0.1"
     ]
   },
@@ -359,7 +359,7 @@
         "dependencies": {
           "Gabriel.Cat.S.Utilitats": {
             "target": "Package",
-            "version": "[1.0.4.3-preview1.0.2, )"
+            "version": "[1.0.4.3-preview1.0.3, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",

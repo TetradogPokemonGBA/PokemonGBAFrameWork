@@ -1,0 +1,88 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": "baf56c042e662847487075d6fcf9b220d422468d"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "PokemonGBAFrameWork/1.0.0.3-preview1": {
+        "dependencies": {
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.2",
+          "NETStandard.Library": "2.0.1"
+        },
+        "runtime": {
+          "PokemonGBAFrameWork.dll": {}
+        }
+      },
+      "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.2": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0-preview2-26406-04",
+          "System.Drawing.Common": "4.5.0-preview2-26406-04"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll": {}
+        }
+      },
+      "Microsoft.CSharp/4.5.0-preview2-26406-04": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "NETStandard.Library/2.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "System.Drawing.Common/4.5.0-preview2-26406-04": {
+        "runtime": {
+          "lib/netstandard2.0/System.Drawing.Common.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PokemonGBAFrameWork/1.0.0.3-preview1": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iucOSYQHWa3BZDyzs6E2BF53cuIC9GdR7oGKP5nyagpZh+h0jD69uKyII8nMp/+cUYBAmTa3LxCB9ttc1s8dfA==",
+      "path": "gabriel.cat.s.utilitats/1.0.4.3-preview1.0.2",
+      "hashPath": "gabriel.cat.s.utilitats.1.0.4.3-preview1.0.2.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.5.0-preview2-26406-04": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HqDNj4Ss5dtmJc7MySxTCYUGytJ4DTEEnR6WWcjDJqNF9YzH7kLZbKnA1jEj1cuG994gMP2orTL3UmDQsYtT6g==",
+      "path": "microsoft.csharp/4.5.0-preview2-26406-04",
+      "hashPath": "microsoft.csharp.4.5.0-preview2-26406-04.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oA6nwv9MhEKYvLpjZ0ggSpb1g4CQViDVQjLUcDWg598jtvJbpfeP2reqwI1GLW2TbxC/Ml7xL6BBR1HmKPXlTg==",
+      "path": "netstandard.library/2.0.1",
+      "hashPath": "netstandard.library.2.0.1.nupkg.sha512"
+    },
+    "System.Drawing.Common/4.5.0-preview2-26406-04": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iARUNp8vfB1uWJmmpNg4NnhBJ70F/gbveBzhPVBctrZMm8NyMnYGdamuuleN9H3j8j2UHdmhT0Put5wtiX4C4w==",
+      "path": "system.drawing.common/4.5.0-preview2-26406-04",
+      "hashPath": "system.drawing.common.4.5.0-preview2-26406-04.nupkg.sha512"
+    }
+  }
+}
