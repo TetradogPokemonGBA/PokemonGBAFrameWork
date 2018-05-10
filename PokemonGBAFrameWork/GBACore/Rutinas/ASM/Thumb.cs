@@ -262,7 +262,7 @@ namespace PokemonGBAFrameWork
             }
 
             private void TrataTexto(IList<string> lineasASM,LlistaOrdenada<string,Edicion> dicGameCode)
-            {
+            {//falta probar
                 if (dicGameCode == null)
                     dicGameCode = new LlistaOrdenada<string, Edicion>();
 
@@ -452,9 +452,10 @@ namespace PokemonGBAFrameWork
                 return rutina.Bytes;
             }
             public override string ToString()
-            {
+            {//falta probar y corregir
                 StringBuilder strToString = new StringBuilder();
                 LlistaOrdenada<Edicion> lstGameCodes=null;
+                string varGameCode = "GameCodeSelected";
                 if(ContainsMoreGameCodes())
                 {
                     lstGameCodes = new LlistaOrdenada<Edicion>();
@@ -464,6 +465,17 @@ namespace PokemonGBAFrameWork
                         lstGameCodes.AddOrReplaceRange(Variables[i].Value.DicValors.Keys.ToArray());
                     }
                     lstGameCodes.Remove(Edicion.Desconocida);
+                    for (int i = 0; i < lstGameCodes.Count; i++)
+                    {
+                        //pongo los gamecode en el formato que toca
+                        strToString.Append(lstGameCodes[i].Value.GameCode);
+                        strToString.Append(":.word ");
+                        strToString.Append(((Hex)i).ByteString);
+                    }
+                    //pongo el primero por poner uno :)
+                    strToString.Append(varGameCode);
+                    strToString.Append(":.word ");
+                    strToString.AppendLine(lstGameCodes[0].Value.GameCode);
                 }
                 for(int i=0;i<funciones.Count;i++)
                 {
@@ -480,13 +492,17 @@ namespace PokemonGBAFrameWork
                     //las variables se pueden volver asignar de la parte en comun :)
                     //pongo if
                     strToString.Append("if ");
-                    strToString.AppendLine(lstGameCodes[0].Value.GameCode);
+                    strToString.Append(lstGameCodes[0].Value.GameCode);
+                    strToString.Append("==");
+                    strToString.AppendLine(varGameCode);
                     PonerVariables(strToString, lstGameCodes[0]);
                     for (int i=1;i<lstGameCodes.Count-1;i++)
                     {
                         //else if
                         strToString.Append("elif ");
-                        strToString.AppendLine(lstGameCodes[i].Value.GameCode);
+                        strToString.Append(lstGameCodes[i].Value.GameCode);
+                        strToString.Append("==");
+                        strToString.AppendLine(varGameCode);
                         PonerVariables(strToString, lstGameCodes[i]);
                     }
                     if (lstGameCodes.Count > 1)
