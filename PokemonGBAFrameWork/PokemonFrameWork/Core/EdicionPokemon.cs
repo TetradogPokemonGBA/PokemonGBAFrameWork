@@ -151,18 +151,23 @@ namespace PokemonGBAFrameWork
 		#endregion
 		public int CompareTo(object obj)
 		{
-			EdicionPokemon edicion=obj as EdicionPokemon;
-			int compareTo;
-			if(edicion!=null)
-			{
-				compareTo=idioma.CompareTo(edicion.idioma);
-				if(compareTo==(int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals)
-					compareTo=abreviacionCanon.CompareTo(edicion.abreviacionCanon);
-				                          
-			}else compareTo=(int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals;
-			return compareTo;
+            return ICompareTo(obj as Edicion);
 		}
-		public static EdicionPokemon GetEdicionPokemon(RomGba rom)
+        protected override int ICompareTo(Edicion other)
+        {
+            EdicionPokemon edicion = other as EdicionPokemon;
+            int compareTo;
+            if (edicion != null)
+            {
+                compareTo = idioma.CompareTo(edicion.idioma);
+                if (compareTo == (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals)
+                    compareTo = abreviacionCanon.CompareTo(edicion.abreviacionCanon);
+
+            }
+            else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals;
+            return compareTo;
+        }
+        public static EdicionPokemon GetEdicionPokemon(RomGba rom)
 		{
 			EdicionPokemon edicionPokemon = new EdicionPokemon(rom.Edicion);
 			bool edicionValida;

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Utilitats;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class Edicion
+    public class Edicion:IComparable,IComparable<Edicion>,IClauUnicaPerObjecte
     {
         enum Variables
         {
@@ -18,7 +19,7 @@ namespace PokemonGBAFrameWork
             Abreviacion = 3,
             NombreCompleto = 12
         }
-
+        public static readonly Edicion Desconocida = new Edicion();
         char idioma;
         string abreviacion;
         string nombreCompleto;
@@ -82,6 +83,11 @@ namespace PokemonGBAFrameWork
                 nombreCompleto = value;
             }
         }
+
+        IComparable IClauUnicaPerObjecte.Clau => this;
+
+        public string GameCode { get { return Abreviacion+InicialIdioma; } }
+
         public Edicion Clone()
         {
             Edicion clon = new Edicion();
@@ -156,5 +162,35 @@ namespace PokemonGBAFrameWork
             rom.Data.SetArray((int)Variables.Abreviacion, System.Text.Encoding.UTF8.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
             rom.Data.SetArray((int)Variables.NombreCompleto, System.Text.Encoding.UTF8.GetBytes(edicion.NombreCompleto.PadRight((int)LongitudCampos.NombreCompleto)));
         }
+
+        int IComparable<Edicion>.CompareTo(Edicion other)
+        {
+            return ICompareTo(other);
+        }
+        int IComparable.CompareTo(object obj)
+        {
+            return ICompareTo(obj as Edicion);
+        }
+        protected virtual int ICompareTo(Edicion other)
+        {
+            int compareTo;
+            if (other != null)
+            {
+                compareTo = this.abreviacion.CompareTo(other.abreviacion);
+                if(compareTo==0)
+                {
+                    compareTo= this.idioma.CompareTo(other.idioma);
+                    if (compareTo == 0)
+                    {
+                        compareTo = this.nombreCompleto.CompareTo(other.nombreCompleto);
+                    }
+                }
+            }
+            else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
+
+            return compareTo;
+        }
+
+    
     }
 }

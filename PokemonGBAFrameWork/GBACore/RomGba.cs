@@ -3,22 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using Gabriel.Cat.S.Utilitats;
 namespace PokemonGBAFrameWork
 {
     /// <summary>
     /// Es la rom cargada en la ram
     /// </summary>
-    public class RomGba 
+    public class RomGba:IComparable<RomGba> 
     {
 
         public const string EXTENSION = ".gba";
         public const int MAXLENGTH = 33554432;
         public const int MINLENGHT = 1;//mirar cual es el minimo
         string path;
+
         Edicion edicion;
         BloqueBytes romData;
         string nombre;
+        IdUnico idUnico;
+
         public event EventHandler UnLoaded;
 
         #region Constructores
@@ -27,7 +30,7 @@ namespace PokemonGBAFrameWork
 
 
         }
-        public RomGba(FileInfo romFile)
+        public RomGba(FileInfo romFile):this()
         {
 
 
@@ -36,10 +39,10 @@ namespace PokemonGBAFrameWork
 
             nombre = System.IO.Path.GetFileNameWithoutExtension(romFile.FullName);
             path = romFile.FullName.Substring(0, romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length);
-
+            
         }
         private RomGba()
-        { }
+        { idUnico = new IdUnico(); }
         #endregion
         #region propiedades
         public Edicion Edicion
@@ -197,6 +200,17 @@ namespace PokemonGBAFrameWork
             if (equals)
                 equals = Data.Bytes.ArrayEqual(other.Data.Bytes);
             return equals;
+        }
+
+        int IComparable<RomGba>.CompareTo(RomGba other)
+        {
+            int compareTo;
+            if (other != null)
+            {
+                compareTo = idUnico.CompareTo(other.idUnico);
+            }
+            else compareTo = (int)CompareTo.Inferior;
+            return compareTo;
         }
         #endregion
     }
