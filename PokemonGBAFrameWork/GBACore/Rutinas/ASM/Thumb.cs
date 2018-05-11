@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
     public static class Thumb
     {
 
-        struct Opcode
+        public struct Opcode
         {
             public uint mask;
             public uint cval;
@@ -69,502 +69,36 @@ namespace PokemonGBAFrameWork
                 instruction = (ushort)(0xF800 + ((~0xF800) & relativeOffset));
             }
         }
-        public class ASMCode
-        {
-            const char ENTERLINUX = '\n';
-            const string ENTER = "\r\n";
-
-            public abstract class ElementoConNombreASM:IComparable,IComparable<ElementoConNombreASM>,IClauUnicaPerObjecte
-            {
-                string nombre;
-
-                protected ElementoConNombreASM(string nombre)
-                {
-                    this.Nombre = nombre;
-                }
-
-                public string Nombre { get => nombre; set => nombre = value; }
-
-                IComparable IClauUnicaPerObjecte.Clau => this;
-
-                int IComparable<ElementoConNombreASM>.CompareTo(ElementoConNombreASM other)
-                {
-                    return ICompareTo(other);
-                }
-                int IComparable.CompareTo(object obj)
-                {
-                    return ICompareTo(obj as ElementoConNombreASM);
-                }
-                protected virtual int ICompareTo(ElementoConNombreASM other)
-                {
-                    int compareTo;
-                    if (other != null)
-                        compareTo = nombre.CompareTo(other.nombre);
-                    else compareTo = (int)CompareTo.Inferior;
-                    return compareTo;
-                }
-
-               
-            }
-            public class FuncionASM : ElementoConNombreASM
-            {
-                string[] lineasFuncionASM;
-                LlistaOrdenada<Edicion, KeyValuePair<string[], byte[]>> dicFuncionCompilada;
-
-                
-
-                public FuncionASM(string nombre, string[] lineasFuncionASM) : base(nombre)
-                {
-                    this.LineasFuncionASM = lineasFuncionASM;
-                    dicFuncionCompilada = new LlistaOrdenada<Edicion, KeyValuePair<string[], byte[]>>();
-                }
-                public KeyValuePair<string[], byte[]> this[Edicion edicion]
-                {
-                    get { return dicFuncionCompilada[edicion]; }
-                }
-                public string[] LineasFuncionASM { get => lineasFuncionASM; private set => lineasFuncionASM = value; }
-                public void SetBytes(byte[] arrayABuscarFunciones, BloqueBytes destino, Edicion edicion, LlistaOrdenada<Funcion> funciones, LlistaOrdenada<FuncionASM> funcionesASM, LlistaOrdenada<Variable> variables)
-                {
-                    IList<byte> bytes;
-                    string[] lineasASM;
-
-                    if (!dicFuncionCompilada.ContainsKey(edicion))
-                    {
-                        bytes = new List<byte>();
-                        lineasASM = (string[])LineasFuncionASM.Clone();
-                        //pongo las variables
-                        //tener en cuenta la recursividad infinita
-                        //compilo
-                        //pongo los datos en la arrayDestino
-                        
-                        dicFuncionCompilada.Add(edicion, new KeyValuePair<string[], byte[]>(lineasASM, bytes.ToArray()));
-                    }
-
-                }
-                public void Clear(Edicion edicion=null)
-                {
-                    if(edicion!=null)
-                    dicFuncionCompilada.Remove(edicion);
-                    else dicFuncionCompilada.Clear();
-                }
-
-                public int Lenght(LlistaOrdenada<Funcion> funciones, LlistaOrdenada<Variable> variables)
-                {
-                    int lenght = -1;
-                    //calculo la longitud
-                    //si las funciones o las variables no tienen nada que ver con el tamaño luego lo quito :3
-                    return lenght;
-                }
-                public int[] Validar()
-                {
-                    List<int> lineasConProblemas = new List<int>();
-                    //miro todas las lineas y añado las que no sean correctas
-                    return lineasConProblemas.ToArray();
-                }
-                public override string ToString()
-                {
-                    StringBuilder str = new StringBuilder(Nombre);
-                    str.AppendLine(":");
-                    for (int i = 0; i < lineasFuncionASM.Length; i++)
-                        str.AppendLine(lineasFuncionASM[i]);
-                    return str.ToString();
-                }
-            }
-            public class Variable : ElementoConNombreASM
-            {
-                string tipo;
-                LlistaOrdenada<Edicion, string> dicValors;
-                public Variable(string nombre, string tipo) : base(nombre)
-                {
-                    this.tipo = tipo;
-                    DicValors = new LlistaOrdenada<Edicion, string>();
-                    DicValors.Add(Edicion.Desconocida, "");
-                }
-                public Variable(string nombre, string tipo, string valorEdicionDesconocida) : this(nombre, tipo)
-                {
-                    DicValors[Edicion.Desconocida]= valorEdicionDesconocida;
-
-                }
-
-                public LlistaOrdenada<Edicion, string> DicValors { get => dicValors; private set => dicValors = value; }
-                public string this[Edicion edicion]
-                { get { return dicValors[edicion]; } }
-                public override string ToString()
-                {
-                    return ToString(Edicion.Desconocida);
-                }
-
-                public string ToString(Edicion edicion)
-                {
-                    StringBuilder str = new StringBuilder(Nombre);
-                    str.Append(':');
-                    str.Append(tipo);
-                    str.Append(' ');
-                    str.Append(dicValors.Count == 0 ? "" : dicValors[edicion]);
-                    return str.ToString();
-                }
-            }
-            public class Funcion : ElementoConNombreASM
-            {
-                public Funcion(string nombre) : base(nombre)
-                {
-                }
-                public override string ToString()
-                {
-                    return "." + Nombre;
-                }
-            }
-            private class ElementoConNombreASMAux : ElementoConNombreASM
-            {
-                public ElementoConNombreASMAux(string nombre) : base(nombre)
-                {
-                }
-            }
-
-            LlistaOrdenada<Funcion> funciones;
-            LlistaOrdenada<FuncionASM> funcionesASM;
-            LlistaOrdenada<Variable> variables;
-            
-            public ASMCode()
-            {
-                FuncionesASM = new LlistaOrdenada<FuncionASM>();
-                Variables = new LlistaOrdenada<Variable>();
-                Funciones = new LlistaOrdenada<Funcion>();
-            }
-            public ASMCode(byte[] gbaASM, LlistaOrdenada<string, Edicion> dicGameCode = null) : this(Thumb.Disassemble(gbaASM),dicGameCode)
-            { }
-            public ASMCode(string codigoASM, LlistaOrdenada<string, Edicion> dicGameCode = null) : this()
-            {
-                string[] lineasAsmCode;
-                if (Environment.OSVersion.Platform == PlatformID.Unix)
-                {
-                    lineasAsmCode = codigoASM.Split(ENTERLINUX);
-
-                }
-                else
-                {
-                    lineasAsmCode = codigoASM.Split(ENTER);
-                }
-                TrataTexto(lineasAsmCode,dicGameCode);
-            }
-            public ASMCode(IList<string> lineasASM, LlistaOrdenada<string, Edicion> dicGameCode=null) : this()
-            {
-                TrataTexto(lineasASM,dicGameCode);
-            }
-            public LlistaOrdenada<Funcion> Funciones { get => funciones; private set => funciones = value; }
-            public LlistaOrdenada<FuncionASM> FuncionesASM { get => funcionesASM; private set => funcionesASM = value; }
-            public LlistaOrdenada<Variable> Variables { get => variables; private set => variables = value; }
-
-            public void Clear(Edicion edicion=null)
-            {
-                for (int i = 0; i < FuncionesASM.Count; i++)
-                    FuncionesASM[i].Value.Clear(edicion);
-            }
-
-            private void TrataTexto(IList<string> lineasASM,LlistaOrdenada<string,Edicion> dicGameCode)
-            {//falta probar
-                if (dicGameCode == null)
-                    dicGameCode = new LlistaOrdenada<string, Edicion>();
-
-                QuitarComentarios(lineasASM);
-                
-                //si la funcion puede ser local de las funcionesASM ponerlo después de coger las funcionesASM :)
-                SacarFunciones(lineasASM);
-               
-                //Saco las variables, no admito variables locales
-                SacarVariables(lineasASM,dicGameCode);
-                //Saco las funcionesASM, no admito nombres de funciones identicos
-                SacarFuncionesASM(lineasASM);
-
-
-            }
-
-            private void SacarFuncionesASM(IList<string> lineasASM)
-            {
-                const char ELEMENTOCONNOMBRE = ':';
-                //una funcion acaba cuando empieza otra o llego al final
-                string nombreActual=null;
-                List<string> lineasFuncionActual = new List<string>();
-
-                for(int i=0;i<lineasASM.Count;i++)
-                {
-                    if (lineasASM[i].Contains(ELEMENTOCONNOMBRE))
-                    {
-                        if (nombreActual != null)
-                        {
-                            funcionesASM.Add(new FuncionASM(nombreActual, lineasFuncionActual.ToArray()));
-                            lineasFuncionActual.Clear();
-
-                        }
-                        nombreActual = lineasFuncionActual[i].Split(ELEMENTOCONNOMBRE)[0];
-
-                    } else if (!String.IsNullOrEmpty(lineasASM[i]))
-                        lineasFuncionActual.Add(lineasASM[i]);
-                    lineasASM[i] = "";
-                }
-                if (lineasFuncionActual.Count > 0)
-                    funcionesASM.Add(new FuncionASM(nombreActual, lineasFuncionActual.ToArray()));
-
-            }
-
-            private void SacarVariables(IList<string> lineasASM, LlistaOrdenada<string, Edicion> dicGameCode)
-            {
-                const char ELEMENTOCONNOMBRE = ':';
-                const char DESPUESTIPO = ' ';
-               
-                string linea;
-                string[] aux;
-                string nombre;
-                string tipo;
-                string valor;
-                string gamecodeActual = null;
-                ElementoConNombreASM auxVar;
-                Edicion edicion;
-                for (int i = 0; i < lineasASM.Count; i++)
-                {
-                    if(lineasASM[i].Contains("if")|| lineasASM[i].Contains("else"))
-                    {
-                        //pongo el gamecode
-                        gamecodeActual = lineasASM[i].Split(' ')[1];
-                    }
-                    if (lineasASM[i].Contains(ELEMENTOCONNOMBRE)&& lineasASM[i].Contains(DESPUESTIPO))
-                    {
-                        linea = lineasASM[i];
-                        aux = linea.Split(ELEMENTOCONNOMBRE);
-                        nombre = aux[0];
-                        aux = aux[1].Split(DESPUESTIPO);
-                        tipo = aux[0];
-                        valor = aux[1];
-                        //los gamecodes que no estén se ignoran
-                        //si se asigna un gamecode en el propio codigo se entiende que es Edicion.Desconocida a no ser que esté en el diccionario
-                        //Saco las variables tener en cuenta los if y else if por los gamecodes
-                        if(gamecodeActual==null)
-                        variables.Add(new Variable(nombre, tipo, valor));
-                        else
-                        {
-                            auxVar =  new ElementoConNombreASMAux(nombre);
-                            if (!variables.ContainsKey(auxVar))
-                            {
-                                variables.Add(new Variable(nombre, tipo));
-                            }
-                            if (dicGameCode.ContainsKey(gamecodeActual))
-                            {
-                                edicion = dicGameCode[gamecodeActual];
-                            }
-                            else edicion = Edicion.Desconocida;
-
-                            if (!variables[auxVar].DicValors.ContainsKey(edicion))
-                            {
-                                variables[auxVar].DicValors.Add(edicion, valor);
-                            }
-                            else
-                            {
-                                variables[auxVar].DicValors[edicion] = valor;
-                            }
-
-                        }
-                        lineasASM[i] = "";
-                    }
-                }
-            }
-
-            private void SacarFunciones(IList<string> lineasASM)
-            {
-                //Saco funciones .text,.align 2,etc...
-                const char INICIOFUNCION = '.';
-                string linea;
-          
-                for(int i=0;i<lineasASM.Count;i++)
-                {
-                    if(lineasASM[i][0]==INICIOFUNCION)
-                    {
-                        linea = lineasASM[i].Substring(1);
-                        funciones.Add(new Funcion(linea));
-                        lineasASM[i] = "";
-                    }
-                }
-            }
-
-            private void QuitarComentarios(IList<string> lineasAsmCode)
-            {
-                StringBuilder[] strsLineasALimpiar = new StringBuilder[lineasAsmCode.Count];
-                int indexAux;
-                for (int i = 0; i < lineasAsmCode.Count; i++)
-                    strsLineasALimpiar[i] = new StringBuilder(lineasAsmCode[i]);
-
-                for (int j = 0; j < strsLineasALimpiar.Length; j++)
-                {
-                    indexAux = lineasAsmCode[j].IndexOfAny(CaracteresComentario);
-                    strsLineasALimpiar[j].Remove(indexAux, lineasAsmCode[j].Length - indexAux);
-                }
-
-                for (int i = 0; i < lineasAsmCode.Count; i++)
-                    lineasAsmCode[i] = strsLineasALimpiar[i].ToString().ToLower();
-            }
-
-            public int Length()
-            {
-                int length = 0;
-                for (int i = 0; i < FuncionesASM.Count; i++)
-                    length += FuncionesASM[i].Value.Lenght(Funciones, Variables);
-                return length;
-            }
-            public bool Valido
-            {
-                get
-                {
-                    bool correcto = true;
-                    for (int i = 0; i < funcionesASM.Count && correcto; i++)
-                        correcto = funcionesASM[i].Value.Validar().Length==0;
-                    return correcto;
-                }
-            }
-            public void SetBytes(RomGba rom)
-            {
-                SetBytes(rom.Data, rom.Edicion);
-            }
-            public void SetBytes(byte[] rom, Edicion edicion)
-            {
-                SetBytes(new BloqueBytes(rom), edicion);
-            }
-            public void SetBytes(BloqueBytes blData, Edicion edicion)
-            {
-                blData.SearchEmptySpaceAndSetArray(GetBytes(blData.Bytes, edicion));
-            }
-            public byte[] GetBytes(Edicion edicion)
-            {
-                return GetBytes(null, edicion);
-            }
-            public byte[] GetBytes(RomGba rom)
-            {
-                return GetBytes(rom.Data.Bytes, rom.Edicion);
-            }
-            public byte[] GetBytes(byte[] romBuscarRutinasExistentes=null, Edicion edicion=null)
-            {
-                BloqueBytes rutina =new BloqueBytes( new byte[Length()]);
-                //pongo la rutina
-                if (romBuscarRutinasExistentes == null)
-                    romBuscarRutinasExistentes = new byte[0];
-                if (edicion == null)
-                    edicion = Edicion.Desconocida;
-                for (int i = 0; i < FuncionesASM.Count; i++)
-                    FuncionesASM[i].Value.SetBytes(romBuscarRutinasExistentes, rutina, edicion, Funciones, FuncionesASM, Variables);
-                return rutina.Bytes;
-            }
-            public override string ToString()
-            {//falta probar y corregir
-                StringBuilder strToString = new StringBuilder();
-                LlistaOrdenada<Edicion> lstGameCodes=null;
-                string varGameCode = "GameCodeSelected";
-                if(ContainsMoreGameCodes())
-                {
-                    lstGameCodes = new LlistaOrdenada<Edicion>();
-                    //todos menos Edicion.Desconocida
-                    for (int i = 0; i < Variables.Count; i++)
-                    {
-                        lstGameCodes.AddOrReplaceRange(Variables[i].Value.DicValors.Keys.ToArray());
-                    }
-                    lstGameCodes.Remove(Edicion.Desconocida);
-                    for (int i = 0; i < lstGameCodes.Count; i++)
-                    {
-                        //pongo los gamecode en el formato que toca
-                        strToString.Append(lstGameCodes[i].Value.GameCode);
-                        strToString.Append(":.word ");
-                        strToString.Append(((Hex)i).ByteString);
-                    }
-                    //pongo el primero por poner uno :)
-                    strToString.Append(varGameCode);
-                    strToString.Append(":.word ");
-                    strToString.AppendLine(lstGameCodes[0].Value.GameCode);
-                }
-                for(int i=0;i<funciones.Count;i++)
-                {
-                    strToString.AppendLine(funciones[i].ToString());
-                }
-                for (int i = 0; i < FuncionesASM.Count; i++)
-                {
-                    strToString.AppendLine(FuncionesASM[i].ToString());
-                }
-                //si hay variables comunes las pongo
-                PonerVariables(strToString, new KeyValuePair<IComparable, Edicion>(0, Edicion.Desconocida));
-                if (lstGameCodes != null)
-                {
-                    //las variables se pueden volver asignar de la parte en comun :)
-                    //pongo if
-                    strToString.Append("if ");
-                    strToString.Append(lstGameCodes[0].Value.GameCode);
-                    strToString.Append("==");
-                    strToString.AppendLine(varGameCode);
-                    PonerVariables(strToString, lstGameCodes[0]);
-                    for (int i=1;i<lstGameCodes.Count-1;i++)
-                    {
-                        //else if
-                        strToString.Append("elif ");
-                        strToString.Append(lstGameCodes[i].Value.GameCode);
-                        strToString.Append("==");
-                        strToString.AppendLine(varGameCode);
-                        PonerVariables(strToString, lstGameCodes[i]);
-                    }
-                    if (lstGameCodes.Count > 1)
-                    {
-                        //pongo else
-                        strToString.AppendLine("else");
-                        PonerVariables(strToString, lstGameCodes[lstGameCodes.Count - 1]);
-                    }
-                    strToString.AppendLine("endif");
-                }
-                return strToString.ToString();
-            }
-
-            private void PonerVariables(StringBuilder strToString, KeyValuePair<IComparable, Edicion> keyValuePair)
-            {
-                for(int i=0;i<Variables.Count;i++)
-                {
-                    if(Variables[i].Value.DicValors.ContainsKey(keyValuePair.Value))//pongo solo las que tienen valor
-                      strToString.AppendLine(Variables[i].Value.ToString(keyValuePair.Value));
-                }
-            }
-
-            private bool ContainsMoreGameCodes()
-            {
-                bool noContainsMoreGameCodes = Variables.Count==0;
-                for (int i = 0; i < Variables.Count && noContainsMoreGameCodes; i++)
-                    noContainsMoreGameCodes= Variables[i].Value.DicValors.Count == 1;
-                return !noContainsMoreGameCodes;
-            }
-        }
-
-
 
         public static readonly Creditos Creditos;
 
         public static readonly char[] CaracteresComentario = { '\'', '@', '\\', '*' };//si hay más añadir más
 
 
-        static string[] decVals = new string[16]
+        public static string[] DecVals = new string[16]
         {
             "0","1","2","3","4","5","6","7","8",
             "9","10","11","12","13","14","15"
         };
 
-        static string[] regs = new string[16]
+        public static string[] Regs = new string[16]
         {
             "r0","r1","r2","r3","r4","r5","r6","r7",
             "r8","r9","r10","r11","r12","sp","lr","pc"
         };
 
-        static string[] conditions = new string[16]
+        public static string[] Conditions = new string[16]
         {
             "eq","ne","cs","cc","mi","pl","vs","vc",
             "hi","ls","ge","lt","gt","le","","nv"
         };
 
-        static string[] shifts = new string[5]
+        public static string[] Shifts = new string[5]
         {
             "lsl","lsr","asr","ror","rrx"
         };
 
-        static string[] armMultLoadStore = new string[12]
+        public static string[] ArmMultLoadStore = new string[12]
         {
 			// non-stack
 			"da","ia","db","ib",
@@ -575,7 +109,7 @@ namespace PokemonGBAFrameWork
         };
 
 
-        static Opcode[] thumbOpcodes = new Opcode[]
+        public static Opcode[] ThumbOpcodes = new Opcode[]
         {
 			// Format 1
 			new Opcode (0xf800, 0x0000, "lsl %r0, %r3, %o"),
@@ -661,10 +195,12 @@ namespace PokemonGBAFrameWork
 			// Unknown
 			new Opcode (0x0000, 0x0000, "[ ??? ]")
         };
+
+
         #region ARMopcodes
 
-        static Opcode[] armOpcodes = new Opcode[]
-        {
+        public static Opcode[] ArmOpcodes = new Opcode[]
+         {
 			// Undefined
 			new Opcode (0x0e000010, 0x06000010, "[ undefined ]"),
 			// Branch instructions
@@ -713,7 +249,7 @@ namespace PokemonGBAFrameWork
             new Opcode (0x0f100010, 0x0e100010, "mrc%c %P, %N, %r3, %R4, %R0%V"),
 			// Unknown
 			new Opcode (0x00000000, 0x00000000, "[ ??? ]")
-        };
+         };
         #endregion
 
 
@@ -723,6 +259,8 @@ namespace PokemonGBAFrameWork
             Creditos = new Creditos();
             Creditos.Add("Romhacking", "Nintenlord", "Todo el código fuente de decompilar");
         }
+
+
         /// <summary>
         /// Convierte el código máquina en código ASM
         /// </summary>
@@ -741,7 +279,7 @@ namespace PokemonGBAFrameWork
             StringBuilder result = new StringBuilder();
             ushort opcode;
             int index;
-            int ii;
+            int mnemonicIndex;
             int amount;
             int lastFirstReg;
             bool hasRegs;
@@ -760,23 +298,23 @@ namespace PokemonGBAFrameWork
 
                         opcode = ((ushort*)ptBytesGBA)[i >> 1];
                         index = 0;
-                        while ((thumbOpcodes[index].mask & opcode) != thumbOpcodes[index].cval)
+                        while ((ThumbOpcodes[index].mask & opcode) != ThumbOpcodes[index].cval)
                             index++;
 
-                        ii = 0;
-                        while (ii < thumbOpcodes[index].mnemonic.Length)
+                        mnemonicIndex = 0;
+                        while (mnemonicIndex < ThumbOpcodes[index].mnemonic.Length)
                         {
-                            if (thumbOpcodes[index].mnemonic[ii] != '%')
-                                result.Append(thumbOpcodes[index].mnemonic[ii++]);
+                            if (ThumbOpcodes[index].mnemonic[mnemonicIndex] != '%')
+                                result.Append(ThumbOpcodes[index].mnemonic[mnemonicIndex++]);
                             else
                             {
-                                ii++;
-                                switch (thumbOpcodes[index].mnemonic[ii])
+                                mnemonicIndex++;
+                                switch (ThumbOpcodes[index].mnemonic[mnemonicIndex])
                                 {
                                     case 'r': //for register
-                                        regsa = Convert.ToInt32(thumbOpcodes[index].mnemonic.Substring(ii + 1, 1));
-                                        result.Append(regs[(opcode >> regsa) & 7]);
-                                        ii += 2;
+                                        regsa = Convert.ToInt32(ThumbOpcodes[index].mnemonic.Substring(mnemonicIndex + 1, 1));
+                                        result.Append(Regs[(opcode >> regsa) & 7]);
+                                        mnemonicIndex += 2;
                                         break;
                                     case 'o': //5 bit immediate value
                                         result.Append("#0x");
@@ -784,7 +322,7 @@ namespace PokemonGBAFrameWork
                                         val = (opcode >> 6) & 0x1f;
                                         result.Append(Convert.ToString(val, 16));
 
-                                        ii++;
+                                      
                                         break;
                                     case 'p': //5 bit immediate value for ldr and str codes
                                         result.Append("#0x");
@@ -794,61 +332,61 @@ namespace PokemonGBAFrameWork
                                                 val <<= 2;
                                             result.Append(Convert.ToString(val, 16));
                                         }
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'e':
                                         result.Append("#0x");
                                         result.Append(Convert.ToString(((opcode >> 6) & 0x1f) << 1, 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'i':
                                         result.Append("#0x");
                                         result.Append(Convert.ToString((opcode >> 6) & 7, 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'h': //high registers, first is register bits, second high bit
                                         {
-                                            reg = (opcode >> Convert.ToInt32(thumbOpcodes[index].mnemonic.Substring(ii + 1, 1))) & 7;
-                                            if ((opcode & (1 << Convert.ToInt32(thumbOpcodes[index].mnemonic.Substring(ii + 2, 1)))) != 0)
+                                            reg = (opcode >> Convert.ToInt32(ThumbOpcodes[index].mnemonic.Substring(mnemonicIndex + 1, 1))) & 7;
+                                            if ((opcode & (1 << Convert.ToInt32(ThumbOpcodes[index].mnemonic.Substring(mnemonicIndex + 2, 1)))) != 0)
                                                 reg += 8;
-                                            result.Append(regs[reg]);
+                                            result.Append(Regs[reg]);
                                         }
-                                        ii += 3;
+                                        mnemonicIndex += 3;
                                         break;
                                     case 'O': //8 bit immediate
                                         result.Append("#0x");
                                         result.Append(Convert.ToString(opcode & 0xFF, 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'I':
                                         result.Append("$");
                                         result.Append(Convert.ToString((i & 0xfffffffc) + 4 + ((opcode & 0xff) << 2), 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'J':
                                         result.Append("$");
-                                        result.Append(Convert.ToString(((uint*)ptBytesGBA)[((i & 0xfffffffc)) + 4 + ((opcode & 0xff) << 2) >> 2], 16)); ;
-                                        ii++;
+                                        result.Append(Convert.ToString(((uint*)ptBytesGBA)[((i & 0xfffffffc)) + 4 + ((opcode & 0xff) << 2) >> 2], 16));
+                                        mnemonicIndex++;
                                         break;
                                     case 'K':
                                         result.Append("$");
                                         result.Append(Convert.ToString((i & 0xfffffffc) + 4 + ((opcode & 0xff) << 2), 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'b':
                                         if ((opcode & (1 << 10)) != 0)
                                             result.Append("b");
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'B':
                                         if ((opcode & (1 << 12)) != 0)
                                             result.Append("b");
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'w':
                                         result.Append("#0x");
                                         result.Append(Convert.ToString((opcode & 0xff) << 2, 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'W':
                                         {
@@ -859,11 +397,11 @@ namespace PokemonGBAFrameWork
                                             result.Append("$");
                                             result.Append(Convert.ToString(i - (i & 1) + (4 + (add << 1)), 16));
                                         }
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'c':
-                                        result.Append(conditions[(opcode >> 8) & 0xF]);
-                                        ii++;
+                                        result.Append(Conditions[(opcode >> 8) & 0xF]);
+                                        mnemonicIndex++;
                                         break;
                                     case 's':
                                         result.Append("#");
@@ -871,7 +409,7 @@ namespace PokemonGBAFrameWork
                                             result.Append("-");
                                         result.Append("0x");
                                         result.Append(Convert.ToString((opcode & 0x7f) << 2, 16));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'l': //register list, rewrite
                                         {
@@ -896,17 +434,17 @@ namespace PokemonGBAFrameWork
 
                                                     if (amount > 2)
                                                     {
-                                                        result.Append(regs[lastFirstReg] + "-" + regs[u]);
+                                                        result.Append(Regs[lastFirstReg] + "-" + Regs[u]);
                                                         hasRegs = true;
                                                     }
                                                     else if (amount == 2)
                                                     {
-                                                        result.Append(regs[lastFirstReg] + "," + regs[u]);
+                                                        result.Append(Regs[lastFirstReg] + "," + Regs[u]);
                                                         hasRegs = true;
                                                     }
                                                     else if (amount == 1)
                                                     {
-                                                        result.Append(regs[u - 1]);
+                                                        result.Append(Regs[u - 1]);
                                                         hasRegs = true;
                                                     }
                                                     amount = 0;
@@ -919,58 +457,59 @@ namespace PokemonGBAFrameWork
 
                                                 if (amount > 2)
                                                 {
-                                                    result.Append(regs[lastFirstReg]);
+                                                    result.Append(Regs[lastFirstReg]);
                                                     result.Append("-");
-                                                    result.Append(regs[7]);
+                                                    result.Append(Regs[7]);
                                                 }
                                                 else if (amount == 2)
                                                 {
-                                                    result.Append(regs[lastFirstReg]);
+                                                    result.Append(Regs[lastFirstReg]);
                                                     result.Append(",");
-                                                    result.Append(regs[7]);
+                                                    result.Append(Regs[7]);
                                                 }
                                                 else if (amount == 1)
-                                                    result.Append(regs[7]);
+                                                    result.Append(Regs[7]);
                                             }
                                         }
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'm':
                                         result.Append("$");
                                         result.Append(Convert.ToString(opcode & 0xff));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'Z':
                                         result.Append("$");
                                         result.Append(Convert.ToString((opcode & 0x7ff) << 1));
-                                        ii++;
+                                        mnemonicIndex++;
                                         break;
                                     case 'a':
-                                        {
-                                            add = opcode & 0x07ff;
-                                            if ((add & 0x400) != 0)
-                                                add = (int)((long)add - 0x80000000);
-                                            add <<= 1;
-                                            result.Append("$");
-                                            result.Append(Convert.ToString(i + add + 4, 16));
-                                        }
-                                        ii++;
+
+                                        add = opcode & 0x07ff;
+                                        if ((add & 0x400) != 0)
+                                            add = (int)((long)add - 0x80000000);
+                                        add <<= 1;
+                                        result.Append("$");
+                                        result.Append(Convert.ToString(i + add + 4, 16));
+
+                                        mnemonicIndex++;
                                         break;
                                     case 'A':
-                                        {
-                                            i += 2;
-                                            nopcode = ((ushort*)ptBytesGBA)[(i) >> 1];
-                                            add = opcode & 0x7ff;
-                                            if ((add & 0x400) != 0)
-                                                add |= 0xfff800;
-                                            add = (add << 12) | ((nopcode & 0x7ff) << 1);
-                                            result.Append("$");
-                                            result.Append(Convert.ToString(i + 2 + add, 16));
-                                        }
-                                        ii++;
+
+                                        i += 2;
+                                        nopcode = ((ushort*)ptBytesGBA)[(i) >> 1];
+                                        add = opcode & 0x7ff;
+                                        if ((add & 0x400) != 0)
+                                            add |= 0xfff800;
+                                        add = (add << 12) | ((nopcode & 0x7ff) << 1);
+                                        result.Append("$");
+                                        result.Append(Convert.ToString(i + 2 + add, 16));
+
+                                        mnemonicIndex++;
                                         break;
 
                                 }
+
                             }
                         }
 
@@ -990,16 +529,7 @@ namespace PokemonGBAFrameWork
             return result;
         }
 
-        public static ASMCode Assembler(string asmCode)
-        {
 
-            return new ASMCode(asmCode);
-        }
-
-        public static ASMCode Assembler(string[] lineasAsmCode)
-        {
-            return new ASMCode(lineasAsmCode);
-        }
 
 
     }

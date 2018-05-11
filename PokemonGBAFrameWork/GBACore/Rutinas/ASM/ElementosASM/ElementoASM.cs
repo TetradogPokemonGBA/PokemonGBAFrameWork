@@ -15,5 +15,7 @@ namespace PokemonGBAFrameWork.ASM
             Nombre = nombre==null?"Funcion"+GenId.Siguiente():nombre;
             Descripcion = descripcion;
         }
+        public abstract string GetString(Edicion edicion);
+        
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 
 namespace PokemonGBAFrameWork.ASM
 {
@@ -20,7 +21,7 @@ namespace PokemonGBAFrameWork.ASM
         public abstract void LeerComando(string lineaActual);
         public abstract void LeerComando(BinaryReader brComandosASM);//cuando lo haga ya veré cuantos necesito poner como lineaActual
 
-        public abstract byte[] GetBytes(Edicion edicion);
+        public abstract byte[] GetBytes(Edicion edicion, Llista<InstruccionASM> instrucciones, Llista<FuncionASM> funciones, Llista<VariableASM> variables);
         public abstract string GetString(Edicion edicion);
         public static ComandoASM GetComando(StringReader srComandosASM)
         {
@@ -52,6 +53,7 @@ namespace PokemonGBAFrameWork.ASM
             }
             return comando;
         }
-       
+
+        
     }
 }

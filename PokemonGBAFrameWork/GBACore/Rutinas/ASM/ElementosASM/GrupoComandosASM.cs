@@ -19,10 +19,10 @@ namespace PokemonGBAFrameWork.ASM
         public LlistaOrdenada<string, FuncionASM> DicComandosPorEdicion { get; private set; }
         public override string Comando { get => COMANDO;}
 
-        public override byte[] GetBytes(Edicion edicion)
+        public override byte[] GetBytes(Edicion edicion, Llista<InstruccionASM> instrucciones, Llista<FuncionASM> funciones, Llista<VariableASM> variables)
         {
             FuncionASM comandos = DicComandosPorEdicion[edicion.GameCode];
-            return comandos.GetBytes(edicion);
+            return comandos.GetBytes(edicion,instrucciones,funciones,variables);
         }
         public override string GetString(Edicion edicion)
         {
