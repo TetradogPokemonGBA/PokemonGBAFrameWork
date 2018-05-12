@@ -34,9 +34,9 @@ namespace PokemonGBAFrameWork
 			callToRefresh.Add(EdicionPokemon.RubiEsp,0x59509);
 			callToRefresh.Add(EdicionPokemon.EsmeraldaEsp,0x8B455);
 		}
-		public static ComandosScript.CallAsm Comando(EdicionPokemon edicion,CompilacionPokemon compilacion)
+		public static ComandosScript.CallAsm Comando(EdicionPokemon edicion)
 		{
-			return new ComandosScript.CallAsm((ASUMAR+Variable.GetVariable(callToRefresh,edicion,compilacion)));
+			return new ComandosScript.CallAsm((ASUMAR+Variable.GetVariable(callToRefresh,edicion)));
 			
 		}
 		

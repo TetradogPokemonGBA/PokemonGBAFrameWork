@@ -33,11 +33,11 @@ namespace PokemonGBAFrameWork
             {
                 case AbreviacionCanon.AXV:
                 case AbreviacionCanon.AXP:
-                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
+                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(DescripcionPokedex.ZonaDescripcion, rom, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
                         compilacionRom = Compilaciones[0];
                     else
                     {
-                        if (Zona.GetOffsetRom(rom, Ataque.ZonaAnimacion, edicion, CompilacionPokemon.Compilaciones[1]).IsAPointer)
+                        if (Zona.GetOffsetRom(Ataque.ZonaAnimacion, rom, edicion, CompilacionPokemon.Compilaciones[1]).IsAPointer)
                             compilacionRom = Compilaciones[1];
                         //me falta saber como diferenciar Ruby&Zafiro 1.1 y Ruby&Zafiro 1.2 USA
 
@@ -48,7 +48,7 @@ namespace PokemonGBAFrameWork
                     break;
                 case AbreviacionCanon.BPR:
                 case AbreviacionCanon.BPG:
-                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
+                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(DescripcionPokedex.ZonaDescripcion, rom, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
                         compilacionRom = Compilaciones[0];
                     else
                     {

@@ -27,11 +27,12 @@
     <Folder Include="GBACore\Rutinas\ASM\ElementosASM\Instrucciones\" />
     <Folder Include="GBACore\Utilidades\" />
     <Folder Include="PokemonFrameWork\Core\Bloques\" />
-    <Folder Include="PokemonFrameWork\Core\Variables\" />
+    <Folder Include="GBACore\Rutinas\Variables\" />
     <Folder Include="PokemonFrameWork\Core\Script\ComandosBasicos\" />
     <Folder Include="PokemonFrameWork\Core\Script\ComandosComplejos\" />
     <Folder Include="PokemonFrameWork\Eventos\" />
     <Folder Include="PokemonFrameWork\Mapa\Sprites\" />
+    <Folder Include="PokemonFrameWork\Pokemon\" />
   </ItemGroup>
 
   <ItemGroup>
