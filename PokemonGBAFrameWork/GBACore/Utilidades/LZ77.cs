@@ -383,6 +383,7 @@ namespace PokemonGBAFrameWork
         int posFinal;
         int matchAux;
         bool compatible;
+
         match = 0;
         unsafe
         {

@@ -197,35 +197,41 @@ namespace PokemonGBAFrameWork
 					
 				}
 			}
+            edicionPokemon.Compilacion = CompilacionPokemon.GetCompilacion(rom, edicionPokemon);
+
 			return edicionPokemon;
 		}
 
 		static bool ValidaEdicion(RomGba rom, EdicionPokemon edicionPokemon)
 		{
 			bool valida = false;
-			//tengo que encontrar si es verdad que sea su edicion...
-			//diferenciar idioma,edicion
-			//try {
-			//	switch (edicionPokemon.AbreviacionRom) {
-			//		case AbreviacionCanon.AXV:
-			//		case AbreviacionCanon.AXP:
-			//			valida = Zona.GetOffsetRom(rom, Ataque.ZonaAnimacion, edicionPokemon, Compilacion.Compilaciones[0]).IsAPointer;
-			//			if (!valida)
-			//				valida = Zona.GetOffsetRom(rom, Ataque.ZonaAnimacion, edicionPokemon, Compilacion.Compilaciones[1]).IsAPointer;
-			//			break;
-			//		case AbreviacionCanon.BPE:
-			//		case AbreviacionCanon.BPR:
-			//		case AbreviacionCanon.BPG:
-			//			valida = Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicionPokemon, Compilacion.Compilaciones[0]).IsAPointer;
-			//			if (!valida && edicionPokemon.RegionKanto)
-			//				valida = Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicionPokemon, Compilacion.Compilaciones[1]).IsAPointer;
-			//			break;
+            //tengo que encontrar si es verdad que sea su edicion...
+            //diferenciar idioma,edicion
+            try
+            {
+                switch (edicionPokemon.AbreviacionRom)
+                {
+                    case AbreviacionCanon.AXV:
+                    case AbreviacionCanon.AXP:
+                        valida = Zona.GetOffsetRom(rom, Ataque.ZonaAnimacion, edicionPokemon, CompilacionPokemon.Compilaciones[0]).IsAPointer;
+                        if (!valida)
+                            valida = Zona.GetOffsetRom(rom, Ataque.ZonaAnimacion, edicionPokemon, CompilacionPokemon.Compilaciones[1]).IsAPointer;
+                        break;
+                    case AbreviacionCanon.BPE:
+                    case AbreviacionCanon.BPR:
+                    case AbreviacionCanon.BPG:
+                        valida = Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicionPokemon, CompilacionPokemon.Compilaciones[0]).IsAPointer;
+                        if (!valida && edicionPokemon.RegionKanto)
+                            valida = Zona.GetOffsetRom(rom, DescripcionPokedex.ZonaDescripcion, edicionPokemon, CompilacionPokemon.Compilaciones[1]).IsAPointer;
+                        break;
 
-			//	}
-				
-			//} catch (Exception ex){
-			//}
-				return valida;
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+            return valida;
 			
 		}
 	}

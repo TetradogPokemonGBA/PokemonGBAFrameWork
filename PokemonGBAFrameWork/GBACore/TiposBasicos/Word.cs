@@ -10,6 +10,7 @@ namespace PokemonGBAFrameWork
     {
         public const int LENGTH = 2;
 
+        #region Constructores
         public Word(ushort word) : base(Serializar.GetBytes(word)) { }
         public Word(byte[] data) : base(data)
         {
@@ -30,7 +31,9 @@ namespace PokemonGBAFrameWork
         public unsafe Word(byte* ptrRom, int offsetWord) : base(ptrRom, offsetWord, LENGTH)
         {
         }
+        #endregion
 
+        #region Conversiones
         public static implicit operator ushort(Word word)
         {
             return Serializar.ToUShort(word.Data);
@@ -44,7 +47,7 @@ namespace PokemonGBAFrameWork
         {
             return (ushort)word;
         }
-
+        #endregion
 
     }
 }

@@ -24,12 +24,12 @@ namespace PokemonGBAFrameWork
 		public Zona(Enum nombre):base(nombre)
 		{}
 
-		public static OffsetRom GetOffsetRom(RomGba rom, Zona zona, EdicionPokemon edicionPokemon, Compilacion compilacion)
+		public static OffsetRom GetOffsetRom(RomGba rom, Zona zona, EdicionPokemon edicionPokemon, CompilacionPokemon compilacion)
 		{
 
 			return  new OffsetRom(rom,GetValue(zona,edicionPokemon,compilacion));
 		}
-		public static void SetOffsetRom(Zona zona,RomGba rom,EdicionPokemon edicionPokemon,Compilacion compilacion,OffsetRom offsetToSet)
+		public static void SetOffsetRom(Zona zona,RomGba rom,EdicionPokemon edicionPokemon,CompilacionPokemon compilacion,OffsetRom offsetToSet)
 		{
 			OffsetRom.SetOffset(rom,GetOffsetRom(rom,zona,edicionPokemon,compilacion),offsetToSet.Offset);
 		}

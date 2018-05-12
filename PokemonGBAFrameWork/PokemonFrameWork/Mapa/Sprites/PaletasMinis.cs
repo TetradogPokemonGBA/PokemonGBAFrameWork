@@ -58,7 +58,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public static PaletasMinis GetPaletasMinis(RomGba rom,EdicionPokemon edicion,Compilacion compilacion)
+		public static PaletasMinis GetPaletasMinis(RomGba rom,EdicionPokemon edicion,CompilacionPokemon compilacion)
 		{
 			PaletasMinis paletas=new PaletasMinis();
 			//obtengo la paleta

@@ -14,14 +14,14 @@ namespace PokemonGBAFrameWork
 	{
 
 		string nombre;
-		LlistaOrdenada<Compilacion,LlistaOrdenada<EdicionPokemon,int>> diccionario;
+		LlistaOrdenada<CompilacionPokemon,LlistaOrdenada<EdicionPokemon,int>> diccionario;
 
 		public Var(string nombre)
 		{
 			this.nombre=nombre;
-			diccionario=new LlistaOrdenada<Compilacion, LlistaOrdenada<EdicionPokemon, int>>();
-			for(int i=0;i<Compilacion.Compilaciones.Length;i++){	
-				diccionario.Add(Compilacion.Compilaciones[i],new LlistaOrdenada<EdicionPokemon, int>());
+			diccionario=new LlistaOrdenada<CompilacionPokemon, LlistaOrdenada<EdicionPokemon, int>>();
+			for(int i=0;i<CompilacionPokemon.Compilaciones.Length;i++){	
+				diccionario.Add(CompilacionPokemon.Compilaciones[i],new LlistaOrdenada<EdicionPokemon, int>());
 			}
 		}
 		public Var(Enum enumZona):this(enumZona.ToString())
@@ -41,7 +41,7 @@ namespace PokemonGBAFrameWork
 		
 
 		#endregion
-		public LlistaOrdenada<Compilacion,LlistaOrdenada<EdicionPokemon,int>> Diccionario {
+		public LlistaOrdenada<CompilacionPokemon,LlistaOrdenada<EdicionPokemon,int>> Diccionario {
 			get {
 				return diccionario;
 			}
@@ -56,11 +56,11 @@ namespace PokemonGBAFrameWork
 		{
 			for(int i=0;i<zonasCompilacion.Length;i++){
 				for(int j=0;j<ediciones.Length;j++)
-					diccionario[Compilacion.Compilaciones[i]].Add(ediciones[j],zonasCompilacion[i]);
+					diccionario[CompilacionPokemon.Compilaciones[i]].Add(ediciones[j],zonasCompilacion[i]);
 			}
-			for(int i=zonasCompilacion.Length;i<Compilacion.Compilaciones.Length;i++){
+			for(int i=zonasCompilacion.Length;i<CompilacionPokemon.Compilaciones.Length;i++){
 				for(int j=0;j<ediciones.Length;j++)
-					diccionario[Compilacion.Compilaciones[i]].Add(ediciones[j],zonasCompilacion[zonasCompilacion.Length-1]);
+					diccionario[CompilacionPokemon.Compilaciones[i]].Add(ediciones[j],zonasCompilacion[zonasCompilacion.Length-1]);
 			}
 			
 		}
@@ -76,7 +76,7 @@ namespace PokemonGBAFrameWork
 
 		#endregion
 
-		protected static int GetValue(Var variable, EdicionPokemon edicionPokemon, Compilacion compilacion)
+		protected static int GetValue(Var variable, EdicionPokemon edicionPokemon, CompilacionPokemon compilacion)
 		{
 			if(!variable.Diccionario.ContainsKey(compilacion)||!variable.Diccionario[compilacion].ContainsKey(edicionPokemon))
 				throw new   RomFaltaInvestigacionException();

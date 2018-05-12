@@ -22,7 +22,7 @@ namespace PokemonGBAFrameWork
 		{}
 		public Variable(Enum nombre):base(nombre)
 		{}
-		public static int GetVariable(Variable variable,EdicionPokemon edicion,Compilacion compilacion)
+		public static int GetVariable(Variable variable,EdicionPokemon edicion,CompilacionPokemon compilacion)
 		{ 
 		 	return GetValue(variable,edicion,compilacion);
 		}

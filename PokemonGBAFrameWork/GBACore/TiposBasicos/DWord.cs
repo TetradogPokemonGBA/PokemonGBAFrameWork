@@ -10,6 +10,7 @@ namespace PokemonGBAFrameWork
     {
         public const int LENGTH = 4;
 
+        #region Constructores
         public DWord(uint dword) : base(Serializar.GetBytes(dword)) { }
         public DWord(byte[] data) : base(data)
         {
@@ -30,7 +31,8 @@ namespace PokemonGBAFrameWork
         public unsafe DWord(byte* ptrRom, int offsetDWord) : base(ptrRom, offsetDWord, LENGTH)
         {
         }
-
+        #endregion
+        #region Conversiones
         public static implicit operator uint(DWord word)
         {
             return Serializar.ToUInt(word.Data);
@@ -45,7 +47,7 @@ namespace PokemonGBAFrameWork
             return (uint)word;
         }
 
+        #endregion
 
-    
-}
+    }
 }

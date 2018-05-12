@@ -72,9 +72,7 @@ namespace PokemonGBAFrameWork
 
         public static readonly Creditos Creditos;
 
-        public static readonly char[] CaracteresComentario = { '\'', '@', '\\', '*' };//si hay más añadir más
-
-
+   
         public static string[] DecVals = new string[16]
         {
             "0","1","2","3","4","5","6","7","8",
@@ -522,12 +520,6 @@ namespace PokemonGBAFrameWork
             return lines;
         }
 
-        private static string parseToString(ushort opcode, Opcode opcodes, uint offset)
-        {
-            string result = "";
-
-            return result;
-        }
 
 
 
