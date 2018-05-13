@@ -112,7 +112,15 @@ namespace PokemonGBAFrameWork
                 offsetEmpty = SearchEmptyBytes(length, 0x0, inicio);
 
                 if (offsetEmpty < 0)
+                {
+                    if(Bytes.Length==RomGba.MAXLENGTH-length)
                     throw new OutOfMemoryException("No se ha encontrado espacio libre...");
+                    else
+                    {
+                        Bytes = Bytes.AddArray(new byte[Bytes.Length+length*10<RomGba.MAXLENGTH?length*10:length]);
+                        offsetEmpty = SearchEmptyBytes(length, inicio);
+                    }
+                }
             }
             return offsetEmpty;
         }

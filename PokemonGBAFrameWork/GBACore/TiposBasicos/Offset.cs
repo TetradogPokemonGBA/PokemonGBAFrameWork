@@ -169,7 +169,10 @@ namespace PokemonGBAFrameWork
         {
             SetOffset(data.Bytes, offsetDatos, offset);
         }
-
+        public static void SetOffset(byte[] rom,OffsetRom offsetDatos,OffsetRom offset)
+        {
+            SetOffset(rom, offsetDatos.Offset, offset);
+        }
         public static void SetOffset(byte[] rom, int offsetDatos, OffsetRom offset)
         {
             unsafe
