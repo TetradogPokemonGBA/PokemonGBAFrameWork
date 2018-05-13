@@ -138,9 +138,11 @@ namespace PokemonGBAFrameWork
         public bool EstaModificada {
 			get{ return (char)idioma != InicialIdioma || Abreviacion != AbreviacionRom.ToString(); }
 		}
-		#endregion
-		#region Overrides
-		public override bool Equals(object obj)
+
+        public bool EsRubiOZafiro { get { return EsRubi || EsZafiro; } }
+        #endregion
+        #region Overrides
+        public override bool Equals(object obj)
 		{
 			EdicionPokemon other = obj as EdicionPokemon;
 			bool equals = other != null;

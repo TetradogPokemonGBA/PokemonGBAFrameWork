@@ -32,7 +32,7 @@
     <Folder Include="PokemonFrameWork\Core\Script\ComandosComplejos\" />
     <Folder Include="PokemonFrameWork\Eventos\" />
     <Folder Include="PokemonFrameWork\Mapa\Sprites\" />
-    <Folder Include="PokemonFrameWork\Pokemon\" />
+    <Folder Include="PokemonFrameWork\Batalla\" />
   </ItemGroup>
 
   <ItemGroup>

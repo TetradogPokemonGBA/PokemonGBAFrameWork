@@ -149,9 +149,9 @@ namespace PokemonGBAFrameWork
 		}
 
 
-		public static DescripcionPokedex GetDescripcionPokedex(RomGba rom,EdicionPokemon edicion,int ordenNacionalPokemon)
+		public static DescripcionPokedex GetDescripcionPokedex(RomGba rom,int ordenNacionalPokemon)
 		{
-			int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion,rom, edicion).Offset+ordenNacionalPokemon*LongitudDescripcion(edicion);
+			int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion,rom).Offset+ordenNacionalPokemon*LongitudDescripcion((EdicionPokemon)rom.Edicion);
 			int posicionActual=offsetDescripcionPokemon;
 			DescripcionPokedex descripcionPokemon=new DescripcionPokedex();
 			descripcionPokemon.blEspecie=BloqueString.GetString(rom,posicionActual,(int)LongitudCampos.NombreEspecie);
@@ -162,7 +162,7 @@ namespace PokemonGBAFrameWork
 			posicionActual+=Word.LENGTH;
 			descripcionPokemon.blDescripcion=BloqueString.GetString(rom,new OffsetRom(rom,posicionActual).Offset);
 			posicionActual+=OffsetRom.LENGTH;
-			if(edicion.AbreviacionRom!=AbreviacionCanon.BPE)
+			if(!((EdicionPokemon)rom.Edicion).EsEsmeralda)
 			{//Esmeralda no tiene ese puntero y Rojo y Verde Apuntan a una pagina vacia asi que no hay problema
 				descripcionPokemon.blDescripcion.Texto+="\n"+BloqueString.GetString(rom,new OffsetRom(rom,posicionActual).Offset).Texto;
 				posicionActual+=OffsetRom.LENGTH;
@@ -184,9 +184,10 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		public static void SetDescripcionPokedex(RomGba rom,EdicionPokemon edicion,Compilacion compilacion,DescripcionPokedex descripcion,int ordenNacionalPokemon)
+		public static void SetDescripcionPokedex(RomGba rom,DescripcionPokedex descripcion,int ordenNacionalPokemon)
 		{
-			int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion, rom, edicion, compilacion).Offset+ordenNacionalPokemon*LongitudDescripcion(edicion);
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+            int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion, rom).Offset+ordenNacionalPokemon*LongitudDescripcion(edicion);
 			int posicionActual=offsetDescripcionPokemon;
 			int totalPagina=TotalText(edicion);
 			BloqueString.Remove(rom,posicionActual);
@@ -204,7 +205,7 @@ namespace PokemonGBAFrameWork
 			}catch{}
 			rom.Data.SetArray(posicionActual,new OffsetRom(BloqueString.SetString(rom,descripcion.Descripcion.Substring(0,totalPagina))).BytesPointer);
 			posicionActual+=OffsetRom.LENGTH;
-			if(edicion.AbreviacionRom==AbreviacionCanon.AXV||edicion.AbreviacionRom==AbreviacionCanon.AXP)
+			if(edicion.EsRubiOZafiro)
 			{
 				try{
 				BloqueString.Remove(rom,new OffsetRom(rom,posicionActual).Offset);
@@ -229,7 +230,7 @@ namespace PokemonGBAFrameWork
 		private static int TotalText(EdicionPokemon edicion)
 		{
 			int total;
-			if (edicion.AbreviacionRom != AbreviacionCanon.AXP&&edicion.AbreviacionRom != AbreviacionCanon.AXV)
+			if (!edicion.EsRubiOZafiro)
 				total = (int)LongitudCampos.PaginasGeneral;
 			else total = (int)LongitudCampos.PaginasRubiZafiro;
 			return total;
@@ -243,19 +244,20 @@ namespace PokemonGBAFrameWork
 			return total;
 		}
 
-		public static int GetTotalEntradas(RomGba rom, EdicionPokemon edicion)
+		public static int GetTotalEntradas(RomGba rom)
 		{
 			int total=0;
-			int offsetInicio=Zona.GetOffsetRom(ZonaDescripcion, rom, edicion).Offset;
-			while (ValidarIndicePokemon(rom, edicion,offsetInicio, total))
+			int offsetInicio=Zona.GetOffsetRom(ZonaDescripcion, rom).Offset;
+			while (ValidarIndicePokemon(rom,offsetInicio, total))
 				total+=3;
-			while (!ValidarIndicePokemon(rom, edicion,offsetInicio, total))
+			while (!ValidarIndicePokemon(rom,offsetInicio, total))
 				total--;
 
 			return total;
 		}
-		private static bool ValidarOffset(RomGba rom, EdicionPokemon edicion, int offsetInicioDescripcion)
+		private static bool ValidarOffset(RomGba rom, int offsetInicioDescripcion)
 		{
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
 			int offsetValidador;
 			bool valido=offsetInicioDescripcion>-1;//si el offset no es valido devuelve -1
 			if (valido)
@@ -263,7 +265,7 @@ namespace PokemonGBAFrameWork
 				offsetValidador = offsetInicioDescripcion + (int)LongitudCampos.NombreEspecie + 4/*poner lo que es...*/ ;
 				
 				valido = new OffsetRom(rom, offsetValidador).IsAPointer;
-				if (valido && (edicion.AbreviacionRom == AbreviacionCanon.AXP|| edicion.AbreviacionRom == AbreviacionCanon.AXV))
+				if (valido && edicion.EsRubiOZafiro)
 				{
 					offsetValidador += OffsetRom.LENGTH;
 					valido = new OffsetRom(rom, offsetValidador).IsAPointer;
@@ -272,14 +274,16 @@ namespace PokemonGBAFrameWork
 			return valido;
 
 		}
-		private static bool ValidarIndicePokemon(RomGba rom, EdicionPokemon edicion,int offsetInicio ,int ordenGameFreak)
+		private static bool ValidarIndicePokemon(RomGba rom, int offsetInicio ,int ordenGameFreak)
 		{
-			return ValidarOffset(rom, edicion,offsetInicio + ordenGameFreak * LongitudDescripcion(edicion));
+			return ValidarOffset(rom, offsetInicio + ordenGameFreak * LongitudDescripcion((EdicionPokemon)rom.Edicion));
 		}
 
-		public static void Remove(RomGba rom, EdicionPokemon edicion, int ordenNacionalPokemon)
+		public static void Remove(RomGba rom,  int ordenNacionalPokemon)
 		{
-			int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion, rom, edicion).Offset+ordenNacionalPokemon*LongitudDescripcion(edicion);
+            EdicionPokemon edicion =(EdicionPokemon) rom.Edicion;
+
+            int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion, rom).Offset+ordenNacionalPokemon*LongitudDescripcion(edicion);
 			int posicionActual=offsetDescripcionPokemon;
 
 			posicionActual+=(int)LongitudCampos.NombreEspecie;
@@ -288,7 +292,7 @@ namespace PokemonGBAFrameWork
 			//borro las paginas de la pokedex
 			BloqueString.Remove(rom,new OffsetRom(rom,posicionActual).Offset);
 			posicionActual+=OffsetRom.LENGTH;
-			if(edicion.AbreviacionRom==AbreviacionCanon.AXV||edicion.AbreviacionRom==AbreviacionCanon.AXP)
+			if(edicion.EsRubiOZafiro)
 			{
 				BloqueString.Remove(rom,new OffsetRom(rom,posicionActual).Offset);
 			}

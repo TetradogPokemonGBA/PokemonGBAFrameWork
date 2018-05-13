@@ -207,86 +207,86 @@ namespace PokemonGBAFrameWork
 			return Nombre;
 		}
 		
-		public static Ataque GetAtaque(RomGba rom,EdicionPokemon edicion,int posicionAtaque)
+		public static Ataque GetAtaque(RomGba rom,int posicionAtaque)
 		{//por mirar la obtenxion del offset descripcion
 			int offsetDescripcion;
-			int offsetNombre= Zona.GetOffsetRom(ZonaNombre, rom, edicion).Offset+posicionAtaque*(int)LongitudCampos.Nombre;
+			int offsetNombre= Zona.GetOffsetRom(ZonaNombre, rom).Offset+posicionAtaque*(int)LongitudCampos.Nombre;
 			
 			Ataque ataque=new Ataque();
 			
 			ataque.nombre=BloqueString.GetString(rom,offsetNombre,(int)LongitudCampos.Nombre);
 			if(posicionAtaque!=0)//el primero no tiene
 			{
-				offsetDescripcion= new OffsetRom(rom,Zona.GetOffsetRom(ZonaDescripcion, rom, edicion).Offset+(posicionAtaque-1)*(int)LongitudCampos.Descripcion).Offset;
+				offsetDescripcion= new OffsetRom(rom,Zona.GetOffsetRom(ZonaDescripcion, rom).Offset+(posicionAtaque-1)*(int)LongitudCampos.Descripcion).Offset;
 				ataque.descripcion=BloqueString.GetString(rom,offsetDescripcion);
 			}
 			else ataque.descripcion=null;
 			
-			ataque.datos=DatosAtaque.GetDatosAtaque(rom,edicion,posicionAtaque);
+			ataque.datos=DatosAtaque.GetDatosAtaque(rom,posicionAtaque);
 			
-			if(edicion.RegionHoenn)
+			if(((EdicionPokemon)rom.Edicion).RegionHoenn)
 			{
 				//pongo los datos de los concursos de hoenn
-				ataque.DatosConcursosHoenn.Bytes = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom, edicion).Offset + posicionAtaque * OffsetRom.LENGTH, (int)LongitudCampos.DatosConcurso).Bytes;
+				ataque.DatosConcursosHoenn.Bytes = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset + posicionAtaque * OffsetRom.LENGTH, (int)LongitudCampos.DatosConcurso).Bytes;
 			}
 			
 			return ataque;
 		}
 
-		public static Ataque[] GetAtaques(RomGba rom,EdicionPokemon edicion)
+		public static Ataque[] GetAtaques(RomGba rom)
 		{
-			Ataque[] ataques=new Ataque[GetTotalAtaques(rom,edicion)];
+			Ataque[] ataques=new Ataque[GetTotalAtaques(rom)];
 			for(int i=0;i<ataques.Length;i++)
-				ataques[i]=GetAtaque(rom,edicion,i);
+				ataques[i]=GetAtaque(rom,i);
 			return ataques;
 		}
 
-		public static void SetAtaque(RomGba rom,EdicionPokemon edicion,int posicionAtaque,Ataque ataqueAPoner)
+		public static void SetAtaque(RomGba rom,int posicionAtaque,Ataque ataqueAPoner)
 		{
 			OffsetRom offsetDatosConcurso;
 			int offsetDescripcion;
 			int offsetPointerDatos;
-			int offsetNombre= Zona.GetOffsetRom(ZonaNombre, rom, edicion).Offset+posicionAtaque*(int)LongitudCampos.Nombre;
+			int offsetNombre= Zona.GetOffsetRom(ZonaNombre, rom).Offset+posicionAtaque*(int)LongitudCampos.Nombre;
 			
 			BloqueString.Remove(rom,offsetNombre);
 			BloqueString.SetString(rom,offsetNombre,ataqueAPoner.Nombre);
 			if(posicionAtaque!=0){
 				
-				offsetDescripcion=offsetDescripcion=new OffsetRom(rom,Zona.GetOffsetRom(ZonaDescripcion, rom, edicion).Offset+(posicionAtaque-1)*(int)LongitudCampos.Descripcion).Offset;
+				offsetDescripcion=offsetDescripcion=new OffsetRom(rom,Zona.GetOffsetRom(ZonaDescripcion, rom).Offset+(posicionAtaque-1)*(int)LongitudCampos.Descripcion).Offset;
 				BloqueString.Remove(rom,offsetDescripcion);
 				rom.Data.SetArray(offsetDescripcion,new OffsetRom(BloqueString.SetString(rom,ataqueAPoner.Descripcion)).BytesPointer);	
 			}
 			//pongo los datos
-			DatosAtaque.SetDatosAtaque(rom,edicion,posicionAtaque,ataqueAPoner.Datos);
-			if(edicion.RegionHoenn)
+			DatosAtaque.SetDatosAtaque(rom,posicionAtaque,ataqueAPoner.Datos);
+			if(((EdicionPokemon)rom.Edicion).RegionHoenn)
 			{
 				//pongo los datos de los concursos de hoenn
 				
-				offsetPointerDatos = Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom, edicion).Offset + posicionAtaque * (int)LongitudCampos.DatosConcurso;
+				offsetPointerDatos = Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset + posicionAtaque * (int)LongitudCampos.DatosConcurso;
 				offsetDatosConcurso=new OffsetRom(rom, offsetPointerDatos);
 				if(new OffsetRom(rom,offsetPointerDatos).IsAPointer)
 					rom.Data.Remove(offsetDatosConcurso.Offset, (int)LongitudCampos.DatosConcurso);//quito los viejos
 				OffsetRom.SetOffset(rom, offsetDatosConcurso, rom.Data.SearchEmptySpaceAndSetArray(ataqueAPoner.DatosConcursosHoenn.Bytes));//pongo los nuevos
 			}
 			
-			QuitarLimite(rom,edicion,posicionAtaque);
+			QuitarLimite(rom,posicionAtaque);
 		}
 
-		public static void SetAtaques(RomGba rom,EdicionPokemon edicion,IList<Ataque> ataques)
-		{
+		public static void SetAtaques(RomGba rom, IList<Ataque> ataques)
+        {
 			if(ataques.Count>MAXATAQUESSINASM)//mas adelante adapto el hack de Jambo
 				throw new ArgumentOutOfRangeException("ataques");
-			
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
 			int offsetTablaPointersDescripcion;
 			int offsetDescripcionActual;
-			int totalActual=GetTotalAtaques(rom,edicion);
+			int totalActual=GetTotalAtaques(rom);
 			//borro los datos y busco un nuevo sitio donde quepan
 			if(ataques.Count!=totalActual)
 			{
 				//borro los datos anteriores y busco espacio libre y cambio todos los offsets
-				rom.Data.Remove(Zona.GetOffsetRom(ZonaNombre, rom, edicion).Offset,(int)LongitudCampos.Nombre*totalActual);
+				rom.Data.Remove(Zona.GetOffsetRom(ZonaNombre, rom).Offset,(int)LongitudCampos.Nombre*totalActual);
 				//borro las descripciones y luego los pointers
-				offsetTablaPointersDescripcion=Zona.GetOffsetRom(ZonaDescripcion, rom, edicion).Offset;
+				offsetTablaPointersDescripcion=Zona.GetOffsetRom(ZonaDescripcion, rom).Offset;
 
 				for(int i=0;i<totalActual;i++)
 				{
@@ -299,33 +299,33 @@ namespace PokemonGBAFrameWork
 				if(edicion.RegionHoenn)
 				{
 					//borro los datos de los concursos
-					rom.Data.Remove(Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom, edicion).Offset,totalActual*(int)LongitudCampos.DatosConcurso);
+					rom.Data.Remove(Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset,totalActual*(int)LongitudCampos.DatosConcurso);
 				}
-				rom.Data.Remove(Zona.GetOffsetRom(DatosAtaque.ZonaDatosAtaques, rom, edicion).Offset,DatosAtaque.Longitud*totalActual,0xFF);
+				rom.Data.Remove(Zona.GetOffsetRom(DatosAtaque.ZonaDatosAtaques, rom).Offset,DatosAtaque.Longitud*totalActual,0xFF);
 				rom.Data.Remove(offsetTablaPointersDescripcion,OffsetRom.LENGTH*totalActual,0xFF);
 				
 				//cambio los offsets de las zonas :D//falta los concursos
 				if(ataques.Count>totalActual){//asi solo hago sitio si hay mas :)
-					OffsetRom.SetOffset(rom,Zona.GetOffsetRom(ZonaNombre, rom, edicion), rom.Data.SearchEmptyBytes((int)LongitudCampos.Nombre*ataques.Count));
-					OffsetRom.SetOffset(rom,Zona.GetOffsetRom(ZonaDescripcion, rom, edicion), rom.Data.SearchEmptyBytes((int)LongitudCampos.Descripcion*ataques.Count-1));//el primero no tiene
-					OffsetRom.SetOffset(rom,Zona.GetOffsetRom(DatosAtaque.ZonaDatosAtaques, rom, edicion), rom.Data.SearchEmptyBytes(DatosAtaque.Longitud*ataques.Count));
+					OffsetRom.SetOffset(rom,Zona.GetOffsetRom(ZonaNombre, rom), rom.Data.SearchEmptyBytes((int)LongitudCampos.Nombre*ataques.Count));
+					OffsetRom.SetOffset(rom,Zona.GetOffsetRom(ZonaDescripcion, rom), rom.Data.SearchEmptyBytes((int)LongitudCampos.Descripcion*ataques.Count-1));//el primero no tiene
+					OffsetRom.SetOffset(rom,Zona.GetOffsetRom(DatosAtaque.ZonaDatosAtaques, rom), rom.Data.SearchEmptyBytes(DatosAtaque.Longitud*ataques.Count));
 					if(edicion.RegionHoenn)
 					{
 						//busco espacio para los datos del concurso
-						OffsetRom.SetOffset(rom,Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom, edicion), rom.Data.SearchEmptyBytes((int)LongitudCampos.DatosConcurso*ataques.Count));
+						OffsetRom.SetOffset(rom,Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom), rom.Data.SearchEmptyBytes((int)LongitudCampos.DatosConcurso*ataques.Count));
 				
 					}
 				}
 			}
 			
 			for(int i=0;i<ataques.Count;i++)
-				SetAtaque(rom,edicion,i,ataques[i]);
+				SetAtaque(rom,i,ataques[i]);
 
 		}
 
-		public static int GetTotalAtaques(RomGba rom, EdicionPokemon edicion)
-		{
-			int offsetDescripciones = Zona.GetOffsetRom(ZonaDescripcion, rom, edicion).Offset;
+		public static int GetTotalAtaques(RomGba rom)
+        {
+			int offsetDescripciones = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset;
 			int total =1;//el primero no tiene
 			while (new OffsetRom(rom, offsetDescripciones).IsAPointer)
 			{
@@ -335,16 +335,17 @@ namespace PokemonGBAFrameWork
 			return total;
 		}
 
-		static void QuitarLimite(RomGba rom, EdicionPokemon edicion,int posicion)
+		static void QuitarLimite(RomGba rom,int posicion)
 		{
 			//quito el limite
-			if(posicion>GetTotalAtaques(rom,edicion)){
-				rom.Data.SetArray(Variable.GetVariable(VariableLimitadoAtaques, edicion),BytesDesLimitadoAtaques);
-				if(edicion.RegionHoenn)
+			if(posicion>GetTotalAtaques(rom))
+            {
+				rom.Data.SetArray(Variable.GetVariable(VariableLimitadoAtaques, rom.Edicion),BytesDesLimitadoAtaques);
+				if(((EdicionPokemon)rom.Edicion).RegionHoenn)
 				{
 					//quito la limitacion de los concursos de hoenn
-					rom.Data.SetArray( Variable.GetVariable(VariableAtaqueConcurso, edicion), BytesDesLimitadoAtaquesConcurso);
-					rom.Data.SetArray(Variable.GetVariable(VariableAnimacionAtaqueConcurso, edicion),BytesDesLimitadoAnimacionAtaques);
+					rom.Data.SetArray( Variable.GetVariable(VariableAtaqueConcurso, rom.Edicion), BytesDesLimitadoAtaquesConcurso);
+					rom.Data.SetArray(Variable.GetVariable(VariableAnimacionAtaqueConcurso, rom.Edicion),BytesDesLimitadoAnimacionAtaques);
 					
 				}
 			}
@@ -382,10 +383,16 @@ namespace PokemonGBAFrameWork
 		{
 			Fisico,Especial,Estatus
 		}
-		public static readonly Zona ZonaDatosAtaques;
-		public const int Longitud = 12;
+        public static readonly Creditos Creditos;
+        public static readonly Zona ZonaDatosAtaques;
+
+        public const int Longitud = 12;
+
 		static DatosAtaque()
 		{
+            Creditos = new Creditos();
+            Creditos.Add(Creditos.Comunidades[Creditos.POKEMONCOMMUNITY], "Gamer2020", "PGE");
+
 			ZonaDatosAtaques = new Zona("Datos ataque");
 
 			//datos los pp es el offset de los datos+4 si se cambia el offset de los datos hay que cambiar el de los pps tambien!!!
@@ -716,10 +723,7 @@ namespace PokemonGBAFrameWork
 			isCustomEnabled = aux >= (int)customs[indexCustomToCalculate];
 			return isCustomEnabled;
 		}
-		public new int CompareTo(object obj)
-		{
-			return CompareTo(obj as DatosAtaque);
-		}
+
 		public int CompareTo(DatosAtaque other)
 		{
 			int compareTo;
@@ -733,13 +737,13 @@ namespace PokemonGBAFrameWork
 			else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
-		public static DatosAtaque GetDatosAtaque(RomGba rom, EdicionPokemon edicion,  int posicion)
+		public static DatosAtaque GetDatosAtaque(RomGba rom,  int posicion)
 		{
-			return new DatosAtaque() { blDatosAtaque = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosAtaques, rom, edicion).Offset + posicion * Longitud, Longitud) };
+			return new DatosAtaque() { blDatosAtaque = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset + posicion * Longitud, Longitud) };
 		}
-		public static void SetDatosAtaque(RomGba rom, EdicionPokemon edicion,  int posicion,DatosAtaque datosAtaque)
+		public static void SetDatosAtaque(RomGba rom,   int posicion,DatosAtaque datosAtaque)
 		{
-			rom.Data.SetArray(Zona.GetOffsetRom(ZonaDatosAtaques, rom, edicion).Offset + posicion * Longitud, datosAtaque.blDatosAtaque.Bytes);
+			rom.Data.SetArray(Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset + posicion * Longitud, datosAtaque.blDatosAtaque.Bytes);
 		}
 
 		

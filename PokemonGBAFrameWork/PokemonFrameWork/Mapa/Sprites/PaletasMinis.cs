@@ -58,11 +58,11 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public static PaletasMinis GetPaletasMinis(RomGba rom,EdicionPokemon edicion,CompilacionPokemon compilacion)
+		public static PaletasMinis GetPaletasMinis(RomGba rom)
 		{
 			PaletasMinis paletas=new PaletasMinis();
 			//obtengo la paleta
-			int	offsetTablaPaleta=Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom, edicion, compilacion).Offset;
+			int	offsetTablaPaleta=Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
 			try{
 				while(true)
 					paletas.Paletas.Add(Paleta.GetPaleta(rom,offsetTablaPaleta+paletas.Paletas.Count*Paleta.LENGTHHEADERCOMPLETO));
