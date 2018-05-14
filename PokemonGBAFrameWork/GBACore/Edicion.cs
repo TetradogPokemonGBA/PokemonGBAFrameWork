@@ -91,7 +91,10 @@ namespace PokemonGBAFrameWork
         public string GameCode { get { return Abreviacion+InicialIdioma+Compilacion.Name; } }
 
         public Compilacion Compilacion { get => compilacion; protected set => compilacion = value; }
-
+        public virtual bool Compatible(Edicion edicion)
+        {
+            return GameCode == edicion.GameCode;
+        }
         public Edicion Clone()
         {
             Edicion clon = new Edicion();

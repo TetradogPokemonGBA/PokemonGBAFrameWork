@@ -150,8 +150,31 @@ namespace PokemonGBAFrameWork
 				equals = this.idioma == other.idioma && this.abreviacionCanon == other.abreviacionCanon;
 			return equals;
 		}
-		#endregion
-		public int CompareTo(object obj)
+        public override bool Compatible(Edicion edicion)
+        {
+            EdicionPokemon edicionPokemon = edicion as EdicionPokemon;
+            bool compatible = edicionPokemon != null;
+            if (compatible)
+            {
+                switch (AbreviacionRom)
+                {
+                    case AbreviacionCanon.AXV:
+                    case AbreviacionCanon.AXP:
+                        compatible = edicionPokemon.EsRubiOZafiro;
+                        break;
+                    case AbreviacionCanon.BPE:
+                        compatible = AbreviacionRom == edicionPokemon.AbreviacionRom;
+                        break;
+                    case AbreviacionCanon.BPR:
+                    case AbreviacionCanon.BPG:
+                        compatible = edicionPokemon.RegionKanto;
+                        break;
+                }
+            }
+            return compatible;
+        }
+        #endregion
+        public int CompareTo(object obj)
 		{
             return ICompareTo(obj as Edicion);
 		}
@@ -236,5 +259,5 @@ namespace PokemonGBAFrameWork
             return valida;
 			
 		}
-	}
+    }
 }
