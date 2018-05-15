@@ -3,13 +3,15 @@ using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
 {
-    public class Parche
+    public class Parche:IElementoBinarioComplejo
     {
-        public class ParteAbsoluta
+
+        public class ParteAbsoluta:IElementoBinarioComplejo
         {
+            private static readonly ElementoBinario serializador = ElementoComplejoBinarioNullable.GetElement<ParteAbsoluta>();
             public ParteAbsoluta()
             {
                 PointersRelativos = new List<KeyValuePair<OffsetRom, ParteRelativa>>();
@@ -24,6 +26,8 @@ namespace PokemonGBAFrameWork
             /// GameCode,Offset data to replace
             /// </summary>
             public LlistaOrdenada<string, OffsetRom> OffsetCompatibles { get; private set; }
+
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => serializador;
 
             public void SetData(RomGba rom)
             {
@@ -44,9 +48,9 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public class ParteRelativa
+        public class ParteRelativa:IElementoBinarioComplejo
         {
-
+            private static readonly ElementoBinario serializador = ElementoComplejoBinarioNullable.GetElement<ParteRelativa>();
             public byte[] Datos { get; set; }
             public Llista<KeyValuePair<OffsetRom, ParteRelativa>> PartesRelativas { get; private set; }
             /// <summary>
@@ -58,6 +62,7 @@ namespace PokemonGBAFrameWork
                 PartesRelativas = new Llista<KeyValuePair<OffsetRom, ParteRelativa>>();
                 Compatibilidad = new LlistaOrdenada<string, Llista<KeyValuePair<OffsetRom, OffsetRom>>>();
             }
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => serializador;
             public byte[] GetBytes(RomGba rom)
             {
                 byte[] space = new byte[5];//lo añado por si existe una rutina igual pero un poco más larga que no coja esa rutina como la rutina que buscamos.
@@ -85,12 +90,16 @@ namespace PokemonGBAFrameWork
             }
         }
 
+        public static readonly ElementoBinario Serializador = ElementoComplejoBinarioNullable.GetElement<Parche>();
+
         public string Autor { get; set; }
         public string Descripcion { get; set; }
         public string Nombre { get; set; }
         public LlistaOrdenada<string, string> GameCodeCompatibles { get; private set; }
         public Llista<ParteAbsoluta> PartesAbsolutas { get; private set; }
         public Llista<ParteRelativa> PartesRelativas { get; private set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public Parche()
         {
@@ -108,6 +117,7 @@ namespace PokemonGBAFrameWork
             //no empieza otra parte si la distancia no supera el minimo
 
         }
+
         public void SetPatch(RomGba rom, bool forcePatch = false)
         {
 
