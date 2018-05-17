@@ -156,6 +156,34 @@ namespace PokemonGBAFrameWork
             }
             return compatible;
         }
+        static OffsetRom Metodo1GetOffsetCompatible(OffsetRom offsetABuscarCompatible,RomGba romWithPatch, RomGba romToAddCompatiblity)
+        {
+            OffsetRom offsetCompatible = null;
+            //lo busco mirando los datos a los que apunta
+            return offsetCompatible;
+
+        }
+        static OffsetRom Metodo2GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        {
+            OffsetRom offsetCompatible = null;
+            //lo busco mirando rutina que apunta a este offset
+            return offsetCompatible;
+
+        }
+        static OffsetRom Metodo3GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        {
+            OffsetRom offsetCompatible = null;
+            //lo busco mirando bytes sin pointers de la rutina actual un poco por arriba
+            return offsetCompatible;
+
+        }
+        static OffsetRom Metodo4GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        {
+            OffsetRom offsetCompatible = null;
+            //lo busco mirando bytes sin pointers de la rutina actual un  poco por abajo
+            return offsetCompatible;
+
+        }
 
     }
 }
