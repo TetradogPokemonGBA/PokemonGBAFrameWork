@@ -6,8 +6,17 @@ using System.Text;
 using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
 {
+    
     public class Parche:IElementoBinarioComplejo
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="offsetABuscar"></param>
+        /// <param name="romOrigen"></param>
+        /// <param name="romDestino"></param>
+        /// <returns>null si no lo encuentra</returns>
+        public delegate OffsetRom GetOffsetCompatible(OffsetRom offsetABuscar, RomGba romOrigen, RomGba romDestino);
 
         public class ParteAbsoluta:IElementoBinarioComplejo
         {
@@ -91,16 +100,23 @@ namespace PokemonGBAFrameWork
         }
 
         public static readonly ElementoBinario Serializador = ElementoComplejoBinarioNullable.GetElement<Parche>();
-
+        public static event GetOffsetCompatible OffsetCompatibleStatic;
+        public static Llista<GetOffsetCompatible> MetodosOffsetCompatible { get; private set; }
         public string Autor { get; set; }
         public string Descripcion { get; set; }
         public string Nombre { get; set; }
         public LlistaOrdenada<string, string> GameCodeCompatibles { get; private set; }
         public Llista<ParteAbsoluta> PartesAbsolutas { get; private set; }
         public Llista<ParteRelativa> PartesRelativas { get; private set; }
-
+        
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public event GetOffsetCompatible OffsetCompatible;
 
+        static Parche()
+        {
+            MetodosOffsetCompatible = new Llista<GetOffsetCompatible>(new GetOffsetCompatible[] {Metodo1GetOffsetCompatible, Metodo2GetOffsetCompatible, Metodo3GetOffsetCompatible, Metodo4GetOffsetCompatible });
+
+        }
         public Parche()
         {
             PartesAbsolutas = new Llista<ParteAbsoluta>();
@@ -117,7 +133,19 @@ namespace PokemonGBAFrameWork
             //no empieza otra parte si la distancia no supera el minimo
 
         }
-
+        public LlistaOrdenada<OffsetRom,OffsetRom> GetOffsetDicCompatibilidad(Edicion edicionOrigen=null)
+        {
+            LlistaOrdenada<OffsetRom, OffsetRom> dicComatibilidad = new LlistaOrdenada<OffsetRom, OffsetRom>();
+            string gameCodeOrigen = edicionOrigen != null ? edicionOrigen.GameCode : GameCodeCompatibles[0].Value;
+            for (int i = 0; i < PartesAbsolutas.Count; i++)
+                if (!dicComatibilidad.ContainsKey(PartesAbsolutas[i].OffsetCompatibles[gameCodeOrigen]))
+                    dicComatibilidad.Add(PartesAbsolutas[i].OffsetCompatibles[gameCodeOrigen],null);
+            for (int i = 0; i < PartesRelativas.Count; i++)
+                for (int j = 0; j < PartesRelativas[i].Compatibilidad[gameCodeOrigen].Count; j++)
+                    if (!dicComatibilidad.ContainsKey(PartesRelativas[i].Compatibilidad[gameCodeOrigen][j].Value))
+                    dicComatibilidad.Add(PartesRelativas[i].Compatibilidad[gameCodeOrigen][j].Value, null);
+            return dicComatibilidad;
+        }
         public void SetPatch(RomGba rom, bool forcePatch = false)
         {
 
@@ -146,38 +174,70 @@ namespace PokemonGBAFrameWork
         public bool TryAddCompatiblity(RomGba romWithPatch, RomGba romToAddCompatiblity)
         {
             bool compatible = romWithPatch.Edicion.Compatible(romToAddCompatiblity.Edicion);
+            LlistaOrdenada<OffsetRom, OffsetRom> dicOffsets=GetOffsetDicCompatibilidad(romWithPatch.Edicion);
             if (compatible)
             {
-                //busco offsets absolutos del parche
-                //miro datos del rom con el parche para sacar una array unica en la rom y la busco en la otra,si la encuentro ya tengo el offset :D
-                //mirar de buscar la info de los pointers y luego volver a veces sirve esa estrategia :D
-                //si no encuentro todos los offsets absolutos no es compatible...
+                for (int i = 0; i < dicOffsets.Count; i++)
+                    dicOffsets.AddOrReplace(dicOffsets[i].Key, TryGetOffsetCompatible(dicOffsets[i].Key, romWithPatch, romToAddCompatiblity));
 
             }
-            return compatible;
+            if(FaltaOffsetsPorPoner(dicOffsets))
+            {
+                CompletaDic(dicOffsets, this.OffsetCompatible,romWithPatch,romToAddCompatiblity);
+                CompletaDic(dicOffsets, Parche.OffsetCompatibleStatic, romWithPatch, romToAddCompatiblity);
+            }
+            compatible=!FaltaOffsetsPorPoner(dicOffsets);
+           if(compatible)
+            {
+                //pongo los offsets para el gamecode compatible :)
+                //mirar de hacer un diccionario generico gameCode,dicOffsets
+            }
+                return compatible;
         }
-        static OffsetRom Metodo1GetOffsetCompatible(OffsetRom offsetABuscarCompatible,RomGba romWithPatch, RomGba romToAddCompatiblity)
+
+        private void CompletaDic(LlistaOrdenada<OffsetRom, OffsetRom> dicOffsets, GetOffsetCompatible offsetCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        {
+            for (int i = 0; i < dicOffsets.Count && offsetCompatible != null; i++)
+                if (dicOffsets[i].Value == null)
+                    dicOffsets.AddOrReplace(dicOffsets[i].Key, offsetCompatible(dicOffsets[i].Key, romWithPatch, romToAddCompatiblity));
+        }
+
+        private bool FaltaOffsetsPorPoner(LlistaOrdenada<OffsetRom, OffsetRom> dicOffsets)
+        {
+            bool nofalta = true;
+            for (int i = 0; i < dicOffsets.Count && nofalta; i++)
+                nofalta = dicOffsets[i].Value != null;
+            return !nofalta;
+        }
+        static OffsetRom TryGetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        {
+            OffsetRom offsetCompatible = null;
+            for (int i = 0; i < MetodosOffsetCompatible.Count && offsetCompatible == null; i++)
+                offsetCompatible = MetodosOffsetCompatible[i](offsetABuscarCompatible, romWithPatch, romToAddCompatiblity);
+            return offsetCompatible;
+        }
+        public static OffsetRom Metodo1GetOffsetCompatible(OffsetRom offsetABuscarCompatible,RomGba romWithPatch, RomGba romToAddCompatiblity)
         {
             OffsetRom offsetCompatible = null;
             //lo busco mirando los datos a los que apunta
             return offsetCompatible;
 
         }
-        static OffsetRom Metodo2GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        public static OffsetRom Metodo2GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
         {
             OffsetRom offsetCompatible = null;
             //lo busco mirando rutina que apunta a este offset
             return offsetCompatible;
 
         }
-        static OffsetRom Metodo3GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        public static OffsetRom Metodo3GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
         {
             OffsetRom offsetCompatible = null;
             //lo busco mirando bytes sin pointers de la rutina actual un poco por arriba
             return offsetCompatible;
 
         }
-        static OffsetRom Metodo4GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
+        public static OffsetRom Metodo4GetOffsetCompatible(OffsetRom offsetABuscarCompatible, RomGba romWithPatch, RomGba romToAddCompatiblity)
         {
             OffsetRom offsetCompatible = null;
             //lo busco mirando bytes sin pointers de la rutina actual un  poco por abajo
