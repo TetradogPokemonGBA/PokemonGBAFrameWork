@@ -41,6 +41,7 @@ namespace PokemonGBAFrameWork
 			AnimacionesConcurso=0xE0,
 			AtaqueConcurso=0
 		}
+
 		public static readonly Zona ZonaNombre;
 		public static readonly Zona ZonaDescripcion;
 		public static readonly Zona ZonaScriptBatalla;
