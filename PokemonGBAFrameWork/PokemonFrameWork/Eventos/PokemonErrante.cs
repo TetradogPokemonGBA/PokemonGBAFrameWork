@@ -95,8 +95,8 @@ namespace PokemonGBAFrameWork
 
             public static Ruta[] GetRutas(RomGba rom)
             {
-                int columnas = Variable.GetVariable(VariableColumnasFilaRuta,rom.Edicion);
-                Ruta[] rutas = new Ruta[rom.Data[Variable.GetVariable(VariableOffSetRutina1,rom.Edicion)]];
+                int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
+                Ruta[] rutas = new Ruta[rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]];
                 BloqueBytes bloqueDatos = BloqueBytes.GetBytes(rom.Data, Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rutas.Length);
                 for (int i = 0; i < rutas.Length; i++)
                 {
@@ -108,7 +108,7 @@ namespace PokemonGBAFrameWork
 
             }
 
-            public static void SetRutas(RomGba rom,  IList<Ruta> rutasDondeAparece)
+            public static void SetRutas(RomGba rom, IList<Ruta> rutasDondeAparece)
             {
 
                 int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
@@ -116,12 +116,12 @@ namespace PokemonGBAFrameWork
                 if (rutasDondeAparece.Count == 0 || rutasDondeAparece.Count > MAXIMODERUTAS)
                     throw new ArgumentOutOfRangeException(); //como maximo 255 rutas
                                                              //borro la tabla anterior
-                rom.Data.Remove(Variable.GetVariable(VariableOffsetTablaFilasRuta,rom.Edicion), columnas * rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
+                rom.Data.Remove(Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
                 //pongo cuantas filas hay donde toca
                 rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)] = (byte)rutasDondeAparece.Count;
                 rom.Data[Variable.GetVariable(VariableOffSetRutina2, rom.Edicion)] = (byte)rutasDondeAparece.Count;
                 rom.Data[Variable.GetVariable(VariableOffSetRutina3, rom.Edicion)] = (byte)(rutasDondeAparece.Count - 1);//numero de filas-1 en el offset3
-                                                                                                                                  //guardo la nueva tabla //el offset de la tabla tiene que acabar en '0', '4', '8', 'C'
+                                                                                                                         //guardo la nueva tabla //el offset de la tabla tiene que acabar en '0', '4', '8', 'C'
                 unsafe
                 {
                     fixed (byte* ptrBytesRutas = bytesRutas)
@@ -147,18 +147,6 @@ namespace PokemonGBAFrameWork
             }
 
         }
-
-        public static readonly Creditos Creditos;
-        static PokemonErrante()
-        {
-            Creditos = new Creditos();
-            Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO], "Ratzhier", "Investigación");
-        }
-        public static bool EsCompatible(EdicionPokemon edicion, Compilacion compilacion)
-        {
-            return Ruta.VariableBancoMapaRutaValido.Diccionario.ContainsKey(compilacion) && Ruta.VariableBancoMapaRutaValido.Diccionario[compilacion].ContainsKey(edicion);
-        }
-
         public class Pokemon
         {
 
@@ -419,5 +407,18 @@ namespace PokemonGBAFrameWork
             }
 
         }
+
+        public static readonly Creditos Creditos;
+        static PokemonErrante()
+        {
+            Creditos = new Creditos();
+            Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO], "Ratzhier", "Investigación");
+        }
+        public static bool EsCompatible(EdicionPokemon edicion, Compilacion compilacion)
+        {
+            return Ruta.VariableBancoMapaRutaValido.Diccionario.ContainsKey(compilacion) && Ruta.VariableBancoMapaRutaValido.Diccionario[compilacion].ContainsKey(edicion);
+        }
+
+
     }
 }

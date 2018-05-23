@@ -7,65 +7,32 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class CategoriaEntrenador
+    public class ClaseEntrenadorCompleto
     {
-        RateMoney rateMoney;
-        Sprite sprite;
-        Nombre nombre;
 
-        public CategoriaEntrenador()
+        public RateMoney RateMoney { get; set; }
+
+        public Sprite Sprite { get; set; }
+
+        public Nombre Nombre { get; set; }
+
+        public ClaseEntrenadorCompleto()
         {
-            sprite = new Sprite();
-            nombre = new Nombre();
-            rateMoney = new RateMoney();
+            Sprite = new Sprite();
+            Nombre = new Nombre();
+            RateMoney = new RateMoney();
         }
 
-        public RateMoney RateMoney
-        {
-            get
-            {
-                return rateMoney;
-            }
-            set
-            {
-                rateMoney = value;
-            }
-        }
 
-        public Sprite Sprite
-        {
-            get
-            {
-                return sprite;
-            }
-            set
-            {
-                sprite = value;
-            }
-        }
 
-        public Nombre Nombre
-        {
-            get
-            {
-                return nombre;
-            }
-            set
-            {
-                nombre = value;
-            }
-        }
         public override string ToString()
         {
-            return nombre.ToString();
+            return Nombre.ToString();
         }
 
-        public static CategoriaEntrenador GetClaseEntrenador(RomGba rom, int index)
+        public static ClaseEntrenadorCompleto GetClaseEntrenador(RomGba rom, int index)
         {
-            //los nombres no los carga bien...
-           
-            //podria ser que no se posicionase bien...
-            CategoriaEntrenador claseCargada = new CategoriaEntrenador();
+            ClaseEntrenadorCompleto claseCargada = new ClaseEntrenadorCompleto();
 
             claseCargada.Sprite = Sprite.GetSprite(rom, index);
             claseCargada.Nombre = Nombre.GetNombre(rom, index);
@@ -74,16 +41,16 @@ namespace PokemonGBAFrameWork
             return claseCargada;
         }
 
-        public static CategoriaEntrenador[] GetClasesEntrenador(RomGba rom)
+        public static ClaseEntrenadorCompleto[] GetClasesEntrenador(RomGba rom)
         {
-            CategoriaEntrenador[] clases = new CategoriaEntrenador[Sprite.GatTotal(rom)];
+            ClaseEntrenadorCompleto[] clases = new ClaseEntrenadorCompleto[Sprite.GatTotal(rom)];
             for (int i = 0; i < clases.Length; i++)
                 clases[i] = GetClaseEntrenador(rom, i);
             return clases;
         }
 
 
-        public static void SetClaseEntrenador(RomGba rom, CategoriaEntrenador claseEntrenador, int index)
+        public static void SetClaseEntrenador(RomGba rom, ClaseEntrenadorCompleto claseEntrenador, int index)
         {
             if (rom == null || claseEntrenador == null)
                 throw new ArgumentNullException();
@@ -94,7 +61,7 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetClasesEntrenador(RomGba rom, IList<CategoriaEntrenador> clasesEntrenador)
+        public static void SetClasesEntrenador(RomGba rom, IList<ClaseEntrenadorCompleto> clasesEntrenador)
         {
             IList<Sprite> sprites = new List<Sprite>();
             IList<Nombre> nombres = new List<Nombre>();
