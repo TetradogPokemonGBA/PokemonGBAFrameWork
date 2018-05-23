@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using PokemonGBAFrameWork;
 
@@ -7,95 +8,162 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 {
     public class Sprite
     {
-        public static readonly Zona ZonaImgSprite;
-        public static readonly Zona ZonaPaletaSprite;
-
-        public BloqueImagen Imagen { get; set; }
-
-        static Sprite()
+        public class Data
         {
-            ZonaImgSprite = new Zona("Sprite Entrenador Img");
-            ZonaPaletaSprite = new Zona("Sprite Entrenador Paleta");
-            //pongo las zonas :D
-            //img
-            ZonaImgSprite.Add(0x34628, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-            ZonaImgSprite.Add(EdicionPokemon.RojoFuegoUsa, 0x3473C, 0x34750);
-            ZonaImgSprite.Add(EdicionPokemon.VerdeHojaUsa, 0x3473C, 0x34750);
+            public static readonly Zona ZonaImgSprite;
 
-            ZonaImgSprite.Add(0x31ADC, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaImgSprite.Add(0x31CA8, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            static Data()
+            {
+                ZonaImgSprite = new Zona("Sprite Entrenador Img");
 
-            ZonaImgSprite.Add(0x5DF78, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+                //pongo las zonas :D
+                //img
+                ZonaImgSprite.Add(0x34628, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                ZonaImgSprite.Add(EdicionPokemon.RojoFuegoUsa, 0x3473C, 0x34750);
+                ZonaImgSprite.Add(EdicionPokemon.VerdeHojaUsa, 0x3473C, 0x34750);
 
+                ZonaImgSprite.Add(0x31ADC, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
+                ZonaImgSprite.Add(0x31CA8, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
 
-            //paletas
-            ZonaPaletaSprite.Add(0x34638, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-            ZonaPaletaSprite.Add(EdicionPokemon.RojoFuegoUsa, 0x3474C, 0x34760);
-            ZonaPaletaSprite.Add(EdicionPokemon.VerdeHojaUsa, 0x3474C, 0x34760);
+                ZonaImgSprite.Add(0x5DF78, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
 
-            ZonaPaletaSprite.Add(0x31AF0, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaPaletaSprite.Add(0x31CBC, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            }
 
-            ZonaPaletaSprite.Add(0x5B784, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+            public BloqueImagen Img { get; set; }
+
+            public static Data GetData(RomGba rom, int index)
+            {
+                int offsetSpriteImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset + index * BloqueImagen.LENGTHHEADERCOMPLETO;
+                return new Data() { Img = BloqueImagen.GetBloqueImagen(rom, offsetSpriteImg) };
+            }
+            public static void SetData(RomGba rom, int index, Data data)
+            {
+                int offsetInicioImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset + index * OffsetRom.LENGTH;
+                BloqueImagen.SetBloqueImagen(rom, offsetInicioImg, data.Img);
+            }
+            public static void SetData(RomGba rom,IList<Data> datas)
+            {
+                OffsetRom offsetInicioImg;
+                int offsetActualImg;
+                int totalActual = GatTotal(rom);
+                offsetInicioImg = Zona.GetOffsetRom(Data.ZonaImgSprite, rom);
+                offsetActualImg = offsetInicioImg.Offset;
+                for (int i = 0; i < totalActual; i++)
+                {
+                    BloqueImagen.Remove(rom, offsetActualImg);
+                    offsetActualImg += BloqueImagen.LENGTHHEADERCOMPLETO;
+                }
+                OffsetRom.SetOffset(rom, offsetInicioImg, rom.Data.SearchEmptyBytes(datas.Count * BloqueImagen.LENGTHHEADERCOMPLETO));
+                for (int i = 0; i < datas.Count; i++)
+                    SetData(rom, i, datas[i]);
+            }
+        }
+        public class Paleta
+        {
+            public static readonly Zona ZonaPaletaSprite;
+
+            public PokemonGBAFrameWork.Paleta Colores { get; set; }
+
+            static Paleta()
+            {
+
+                ZonaPaletaSprite = new Zona("Sprite Entrenador Paleta");
+                //pongo las zonas :D
+
+                //paletas
+                ZonaPaletaSprite.Add(0x34638, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                ZonaPaletaSprite.Add(EdicionPokemon.RojoFuegoUsa, 0x3474C, 0x34760);
+                ZonaPaletaSprite.Add(EdicionPokemon.VerdeHojaUsa, 0x3474C, 0x34760);
+
+                ZonaPaletaSprite.Add(0x31AF0, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
+                ZonaPaletaSprite.Add(0x31CBC, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+
+                ZonaPaletaSprite.Add(0x5B784, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+
+            }
+
+            public static Paleta GetPaleta(RomGba rom,int index)
+            {
+                Paleta paleta = new Paleta();
+                int offsetSpritePaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset + index * PokemonGBAFrameWork.Paleta.LENGTHHEADERCOMPLETO;
+                return Paleta.GetPaleta(rom, offsetSpritePaleta);
+            }
+            public static void SetPaleta(RomGba rom,int index,Paleta paleta)
+            {
+
+                int offsetInicioPaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset + index * OffsetRom.LENGTH;
+                //pongo la paleta
+                PokemonGBAFrameWork.Paleta.SetPaleta(rom, offsetInicioPaleta,paleta.Colores);
+            }
+            public static void SetPaleta(RomGba rom,IList<Paleta> paletas)
+            {
+
+                OffsetRom offsetInicioPaleta;
+
+                int offsetActualPaleta;
+                int totalActual = GatTotal(rom);
+                offsetInicioPaleta = Zona.GetOffsetRom(Paleta.ZonaPaletaSprite, rom);
+                offsetActualPaleta = offsetInicioPaleta.Offset;
+                for (int i = 0; i < totalActual; i++)
+                {
+                    PokemonGBAFrameWork.Paleta.Remove(rom, offsetActualPaleta);
+                    offsetActualPaleta += PokemonGBAFrameWork.Paleta.LENGTHHEADERCOMPLETO;
+
+                }
+
+                OffsetRom.SetOffset(rom, offsetInicioPaleta, rom.Data.SearchEmptyBytes(paletas.Count * PokemonGBAFrameWork.Paleta.LENGTHHEADERCOMPLETO));
+                for (int i = 0; i < paletas.Count; i++)
+                    SetPaleta(rom, i, paletas[i]);
+            }
 
         }
 
+        public Data DataImg { get; set; }
+        public Paleta PaletaImg { get; set; }
+        public Bitmap Imagen { get { return DataImg.Img + PaletaImg.Colores; } }
+
+
         public static Sprite GetSprite(RomGba rom, int index)
         {
-            int offsetSpriteImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset + index * BloqueImagen.LENGTHHEADERCOMPLETO;
-            int offsetSpritePaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset + index * Paleta.LENGTHHEADERCOMPLETO;
+
+           
             Sprite sprite = new Sprite();
-            sprite.Imagen = BloqueImagen.GetBloqueImagen(rom, offsetSpriteImg);
-            sprite.Imagen.Paletas.Add(Paleta.GetPaleta(rom, offsetSpritePaleta));
+            sprite.DataImg = Data.GetData(rom, index);
+            sprite.PaletaImg = Paleta.GetPaleta(rom, index);
+
             return sprite;
         }
         public static void SetSprite(RomGba rom, int index, Sprite sprite)
         {
+            Data.SetData(rom, index, sprite.DataImg);
+            Paleta.SetPaleta(rom, index, sprite.PaletaImg);
 
-            int offsetInicioImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset + index * OffsetRom.LENGTH;
-            int offsetInicioPaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset + index * OffsetRom.LENGTH;
-
-            //pongo los datos
-
-            BloqueImagen.SetBloqueImagen(rom, offsetInicioImg, sprite.Imagen);
-            Paleta.SetPaleta(rom, offsetInicioPaleta, sprite.Imagen.Paletas[0]);
         }
         public static void SetSprite(RomGba rom, IList<Sprite> sprites)
         {
-            OffsetRom offsetInicioImg;
-            OffsetRom offsetInicioPaleta;
-            int offsetActualImg;
-            int offsetActualPaleta;
-            int totalActual = GatTotal(rom);
-            offsetInicioImg = Zona.GetOffsetRom(ZonaImgSprite, rom);
-            offsetActualImg = offsetInicioImg.Offset;
-            offsetInicioPaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom);
-            offsetActualPaleta = offsetInicioPaleta.Offset;
-            for (int i = 0; i < totalActual; i++)
-            {
-                BloqueImagen.Remove(rom, offsetActualImg);
-                offsetActualImg += BloqueImagen.LENGTHHEADERCOMPLETO;
-                Paleta.Remove(rom, offsetActualPaleta);
-                offsetActualPaleta += Paleta.LENGTHHEADERCOMPLETO;
+            List<Data> datas = new List<Data>();
+            List<Paleta> paletas = new List<Paleta>();
 
-            }
-            OffsetRom.SetOffset(rom, offsetInicioImg, rom.Data.SearchEmptyBytes(sprites.Count * BloqueImagen.LENGTHHEADERCOMPLETO));
-            OffsetRom.SetOffset(rom, offsetInicioPaleta, rom.Data.SearchEmptyBytes(sprites.Count * BloqueImagen.LENGTHHEADERCOMPLETO));
             //pongo los sprites
             for (int i = 0; i < sprites.Count; i++)
-                SetSprite(rom, i, sprites[i]);
+            {
+                datas.Add(sprites[i].DataImg);
+                paletas.Add(sprites[i].PaletaImg);
+            }
+            Data.SetData(rom, datas);
+            Paleta.SetPaleta(rom, paletas);
         }
         public static int GatTotal(RomGba rom)
         {
-            int offsetTablaEntrenadorImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset;
-            int offsetTablaEntrenadorPaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset;
+            int offsetTablaEntrenadorImg = Zona.GetOffsetRom(Data.ZonaImgSprite, rom).Offset;
+            int offsetTablaEntrenadorPaleta = Zona.GetOffsetRom(Paleta.ZonaPaletaSprite, rom).Offset;
             int imgActual = offsetTablaEntrenadorImg, paletaActual = offsetTablaEntrenadorPaleta;
             int numero = 0;
-            while (BloqueImagen.IsHeaderOk(rom, imgActual) && Paleta.IsHeaderOk(rom, paletaActual))
+            while (BloqueImagen.IsHeaderOk(rom, imgActual) &&PokemonGBAFrameWork.Paleta.IsHeaderOk(rom, paletaActual))
             {
                 numero++;
                 imgActual += BloqueImagen.LENGTHHEADERCOMPLETO;
-                paletaActual += Paleta.LENGTHHEADERCOMPLETO;
+                paletaActual += PokemonGBAFrameWork.Paleta.LENGTHHEADERCOMPLETO;
             }
             return numero;
         }
