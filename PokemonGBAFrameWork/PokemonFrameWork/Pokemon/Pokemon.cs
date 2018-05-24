@@ -34,14 +34,10 @@ namespace PokemonGBAFrameWork
    
         public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PokemonCompleto));
 
-
-
-        static PokemonCompleto()
-        {
-      
-        }
         public PokemonCompleto()
         {
+            OrdenLocal = new OrdenLocal();
+            OrdenNacional = new OrdenNacional();
             Stats = new Stats();
             Descripcion = new Descripcion();
             Sprites = new SpritesCompleto();
@@ -184,7 +180,36 @@ namespace PokemonGBAFrameWork
 
         public static void SetPokedex(RomGba rom, IList<PokemonCompleto> pokedex)
         {
-            //por hacer
+            List<OrdenLocal> ordenesLocal = new List<OrdenLocal>();
+            List<OrdenNacional> ordenesNacionales = new List<OrdenNacional>();
+            List<Huella> huellas = new List<Huella>();
+            List<SpritesCompleto> sprites = new List<SpritesCompleto>();
+            List<AtaquesAprendidos> ataquesAprendidos = new List<AtaquesAprendidos>();
+            List<Descripcion> descripcions = new List<Descripcion>();
+            List<Nombre> nombres = new List<Nombre>();
+            List<Stats> stats = new List<Stats>();
+
+            for(int i=0;i<pokedex.Count;i++)
+            {
+                ordenesLocal.Add(pokedex[i].OrdenLocal);
+                ordenesNacionales.Add(pokedex[i].OrdenNacional);
+                huellas.Add(pokedex[i].Huella);
+                sprites.Add(pokedex[i].Sprites);
+                ataquesAprendidos.Add(pokedex[i].AtaquesAprendidos);
+                descripcions.Add(pokedex[i].Descripcion);
+                nombres.Add(pokedex[i].Nombre);
+                stats.Add(pokedex[i].Stats);
+            }
+
+            OrdenLocal.SetOrdenLocal(rom, ordenesLocal);
+            OrdenNacional.SetOrdenNacional(rom, ordenesNacionales);
+            Huella.SetHuella(rom, huellas);
+            SpritesCompleto.SetSprites(rom, sprites);
+            AtaquesAprendidos.SetAtaquesAprendidos(rom, ataquesAprendidos);
+            Descripcion.SetDescripcionPokedex(rom, descripcions);
+            Nombre.SetNombre(rom, nombres);
+            Stats.SetStats(rom, stats);
+            
         }
 
 
