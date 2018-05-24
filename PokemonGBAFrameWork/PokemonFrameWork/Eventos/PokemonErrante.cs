@@ -403,7 +403,7 @@ namespace PokemonGBAFrameWork
                 ushort auxNivelYEstado;
                 Script scriptPokemonErrante = new Script();
                 scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(new Word((ushort)Variable.GetVariable(VariableSpecialPokemonErrante, edicion))));
-                scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion)), pokemonErrante.PokemonErrante.OrdenNacional));
+                scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion)), pokemonErrante.PokemonErrante.OrdenNacional.Orden));
                 scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariableVitalidadVar, edicion)), pokemonErrante.Vida));
                 estado = ((Hex)pokemonErrante.Stats).ToString().PadLeft(2, '0');
                 nivel = ((Hex)((byte)pokemonErrante.Nivel)).ToString();

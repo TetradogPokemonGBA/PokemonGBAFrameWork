@@ -122,8 +122,11 @@ namespace PokemonGBAFrameWork
             return Nombre + "  #" + OrdenNacional;
         }
 
-        public static PokemonCompleto GetPokemon(RomGba rom, int ordenGameFreak, int totalEntradasPokedex)
+        public static PokemonCompleto GetPokemon(RomGba rom, int ordenGameFreak, int totalEntradasPokedex=-1)
         {
+            if (totalEntradasPokedex < 0)
+                totalEntradasPokedex = Descripcion.GetTotal(rom);
+
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             PokemonCompleto pokemon = new PokemonCompleto();
             pokemon.OrdenGameFreak = new Word((ushort)ordenGameFreak);
@@ -156,15 +159,22 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetPokemon(RomGba rom, PokemonCompleto pokemon, int totalEntradasPokedex, int totalObjetos, LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dicAtaquesPokemon)
+        public static void SetPokemon(RomGba rom, PokemonCompleto pokemon, int totalEntradasPokedex=-1, int totalObjetos=-1, LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dicAtaquesPokemon=null)
         {
+            if (totalEntradasPokedex < 0)
+                totalEntradasPokedex = Descripcion.GetTotal(rom);
+            if (totalObjetos < 0)
+                totalObjetos = Objeto.Datos.GetTotal(rom);
+            if (dicAtaquesPokemon == null)
+                dicAtaquesPokemon = AtaquesAprendidos.GetAtaquesAprendidosDic(rom);
+
             OrdenLocal.SetOrdenLocal(rom, pokemon.OrdenGameFreak, pokemon.OrdenLocal);
             Nombre.SetNombre(rom, pokemon.OrdenGameFreak, pokemon.Nombre);
             Stats.SetStats(rom, pokemon.OrdenGameFreak, pokemon.Stats,totalObjetos);
 
             OrdenNacional.SetOrdenNacional(rom, pokemon.OrdenGameFreak, pokemon.OrdenNacional);
             if (pokemon.Descripcion != null && pokemon.OrdenNacional.Orden != null && pokemon.OrdenNacional.Orden < totalEntradasPokedex)
-                Descripcion.SetDescripcionPokedex(rom, pokemon.OrdenNacional.Orden, pokemon.Descripcion);
+                Descripcion.SetDescripcion(rom, pokemon.OrdenNacional.Orden, pokemon.Descripcion);
 
             if (pokemon.AtaquesAprendidos != null)
                 AtaquesAprendidos.SetAtaquesAprendidos(rom, pokemon.OrdenGameFreak, pokemon.AtaquesAprendidos, dicAtaquesPokemon);

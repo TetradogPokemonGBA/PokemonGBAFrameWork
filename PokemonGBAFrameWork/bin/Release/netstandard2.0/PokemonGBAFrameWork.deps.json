@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "afc283aed87cff6c3fd7a857d174312d9a6cd285"
+    "signature": "6168bbaedd7c3363239087a583209035b3709866"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,19 +9,19 @@
     ".NETStandard,Version=v2.0/": {
       "PokemonGBAFrameWork/1.0.0.3-preview1": {
         "dependencies": {
-          "Gabriel.Cat.S.Binaris": "1.0.5-preview1.0.0",
-          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.5",
+          "Gabriel.Cat.S.Binaris": "1.0.5-preview1.0.2",
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.7",
           "NETStandard.Library": "2.0.1"
         },
         "runtime": {
           "PokemonGBAFrameWork.dll": {}
         }
       },
-      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.0": {
+      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.2": {
         "dependencies": {
           "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.0",
-          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.5",
-          "System.Drawing.Common": "4.5.0-preview2-26406-04"
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.7",
+          "System.Drawing.Common": "4.5.0-rc1"
         },
         "runtime": {
           "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll": {}
@@ -29,22 +29,22 @@
       },
       "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.0": {
         "dependencies": {
-          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.5"
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.7"
         },
         "runtime": {
           "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll": {}
         }
       },
-      "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.5": {
+      "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.7": {
         "dependencies": {
-          "Microsoft.CSharp": "4.5.0-preview2-26406-04",
-          "System.Drawing.Common": "4.5.0-preview2-26406-04"
+          "Microsoft.CSharp": "4.5.0-rc1",
+          "System.Drawing.Common": "4.5.0-rc1"
         },
         "runtime": {
           "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll": {}
         }
       },
-      "Microsoft.CSharp/4.5.0-preview2-26406-04": {
+      "Microsoft.CSharp/4.5.0-rc1": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.CSharp.dll": {}
         }
@@ -55,7 +55,7 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "System.Drawing.Common/4.5.0-preview2-26406-04": {
+      "System.Drawing.Common/4.5.0-rc1": {
         "runtime": {
           "lib/netstandard2.0/System.Drawing.Common.dll": {}
         }
@@ -68,12 +68,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.0": {
+    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-uBGv3xX/sp4jbNgtXDsqyvcUWKupK75TeyN9u+1wFarqdLQtgd2ktGcxCIcQ0TCxIY1ZCqZoy3cjnH56LntHrw==",
-      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.0",
-      "hashPath": "gabriel.cat.s.binaris.1.0.5-preview1.0.0.nupkg.sha512"
+      "sha512": "sha512-5WjREzdsfzJbe04W3haHd0S8DI+WyZBODEZbjxg/2d6te2PEEdSdpxWoaD22m5dHnzS4xnhhXScMgD6pI1nFPg==",
+      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.2",
+      "hashPath": "gabriel.cat.s.binaris.1.0.5-preview1.0.2.nupkg.sha512"
     },
     "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.0": {
       "type": "package",
@@ -82,19 +82,19 @@
       "path": "gabriel.cat.s.seguretat/1.0.2.2-preview1.0.0",
       "hashPath": "gabriel.cat.s.seguretat.1.0.2.2-preview1.0.0.nupkg.sha512"
     },
-    "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.5": {
+    "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WU47CSz3Hj96IuDWUtnTW/pFQ4pUqdmK1NfRnSI/nqcr19SpyrNnjT4cUMx0obXyCGGxXa7oF2ww+vGBiBrMAA==",
-      "path": "gabriel.cat.s.utilitats/1.0.4.3-preview1.0.5",
-      "hashPath": "gabriel.cat.s.utilitats.1.0.4.3-preview1.0.5.nupkg.sha512"
+      "sha512": "sha512-77LtVelK4gk+lvY+rn1s3IfFQtaHvzFl3JDmdLcR2Lrfau3LLAeSQ0hIHtFRViZ2fNQWBlgVyqbmx+5Vb+3p+A==",
+      "path": "gabriel.cat.s.utilitats/1.0.4.3-preview1.0.7",
+      "hashPath": "gabriel.cat.s.utilitats.1.0.4.3-preview1.0.7.nupkg.sha512"
     },
-    "Microsoft.CSharp/4.5.0-preview2-26406-04": {
+    "Microsoft.CSharp/4.5.0-rc1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-HqDNj4Ss5dtmJc7MySxTCYUGytJ4DTEEnR6WWcjDJqNF9YzH7kLZbKnA1jEj1cuG994gMP2orTL3UmDQsYtT6g==",
-      "path": "microsoft.csharp/4.5.0-preview2-26406-04",
-      "hashPath": "microsoft.csharp.4.5.0-preview2-26406-04.nupkg.sha512"
+      "sha512": "sha512-ZHQLb01QJvLRyqjt5ega6QIpz1BvCoTSa/dL9Ne/JfJzgyj5+zDMQHUTb9BfJege3yavV2FFdKIH2PQRqGCoHQ==",
+      "path": "microsoft.csharp/4.5.0-rc1",
+      "hashPath": "microsoft.csharp.4.5.0-rc1.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
@@ -110,12 +110,12 @@
       "path": "netstandard.library/2.0.1",
       "hashPath": "netstandard.library.2.0.1.nupkg.sha512"
     },
-    "System.Drawing.Common/4.5.0-preview2-26406-04": {
+    "System.Drawing.Common/4.5.0-rc1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-iARUNp8vfB1uWJmmpNg4NnhBJ70F/gbveBzhPVBctrZMm8NyMnYGdamuuleN9H3j8j2UHdmhT0Put5wtiX4C4w==",
-      "path": "system.drawing.common/4.5.0-preview2-26406-04",
-      "hashPath": "system.drawing.common.4.5.0-preview2-26406-04.nupkg.sha512"
+      "sha512": "sha512-G7UU+j2Le7+LomBKCs8tYU8UHo2FKFcsiet92YhtK9/nU0tArYHQGvMSpWG+xZD/lvCX/dPgc3M6D4SnJifnFg==",
+      "path": "system.drawing.common/4.5.0-rc1",
+      "hashPath": "system.drawing.common.4.5.0-rc1.nupkg.sha512"
     }
   }
 }

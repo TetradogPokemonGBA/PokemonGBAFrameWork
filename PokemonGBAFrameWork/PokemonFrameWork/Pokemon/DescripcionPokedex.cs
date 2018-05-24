@@ -223,10 +223,10 @@ namespace PokemonGBAFrameWork.Pokemon
             OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaDescripcion, rom), rom.Data.SearchEmptyBytes(descripciones.Count * LongitudDescripcion((EdicionPokemon)rom.Edicion)));
             //pongo los datos
             for (int i = 0; i < descripciones.Count; i++)
-                SetDescripcionPokedex(rom, i, descripciones[i]);
+                SetDescripcion(rom, i, descripciones[i]);
         }
 
-        public static void SetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon, Descripcion descripcion)
+        public static void SetDescripcion(RomGba rom, int ordenNacionalPokemon, Descripcion descripcion)
         {
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             int offsetDescripcionPokemon = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + ordenNacionalPokemon * LongitudDescripcion(edicion);
