@@ -277,6 +277,13 @@ namespace PokemonGBAFrameWork.Objeto
             } while (!acabado);
             return totalItems;
         }
+        public static Datos[] GetDatos(RomGba rom)
+        {
+            Datos[] datos = new Datos[GetTotal(rom)];
+            for (int i = 0; i < datos.Length; i++)
+                datos[i] = GetDatos(rom, i);
+            return datos;
+        }
         public static Datos GetDatos(RomGba rom, int index)
         {
 

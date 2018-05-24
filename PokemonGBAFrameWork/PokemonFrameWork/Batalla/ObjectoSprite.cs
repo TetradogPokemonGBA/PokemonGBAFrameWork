@@ -22,6 +22,13 @@ namespace PokemonGBAFrameWork.Objeto
             ZonaImagenesObjeto.Add(EdicionPokemon.RojoFuegoEsp, 0x98B74);
             ZonaImagenesObjeto.Add(EdicionPokemon.VerdeHojaEsp, 0x98b48);
         }
+        public static Sprite[] GetSprite(RomGba rom)
+        {
+            Sprite[] sprites = new Sprite[Objeto.Datos.GetTotal(rom)];
+            for (int i = 0; i < sprites.Length; i++)
+                sprites[i] = GetSprite(rom, i);
+            return sprites;
+        }
         public static Sprite GetSprite(RomGba rom,int index)
         {
             BloqueImagen blImg;
@@ -60,7 +67,7 @@ namespace PokemonGBAFrameWork.Objeto
             int totalActual;
             if (!edicion.EsRubiOZafiro)
             {
-                totalActual =ObjetoCompleto.GetTotal(rom);
+                totalActual =Datos.GetTotal(rom);
                 offsetImg = Zona.GetOffsetRom(ZonaImagenesObjeto, rom);
                 offsetActualImg = offsetImg.Offset;
                 for (int i = 0; i < totalActual; i++)

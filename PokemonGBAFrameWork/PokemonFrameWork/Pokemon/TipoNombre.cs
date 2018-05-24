@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PokemonGBAFrameWork.Tipo
+namespace PokemonGBAFrameWork.Pokemon.Tipo
 {
     public class Nombre
     {
@@ -33,6 +33,13 @@ namespace PokemonGBAFrameWork.Tipo
         {
             Texto = new BloqueString((int)LongitudCampo.Nombre);
             Texto.Texto = nombre;
+        }
+        public static Nombre[] GetNombre(RomGba rom)
+        {
+            Nombre[] nombres = new Nombre[TipoCompleto.GetTotal(rom)];
+            for (int i = 0; i < nombres.Length; i++)
+                nombres[i] = GetNombre(rom, i);
+            return nombres;
         }
         public static Nombre GetNombre(RomGba rom,int index)
         {

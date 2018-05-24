@@ -27,6 +27,13 @@ namespace PokemonGBAFrameWork.Habilidad
         {
             return text;
         }
+        public static Nombre[] GetNombre(RomGba rom)
+        {
+            Nombre[] nombres = new Nombre[HabilidadCompleta.GetTotal(rom)];
+            for (int i = 0; i < nombres.Length; i++)
+                nombres[i] = GetNombre(rom, i);
+            return nombres;
+        }
         public static Nombre GetNombre(RomGba rom, int index)
         {
             Nombre nombre = new Nombre();

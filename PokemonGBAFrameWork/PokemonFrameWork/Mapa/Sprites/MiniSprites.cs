@@ -10,12 +10,12 @@ using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Drawing;
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Mini
 {
 	/// <summary>
 	/// Description of MiniSprites.
 	/// </summary>
-	public class MiniSprite
+	public class Sprite
 	{
 		const int TAMAÑOHEADER=36;
 		public static readonly Zona ZonaMiniSpritesData;
@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
 		Llista<BloqueSprite> blSprites;
 		Paleta paleta;
 		int width,height;
-		static MiniSprite()
+		static Sprite()
 		{
 			ZonaMiniSpritesData=new Zona("Mini sprites OverWorld-Data");
 			//añadir todas las zonas :D
@@ -40,7 +40,7 @@ namespace PokemonGBAFrameWork
 			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaUsa,0x8E6D8);
 			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaEsp,0x8E6EC);
 		}
-		public MiniSprite()
+		public Sprite()
 		{
 			blSprites=new Llista<BloqueSprite>();
 		}
@@ -84,8 +84,12 @@ namespace PokemonGBAFrameWork
 		{
 			return pt1.IsAPointer&&pt2.IsAPointer&&pt3.IsAPointer&&pt4.IsAPointer&&pt5.IsAPointer&&height<=(int)BloqueSprite.Medidas.MuyGrande&&width<=(int)BloqueSprite.Medidas.MuyGrande;
 		}
-		public static MiniSprite GetMiniSprite(RomGba rom,int posicion,PaletasMinis paletas)
+
+		public static Sprite GetMiniSprite(RomGba rom,int posicion,Paletas paletas=null)
 		{
+            if (paletas == null)
+                paletas = Paletas.GetPaletasMinis(rom);
+
 			TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom);
 			//obtengo el inicio y el fin
 			return GetMiniSprite(rom,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
@@ -93,16 +97,16 @@ namespace PokemonGBAFrameWork
 		static TwoKeys<int,int> GetTablaYTotal(RomGba rom,int totalMinis=-1)
 		{
 			if(totalMinis<0)
-				totalMinis=TotalMiniSprites(rom);
+				totalMinis=GetTotal(rom);
 			
 			int offsetInicioTabla=Zona.GetOffsetRom(ZonaMiniSpritesData, rom).Offset;
 			return new TwoKeys<int, int>(offsetInicioTabla,totalMinis);
 		}
-		static MiniSprite GetMiniSprite(RomGba rom,int posicion,PaletasMinis paletas,int offsetTablaMinis,int totalMinis)
+		static Sprite GetMiniSprite(RomGba rom,int posicion,Paletas paletas,int offsetTablaMinis,int totalMinis)
 		{
 
 			int offsetSprites;
-			MiniSprite mini = CargarDatosMini(rom, posicion, paletas);
+			Sprite mini = CargarDatosMini(rom, posicion, paletas);
 			//mirar de obtenerlos a todos
 			offsetSprites=mini.pt4.Offset;
 				for(int i=0,f=GetTotalFrames(rom,mini,offsetTablaMinis,totalMinis);i<f;i++)
@@ -112,7 +116,7 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		static int GetTotalFrames(RomGba rom, MiniSprite mini,int offsetTablaMinis,int totalMinis)
+		static int GetTotalFrames(RomGba rom, Sprite mini,int offsetTablaMinis,int totalMinis)
 		{
 			const int POSICIONPOINTERIMG=16 + OffsetRom.LENGTH * 3;
 			//coger los offsets de la tabla porque es donde hay los offsets de los headers....
@@ -143,11 +147,11 @@ namespace PokemonGBAFrameWork
 			}while(!acabado);
 			return total;
 		}
-		static MiniSprite CargarDatosMini(RomGba rom, int posicion, PaletasMinis paletas)
+		static Sprite CargarDatosMini(RomGba rom, int posicion, Paletas paletas)
 		{
 			int offsetHeader = new OffsetRom(rom, Zona.GetOffsetRom(ZonaMiniSpritesData, rom).Offset + (posicion * OffsetRom.LENGTH)).Offset;
 			byte[] bytesHeader = rom.Data.Bytes;
-			MiniSprite mini = new MiniSprite();
+			Sprite mini = new Sprite();
 
 			//obtengo las medidas del minisprite
 			mini.width = Serializar.ToInt(new byte[] {
@@ -172,21 +176,21 @@ namespace PokemonGBAFrameWork
 		}
 
 
-		public static MiniSprite[] GetMiniSprites(RomGba rom)
+		public static Sprite[] GetMiniSprite(RomGba rom)
 		{
-			return GetMiniSprites(rom,PaletasMinis.GetPaletasMinis(rom));
+			return GetMiniSprite(rom,Paletas.GetPaletasMinis(rom));
 		}
-		public static MiniSprite[] GetMiniSprites(RomGba rom,PaletasMinis paletas)
+		public static Sprite[] GetMiniSprite(RomGba rom,Paletas paletas)
 		{
 			TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom);
-			MiniSprite[] minis=new MiniSprite[TotalMiniSprites(rom)];
+			Sprite[] minis=new Sprite[GetTotal(rom)];
 			for(int i=0;i<minis.Length;i++)
 				minis[i]=GetMiniSprite(rom,i,paletas,inicioYFin.Key1,inicioYFin.Key2);
 			
 			return minis;
 		}
 
-		public static int TotalMiniSprites(RomGba rom)
+		public static int GetTotal(RomGba rom)
 		{
 			//los coge bien :3
 			int offsetTabla=Zona.GetOffsetRom(ZonaMiniSpritesData, rom).Offset;
@@ -203,6 +207,6 @@ namespace PokemonGBAFrameWork
 			}while(offsetAct.IsAPointer&&offset2Act.IsAPointer&&new OffsetRom(rom,offset2Act.Offset).IsAPointer);
 			return (offsetActual-offsetTabla)/OffsetRom.LENGTH;
 		}
-		
+		//falta set
 	}
 }

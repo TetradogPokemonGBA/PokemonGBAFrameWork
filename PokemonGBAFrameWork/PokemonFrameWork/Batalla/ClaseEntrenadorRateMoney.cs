@@ -31,6 +31,14 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             //falta rate money Rubi y Zafiro???no hay?????
         }
         public byte Rate { get => rate; set => rate = value; }
+
+        public static RateMoney[] GetRateMoney(RomGba rom)
+        {
+            RateMoney[] rates = new RateMoney[ClaseEntrenador.Sprite.GetTotal(rom)];
+            for (int i = 0; i < rates.Length; i++)
+                rates[i] = GetRateMoney(rom, i);
+            return rates;
+        }
         public static RateMoney GetRateMoney(RomGba rom,int index)
         {
             RateMoney rateMoney = new RateMoney();
@@ -55,7 +63,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         public static void SetRateMoney(RomGba rom, IList< RateMoney> rates)
         {
             OffsetRom offsetInicioRateMoney;
-            int totalActual = Sprite.GatTotal(rom);
+            int totalActual = Sprite.GetTotal(rom);
             if (!((EdicionPokemon)rom.Edicion).EsRubiOZafiro)
             {
                 offsetInicioRateMoney = Zona.GetOffsetRom(ZonaRatesMoney, rom);

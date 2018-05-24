@@ -43,7 +43,7 @@ namespace PokemonGBAFrameWork
 
         public static ClaseEntrenadorCompleto[] GetClasesEntrenador(RomGba rom)
         {
-            ClaseEntrenadorCompleto[] clases = new ClaseEntrenadorCompleto[Sprite.GatTotal(rom)];
+            ClaseEntrenadorCompleto[] clases = new ClaseEntrenadorCompleto[Sprite.GetTotal(rom)];
             for (int i = 0; i < clases.Length; i++)
                 clases[i] = GetClaseEntrenador(rom, i);
             return clases;

@@ -97,7 +97,13 @@ namespace PokemonGBAFrameWork
             return hayObjetosEquipados;
         }
 
-
+        public static EquipoPokemonEntrenador[] GetEquipo(RomGba rom)
+        {
+            EquipoPokemonEntrenador[] equiposPokemonEntrenador = new EquipoPokemonEntrenador[Entrenador.GetTotal(rom)];
+            for (int i = 0; i < equiposPokemonEntrenador.Length; i++)
+                equiposPokemonEntrenador[i] = GetEquipo(rom, i);
+            return equiposPokemonEntrenador;
+        }
         public static EquipoPokemonEntrenador GetEquipo(RomGba rom, int indexEntrenador)
         {
             return GetEquipo(rom, Entrenador.GetBytesEntrenador(rom, indexEntrenador));
@@ -134,6 +140,15 @@ namespace PokemonGBAFrameWork
             }
 
             return equipoCargado;
+        }
+
+        public static void SetEquipo(RomGba rom,IList<EquipoPokemonEntrenador> equipos)
+        {//por acabar
+            //borro los datos actuales
+            //reubico
+            //pongo los nuevos
+            for (int i = 0; i < equipos.Count; i++)
+                SetEquipo(rom, i, equipos[i]);
         }
         public static void SetEquipo(RomGba rom, int indexEntrenador, EquipoPokemonEntrenador equipo)
         {

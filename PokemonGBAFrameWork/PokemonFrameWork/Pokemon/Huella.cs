@@ -10,10 +10,11 @@
  */
 using Gabriel.Cat.S.Extension;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 //por revisar
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Pokemon
 {
 	/// <summary>
 	/// Description of Huella.
@@ -73,8 +74,15 @@ namespace PokemonGBAFrameWork
 			
 			blImgHuellaGBA.Bytes=WriteImage(imgHuella);			
 		}
+        public static Huella[] GetHuella(RomGba rom)
+        {
+            Huella[] huellas = new Huella[Pokemon.GetTotal(rom)];
+            for (int i = 0; i < huellas.Length; i++)
+                huellas[i] = GetHuella(rom, i);
+            return huellas;
+        }
 
-		public static Huella GetHuella(RomGba rom, int posicion)
+        public static Huella GetHuella(RomGba rom, int posicion)
 		{
 			//le el offset del pointer que toca
 			int offsetBytesHuella = GetOffsetHuella(rom, posicion);
@@ -85,8 +93,6 @@ namespace PokemonGBAFrameWork
 		/// Obtiene el offset de la lista de pointers.
 		/// </summary>
 		/// <param name="rom"></param>
-		/// <param name="edicion"></param>
-		/// <param name="compilacion"></param>
 		/// <param name="posicion"></param>
 		/// <returns></returns>
 		public static int GetOffsetHuella(RomGba rom, int posicion)
@@ -189,12 +195,10 @@ namespace PokemonGBAFrameWork
 		/// Escribe los datos de la huella en la rom
 		/// </summary>
 		/// <param name="rom"></param>
-		/// <param name="edicion"></param>
-		/// <param name="compilacion"></param>
 		/// <param name="huella">se usara el offset para escribir los bytes que contiene en la rom y actualizar el pointer con la direccion que tenga el bloque</param>
 		/// <param name="posicion"></param>
-		public static void SetHuella(RomGba rom, Huella huella, int posicion)
-		{
+		public static void SetHuella(RomGba rom, int posicion, Huella huella)
+        {
 			if (huella == null ||  huella.BytesHuellaGBA.Bytes.Length != LENGHT|| rom == null || posicion < 0)
 				throw new ArgumentException();
 
@@ -317,6 +321,14 @@ namespace PokemonGBAFrameWork
 			}
 			return bytesGBA;
 		}
+        public static void SetHuella(RomGba rom,IList<Huella> huellas)
+        {
+            //quito los datos antiguos
+            //reubico
+            //pongo las huellas
+            for (int i = 0; i < huellas.Count; i++)
+                SetHuella(rom, i, huellas[i]);
+        }
 		/// <summary>
 		/// Sirve para saber como queda guardada la imagen :) en la rom
 		/// </summary>

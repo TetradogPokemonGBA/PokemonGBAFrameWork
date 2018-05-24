@@ -16,12 +16,12 @@ using System.ComponentModel;
 using System.Drawing;
 
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Pokemon
 {
 	/// <summary>
 	/// Description of Sprite.
 	/// </summary>
-	public class SpritesPokemon
+	public class Sprites
 	{
 		public static readonly Zona ZonaImgFrontal;
 		public static readonly Zona ZonaImgTrasera;
@@ -38,7 +38,7 @@ namespace PokemonGBAFrameWork
 		Paleta paletaNormal;
 		Paleta paletaShiny;
 		
-		static SpritesPokemon()
+		static Sprites()
 		{
 			ZonaImgFrontal=new Zona("Imagen Frontal Pokemon");
 			ZonaImgTrasera=new Zona("Imagen Trasera Pokemon");
@@ -69,7 +69,7 @@ namespace PokemonGBAFrameWork
             PaletaAnimacion.Colores[0] = System.Drawing.Color.White;
 		}
 		
-		public SpritesPokemon()
+		public Sprites()
 		{
 			spritesFrontales=new Llista<BloqueImagen>();
 			spritesTraseros=new Llista<BloqueImagen>();
@@ -122,7 +122,7 @@ namespace PokemonGBAFrameWork
 	    
 	    
 
-		public static SpritesPokemon GetSpritesPokemon(RomGba rom,int indexOrdenGameFreakPokemon)
+		public static Sprites GetSpritesPokemon(RomGba rom,int indexOrdenGameFreakPokemon)
 		{
 			byte[] auxImg;
 			
@@ -136,7 +136,7 @@ namespace PokemonGBAFrameWork
 			BloqueImagen bloqueImgFrontal=BloqueImagen.GetBloqueImagen(rom,offsetImgFrontalPokemon);
 			BloqueImagen bloqueImgTrasera=BloqueImagen.GetBloqueImagen(rom,offsetImgTraseraPokemon);
 			
-			SpritesPokemon spritePokemon=new SpritesPokemon();
+			Sprites spritePokemon=new Sprites();
 			
 			
 			spritePokemon.paletaNormal=paletaNormal;
@@ -157,7 +157,7 @@ namespace PokemonGBAFrameWork
 			return spritePokemon;
 		}
 
-		public static void SetSpritesPokemon(RomGba rom,int indexOrdenGameFreakPokemon,SpritesPokemon spritesPokemon)
+		public static void SetSpritesPokemon(RomGba rom,int indexOrdenGameFreakPokemon,Sprites spritesPokemon)
 		{
 			byte[] auxImg;
 			

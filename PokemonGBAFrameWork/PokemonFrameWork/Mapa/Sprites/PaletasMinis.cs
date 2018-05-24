@@ -13,16 +13,16 @@ using Gabriel.Cat.S.Utilitats;
 using Gabriel.Cat.S.Extension;
 
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Mini
 {
 	/// <summary>
 	/// Description of PaletasMinis.
 	/// </summary>
-	public class PaletasMinis
+	public class Paletas
 	{
 		public static readonly Zona ZonaMiniSpritesPaleta;
 		Llista<Paleta> paletas;
-		static PaletasMinis()
+		static Paletas()
 		{
 			ZonaMiniSpritesPaleta=new Zona("Mini sprites OverWorld-Paleta");
 			//Esmeralda
@@ -41,12 +41,12 @@ namespace PokemonGBAFrameWork
 			
 			
 		}
-		public PaletasMinis()
+		public Paletas()
 		{
 			paletas=new Llista<Paleta>();
 		}
 
-		public Llista<Paleta> Paletas {
+		public Llista<Paleta> PaletasMinis {
 			get {
 				return paletas;
 			}
@@ -58,17 +58,18 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
-		public static PaletasMinis GetPaletasMinis(RomGba rom)
+		public static Paletas GetPaletasMinis(RomGba rom)
 		{
-			PaletasMinis paletas=new PaletasMinis();
+			Paletas paletas=new Paletas();
 			//obtengo la paleta
 			int	offsetTablaPaleta=Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
 			try{
 				while(true)
-					paletas.Paletas.Add(Paleta.GetPaleta(rom,offsetTablaPaleta+paletas.Paletas.Count*Paleta.LENGTHHEADERCOMPLETO));
+					paletas.PaletasMinis.Add(Paleta.GetPaleta(rom,offsetTablaPaleta+paletas.PaletasMinis.Count*Paleta.LENGTHHEADERCOMPLETO));
 			}catch{}
-			paletas.Paletas.SortByQuickSort();
+			paletas.PaletasMinis.SortByQuickSort();
 			return paletas;
 		}
+        //falta set
 	}
 }

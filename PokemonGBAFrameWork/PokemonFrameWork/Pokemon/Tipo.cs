@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Pokemon
 {
 	
 	public  class TipoCompleto

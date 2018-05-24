@@ -9,8 +9,9 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
 
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Pokemon
 {
 	/// <summary>
 	/// Description of DescripcionPokedex.
@@ -148,8 +149,15 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+        public static DescripcionPokedex[] GetDescripcionPokedex(RomGba rom)
+        {
+            DescripcionPokedex[] descripcions = new DescripcionPokedex[GetTotal(rom)];
+            for (int i = 0; i < descripcions.Length; i++)
+                descripcions[i] = GetDescripcionPokedex(rom, i);
+            return descripcions;
+        }
 
-		public static DescripcionPokedex GetDescripcionPokedex(RomGba rom,int ordenNacionalPokemon)
+        public static DescripcionPokedex GetDescripcionPokedex(RomGba rom,int ordenNacionalPokemon)
 		{
 			int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion,rom).Offset+ordenNacionalPokemon*LongitudDescripcion((EdicionPokemon)rom.Edicion);
 			int posicionActual=offsetDescripcionPokemon;
@@ -184,8 +192,21 @@ namespace PokemonGBAFrameWork
 			
 		}
 
-		public static void SetDescripcionPokedex(RomGba rom,DescripcionPokedex descripcion,int ordenNacionalPokemon)
-		{
+        public static void SetDescripcionPokedex(RomGba rom,IList<DescripcionPokedex> descripciones)
+        {
+            //borro los datos antiguos
+            int totalAntiguo = GetTotal(rom);
+            for (int i = 0; i < totalAntiguo; i++)
+                Remove(rom, i);
+            //reubico
+            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaDescripcion, rom), rom.Data.SearchEmptyBytes(descripciones.Count * LongitudDescripcion((EdicionPokemon)rom.Edicion)));
+            //pongo los datos
+            for (int i = 0; i < descripciones.Count; i++)
+                SetDescripcionPokedex(rom, i, descripciones[i]);
+        }
+
+        public static void SetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon, DescripcionPokedex descripcion)
+        {
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             int offsetDescripcionPokemon=Zona.GetOffsetRom(ZonaDescripcion, rom).Offset+ordenNacionalPokemon*LongitudDescripcion(edicion);
 			int posicionActual=offsetDescripcionPokemon;
@@ -244,7 +265,7 @@ namespace PokemonGBAFrameWork
 			return total;
 		}
 
-		public static int GetTotalEntradas(RomGba rom)
+		public static int GetTotal(RomGba rom)
 		{
 			int total=0;
 			int offsetInicio=Zona.GetOffsetRom(ZonaDescripcion, rom).Offset;

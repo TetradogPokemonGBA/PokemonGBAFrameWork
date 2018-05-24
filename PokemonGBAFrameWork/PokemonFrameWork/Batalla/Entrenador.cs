@@ -206,7 +206,7 @@ namespace PokemonGBAFrameWork
             return Nombre;
         }
 
-        public static int GetNumeroDeEntrenadores(RomGba rom)
+        public static int GetTotal(RomGba rom)
         {
             const byte POSICIONPOINTERDATOS = 0x24;
 
@@ -252,9 +252,9 @@ namespace PokemonGBAFrameWork
             return BloqueBytes.GetBytes(rom.Data, poscionEntrenador, TAMAÑOENTRENADOR);
         }
 
-        public static Entrenador[] GetEntrenadores(RomGba rom)
+        public static Entrenador[] GetEntrenador(RomGba rom)
         {
-            Entrenador[] entrenadores = new Entrenador[GetNumeroDeEntrenadores(rom)];
+            Entrenador[] entrenadores = new Entrenador[GetTotal(rom)];
             for (int i = 0; i < entrenadores.Length; i++)
                 entrenadores[i] = GetEntrenador(rom,  i);
 
@@ -285,9 +285,9 @@ namespace PokemonGBAFrameWork
             rom.Data.SetArray(bloqueEntrenador.OffsetInicio, bloqueEntrenador.Bytes);
         }
 
-        public static void SetEntrenadores(RomGba rom, IList<Entrenador> entrenadores)
+        public static void SetEntrenador(RomGba rom, IList<Entrenador> entrenadores)
         {
-            int totalActual = GetNumeroDeEntrenadores(rom);
+            int totalActual = GetTotal(rom);
             OffsetRom offsetData;
             if (entrenadores.Count != totalActual)
             {

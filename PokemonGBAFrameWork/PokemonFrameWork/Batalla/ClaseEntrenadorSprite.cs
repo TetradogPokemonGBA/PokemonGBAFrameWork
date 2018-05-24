@@ -45,7 +45,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             {
                 OffsetRom offsetInicioImg;
                 int offsetActualImg;
-                int totalActual = GatTotal(rom);
+                int totalActual = GetTotal(rom);
                 offsetInicioImg = Zona.GetOffsetRom(Data.ZonaImgSprite, rom);
                 offsetActualImg = offsetInicioImg.Offset;
                 for (int i = 0; i < totalActual; i++)
@@ -101,7 +101,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
                 OffsetRom offsetInicioPaleta;
 
                 int offsetActualPaleta;
-                int totalActual = GatTotal(rom);
+                int totalActual = GetTotal(rom);
                 offsetInicioPaleta = Zona.GetOffsetRom(Paleta.ZonaPaletaSprite, rom);
                 offsetActualPaleta = offsetInicioPaleta.Offset;
                 for (int i = 0; i < totalActual; i++)
@@ -122,7 +122,13 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         public Paleta PaletaImg { get; set; }
         public Bitmap Imagen { get { return DataImg.Img + PaletaImg.Colores; } }
 
-
+        public static Sprite[] GetSprite(RomGba rom)
+        {
+            Sprite[] sprites = new Sprite[GetTotal(rom)];
+            for (int i = 0; i < sprites.Length; i++)
+                sprites[i] = GetSprite(rom, i);
+            return sprites;
+        }
         public static Sprite GetSprite(RomGba rom, int index)
         {
 
@@ -153,7 +159,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             Data.SetData(rom, datas);
             Paleta.SetPaleta(rom, paletas);
         }
-        public static int GatTotal(RomGba rom)
+        public static int GetTotal(RomGba rom)
         {
             int offsetTablaEntrenadorImg = Zona.GetOffsetRom(Data.ZonaImgSprite, rom).Offset;
             int offsetTablaEntrenadorPaleta = Zona.GetOffsetRom(Paleta.ZonaPaletaSprite, rom).Offset;

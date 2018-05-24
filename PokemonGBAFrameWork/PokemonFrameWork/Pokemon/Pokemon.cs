@@ -761,8 +761,8 @@ namespace PokemonGBAFrameWork
 
 		public static Pokemon[] GetPokedex(RomGba rom)
 		{
-			Pokemon[] pokedex=new Pokemon[GetTotalPokemon(rom)];
-			int totalEntradasPokedex=DescripcionPokedex.GetTotalEntradas(rom);
+			Pokemon[] pokedex=new Pokemon[GetTotal(rom)];
+			int totalEntradasPokedex=DescripcionPokedex.GetTotal(rom);
 			for(int i=0;i<pokedex.Length;i++)
 				pokedex[i]=Pokemon.GetPokemon(rom,i,totalEntradasPokedex);
 			return pokedex;
@@ -784,7 +784,7 @@ namespace PokemonGBAFrameWork
 			
 			rom.Data.SetArray(new OffsetRom(Zona.GetOffsetRom(ZonaStats,rom).Offset+pokemon.OrdenGameFreak*OffsetRom.LENGTH).Offset,pokemon.Stats.Bytes);
 			if(pokemon.Descripcion!=null&&pokemon.OrdenNacional>0&&pokemon.OrdenNacional<totalEntradasPokedex)
-				DescripcionPokedex.SetDescripcionPokedex(rom,pokemon.Descripcion,pokemon.OrdenNacional);
+				DescripcionPokedex.SetDescripcionPokedex(rom, pokemon.OrdenNacional, pokemon.Descripcion);
 
 			if (pokemon.AtaquesAprendidos!=null)
 				AtaquesAprendidos.SetAtaquesAprendidos(rom,pokemon.OrdenGameFreak,pokemon.AtaquesAprendidos,dicAtaquesPokemon);
@@ -809,8 +809,8 @@ namespace PokemonGBAFrameWork
 			OffsetRom offsetOrdenNacional;
 			OffsetRom offsetStats;
 			
-			int totalActual=GetTotalPokemon(rom);
-			int totalEntradasPokedex=DescripcionPokedex.GetTotalEntradas(rom);
+			int totalActual=GetTotal(rom);
+			int totalEntradasPokedex=DescripcionPokedex.GetTotal(rom);
 			if(pokedex.Count!=totalActual)
 			{
 				offsetNombre=Zona.GetOffsetRom(ZonaNombre,rom);
@@ -862,7 +862,7 @@ namespace PokemonGBAFrameWork
 			return total;
 		}
 
-		public static int GetTotalPokemon(RomGba rom)
+		public static int GetTotal(RomGba rom)
 		{
 			int total=0;
 			int offsetHuella=Zona.GetOffsetRom(Huella.ZonaHuella,rom).Offset;

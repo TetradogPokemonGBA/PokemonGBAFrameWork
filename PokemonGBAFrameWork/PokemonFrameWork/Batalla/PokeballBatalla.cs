@@ -66,7 +66,7 @@ namespace PokemonGBAFrameWork
             return pokeball;
         }
 
-        public static PokeballBatalla[] GetPokeballsBatalla(RomGba rom, EdicionPokemon edicion, Compilacion compilacion)
+        public static PokeballBatalla[] GetPokeballBatalla(RomGba rom)
         {
             PokeballBatalla[] pokeballs = new PokeballBatalla[GetTotal(rom)];
             for (int i = 0; i < pokeballs.Length; i++)
@@ -85,7 +85,7 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetPokeballsBatalla(RomGba rom, IList<PokeballBatalla> pokeballs)
+        public static void SetPokeballBatalla(RomGba rom, IList<PokeballBatalla> pokeballs)
         {
             OffsetRom offsetSprite;
             OffsetRom offsetPaleta;

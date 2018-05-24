@@ -18,6 +18,13 @@ namespace PokemonGBAFrameWork.Habilidad
             ZonaDescripcionHabilidad.Add(0xA009C, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
 
         }
+        public static Descripcion[] GetDescripcion(RomGba rom)
+        {
+            Descripcion[] descripcions = new Descripcion[HabilidadCompleta.GetTotal(rom)];
+            for (int i = 0; i < descripcions.Length; i++)
+                descripcions[i] = GetDescripcion(rom, i);
+            return descripcions;
+        }
         public static Descripcion GetDescripcion(RomGba rom,int index)
         {
             Descripcion descripcion = new Descripcion();
@@ -53,7 +60,7 @@ namespace PokemonGBAFrameWork.Habilidad
                 if (totalActual < descripciones.Count)
                 {
                     //reubico
-                    OffsetRom.SetOffset(rom, offsetDescripcion, rom.Data.SearchEmptyBytes(habilidades.Count * OffsetRom.LENGTH));
+                    OffsetRom.SetOffset(rom, offsetDescripcion, rom.Data.SearchEmptyBytes(descripciones.Count * OffsetRom.LENGTH));
                 }
             }
             for (int i = 0; i < descripciones.Count; i++)

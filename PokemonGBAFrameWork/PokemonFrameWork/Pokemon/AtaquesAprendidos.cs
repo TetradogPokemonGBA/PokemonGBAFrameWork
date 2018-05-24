@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using Gabriel.Cat;
 using Gabriel.Cat.S.Utilitats;
 using Gabriel.Cat.S.Extension;
-namespace PokemonGBAFrameWork
+namespace PokemonGBAFrameWork.Pokemon
 {
 	/// <summary>
 	/// Description of AtaquesAprendidos.
@@ -235,7 +235,13 @@ namespace PokemonGBAFrameWork
             else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             return compareTo;
         }
-
+        public static AtaquesAprendidos[] GetAtaquesAprendidos(RomGba rom)
+        {
+            AtaquesAprendidos[] ataquesAprendidos = new AtaquesAprendidos[Pokemon.GetTotal(rom)];
+            for (int i = 0; i < ataquesAprendidos.Length; i++)
+                ataquesAprendidos[i] = GetAtaquesAprendidos(rom, i);
+            return ataquesAprendidos;
+        }
         public static AtaquesAprendidos GetAtaquesAprendidos(RomGba rom,int ordenGameFreakPokemon)
 		{
 			//missigno de por si usa el mismo puntero que bulbasaur por eso tienen los mismos ataques,supongo que sera para que no de error y no ocupar espacio...
@@ -245,8 +251,6 @@ namespace PokemonGBAFrameWork
 			//pongo los ataques
 			for(int i=0;i<bloque.Bytes.Length;i+=2)
 			{
-				
-
 				ataquesAprendidos.Ataques.Add(new AtaqueAprendido(new Word((ushort)(bloque.Bytes[i]+(bloque.Bytes[i+1]%2==0? byte.MinValue : byte.MaxValue+1))),(byte)(bloque.Bytes[i+1]>>1)));
 			}
 			ataquesAprendidos.Ataques.SortByQuickSort();//por si lo hacen de forma externa que lo lea bien :)
@@ -277,11 +281,21 @@ namespace PokemonGBAFrameWork
 
 			dicAtaquesPokemon.Add(offset, ataquesAprendidos);//añado al diccionario el nuevo offset con los ataques :)
 		}
-
+        public static void SetAtaquesAprendidos(RomGba rom,IList<AtaquesAprendidos> ataquesAprendidos, LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dicAtaques=null)
+        {
+            if (dicAtaques == null)
+                dicAtaques = GetAtaquesAprendidosDic(rom);
+            int total = Pokemon.GetTotal(rom);
+            for (int i = 0; i < total; i++)
+                Remove(rom, i);
+            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaAtaquesAprendidos, rom),rom.Data.SearchEmptyBytes(ataquesAprendidos.Count * OffsetRom.LENGTH));
+            for (int i = 0; i < ataquesAprendidos.Count; i++)
+                SetAtaquesAprendidos(rom,i, ataquesAprendidos[i], dicAtaques);
+        }
 		public static LlistaOrdenadaPerGrups<int,AtaquesAprendidos> GetAtaquesAprendidosDic(RomGba rom)
 		{
 			LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<int, AtaquesAprendidos>();
-			for (int i = 0, f = Pokemon.GetTotalPokemon(rom); i < f; i++)
+			for (int i = 0, f = Pokemon.GetTotal(rom); i < f; i++)
 				dic.Add(new OffsetRom(rom, GetOffsetPointer(rom,  i)).Offset, GetAtaquesAprendidos(rom,  i));
 			return dic;
 		}
@@ -289,7 +303,7 @@ namespace PokemonGBAFrameWork
 		public static void Remove(RomGba rom, int ordenGameFreak)
 		{
 			int offsetData=GetOffsetPointer(rom,ordenGameFreak);
-			rom.Data.Remove(offsetData,rom.Data.SearchArray(MarcaFin)-offsetData);
+			rom.Data.Remove(offsetData,rom.Data.SearchArray(offsetData,MarcaFin)-offsetData);
 		}
 
 
