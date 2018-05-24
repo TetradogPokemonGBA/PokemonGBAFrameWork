@@ -81,7 +81,7 @@ namespace PokemonGBAFrameWork.Pokemon
 		}
         public static Huella[] GetHuella(RomGba rom)
         {
-            Huella[] huellas = new Huella[Pokemon.GetTotal(rom)];
+            Huella[] huellas = new Huella[Huella.GetTotal(rom)];
             for (int i = 0; i < huellas.Length; i++)
                 huellas[i] = GetHuella(rom, i);
             return huellas;
@@ -343,6 +343,16 @@ namespace PokemonGBAFrameWork.Pokemon
 		{
 			return ReadImage(WriteImage(bmp));
 		}
-		
-	}
+        public static int GetTotal(RomGba rom)
+        {
+            int total = 0;
+            int offsetHuella = Zona.GetOffsetRom(Huella.ZonaHuella, rom).Offset;
+            while (new OffsetRom(rom, offsetHuella).IsAPointer)
+            {
+                offsetHuella += OffsetRom.LENGTH;
+                total++;
+            }
+            return total - 1;
+        }
+    }
 }

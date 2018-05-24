@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "0ccc1bd317824de77dde0b405eb71c3722e316ad"
+    "signature": "afc283aed87cff6c3fd7a857d174312d9a6cd285"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,11 +9,30 @@
     ".NETStandard,Version=v2.0/": {
       "PokemonGBAFrameWork/1.0.0.3-preview1": {
         "dependencies": {
+          "Gabriel.Cat.S.Binaris": "1.0.5-preview1.0.0",
           "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.5",
           "NETStandard.Library": "2.0.1"
         },
         "runtime": {
           "PokemonGBAFrameWork.dll": {}
+        }
+      },
+      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.0": {
+        "dependencies": {
+          "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.0",
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.5",
+          "System.Drawing.Common": "4.5.0-preview2-26406-04"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll": {}
+        }
+      },
+      "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.0": {
+        "dependencies": {
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.5"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll": {}
         }
       },
       "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.5": {
@@ -48,6 +67,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uBGv3xX/sp4jbNgtXDsqyvcUWKupK75TeyN9u+1wFarqdLQtgd2ktGcxCIcQ0TCxIY1ZCqZoy3cjnH56LntHrw==",
+      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.0",
+      "hashPath": "gabriel.cat.s.binaris.1.0.5-preview1.0.0.nupkg.sha512"
+    },
+    "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JPdySMX2UPr4MHeUv9lXv5pR3gqqitnscbV2aXaJCcrww3SEJVgd6P/nJhdABAWIX2H+CX+GgHzrB4r2Qbi57w==",
+      "path": "gabriel.cat.s.seguretat/1.0.2.2-preview1.0.0",
+      "hashPath": "gabriel.cat.s.seguretat.1.0.2.2-preview1.0.0.nupkg.sha512"
     },
     "Gabriel.Cat.S.Utilitats/1.0.4.3-preview1.0.5": {
       "type": "package",

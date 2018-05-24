@@ -17,7 +17,7 @@ namespace PokemonGBAFrameWork.Pokemon
     /// <summary>
     /// Description of DescripcionPokedex.
     /// </summary>
-    public class DescripcionPokedex : IElementoBinarioComplejo
+    public class Descripcion : IElementoBinarioComplejo
     {
         public enum LongitudCampos
         {
@@ -27,7 +27,7 @@ namespace PokemonGBAFrameWork.Pokemon
             PaginasRubiZafiro = 2,
             PaginasGeneral = 1,
         }
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(DescripcionPokedex));
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Descripcion));
 
         public static readonly Zona ZonaDescripcion;
 
@@ -43,7 +43,7 @@ namespace PokemonGBAFrameWork.Pokemon
         Word direccionEntrenador;
         Word numero2;
 
-        static DescripcionPokedex()
+        static Descripcion()
         {
             ZonaDescripcion = new Zona("DescripcionPokedex");
 
@@ -59,9 +59,9 @@ namespace PokemonGBAFrameWork.Pokemon
             ZonaDescripcion.Add(EdicionPokemon.ZafiroUsa, 0x8F508, 0x8F528);
 
         }
-        public DescripcionPokedex()
+        public Descripcion()
         {
-            Descripcion = new BloqueString();
+            Texto = new BloqueString();
             Especie = new BloqueString((int)LongitudCampos.NombreEspecie);
         }
         /// <summary>
@@ -168,32 +168,32 @@ namespace PokemonGBAFrameWork.Pokemon
 
 
         public BloqueString Especie { get => blEspecie; set => blEspecie = value; }
-        public BloqueString Descripcion { get => blDescripcion; set => blDescripcion = value; }
+        public BloqueString Texto { get => blDescripcion; set => blDescripcion = value; }
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
-        public static DescripcionPokedex[] GetDescripcionPokedex(RomGba rom)
+        public static Descripcion[] GetDescripcionPokedex(RomGba rom)
         {
-            DescripcionPokedex[] descripcions = new DescripcionPokedex[GetTotal(rom)];
+            Descripcion[] descripcions = new Descripcion[GetTotal(rom)];
             for (int i = 0; i < descripcions.Length; i++)
                 descripcions[i] = GetDescripcionPokedex(rom, i);
             return descripcions;
         }
 
-        public static DescripcionPokedex GetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon)
+        public static Descripcion GetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon)
         {
             int offsetDescripcionPokemon = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + ordenNacionalPokemon * LongitudDescripcion((EdicionPokemon)rom.Edicion);
             int posicionActual = offsetDescripcionPokemon;
-            DescripcionPokedex descripcionPokemon = new DescripcionPokedex();
+            Descripcion descripcionPokemon = new Descripcion();
             descripcionPokemon.Especie = BloqueString.GetString(rom, posicionActual, (int)LongitudCampos.NombreEspecie);
             posicionActual += (int)LongitudCampos.NombreEspecie;
             descripcionPokemon.Altura = new Word(rom, posicionActual);
             posicionActual += Word.LENGTH;
             descripcionPokemon.Peso = new Word(rom, posicionActual);
             posicionActual += Word.LENGTH;
-            descripcionPokemon.Descripcion = BloqueString.GetString(rom, new OffsetRom(rom, posicionActual).Offset);
+            descripcionPokemon.Texto = BloqueString.GetString(rom, new OffsetRom(rom, posicionActual).Offset);
             posicionActual += OffsetRom.LENGTH;
             if (!((EdicionPokemon)rom.Edicion).EsEsmeralda)
             {//Esmeralda no tiene ese puntero y Rojo y Verde Apuntan a una pagina vacia asi que no hay problema
-                descripcionPokemon.Descripcion.Texto += "\n" + BloqueString.GetString(rom, new OffsetRom(rom, posicionActual).Offset).Texto;
+                descripcionPokemon.Texto.Texto += "\n" + BloqueString.GetString(rom, new OffsetRom(rom, posicionActual).Offset).Texto;
                 posicionActual += OffsetRom.LENGTH;
             }
             descripcionPokemon.Numero = new Word(rom, posicionActual);
@@ -213,7 +213,7 @@ namespace PokemonGBAFrameWork.Pokemon
 
         }
 
-        public static void SetDescripcionPokedex(RomGba rom, IList<DescripcionPokedex> descripciones)
+        public static void SetDescripcionPokedex(RomGba rom, IList<Descripcion> descripciones)
         {
             //borro los datos antiguos
             int totalAntiguo = GetTotal(rom);
@@ -226,7 +226,7 @@ namespace PokemonGBAFrameWork.Pokemon
                 SetDescripcionPokedex(rom, i, descripciones[i]);
         }
 
-        public static void SetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon, DescripcionPokedex descripcion)
+        public static void SetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon, Descripcion descripcion)
         {
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             int offsetDescripcionPokemon = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + ordenNacionalPokemon * LongitudDescripcion(edicion);
@@ -247,7 +247,7 @@ namespace PokemonGBAFrameWork.Pokemon
                 BloqueString.Remove(rom, new OffsetRom(rom, posicionActual).Offset);
             }
             catch { }
-            rom.Data.SetArray(posicionActual, new OffsetRom(BloqueString.SetString(rom, descripcion.Descripcion.Substring(0, totalPagina))).BytesPointer);
+            rom.Data.SetArray(posicionActual, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto.Texto.Substring(0, totalPagina))).BytesPointer);
             posicionActual += OffsetRom.LENGTH;
             if (edicion.EsRubiOZafiro)
             {
@@ -256,8 +256,8 @@ namespace PokemonGBAFrameWork.Pokemon
                     BloqueString.Remove(rom, new OffsetRom(rom, posicionActual).Offset);
                 }
                 catch { }
-                if (descripcion.Descripcion.Length > totalPagina)
-                    rom.Data.SetArray(posicionActual, new OffsetRom(BloqueString.SetString(rom, descripcion.Descripcion.Substring(totalPagina))).BytesPointer);
+                if (descripcion.Texto.Texto.Length > totalPagina)
+                    rom.Data.SetArray(posicionActual, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto.Texto.Substring(totalPagina))).BytesPointer);
                 posicionActual += OffsetRom.LENGTH;
             }
 

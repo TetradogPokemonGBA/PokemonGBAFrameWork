@@ -248,7 +248,7 @@ namespace PokemonGBAFrameWork.Pokemon
         }
         public static AtaquesAprendidos[] GetAtaquesAprendidos(RomGba rom)
         {
-            AtaquesAprendidos[] ataquesAprendidos = new AtaquesAprendidos[Pokemon.GetTotal(rom)];
+            AtaquesAprendidos[] ataquesAprendidos = new AtaquesAprendidos[Huella.GetTotal(rom)];
             for (int i = 0; i < ataquesAprendidos.Length; i++)
                 ataquesAprendidos[i] = GetAtaquesAprendidos(rom, i);
             return ataquesAprendidos;
@@ -296,7 +296,7 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             if (dicAtaques == null)
                 dicAtaques = GetAtaquesAprendidosDic(rom);
-            int total = Pokemon.GetTotal(rom);
+            int total = Huella.GetTotal(rom);
             for (int i = 0; i < total; i++)
                 Remove(rom, i);
             OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaAtaquesAprendidos, rom),rom.Data.SearchEmptyBytes(ataquesAprendidos.Count * OffsetRom.LENGTH));
@@ -306,7 +306,7 @@ namespace PokemonGBAFrameWork.Pokemon
 		public static LlistaOrdenadaPerGrups<int,AtaquesAprendidos> GetAtaquesAprendidosDic(RomGba rom)
 		{
 			LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<int, AtaquesAprendidos>();
-			for (int i = 0, f = Pokemon.GetTotal(rom); i < f; i++)
+			for (int i = 0, f = Huella.GetTotal(rom); i < f; i++)
 				dic.Add(new OffsetRom(rom, GetOffsetPointer(rom,  i)).Offset, GetAtaquesAprendidos(rom,  i));
 			return dic;
 		}

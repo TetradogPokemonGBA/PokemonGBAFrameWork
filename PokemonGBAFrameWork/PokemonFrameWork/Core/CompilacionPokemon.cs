@@ -33,7 +33,7 @@ namespace PokemonGBAFrameWork
             {
                 case AbreviacionCanon.AXV:
                 case AbreviacionCanon.AXP:
-                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(DescripcionPokedex.ZonaDescripcion, rom, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
+                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(Pokemon.Descripcion.ZonaDescripcion, rom, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
                         compilacionRom = Compilaciones[0];
                     else
                     {
@@ -48,7 +48,7 @@ namespace PokemonGBAFrameWork
                     break;
                 case AbreviacionCanon.BPR:
                 case AbreviacionCanon.BPG:
-                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(DescripcionPokedex.ZonaDescripcion, rom, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
+                    if (edicion.Idioma == Idioma.Español || Zona.GetOffsetRom(Pokemon.Descripcion.ZonaDescripcion, rom, edicion, CompilacionPokemon.Compilaciones[0]).IsAPointer)
                         compilacionRom = Compilaciones[0];
                     else
                     {

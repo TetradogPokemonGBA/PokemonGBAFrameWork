@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
         public static PaletaNormal[] GetPaletaNormal(RomGba rom)
         {
-            PaletaNormal[] paletaNormals = new PaletaNormal[PokemonCompleto.GetTotal(rom)];
+            PaletaNormal[] paletaNormals = new PaletaNormal[Huella.GetTotal(rom)];
             for (int i = 0; i < paletaNormals.Length; i++)
                 paletaNormals[i] = GetPaletaNormal(rom, i);
             return paletaNormals;
@@ -51,7 +51,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         public static void SetPaletaNormal(RomGba rom, IList<PaletaNormal> paletas)
         {
             //borro las paletas
-            int total = PokemonCompleto.GetTotal(rom);
+            int total = Huella.GetTotal(rom);
             int offsetPaletaNormalPokemon = Zona.GetOffsetRom(ZonaPaletaNormal, rom).Offset;
             for (int i = 0; i < total; i++)
             {

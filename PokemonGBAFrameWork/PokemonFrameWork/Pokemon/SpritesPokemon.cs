@@ -78,7 +78,7 @@ namespace PokemonGBAFrameWork.Pokemon
 		}
         public static SpritesCompleto[] GetSprites(RomGba rom)
         {
-            SpritesCompleto[] sprites = new SpritesCompleto[PokemonCompleto.GetTotal(rom)];
+            SpritesCompleto[] sprites = new SpritesCompleto[Huella.GetTotal(rom)];
             for (int i = 0; i < sprites.Length; i++)
                 sprites[i] = GetSprites(rom, i);
             return sprites;

@@ -245,9 +245,9 @@ namespace PokemonGBAFrameWork
                     case AbreviacionCanon.BPE:
                     case AbreviacionCanon.BPR:
                     case AbreviacionCanon.BPG:
-                        valida = Zona.GetOffsetRom(DescripcionPokedex.ZonaDescripcion, rom, edicionPokemon, CompilacionPokemon.Compilaciones[0]).IsAPointer;
+                        valida = Zona.GetOffsetRom(Pokemon.Descripcion.ZonaDescripcion, rom, edicionPokemon, CompilacionPokemon.Compilaciones[0]).IsAPointer;
                         if (!valida && edicionPokemon.RegionKanto)
-                            valida = Zona.GetOffsetRom(DescripcionPokedex.ZonaDescripcion, rom, edicionPokemon, CompilacionPokemon.Compilaciones[1]).IsAPointer;
+                            valida = Zona.GetOffsetRom(Pokemon.Descripcion.ZonaDescripcion, rom, edicionPokemon, CompilacionPokemon.Compilaciones[1]).IsAPointer;
                         break;
 
                 }

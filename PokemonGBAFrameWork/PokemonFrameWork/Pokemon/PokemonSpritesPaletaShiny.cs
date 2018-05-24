@@ -38,7 +38,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
         public static PaletaShiny[] GetPaletaShiny(RomGba rom)
         {
-            PaletaShiny[] paletaShinys = new PaletaShiny[PokemonCompleto.GetTotal(rom)];
+            PaletaShiny[] paletaShinys = new PaletaShiny[Huella.GetTotal(rom)];
             for (int i = 0; i < paletaShinys.Length; i++)
                 paletaShinys[i] = GetPaletaShiny(rom, i);
             return paletaShinys;
@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         public static void SetPaletaShiny(RomGba rom, IList<PaletaShiny> paletas)
         {
             //borro las paletas
-            int total = PokemonCompleto.GetTotal(rom);
+            int total = Huella.GetTotal(rom);
             int offsetPaletaShinyPokemon = Zona.GetOffsetRom(ZonaPaletaShiny, rom).Offset;
             for (int i = 0; i < total; i++)
             {

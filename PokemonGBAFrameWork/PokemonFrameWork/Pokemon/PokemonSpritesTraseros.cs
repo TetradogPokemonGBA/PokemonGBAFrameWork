@@ -43,7 +43,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
         public static Traseros[] GetTraseros(RomGba rom)
         {
-            Traseros[] traseros = new Traseros[PokemonCompleto.GetTotal(rom)];
+            Traseros[] traseros = new Traseros[Huella.GetTotal(rom)];
             for (int i = 0; i < traseros.Length; i++)
                 traseros[i] = GetTraseros(rom, i);
             return traseros;
@@ -70,7 +70,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         public static void SetTraseros(RomGba rom, IList<Traseros> traseros)
         {
             //borro las imagenes
-            int total = PokemonCompleto.GetTotal(rom);
+            int total = Huella.GetTotal(rom);
             int offsetImgTraseraPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset;
             for(int i=0;i<total;i++)
             {

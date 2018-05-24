@@ -77,7 +77,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
         public static Frontales[] GetFrontales(RomGba rom)
         {
-            Frontales[] frontales = new Frontales[PokemonCompleto.GetTotal(rom)];
+            Frontales[] frontales = new Frontales[Huella.GetTotal(rom)];
             for (int i = 0; i < frontales.Length; i++)
                 frontales[i] = GetFrontales(rom, i);
             return frontales;
@@ -104,7 +104,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
         public static void SetFrontales(RomGba rom,IList<Frontales> frontales)
         {            //borro las imagenes
-            int total = PokemonCompleto.GetTotal(rom);
+            int total = Huella.GetTotal(rom);
             int offsetImgFrontalPokemon = Zona.GetOffsetRom(ZonaImgFrontal, rom).Offset;
             for (int i = 0; i < total; i++)
             {

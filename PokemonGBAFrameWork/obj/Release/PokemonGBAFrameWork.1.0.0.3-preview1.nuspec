@@ -13,7 +13,8 @@
     <repository type="Git" url="https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork" />
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="Gabriel.Cat.S.Utilitats" version="1.0.4.3-preview1.0.3" exclude="Build,Analyzers" />
+        <dependency id="Gabriel.Cat.S.Binaris" version="1.0.5-preview1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Gabriel.Cat.S.Utilitats" version="1.0.4.3-preview1.0.5" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
