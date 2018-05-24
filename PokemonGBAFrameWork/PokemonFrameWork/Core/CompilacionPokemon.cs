@@ -37,7 +37,7 @@ namespace PokemonGBAFrameWork
                         compilacionRom = Compilaciones[0];
                     else
                     {
-                        if (Zona.GetOffsetRom(Ataque.ZonaAnimacion, rom, edicion, CompilacionPokemon.Compilaciones[1]).IsAPointer)
+                        if (Zona.GetOffsetRom(AtaqueCompleto.ZonaAnimacion, rom, edicion, CompilacionPokemon.Compilaciones[1]).IsAPointer)
                             compilacionRom = Compilaciones[1];
                         //me falta saber como diferenciar Ruby&Zafiro 1.1 y Ruby&Zafiro 1.2 USA
 

@@ -200,19 +200,19 @@ namespace PokemonGBAFrameWork.Pokemon
 			return (AtaqueAprendido[])ataques.Values;
 
 		}
-		public Ataque[] GetAtaques(int nivel,IList<Ataque> lstAtaquesSource)
+		public AtaqueCompleto[] GetAtaques(int nivel,IList<AtaqueCompleto> lstAtaquesSource)
 		{
 			if (lstAtaquesSource == null)
 				throw new ArgumentNullException();
 			const int MAXATACKSFIGHT = 4;
-			Ataque[] ataques = new Ataque[MAXATACKSFIGHT];
+			AtaqueCompleto[] ataques = new AtaqueCompleto[MAXATACKSFIGHT];
 			AtaqueAprendido[] ataquesAprendidos = GetAtaquesAprendidos(nivel);
 			for (int i = 0; i < MAXATACKSFIGHT; i++)
 				if (ataquesAprendidos[i].Ataque > 0)
 					ataques[i] = lstAtaquesSource[ataquesAprendidos[i].Ataque];
 				else
 			{
-				ataques[i] = new Ataque();
+				ataques[i] = new AtaqueCompleto();
 				
 			}
 			return ataques;
