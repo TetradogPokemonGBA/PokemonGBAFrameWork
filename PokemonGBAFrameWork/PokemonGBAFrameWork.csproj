@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gabriel.Cat.S.Binaris" Version="1.0.5-preview1.0.0" />
-    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.0.4.3-preview1.0.5" />
+    <PackageReference Include="Gabriel.Cat.S.Binaris" Version="1.0.5-preview1.0.2" />
+    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.0.4.3-preview1.0.7" />
   </ItemGroup>
 
 </Project>
