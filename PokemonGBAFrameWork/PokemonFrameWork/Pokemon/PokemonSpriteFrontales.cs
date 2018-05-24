@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,11 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class Frontales
+    public class Frontales:IElementoBinarioComplejo
     {
         private static readonly Paleta PaletaAnimacion;
         public static readonly Zona ZonaImgFrontal;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Frontales));
         Llista<BloqueImagen> sprites;
         static Frontales()
         {
@@ -39,6 +41,9 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 return sprites;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public BitmapAnimated GetAnimacionImagenFrontal(Paleta paleta)
         {
             Bitmap[] gifAnimated = new Bitmap[sprites.Count + 2];

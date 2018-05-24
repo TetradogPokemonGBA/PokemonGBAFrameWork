@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class PaletaNormal
+    public class PaletaNormal:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaPaletaNormal;
-
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PaletaNormal));
         static PaletaNormal()
         {
             ZonaPaletaNormal = new Zona("Paleta Normal");
@@ -23,6 +24,8 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
 
         public Paleta Paleta { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public static PaletaNormal GetPaletaNormal(RomGba rom, int posicion)
         {

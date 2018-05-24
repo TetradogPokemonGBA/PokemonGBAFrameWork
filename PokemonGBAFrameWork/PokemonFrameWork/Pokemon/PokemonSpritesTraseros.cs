@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -6,10 +7,10 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class Traseros
+    public class Traseros:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaImgTrasera;
-
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Traseros));
         Llista<BloqueImagen> sprites;
         static Traseros()
         {
@@ -23,6 +24,9 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             Sprites = new Llista<BloqueImagen>();
         }
         public Llista<BloqueImagen> Sprites { get => sprites; private set => sprites = value; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public static Traseros GetTraseros(RomGba rom,int posicion)
         {
             byte[] auxImg;
@@ -48,7 +52,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         {
             BloqueImagen bloqueCompleto;
             byte[] auxImg;
-            int offsetImgTraseraPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * indexOrdenGameFreakPokemon;
+            int offsetImgTraseraPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
 
             auxImg = new byte[traseros.Sprites.Count *SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA];
             for (int i = 0, pos = 0; i < traseros.Sprites.Count; i++, pos += SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)

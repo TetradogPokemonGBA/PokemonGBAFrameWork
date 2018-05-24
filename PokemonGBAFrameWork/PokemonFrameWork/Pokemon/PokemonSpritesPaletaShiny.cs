@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class PaletaShiny
+    public class PaletaShiny:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaPaletaShiny;
-
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PaletaShiny));
         static PaletaShiny()
         {
 
@@ -25,6 +26,8 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
 
         public Paleta Paleta { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public static PaletaShiny GetPaletaShiny(RomGba rom, int posicion)
         {

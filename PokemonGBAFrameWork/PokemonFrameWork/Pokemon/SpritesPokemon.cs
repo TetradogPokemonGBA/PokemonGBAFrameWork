@@ -9,6 +9,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using PokemonGBAFrameWork.Pokemon.Sprite;
@@ -23,17 +24,12 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// <summary>
 	/// Description of Sprite.
 	/// </summary>
-	public class SpritesCompleto
+	public class SpritesCompleto:IElementoBinarioComplejo
 	{
-
-
-		public static readonly Zona ZonaPaletaShiny;
-		
-
 		
 		public const int LONGITUDLADO=64;
 		public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
-		
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(SpritesCompleto));
 
 
 		public SpritesCompleto()
@@ -65,10 +61,10 @@ namespace PokemonGBAFrameWork.Pokemon
             get;
             set;
 		}
-		
- 
 
-		public static SpritesCompleto GetSprites(RomGba rom,int indexOrdenGameFreakPokemon)
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public static SpritesCompleto GetSprites(RomGba rom,int indexOrdenGameFreakPokemon)
 		{
 	
 			SpritesCompleto spritePokemon=new SpritesCompleto();
