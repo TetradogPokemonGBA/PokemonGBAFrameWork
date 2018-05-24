@@ -5,15 +5,18 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using PokemonGBAFrameWork.Extension;
+using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
 {
-    public class BloqueImagen
+    public class BloqueImagen:IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueImagen));
         public const int LENGTHHEADER = 4;
         public const int LENGTHHEADERCOMPLETO = OffsetRom.LENGTH + LENGTHHEADER;
         public static readonly Creditos Creditos;
         static readonly byte[] DefaultHeader = { 0x0, 0x8 };
         static readonly byte[] DefaultHeader2 = { 0x0, 0x10 };
+
         int offset;
         short id;
         short formato;
@@ -113,6 +116,10 @@ namespace PokemonGBAFrameWork
             {
                 return datosDescomprimidos;
             }
+            set
+            {
+                datosDescomprimidos = value;
+            }
         }
 
         public Llista<Paleta> Paletas
@@ -121,7 +128,11 @@ namespace PokemonGBAFrameWork
             {
                 return paletas;
             }
+
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public Bitmap this[int indexPaleta]
         {
             get { return this[paletas[indexPaleta]]; }

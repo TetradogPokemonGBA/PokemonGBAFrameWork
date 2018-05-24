@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of Pokemon.
 	/// </summary>
-	public class Pokemon:IComparable
+	public class PokemonCompleto:IComparable
 	{
 		public enum LongitudCampos
 		{
@@ -130,7 +130,7 @@ namespace PokemonGBAFrameWork
 		Huella huella;
 		AtaquesAprendidos ataquesAprendidos;
 		
-		static Pokemon()
+		static PokemonCompleto()
 		{
 			ZonaOrdenLocal = new Zona("Orden Local");
 			ZonaOrdenNacional = new Zona("Orden Nacional");
@@ -162,7 +162,7 @@ namespace PokemonGBAFrameWork
 			ZonaStats.Add(0x10D30,EdicionPokemon.RubiEsp,EdicionPokemon.ZafiroEsp);
 
 		}
-		public Pokemon()
+		public PokemonCompleto()
 		{
 			blNombre=new BloqueString((int)LongitudCampos.Nombre);
 			blStats=new BloqueBytes((int)LongitudCampos.TotalStats);

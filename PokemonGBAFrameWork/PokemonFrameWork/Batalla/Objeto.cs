@@ -1,21 +1,19 @@
-﻿using PokemonGBAFrameWork.Objeto;
+﻿using Gabriel.Cat.S.Binaris;
+using PokemonGBAFrameWork.Objeto;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class ObjetoCompleto
+    public class ObjetoCompleto:IElementoBinarioComplejo
     {
-
-
-
-
 
         //estas dos zonas descubiertas con LSAs Complete Item Editor usando los offsets que da para facilitar la investigación
         //creditos a LocksmithArmy por la app :)
         public static readonly Zona ZonaFieldEffect;
         public static readonly Zona ZonaBattleScript;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(ObjetoCompleto));
 
         static ObjetoCompleto()
         {
@@ -59,6 +57,8 @@ namespace PokemonGBAFrameWork
     
         public Sprite Sprite { get; set; }
         public Datos Datos { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         #endregion
 

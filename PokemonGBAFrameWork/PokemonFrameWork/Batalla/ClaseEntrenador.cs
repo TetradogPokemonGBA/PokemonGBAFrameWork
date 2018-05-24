@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using PokemonGBAFrameWork.ClaseEntrenador;
 using System;
@@ -7,14 +8,18 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class ClaseEntrenadorCompleto
+    public class ClaseEntrenadorCompleto : IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(ClaseEntrenadorCompleto));
+
 
         public RateMoney RateMoney { get; set; }
 
         public Sprite Sprite { get; set; }
 
         public Nombre Nombre { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public ClaseEntrenadorCompleto()
         {

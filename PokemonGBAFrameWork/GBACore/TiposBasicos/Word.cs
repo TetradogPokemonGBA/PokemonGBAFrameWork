@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,13 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-  public  class Word : BaseWord
+    public class Word : BaseWord, IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Word));
+
         public const int LENGTH = 2;
+
+
 
         #region Constructores
         public Word(ushort word) : base(Serializar.GetBytes(word)) { }
@@ -32,7 +37,7 @@ namespace PokemonGBAFrameWork
         {
         }
         #endregion
-
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
         #region Conversiones
         public static implicit operator ushort(Word word)
         {

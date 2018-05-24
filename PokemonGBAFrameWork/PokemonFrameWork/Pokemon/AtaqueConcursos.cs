@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Concursos
+    public class Concursos:IElementoBinarioComplejo
     {
         enum ValoresLimitadoresFin
         {
@@ -17,6 +18,8 @@ namespace PokemonGBAFrameWork.Ataque
         {
             DatosConcurso = 15
         }
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Concursos));
+
         public static readonly Zona ZonaDatosConcursosHoenn;
         public static readonly Variable VariableAtaqueConcurso;
         public static readonly Variable VariableAnimacionAtaqueConcurso;
@@ -25,7 +28,9 @@ namespace PokemonGBAFrameWork.Ataque
         static readonly byte[] BytesDesLimitadoAtaquesConcurso;
         static readonly byte[] BytesDesLimitadoAnimacionAtaques;
 
-        BloqueBytes datosConcursosHoenn;
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public BloqueBytes DatosConcursosHoenn { get; set; }
 
         static Concursos()
         {
@@ -69,7 +74,7 @@ namespace PokemonGBAFrameWork.Ataque
         }
         public Concursos()
         {
-            datosConcursosHoenn = new BloqueBytes((int)LongitudCampos.DatosConcurso);
+            DatosConcursosHoenn = new BloqueBytes((int)LongitudCampos.DatosConcurso);
         }
         public static Concursos GetConcursos(RomGba rom, int posicion)
         {
@@ -77,7 +82,7 @@ namespace PokemonGBAFrameWork.Ataque
             if (((EdicionPokemon)rom.Edicion).RegionHoenn)
             {
                 //pongo los datos de los concursos de hoenn
-                concursos.datosConcursosHoenn.Bytes = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset + posicion * OffsetRom.LENGTH, (int)LongitudCampos.DatosConcurso).Bytes;
+                concursos.DatosConcursosHoenn.Bytes = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset + posicion * OffsetRom.LENGTH, (int)LongitudCampos.DatosConcurso).Bytes;
             }
             return concursos;
         }
@@ -102,7 +107,7 @@ namespace PokemonGBAFrameWork.Ataque
                 offsetDatosConcurso = new OffsetRom(rom, offsetPointerDatos);
                 if (offsetDatosConcurso.IsAPointer)
                     rom.Data.Remove(offsetDatosConcurso.Offset, (int)LongitudCampos.DatosConcurso);//quito los viejos
-                OffsetRom.SetOffset(rom, offsetDatosConcurso, rom.Data.SearchEmptySpaceAndSetArray(concursos.datosConcursosHoenn.Bytes));//pongo los nuevos
+                OffsetRom.SetOffset(rom, offsetDatosConcurso, rom.Data.SearchEmptySpaceAndSetArray(concursos.DatosConcursosHoenn.Bytes));//pongo los nuevos
             }
         }
         public static void SetConcursos(RomGba rom, IList<Concursos> concursos)

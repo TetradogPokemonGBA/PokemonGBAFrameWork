@@ -1,14 +1,20 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Habilidad
 {
-    public class Nombre
+    public class Nombre:IElementoBinarioComplejo
     {
         public const int LENGTHNOMBRE = 13;
         public static readonly Zona ZonaNombreHabilidad;
-        BloqueString text;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Nombre));
+
+        public BloqueString Text { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         static Nombre()
         {
             ZonaNombreHabilidad = new Zona("Zona nombre habilidad");
@@ -21,11 +27,11 @@ namespace PokemonGBAFrameWork.Habilidad
         }
         public Nombre()
         {
-            text = new BloqueString(LENGTHNOMBRE);
+            Text = new BloqueString(LENGTHNOMBRE);
         }
         public override string ToString()
         {
-            return text;
+            return Text;
         }
         public static Nombre[] GetNombre(RomGba rom)
         {
@@ -38,7 +44,7 @@ namespace PokemonGBAFrameWork.Habilidad
         {
             Nombre nombre = new Nombre();
             int offsetNombre = Zona.GetOffsetRom(ZonaNombreHabilidad, rom).Offset + index * LENGTHNOMBRE;
-            nombre.text.Texto = BloqueString.GetString(rom, offsetNombre, LENGTHNOMBRE).Texto;
+            nombre.Text.Texto = BloqueString.GetString(rom, offsetNombre, LENGTHNOMBRE).Texto;
             return nombre;
         }
         public static void SetNombre(RomGba rom, int index, Nombre nombre)
@@ -46,7 +52,7 @@ namespace PokemonGBAFrameWork.Habilidad
             int offsetNombre;
             offsetNombre = Zona.GetOffsetRom(ZonaNombreHabilidad, rom).Offset + index * LENGTHNOMBRE;
             BloqueString.Remove(rom, offsetNombre);
-            BloqueString.SetString(rom, offsetNombre, nombre.text);
+            BloqueString.SetString(rom, offsetNombre, nombre.Text);
 
         }
         public static void SetNombre(RomGba rom, IList<Nombre> nombres)

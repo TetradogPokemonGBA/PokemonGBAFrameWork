@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class PokemonEntrenador
+    public class PokemonEntrenador:IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PokemonEntrenador));
+
         Word especie;//quinto byte
         byte ivs;//primer byte
         Word level;//segundo byte no se porque son dos bytes...tendria que ser 1...
@@ -121,5 +124,7 @@ namespace PokemonGBAFrameWork
                 move4 = value;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
     }
 }

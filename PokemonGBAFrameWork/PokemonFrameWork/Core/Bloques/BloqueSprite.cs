@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Binaris;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,7 +17,7 @@ namespace PokemonGBAFrameWork
 	/// <summary>
 	/// Description of BloqueSprite.
 	/// </summary>
-	public class BloqueSprite
+	public class BloqueSprite:IElementoBinarioComplejo
 	{
 		internal enum Medidas
 		{
@@ -26,8 +27,9 @@ namespace PokemonGBAFrameWork
 			Grande = 32,
 			MuyGrande = 64
 		}
-		
-		int offset;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueSprite));
+
+        int offset;
 		int width;
 		int height;
 		byte[] imgData;
@@ -45,22 +47,34 @@ namespace PokemonGBAFrameWork
 			get {
 				return imgData;
 			}
+            set
+            {
+                imgData = value;
+            }
 		}
 		public int Height {
 			get {
 				return height;
 			}
+            set
+            {
+                height = value;
+            }
 		}
 		public int Width {
 			get {
 				return width;
 			}
+            set
+            {
+                width = value;
+            }
 		}
 		public int Offset {
 			get {
 				return offset;
 			}
-			private set {
+			 set {
 				offset = value;
 			}
 		}
@@ -69,9 +83,12 @@ namespace PokemonGBAFrameWork
 			get {
 				return paleta;
 			}
+            set { paleta = value; }
 		}
 
-		public void SetBitmapData(Bitmap bmp,Paleta paleta=null)
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public void SetBitmapData(Bitmap bmp,Paleta paleta=null)
 		{
 			int heghtF = -1, widthF = -1;
 			Medidas[] medidas = (Medidas[])Enum.GetValues(typeof(Medidas));

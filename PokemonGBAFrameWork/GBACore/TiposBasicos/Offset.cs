@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -6,8 +7,9 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class OffsetRom : IComparable
+    public class OffsetRom : IComparable, IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(OffsetRom));
         public const int LENGTH = 4;
         public const int POSICIONIDENTIFICADOR = 3;
         public const byte BYTEIDENTIFICADOR16MB = 0x8;
@@ -63,6 +65,7 @@ namespace PokemonGBAFrameWork
             {
                 return bytesPointer;
             }
+
         }
         public bool IsAPointer
         {
@@ -96,6 +99,9 @@ namespace PokemonGBAFrameWork
                 bytesPointer = new byte[] { bytesPointer[3], bytesPointer[2], bytesPointer[1], identificado };
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public override string ToString()
         {
             const int CARACTERESSTRING = 8;

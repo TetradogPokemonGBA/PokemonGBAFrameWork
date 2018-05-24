@@ -8,6 +8,7 @@
  * créditos Wahackforo (los usuarios que han contribuido para hacer el mapa de la rom pokemon fire red 1.0)
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Binaris;
 using PokemonGBAFrameWork.Habilidad;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,15 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of Habilidad.
     /// </summary>
-    public class HabilidadCompleta
+    public class HabilidadCompleta:IElementoBinarioComplejo
     {
 
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(HabilidadCompleta));
 
         public Descripcion Descripcion { get; set; }
         public Nombre Nombre { get; set; }
 
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public HabilidadCompleta()
         {

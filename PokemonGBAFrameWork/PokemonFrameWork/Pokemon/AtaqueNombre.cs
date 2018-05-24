@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Nombre:IComparable
+    public class Nombre:IComparable,IElementoBinarioComplejo
     {
         enum LongitudCampos
         {
@@ -12,8 +13,11 @@ namespace PokemonGBAFrameWork.Ataque
         }
 
         public static readonly Zona ZonaNombre;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Nombre));
 
         public BloqueString Texto { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         static Nombre()
         {

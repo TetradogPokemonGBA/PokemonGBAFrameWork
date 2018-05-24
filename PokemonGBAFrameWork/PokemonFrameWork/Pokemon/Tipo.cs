@@ -1,23 +1,27 @@
 ﻿using Gabriel.Cat;
-using PokemonGBAFrameWork.Tipo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGBAFrameWork.Pokemon.Tipo;
+using Gabriel.Cat.S.Binaris;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
 	
-	public  class TipoCompleto
+	public  class TipoCompleto:IElementoBinarioComplejo
 	{
 	
 	
 		public static readonly Zona ZonaImagenTipo;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(TipoCompleto));
 
-        Nombre nombre;
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
-		static TipoCompleto()
+        public Nombre Nombre { get; set; }
+
+        static TipoCompleto()
 		{
 			
 			ZonaImagenTipo = new Zona("Imagen Tipo");
@@ -41,7 +45,7 @@ namespace PokemonGBAFrameWork.Pokemon
 
 		public override string ToString()
 		{
-			return nombre.Texto;
+			return Nombre.Texto;
 		}
         public static TipoCompleto GetTipo(RomGba rom,int posicion)
         {
@@ -49,7 +53,7 @@ namespace PokemonGBAFrameWork.Pokemon
 			if (rom == null ||  posicion < 0) throw new ArgumentException();
 
             TipoCompleto tipo = new TipoCompleto();
-            tipo.nombre = Nombre.GetNombre(rom, posicion);
+            tipo.Nombre = Nombre.GetNombre(rom, posicion);
             return tipo;
 		}
 		public static int GetTotal(RomGba rom)
@@ -69,7 +73,7 @@ namespace PokemonGBAFrameWork.Pokemon
 		public static void SetTipo(RomGba rom, TipoCompleto tipo, int posicion)
 		{
 			if (rom == null ||tipo == null || posicion < 0) throw new ArgumentException();
-            Nombre.SetNombre(rom, posicion, tipo.nombre);
+            Nombre.SetNombre(rom, posicion, tipo.Nombre);
 
 		}
 
@@ -81,7 +85,7 @@ namespace PokemonGBAFrameWork.Pokemon
             List<Nombre> nombres = new List<Nombre>();
             for (int i = 0; i < tipos.Count; i++)
             {
-                nombres.Add(tipos[i].nombre);
+                nombres.Add(tipos[i].Nombre);
             }
             Nombre.SetNombre(rom, nombres);
 		}

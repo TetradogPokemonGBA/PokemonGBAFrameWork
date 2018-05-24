@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Objeto
 {
-    public class Datos
+    public class Datos:IElementoBinarioComplejo
     {
         public enum LongitudCampos
         {
@@ -39,6 +40,7 @@ namespace PokemonGBAFrameWork.Objeto
         }
 
         public static readonly Zona ZonaDatosObjeto;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Datos));
 
         BloqueString blNombre;
         Word index;
@@ -231,6 +233,8 @@ namespace PokemonGBAFrameWork.Objeto
                 extraParameter = value;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
         #endregion
         public static int GetTotal(RomGba rom)
         {

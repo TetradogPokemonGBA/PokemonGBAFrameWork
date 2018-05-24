@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using PokemonGBAFrameWork.Extension;
 using System;
@@ -8,8 +9,10 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class Paleta :IComparable, IComparable<Paleta>
+    public class Paleta :IComparable, IComparable<Paleta>, IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Paleta));
+    
         public static System.Drawing.Color BackgroundColorDefault = System.Drawing.Color.Transparent;
         public const int LENGTHHEADER = 4;
         public const int LENGTHHEADERCOMPLETO = OffsetRom.LENGTH + LENGTHHEADER;
@@ -96,6 +99,9 @@ namespace PokemonGBAFrameWork
                 return colores;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public System.Drawing.Color this[int index]
         {
             get { return colores[index]; }

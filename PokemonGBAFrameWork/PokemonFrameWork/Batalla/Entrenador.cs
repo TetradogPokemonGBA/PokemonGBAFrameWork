@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class Entrenador 
+    public class Entrenador:IElementoBinarioComplejo 
     {
         public enum Posicion
         {
@@ -35,7 +36,7 @@ namespace PokemonGBAFrameWork
         public const byte MAXMUSIC = 0x7F;
         public const byte LENGTH = 0x28;
         public static readonly Zona ZonaEntrenador;
-
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Entrenador));
         byte trainerClass;
         bool esUnaEntrenadora;
         byte musicaBatalla;
@@ -192,6 +193,9 @@ namespace PokemonGBAFrameWork
                 inteligencia = value;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public uint CalcularDinero(RomGba rom)
         {
             uint tamañoPokemonBytes = 8;

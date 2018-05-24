@@ -1,11 +1,13 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class EquipoPokemonEntrenador
+    public class EquipoPokemonEntrenador:IElementoBinarioComplejo
     {
         enum Posicion
         {
@@ -29,11 +31,11 @@ namespace PokemonGBAFrameWork
             PokemonIndex = 2,
         }
         public const int MAXPOKEMONENTRENADOR = 6;
-
-        PokemonEntrenador[] equipoPokemon;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(EquipoPokemonEntrenador));
+        Llista<PokemonEntrenador> equipoPokemon;
         public EquipoPokemonEntrenador()
         {
-            equipoPokemon = new PokemonEntrenador[MAXPOKEMONENTRENADOR];
+            equipoPokemon =new Llista<PokemonEntrenador>();
         }
         public int OffsetToDataPokemon
         {
@@ -41,48 +43,38 @@ namespace PokemonGBAFrameWork
             set;
         }
 
-        public PokemonEntrenador[] Equipo
+        public Llista<PokemonEntrenador> Equipo
         {
             get
             {
                 return equipoPokemon;
             }
-            set
-            {
 
-                if (value == null || value.Length == 0)
-                {
-                    value = new PokemonEntrenador[MAXPOKEMONENTRENADOR];
-                    value[0] = new PokemonEntrenador();
-                }
-                else if (value.Length > MAXPOKEMONENTRENADOR)
-                    value = value.SubList(0, MAXPOKEMONENTRENADOR);
-                else
-                    equipoPokemon.SetIList(value);
-                equipoPokemon = value;
-            }
         }
 
         public int Total
         {
-            get { return equipoPokemon.Length; }
+            get { return equipoPokemon.Count; }
         }
         public int NumeroPokemon
         {
             get
             {
                 int num = 0;
-                for (int i = 0; i < equipoPokemon.Length; i++)
+                for (int i = 0; i < equipoPokemon.Count; i++)
                     if (equipoPokemon[i] != null)
                         num++;
                 return num;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         public bool HayAtaquesCustom()
         {
             const ushort NOASIGNADO = 0x0;
             bool hayAtaquesCustom = false;
-            for (int i = 0; i < equipoPokemon.Length && !hayAtaquesCustom; i++)
+            for (int i = 0; i < equipoPokemon.Count && !hayAtaquesCustom; i++)
                 if (equipoPokemon[i] != null)
                     hayAtaquesCustom = equipoPokemon[i].Move1 != NOASIGNADO || equipoPokemon[i].Move2 != NOASIGNADO || equipoPokemon[i].Move3 != NOASIGNADO || equipoPokemon[i].Move4 != NOASIGNADO;
             return hayAtaquesCustom;
@@ -91,7 +83,7 @@ namespace PokemonGBAFrameWork
         {
             const ushort NOASIGNADO = 0x0;
             bool hayObjetosEquipados = false;
-            for (int i = 0; i < equipoPokemon.Length && !hayObjetosEquipados; i++)
+            for (int i = 0; i < equipoPokemon.Count && !hayObjetosEquipados; i++)
                 if (equipoPokemon[i] != null)
                     hayObjetosEquipados = equipoPokemon[i].Item != NOASIGNADO;
             return hayObjetosEquipados;
@@ -124,7 +116,7 @@ namespace PokemonGBAFrameWork
             for (int i = 0, f = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]; i < f; i++)
             {
                 bytesPokemonEquipo = bloqueDatosEquipo.Bytes.SubArray(i * tamañoPokemon, tamañoPokemon);
-                equipoCargado.Equipo[i] = new PokemonEntrenador();
+                equipoCargado.Equipo.Add(new PokemonEntrenador());
                 equipoCargado.Equipo[i].Especie = new Word(bytesPokemonEquipo, (int)Posicion.Especie);//por mirar 
                 equipoCargado.Equipo[i].Nivel = new Word(bytesPokemonEquipo, (int)Posicion.Nivel);
                 equipoCargado.Equipo[i].Ivs = bytesPokemonEquipo[(int)Posicion.Ivs];
@@ -189,7 +181,7 @@ namespace PokemonGBAFrameWork
             tamañoEquipoPokemon = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon;
             bloqueEquipo = new BloqueBytes(tamañoEquipoPokemon);
             //pongo los pokemon en el bloque :D
-            for (int i = 0, index = 0; i < equipo.Equipo.Length; i++)
+            for (int i = 0, index = 0; i < equipo.Equipo.Count; i++)
             {
                 if (equipo.equipoPokemon[i] != null)//como pueden ser null pues
                 {

@@ -8,6 +8,7 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
@@ -21,10 +22,11 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public static class PokemonErrante
     {
-        public class Ruta
+        public class Ruta:IElementoBinarioComplejo
         {
             public const int MAXLENGTH = 7;
             public const byte MAXIMODERUTAS = byte.MaxValue - 1;
+            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Ruta));
 
             public static readonly Variable VariableBancoMapaRutaValido;
             public static readonly Variable VariableColumnasFilaRuta;
@@ -87,7 +89,10 @@ namespace PokemonGBAFrameWork
 
             }
 
-            public byte[] Rutas { get; private set; }
+            public byte[] Rutas { get;  set; }
+
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
             public Ruta()
             {
                 Rutas = new byte[MAXLENGTH];
@@ -147,7 +152,7 @@ namespace PokemonGBAFrameWork
             }
 
         }
-        public class Pokemon
+        public class Pokemon:IElementoBinarioComplejo
         {
 
             public enum Stat
@@ -170,6 +175,8 @@ namespace PokemonGBAFrameWork
                 SieteTurnos//111
 
             }
+            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Pokemon));
+
             public static readonly Variable VariableSpecialPokemonErrante;
             public static readonly Variable VariablePokemonErranteVar;
             public static readonly Variable VariableVitalidadVar;
@@ -178,7 +185,7 @@ namespace PokemonGBAFrameWork
 
             public const int MAXTURNOSDORMIDO = 7;
 
-            PokemonGBAFrameWork.Pokemon pokemon;
+            PokemonGBAFrameWork.PokemonCompleto pokemon;
             Word vida;
             Word nivel;
             byte stats;
@@ -229,14 +236,14 @@ namespace PokemonGBAFrameWork
                                                                                        //logica
                 VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp);
             }
-            public Pokemon(PokemonGBAFrameWork.Pokemon pokemon, Word vida = null, Word nivel = null, byte stats = 0)
+            public Pokemon(PokemonGBAFrameWork.PokemonCompleto pokemon, Word vida = null, Word nivel = null, byte stats = 0)
             {
                 PokemonErrante = pokemon;
                 Vida = vida;
                 Nivel = nivel;
                 Stats = stats;
             }
-            public PokemonGBAFrameWork.Pokemon PokemonErrante
+            public PokemonGBAFrameWork.PokemonCompleto PokemonErrante
             {
                 get
                 {
@@ -367,6 +374,8 @@ namespace PokemonGBAFrameWork
                     stats = bitsStat.ToArray().ToByte();
                 }
             }
+
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
             public bool GetStatNoDormido(Stat i)
             {

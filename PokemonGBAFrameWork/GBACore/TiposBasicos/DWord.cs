@@ -3,11 +3,12 @@ using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
 {
-    public class DWord : BaseWord
+    public class DWord : BaseWord,IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(DWord));
         public const int LENGTH = 4;
 
         #region Constructores
@@ -31,6 +32,8 @@ namespace PokemonGBAFrameWork
         public unsafe DWord(byte* ptrRom, int offsetDWord) : base(ptrRom, offsetDWord, LENGTH)
         {
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
         #endregion
         #region Conversiones
         public static implicit operator uint(DWord word)

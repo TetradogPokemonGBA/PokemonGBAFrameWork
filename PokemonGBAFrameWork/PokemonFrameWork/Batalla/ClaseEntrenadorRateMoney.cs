@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,14 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class RateMoney
+    public class RateMoney:IElementoBinarioComplejo
     {
         enum Longitud
         {
             RateMoney = 4,
         }
 
-
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(RateMoney));
         public static readonly Zona ZonaRatesMoney;
 
         byte rate;
@@ -31,6 +32,8 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             //falta rate money Rubi y Zafiro???no hay?????
         }
         public byte Rate { get => rate; set => rate = value; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public static RateMoney[] GetRateMoney(RomGba rom)
         {

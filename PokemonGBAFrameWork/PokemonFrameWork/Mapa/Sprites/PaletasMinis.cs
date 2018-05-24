@@ -11,16 +11,18 @@ using System;
 using Gabriel.Cat.S.Utilitats;
 
 using Gabriel.Cat.S.Extension;
-
+using Gabriel.Cat.S.Binaris;
 
 namespace PokemonGBAFrameWork.Mini
 {
 	/// <summary>
 	/// Description of PaletasMinis.
 	/// </summary>
-	public class Paletas
+	public class Paletas:IElementoBinarioComplejo
 	{
-		public static readonly Zona ZonaMiniSpritesPaleta;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Paletas));
+
+        public static readonly Zona ZonaMiniSpritesPaleta;
 		Llista<Paleta> paletas;
 		static Paletas()
 		{
@@ -51,7 +53,10 @@ namespace PokemonGBAFrameWork.Mini
 				return paletas;
 			}
 		}
-		public Paleta this[byte idPaleta]
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public Paleta this[byte idPaleta]
 		{
 			get{
 				return paletas.Filtra((p)=>p.SortID==idPaleta)[0];

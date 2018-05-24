@@ -44,6 +44,7 @@ namespace PokemonGBAFrameWork
         public byte[] Data
         {
             get { return data; }
+            set { data = value; }
         }
         #region IComparable implementation
         public int CompareTo(object obj)

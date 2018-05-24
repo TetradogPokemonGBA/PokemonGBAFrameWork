@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class PokeballBatalla
+    public class PokeballBatalla:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaPaletaPokeballBatalla;
         public static readonly Zona ZonaSpritePokeballBatalla;
-        BloqueImagen blSprite;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PokeballBatalla));
+
         static PokeballBatalla()
         {
             ZonaSpritePokeballBatalla = new Zona("Zona sprite pokeball batalla");
@@ -30,17 +32,12 @@ namespace PokemonGBAFrameWork
         }
         public PokeballBatalla()
         {
-            blSprite = new BloqueImagen();
+            Sprite = new BloqueImagen();
         }
 
-        public BloqueImagen Sprite
-        {
-            get
-            {
-                return blSprite;
-            }
-            set { blSprite = value; }
-        }
+        public BloqueImagen Sprite { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public static int GetTotal(RomGba rom)
         {

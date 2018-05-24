@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using Gabriel.Cat.S.Binaris;
 using PokemonGBAFrameWork;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class Sprite
+    public class Sprite:IElementoBinarioComplejo
     {
-        public class Data
+        public class Data:IElementoBinarioComplejo
         {
+            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Data));
             public static readonly Zona ZonaImgSprite;
 
             static Data()
@@ -30,6 +32,8 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             }
 
             public BloqueImagen Img { get; set; }
+
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
             public static Data GetData(RomGba rom, int index)
             {
@@ -58,11 +62,14 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
                     SetData(rom, i, datas[i]);
             }
         }
-        public class Paleta
+        public class Paleta:IElementoBinarioComplejo
         {
+            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Paleta));
             public static readonly Zona ZonaPaletaSprite;
 
             public PokemonGBAFrameWork.Paleta Colores { get; set; }
+
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
             static Paleta()
             {
@@ -118,9 +125,12 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
         }
 
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Sprite));
         public Data DataImg { get; set; }
         public Paleta PaletaImg { get; set; }
         public Bitmap Imagen { get { return DataImg.Img + PaletaImg.Colores; } }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         public static Sprite[] GetSprite(RomGba rom)
         {

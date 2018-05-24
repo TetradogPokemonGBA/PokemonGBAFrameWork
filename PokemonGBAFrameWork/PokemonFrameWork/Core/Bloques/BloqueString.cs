@@ -1,11 +1,12 @@
-﻿using Gabriel.Cat.S.Extension;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class BloqueString : IComparable, IBloqueConNombre
+    public class BloqueString : IComparable, IBloqueConNombre,IElementoBinarioComplejo
     {
         enum CaracteresEspeciales
         {
@@ -71,7 +72,7 @@ namespace PokemonGBAFrameWork
 
         public const int MAXIMODECARACTERESDESHABILITADO = 0;
         static readonly string MARCAFIN = ((char)255) + "";
-
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueString));
         int maxCaracteres;
         int offsetInicio;
         string texto;
@@ -195,10 +196,15 @@ namespace PokemonGBAFrameWork
             }
             set
             {
-                throw new NotImplementedException();
+                idUnico = value;
             }
         }
+
+
         #endregion
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         #region IComparable implementation
         public int CompareTo(object obj)
         {

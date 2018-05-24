@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Drawing;
@@ -15,10 +16,12 @@ namespace PokemonGBAFrameWork.Mini
 	/// <summary>
 	/// Description of MiniSprites.
 	/// </summary>
-	public class Sprite
+	public class Sprite:IElementoBinarioComplejo
 	{
 		const int TAMAÑOHEADER=36;
-		public static readonly Zona ZonaMiniSpritesData;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Sprite));
+
+        public static readonly Zona ZonaMiniSpritesData;
 		OffsetRom pt1,pt2,pt3,pt4,pt5;//de momento solo se que el pt4 es para los frames...los demás deben de ser para algo pero no lo sé...
 		Llista<BloqueSprite> blSprites;
 		Paleta paleta;
@@ -56,25 +59,31 @@ namespace PokemonGBAFrameWork.Mini
 			get {
 				return height;
 			}
+            set { height = value; }
 		}
 		public int Width {
 			get {
 				return width;
 			}
+            set { width = value; }
 		}
 		public Paleta Paleta {
 			get {
 				return paleta;
 			}
-			private set{paleta=value;}
+			 set{paleta=value;}
 		}
 
 		public OffsetRom OffsetImage {
 			get {
 				return pt4;
 			}
+            set { pt4 = value; }
 		}
-		public Bitmap this[int indexMini]
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public Bitmap this[int indexMini]
 		{
 			get{
 				return blSprites[indexMini].GetBitmap(paleta);

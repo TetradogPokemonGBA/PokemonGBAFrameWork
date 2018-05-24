@@ -8,6 +8,7 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,14 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// <summary>
 	/// Description of Huella.
 	/// </summary>
-	public class Huella
+	public class Huella:IElementoBinarioComplejo
 	{
 		public const int LENGHT=32;
 		static readonly Color[] PaletaHuella={Color.Transparent,Color.Black};
 		public static readonly Zona ZonaHuella;
-		
-		BloqueBytes blImgHuellaGBA;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Huella));
+
+        BloqueBytes blImgHuellaGBA;
 		
 		static Huella()
 		{
@@ -58,9 +60,12 @@ namespace PokemonGBAFrameWork.Pokemon
 			get {
 				return blImgHuellaGBA;
 			}
+            set { blImgHuellaGBA = value; }
 		}
-		
-		public Bitmap GetImagen()
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public Bitmap GetImagen()
 		{
 			return ReadImage(blImgHuellaGBA.Bytes);
 

@@ -3,11 +3,12 @@ using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
 {
-    public class BloqueBytes : IClonable<BloqueBytes>, ICloneable
+    public class BloqueBytes : IClonable<BloqueBytes>, ICloneable,IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueBytes));
         int offset;
         byte[] datos;
         #region Constructores
@@ -38,7 +39,7 @@ namespace PokemonGBAFrameWork
             {
                 return offset;
             }
-            private set
+             set
             {
                 offset = value;
             }
@@ -80,6 +81,8 @@ namespace PokemonGBAFrameWork
                 return fin;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
         #endregion
 
         #region Metodos

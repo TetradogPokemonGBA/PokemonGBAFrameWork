@@ -1,19 +1,25 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class Nombre
+    public class Nombre : IElementoBinarioComplejo
     {
         enum Longitud
         {
             Nombre = 0xD,
         }
+
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Nombre));
+        
         public static readonly Zona ZonaNombres;
         BloqueString blNombre;
 
         public BloqueString Text { get => blNombre; set => blNombre = value; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
         static Nombre()
         {

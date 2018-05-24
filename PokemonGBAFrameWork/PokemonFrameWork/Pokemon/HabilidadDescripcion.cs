@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Habilidad
 {
-   public class Descripcion
+   public class Descripcion:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaDescripcionHabilidad;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Descripcion));
 
         public BloqueString Texto { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         static Descripcion()
         {
             ZonaDescripcionHabilidad = new Zona("Zona descripcion habilidad");

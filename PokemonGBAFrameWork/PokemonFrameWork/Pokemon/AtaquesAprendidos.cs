@@ -13,17 +13,20 @@ using System.Collections.Generic;
 using Gabriel.Cat;
 using Gabriel.Cat.S.Utilitats;
 using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Binaris;
+
 namespace PokemonGBAFrameWork.Pokemon
 {
 	/// <summary>
 	/// Description of AtaquesAprendidos.
 	/// </summary>
-	public class AtaquesAprendidos:IComparable,IComparable<AtaquesAprendidos>
+	public class AtaquesAprendidos:IComparable,IComparable<AtaquesAprendidos>,IElementoBinarioComplejo
 	{
-		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable
+		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable,IElementoBinarioComplejo
 		{
-			
-			Word ataque;// :S no acabo de ver que sea asi...porque no se lee ni se escribe como seria un word...o eso me parece...por mirar...
+            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(AtaqueAprendido));
+
+            Word ataque;// :S no acabo de ver que sea asi...porque no se lee ni se escribe como seria un word...o eso me parece...por mirar...
 			byte nivel;
 
 			public AtaqueAprendido(Word ataque=null, byte nivel=1)
@@ -64,7 +67,9 @@ namespace PokemonGBAFrameWork.Pokemon
 				}
 			}
 
-			public int CompareTo(object other)
+            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+            public int CompareTo(object other)
 			{
 				return CompareTo(other as AtaqueAprendido);
 			}
@@ -81,14 +86,15 @@ namespace PokemonGBAFrameWork.Pokemon
 				return Ataque+":"+Nivel;
 			}
 		}
-		
-		public static readonly Zona ZonaAtaquesAprendidos;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(AtaquesAprendidos));
+
+        public static readonly Zona ZonaAtaquesAprendidos;
 		public static readonly byte[] MarcaFin;
 
 		int offsetBytesAtaqueAprendido;
 		Llista<AtaqueAprendido> ataques;
-        IdUnico id;
-		static AtaquesAprendidos()
+
+        static AtaquesAprendidos()
 		{
 			ZonaAtaquesAprendidos = new Zona("Ataques Aprendidos");
 			MarcaFin = new byte[] { 0xFF, 0xFF };
@@ -103,7 +109,7 @@ namespace PokemonGBAFrameWork.Pokemon
 		public AtaquesAprendidos()
 		{
 			Ataques = new Llista<AtaqueAprendido>();
-            id = new IdUnico();
+            Id = new IdUnico();
 		}
 		public int OffsetBytesAtaqueAprendido
 		{
@@ -130,7 +136,12 @@ namespace PokemonGBAFrameWork.Pokemon
 				ataques = value;
 			}
 		}
-		public bool EstaElAtaque(int ataque)
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public IdUnico Id { get; set; }
+
+        public bool EstaElAtaque(int ataque)
 		{
 			bool esta = false;
 			for (int i = 0; i < Ataques.Count && !esta; i++)
@@ -231,7 +242,7 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             int compareTo;
             if (other != null)
-                compareTo = id.CompareTo(other.id);
+                compareTo = Id.CompareTo(other.Id);
             else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             return compareTo;
         }

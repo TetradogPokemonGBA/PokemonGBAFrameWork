@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Objeto
 {
-    public class Sprite
+    public class Sprite:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaImagenesObjeto;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Sprite));
+
         public BloqueImagen Imagen { get; set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
         static Sprite()
         {
             ZonaImagenesObjeto = new Zona("Imagen Y Paleta Objeto");

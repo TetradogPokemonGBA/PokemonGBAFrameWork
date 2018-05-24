@@ -8,6 +8,7 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using PokemonGBAFrameWork.Ataque;
@@ -19,12 +20,13 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of Ataque.
     /// </summary>
-    public class AtaqueCompleto:IComparable
+    public class AtaqueCompleto:IComparable,IElementoBinarioComplejo
 	{
 		//son 9 bits en total de alli el 511 :) asi en 2 bytes hay ataque y nivel :)
 		public const int MAXATAQUESSINASM = 511;//hasta que no sepa como se cambia para poner más se queda este maximo :) //hay un tutorial de como hacerlo pero se necesita insertar una rutina ASM link:http://www.pokecommunity.com/showthread.php?t=263479
-	
-		enum LongitudCampos
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(AtaqueCompleto));
+
+        enum LongitudCampos
 		{
 					
 			PointerEfecto = 4,
@@ -143,10 +145,12 @@ namespace PokemonGBAFrameWork
 			}
             set { datosConcursosHoenn = value; }
 		}
-		#region IComparable implementation
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        #region IComparable implementation
 
 
-		public int CompareTo(object obj)
+        public int CompareTo(object obj)
 		{
             int compareTo;
             AtaqueCompleto ataque = obj as AtaqueCompleto;

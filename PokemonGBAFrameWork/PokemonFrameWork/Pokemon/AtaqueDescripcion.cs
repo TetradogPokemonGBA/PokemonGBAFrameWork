@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Binaris;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Descripcion
+    public class Descripcion:IElementoBinarioComplejo
     {
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Descripcion));
+
         public static readonly Zona ZonaDescripcion;
-        BloqueString descripcion;
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public BloqueString Texto { get; set; }
+
         static Descripcion()
         {
             ZonaDescripcion = new Zona("DescripciónAtaque");
@@ -43,7 +50,7 @@ namespace PokemonGBAFrameWork.Ataque
             {
                 offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + (posicion - 1)*OffsetRom.LENGTH).Offset;
                 descripcion = new Descripcion();
-                descripcion.descripcion = BloqueString.GetString(rom, offsetDescripcion);
+                descripcion.Texto = BloqueString.GetString(rom, offsetDescripcion);
             }
             else descripcion = null;
             return descripcion;
@@ -63,7 +70,7 @@ namespace PokemonGBAFrameWork.Ataque
             {
                 offsetDescripcion = offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + (posicion - 1) * OffsetRom.LENGTH).Offset;
                 BloqueString.Remove(rom, offsetDescripcion);
-                rom.Data.SetArray(offsetDescripcion, new OffsetRom(BloqueString.SetString(rom, descripcion.descripcion)).BytesPointer);
+                rom.Data.SetArray(offsetDescripcion, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto)).BytesPointer);
             }
         }
         public static void SetDescripcion(RomGba rom,IList<Descripcion> descripcions)

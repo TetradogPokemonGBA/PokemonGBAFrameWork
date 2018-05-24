@@ -8,13 +8,14 @@
  *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using System;
 using System.Collections.Generic;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Datos : IComparable<Datos>
+    public class Datos : IComparable<Datos>,IElementoBinarioComplejo
     {
 
         enum Custom
@@ -45,11 +46,21 @@ namespace PokemonGBAFrameWork.Ataque
         {
             Fisico, Especial, Estatus
         }
+
         public static readonly Creditos Creditos;
         public static readonly Zona ZonaDatosAtaques;
+        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Datos));
 
         public const int Longitud = 12;
-
+        BloqueBytes blDatosAtaque;
+        /* custom
+          el primero 1 Makes contact
+          el segundo 2 Is affected by Protect
+          el tercero 4 is affected by magic coat
+          el cuarto 8 is affected by snatch
+          el quinto 10 is affected by mirror move
+          el sexto 20 is affected by king's rock
+		 */
         static Datos()
         {
             Creditos = new Creditos();
@@ -64,15 +75,7 @@ namespace PokemonGBAFrameWork.Ataque
             ZonaDatosAtaques.Add(0xCA54, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
 
         }
-        BloqueBytes blDatosAtaque;
-        /* custom
-          el primero 1 Makes contact
-          el segundo 2 Is affected by Protect
-          el tercero 4 is affected by magic coat
-          el cuarto 8 is affected by snatch
-          el quinto 10 is affected by mirror move
-          el sexto 20 is affected by king's rock
-		 */
+
         //los ultimos bytes puede ser la parte "Extra" de PGE -Attack Editor
 
         public Datos()
@@ -373,6 +376,8 @@ namespace PokemonGBAFrameWork.Ataque
                 blDatosAtaque.Bytes[(int)CamposDatosAtaque.PadByte3] = value;
             }
         }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
         #endregion
         private bool IsCustomEnabled(int indexCustomToCalculate)
         {
