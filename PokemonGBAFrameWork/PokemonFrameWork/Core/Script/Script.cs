@@ -12,6 +12,7 @@ using System.Text;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 using PokemonGBAFrameWork.ComandosScript;
+
 namespace PokemonGBAFrameWork
 {
 	/// <summary>
@@ -778,6 +779,7 @@ namespace PokemonGBAFrameWork
 			}
 		}
 
+
 		#region ILastResult implementation
 		public IList<object> LastResult {
 			get {
@@ -849,8 +851,8 @@ namespace PokemonGBAFrameWork
 		/// <param name="idEnd"></param>
 		/// <param name="etiqueta"></param>
 		/// <returns></returns>
-		public string GetDeclaracionXSE(bool isEnd = false, string etiqueta = "Start")
-		{
+		public string GetDeclaracionXSE(string etiqueta = "Start", bool isEnd = false)
+        {
 			
 			if (etiqueta == null)
 				throw new ArgumentNullException("etiqueta");
@@ -866,15 +868,24 @@ namespace PokemonGBAFrameWork
 				strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
 			}
 			strSCript.Append(ENTER);
-			if (isEnd)
-				strSCript.Append("end");
-			else
-				strSCript.Append("return");
-			
+            if (EsUnaFuncionAcabadaEnEND(ComandosScript[ComandosScript.Count-1]))
+            {
+                if (isEnd)
+                    strSCript.Append("end");
+                else
+                    strSCript.Append("return");
+            }
 			return strSCript.ToString();
 			
 		}
-		public byte[] GetDeclaracion(RomGba rom, params object[] parametros)
+
+        private bool EsUnaFuncionAcabadaEnEND(Comando comando)
+        {
+            IEndScript comandoEnd = comando as IEndScript;
+            return comandoEnd != null && comandoEnd.IsEnd;
+        }
+
+        public byte[] GetDeclaracion(RomGba rom, params object[] parametros)
 		{
 			int sizeTotal = 1;//el utimo byte
 			int offset = 0;
@@ -899,12 +910,14 @@ namespace PokemonGBAFrameWork
 				
 				offset += comandosScript[i].Size;
 			}
-			
-			if (isEnd)
-				bytesDeclaracion[offset] = END;
-			else
-				bytesDeclaracion[offset] = RETURN;
-			
+
+            if (EsUnaFuncionAcabadaEnEND(ComandosScript[ComandosScript.Count - 1]))
+            {
+                if (isEnd)
+                    bytesDeclaracion[offset] = END;
+                else
+                    bytesDeclaracion[offset] = RETURN;
+            }
 			return bytesDeclaracion;
 		}
 		

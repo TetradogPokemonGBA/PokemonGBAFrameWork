@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork.ComandosScript
   {}
   public override string Descripcion {
    get {
-    return "Bajo investigacion.";
+    return "Bajo investigacion.Podria actuar como nop.";
    }
   }
 
@@ -42,11 +42,7 @@ namespace PokemonGBAFrameWork.ComandosScript
     return "CmdD5";
    }
   }
-  public override int Size {
-   get {
-    return SIZE;
-   }
-  }
+
                          
   
  }

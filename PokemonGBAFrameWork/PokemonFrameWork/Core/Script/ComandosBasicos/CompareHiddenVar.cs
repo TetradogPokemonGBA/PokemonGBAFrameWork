@@ -3,7 +3,7 @@
  * Licencia GNU GPL V3
  */
 using System;
-
+//corregido http://www.sphericalice.com/romhacking/documents/script/index.html#c-77
 namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID = 0xCC;
 		public const int SIZE = 4;
 		Byte variable;
-		Word valorAComparar;
+		DWord valorAComparar;
  
-		public CompareHiddenVar(Byte variable, Word valorAComparar)
+		public CompareHiddenVar(Byte variable, DWord valorAComparar)
 		{
 			Variable = variable;
 			ValorAComparar = valorAComparar;
@@ -60,7 +60,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get{ return variable; }
 			set{ variable = value; }
 		}
-		public Word ValorAComparar {
+		public DWord ValorAComparar {
 			get{ return valorAComparar; }
 			set{ valorAComparar = value; }
 		}
@@ -73,15 +73,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			variable = *(ptrRom + offsetComando);
 			offsetComando++;
-			valorAComparar = new Word(ptrRom, offsetComando);
+			valorAComparar = new DWord(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = variable;
-			++ptrRomPosicionado; 
-			Word.SetData(ptrRomPosicionado, ValorAComparar);
+			++ptrRomPosicionado;
+            DWord.SetData(ptrRomPosicionado, ValorAComparar);
 		}
 	}
 }

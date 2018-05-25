@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-
+//corregido http://www.sphericalice.com/romhacking/documents/script/index.html#c-77
 namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
@@ -16,14 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cmd2C:Comando
 	{
 		public const byte ID=0x2C;
-		public const int SIZE=1+Word.LENGTH*2;
-		Word desconocido1;
-		Word desconocido2;
-		
-		public Cmd2C(Word desconocido1,Word desconocido2)	
+
+		public Cmd2C()	
 		{
-			Desconocido1=desconocido1;
-			Desconocido2=desconocido2;
+
 		}
 			
 		public Cmd2C(RomGba rom,int offset):base(rom,offset)
@@ -35,7 +31,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Uso desconocido";
+				return "Uso desconocido, podria hacer igual que nop";
 			}
 		}
 
@@ -49,44 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return "Cmd2C";
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word Desconocido1 {
-			get {
-				return desconocido1;
-			}
-			set {
-				desconocido1 = value;
-			}
-		}
 
-		public Word Desconocido2 {
-			get {
-				return desconocido2;
-			}
-			set {
-				desconocido2 = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{Desconocido1,Desconocido2};
-		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-		{
-			desconocido1=new Word(ptrRom,offsetComando);
-			desconocido2=new Word(ptrRom,offsetComando+Word.LENGTH);
-		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,desconocido1);
-			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,desconocido2);
-		}
+		
 	}
 }

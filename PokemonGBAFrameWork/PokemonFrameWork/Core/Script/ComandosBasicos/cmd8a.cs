@@ -3,7 +3,7 @@
  * Licencia GNU GPL V3
  */
 using System;
-
+//corregido http://www.sphericalice.com/romhacking/documents/script/index.html#c-77
 namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
@@ -12,16 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cmd8A:Comando
 	{
 		public const byte ID=0x8A;
-		public const int SIZE=4;
-		Byte unKnow1;
-		Byte unKnow2;
-		Byte unKnow3;
-		
-		public Cmd8A(Byte unKnow1,Byte unKnow2,Byte unKnow3)
+
+		public Cmd8A()
 		{
-			UnKnow1=unKnow1;
-			UnKnow2=unKnow2;
-			UnKnow3=unKnow3;
+
 			
 		}
 		
@@ -48,48 +42,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return "Cmd8A";
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Byte UnKnow1
-		{
-			get{ return unKnow1;}
-			set{unKnow1=value;}
-		}
-		public Byte UnKnow2
-		{
-			get{ return unKnow2;}
-			set{unKnow2=value;}
-		}
-		public Byte UnKnow3
-		{
-			get{ return unKnow3;}
-			set{unKnow3=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{unKnow1,unKnow2,unKnow3};
-		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-		{
-			unKnow1=*(ptrRom+offsetComando);
-			offsetComando++;
-			unKnow2=*(ptrRom+offsetComando);
-			offsetComando++;
-			unKnow3=*(ptrRom+offsetComando);
-		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=unKnow1;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado=unKnow2;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado=unKnow3;
-		}
+	
 	}
 }

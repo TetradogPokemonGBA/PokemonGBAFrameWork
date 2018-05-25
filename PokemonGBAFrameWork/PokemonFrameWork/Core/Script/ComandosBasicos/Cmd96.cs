@@ -3,7 +3,7 @@
  * Licencia GNU GPL V3
  */
 using System;
-
+//corregido http://www.sphericalice.com/romhacking/documents/script/index.html#c-77
 namespace PokemonGBAFrameWork.ComandosScript
 {
 	/// <summary>
@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cmd96:Comando
 	{
 		public const byte ID = 0x96;
-		public const int SIZE = 3;
-		Word unknow;
+	
+
  
-		public Cmd96(Word unknow)
+		public Cmd96()
 		{
-			Unknow = unknow;
  
 		}
    
@@ -35,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Aparentemente no hace absolutamente nada";
+				return "Aparentemente no hace absolutamente nada al igual que nop";
 			}
 		}
 
@@ -49,29 +48,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return "Cmd96";
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word Unknow {
-			get{ return unknow; }
-			set{ unknow = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ unknow };
-		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-		{
-			unknow = new Word(ptrRom, offsetComando);
-		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado, Unknow);
-		}
+		
 	}
 }
