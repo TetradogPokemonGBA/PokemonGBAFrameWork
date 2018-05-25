@@ -13,7 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x61;
 		public const int SIZE=3;
-		Word entrenador;
+        public const string NOMBRE = "ClearTrainerFlag";
+        Word entrenador;
 
 		
 		public ClearTrainerFlag(Word entrenador)
@@ -43,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ClearTrainerFlag";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

@@ -17,8 +17,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x14;
 		public const int SIZE=0x3;
-		
-		byte bankDestination;
+        public const string NOMBRE = "Copyscriptbanks";
+        byte bankDestination;
 		byte bankSource;
 		
 		public Copyscriptbanks(byte bankDestination,byte bankSource)
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Copyscriptbanks";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

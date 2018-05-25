@@ -13,7 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x74;
 		public const int SIZE = 5;
-		Byte posicionX;
+        public const string NOMBRE = "ClearBox";
+        Byte posicionX;
 		Byte posicionY;
 		Byte ancho;
 		Byte alto;
@@ -52,7 +53,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ClearBox";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

@@ -12,8 +12,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareFarByteToByte : CompareFarByteToBank
 	{
 		public const int ID = 0x1F;
-		
-		public CompareFarByteToByte(byte bank,int offsetToByte):base(bank,offsetToByte)
+        public const string NOMBRE = "CompareFarByteToByte";
+
+        public CompareFarByteToByte(byte bank,int offsetToByte):base(bank,offsetToByte)
 		{}
 		public CompareFarByteToByte(byte bank,OffsetRom offsetToByte):base(bank,offsetToByte)
 		{}
@@ -31,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "CompareFarByteToByte";
+				return NOMBRE;
 			}
 		}
 

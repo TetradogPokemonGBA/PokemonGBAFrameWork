@@ -17,8 +17,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x1B;
 		public const int SIZE=5;
-		
-		Word bank1;
+        public const string NOMBRE = "CompareBanks";
+        Word bank1;
 		Word bank2;
 		public CompareBanks(Word bank1,Word bank2)
 		{
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "CompareBanks";
+				return NOMBRE;
 			}
 		}
 

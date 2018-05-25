@@ -13,8 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x8E;
 		public const int SIZE=1;
-		
-		public ContestLinkTransfer()
+        public const string NOMBRE = "ContestLinkTransfer";
+        public ContestLinkTransfer()
 		{
 			
 		}
@@ -39,7 +39,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ContestLinkTransfer";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

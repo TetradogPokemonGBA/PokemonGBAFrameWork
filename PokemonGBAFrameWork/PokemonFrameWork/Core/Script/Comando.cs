@@ -19,8 +19,8 @@ namespace PokemonGBAFrameWork
 	public abstract class Comando
 	{
 		public const int SIZE = 1;
-		
-		internal Comando()
+
+        internal Comando()
 		{
 		}
 		internal Comando(RomGba rom, int offsetComando)

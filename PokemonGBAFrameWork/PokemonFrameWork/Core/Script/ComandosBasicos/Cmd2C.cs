@@ -16,8 +16,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cmd2C:Comando
 	{
 		public const byte ID=0x2C;
-
-		public Cmd2C()	
+        public const string NOMBRE = "Cmd2C";
+        public Cmd2C()	
 		{
 
 		}
@@ -42,7 +42,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Cmd2C";
+				return NOMBRE;
 			}
 		}
 

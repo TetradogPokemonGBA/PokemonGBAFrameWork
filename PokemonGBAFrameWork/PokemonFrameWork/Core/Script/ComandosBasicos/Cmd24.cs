@@ -17,8 +17,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x24;
 		public const int SIZE=1+OffsetRom.LENGTH;
-		
-		OffsetRom offsetDesconocido;
+        public const string NOMBRE = "Cmd24";
+        OffsetRom offsetDesconocido;
 		
 		public Cmd24(int offset):this(new OffsetRom(offset))
 		{}
@@ -47,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Cmd24";
+				return NOMBRE;
 			}
 		}
 

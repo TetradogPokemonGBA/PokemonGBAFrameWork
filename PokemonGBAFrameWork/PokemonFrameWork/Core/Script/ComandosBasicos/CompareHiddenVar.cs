@@ -13,7 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xCC;
 		public const int SIZE = 4;
-		Byte variable;
+        public const string NOMBRE = "CompareHiddenVar";
+        Byte variable;
 		DWord valorAComparar;
  
 		public CompareHiddenVar(Byte variable, DWord valorAComparar)
@@ -48,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CompareHiddenVar";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

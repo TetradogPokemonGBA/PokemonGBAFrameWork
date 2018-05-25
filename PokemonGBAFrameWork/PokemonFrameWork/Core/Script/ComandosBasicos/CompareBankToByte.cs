@@ -17,7 +17,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x1C;
 		public const int SIZE=3;
-		byte bank;
+        public const string NOMBRE = "CompareBankToByte";
+        byte bank;
 		byte valueToCompare;
 		public CompareBankToByte(byte bank,byte valorAComparar)
 		{
@@ -32,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Nombre {
 			get {
-				return "CompareBankToByte";
+				return NOMBRE;
 			}
 		}
 		public override byte IdComando {

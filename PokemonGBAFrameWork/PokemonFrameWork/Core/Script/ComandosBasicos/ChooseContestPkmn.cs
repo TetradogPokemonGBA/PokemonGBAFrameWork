@@ -13,8 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x8B;
 		public const int SIZE=1;
-		
-		public ChooseContestPkmn()
+        public const string NOMBRE = "ChooseContestPkmn";
+        public ChooseContestPkmn()
 		{
 			
 		}
@@ -39,14 +39,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ChooseContestPkmn";
+				return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+
 		protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.AXP|AbreviacionCanon.AXV|AbreviacionCanon.BPE;

@@ -6,47 +6,55 @@ using System;
 
 namespace PokemonGBAFrameWork.ComandosScript
 {
- /// <summary>
- /// Description of CmdD6.
- /// </summary>
- public class CmdD6:Comando
- {
-  public const byte ID=0xD6;
-  public const int SIZE=1;
-  
-  public CmdD6() 
-  {
-   
-  }
-   
-  public CmdD6(RomGba rom,int offset):base(rom,offset)
-  {
-  }
-  public CmdD6(byte[] bytesScript,int offset):base(bytesScript,offset)
-  {}
-  public unsafe CmdD6(byte* ptRom,int offset):base(ptRom,offset)
-  {}
-  public override string Descripcion {
-   get {
-    return "Bajo investigación.";
-   }
-  }
+    /// <summary>
+    /// Description of CmdD6.
+    /// </summary>
+    public class CmdD6 : Comando
+    {
+        public const byte ID = 0xD6;
+        public const int SIZE = 1;
+        public const string NOMBRE = "CmdD6";
+        public CmdD6()
+        {
 
-  public override byte IdComando {
-   get {
-    return ID;
-   }
-  }
-  public override string Nombre {
-   get {
-    return "CmdD6";
-   }
-  }
-  public override int Size {
-   get {
-    return SIZE;
-   }
-  }
-                        
- }
+        }
+
+        public CmdD6(RomGba rom, int offset) : base(rom, offset)
+        {
+        }
+        public CmdD6(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        { }
+        public unsafe CmdD6(byte* ptRom, int offset) : base(ptRom, offset)
+        { }
+        public override string Descripcion
+        {
+            get
+            {
+                return "Bajo investigación.";
+            }
+        }
+
+        public override byte IdComando
+        {
+            get
+            {
+                return ID;
+            }
+        }
+        public override string Nombre
+        {
+            get
+            {
+                return NOMBRE;
+            }
+        }
+        public override int Size
+        {
+            get
+            {
+                return SIZE;
+            }
+        }
+
+    }
 }

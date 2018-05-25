@@ -17,8 +17,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x15;
 		public const int SIZE=0x9;
-		
-		OffsetRom offsetDestination;
+        public const string NOMBRE = "CopyByte";
+        OffsetRom offsetDestination;
 		OffsetRom offsetSource;
 		
 		public CopyByte(int offsetDestination, int offsetSource):this(new OffsetRom(offsetDestination),new OffsetRom(offsetSource))
@@ -48,7 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Copybyte";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

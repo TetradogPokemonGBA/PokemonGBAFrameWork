@@ -17,8 +17,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const int ID=0x21;
 		public const int SIZE=0x5;
-		
-		Word variable;
+        public const string NOMBRE = "Compare";
+        Word variable;
 		Word valorAComparar;
 		
 		public Compare(Word variable,Word valorAComparar)
@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Compare";
+				return NOMBRE;
 			}
 		}
 

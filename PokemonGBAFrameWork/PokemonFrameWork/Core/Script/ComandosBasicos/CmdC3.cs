@@ -13,7 +13,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xC3;
 		public const int SIZE = 2;
-		Byte unknow;
+        public const string NOMBRE = "CmdC3";
+        Byte unknow;
  
 		public CmdC3(Byte unknow)
 		{
@@ -46,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CmdC3";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
