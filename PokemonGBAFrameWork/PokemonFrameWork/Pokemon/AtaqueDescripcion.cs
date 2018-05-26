@@ -20,16 +20,16 @@ namespace PokemonGBAFrameWork.Ataque
         {
             ZonaDescripcion = new Zona("DescripciónAtaque");
             //descripcion con ellas calculo el total :D
-            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoUsa, 0xE5440, 0xE5454);
-            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaUsa, 0xE5418, 0xE542C);
-            ZonaDescripcion.Add(EdicionPokemon.RubiUsa, 0xA0494, 0xA04B4);
-            ZonaDescripcion.Add(EdicionPokemon.ZafiroUsa, 0xA0494, 0xA04B4);
-            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaUsa, 0x1C3EFC);
-            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaEsp, 0x1C3B1C);
-            ZonaDescripcion.Add(EdicionPokemon.RubiEsp, 0xA06C8);
-            ZonaDescripcion.Add(EdicionPokemon.ZafiroEsp, 0xA06C8);
-            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoEsp, 0xE574C);
-            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaEsp, 0XE5724);
+            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoUsa10, 0xE5440, 0xE5454);
+            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaUsa10, 0xE5418, 0xE542C);
+            ZonaDescripcion.Add(EdicionPokemon.RubiUsa10, 0xA0494, 0xA04B4);
+            ZonaDescripcion.Add(EdicionPokemon.ZafiroUsa10, 0xA0494, 0xA04B4);
+            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaUsa10, 0x1C3EFC);
+            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaEsp10, 0x1C3B1C);
+            ZonaDescripcion.Add(EdicionPokemon.RubiEsp10, 0xA06C8);
+            ZonaDescripcion.Add(EdicionPokemon.ZafiroEsp10, 0xA06C8);
+            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoEsp10, 0xE574C);
+            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaEsp10, 0XE5724);
 
         }
         public static int GetTotal(RomGba rom)

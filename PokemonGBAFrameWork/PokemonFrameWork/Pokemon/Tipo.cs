@@ -29,13 +29,13 @@ namespace PokemonGBAFrameWork.Pokemon
 
 
 			//añado las imagenes son algo pero no se que son...
-			ZonaImagenTipo.Add(EdicionPokemon.VerdeHojaUsa, 0x107d88, 0x107e00);
-			ZonaImagenTipo.Add(EdicionPokemon.RojoFuegoUsa, 0x107db0, 0x107e28);
-			ZonaImagenTipo.Add(EdicionPokemon.EsmeraldaUsa, 0x19a340);
+			ZonaImagenTipo.Add(EdicionPokemon.VerdeHojaUsa10, 0x107d88, 0x107e00);
+			ZonaImagenTipo.Add(EdicionPokemon.RojoFuegoUsa10, 0x107db0, 0x107e28);
+			ZonaImagenTipo.Add(EdicionPokemon.EsmeraldaUsa10, 0x19a340);
 
-			ZonaImagenTipo.Add(EdicionPokemon.VerdeHojaEsp, 0x107f30);
-			ZonaImagenTipo.Add(EdicionPokemon.RojoFuegoEsp, 0x107f58);
-			ZonaImagenTipo.Add(EdicionPokemon.EsmeraldaEsp, 0x199F44);
+			ZonaImagenTipo.Add(EdicionPokemon.VerdeHojaEsp10, 0x107f30);
+			ZonaImagenTipo.Add(EdicionPokemon.RojoFuegoEsp10, 0x107f58);
+			ZonaImagenTipo.Add(EdicionPokemon.EsmeraldaEsp10, 0x199F44);
 			
 
 		}

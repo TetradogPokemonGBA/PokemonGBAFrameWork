@@ -26,28 +26,28 @@ namespace PokemonGBAFrameWork
 
 
             //field effect
-            ZonaFieldEffect.Add(EdicionPokemon.RojoFuegoUsa, 0x3DC510, 0x3DC580);
-            ZonaFieldEffect.Add(EdicionPokemon.VerdeHojaUsa, 0x3DC34C, 0x3DC3BC);
-            ZonaFieldEffect.Add(EdicionPokemon.VerdeHojaEsp, 0x3D6274);
-            ZonaFieldEffect.Add(EdicionPokemon.RojoFuegoEsp, 0x3D6438);
-            ZonaFieldEffect.Add(EdicionPokemon.EsmeraldaUsa, 0x584E88);
-            ZonaFieldEffect.Add(EdicionPokemon.EsmeraldaEsp, 0x587884);
-            ZonaFieldEffect.Add(EdicionPokemon.RubiUsa, 0x3C5580, 0x3C559C);
-            ZonaFieldEffect.Add(EdicionPokemon.ZafiroUsa, 0x3C55D8, 0x3C55F8);
-            ZonaFieldEffect.Add(EdicionPokemon.RubiEsp, 0x3C9018);
-            ZonaFieldEffect.Add(EdicionPokemon.ZafiroEsp, 0x3C8D54);
+            ZonaFieldEffect.Add(EdicionPokemon.RojoFuegoUsa10, 0x3DC510, 0x3DC580);
+            ZonaFieldEffect.Add(EdicionPokemon.VerdeHojaUsa10, 0x3DC34C, 0x3DC3BC);
+            ZonaFieldEffect.Add(EdicionPokemon.VerdeHojaEsp10, 0x3D6274);
+            ZonaFieldEffect.Add(EdicionPokemon.RojoFuegoEsp10, 0x3D6438);
+            ZonaFieldEffect.Add(EdicionPokemon.EsmeraldaUsa10, 0x584E88);
+            ZonaFieldEffect.Add(EdicionPokemon.EsmeraldaEsp10, 0x587884);
+            ZonaFieldEffect.Add(EdicionPokemon.RubiUsa10, 0x3C5580, 0x3C559C);
+            ZonaFieldEffect.Add(EdicionPokemon.ZafiroUsa10, 0x3C55D8, 0x3C55F8);
+            ZonaFieldEffect.Add(EdicionPokemon.RubiEsp10, 0x3C9018);
+            ZonaFieldEffect.Add(EdicionPokemon.ZafiroEsp10, 0x3C8D54);
             //Battle script
-            ZonaBattleScript.Add(EdicionPokemon.EsmeraldaUsa, 0x5839F0);
-            ZonaBattleScript.Add(EdicionPokemon.EsmeraldaEsp, 0x5863EC);
+            ZonaBattleScript.Add(EdicionPokemon.EsmeraldaUsa10, 0x5839F0);
+            ZonaBattleScript.Add(EdicionPokemon.EsmeraldaEsp10, 0x5863EC);
             //No estoy seguro me guio por un pointer que lleva a unos datos que luego busco en las roms y vuelvo a atrás :)
-            ZonaBattleScript.Add(EdicionPokemon.RojoFuegoUsa, 0x3DEF08, 0x3DEF78);
-            ZonaBattleScript.Add(EdicionPokemon.VerdeHojaUsa, 0x3DED44, 0x3DEDB4);
-            ZonaBattleScript.Add(EdicionPokemon.VerdeHojaEsp, 0x3D8C6C);
-            ZonaBattleScript.Add(EdicionPokemon.RojoFuegoEsp, 0x3D8E30);
-            ZonaBattleScript.Add(EdicionPokemon.RubiUsa, 0x3C55B4, 0x3C55D0);
-            ZonaBattleScript.Add(EdicionPokemon.ZafiroUsa, 0x3C560C, 0x3C562C);
-            ZonaBattleScript.Add(EdicionPokemon.ZafiroEsp, 0xC9554);
-            ZonaBattleScript.Add(EdicionPokemon.RubiEsp, 0xC9554);
+            ZonaBattleScript.Add(EdicionPokemon.RojoFuegoUsa10, 0x3DEF08, 0x3DEF78);
+            ZonaBattleScript.Add(EdicionPokemon.VerdeHojaUsa10, 0x3DED44, 0x3DEDB4);
+            ZonaBattleScript.Add(EdicionPokemon.VerdeHojaEsp10, 0x3D8C6C);
+            ZonaBattleScript.Add(EdicionPokemon.RojoFuegoEsp10, 0x3D8E30);
+            ZonaBattleScript.Add(EdicionPokemon.RubiUsa10, 0x3C55B4, 0x3C55D0);
+            ZonaBattleScript.Add(EdicionPokemon.ZafiroUsa10, 0x3C560C, 0x3C562C);
+            ZonaBattleScript.Add(EdicionPokemon.ZafiroEsp10, 0xC9554);
+            ZonaBattleScript.Add(EdicionPokemon.RubiEsp10, 0xC9554);
         }
         public ObjetoCompleto()
         {

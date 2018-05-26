@@ -25,10 +25,10 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         {
             ZonaRatesMoney = new Zona("Rate Money Entrenador");
             //añado las zonas :)
-            ZonaRatesMoney.Add(0x4E6A8, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-            ZonaRatesMoney.Add(0x2593C, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-            ZonaRatesMoney.Add(EdicionPokemon.RojoFuegoUsa, 0x259CC, 0x259E0);
-            ZonaRatesMoney.Add(EdicionPokemon.VerdeHojaUsa, 0x259CC, 0x259E0);
+            ZonaRatesMoney.Add(0x4E6A8, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+            ZonaRatesMoney.Add(0x2593C, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+            ZonaRatesMoney.Add(EdicionPokemon.RojoFuegoUsa10, 0x259CC, 0x259E0);
+            ZonaRatesMoney.Add(EdicionPokemon.VerdeHojaUsa10, 0x259CC, 0x259E0);
             //falta rate money Rubi y Zafiro???no hay?????
         }
         public byte Rate { get => rate; set => rate = value; }

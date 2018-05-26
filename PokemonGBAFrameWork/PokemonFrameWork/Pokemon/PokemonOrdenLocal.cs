@@ -19,12 +19,12 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             ZonaOrdenLocal = new Zona("Orden Local");
             //orden local
-            ZonaOrdenLocal.Add(0x3F9BC, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            ZonaOrdenLocal.Add(0x3F7F0, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaOrdenLocal.Add(0x430DC, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-            ZonaOrdenLocal.Add(EdicionPokemon.RojoFuegoUsa, 0x431F0, 0x43204);
-            ZonaOrdenLocal.Add(EdicionPokemon.VerdeHojaUsa, 0x431F0, 0x43204);
-            ZonaOrdenLocal.Add(0x6D3FC, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+            ZonaOrdenLocal.Add(0x3F9BC, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            ZonaOrdenLocal.Add(0x3F7F0, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+            ZonaOrdenLocal.Add(0x430DC, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+            ZonaOrdenLocal.Add(EdicionPokemon.RojoFuegoUsa10, 0x431F0, 0x43204);
+            ZonaOrdenLocal.Add(EdicionPokemon.VerdeHojaUsa10, 0x431F0, 0x43204);
+            ZonaOrdenLocal.Add(0x6D3FC, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
 
         }
 

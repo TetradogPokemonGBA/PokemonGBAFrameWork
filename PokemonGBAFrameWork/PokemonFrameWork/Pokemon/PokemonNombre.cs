@@ -24,8 +24,8 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             ZonaNombre = new Zona("Nombre Pokemon");
             //nombre
-            ZonaNombre.Add(0x144, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-            ZonaNombre.Add(0xFA58, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
+            ZonaNombre.Add(0x144, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+            ZonaNombre.Add(0xFA58, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
 
         }
         public Nombre()

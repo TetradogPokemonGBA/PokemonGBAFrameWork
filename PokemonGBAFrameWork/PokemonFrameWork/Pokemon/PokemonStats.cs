@@ -98,9 +98,9 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             ZonaStats = new Zona("Stats Pokemon");
             //stats
-            ZonaStats.Add(0x1BC, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-            ZonaStats.Add(0x10B64, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaStats.Add(0x10D30, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            ZonaStats.Add(0x1BC, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+            ZonaStats.Add(0x10B64, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+            ZonaStats.Add(0x10D30, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
         }
         public Stats()

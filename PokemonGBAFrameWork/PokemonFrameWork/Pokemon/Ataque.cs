@@ -72,34 +72,34 @@ namespace PokemonGBAFrameWork
             //de momento se tiene que investigar...lo que habia antes eran animaciones...
 
             //script batalla
-            ZonaScriptBatalla.Add(0x162D4,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
-			ZonaScriptBatalla.Add(EdicionPokemon.RojoFuegoUsa, 0x16364, 0x16378);
-			ZonaScriptBatalla.Add(EdicionPokemon.VerdeHojaUsa, 0x16364, 0x16378);
+            ZonaScriptBatalla.Add(0x162D4,EdicionPokemon.RojoFuegoEsp10,EdicionPokemon.VerdeHojaEsp10);
+			ZonaScriptBatalla.Add(EdicionPokemon.RojoFuegoUsa10, 0x16364, 0x16378);
+			ZonaScriptBatalla.Add(EdicionPokemon.VerdeHojaUsa10, 0x16364, 0x16378);
 
-			ZonaScriptBatalla.Add(0x148B0,EdicionPokemon.RubiEsp,EdicionPokemon.ZafiroEsp);
-			ZonaScriptBatalla.Add(0x3E854,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
-			ZonaScriptBatalla.Add(0x146E4,EdicionPokemon.RubiUsa,EdicionPokemon.ZafiroUsa);
+			ZonaScriptBatalla.Add(0x148B0,EdicionPokemon.RubiEsp10,EdicionPokemon.ZafiroEsp10);
+			ZonaScriptBatalla.Add(0x3E854,EdicionPokemon.EsmeraldaUsa10,EdicionPokemon.EsmeraldaEsp10);
+			ZonaScriptBatalla.Add(0x146E4,EdicionPokemon.RubiUsa10,EdicionPokemon.ZafiroUsa10);
 
 			//animacion CON ESTO PUEDO DIFERENCIAR LAS VERSIONES ZAFIRO Y RUBI USA :D
-			ZonaAnimacion.Add(0x72608,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
-			ZonaAnimacion.Add(EdicionPokemon.RojoFuegoUsa, 0x7250D0, 0x725E4);
-			ZonaAnimacion.Add(EdicionPokemon.VerdeHojaUsa, 0x7250D0, 0x725E4);
-			ZonaAnimacion.Add(EdicionPokemon.RubiUsa, 0x75734, 0x75754);
-			ZonaAnimacion.Add(EdicionPokemon.ZafiroUsa, 0x75738, 0x75758);
-			ZonaAnimacion.Add(EdicionPokemon.EsmeraldaUsa, 0xA3A44);
-			ZonaAnimacion.Add(EdicionPokemon.EsmeraldaEsp, 0xA3A58);
-			ZonaAnimacion.Add(EdicionPokemon.RubiEsp, 0x75BF0);
-			ZonaAnimacion.Add(EdicionPokemon.ZafiroEsp, 0x75BF4);
+			ZonaAnimacion.Add(0x72608,EdicionPokemon.RojoFuegoEsp10,EdicionPokemon.VerdeHojaEsp10);
+			ZonaAnimacion.Add(EdicionPokemon.RojoFuegoUsa10, 0x7250D0, 0x725E4);
+			ZonaAnimacion.Add(EdicionPokemon.VerdeHojaUsa10, 0x7250D0, 0x725E4);
+			ZonaAnimacion.Add(EdicionPokemon.RubiUsa10, 0x75734, 0x75754);
+			ZonaAnimacion.Add(EdicionPokemon.ZafiroUsa10, 0x75738, 0x75758);
+			ZonaAnimacion.Add(EdicionPokemon.EsmeraldaUsa10, 0xA3A44);
+			ZonaAnimacion.Add(EdicionPokemon.EsmeraldaEsp10, 0xA3A58);
+			ZonaAnimacion.Add(EdicionPokemon.RubiEsp10, 0x75BF0);
+			ZonaAnimacion.Add(EdicionPokemon.ZafiroEsp10, 0x75BF4);
             //añado la variable limitador
-            VariableLimitadoAtaques.Add(EdicionPokemon.VerdeHojaUsa, 0xD75D0, 0xD75E4);
-            VariableLimitadoAtaques.Add(EdicionPokemon.RojoFuegoUsa, 0xD75FC, 0xD7610);
-            VariableLimitadoAtaques.Add(EdicionPokemon.EsmeraldaUsa, 0x14E504);
-            VariableLimitadoAtaques.Add(EdicionPokemon.VerdeHojaEsp, 0xD7858);
-            VariableLimitadoAtaques.Add(EdicionPokemon.EsmeraldaEsp, 0x14E138);
-            VariableLimitadoAtaques.Add(EdicionPokemon.RojoFuegoEsp, 0xD7884);
-            VariableLimitadoAtaques.Add(0xAC8C2, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            VariableLimitadoAtaques.Add(EdicionPokemon.RubiUsa, 0xAC676, 0xAC696);
-            VariableLimitadoAtaques.Add(EdicionPokemon.ZafiroUsa, 0xAC676, 0xAC696);
+            VariableLimitadoAtaques.Add(EdicionPokemon.VerdeHojaUsa10, 0xD75D0, 0xD75E4);
+            VariableLimitadoAtaques.Add(EdicionPokemon.RojoFuegoUsa10, 0xD75FC, 0xD7610);
+            VariableLimitadoAtaques.Add(EdicionPokemon.EsmeraldaUsa10, 0x14E504);
+            VariableLimitadoAtaques.Add(EdicionPokemon.VerdeHojaEsp10, 0xD7858);
+            VariableLimitadoAtaques.Add(EdicionPokemon.EsmeraldaEsp10, 0x14E138);
+            VariableLimitadoAtaques.Add(EdicionPokemon.RojoFuegoEsp10, 0xD7884);
+            VariableLimitadoAtaques.Add(0xAC8C2, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            VariableLimitadoAtaques.Add(EdicionPokemon.RubiUsa10, 0xAC676, 0xAC696);
+            VariableLimitadoAtaques.Add(EdicionPokemon.ZafiroUsa10, 0xAC676, 0xAC696);
 
             BytesDesLimitadoAtaques = new byte[LENGTHLIMITADOR];
             BytesDesLimitadoAtaques.SetArray(LENGTHLIMITADOR - valoresUnLimited.Length, valoresUnLimited);

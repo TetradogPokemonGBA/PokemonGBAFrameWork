@@ -48,16 +48,16 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             ZonaDescripcion = new Zona("DescripcionPokedex");
 
-            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaEsp, 0xBFA48);
-            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaUsa, 0xBFA20);
-            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoEsp, 0x88FEC);
-            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoUsa, 0x88E34, 0x88E48);
-            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaEsp, 0x88FC0);
-            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaUsa, 0x88E08, 0x88E1C);
-            ZonaDescripcion.Add(EdicionPokemon.RubiEsp, 0x8F998);
-            ZonaDescripcion.Add(EdicionPokemon.ZafiroEsp, 0x8F998);
-            ZonaDescripcion.Add(EdicionPokemon.RubiUsa, 0x8F508, 0x8F528);
-            ZonaDescripcion.Add(EdicionPokemon.ZafiroUsa, 0x8F508, 0x8F528);
+            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaEsp10, 0xBFA48);
+            ZonaDescripcion.Add(EdicionPokemon.EsmeraldaUsa10, 0xBFA20);
+            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoEsp10, 0x88FEC);
+            ZonaDescripcion.Add(EdicionPokemon.RojoFuegoUsa10, 0x88E34, 0x88E48);
+            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaEsp10, 0x88FC0);
+            ZonaDescripcion.Add(EdicionPokemon.VerdeHojaUsa10, 0x88E08, 0x88E1C);
+            ZonaDescripcion.Add(EdicionPokemon.RubiEsp10, 0x8F998);
+            ZonaDescripcion.Add(EdicionPokemon.ZafiroEsp10, 0x8F998);
+            ZonaDescripcion.Add(EdicionPokemon.RubiUsa10, 0x8F508, 0x8F528);
+            ZonaDescripcion.Add(EdicionPokemon.ZafiroUsa10, 0x8F508, 0x8F528);
 
         }
         public Descripcion()

@@ -56,12 +56,12 @@ namespace PokemonGBAFrameWork
         {
             ZonaEntrenador = new Zona("Entrenador");
             //añado las zonas :D
-            ZonaEntrenador.Add(0x3587C, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-            ZonaEntrenador.Add(0xD890, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaEntrenador.Add(0xDA5C, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            ZonaEntrenador.Add(EdicionPokemon.VerdeHojaUsa, 0xFC00, 0xFC14);
-            ZonaEntrenador.Add(EdicionPokemon.RojoFuegoUsa, 0xFC00, 0xFC14);
-            ZonaEntrenador.Add(0xFB70, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+            ZonaEntrenador.Add(0x3587C, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+            ZonaEntrenador.Add(0xD890, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+            ZonaEntrenador.Add(0xDA5C, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            ZonaEntrenador.Add(EdicionPokemon.VerdeHojaUsa10, 0xFC00, 0xFC14);
+            ZonaEntrenador.Add(EdicionPokemon.RojoFuegoUsa10, 0xFC00, 0xFC14);
+            ZonaEntrenador.Add(0xFB70, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
         }
         public Entrenador()
         {

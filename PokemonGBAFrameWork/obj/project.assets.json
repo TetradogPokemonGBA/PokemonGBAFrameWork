@@ -369,7 +369,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.1-preview1",
+    "version": "1.0.1-preview2",
     "restore": {
       "projectUniqueName": "C:\\Users\\tetra\\Programas\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "projectName": "PokemonGBAFrameWork",

@@ -15,10 +15,10 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
 
             ZonaPaletaShiny = new Zona("Paleta Shiny");
             //Rubi y Zafiro USA tienen otras zonas
-            ZonaPaletaShiny.Add(EdicionPokemon.RubiUsa, 0x4098C, 0x409AC);
-            ZonaPaletaShiny.Add(EdicionPokemon.ZafiroUsa, 0x4098C, 0x409AC);
+            ZonaPaletaShiny.Add(EdicionPokemon.RubiUsa10, 0x4098C, 0x409AC);
+            ZonaPaletaShiny.Add(EdicionPokemon.ZafiroUsa10, 0x4098C, 0x409AC);
             //los demas todos iguales :)
-            ZonaPaletaShiny.Add(0x134, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.VerdeHojaUsa);
+            ZonaPaletaShiny.Add(0x134, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.VerdeHojaUsa10);
 
         }
         public PaletaShiny()

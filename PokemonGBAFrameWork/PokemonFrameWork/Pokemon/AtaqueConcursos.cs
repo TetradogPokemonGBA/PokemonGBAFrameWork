@@ -44,26 +44,26 @@ namespace PokemonGBAFrameWork.Ataque
 
 
             //añado la parte de los concursos de hoenn
-            ZonaDatosConcursosHoenn.Add(EdicionPokemon.EsmeraldaEsp, 0xD8248);
-            ZonaDatosConcursosHoenn.Add(EdicionPokemon.EsmeraldaUsa, 0xD85F0);
-            ZonaDatosConcursosHoenn.Add(EdicionPokemon.RubiEsp, 0xA04C4);
-            ZonaDatosConcursosHoenn.Add(EdicionPokemon.ZafiroEsp, 0xA04C4);
-            ZonaDatosConcursosHoenn.Add(EdicionPokemon.RubiUsa, 0xA0290, 0XA02B0);
-            ZonaDatosConcursosHoenn.Add(EdicionPokemon.ZafiroUsa, 0xA0290, 0XA02B0);
+            ZonaDatosConcursosHoenn.Add(EdicionPokemon.EsmeraldaEsp10, 0xD8248);
+            ZonaDatosConcursosHoenn.Add(EdicionPokemon.EsmeraldaUsa10, 0xD85F0);
+            ZonaDatosConcursosHoenn.Add(EdicionPokemon.RubiEsp10, 0xA04C4);
+            ZonaDatosConcursosHoenn.Add(EdicionPokemon.ZafiroEsp10, 0xA04C4);
+            ZonaDatosConcursosHoenn.Add(EdicionPokemon.RubiUsa10, 0xA0290, 0XA02B0);
+            ZonaDatosConcursosHoenn.Add(EdicionPokemon.ZafiroUsa10, 0xA0290, 0XA02B0);
             //pongo las variables ataques
-            VariableAtaqueConcurso.Add(EdicionPokemon.EsmeraldaEsp, 0xD8248);
-            VariableAtaqueConcurso.Add(EdicionPokemon.EsmeraldaUsa, 0xD8F0C);//puesta
-            VariableAtaqueConcurso.Add(EdicionPokemon.RubiEsp, 0xA04C4);
-            VariableAtaqueConcurso.Add(EdicionPokemon.ZafiroEsp, 0xA04C4);
-            VariableAtaqueConcurso.Add(EdicionPokemon.RubiUsa, 0xA0290, 0XA02B0);
-            VariableAtaqueConcurso.Add(EdicionPokemon.ZafiroUsa, 0xA0290, 0XA02B0);
+            VariableAtaqueConcurso.Add(EdicionPokemon.EsmeraldaEsp10, 0xD8248);
+            VariableAtaqueConcurso.Add(EdicionPokemon.EsmeraldaUsa10, 0xD8F0C);//puesta
+            VariableAtaqueConcurso.Add(EdicionPokemon.RubiEsp10, 0xA04C4);
+            VariableAtaqueConcurso.Add(EdicionPokemon.ZafiroEsp10, 0xA04C4);
+            VariableAtaqueConcurso.Add(EdicionPokemon.RubiUsa10, 0xA0290, 0XA02B0);
+            VariableAtaqueConcurso.Add(EdicionPokemon.ZafiroUsa10, 0xA0290, 0XA02B0);
             //pongo las variables animaciones
-            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.EsmeraldaEsp, 0xD8248);
-            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.EsmeraldaUsa, 0xD8F0C);
-            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.RubiEsp, 0xA04C4);
-            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.ZafiroEsp, 0xA04C4);
-            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.RubiUsa, 0xA0290, 0XA02B0);
-            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.ZafiroUsa, 0xA0290, 0XA02B0);
+            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.EsmeraldaEsp10, 0xD8248);
+            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.EsmeraldaUsa10, 0xD8F0C);
+            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.RubiEsp10, 0xA04C4);
+            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.ZafiroEsp10, 0xA04C4);
+            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.RubiUsa10, 0xA0290, 0XA02B0);
+            VariableAnimacionAtaqueConcurso.Add(EdicionPokemon.ZafiroUsa10, 0xA0290, 0XA02B0);
 
 
 

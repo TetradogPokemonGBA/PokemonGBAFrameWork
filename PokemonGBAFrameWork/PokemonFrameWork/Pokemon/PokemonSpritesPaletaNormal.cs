@@ -14,9 +14,9 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         {
             ZonaPaletaNormal = new Zona("Paleta Normal");
 
-            ZonaPaletaNormal.Add(EdicionPokemon.RubiUsa, 0x40954, 0x40974);
-            ZonaPaletaNormal.Add(EdicionPokemon.ZafiroUsa, 0x40954, 0x40974);
-            ZonaPaletaNormal.Add(0x130, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.VerdeHojaUsa);
+            ZonaPaletaNormal.Add(EdicionPokemon.RubiUsa10, 0x40954, 0x40974);
+            ZonaPaletaNormal.Add(EdicionPokemon.ZafiroUsa10, 0x40954, 0x40974);
+            ZonaPaletaNormal.Add(0x130, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.VerdeHojaUsa10);
 
         }
         public PaletaNormal()

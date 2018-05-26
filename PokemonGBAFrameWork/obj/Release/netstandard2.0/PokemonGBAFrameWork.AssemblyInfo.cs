@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("GNUV3 NO COMERCIAL")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1.0-preview1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1.0-preview2")]
 [assembly: System.Reflection.AssemblyProductAttribute("PokemonGBAFrameWork")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PokemonGBAFrameWork")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.1.0")]

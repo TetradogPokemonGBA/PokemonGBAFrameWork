@@ -20,19 +20,19 @@ namespace PokemonGBAFrameWork
 		static RefreshMiniPlayer()
 		{
 			callToRefresh=new Variable("Offset rutina");
-			callToRefresh.Add(EdicionPokemon.RojoFuegoUsa,0x5BE61,0x5BE75);
-			callToRefresh.Add(EdicionPokemon.VerdeHojaUsa,0x5BE61,0x5BE75);
-			callToRefresh.Add(EdicionPokemon.RojoFuegoEsp,0x5BF35);
-			callToRefresh.Add(EdicionPokemon.VerdeHojaEsp,0x5BF35);
+			callToRefresh.Add(EdicionPokemon.RojoFuegoUsa10,0x5BE61,0x5BE75);
+			callToRefresh.Add(EdicionPokemon.VerdeHojaUsa10,0x5BE61,0x5BE75);
+			callToRefresh.Add(EdicionPokemon.RojoFuegoEsp10,0x5BF35);
+			callToRefresh.Add(EdicionPokemon.VerdeHojaEsp10,0x5BF35);
 			
 			//investigando
-			callToRefresh.Add(EdicionPokemon.ZafiroUsa,0x590D1,0x590F1);
-			callToRefresh.Add(EdicionPokemon.RubiUsa,0x590CD,0x590ED);
-			callToRefresh.Add(EdicionPokemon.EsmeraldaUsa,0x8B441);
+			callToRefresh.Add(EdicionPokemon.ZafiroUsa10,0x590D1,0x590F1);
+			callToRefresh.Add(EdicionPokemon.RubiUsa10,0x590CD,0x590ED);
+			callToRefresh.Add(EdicionPokemon.EsmeraldaUsa10,0x8B441);
 			
-			callToRefresh.Add(EdicionPokemon.ZafiroEsp,0x5950D);
-			callToRefresh.Add(EdicionPokemon.RubiEsp,0x59509);
-			callToRefresh.Add(EdicionPokemon.EsmeraldaEsp,0x8B455);
+			callToRefresh.Add(EdicionPokemon.ZafiroEsp10,0x5950D);
+			callToRefresh.Add(EdicionPokemon.RubiEsp10,0x59509);
+			callToRefresh.Add(EdicionPokemon.EsmeraldaEsp10,0x8B455);
 		}
 		public static ComandosScript.CallAsm Comando(EdicionPokemon edicion)
 		{

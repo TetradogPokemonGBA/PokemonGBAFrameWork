@@ -45,47 +45,47 @@ namespace PokemonGBAFrameWork
                 VariableOffSetRutina2 = new Variable("Pokemon Errante OffSet Rutina 2");
                 VariableOffSetRutina3 = new Variable("Pokemon Errante OffSet Rutina 3");
 
-                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariableBancoMapaRutaValido.Add(3, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariableBancoMapaRutaValido.Add(3, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
 
-                VariableColumnasFilaRuta.Add(6, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariableColumnasFilaRuta.Add(7, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                VariableColumnasFilaRuta.Add(6, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariableColumnasFilaRuta.Add(7, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
 
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.EsmeraldaEsp, 0xD5A140);
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoEsp, 0x64C685);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.EsmeraldaEsp10, 0xD5A140);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoEsp10, 0x64C685);
 
                 //investigando zonaOffsetTablaFilasRuta
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.EsmeraldaUsa, 0xD5A144);
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaEsp, 0x64BD7D);
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaUsa, 0x655665, 0x6556D5);
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoUsa, 0x655D89, 0x655DE9);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.EsmeraldaUsa10, 0xD5A144);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaEsp10, 0x64BD7D);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaUsa10, 0x655665, 0x6556D5);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoUsa10, 0x655D89, 0x655DE9);
 
-                VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaEsp, 0x161928);
-                VariableOffSetRutina1.Add(EdicionPokemon.RojoFuegoEsp, 0x141D6E);
-
-                //investigacion a ciegas
-                VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaUsa, 0x161C84);
-                VariableOffSetRutina1.Add(EdicionPokemon.VerdeHojaEsp, 0x141D46);
-                VariableOffSetRutina1.Add(EdicionPokemon.VerdeHojaUsa, 0x141B6A, 0x141BE2);
-                VariableOffSetRutina1.Add(EdicionPokemon.RojoFuegoUsa, 0x141B92, 0x141C0A);
-
-                VariableOffSetRutina2.Add(EdicionPokemon.EsmeraldaEsp, 0x1619c6);
-                VariableOffSetRutina2.Add(EdicionPokemon.RojoFuegoEsp, 0x141df6);
+                VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaEsp10, 0x161928);
+                VariableOffSetRutina1.Add(EdicionPokemon.RojoFuegoEsp10, 0x141D6E);
 
                 //investigacion a ciegas
-                VariableOffSetRutina2.Add(EdicionPokemon.EsmeraldaUsa, 0x161D22);
-                VariableOffSetRutina2.Add(EdicionPokemon.VerdeHojaEsp, 0x141D88);
-                VariableOffSetRutina2.Add(EdicionPokemon.VerdeHojaUsa, 0x141BAC, 0x141C24);
-                VariableOffSetRutina2.Add(EdicionPokemon.RojoFuegoUsa, 0x141BD4, 0x141C4C);
+                VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaUsa10, 0x161C84);
+                VariableOffSetRutina1.Add(EdicionPokemon.VerdeHojaEsp10, 0x141D46);
+                VariableOffSetRutina1.Add(EdicionPokemon.VerdeHojaUsa10, 0x141B6A, 0x141BE2);
+                VariableOffSetRutina1.Add(EdicionPokemon.RojoFuegoUsa10, 0x141B92, 0x141C0A);
 
-                VariableOffSetRutina3.Add(EdicionPokemon.EsmeraldaEsp, 0x161A82);
-                VariableOffSetRutina3.Add(EdicionPokemon.RojoFuegoEsp, 0x141EAE);
+                VariableOffSetRutina2.Add(EdicionPokemon.EsmeraldaEsp10, 0x1619c6);
+                VariableOffSetRutina2.Add(EdicionPokemon.RojoFuegoEsp10, 0x141df6);
 
                 //investigacion a ciegas
-                VariableOffSetRutina3.Add(EdicionPokemon.EsmeraldaUsa, 0x161DDE);
-                VariableOffSetRutina3.Add(EdicionPokemon.VerdeHojaEsp, 0x141E86);
-                VariableOffSetRutina3.Add(EdicionPokemon.VerdeHojaUsa, 0x141CAA, 0x141D22);
-                VariableOffSetRutina3.Add(EdicionPokemon.RojoFuegoUsa, 0x141CD2, 0x141D4A);
+                VariableOffSetRutina2.Add(EdicionPokemon.EsmeraldaUsa10, 0x161D22);
+                VariableOffSetRutina2.Add(EdicionPokemon.VerdeHojaEsp10, 0x141D88);
+                VariableOffSetRutina2.Add(EdicionPokemon.VerdeHojaUsa10, 0x141BAC, 0x141C24);
+                VariableOffSetRutina2.Add(EdicionPokemon.RojoFuegoUsa10, 0x141BD4, 0x141C4C);
+
+                VariableOffSetRutina3.Add(EdicionPokemon.EsmeraldaEsp10, 0x161A82);
+                VariableOffSetRutina3.Add(EdicionPokemon.RojoFuegoEsp10, 0x141EAE);
+
+                //investigacion a ciegas
+                VariableOffSetRutina3.Add(EdicionPokemon.EsmeraldaUsa10, 0x161DDE);
+                VariableOffSetRutina3.Add(EdicionPokemon.VerdeHojaEsp10, 0x141E86);
+                VariableOffSetRutina3.Add(EdicionPokemon.VerdeHojaUsa10, 0x141CAA, 0x141D22);
+                VariableOffSetRutina3.Add(EdicionPokemon.RojoFuegoUsa10, 0x141CD2, 0x141D4A);
 
 
             }
@@ -204,39 +204,39 @@ namespace PokemonGBAFrameWork
                 //pongo los datos encontrados
 
 
-                VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariableSpecialPokemonErrante.Add(0x129, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariableSpecialPokemonErrante.Add(0x129, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
                 //falta saber como activar el evento en rubi y zafiro se activa al pasar la liga y ver la tv...
                 //-4 en la var del pokemon para los datos encripatos :D
-                VariablePokemonErranteVar.Add(0x4F24, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariablePokemonErranteVar.Add(0x506C, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-                VariablePokemonErranteVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5100, 0x5114);
-                VariablePokemonErranteVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5100, 0x5114);
+                VariablePokemonErranteVar.Add(0x4F24, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariablePokemonErranteVar.Add(0x506C, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+                VariablePokemonErranteVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5100, 0x5114);
+                VariablePokemonErranteVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5100, 0x5114);
                 //investigacion mia :D
-                VariablePokemonErranteVar.Add(0x4B54, EdicionPokemon.RubiEsp);
+                VariablePokemonErranteVar.Add(0x4B54, EdicionPokemon.RubiEsp10);
 
-                VariableVitalidadVar.Add(0x4F25, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariableVitalidadVar.Add(0x506D, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-                VariableVitalidadVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5101, 0x5115);
-                VariableVitalidadVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5101, 0x5115);//logica
+                VariableVitalidadVar.Add(0x4F25, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariableVitalidadVar.Add(0x506D, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+                VariableVitalidadVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5101, 0x5115);
+                VariableVitalidadVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5101, 0x5115);//logica
                                                                                       //logica
-                VariableVitalidadVar.Add(0x4B55, EdicionPokemon.RubiEsp);
+                VariableVitalidadVar.Add(0x4B55, EdicionPokemon.RubiEsp10);
 
-                VariableNivelYEstadoVar.Add(0x4F26, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariableNivelYEstadoVar.Add(0x506E, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                VariableNivelYEstadoVar.Add(0x4F26, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariableNivelYEstadoVar.Add(0x506E, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
 
-                VariableNivelYEstadoVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5102, 0x5116);//logica
-                VariableNivelYEstadoVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5102, 0x5116);//logica
+                VariableNivelYEstadoVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5102, 0x5116);//logica
+                VariableNivelYEstadoVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5102, 0x5116);//logica
                                                                                          //logica
-                VariableNivelYEstadoVar.Add(0x4B56, EdicionPokemon.RubiEsp);
+                VariableNivelYEstadoVar.Add(0x4B56, EdicionPokemon.RubiEsp10);
 
-                VariableDisponibleVar.Add(0x5F29, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-                VariableDisponibleVar.Add(0x5071, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
+                VariableDisponibleVar.Add(0x5F29, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+                VariableDisponibleVar.Add(0x5071, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
 
-                VariableDisponibleVar.Add(EdicionPokemon.VerdeHojaUsa, 0x5105, 0x5119);//logica
-                VariableDisponibleVar.Add(EdicionPokemon.RojoFuegoUsa, 0x5105, 0x5119);//logica
+                VariableDisponibleVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5105, 0x5119);//logica
+                VariableDisponibleVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5105, 0x5119);//logica
                                                                                        //logica
-                VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp);
+                VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp10);
             }
             public Pokemon() { }
             public Pokemon(PokemonGBAFrameWork.PokemonCompleto pokemon, Word vida = null, Word nivel = null, byte stats = 0)

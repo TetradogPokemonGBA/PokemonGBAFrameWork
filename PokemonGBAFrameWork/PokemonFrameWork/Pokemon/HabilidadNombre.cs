@@ -20,10 +20,10 @@ namespace PokemonGBAFrameWork.Habilidad
         {
             ZonaNombreHabilidad = new Zona("Zona nombre habilidad");
 
-            ZonaNombreHabilidad.Add(0x1C0, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-            ZonaNombreHabilidad.Add(EdicionPokemon.RubiUsa, 0x9FE64, 0x9FE84);
-            ZonaNombreHabilidad.Add(EdicionPokemon.ZafiroUsa, 0x9FE64, 0x9FE84);
-            ZonaNombreHabilidad.Add(0xA0098, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            ZonaNombreHabilidad.Add(0x1C0, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+            ZonaNombreHabilidad.Add(EdicionPokemon.RubiUsa10, 0x9FE64, 0x9FE84);
+            ZonaNombreHabilidad.Add(EdicionPokemon.ZafiroUsa10, 0x9FE64, 0x9FE84);
+            ZonaNombreHabilidad.Add(0xA0098, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
         }
         public Nombre()

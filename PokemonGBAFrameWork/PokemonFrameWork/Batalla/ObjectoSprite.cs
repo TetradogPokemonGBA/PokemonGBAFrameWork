@@ -19,15 +19,15 @@ namespace PokemonGBAFrameWork.Objeto
         {
             ZonaImagenesObjeto = new Zona("Imagen Y Paleta Objeto");
             //datos imagen y paleta
-            ZonaImagenesObjeto.Add(EdicionPokemon.RojoFuegoUsa, 0x9899C, 0x989B0);
-            ZonaImagenesObjeto.Add(EdicionPokemon.VerdeHojaUsa, 0x98970, 0x98984);
-            ZonaImagenesObjeto.Add(EdicionPokemon.EsmeraldaUsa, 0x1B0034);
+            ZonaImagenesObjeto.Add(EdicionPokemon.RojoFuegoUsa10, 0x9899C, 0x989B0);
+            ZonaImagenesObjeto.Add(EdicionPokemon.VerdeHojaUsa10, 0x98970, 0x98984);
+            ZonaImagenesObjeto.Add(EdicionPokemon.EsmeraldaUsa10, 0x1B0034);
             //  zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaUsa, 0x1294bc);//objetos base secreta
 
-            ZonaImagenesObjeto.Add(EdicionPokemon.EsmeraldaEsp, 0x1AFC54);
+            ZonaImagenesObjeto.Add(EdicionPokemon.EsmeraldaEsp10, 0x1AFC54);
             //zonaImagenesObjetos.AddOrReplaceZonaOffset(Edicion.EsmeraldaEsp, 0x1290d4);//objetos base secreta
-            ZonaImagenesObjeto.Add(EdicionPokemon.RojoFuegoEsp, 0x98B74);
-            ZonaImagenesObjeto.Add(EdicionPokemon.VerdeHojaEsp, 0x98b48);
+            ZonaImagenesObjeto.Add(EdicionPokemon.RojoFuegoEsp10, 0x98B74);
+            ZonaImagenesObjeto.Add(EdicionPokemon.VerdeHojaEsp10, 0x98b48);
         }
         public static Sprite[] GetSprite(RomGba rom)
         {

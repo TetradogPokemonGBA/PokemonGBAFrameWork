@@ -18,8 +18,8 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         static Frontales()
         {
             ZonaImgFrontal = new Zona("Imagen Frontal Pokemon");
-            ZonaImgFrontal.Add(0xD324, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaImgFrontal.Add(0x128, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.VerdeHojaUsa);
+            ZonaImgFrontal.Add(0xD324, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+            ZonaImgFrontal.Add(0x128, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.VerdeHojaUsa10);
             PaletaAnimacion = new Paleta();
 
             for (int i = 1; i < Paleta.LENGTH; i++)

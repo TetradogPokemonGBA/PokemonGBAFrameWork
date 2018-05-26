@@ -23,8 +23,8 @@ namespace PokemonGBAFrameWork.Ataque
         {
             ZonaNombre = new Zona("NombreAtaque");
             //nombres
-            ZonaNombre.Add(0x148, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            ZonaNombre.Add(0x2e18c, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
+            ZonaNombre.Add(0x148, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            ZonaNombre.Add(0x2e18c, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
 
         }
         public Nombre()

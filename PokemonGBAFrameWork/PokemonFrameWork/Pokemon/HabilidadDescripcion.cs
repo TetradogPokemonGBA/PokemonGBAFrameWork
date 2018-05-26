@@ -18,10 +18,10 @@ namespace PokemonGBAFrameWork.Habilidad
         static Descripcion()
         {
             ZonaDescripcionHabilidad = new Zona("Zona descripcion habilidad");
-            ZonaDescripcionHabilidad.Add(0x1C4, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
-            ZonaDescripcionHabilidad.Add(EdicionPokemon.RubiUsa, 0x9FE68, 0x9FE88);
-            ZonaDescripcionHabilidad.Add(EdicionPokemon.ZafiroUsa, 0x9FE68, 0x9FE88);
-            ZonaDescripcionHabilidad.Add(0xA009C, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            ZonaDescripcionHabilidad.Add(0x1C4, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
+            ZonaDescripcionHabilidad.Add(EdicionPokemon.RubiUsa10, 0x9FE68, 0x9FE88);
+            ZonaDescripcionHabilidad.Add(EdicionPokemon.ZafiroUsa10, 0x9FE68, 0x9FE88);
+            ZonaDescripcionHabilidad.Add(0xA009C, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
         }
         public static Descripcion[] GetDescripcion(RomGba rom)

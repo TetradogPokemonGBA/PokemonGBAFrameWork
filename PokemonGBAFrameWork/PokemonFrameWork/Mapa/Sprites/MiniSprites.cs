@@ -31,18 +31,18 @@ namespace PokemonGBAFrameWork.Mini
 		{
 			ZonaMiniSpritesData=new Zona("Mini sprites OverWorld-Data");
 			//añadir todas las zonas :D
-			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoUsa,0x5F2F4,0x5F308);
-			ZonaMiniSpritesData.Add(EdicionPokemon.VerdeHojaUsa,0x5F2F4,0x5F308);
-			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoEsp,0x5F3C8);
-			ZonaMiniSpritesData.Add(EdicionPokemon.VerdeHojaEsp,0x5F3C8);
+			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoUsa10,0x5F2F4,0x5F308);
+			ZonaMiniSpritesData.Add(EdicionPokemon.VerdeHojaUsa10,0x5F2F4,0x5F308);
+			ZonaMiniSpritesData.Add(EdicionPokemon.RojoFuegoEsp10,0x5F3C8);
+			ZonaMiniSpritesData.Add(EdicionPokemon.VerdeHojaEsp10,0x5F3C8);
 			
-			ZonaMiniSpritesData.Add(EdicionPokemon.RubiUsa,0x5BC3C,0x5BC5C);
-			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroUsa,0x5BC40,0x5BC60);
-			ZonaMiniSpritesData.Add(EdicionPokemon.RubiEsp,0x5C078);
-			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroEsp,0x5C07C);
+			ZonaMiniSpritesData.Add(EdicionPokemon.RubiUsa10,0x5BC3C,0x5BC5C);
+			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroUsa10,0x5BC40,0x5BC60);
+			ZonaMiniSpritesData.Add(EdicionPokemon.RubiEsp10,0x5C078);
+			ZonaMiniSpritesData.Add(EdicionPokemon.ZafiroEsp10,0x5C07C);
 			
-			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaUsa,0x8E6D8);
-			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaEsp,0x8E6EC);
+			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaUsa10,0x8E6D8);
+			ZonaMiniSpritesData.Add(EdicionPokemon.EsmeraldaEsp10,0x8E6EC);
 		}
 		public Sprite()
 		{

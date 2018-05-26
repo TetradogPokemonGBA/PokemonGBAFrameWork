@@ -69,10 +69,10 @@ namespace PokemonGBAFrameWork.Ataque
             ZonaDatosAtaques = new Zona("Datos ataque");
 
             //datos los pp es el offset de los datos+4 si se cambia el offset de los datos hay que cambiar el de los pps tambien!!!
-            ZonaDatosAtaques.Add(0x1CC, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.VerdeHojaUsa);
+            ZonaDatosAtaques.Add(0x1CC, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.VerdeHojaUsa10);
 
-            ZonaDatosAtaques.Add(0xCC20, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            ZonaDatosAtaques.Add(0xCA54, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
+            ZonaDatosAtaques.Add(0xCC20, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            ZonaDatosAtaques.Add(0xCA54, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
 
         }
 

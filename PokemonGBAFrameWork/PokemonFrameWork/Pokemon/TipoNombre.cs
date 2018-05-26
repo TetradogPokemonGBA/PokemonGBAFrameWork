@@ -21,20 +21,20 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
         static Nombre()
         {
             ZonaNombreTipo = new Zona("Nombre Tipo");
-            ZonaNombreTipo.Add(EdicionPokemon.ZafiroEsp, 0x2E574);
-            ZonaNombreTipo.Add(EdicionPokemon.RubiEsp, 0x2E574);
+            ZonaNombreTipo.Add(EdicionPokemon.ZafiroEsp10, 0x2E574);
+            ZonaNombreTipo.Add(EdicionPokemon.RubiEsp10, 0x2E574);
 
-            ZonaNombreTipo.Add(EdicionPokemon.ZafiroUsa, 0x2E3A8);
-            ZonaNombreTipo.Add(EdicionPokemon.RubiUsa, 0x2E3A8);
+            ZonaNombreTipo.Add(EdicionPokemon.ZafiroUsa10, 0x2E3A8);
+            ZonaNombreTipo.Add(EdicionPokemon.RubiUsa10, 0x2E3A8);
 
-            ZonaNombreTipo.Add(EdicionPokemon.EsmeraldaEsp, 0x166F4);
-            ZonaNombreTipo.Add(EdicionPokemon.EsmeraldaUsa, 0x166F4);
+            ZonaNombreTipo.Add(EdicionPokemon.EsmeraldaEsp10, 0x166F4);
+            ZonaNombreTipo.Add(EdicionPokemon.EsmeraldaUsa10, 0x166F4);
 
-            ZonaNombreTipo.Add(EdicionPokemon.RojoFuegoEsp, 0x308B4);
-            ZonaNombreTipo.Add(EdicionPokemon.VerdeHojaEsp, 0x308B4);
+            ZonaNombreTipo.Add(EdicionPokemon.RojoFuegoEsp10, 0x308B4);
+            ZonaNombreTipo.Add(EdicionPokemon.VerdeHojaEsp10, 0x308B4);
 
-            ZonaNombreTipo.Add(EdicionPokemon.RojoFuegoUsa, 0x309C8, 0x309DC);
-            ZonaNombreTipo.Add(EdicionPokemon.VerdeHojaUsa, 0x309C8, 0x309DC);
+            ZonaNombreTipo.Add(EdicionPokemon.RojoFuegoUsa10, 0x309C8, 0x309DC);
+            ZonaNombreTipo.Add(EdicionPokemon.VerdeHojaUsa10, 0x309C8, 0x309DC);
         }
         public Nombre() : this("") { }
         public Nombre(string nombre)

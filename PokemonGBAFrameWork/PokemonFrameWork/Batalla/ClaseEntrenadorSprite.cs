@@ -21,14 +21,14 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
                 //pongo las zonas :D
                 //img
-                ZonaImgSprite.Add(0x34628, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-                ZonaImgSprite.Add(EdicionPokemon.RojoFuegoUsa, 0x3473C, 0x34750);
-                ZonaImgSprite.Add(EdicionPokemon.VerdeHojaUsa, 0x3473C, 0x34750);
+                ZonaImgSprite.Add(0x34628, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+                ZonaImgSprite.Add(EdicionPokemon.RojoFuegoUsa10, 0x3473C, 0x34750);
+                ZonaImgSprite.Add(EdicionPokemon.VerdeHojaUsa10, 0x3473C, 0x34750);
 
-                ZonaImgSprite.Add(0x31ADC, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-                ZonaImgSprite.Add(0x31CA8, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+                ZonaImgSprite.Add(0x31ADC, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+                ZonaImgSprite.Add(0x31CA8, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
-                ZonaImgSprite.Add(0x5DF78, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+                ZonaImgSprite.Add(0x5DF78, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
 
             }
 
@@ -80,14 +80,14 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
                 //pongo las zonas :D
 
                 //paletas
-                ZonaPaletaSprite.Add(0x34638, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-                ZonaPaletaSprite.Add(EdicionPokemon.RojoFuegoUsa, 0x3474C, 0x34760);
-                ZonaPaletaSprite.Add(EdicionPokemon.VerdeHojaUsa, 0x3474C, 0x34760);
+                ZonaPaletaSprite.Add(0x34638, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+                ZonaPaletaSprite.Add(EdicionPokemon.RojoFuegoUsa10, 0x3474C, 0x34760);
+                ZonaPaletaSprite.Add(EdicionPokemon.VerdeHojaUsa10, 0x3474C, 0x34760);
 
-                ZonaPaletaSprite.Add(0x31AF0, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-                ZonaPaletaSprite.Add(0x31CBC, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+                ZonaPaletaSprite.Add(0x31AF0, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+                ZonaPaletaSprite.Add(0x31CBC, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
-                ZonaPaletaSprite.Add(0x5B784, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+                ZonaPaletaSprite.Add(0x5B784, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
 
             }
 

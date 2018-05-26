@@ -20,12 +20,12 @@ namespace PokemonGBAFrameWork.Pokemon
             ZonaOrdenNacional = new Zona("Orden Nacional");
 
             //orden nacional
-            ZonaOrdenNacional.Add(0x3FA08, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            ZonaOrdenNacional.Add(0x3F83C, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaOrdenNacional.Add(0x43128, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp);
-            ZonaOrdenNacional.Add(EdicionPokemon.RojoFuegoUsa, 0x4323C, 0x43250);
-            ZonaOrdenNacional.Add(EdicionPokemon.VerdeHojaUsa, 0x4323C, 0x43250);
-            ZonaOrdenNacional.Add(0x6D448, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+            ZonaOrdenNacional.Add(0x3FA08, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            ZonaOrdenNacional.Add(0x3F83C, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+            ZonaOrdenNacional.Add(0x43128, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
+            ZonaOrdenNacional.Add(EdicionPokemon.RojoFuegoUsa10, 0x4323C, 0x43250);
+            ZonaOrdenNacional.Add(EdicionPokemon.VerdeHojaUsa10, 0x4323C, 0x43250);
+            ZonaOrdenNacional.Add(0x6D448, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
 
 
         }

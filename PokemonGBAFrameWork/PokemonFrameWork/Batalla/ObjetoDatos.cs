@@ -60,17 +60,17 @@ namespace PokemonGBAFrameWork.Objeto
         {
             ZonaDatosObjeto = new Zona("Datos Objeto");
             //datos item
-            ZonaDatosObjeto.Add(EdicionPokemon.ZafiroEsp, 0xA9B3C);
-            ZonaDatosObjeto.Add(EdicionPokemon.RubiEsp, 0xA9B3C);
-            ZonaDatosObjeto.Add(EdicionPokemon.RojoFuegoEsp, 0x1C8);
-            ZonaDatosObjeto.Add(EdicionPokemon.VerdeHojaEsp, 0x1C8);
-            ZonaDatosObjeto.Add(EdicionPokemon.EsmeraldaEsp, 0x1C8);
+            ZonaDatosObjeto.Add(EdicionPokemon.ZafiroEsp10, 0xA9B3C);
+            ZonaDatosObjeto.Add(EdicionPokemon.RubiEsp10, 0xA9B3C);
+            ZonaDatosObjeto.Add(EdicionPokemon.RojoFuegoEsp10, 0x1C8);
+            ZonaDatosObjeto.Add(EdicionPokemon.VerdeHojaEsp10, 0x1C8);
+            ZonaDatosObjeto.Add(EdicionPokemon.EsmeraldaEsp10, 0x1C8);
 
-            ZonaDatosObjeto.Add(EdicionPokemon.ZafiroUsa, 0xA98F0, 0xA9910, 0xA9910);
-            ZonaDatosObjeto.Add(EdicionPokemon.RubiUsa, 0xA98F0, 0xA9910, 0xA9910);
-            ZonaDatosObjeto.Add(EdicionPokemon.EsmeraldaUsa, 0x1C8);
-            ZonaDatosObjeto.Add(EdicionPokemon.RojoFuegoUsa, 0x1C8);
-            ZonaDatosObjeto.Add(EdicionPokemon.VerdeHojaUsa, 0x1C8);
+            ZonaDatosObjeto.Add(EdicionPokemon.ZafiroUsa10, 0xA98F0, 0xA9910, 0xA9910);
+            ZonaDatosObjeto.Add(EdicionPokemon.RubiUsa10, 0xA98F0, 0xA9910, 0xA9910);
+            ZonaDatosObjeto.Add(EdicionPokemon.EsmeraldaUsa10, 0x1C8);
+            ZonaDatosObjeto.Add(EdicionPokemon.RojoFuegoUsa10, 0x1C8);
+            ZonaDatosObjeto.Add(EdicionPokemon.VerdeHojaUsa10, 0x1C8);
         }
         public Datos()
         {

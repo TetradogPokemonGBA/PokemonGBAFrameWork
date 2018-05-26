@@ -17,18 +17,18 @@ namespace PokemonGBAFrameWork
             ZonaSpritePokeballBatalla = new Zona("Zona sprite pokeball batalla");
             ZonaPaletaPokeballBatalla = new Zona("Zona paleta pokeball batalla");
 
-            ZonaSpritePokeballBatalla.Add(0x1D0, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.EsmeraldaUsa);
-            ZonaSpritePokeballBatalla.Add(0x477E0, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            ZonaSpritePokeballBatalla.Add(0x1D0, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.EsmeraldaUsa10);
+            ZonaSpritePokeballBatalla.Add(0x477E0, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
-            ZonaSpritePokeballBatalla.Add(EdicionPokemon.RubiUsa, 0x473BC, 0x473DC);
-            ZonaSpritePokeballBatalla.Add(EdicionPokemon.ZafiroUsa, 0x473BC, 0x473DC);
+            ZonaSpritePokeballBatalla.Add(EdicionPokemon.RubiUsa10, 0x473BC, 0x473DC);
+            ZonaSpritePokeballBatalla.Add(EdicionPokemon.ZafiroUsa10, 0x473BC, 0x473DC);
 
 
-            ZonaPaletaPokeballBatalla.Add(0x1D4, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.VerdeHojaUsa, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.EsmeraldaUsa);
-            ZonaPaletaPokeballBatalla.Add(0x477DC, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
+            ZonaPaletaPokeballBatalla.Add(0x1D4, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.EsmeraldaUsa10);
+            ZonaPaletaPokeballBatalla.Add(0x477DC, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
-            ZonaPaletaPokeballBatalla.Add(EdicionPokemon.RubiUsa, 0x473C0, 0x473E0);
-            ZonaPaletaPokeballBatalla.Add(EdicionPokemon.ZafiroUsa, 0x473C0, 0x473E0);
+            ZonaPaletaPokeballBatalla.Add(EdicionPokemon.RubiUsa10, 0x473C0, 0x473E0);
+            ZonaPaletaPokeballBatalla.Add(EdicionPokemon.ZafiroUsa10, 0x473C0, 0x473E0);
 
         }
         public PokeballBatalla()

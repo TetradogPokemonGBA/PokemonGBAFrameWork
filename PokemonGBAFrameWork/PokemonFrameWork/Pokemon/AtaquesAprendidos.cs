@@ -101,12 +101,12 @@ namespace PokemonGBAFrameWork.Pokemon
 			ZonaAtaquesAprendidos = new Zona("Ataques Aprendidos");
 			MarcaFin = new byte[] { 0xFF, 0xFF };
 			//añado las zonas
-			ZonaAtaquesAprendidos.Add(0x6930C,EdicionPokemon.EsmeraldaUsa,EdicionPokemon.EsmeraldaEsp);
-			ZonaAtaquesAprendidos.Add(0x3E968,EdicionPokemon.RojoFuegoEsp,EdicionPokemon.VerdeHojaEsp);
-			ZonaAtaquesAprendidos.Add(EdicionPokemon.RojoFuegoUsa, 0x3EA7C,0x3EA90);
-			ZonaAtaquesAprendidos.Add(EdicionPokemon.VerdeHojaUsa, 0x3EA7C, 0x3EA90);
-			ZonaAtaquesAprendidos.Add(0x3B988,EdicionPokemon.ZafiroEsp,EdicionPokemon.RubiEsp);
-			ZonaAtaquesAprendidos.Add(0x3B7BC,EdicionPokemon.ZafiroUsa,EdicionPokemon.RubiUsa);
+			ZonaAtaquesAprendidos.Add(0x6930C,EdicionPokemon.EsmeraldaUsa10,EdicionPokemon.EsmeraldaEsp10);
+			ZonaAtaquesAprendidos.Add(0x3E968,EdicionPokemon.RojoFuegoEsp10,EdicionPokemon.VerdeHojaEsp10);
+			ZonaAtaquesAprendidos.Add(EdicionPokemon.RojoFuegoUsa10, 0x3EA7C,0x3EA90);
+			ZonaAtaquesAprendidos.Add(EdicionPokemon.VerdeHojaUsa10, 0x3EA7C, 0x3EA90);
+			ZonaAtaquesAprendidos.Add(0x3B988,EdicionPokemon.ZafiroEsp10,EdicionPokemon.RubiEsp10);
+			ZonaAtaquesAprendidos.Add(0x3B7BC,EdicionPokemon.ZafiroUsa10,EdicionPokemon.RubiUsa10);
 		}
 		public AtaquesAprendidos()
 		{

@@ -23,17 +23,17 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         static Nombre()
         {
             ZonaNombres = new Zona("Nombre Clase Entrenador");
-            ZonaNombres.Add(EdicionPokemon.RubiUsa, 0xF7088, 0xF70A8);
-            ZonaNombres.Add(EdicionPokemon.ZafiroUsa, 0xF7088, 0xF70A8);
+            ZonaNombres.Add(EdicionPokemon.RubiUsa10, 0xF7088, 0xF70A8);
+            ZonaNombres.Add(EdicionPokemon.ZafiroUsa10, 0xF7088, 0xF70A8);
 
-            ZonaNombres.Add(EdicionPokemon.VerdeHojaUsa, 0xD8074, 0xD8088);
-            ZonaNombres.Add(EdicionPokemon.RojoFuegoUsa, 0xD80A0, 0xD80B4);
+            ZonaNombres.Add(EdicionPokemon.VerdeHojaUsa10, 0xD8074, 0xD8088);
+            ZonaNombres.Add(EdicionPokemon.RojoFuegoUsa10, 0xD80A0, 0xD80B4);
 
-            ZonaNombres.Add(0x183B4, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.EsmeraldaEsp);
+            ZonaNombres.Add(0x183B4, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
 
-            ZonaNombres.Add(0x40FE8, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp);
-            ZonaNombres.Add(EdicionPokemon.RojoFuegoEsp, 0xD7BF4);
-            ZonaNombres.Add(EdicionPokemon.VerdeHojaEsp, 0xD7BC8);
+            ZonaNombres.Add(0x40FE8, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
+            ZonaNombres.Add(EdicionPokemon.RojoFuegoEsp10, 0xD7BF4);
+            ZonaNombres.Add(EdicionPokemon.VerdeHojaEsp10, 0xD7BC8);
 
         }
         public Nombre()

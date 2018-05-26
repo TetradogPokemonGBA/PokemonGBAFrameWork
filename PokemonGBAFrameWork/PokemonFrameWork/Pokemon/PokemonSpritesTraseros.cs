@@ -16,8 +16,8 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         static Traseros()
         {
             ZonaImgTrasera = new Zona("Imagen Trasera Pokemon");
-            ZonaImgTrasera.Add(0xD3D8, EdicionPokemon.RubiUsa, EdicionPokemon.ZafiroUsa);
-            ZonaImgTrasera.Add(0x12C, EdicionPokemon.RubiEsp, EdicionPokemon.ZafiroEsp, EdicionPokemon.EsmeraldaEsp, EdicionPokemon.EsmeraldaUsa, EdicionPokemon.RojoFuegoEsp, EdicionPokemon.RojoFuegoUsa, EdicionPokemon.VerdeHojaEsp, EdicionPokemon.VerdeHojaUsa);
+            ZonaImgTrasera.Add(0xD3D8, EdicionPokemon.RubiUsa10, EdicionPokemon.ZafiroUsa10);
+            ZonaImgTrasera.Add(0x12C, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10, EdicionPokemon.EsmeraldaEsp10, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaEsp10, EdicionPokemon.VerdeHojaUsa10);
 
         }
         public Traseros()

@@ -34,17 +34,17 @@ namespace PokemonGBAFrameWork.Pokemon
 		{
 			ZonaHuella=new Zona("Img Huella");
 			
-			ZonaHuella.Add(EdicionPokemon.RojoFuegoUsa, 0x105E14, 0x105E8C);
-			ZonaHuella.Add(EdicionPokemon.VerdeHojaUsa, 0x105DEC, 0x105E64);
-			ZonaHuella.Add(EdicionPokemon.EsmeraldaUsa, 0xC0DBC);
-			ZonaHuella.Add(EdicionPokemon.RubiUsa, 0x917C8, 0x917E8, 0x917E8);
-			ZonaHuella.Add(EdicionPokemon.ZafiroUsa, 0x917C8, 0x917E8, 0x917E8);
+			ZonaHuella.Add(EdicionPokemon.RojoFuegoUsa10, 0x105E14, 0x105E8C);
+			ZonaHuella.Add(EdicionPokemon.VerdeHojaUsa10, 0x105DEC, 0x105E64);
+			ZonaHuella.Add(EdicionPokemon.EsmeraldaUsa10, 0xC0DBC);
+			ZonaHuella.Add(EdicionPokemon.RubiUsa10, 0x917C8, 0x917E8, 0x917E8);
+			ZonaHuella.Add(EdicionPokemon.ZafiroUsa10, 0x917C8, 0x917E8, 0x917E8);
 
-			ZonaHuella.Add(EdicionPokemon.VerdeHojaEsp, 0x105F8C);
-			ZonaHuella.Add(EdicionPokemon.RojoFuegoEsp, 0x105FB4);
-			ZonaHuella.Add(EdicionPokemon.EsmeraldaEsp, 0xC0B80);
-			ZonaHuella.Add(EdicionPokemon.RubiEsp, 0x919F8);
-			ZonaHuella.Add(EdicionPokemon.ZafiroEsp, 0x919F8);
+			ZonaHuella.Add(EdicionPokemon.VerdeHojaEsp10, 0x105F8C);
+			ZonaHuella.Add(EdicionPokemon.RojoFuegoEsp10, 0x105FB4);
+			ZonaHuella.Add(EdicionPokemon.EsmeraldaEsp10, 0xC0B80);
+			ZonaHuella.Add(EdicionPokemon.RubiEsp10, 0x919F8);
+			ZonaHuella.Add(EdicionPokemon.ZafiroEsp10, 0x919F8);
 			
 		}
 		
