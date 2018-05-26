@@ -38,7 +38,7 @@ namespace PokemonGBAFrameWork.Objeto
             Bayas,
             ObjetosClave
         }
-
+        public const byte ID = 0xA;
         public static readonly Zona ZonaDatosObjeto;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Datos>();
 

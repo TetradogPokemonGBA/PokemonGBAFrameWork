@@ -7,6 +7,7 @@ namespace PokemonGBAFrameWork.Habilidad
 {
     public class Nombre:IElementoBinarioComplejo
     {
+        public const byte ID = 0x1E;
         public const int LENGTHNOMBRE = 13;
         public static readonly Zona ZonaNombreHabilidad;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();

@@ -17,7 +17,7 @@ namespace PokemonGBAFrameWork
 		Español = 'S',
 		Ingles = 'E'
 	}
-	public enum AbreviacionCanon
+	public enum AbreviacionCanon:ulong
 	{
 		/// <summary>
 		///Abreviación Rubi
@@ -223,11 +223,20 @@ namespace PokemonGBAFrameWork
 				}
 			}
             edicionPokemon.Compilacion = CompilacionPokemon.GetCompilacion(rom, edicionPokemon);
-
+            //pongo el id
+            edicionPokemon.Id = GetId(edicionPokemon);
 			return edicionPokemon;
 		}
 
-		static bool ValidaEdicion(RomGba rom, EdicionPokemon edicionPokemon)
+        public static ulong GetId(EdicionPokemon edicionPokemon)
+        {
+            ulong id = (ulong)edicionPokemon.AbreviacionRom * 100;
+            id += (ulong)edicionPokemon.Compilacion.Version * 10;
+            id += (ulong)edicionPokemon.Compilacion.SubVersion;
+            return id;
+        }
+
+        static bool ValidaEdicion(RomGba rom, EdicionPokemon edicionPokemon)
 		{
 			bool valida = false;
             //tengo que encontrar si es verdad que sea su edicion...

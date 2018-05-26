@@ -27,6 +27,7 @@ namespace PokemonGBAFrameWork.Pokemon
             PaginasRubiZafiro = 2,
             PaginasGeneral = 1,
         }
+        public const byte ID = 0x1B;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Descripcion>();
 
         public static readonly Zona ZonaDescripcion;

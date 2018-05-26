@@ -7,6 +7,7 @@ namespace PokemonGBAFrameWork.Pokemon
 {
    public class OrdenLocal:IElementoBinarioComplejo
     {
+        public const byte ID = 0x22;
         public static readonly Zona ZonaOrdenLocal;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<OrdenLocal>();
 

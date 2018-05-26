@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork
 			MuyGrande = 64
 		}
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<BloqueSprite>();
-
+        public const byte ID = 0xD;
         int offset;
 		int width;
 		int height;

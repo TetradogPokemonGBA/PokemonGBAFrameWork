@@ -24,6 +24,7 @@ namespace PokemonGBAFrameWork
     {
         public class Ruta:IElementoBinarioComplejo
         {
+            public const byte ID = 0x10;
             public const int MAXLENGTH = 7;
             public const byte MAXIMODERUTAS = byte.MaxValue - 1;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Ruta>();
@@ -175,6 +176,7 @@ namespace PokemonGBAFrameWork
                 SieteTurnos//111
 
             }
+            public const byte ID = 0x11;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Pokemon>();
 
             public static readonly Variable VariableSpecialPokemonErrante;

@@ -22,7 +22,8 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// </summary>
 	public class Huella:IElementoBinarioComplejo
 	{
-		public const int LENGHT=32;
+        public const byte ID = 0x1F;
+        public const int LENGHT=32;
 		static readonly Color[] PaletaHuella={Color.Transparent,Color.Black};
 		public static readonly Zona ZonaHuella;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Huella>();

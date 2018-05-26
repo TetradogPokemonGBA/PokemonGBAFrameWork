@@ -8,13 +8,13 @@ namespace PokemonGBAFrameWork
 {
     public class ObjetoCompleto:IElementoBinarioComplejo
     {
-
+        public const byte ID = 0x9;
         //estas dos zonas descubiertas con LSAs Complete Item Editor usando los offsets que da para facilitar la investigación
         //creditos a LocksmithArmy por la app :)
         public static readonly Zona ZonaFieldEffect;
         public static readonly Zona ZonaBattleScript;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<ObjetoCompleto>();
-
+        
         static ObjetoCompleto()
         {
         

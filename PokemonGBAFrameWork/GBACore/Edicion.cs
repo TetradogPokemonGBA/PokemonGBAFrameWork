@@ -24,7 +24,7 @@ namespace PokemonGBAFrameWork
         string abreviacion;
         string nombreCompleto;
         Compilacion compilacion;
-
+        ulong id;
         public Edicion(char idioma, string abreviacion, string nombreCompleto,int version=1,int subVersion=0)
         {
             InicialIdioma = idioma;
@@ -91,6 +91,8 @@ namespace PokemonGBAFrameWork
         public string GameCode { get { return Abreviacion+InicialIdioma+Compilacion.Name; } }
 
         public Compilacion Compilacion { get => compilacion; protected set => compilacion = value; }
+        public ulong Id { get => id; set => id = value; }
+
         public virtual bool Compatible(Edicion edicion)
         {
             return GameCode == edicion.GameCode;

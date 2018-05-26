@@ -7,6 +7,7 @@ namespace PokemonGBAFrameWork
 {
     public class PokeballBatalla:IElementoBinarioComplejo
     {
+        public const byte ID = 0xB;
         public static readonly Zona ZonaPaletaPokeballBatalla;
         public static readonly Zona ZonaSpritePokeballBatalla;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PokeballBatalla>();

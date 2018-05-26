@@ -30,6 +30,7 @@ namespace PokemonGBAFrameWork
             Ataque = 2,
             PokemonIndex = 2,
         }
+        public const byte ID = 0x7;
         public const int MAXPOKEMONENTRENADOR = 6;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<EquipoPokemonEntrenador>();
         Llista<PokemonEntrenador> equipoPokemon;

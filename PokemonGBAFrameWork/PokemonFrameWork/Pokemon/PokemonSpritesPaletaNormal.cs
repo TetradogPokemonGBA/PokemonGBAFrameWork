@@ -7,6 +7,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
     public class PaletaNormal:IElementoBinarioComplejo
     {
+        public const byte ID = 0x25;
         public static readonly Zona ZonaPaletaNormal;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PaletaNormal>();
         static PaletaNormal()

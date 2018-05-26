@@ -18,7 +18,8 @@ namespace PokemonGBAFrameWork.Mini
 	/// </summary>
 	public class Sprite:IElementoBinarioComplejo
 	{
-		const int TAMAÑOHEADER=36;
+        public const byte ID = 0x12;
+        const int TAMAÑOHEADER=36;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
 
         public static readonly Zona ZonaMiniSpritesData;

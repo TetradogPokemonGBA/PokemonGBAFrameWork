@@ -11,6 +11,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
     {
         public class Data:IElementoBinarioComplejo
         {
+            public const byte ID = 0x3;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Data>();
             public static readonly Zona ZonaImgSprite;
 
@@ -64,6 +65,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         }
         public class Paleta:IElementoBinarioComplejo
         {
+            public const byte ID = 0x4;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paleta>();
             public static readonly Zona ZonaPaletaSprite;
 
@@ -125,6 +127,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
         }
 
+        public const byte ID = 0x5;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
         public Data DataImg { get; set; }
         public Paleta PaletaImg { get; set; }

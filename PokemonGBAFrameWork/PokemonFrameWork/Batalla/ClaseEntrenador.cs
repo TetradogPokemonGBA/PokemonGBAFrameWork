@@ -11,7 +11,7 @@ namespace PokemonGBAFrameWork
     public class ClaseEntrenadorCompleto : IElementoBinarioComplejo
     {
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<ClaseEntrenadorCompleto>();
-
+        public const byte ID = 0x0;
 
         public RateMoney RateMoney { get; set; }
 

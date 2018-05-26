@@ -11,7 +11,7 @@ namespace PokemonGBAFrameWork.Ataque
         {
             Nombre = 13
         }
-
+        public const byte ID = 0x18;
         public static readonly Zona ZonaNombre;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 

@@ -29,7 +29,7 @@ namespace PokemonGBAFrameWork
             Local,
             Nacional
         }
-
+        public const byte ID = 0x20;
         public static OrdenPokemon Orden = OrdenPokemon.Nacional;
    
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PokemonCompleto>();

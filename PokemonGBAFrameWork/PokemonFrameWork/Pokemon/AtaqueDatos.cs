@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.Ataque
         {
             Fisico, Especial, Estatus
         }
-
+        public const byte ID = 0x16;
         public static readonly Creditos Creditos;
         public static readonly Zona ZonaDatosAtaques;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Datos>();

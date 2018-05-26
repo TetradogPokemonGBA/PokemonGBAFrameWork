@@ -12,9 +12,9 @@ namespace PokemonGBAFrameWork.Pokemon
 	
 	public  class TipoCompleto:IElementoBinarioComplejo
 	{
-	
-	
-		public static readonly Zona ZonaImagenTipo;
+
+        public const byte ID = 0x2A;
+        public static readonly Zona ZonaImagenTipo;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<TipoCompleto>();
 
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;

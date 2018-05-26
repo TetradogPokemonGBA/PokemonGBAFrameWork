@@ -10,6 +10,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
     public class Frontales:IElementoBinarioComplejo
     {
+        public const byte ID = 0x24;
         private static readonly Paleta PaletaAnimacion;
         public static readonly Zona ZonaImgFrontal;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Frontales>();

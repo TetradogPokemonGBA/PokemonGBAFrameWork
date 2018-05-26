@@ -69,7 +69,7 @@ namespace PokemonGBAFrameWork
             Vacio,
             //''
         }
-
+        public const byte ID = 0xE;
         public const int MAXIMODECARACTERESDESHABILITADO = 0;
         static readonly string MARCAFIN = ((char)255) + "";
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<BloqueString>();

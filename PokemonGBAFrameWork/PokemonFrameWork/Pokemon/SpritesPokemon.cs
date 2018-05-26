@@ -26,8 +26,8 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// </summary>
 	public class SpritesCompleto:IElementoBinarioComplejo
 	{
-		
-		public const int LONGITUDLADO=64;
+        public const byte ID = 0x29;
+        public const int LONGITUDLADO=64;
 		public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<SpritesCompleto>();
 

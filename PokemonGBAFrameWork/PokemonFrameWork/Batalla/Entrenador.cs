@@ -33,6 +33,7 @@ namespace PokemonGBAFrameWork
             Inteligencia = 4,
             Item = 2,
         }
+        public const byte ID = 0x6;
         public const byte MAXMUSIC = 0x7F;
         public const byte LENGTH = 0x28;
         public static readonly Zona ZonaEntrenador;

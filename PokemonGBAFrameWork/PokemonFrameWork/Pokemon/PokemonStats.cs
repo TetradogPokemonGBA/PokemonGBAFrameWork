@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork.Pokemon
             Rosa
 
         }
-
+        public const byte ID = 0x28;
         const int PASOSCICLOECLOSION = 256;
         const int MAXIMOSPASOSECLOSION = PASOSCICLOECLOSION * PASOSCICLOECLOSION;
         const int LENGTHNIVELEVS = 4;

@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public class HabilidadCompleta:IElementoBinarioComplejo
     {
-
+        public const byte ID = 0x1C;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<HabilidadCompleta>();
 
         public Descripcion Descripcion { get; set; }

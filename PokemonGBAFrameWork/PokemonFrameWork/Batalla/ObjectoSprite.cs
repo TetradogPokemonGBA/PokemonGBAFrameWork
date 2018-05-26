@@ -7,6 +7,7 @@ namespace PokemonGBAFrameWork.Objeto
 {
     public class Sprite:IElementoBinarioComplejo
     {
+        public const byte ID = 0x8;
         public static readonly Zona ZonaImagenesObjeto;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
 

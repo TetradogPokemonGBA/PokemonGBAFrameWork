@@ -9,6 +9,7 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
     {
         public enum LongitudCampo
         { Nombre = 7 }
+        public const byte ID = 0x2B;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public static readonly Zona ZonaNombreTipo;

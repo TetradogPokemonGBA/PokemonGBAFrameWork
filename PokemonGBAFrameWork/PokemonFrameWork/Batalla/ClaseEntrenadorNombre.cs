@@ -11,7 +11,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         {
             Nombre = 0xD,
         }
-
+        public const byte ID = 0x1;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public static readonly Zona ZonaNombres;

@@ -20,6 +20,7 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public class Script : IDeclaracion, IBloqueConNombre, ILastResult, IEndScript
     {
+        public const byte ID = 0xF;
         public static readonly Creditos Creditos;
         const string ENTER = "\r\n";
         //enter con el formato correcto// \r\n
