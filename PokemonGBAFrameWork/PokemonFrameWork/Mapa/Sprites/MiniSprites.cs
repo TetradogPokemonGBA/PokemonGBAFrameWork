@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork.Mini
 	public class Sprite:IElementoBinarioComplejo
 	{
 		const int TAMAÑOHEADER=36;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Sprite));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
 
         public static readonly Zona ZonaMiniSpritesData;
 		OffsetRom pt1,pt2,pt3,pt4,pt5;//de momento solo se que el pt4 es para los frames...los demás deben de ser para algo pero no lo sé...

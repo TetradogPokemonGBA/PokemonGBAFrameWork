@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork.Pokemon
 	
 	
 		public static readonly Zona ZonaImagenTipo;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(TipoCompleto));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<TipoCompleto>();
 
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 

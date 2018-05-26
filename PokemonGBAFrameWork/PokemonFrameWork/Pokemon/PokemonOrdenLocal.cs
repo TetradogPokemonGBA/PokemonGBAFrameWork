@@ -8,7 +8,7 @@ namespace PokemonGBAFrameWork.Pokemon
    public class OrdenLocal:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaOrdenLocal;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(OrdenLocal));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<OrdenLocal>();
 
         public Word Orden { get; set; }
 

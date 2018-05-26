@@ -7,7 +7,7 @@ namespace PokemonGBAFrameWork.Ataque
 {
     public class Descripcion:IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Descripcion));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Descripcion>();
 
         public static readonly Zona ZonaDescripcion;
 

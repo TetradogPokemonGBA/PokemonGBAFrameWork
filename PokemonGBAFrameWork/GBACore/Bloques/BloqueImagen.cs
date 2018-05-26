@@ -10,7 +10,7 @@ namespace PokemonGBAFrameWork
 {
     public class BloqueImagen:IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueImagen));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<BloqueImagen>();
         public const int LENGTHHEADER = 4;
         public const int LENGTHHEADERCOMPLETO = OffsetRom.LENGTH + LENGTHHEADER;
         public static readonly Creditos Creditos;

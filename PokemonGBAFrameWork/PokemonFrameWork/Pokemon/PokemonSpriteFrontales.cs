@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
     {
         private static readonly Paleta PaletaAnimacion;
         public static readonly Zona ZonaImgFrontal;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Frontales));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Frontales>();
         Llista<BloqueImagen> sprites;
         static Frontales()
         {

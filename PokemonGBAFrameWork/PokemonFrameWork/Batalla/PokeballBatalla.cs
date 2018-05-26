@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork
     {
         public static readonly Zona ZonaPaletaPokeballBatalla;
         public static readonly Zona ZonaSpritePokeballBatalla;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PokeballBatalla));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PokeballBatalla>();
 
         static PokeballBatalla()
         {

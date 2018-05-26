@@ -9,13 +9,14 @@ namespace PokemonGBAFrameWork
 {
     public class Word : BaseWord, IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Word));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Word>();
 
         public const int LENGTH = 2;
 
 
 
         #region Constructores
+        public Word() : this(0) { }
         public Word(ushort word) : base(Serializar.GetBytes(word)) { }
         public Word(byte[] data) : base(data)
         {

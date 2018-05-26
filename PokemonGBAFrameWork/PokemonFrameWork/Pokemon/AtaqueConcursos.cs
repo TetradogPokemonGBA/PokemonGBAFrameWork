@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork.Ataque
         {
             DatosConcurso = 15
         }
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Concursos));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Concursos>();
 
         public static readonly Zona ZonaDatosConcursosHoenn;
         public static readonly Variable VariableAtaqueConcurso;

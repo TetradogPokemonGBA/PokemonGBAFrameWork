@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
     {
         public enum LongitudCampo
         { Nombre = 7 }
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Nombre));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public static readonly Zona ZonaNombreTipo;
 
@@ -35,7 +35,8 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
             ZonaNombreTipo.Add(EdicionPokemon.RojoFuegoUsa, 0x309C8, 0x309DC);
             ZonaNombreTipo.Add(EdicionPokemon.VerdeHojaUsa, 0x309C8, 0x309DC);
         }
-        public Nombre(string nombre="")
+        public Nombre() : this("") { }
+        public Nombre(string nombre)
         {
             Texto = new BloqueString((int)LongitudCampo.Nombre);
             Texto.Texto = nombre;

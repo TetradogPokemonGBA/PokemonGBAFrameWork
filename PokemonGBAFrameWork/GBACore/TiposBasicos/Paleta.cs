@@ -11,8 +11,8 @@ namespace PokemonGBAFrameWork
 {
     public class Paleta :IComparable, IComparable<Paleta>, IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Paleta));
-    
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paleta>();
+
         public static System.Drawing.Color BackgroundColorDefault = System.Drawing.Color.Transparent;
         public const int LENGTHHEADER = 4;
         public const int LENGTHHEADERCOMPLETO = OffsetRom.LENGTH + LENGTHHEADER;

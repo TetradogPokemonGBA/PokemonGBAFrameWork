@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork
         public const byte MAXMUSIC = 0x7F;
         public const byte LENGTH = 0x28;
         public static readonly Zona ZonaEntrenador;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Entrenador));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Entrenador>();
         byte trainerClass;
         bool esUnaEntrenadora;
         byte musicaBatalla;

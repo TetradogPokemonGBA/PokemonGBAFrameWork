@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork.Ataque
         }
 
         public static readonly Zona ZonaNombre;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Nombre));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public BloqueString Texto { get; set; }
 

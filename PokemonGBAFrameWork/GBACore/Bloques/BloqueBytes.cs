@@ -8,10 +8,11 @@ namespace PokemonGBAFrameWork
 {
     public class BloqueBytes : IClonable<BloqueBytes>, ICloneable,IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueBytes));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<BloqueBytes>();
         int offset;
         byte[] datos;
         #region Constructores
+        public BloqueBytes() { }
         public BloqueBytes(int lengthData)
         {
             Bytes = new byte[lengthData];

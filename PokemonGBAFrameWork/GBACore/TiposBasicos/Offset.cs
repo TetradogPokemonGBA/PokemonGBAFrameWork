@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork
 {
     public class OffsetRom : IComparable, IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(OffsetRom));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<OffsetRom>();
         public const int LENGTH = 4;
         public const int POSICIONIDENTIFICADOR = 3;
         public const byte BYTEIDENTIFICADOR16MB = 0x8;
@@ -18,6 +18,7 @@ namespace PokemonGBAFrameWork
         public const int TREINTAYDOSMEGAS = DIECISEISMEGAS * 2;
 
         byte[] bytesPointer;
+        public OffsetRom() : this(0) { }
         public OffsetRom(int offset) : this(Convert.ToUInt32(offset))
         { }
         public OffsetRom(uint offset = 0)

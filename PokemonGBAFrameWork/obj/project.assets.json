@@ -2,11 +2,11 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.2": {
+      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.3": {
         "type": "package",
         "dependencies": {
           "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.0",
-          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.4",
+          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.7",
           "System.Drawing.Common": "4.5.0-rc1"
         },
         "compile": {
@@ -86,12 +86,12 @@
     }
   },
   "libraries": {
-    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.2": {
-      "sha512": "5WjREzdsfzJbe04W3haHd0S8DI+WyZBODEZbjxg/2d6te2PEEdSdpxWoaD22m5dHnzS4xnhhXScMgD6pI1nFPg==",
+    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.3": {
+      "sha512": "BRAwAWUkOuUszAoXxYophGoE0RHoCJXdHaXLFcBxJoyhGWoSsRzOzKddeFNacmbR4O3e7iriizFigob2RTrBzg==",
       "type": "package",
-      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.2",
+      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.3",
       "files": [
-        "gabriel.cat.s.binaris.1.0.5-preview1.0.2.nupkg.sha512",
+        "gabriel.cat.s.binaris.1.0.5-preview1.0.3.nupkg.sha512",
         "gabriel.cat.s.binaris.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll"
       ]
@@ -359,7 +359,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.2",
+      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.3",
       "Gabriel.Cat.S.Utilitats >= 1.0.4.3-preview1.0.7",
       "NETStandard.Library >= 2.0.1"
     ]
@@ -408,7 +408,7 @@
         "dependencies": {
           "Gabriel.Cat.S.Binaris": {
             "target": "Package",
-            "version": "[1.0.5-preview1.0.2, )"
+            "version": "[1.0.5-preview1.0.3, )"
           },
           "Gabriel.Cat.S.Utilitats": {
             "target": "Package",

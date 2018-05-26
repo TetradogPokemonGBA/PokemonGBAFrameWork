@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork.Pokemon
             Nombre = NombreCompilado + 2,//para los Nidoran[f] se guarda [f] como un caracter...de alli que le sume 2 '[',']'
         }
         public static readonly Zona ZonaNombre;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Nombre));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public BloqueString Texto { get; set; }
 

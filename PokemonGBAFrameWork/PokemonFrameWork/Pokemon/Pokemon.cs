@@ -32,7 +32,7 @@ namespace PokemonGBAFrameWork
 
         public static OrdenPokemon Orden = OrdenPokemon.Nacional;
    
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PokemonCompleto));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PokemonCompleto>();
 
         public PokemonCompleto()
         {

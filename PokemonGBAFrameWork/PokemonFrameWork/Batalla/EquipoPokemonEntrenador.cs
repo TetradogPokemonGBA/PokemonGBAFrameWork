@@ -31,7 +31,7 @@ namespace PokemonGBAFrameWork
             PokemonIndex = 2,
         }
         public const int MAXPOKEMONENTRENADOR = 6;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(EquipoPokemonEntrenador));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<EquipoPokemonEntrenador>();
         Llista<PokemonEntrenador> equipoPokemon;
         public EquipoPokemonEntrenador()
         {

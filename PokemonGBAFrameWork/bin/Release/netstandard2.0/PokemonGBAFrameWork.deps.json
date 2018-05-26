@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "6168bbaedd7c3363239087a583209035b3709866"
+    "signature": "5b675a34c479e94e11e93d5204beab7edf1658bb"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,7 +9,7 @@
     ".NETStandard,Version=v2.0/": {
       "PokemonGBAFrameWork/1.0.1.0-preview1": {
         "dependencies": {
-          "Gabriel.Cat.S.Binaris": "1.0.5-preview1.0.2",
+          "Gabriel.Cat.S.Binaris": "1.0.5-preview1.0.3",
           "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.7",
           "NETStandard.Library": "2.0.1"
         },
@@ -17,7 +17,7 @@
           "PokemonGBAFrameWork.dll": {}
         }
       },
-      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.2": {
+      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.3": {
         "dependencies": {
           "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.0",
           "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.7",
@@ -68,12 +68,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.2": {
+    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-5WjREzdsfzJbe04W3haHd0S8DI+WyZBODEZbjxg/2d6te2PEEdSdpxWoaD22m5dHnzS4xnhhXScMgD6pI1nFPg==",
-      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.2",
-      "hashPath": "gabriel.cat.s.binaris.1.0.5-preview1.0.2.nupkg.sha512"
+      "sha512": "sha512-BRAwAWUkOuUszAoXxYophGoE0RHoCJXdHaXLFcBxJoyhGWoSsRzOzKddeFNacmbR4O3e7iriizFigob2RTrBzg==",
+      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.3",
+      "hashPath": "gabriel.cat.s.binaris.1.0.5-preview1.0.3.nupkg.sha512"
     },
     "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.0": {
       "type": "package",

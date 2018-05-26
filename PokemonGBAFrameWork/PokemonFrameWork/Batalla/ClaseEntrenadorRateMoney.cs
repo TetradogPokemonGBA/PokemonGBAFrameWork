@@ -14,7 +14,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             RateMoney = 4,
         }
 
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(RateMoney));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<RateMoney>();
         public static readonly Zona ZonaRatesMoney;
 
         byte rate;

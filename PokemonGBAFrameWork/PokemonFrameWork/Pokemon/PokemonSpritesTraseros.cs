@@ -10,7 +10,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
     public class Traseros:IElementoBinarioComplejo
     {
         public static readonly Zona ZonaImgTrasera;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Traseros));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Traseros>();
         Llista<BloqueImagen> sprites;
         static Traseros()
         {

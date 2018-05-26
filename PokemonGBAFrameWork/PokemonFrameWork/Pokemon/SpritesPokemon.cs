@@ -29,10 +29,10 @@ namespace PokemonGBAFrameWork.Pokemon
 		
 		public const int LONGITUDLADO=64;
 		public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(SpritesCompleto));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<SpritesCompleto>();
 
 
-		public SpritesCompleto()
+        public SpritesCompleto()
 		{
 
             SpritesFrontales = new Frontales();

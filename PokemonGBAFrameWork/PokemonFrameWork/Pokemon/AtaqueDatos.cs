@@ -49,7 +49,7 @@ namespace PokemonGBAFrameWork.Ataque
 
         public static readonly Creditos Creditos;
         public static readonly Zona ZonaDatosAtaques;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Datos));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Datos>();
 
         public const int Longitud = 12;
         BloqueBytes blDatosAtaque;

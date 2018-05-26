@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork.Mini
 	/// </summary>
 	public class Paletas:IElementoBinarioComplejo
 	{
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Paletas));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paleta>();
 
         public static readonly Zona ZonaMiniSpritesPaleta;
 		Llista<Paleta> paletas;

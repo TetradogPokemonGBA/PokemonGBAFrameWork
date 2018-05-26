@@ -6,4 +6,3 @@ C:\Users\tetra\Programas\PokemonGBAFrameWork\PokemonGBAFrameWork\bin\Release\net
 C:\Users\tetra\Programas\PokemonGBAFrameWork\PokemonGBAFrameWork\bin\Release\netstandard2.0\PokemonGBAFrameWork.pdb
 C:\Users\tetra\Programas\PokemonGBAFrameWork\PokemonGBAFrameWork\obj\Release\netstandard2.0\PokemonGBAFrameWork.dll
 C:\Users\tetra\Programas\PokemonGBAFrameWork\PokemonGBAFrameWork\obj\Release\netstandard2.0\PokemonGBAFrameWork.pdb
-C:\Users\tetra\Programas\PokemonGBAFrameWork\PokemonGBAFrameWork\obj\Release\netstandard2.0\PokemonGBAFrameWork.csprojAssemblyReference.cache

@@ -26,7 +26,7 @@ namespace PokemonGBAFrameWork
         {
             public const int MAXLENGTH = 7;
             public const byte MAXIMODERUTAS = byte.MaxValue - 1;
-            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Ruta));
+            public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Ruta>();
 
             public static readonly Variable VariableBancoMapaRutaValido;
             public static readonly Variable VariableColumnasFilaRuta;
@@ -175,7 +175,7 @@ namespace PokemonGBAFrameWork
                 SieteTurnos//111
 
             }
-            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Pokemon));
+            public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Pokemon>();
 
             public static readonly Variable VariableSpecialPokemonErrante;
             public static readonly Variable VariablePokemonErranteVar;
@@ -236,6 +236,7 @@ namespace PokemonGBAFrameWork
                                                                                        //logica
                 VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp);
             }
+            public Pokemon() { }
             public Pokemon(PokemonGBAFrameWork.PokemonCompleto pokemon, Word vida = null, Word nivel = null, byte stats = 0)
             {
                 PokemonErrante = pokemon;

@@ -27,7 +27,7 @@ namespace PokemonGBAFrameWork
 			Grande = 32,
 			MuyGrande = 64
 		}
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueSprite));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<BloqueSprite>();
 
         int offset;
 		int width;
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork
 		byte[] imgData;
 		Paleta paleta;
 		
-		private BloqueSprite()
+		public BloqueSprite()
 		{
 		}
 		public BloqueSprite(Bitmap bmp)

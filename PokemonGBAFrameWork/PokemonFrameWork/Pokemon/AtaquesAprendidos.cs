@@ -24,11 +24,11 @@ namespace PokemonGBAFrameWork.Pokemon
 	{
 		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable,IElementoBinarioComplejo
 		{
-            public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(AtaqueAprendido));
+            public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<AtaqueAprendido>();
 
             Word ataque;// :S no acabo de ver que sea asi...porque no se lee ni se escribe como seria un word...o eso me parece...por mirar...
 			byte nivel;
-
+            public AtaqueAprendido() { }
 			public AtaqueAprendido(Word ataque=null, byte nivel=1)
 			{
 
@@ -86,7 +86,7 @@ namespace PokemonGBAFrameWork.Pokemon
 				return Ataque+":"+Nivel;
 			}
 		}
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(AtaquesAprendidos));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<AtaquesAprendidos>();
 
         public static readonly Zona ZonaAtaquesAprendidos;
 		public static readonly byte[] MarcaFin;

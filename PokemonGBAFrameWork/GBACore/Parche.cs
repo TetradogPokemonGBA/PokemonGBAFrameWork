@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
 
         public class ParteAbsoluta:IElementoBinarioComplejo
         {
-            private static readonly ElementoBinario serializador = ElementoComplejoBinarioNullable.GetElement<ParteAbsoluta>();
+            private static readonly ElementoBinario serializador = ElementoBinario.GetSerializador<ParteAbsoluta>();
             public ParteAbsoluta()
             {
                 PointersRelativos = new List<KeyValuePair<OffsetRom, ParteRelativa>>();
@@ -59,7 +59,7 @@ namespace PokemonGBAFrameWork
 
         public class ParteRelativa:IElementoBinarioComplejo
         {
-            private static readonly ElementoBinario serializador = ElementoComplejoBinarioNullable.GetElement<ParteRelativa>();
+            private static readonly ElementoBinario serializador = ElementoBinario.GetSerializador<ParteRelativa>();
             public byte[] Datos { get; set; }
             public Llista<KeyValuePair<OffsetRom, ParteRelativa>> PartesRelativas { get; private set; }
             /// <summary>
@@ -99,7 +99,7 @@ namespace PokemonGBAFrameWork
             }
         }
 
-        public static readonly ElementoBinario Serializador = ElementoComplejoBinarioNullable.GetElement<Parche>();
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Parche>();
         public static event GetOffsetCompatible OffsetCompatibleStatic;
         public static Llista<GetOffsetCompatible> MetodosOffsetCompatible { get; private set; }
         public string Autor { get; set; }

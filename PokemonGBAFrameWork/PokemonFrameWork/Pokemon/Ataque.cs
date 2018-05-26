@@ -24,7 +24,7 @@ namespace PokemonGBAFrameWork
 	{
 		//son 9 bits en total de alli el 511 :) asi en 2 bytes hay ataque y nivel :)
 		public const int MAXATAQUESSINASM = 511;//hasta que no sepa como se cambia para poner más se queda este maximo :) //hay un tutorial de como hacerlo pero se necesita insertar una rutina ASM link:http://www.pokecommunity.com/showthread.php?t=263479
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(AtaqueCompleto));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<AtaqueCompleto>();
 
         enum LongitudCampos
 		{

@@ -88,7 +88,7 @@ namespace PokemonGBAFrameWork.Pokemon
         /// </summary>
         const byte FACELEFT = 128;
         public static readonly Zona ZonaStats;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(Stats));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Stats>();
 
 
         Word objeto1;

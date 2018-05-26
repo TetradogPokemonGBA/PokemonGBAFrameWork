@@ -7,7 +7,7 @@ namespace PokemonGBAFrameWork
 {
     public class PokemonEntrenador:IElementoBinarioComplejo
     {
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(PokemonEntrenador));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PokemonEntrenador>();
 
         Word especie;//quinto byte
         byte ivs;//primer byte

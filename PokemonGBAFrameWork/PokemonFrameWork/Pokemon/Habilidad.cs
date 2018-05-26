@@ -21,7 +21,7 @@ namespace PokemonGBAFrameWork
     public class HabilidadCompleta:IElementoBinarioComplejo
     {
 
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(HabilidadCompleta));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<HabilidadCompleta>();
 
         public Descripcion Descripcion { get; set; }
         public Nombre Nombre { get; set; }

@@ -13,7 +13,7 @@ namespace PokemonGBAFrameWork
         //creditos a LocksmithArmy por la app :)
         public static readonly Zona ZonaFieldEffect;
         public static readonly Zona ZonaBattleScript;
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(ObjetoCompleto));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<ObjetoCompleto>();
 
         static ObjetoCompleto()
         {

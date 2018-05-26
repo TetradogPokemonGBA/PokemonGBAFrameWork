@@ -72,7 +72,7 @@ namespace PokemonGBAFrameWork
 
         public const int MAXIMODECARACTERESDESHABILITADO = 0;
         static readonly string MARCAFIN = ((char)255) + "";
-        public static readonly ElementoBinario Serializador = ElementoBinarioNullable.GetElementoBinario(typeof(BloqueString));
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<BloqueString>();
         int maxCaracteres;
         int offsetInicio;
         string texto;
