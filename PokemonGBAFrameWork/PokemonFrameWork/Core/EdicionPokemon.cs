@@ -12,33 +12,36 @@ using System;
 
 namespace PokemonGBAFrameWork
 {
+    [Flags]
     public enum Idioma
     {
-        Español = 'S',
-        Ingles = 'E'
+        Español = AbreviacionCanon.BPG*2,
+        Ingles = Español*2,
+        Otro=Ingles*2
     }
-    public enum AbreviacionCanon : ulong
+    [Flags]
+    public enum AbreviacionCanon 
     {
         /// <summary>
         ///Abreviación Rubi
         /// </summary>
-        AXV,
+        AXV=8,//asi puede haber hasta 4 compilaciones...por si surjen nuevos idiomas con más compilaciones :3
         /// <summary>
         ///Abreviación Zafiro
         /// </summary>
-        AXP,
+        AXP=AXV*2,
         /// <summary>
         ///Abreviación Esmeralda
         /// </summary>
-        BPE,
+        BPE=AXP*2,
         /// <summary>
         ///Abreviación Rojo Fuego
         /// </summary>
-        BPR,
+        BPR=BPE*2,
         /// <summary>
         ///Abreviación Verde Hoja
         /// </summary>
-        BPG
+        BPG=BPR*2
 
     }
 
@@ -47,6 +50,10 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public class EdicionPokemon : Edicion, IComparable
     {
+        /// <summary>
+        ///Este es el ID máximo reservado hasta que añada nuevos idiomas
+        /// </summary>
+        public const ulong IDMINRESERVADO = (ulong)((int)Idioma.Español + (int)Idioma.Ingles +(int) AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR) + 0 + 1 + 2;
         //Ediciones canon usa
         public static readonly EdicionPokemon RubiUsa10 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV,CompilacionPokemon.Compilaciones[0]);
         public static readonly EdicionPokemon RubiUsa11 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[1]);
@@ -239,11 +246,11 @@ namespace PokemonGBAFrameWork
             EdicionPokemon edicionPokemon = new EdicionPokemon(rom.Edicion);
             bool edicionValida;
             AbreviacionCanon abreviacionRom;
-            edicionPokemon.Idioma = (Idioma)edicionPokemon.InicialIdioma;
+            edicionPokemon.Idioma =GetIdioma( edicionPokemon.InicialIdioma);//mirar de que el idioma se pueda calcular...
             edicionValida = Enum.TryParse(edicionPokemon.Abreviacion, out abreviacionRom);
             edicionPokemon.AbreviacionRom = abreviacionRom;
             //compruebo que este bien
-            if (edicionValida && edicionPokemon.Idioma == Idioma.Español || edicionPokemon.Idioma == Idioma.Ingles)
+            if (edicionValida && (edicionPokemon.Idioma == Idioma.Español || edicionPokemon.Idioma == Idioma.Ingles))
             {
                 edicionValida = ValidaEdicion(rom, edicionPokemon);
             }
@@ -274,12 +281,21 @@ namespace PokemonGBAFrameWork
             return edicionPokemon;
         }
 
+        private static Idioma GetIdioma(char inicialIdioma)
+        {
+            Idioma idioma;
+            switch(inicialIdioma)
+            {
+                case 'S':idioma = Idioma.Español;break;
+                case 'E': idioma = Idioma.Ingles; break;
+                default:idioma = Idioma.Otro;break;
+            }
+            return idioma;
+        }
+
         public static ulong GetId(EdicionPokemon edicionPokemon)
         {
-            ulong id = (ulong)edicionPokemon.AbreviacionRom * 100;
-            id += (ulong)edicionPokemon.Compilacion.Version * 10;
-            id += (ulong)edicionPokemon.Compilacion.SubVersion;
-            return id;
+            return (ulong)((int)edicionPokemon.Idioma + (int)edicionPokemon.AbreviacionRom + edicionPokemon.Compilacion.SubVersion);
         }
 
         static bool ValidaEdicion(RomGba rom, EdicionPokemon edicionPokemon)
