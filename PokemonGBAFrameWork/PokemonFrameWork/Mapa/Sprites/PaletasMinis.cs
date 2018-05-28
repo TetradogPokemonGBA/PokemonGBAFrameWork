@@ -71,11 +71,17 @@ namespace PokemonGBAFrameWork.Mini
 			int	offsetTablaPaleta=Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
 			try{
 				while(true)
-					paletas.PaletasMinis.Add(Paleta.GetPaleta(rom,offsetTablaPaleta+paletas.PaletasMinis.Count*Paleta.LENGTHHEADERCOMPLETO));
+					paletas.PaletasMinis.Add(GetPaletaMinis(rom,paletas.paletas.Count,offsetTablaPaleta));
 			}catch{}
 			paletas.PaletasMinis.SortByQuickSort();
 			return paletas;
 		}
+        public static Paleta GetPaletaMinis(RomGba rom,int posicion,int offsetTablaPaleta = -1)
+        {
+            if(offsetTablaPaleta<0)
+                offsetTablaPaleta= Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
+            return Paleta.GetPaleta(rom, offsetTablaPaleta + posicion * Paleta.LENGTHHEADERCOMPLETO);
+        }
         //falta set
 	}
 }

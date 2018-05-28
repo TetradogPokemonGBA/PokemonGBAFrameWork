@@ -22,7 +22,7 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public static class PokemonErrante
     {
-        public class Ruta:IElementoBinarioComplejo
+        public class Ruta : IElementoBinarioComplejo
         {
             public const byte ID = 0x10;
             public const int MAXLENGTH = 7;
@@ -90,7 +90,7 @@ namespace PokemonGBAFrameWork
 
             }
 
-            public byte[] Rutas { get;  set; }
+            public byte[] Rutas { get; set; }
 
             ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
@@ -101,19 +101,27 @@ namespace PokemonGBAFrameWork
 
             public static Ruta[] GetRutas(RomGba rom)
             {
-                int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
                 Ruta[] rutas = new Ruta[rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]];
-                BloqueBytes bloqueDatos = BloqueBytes.GetBytes(rom.Data, Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rutas.Length);
                 for (int i = 0; i < rutas.Length; i++)
                 {
-                    rutas[i] = new Ruta();
-                    for (int j = 0; j < columnas; j++)
-                        rutas[i].Rutas[j] = bloqueDatos.Bytes[i * columnas + j];
+                    rutas[i] = GetRuta(rom, i);
                 }
                 return rutas;
 
             }
 
+            public static Ruta GetRuta(RomGba rom, int posicion)
+            {
+                int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
+                Ruta ruta = new Ruta();
+                BloqueBytes bloqueDatos = BloqueBytes.GetBytes(rom.Data, Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
+
+                for (int j = 0; j < columnas; j++)
+                    ruta.Rutas[j] = bloqueDatos.Bytes[posicion * columnas + j];
+
+                return ruta;
+
+            }
             public static void SetRutas(RomGba rom, IList<Ruta> rutasDondeAparece)
             {
 
@@ -153,7 +161,7 @@ namespace PokemonGBAFrameWork
             }
 
         }
-        public class Pokemon:IElementoBinarioComplejo
+        public class Pokemon : IElementoBinarioComplejo
         {
 
             public enum Stat
@@ -219,7 +227,7 @@ namespace PokemonGBAFrameWork
                 VariableVitalidadVar.Add(0x506D, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
                 VariableVitalidadVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5101, 0x5115);
                 VariableVitalidadVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5101, 0x5115);//logica
-                                                                                      //logica
+                                                                                        //logica
                 VariableVitalidadVar.Add(0x4B55, EdicionPokemon.RubiEsp10);
 
                 VariableNivelYEstadoVar.Add(0x4F26, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
@@ -227,7 +235,7 @@ namespace PokemonGBAFrameWork
 
                 VariableNivelYEstadoVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5102, 0x5116);//logica
                 VariableNivelYEstadoVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5102, 0x5116);//logica
-                                                                                         //logica
+                                                                                           //logica
                 VariableNivelYEstadoVar.Add(0x4B56, EdicionPokemon.RubiEsp10);
 
                 VariableDisponibleVar.Add(0x5F29, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
@@ -235,7 +243,7 @@ namespace PokemonGBAFrameWork
 
                 VariableDisponibleVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5105, 0x5119);//logica
                 VariableDisponibleVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5105, 0x5119);//logica
-                                                                                       //logica
+                                                                                         //logica
                 VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp10);
             }
             public Pokemon() { }

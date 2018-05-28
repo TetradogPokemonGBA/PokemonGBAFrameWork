@@ -18,10 +18,31 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class CompilacionPokemon:Compilacion
 	{
+        public enum Version
+        {
+            Primera=1,
+            Segunda=Primera*2,
+            Ultima=Segunda*2
+        }
 		public static readonly CompilacionPokemon[] Compilaciones=new CompilacionPokemon[]{new CompilacionPokemon(1,0),new CompilacionPokemon(1,1),new CompilacionPokemon(1,2)};
 
         private CompilacionPokemon(int version, int subVersion) : base(version, subVersion)
         {
+        }
+        public Version Compilacion
+        {
+            get
+            {
+                Version compilacion;
+                switch(SubVersion)
+                {
+                    case 0:compilacion = Version.Primera;break;
+                    case 1:compilacion = Version.Segunda;break;
+                    case 2:compilacion = Version.Ultima;break;
+                    default:throw new Exception();
+                }
+                return compilacion;
+            }
         }
       
 

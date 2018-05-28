@@ -53,7 +53,7 @@ namespace PokemonGBAFrameWork
         /// <summary>
         ///Este es el ID máximo reservado hasta que añada nuevos idiomas
         /// </summary>
-        public const ulong IDMINRESERVADO = (ulong)((int)Idioma.Español + (int)Idioma.Ingles +(int) AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR) + 0 + 1 + 2;
+        public const long IDMINRESERVADO = ((int)Idioma.Español + (int)Idioma.Ingles +(int) AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR) + 0 + 1 + 2;
         //Ediciones canon usa
         public static readonly EdicionPokemon RubiUsa10 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV,CompilacionPokemon.Compilaciones[0]);
         public static readonly EdicionPokemon RubiUsa11 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[1]);
@@ -95,7 +95,7 @@ namespace PokemonGBAFrameWork
             RojoFuegoEsp10,
             VerdeHojaEsp10
         };
-        public static readonly ulong[] IdsEdicionesCanon = new ulong[] {
+        public static readonly long[] IdsEdicionesCanon = new long[] {
             RubiUsa10.Id,
             RubiUsa11.Id,
             RubiUsa12.Id,
@@ -293,9 +293,9 @@ namespace PokemonGBAFrameWork
             return idioma;
         }
 
-        public static ulong GetId(EdicionPokemon edicionPokemon)
+        public static long GetId(EdicionPokemon edicionPokemon)
         {
-            return (ulong)((int)edicionPokemon.Idioma + (int)edicionPokemon.AbreviacionRom + edicionPokemon.Compilacion.SubVersion);
+            return (int)edicionPokemon.Idioma + (int)edicionPokemon.AbreviacionRom + (int)((CompilacionPokemon)edicionPokemon.Compilacion).Compilacion;
         }
 
         static bool ValidaEdicion(RomGba rom, EdicionPokemon edicionPokemon)

@@ -9,7 +9,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Es la rom cargada en la ram
     /// </summary>
-    public class RomGba:IComparable<RomGba> 
+    public class RomGba : IComparable<RomGba>
     {
 
         public const string EXTENSION = ".gba";
@@ -30,7 +30,7 @@ namespace PokemonGBAFrameWork
 
 
         }
-        public RomGba(FileInfo romFile):this()
+        public RomGba(FileInfo romFile) : this()
         {
 
 
@@ -39,7 +39,7 @@ namespace PokemonGBAFrameWork
 
             nombre = System.IO.Path.GetFileNameWithoutExtension(romFile.FullName);
             path = romFile.FullName.Substring(0, romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length);
-            
+
         }
         private RomGba()
         { idUnico = new IdUnico(); }
@@ -49,8 +49,8 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                //no se porque si pongo if(edicion==null) pasa del if olimpicamente...
-                this.edicion = Edicion.GetEdicion(this);
+                if (edicion == null)//si da problemas lo quito otra vez...
+                    this.edicion = Edicion.GetEdicion(this);
                 return this.edicion;
             }
         }
@@ -180,7 +180,7 @@ namespace PokemonGBAFrameWork
                 sizeRom = MAXLENGTH;
             else if (sizeRom < MINLENGHT)
                 sizeRom = MINLENGHT;
-               
+
             byte[] array = Data.Bytes;
             Array.Resize(ref array, sizeRom);
             Data.Bytes = array;
