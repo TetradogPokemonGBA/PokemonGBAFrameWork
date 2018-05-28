@@ -105,7 +105,7 @@ namespace PokemonGBAFrameWork
                 case Pokemon.TipoCompleto.ID: elemento = Pokemon.TipoCompleto.GetTipo(rom, posicion); break;
                 case Pokemon.Tipo.Nombre.ID: elemento = Pokemon.Tipo.Nombre.GetNombre(rom, posicion); break;
 
-
+                    //si se añaden más hay que ponerlos!
             }
             return elemento;
         }
