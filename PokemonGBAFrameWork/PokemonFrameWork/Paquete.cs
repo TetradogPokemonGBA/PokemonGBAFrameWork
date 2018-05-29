@@ -14,8 +14,8 @@ namespace PokemonGBAFrameWork
         static TwoKeysList<string, long, RomGba> RomsCargadas;
         static TwoKeysList<string, long, Paquete> PaquetesCargados;
         public long Id { get; set; }
-        public Llista<IElementoBinarioComplejo> ElementosPaquete { get; private set; }
-
+        public Llista<ElementoSerializado> ElementosPaquetePendientes { get; private set; }
+        public PokemonFrameWorkItem[] ItemsCargados { get; private set; }
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
         static Paquete()
         {
@@ -49,14 +49,62 @@ namespace PokemonGBAFrameWork
 
         public Paquete()
         {
-            ElementosPaquete = new Llista<IElementoBinarioComplejo>();
+            ElementosPaquetePendientes = new Llista<ElementoSerializado>();
             Id = DateTime.Now.Ticks;
         }
         public void FullLoad()
         {
+            IElementoBinarioComplejo aux;
             //miro cada elemento a ver si necesita cargar la base.
+            if (ItemsCargados == null)
+                ItemsCargados = new PokemonFrameWorkItem[ElementosPaquetePendientes.Count];
+            for(int i=0;i<ItemsCargados.Length;i++)
+            {
+                if(ItemsCargados[i]==null)
+                {
+                    if (ElementosPaquetePendientes[i].Id <= EdicionPokemon.IDMINRESERVADO)
+                        aux = GetElementoBase(GetBaseCompatible(ElementosPaquetePendientes[i].Id), ElementosPaquetePendientes[i].IdTipo, ElementosPaquetePendientes[i].IdElemento);
+                    else
+                    {
+                        //viene de un paquete
+                        aux = PaquetesCargados[ElementosPaquetePendientes[i].Id].GetFullElement(ElementosPaquetePendientes[i].IdElemento);
+                    }
+                    ItemsCargados[i] =(PokemonFrameWorkItem)aux.Serialitzer.GetObject( ElementosPaquetePendientes[i].GetBytesCompletos(aux.Serialitzer.GetBytes(aux)));
+                }
+            }
 
         }
+
+        public IElementoBinarioComplejo GetFullElement(long idFuente,ushort idElemento)
+        {//por revisar logica y mirar recursividad infinita...
+            IElementoBinarioComplejo aux=null;
+            if (ItemsCargados[idElemento] == null)
+            {
+                if (idFuente <= EdicionPokemon.IDMINRESERVADO)
+                    aux = GetElementoBase(GetBaseCompatible(idFuente), ElementosPaquetePendientes[idElemento].IdTipo, ElementosPaquetePendientes[idElemento].IdElemento);
+                else if(ElementosPaquetePendientes[idElemento].Id!=idFuente)
+                {
+                    //viene de un paquete
+                    aux = PaquetesCargados[idFuente].GetFullElement(ElementosPaquetePendientes[idElemento].Id,ElementosPaquetePendientes[idElemento].IdElemento);
+                }
+                else if(!ElementosPaquetePendientes[idElemento].SinBase)
+                {
+                    aux = GetElementoBase(GetBaseCompatible(ElementosPaquetePendientes[idElemento].Id), ElementosPaquetePendientes[idElemento].IdTipo, ElementosPaquetePendientes[idElemento].IdElemento);
+                }
+                else
+                {
+                    throw new Exception();//si es de este paquete y no se basa en un elemento de una base rom y le falta la base es que hay un problema...
+                }
+                ItemsCargados[idElemento] =(PokemonFrameWorkItem) aux;
+            }
+            return ItemsCargados[idElemento];
+        }
+
+        private static RomGba GetBaseCompatible(long id)
+        {
+            throw new NotImplementedException();
+        }
+
         public static IElementoBinarioComplejo GetElementoBase(RomGba rom,byte idTipo,ushort idElemento)
         {
             IElementoBinarioComplejo elemento=null;
