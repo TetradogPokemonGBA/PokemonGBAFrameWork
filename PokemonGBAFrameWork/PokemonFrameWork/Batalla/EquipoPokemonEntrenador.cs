@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class EquipoPokemonEntrenador:IElementoBinarioComplejo
+    public class EquipoPokemonEntrenador:PokemonFrameWorkItem
     {
         enum Posicion
         {
@@ -68,8 +68,8 @@ namespace PokemonGBAFrameWork
                 return num;
             }
         }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public bool HayAtaquesCustom()
         {
@@ -99,13 +99,25 @@ namespace PokemonGBAFrameWork
         }
         public static EquipoPokemonEntrenador GetEquipo(RomGba rom, int indexEntrenador)
         {
-            return GetEquipo(rom, Entrenador.GetBytesEntrenador(rom, indexEntrenador));
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+            EquipoPokemonEntrenador equipo= GetEquipo(rom, Entrenador.GetBytesEntrenador(rom, indexEntrenador));
+            if (edicion.EsEsmeralda)
+                equipo.IdFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                equipo.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                equipo.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+            equipo.IdElemento = (ushort)indexEntrenador;
+            return equipo;
         }
         public static EquipoPokemonEntrenador GetEquipo(RomGba rom, BloqueBytes bloqueEntrenador)
         {
             if (rom == null || bloqueEntrenador == null)
                 throw new ArgumentNullException();
 
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+            long idFuente;
             byte[] bytesPokemonEquipo;
             EquipoPokemonEntrenador equipoCargado = new EquipoPokemonEntrenador();
             bool hayItems = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem] & 0x2) != 0;
@@ -113,6 +125,13 @@ namespace PokemonGBAFrameWork
             int tamañoPokemon = hayAtaquesCustom ? 16 : 8;
             BloqueBytes bloqueDatosEquipo = BloqueBytes.GetBytes(rom.Data, new OffsetRom(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData).Offset, bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon);
             equipoCargado.OffsetToDataPokemon = bloqueDatosEquipo.OffsetInicio;
+
+            if (edicion.EsEsmeralda)
+                idFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                idFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                idFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
             for (int i = 0, f = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]; i < f; i++)
             {
@@ -130,7 +149,11 @@ namespace PokemonGBAFrameWork
                     equipoCargado.Equipo[i].Move3 = new Word(bytesPokemonEquipo, (int)Posicion.Move3);
                     equipoCargado.Equipo[i].Move4 = new Word(bytesPokemonEquipo, (int)Posicion.Move4);
                 }
+
+                equipoCargado.Equipo[i].IdFuente = idFuente;
+                equipoCargado.Equipo[i].IdElemento = (ushort)i;
             }
+
 
             return equipoCargado;
         }

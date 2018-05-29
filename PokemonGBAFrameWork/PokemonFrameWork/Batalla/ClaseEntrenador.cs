@@ -8,18 +8,20 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class ClaseEntrenadorCompleto : IElementoBinarioComplejo
+    public class ClaseEntrenadorCompleto : PokemonFrameWorkItem
     {
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<ClaseEntrenadorCompleto>();
         public const byte ID = 0x0;
-
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
         public RateMoney RateMoney { get; set; }
 
         public Sprite Sprite { get; set; }
 
         public Nombre Nombre { get; set; }
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+
 
         public ClaseEntrenadorCompleto()
         {
@@ -38,10 +40,19 @@ namespace PokemonGBAFrameWork
         public static ClaseEntrenadorCompleto GetClaseEntrenador(RomGba rom, int index)
         {
             ClaseEntrenadorCompleto claseCargada = new ClaseEntrenadorCompleto();
-
+            EdicionPokemon edicion =(EdicionPokemon) rom.Edicion;
             claseCargada.Sprite = Sprite.GetSprite(rom, index);
             claseCargada.Nombre = Nombre.GetNombre(rom, index);
             claseCargada.RateMoney = RateMoney.GetRateMoney(rom, index);
+
+            claseCargada.IdElemento = (ushort)index;
+            //como cambia dependiendo de la edición Rubi&Zafrio,RojoFuego&VerdeHoja,Esmeralda
+            if (edicion.EsEsmeralda)
+                claseCargada.IdFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                claseCargada.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                claseCargada.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
             return claseCargada;
         }

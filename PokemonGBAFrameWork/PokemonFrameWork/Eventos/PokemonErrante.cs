@@ -22,7 +22,7 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public static class PokemonErrante
     {
-        public class Ruta : IElementoBinarioComplejo
+        public class Ruta : PokemonFrameWorkItem
         {
             public const byte ID = 0x10;
             public const int MAXLENGTH = 7;
@@ -92,7 +92,8 @@ namespace PokemonGBAFrameWork
 
             public byte[] Rutas { get; set; }
 
-            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+            public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+            public override ElementoBinario Serialitzer => Serializador;
 
             public Ruta()
             {
@@ -115,9 +116,18 @@ namespace PokemonGBAFrameWork
                 int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
                 Ruta ruta = new Ruta();
                 BloqueBytes bloqueDatos = BloqueBytes.GetBytes(rom.Data, Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
+                EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
 
                 for (int j = 0; j < columnas; j++)
                     ruta.Rutas[j] = bloqueDatos.Bytes[posicion * columnas + j];
+
+                ruta.IdElemento = (ushort)posicion;
+                if (edicion.EsEsmeralda)
+                    ruta.IdFuente = EdicionPokemon.IDESMERALDA;
+                else if (edicion.RegionKanto)
+                    ruta.IdFuente = EdicionPokemon.IDKANTO;
+                else
+                    ruta.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;//lo pongo por si se llega ha hacer que esté ya hecho :)
 
                 return ruta;
 

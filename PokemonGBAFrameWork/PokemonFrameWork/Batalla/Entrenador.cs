@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class Entrenador:IElementoBinarioComplejo 
+    public class Entrenador:PokemonFrameWorkItem 
     {
         public enum Posicion
         {
@@ -194,8 +194,8 @@ namespace PokemonGBAFrameWork
                 inteligencia = value;
             }
         }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public uint CalcularDinero(RomGba rom)
         {
@@ -231,6 +231,7 @@ namespace PokemonGBAFrameWork
 
             BloqueBytes bytesEntrenador = GetBytesEntrenador(rom, index);
             Entrenador entranadorCargado = new Entrenador();
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
 
             //le pongo los datos
             entranadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
@@ -245,6 +246,14 @@ namespace PokemonGBAFrameWork
             entranadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
             entranadorCargado.EquipoPokemon = EquipoPokemonEntrenador.GetEquipo(rom, bytesEntrenador);
 
+            if (edicion.EsEsmeralda)
+                entranadorCargado.IdFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                entranadorCargado.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                entranadorCargado.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+            entranadorCargado.IdElemento = (ushort)index;
 
             return entranadorCargado;
 

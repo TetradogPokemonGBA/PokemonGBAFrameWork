@@ -15,13 +15,20 @@ using Gabriel.Cat.S.Binaris;
 
 namespace PokemonGBAFrameWork.Mini
 {
-	/// <summary>
-	/// Description of PaletasMinis.
-	/// </summary>
-	public class Paletas:IElementoBinarioComplejo
-	{
+    /// <summary>
+    /// Description of PaletasMinis.
+    /// </summary>
+    public class Paletas : PokemonFrameWorkItem
+    {
+        public class Paleta:PokemonFrameWorkItem{
+            public const byte ID = 0x2C;
+            public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paleta>();
+            public Paleta Colores { get; set; }
+            public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+            public override ElementoBinario Serialitzer => Serializador;
+        }
         public const byte ID = 0x13;
-        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paleta>();
+        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paletas>();
 
         public static readonly Zona ZonaMiniSpritesPaleta;
 		Llista<Paleta> paletas;
@@ -55,7 +62,8 @@ namespace PokemonGBAFrameWork.Mini
 			}
 		}
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public Paleta this[byte idPaleta]
 		{
@@ -78,9 +86,21 @@ namespace PokemonGBAFrameWork.Mini
 		}
         public static Paleta GetPaletaMinis(RomGba rom,int posicion,int offsetTablaPaleta = -1)
         {
-            if(offsetTablaPaleta<0)
+            
+            if (offsetTablaPaleta<0)
                 offsetTablaPaleta= Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
-            return Paleta.GetPaleta(rom, offsetTablaPaleta + posicion * Paleta.LENGTHHEADERCOMPLETO);
+
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+            Paleta paleta= Paleta.GetPaleta(rom, offsetTablaPaleta + posicion * Paleta.LENGTHHEADERCOMPLETO);
+            if (edicion.EsEsmeralda)
+                paleta.IdFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                paleta.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                paleta.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+            paleta.IdElemento = (ushort)index;
+            return paleta;
         }
         //falta set
 	}

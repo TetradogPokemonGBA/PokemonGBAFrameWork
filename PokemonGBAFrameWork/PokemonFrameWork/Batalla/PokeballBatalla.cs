@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class PokeballBatalla:IElementoBinarioComplejo
+    public class PokeballBatalla:PokemonFrameWorkItem
     {
         public const byte ID = 0xB;
         public static readonly Zona ZonaPaletaPokeballBatalla;
@@ -37,8 +37,8 @@ namespace PokemonGBAFrameWork
         }
 
         public BloqueImagen Sprite { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public static int GetTotal(RomGba rom)
         {
@@ -61,6 +61,8 @@ namespace PokemonGBAFrameWork
             PokeballBatalla pokeball = new PokeballBatalla();
             pokeball.Sprite = BloqueImagen.GetBloqueImagen(rom, offsetSprite);
             pokeball.Sprite.Paletas.Add(Paleta.GetPaleta(rom, offsetPaleta));
+            pokeball.IdElemento = (ushort)index;
+            pokeball.IdFuente = EdicionPokemon.IDMINRESERVADO;//en todas las roms hay las mismas pokeballs
             return pokeball;
         }
 

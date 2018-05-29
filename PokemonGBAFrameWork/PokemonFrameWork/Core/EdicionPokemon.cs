@@ -15,33 +15,33 @@ namespace PokemonGBAFrameWork
     [Flags]
     public enum Idioma
     {
-        Español = AbreviacionCanon.BPG*2,
-        Ingles = Español*2,
-        Otro=Ingles*2
+        Español = AbreviacionCanon.BPG * 2,
+        Ingles = Español * 2,
+        Otro = Ingles * 2
     }
     [Flags]
-    public enum AbreviacionCanon 
+    public enum AbreviacionCanon
     {
         /// <summary>
         ///Abreviación Rubi
         /// </summary>
-        AXV=8,//asi puede haber hasta 4 compilaciones...por si surjen nuevos idiomas con más compilaciones :3
+        AXV = 8,//asi puede haber hasta 4 compilaciones...por si surjen nuevos idiomas con más compilaciones :3
         /// <summary>
         ///Abreviación Zafiro
         /// </summary>
-        AXP=AXV*2,
+        AXP = AXV * 2,
         /// <summary>
         ///Abreviación Esmeralda
         /// </summary>
-        BPE=AXP*2,
+        BPE = AXP * 2,
         /// <summary>
         ///Abreviación Rojo Fuego
         /// </summary>
-        BPR=BPE*2,
+        BPR = BPE * 2,
         /// <summary>
         ///Abreviación Verde Hoja
         /// </summary>
-        BPG=BPR*2
+        BPG = BPR * 2
 
     }
 
@@ -53,9 +53,14 @@ namespace PokemonGBAFrameWork
         /// <summary>
         ///Este es el ID máximo reservado hasta que añada nuevos idiomas
         /// </summary>
-        public const long IDMINRESERVADO = ((int)Idioma.Español + (int)Idioma.Ingles +(int) AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR) + 0 + 1 + 2;
+        public const long IDMINRESERVADO = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
+        public const long IDRUBIANDZAFIRO= (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV +(int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
+        public const long IDESMERALDA = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.BPE + (int)CompilacionPokemon.Version.Primera;
+        public const long IDROJOFUEGOANDVERDEHOJA = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.BPR + (int)AbreviacionCanon.BPG + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda;
+        public const long IDHOENN= (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
+        public const long IDKANTO = IDROJOFUEGOANDVERDEHOJA;
         //Ediciones canon usa
-        public static readonly EdicionPokemon RubiUsa10 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV,CompilacionPokemon.Compilaciones[0]);
+        public static readonly EdicionPokemon RubiUsa10 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[0]);
         public static readonly EdicionPokemon RubiUsa11 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[1]);
         public static readonly EdicionPokemon RubiUsa12 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[2]);
 
@@ -246,7 +251,7 @@ namespace PokemonGBAFrameWork
             EdicionPokemon edicionPokemon = new EdicionPokemon(rom.Edicion);
             bool edicionValida;
             AbreviacionCanon abreviacionRom;
-            edicionPokemon.Idioma =GetIdioma( edicionPokemon.InicialIdioma);//mirar de que el idioma se pueda calcular...
+            edicionPokemon.Idioma = GetIdioma(edicionPokemon.InicialIdioma);//mirar de que el idioma se pueda calcular...
             edicionValida = Enum.TryParse(edicionPokemon.Abreviacion, out abreviacionRom);
             edicionPokemon.AbreviacionRom = abreviacionRom;
             //compruebo que este bien
@@ -284,11 +289,11 @@ namespace PokemonGBAFrameWork
         private static Idioma GetIdioma(char inicialIdioma)
         {
             Idioma idioma;
-            switch(inicialIdioma)
+            switch (inicialIdioma)
             {
-                case 'S':idioma = Idioma.Español;break;
+                case 'S': idioma = Idioma.Español; break;
                 case 'E': idioma = Idioma.Ingles; break;
-                default:idioma = Idioma.Otro;break;
+                default: idioma = Idioma.Otro; break;
             }
             return idioma;
         }
@@ -330,5 +335,114 @@ namespace PokemonGBAFrameWork
             return valida;
 
         }
+        public static EdicionPokemon GetEdicionCompatible(long id)
+        {
+            if (id > IDMINRESERVADO)
+                throw new IdIncorrectoException("una Base Canon");
+
+            EdicionPokemon edicion;
+            Idioma idioma = (Idioma)id;
+            CompilacionPokemon.Version version = (CompilacionPokemon.Version)id;
+            AbreviacionCanon abreviacion = (AbreviacionCanon)id;
+
+            if (idioma.HasFlag(Idioma.Español))
+            {
+
+                if (abreviacion.HasFlag(AbreviacionCanon.BPE))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = EsmeraldaEsp10;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.BPR))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = RojoFuegoEsp10;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.BPG))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = VerdeHojaEsp10;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.AXV))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = RubiEsp10;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.AXP))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = ZafiroEsp10;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else
+                {
+                    throw new IdIncorrectoException("una Edición");
+                }
+            }
+            else if (idioma.HasFlag(Idioma.Ingles))
+            {
+                
+
+                if (abreviacion.HasFlag(AbreviacionCanon.BPE))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = EsmeraldaUsa10;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.BPR))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = RojoFuegoUsa10;
+                    else if (version.HasFlag(CompilacionPokemon.Version.Segunda))
+                        edicion = RojoFuegoUsa11;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.BPG))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = VerdeHojaUsa10;
+                    else if (version.HasFlag(CompilacionPokemon.Version.Segunda))
+                        edicion = VerdeHojaUsa11;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.AXV))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = RubiUsa10;
+                    else if (version.HasFlag(CompilacionPokemon.Version.Segunda))
+                        edicion = RubiUsa11;
+                    else if (version.HasFlag(CompilacionPokemon.Version.Ultima))
+                        edicion = RubiUsa12;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else if (abreviacion.HasFlag(AbreviacionCanon.AXP))
+                {
+                    if (version.HasFlag(CompilacionPokemon.Version.Primera))
+                        edicion = ZafiroUsa10;
+                    else if (version.HasFlag(CompilacionPokemon.Version.Segunda))
+                        edicion = ZafiroUsa11;
+                    else if (version.HasFlag(CompilacionPokemon.Version.Ultima))
+                        edicion = ZafiroUsa12;
+                    else throw new IdIncorrectoException("una Compilación");
+                }
+                else
+                {
+                    throw new IdIncorrectoException("una Edición");
+                }
+            }
+            else
+            {
+                throw new IdIncorrectoException("un Idioma");
+            }
+            return edicion;
+        }
+    }
+    public class IdIncorrectoException:Exception
+    {
+        public IdIncorrectoException(string parteIncorrecta) : base(String.Format("El id no es correcto, se necesita {0} compatible", parteIncorrecta)) { }
     }
 }

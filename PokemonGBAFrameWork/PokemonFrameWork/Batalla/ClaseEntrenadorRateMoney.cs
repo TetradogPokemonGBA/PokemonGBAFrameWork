@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class RateMoney:IElementoBinarioComplejo
+    public class RateMoney : PokemonFrameWorkItem
     {
         enum Longitud
         {
@@ -19,7 +19,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         public const byte ID = 0x2;
         byte rate;
 
-        
+
 
         static RateMoney()
         {
@@ -33,7 +33,8 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         }
         public byte Rate { get => rate; set => rate = value; }
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public static RateMoney[] GetRateMoney(RomGba rom)
         {
@@ -42,7 +43,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
                 rates[i] = GetRateMoney(rom, i);
             return rates;
         }
-        public static RateMoney GetRateMoney(RomGba rom,int index)
+        public static RateMoney GetRateMoney(RomGba rom, int index)
         {
             RateMoney rateMoney = new RateMoney();
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
@@ -51,10 +52,19 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             {
                 offsetRateMoney = Zona.GetOffsetRom(ZonaRatesMoney, rom).Offset + index * (int)Longitud.RateMoney;
                 rateMoney.Rate = rom.Data[offsetRateMoney];
+                if (edicion.EsEsmeralda)
+                    rateMoney.IdFuente = EdicionPokemon.IDESMERALDA;
+                else if (edicion.EsRubiOZafiro)
+                    rateMoney.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+                else
+                    rateMoney.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+                rateMoney.IdElemento = (ushort)index;
             }
+
             return rateMoney;
         }
-        public static void SetRateMoney(RomGba rom,int index,RateMoney rate)
+        public static void SetRateMoney(RomGba rom, int index, RateMoney rate)
         {
             int offsetInicioRateMoney;
             if (!((EdicionPokemon)rom.Edicion).EsRubiOZafiro)
@@ -63,7 +73,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
                 rom.Data.SetArray(offsetInicioRateMoney, Serializar.GetBytes(rate.Rate).AddArray(new byte[] { 0x0, 0x0 }));
             }
         }
-        public static void SetRateMoney(RomGba rom, IList< RateMoney> rates)
+        public static void SetRateMoney(RomGba rom, IList<RateMoney> rates)
         {
             OffsetRom offsetInicioRateMoney;
             int totalActual = Sprite.GetTotal(rom);

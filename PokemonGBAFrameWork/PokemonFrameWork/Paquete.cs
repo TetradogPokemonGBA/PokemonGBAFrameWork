@@ -63,11 +63,11 @@ namespace PokemonGBAFrameWork
                 if(ItemsCargados[i]==null)
                 {
                     if (ElementosPaquetePendientes[i].Id <= EdicionPokemon.IDMINRESERVADO)
-                        aux = GetElementoBase(GetBaseCompatible(ElementosPaquetePendientes[i].Id), ElementosPaquetePendientes[i].IdTipo, ElementosPaquetePendientes[i].IdElemento);
+                        aux = GetElementoBase(EdicionPokemon.GetEdicionCompatible(ElementosPaquetePendientes[i].Id), ElementosPaquetePendientes[i].IdTipo, ElementosPaquetePendientes[i].IdElemento);
                     else
                     {
                         //viene de un paquete
-                        aux = PaquetesCargados[ElementosPaquetePendientes[i].Id].GetFullElement(ElementosPaquetePendientes[i].IdElemento);
+                        aux = PaquetesCargados[ElementosPaquetePendientes[i].Id].GetFullElement(ElementosPaquetePendientes[i].Id,ElementosPaquetePendientes[i].IdElemento);
                     }
                     ItemsCargados[i] =(PokemonFrameWorkItem)aux.Serialitzer.GetObject( ElementosPaquetePendientes[i].GetBytesCompletos(aux.Serialitzer.GetBytes(aux)));
                 }
@@ -81,7 +81,7 @@ namespace PokemonGBAFrameWork
             if (ItemsCargados[idElemento] == null)
             {
                 if (idFuente <= EdicionPokemon.IDMINRESERVADO)
-                    aux = GetElementoBase(GetBaseCompatible(idFuente), ElementosPaquetePendientes[idElemento].IdTipo, ElementosPaquetePendientes[idElemento].IdElemento);
+                    aux =GetElementoBase(EdicionPokemon.GetEdicionCompatible(idFuente), ElementosPaquetePendientes[idElemento].IdTipo, ElementosPaquetePendientes[idElemento].IdElemento);
                 else if(ElementosPaquetePendientes[idElemento].Id!=idFuente)
                 {
                     //viene de un paquete
@@ -89,7 +89,7 @@ namespace PokemonGBAFrameWork
                 }
                 else if(!ElementosPaquetePendientes[idElemento].SinBase)
                 {
-                    aux = GetElementoBase(GetBaseCompatible(ElementosPaquetePendientes[idElemento].Id), ElementosPaquetePendientes[idElemento].IdTipo, ElementosPaquetePendientes[idElemento].IdElemento);
+                    aux =GetElementoBase(EdicionPokemon.GetEdicionCompatible(ElementosPaquetePendientes[idElemento].Id), ElementosPaquetePendientes[idElemento].IdTipo, ElementosPaquetePendientes[idElemento].IdElemento);
                 }
                 else
                 {
@@ -100,15 +100,13 @@ namespace PokemonGBAFrameWork
             return ItemsCargados[idElemento];
         }
 
-        private static RomGba GetBaseCompatible(long id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public static IElementoBinarioComplejo GetElementoBase(RomGba rom,byte idTipo,ushort idElemento)
+
+        public static IElementoBinarioComplejo GetElementoBase(EdicionPokemon edicion,byte idTipo,ushort idElemento)
         {
             IElementoBinarioComplejo elemento=null;
             int posicion = (int)idElemento;
+            RomGba rom = RomsCargadas[edicion.Id];
             switch(idTipo)
             {
                 case ClaseEntrenadorCompleto.ID:elemento = ClaseEntrenadorCompleto.GetClaseEntrenador(rom, posicion);break;

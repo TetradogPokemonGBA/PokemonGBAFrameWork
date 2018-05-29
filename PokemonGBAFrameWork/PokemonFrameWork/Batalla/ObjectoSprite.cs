@@ -5,15 +5,15 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Objeto
 {
-    public class Sprite:IElementoBinarioComplejo
+    public class Sprite:PokemonFrameWorkItem
     {
         public const byte ID = 0x8;
         public static readonly Zona ZonaImagenesObjeto;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
 
         public BloqueImagen Imagen { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         static Sprite()
         {
@@ -41,26 +41,38 @@ namespace PokemonGBAFrameWork.Objeto
             BloqueImagen blImg;
             int offsetImagenYPaleta;
             Sprite sprite = new Sprite();
-            if (!((EdicionPokemon)rom.Edicion).EsRubiOZafiro)
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+            if (!edicion.EsRubiOZafiro)
             {
                 offsetImagenYPaleta = Zona.GetOffsetRom(ZonaImagenesObjeto, rom).Offset + index * (OffsetRom.LENGTH + OffsetRom.LENGTH);
                 //esas ediciones no tienen imagen los objetos
                 blImg = BloqueImagen.GetBloqueImagenSinHeader(rom, offsetImagenYPaleta);
                 blImg.Paletas.Add(Paleta.GetPaletaSinHeader(rom, offsetImagenYPaleta + OffsetRom.LENGTH));
                 sprite.Imagen = blImg;
+
+                if (edicion.EsEsmeralda)
+                    sprite.IdFuente = EdicionPokemon.IDESMERALDA;
+                else if (edicion.EsRubiOZafiro)
+                    sprite.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+                else
+                    sprite.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+                sprite.IdElemento = (ushort)index;
             }
             return sprite;
         }
         public static void SetSprite(RomGba rom, int index,Sprite sprite)
         {
             int offsetImagenYPaleta;
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
 
-            if (!((EdicionPokemon)rom.Edicion).EsRubiOZafiro)
+            if (!edicion.EsRubiOZafiro)
             {
                 offsetImagenYPaleta = Zona.GetOffsetRom(ZonaImagenesObjeto, rom).Offset + index * (OffsetRom.LENGTH + OffsetRom.LENGTH);
                 //esas ediciones no tienen imagen los objetos
                 BloqueImagen.SetBloqueImagenSinHeader(rom, offsetImagenYPaleta,sprite.Imagen);
                 Paleta.SetPaletaSinHeader(rom, offsetImagenYPaleta + OffsetRom.LENGTH, sprite.Imagen.Paletas[0]);
+
             }
 
         }

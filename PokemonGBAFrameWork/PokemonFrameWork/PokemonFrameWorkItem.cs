@@ -7,7 +7,7 @@ namespace PokemonGBAFrameWork
 {
     public abstract class PokemonFrameWorkItem:IElementoBinarioComplejo
     {
-        public byte IdTipo { get; set; }
+        public virtual byte IdTipo {  get; set; }
         public ushort IdElemento { get; set; }
         public long IdFuente { get; set; }
         public abstract ElementoBinario Serialitzer { get; }

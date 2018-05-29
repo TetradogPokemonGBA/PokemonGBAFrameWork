@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class PokemonEntrenador:IElementoBinarioComplejo
+    public class PokemonEntrenador:PokemonFrameWorkItem
     {
         public const byte ID = 0xC;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<PokemonEntrenador>();
@@ -125,7 +125,7 @@ namespace PokemonGBAFrameWork
                 move4 = value;
             }
         }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
     }
 }

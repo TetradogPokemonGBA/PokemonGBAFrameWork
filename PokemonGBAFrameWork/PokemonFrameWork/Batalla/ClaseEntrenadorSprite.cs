@@ -7,9 +7,9 @@ using PokemonGBAFrameWork;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class Sprite:IElementoBinarioComplejo
+    public class Sprite : PokemonFrameWorkItem
     {
-        public class Data:IElementoBinarioComplejo
+        public class Data : PokemonFrameWorkItem
         {
             public const byte ID = 0x3;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Data>();
@@ -33,20 +33,31 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             }
 
             public BloqueImagen Img { get; set; }
-
-            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+            public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+            public override ElementoBinario Serialitzer => Serializador;
 
             public static Data GetData(RomGba rom, int index)
             {
+                EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
                 int offsetSpriteImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset + index * BloqueImagen.LENGTHHEADERCOMPLETO;
-                return new Data() { Img = BloqueImagen.GetBloqueImagen(rom, offsetSpriteImg) };
+                Data data= new Data() { Img = BloqueImagen.GetBloqueImagen(rom, offsetSpriteImg) };
+
+                if (edicion.EsEsmeralda)
+                    data.IdFuente = EdicionPokemon.IDESMERALDA;
+                else if (edicion.EsRubiOZafiro)
+                    data.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+                else
+                    data.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+                data.IdElemento = (ushort)index;
+                return data;
             }
             public static void SetData(RomGba rom, int index, Data data)
             {
                 int offsetInicioImg = Zona.GetOffsetRom(ZonaImgSprite, rom).Offset + index * OffsetRom.LENGTH;
                 BloqueImagen.SetBloqueImagen(rom, offsetInicioImg, data.Img);
             }
-            public static void SetData(RomGba rom,IList<Data> datas)
+            public static void SetData(RomGba rom, IList<Data> datas)
             {
                 OffsetRom offsetInicioImg;
                 int offsetActualImg;
@@ -63,7 +74,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
                     SetData(rom, i, datas[i]);
             }
         }
-        public class Paleta:IElementoBinarioComplejo
+        public class Paleta : PokemonFrameWorkItem
         {
             public const byte ID = 0x4;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Paleta>();
@@ -71,7 +82,8 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
             public PokemonGBAFrameWork.Paleta Colores { get; set; }
 
-            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+            public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+            public override ElementoBinario Serialitzer => Serializador;
 
             static Paleta()
             {
@@ -91,20 +103,32 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
             }
 
-            public static Paleta GetPaleta(RomGba rom,int index)
+            public static Paleta GetPaleta(RomGba rom, int index)
             {
-                Paleta paleta = new Paleta();
+                EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+
                 int offsetSpritePaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset + index * PokemonGBAFrameWork.Paleta.LENGTHHEADERCOMPLETO;
-                return Paleta.GetPaleta(rom, offsetSpritePaleta);
+                Paleta paleta = Paleta.GetPaleta(rom, offsetSpritePaleta);
+
+                if (edicion.EsEsmeralda)
+                    paleta.IdFuente = EdicionPokemon.IDESMERALDA;
+                else if (edicion.EsRubiOZafiro)
+                    paleta.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+                else
+                    paleta.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+                paleta.IdElemento = (ushort)index;
+
+                return paleta;
             }
-            public static void SetPaleta(RomGba rom,int index,Paleta paleta)
+            public static void SetPaleta(RomGba rom, int index, Paleta paleta)
             {
 
                 int offsetInicioPaleta = Zona.GetOffsetRom(ZonaPaletaSprite, rom).Offset + index * OffsetRom.LENGTH;
                 //pongo la paleta
-                PokemonGBAFrameWork.Paleta.SetPaleta(rom, offsetInicioPaleta,paleta.Colores);
+                PokemonGBAFrameWork.Paleta.SetPaleta(rom, offsetInicioPaleta, paleta.Colores);
             }
-            public static void SetPaleta(RomGba rom,IList<Paleta> paletas)
+            public static void SetPaleta(RomGba rom, IList<Paleta> paletas)
             {
 
                 OffsetRom offsetInicioPaleta;
@@ -133,7 +157,8 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         public Paleta PaletaImg { get; set; }
         public Bitmap Imagen { get { return DataImg.Img + PaletaImg.Colores; } }
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public static Sprite[] GetSprite(RomGba rom)
         {
@@ -145,10 +170,19 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         public static Sprite GetSprite(RomGba rom, int index)
         {
 
-           
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             Sprite sprite = new Sprite();
             sprite.DataImg = Data.GetData(rom, index);
             sprite.PaletaImg = Paleta.GetPaleta(rom, index);
+
+            if (edicion.EsEsmeralda)
+                sprite.IdFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                sprite.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                sprite.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+            sprite.IdElemento = (ushort)index;
 
             return sprite;
         }
@@ -178,7 +212,7 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             int offsetTablaEntrenadorPaleta = Zona.GetOffsetRom(Paleta.ZonaPaletaSprite, rom).Offset;
             int imgActual = offsetTablaEntrenadorImg, paletaActual = offsetTablaEntrenadorPaleta;
             int numero = 0;
-            while (BloqueImagen.IsHeaderOk(rom, imgActual) &&PokemonGBAFrameWork.Paleta.IsHeaderOk(rom, paletaActual))
+            while (BloqueImagen.IsHeaderOk(rom, imgActual) && PokemonGBAFrameWork.Paleta.IsHeaderOk(rom, paletaActual))
             {
                 numero++;
                 imgActual += BloqueImagen.LENGTHHEADERCOMPLETO;

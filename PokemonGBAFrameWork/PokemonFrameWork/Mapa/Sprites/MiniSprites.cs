@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork.Mini
 	/// <summary>
 	/// Description of MiniSprites.
 	/// </summary>
-	public class Sprite:IElementoBinarioComplejo
+	public class Sprite:PokemonFrameWorkItem
 	{
         public const byte ID = 0x12;
         const int TAMAÑOHEADER=36;
@@ -81,8 +81,8 @@ namespace PokemonGBAFrameWork.Mini
 			}
             set { pt4 = value; }
 		}
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public Bitmap this[int indexMini]
 		{
@@ -99,10 +99,21 @@ namespace PokemonGBAFrameWork.Mini
 		{
             if (paletas == null)
                 paletas = Paletas.GetPaletasMinis(rom);
-
-			TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom);
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+            TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom);
 			//obtengo el inicio y el fin
-			return GetMiniSprite(rom,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
+			Sprite sprite= GetMiniSprite(rom,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
+
+            if (edicion.EsEsmeralda)
+                sprite.IdFuente = EdicionPokemon.IDESMERALDA;
+            else if (edicion.EsRubiOZafiro)
+                sprite.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
+            else
+                sprite.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+            sprite.IdElemento = (ushort)posicion;
+
+            return sprite;
 		}
 		static TwoKeys<int,int> GetTablaYTotal(RomGba rom,int totalMinis=-1)
 		{

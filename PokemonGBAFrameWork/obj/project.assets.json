@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.3": {
+      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.4": {
         "type": "package",
         "dependencies": {
           "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.0",
@@ -86,12 +86,12 @@
     }
   },
   "libraries": {
-    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.3": {
-      "sha512": "BRAwAWUkOuUszAoXxYophGoE0RHoCJXdHaXLFcBxJoyhGWoSsRzOzKddeFNacmbR4O3e7iriizFigob2RTrBzg==",
+    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.4": {
+      "sha512": "6ha+z3VURizgwcYGpTdTTsqhKn6/rpbkgKK1J3lvNb4ondqF/zYGH1cjyARNeFdkZUoiufCyrHG0u0SPqW3d9w==",
       "type": "package",
-      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.3",
+      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.4",
       "files": [
-        "gabriel.cat.s.binaris.1.0.5-preview1.0.3.nupkg.sha512",
+        "gabriel.cat.s.binaris.1.0.5-preview1.0.4.nupkg.sha512",
         "gabriel.cat.s.binaris.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll"
       ]
@@ -359,7 +359,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.3",
+      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.4",
       "Gabriel.Cat.S.Utilitats >= 1.0.4.3-preview1.0.7",
       "NETStandard.Library >= 2.0.1"
     ]
@@ -408,7 +408,7 @@
         "dependencies": {
           "Gabriel.Cat.S.Binaris": {
             "target": "Package",
-            "version": "[1.0.5-preview1.0.3, )"
+            "version": "[1.0.5-preview1.0.4, )"
           },
           "Gabriel.Cat.S.Utilitats": {
             "target": "Package",
