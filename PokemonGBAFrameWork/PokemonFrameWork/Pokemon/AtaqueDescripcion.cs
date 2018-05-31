@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Descripcion:IElementoBinarioComplejo
+    public class Descripcion:PokemonFrameWorkItem
     {
         public const byte ID = 0x17;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Descripcion>();
 
         public static readonly Zona ZonaDescripcion;
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public BloqueString Texto { get; set; }
 
@@ -45,6 +45,7 @@ namespace PokemonGBAFrameWork.Ataque
         }
         public static Descripcion GetDescripcion(RomGba rom,int posicion)
         {
+            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             Descripcion descripcion;
             int offsetDescripcion;
             if (posicion != 0)//el primero no tiene
@@ -52,6 +53,10 @@ namespace PokemonGBAFrameWork.Ataque
                 offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + (posicion - 1)*OffsetRom.LENGTH).Offset;
                 descripcion = new Descripcion();
                 descripcion.Texto = BloqueString.GetString(rom, offsetDescripcion);
+                if (edicion.Idioma == Idioma.Ingles)
+                    descripcion.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
+                else descripcion.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
+                descripcion.IdElemento = (ushort)posicion;
             }
             else descripcion = null;
             return descripcion;

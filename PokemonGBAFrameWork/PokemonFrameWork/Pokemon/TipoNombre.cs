@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Tipo
 {
-    public class Nombre:IElementoBinarioComplejo
+    public class Nombre:PokemonFrameWorkItem
     {
         public enum LongitudCampo
         { Nombre = 7 }
@@ -15,8 +15,8 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
         public static readonly Zona ZonaNombreTipo;
 
         public BloqueString Texto { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         static Nombre()
         {
@@ -53,6 +53,10 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
         {
             Nombre nombre=new Nombre();
             nombre.Texto.Texto= BloqueString.GetString(rom, Zona.GetOffsetRom(ZonaNombreTipo, rom, rom.Edicion).Offset + index * (int)LongitudCampo.Nombre, (int)LongitudCampo.Nombre, true).Texto;
+            nombre.IdElemento = (ushort)index;
+            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
+                nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
+            else nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
             return nombre;
         }
         public static void SetNombre(RomGba rom,int index,Nombre nombre)

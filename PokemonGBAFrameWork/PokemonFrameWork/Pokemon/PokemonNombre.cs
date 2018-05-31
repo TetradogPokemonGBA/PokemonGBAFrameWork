@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-    public class Nombre:IElementoBinarioComplejo
+    public class Nombre:PokemonFrameWorkItem
     {
         public enum LongitudCampos
         {
@@ -17,8 +17,8 @@ namespace PokemonGBAFrameWork.Pokemon
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public BloqueString Texto { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         static Nombre()
         {
@@ -41,6 +41,8 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             Nombre nombre = new Nombre();
             nombre.Texto = BloqueString.GetString(rom, Zona.GetOffsetRom(ZonaNombre, rom).Offset + (posicionOrdenGameFreak * (int)LongitudCampos.NombreCompilado));
+            nombre.IdFuente = EdicionPokemon.IDMINRESERVADO;
+            nombre.IdElemento = (ushort)posicionOrdenGameFreak;
             return nombre;
         }
         public static Nombre[] GetNombre(RomGba rom)

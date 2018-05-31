@@ -59,12 +59,17 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             int offsetNombre = Zona.GetOffsetRom(ZonaNombres, rom).Offset + (index) * (int)Longitud.Nombre;
             Nombre nombre=new Nombre();
             nombre.Text = BloqueString.GetString(rom, offsetNombre);
+
             if (edicion.EsEsmeralda)
                 nombre.IdFuente = EdicionPokemon.IDESMERALDA;
             else if (edicion.EsRubiOZafiro)
                 nombre.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
             else
                 nombre.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+
+            if (edicion.Idioma == Idioma.Ingles)
+                nombre.IdFuente = nombre.IdFuente - (int)Idioma.Español;
+            else nombre.IdFuente = nombre.IdFuente - (int)Idioma.Ingles;
 
             nombre.IdElemento = (ushort)index;
             return nombre;

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Concursos:IElementoBinarioComplejo
+    public class Concursos:PokemonFrameWorkItem
     {
         enum ValoresLimitadoresFin
         {
@@ -28,8 +28,8 @@ namespace PokemonGBAFrameWork.Ataque
 
         static readonly byte[] BytesDesLimitadoAtaquesConcurso;
         static readonly byte[] BytesDesLimitadoAnimacionAtaques;
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public BloqueBytes DatosConcursosHoenn { get; set; }
 
@@ -84,6 +84,8 @@ namespace PokemonGBAFrameWork.Ataque
             {
                 //pongo los datos de los concursos de hoenn
                 concursos.DatosConcursosHoenn.Bytes = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset + posicion * OffsetRom.LENGTH, (int)LongitudCampos.DatosConcurso).Bytes;
+                concursos.IdElemento = (ushort)posicion;
+                concursos.IdFuente = EdicionPokemon.IDHOENN;
             }
             return concursos;
         }

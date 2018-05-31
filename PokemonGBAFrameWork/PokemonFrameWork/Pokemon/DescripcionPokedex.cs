@@ -17,7 +17,7 @@ namespace PokemonGBAFrameWork.Pokemon
     /// <summary>
     /// Description of DescripcionPokedex.
     /// </summary>
-    public class Descripcion : IElementoBinarioComplejo
+    public class Descripcion : PokemonFrameWorkItem
     {
         public enum LongitudCampos
         {
@@ -170,7 +170,10 @@ namespace PokemonGBAFrameWork.Pokemon
 
         public BloqueString Especie { get => blEspecie; set => blEspecie = value; }
         public BloqueString Texto { get => blDescripcion; set => blDescripcion = value; }
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
+
         public static Descripcion[] GetDescripcionPokedex(RomGba rom)
         {
             Descripcion[] descripcions = new Descripcion[GetTotal(rom)];
@@ -208,6 +211,12 @@ namespace PokemonGBAFrameWork.Pokemon
             descripcionPokemon.DireccionEntrenador = new Word(rom, posicionActual);
             posicionActual += Word.LENGTH;
             descripcionPokemon.Numero2 = new Word(rom, posicionActual);
+
+            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
+                descripcionPokemon.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
+            else descripcionPokemon.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
+
+            descripcionPokemon.IdElemento = (ushort)ordenNacionalPokemon;
 
             return descripcionPokemon;
 

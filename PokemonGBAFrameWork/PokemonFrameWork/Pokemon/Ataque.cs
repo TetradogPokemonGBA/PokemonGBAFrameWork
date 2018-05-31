@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of Ataque.
     /// </summary>
-    public class AtaqueCompleto:IComparable,IElementoBinarioComplejo
+    public class AtaqueCompleto:PokemonFrameWorkItem,IComparable
 	{
         public const byte ID = 0x14;
         //son 9 bits en total de alli el 511 :) asi en 2 bytes hay ataque y nivel :)
@@ -146,8 +146,8 @@ namespace PokemonGBAFrameWork
 			}
             set { datosConcursosHoenn = value; }
 		}
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
         #region IComparable implementation
 
 
@@ -184,7 +184,8 @@ namespace PokemonGBAFrameWork
 			ataque.Datos=Datos.GetDatos(rom,posicionAtaque);
 
             ataque.Concursos = Concursos.GetConcursos(rom, posicionAtaque);
-			
+            ataque.IdElemento = (ushort)posicionAtaque;
+            ataque.IdFuente = EdicionPokemon.IDMINRESERVADO;
 			return ataque;
 		}
 

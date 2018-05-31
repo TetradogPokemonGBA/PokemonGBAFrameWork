@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class Frontales:IElementoBinarioComplejo
+    public class Frontales:PokemonFrameWorkItem
     {
         public const byte ID = 0x24;
         private static readonly Paleta PaletaAnimacion;
@@ -42,8 +42,8 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 return sprites;
             }
         }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public BitmapAnimated GetAnimacionImagenFrontal(Paleta paleta)
         {
@@ -74,6 +74,11 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             {
                 frontales.sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA))));
             }
+            frontales.IdFuente = EdicionPokemon.IDMINRESERVADO;
+
+            if (!((EdicionPokemon)rom.Edicion).EsEsmeralda)
+                frontales.IdFuente -= (int)AbreviacionCanon.BPE;
+            frontales.IdElemento = (ushort)posicion;
             return frontales;
         }
         public static Frontales[] GetFrontales(RomGba rom)

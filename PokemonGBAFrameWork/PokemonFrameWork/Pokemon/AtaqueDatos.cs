@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Datos : IComparable<Datos>,IElementoBinarioComplejo
+    public class Datos : PokemonFrameWorkItem,IComparable<Datos>
     {
 
         enum Custom
@@ -376,8 +376,8 @@ namespace PokemonGBAFrameWork.Ataque
                 blDatosAtaque.Bytes[(int)CamposDatosAtaque.PadByte3] = value;
             }
         }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
         #endregion
         private bool IsCustomEnabled(int indexCustomToCalculate)
         {
@@ -413,7 +413,10 @@ namespace PokemonGBAFrameWork.Ataque
         }
         public static Datos GetDatos(RomGba rom, int posicion)
         {
-            return new Datos() { blDatosAtaque = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset + posicion * Longitud, Longitud) };
+            Datos datos= new Datos() { blDatosAtaque = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset + posicion * Longitud, Longitud) };
+            datos.IdElemento = (ushort)posicion;
+            datos.IdFuente = EdicionPokemon.IDMINRESERVADO;
+            return datos;
         }
         public static void SetDatos(RomGba rom, int posicion, Datos datosAtaque)
         {

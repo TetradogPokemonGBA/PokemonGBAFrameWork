@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-   public class Stats:IElementoBinarioComplejo
+   public class Stats:PokemonFrameWorkItem
     {
         public enum LongitudCampos
         {
@@ -481,12 +481,15 @@ namespace PokemonGBAFrameWork.Pokemon
             }
         }
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
+
+
+        #endregion
 
         #endregion
 
-        #endregion
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public void SetObjetosEnLosStats(int totalObjetos)
         {
@@ -542,6 +545,8 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             Stats stats= new Stats() { Datos = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaStats, rom).Offset + (posicion * (int)LongitudCampos.TotalStats), (int)LongitudCampos.TotalStats) };
             stats.GetObjetosDeLosStats();
+            stats.IdElemento = (ushort)posicion;
+            stats.IdFuente = EdicionPokemon.IDMINRESERVADO;
             return stats;
         }
         public static Stats[] GetStats(RomGba rom)

@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// <summary>
 	/// Description of AtaquesAprendidos.
 	/// </summary>
-	public class AtaquesAprendidos:IComparable,IComparable<AtaquesAprendidos>,IElementoBinarioComplejo
+	public class AtaquesAprendidos:PokemonFrameWorkItem,IComparable,IComparable<AtaquesAprendidos>
 	{
 		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable,IElementoBinarioComplejo
 		{
@@ -138,8 +138,8 @@ namespace PokemonGBAFrameWork.Pokemon
 				ataques = value;
 			}
 		}
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public IdUnico Id { get; set; }
 
@@ -268,6 +268,9 @@ namespace PokemonGBAFrameWork.Pokemon
 			}
 			ataquesAprendidos.Ataques.SortByQuickSort();//por si lo hacen de forma externa que lo lea bien :)
 			ataquesAprendidos.OffsetBytesAtaqueAprendido = offset;
+
+            ataquesAprendidos.IdFuente = EdicionPokemon.IDMINRESERVADO;
+            ataquesAprendidos.IdElemento = (ushort)ordenGameFreakPokemon;
 			return ataquesAprendidos;
 		}
 		private static int GetOffsetPointer(RomGba rom,int ordenGameFreakPokemon)

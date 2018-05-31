@@ -325,7 +325,12 @@ namespace PokemonGBAFrameWork.Objeto
             else
                 datos.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
+            if (edicion.Idioma == Idioma.Ingles)
+                datos.IdFuente = datos.IdFuente - (int)Idioma.Español;
+            else datos.IdFuente = datos.IdFuente - (int)Idioma.Ingles;
+
             datos.IdElemento = (ushort)index;
+
             return datos;
         }
         public static void SetDatos(RomGba rom, int index, Datos datos)

@@ -21,61 +21,72 @@ using System.Drawing;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-	/// <summary>
-	/// Description of Sprite.
-	/// </summary>
-	public class SpritesCompleto:IElementoBinarioComplejo
-	{
+    /// <summary>
+    /// Description of Sprite.
+    /// </summary>
+    public class SpritesCompleto : PokemonFrameWorkItem
+    {
         public const byte ID = 0x29;
-        public const int LONGITUDLADO=64;
-		public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
+        public const int LONGITUDLADO = 64;
+        public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<SpritesCompleto>();
 
 
         public SpritesCompleto()
-		{
+        {
 
             SpritesFrontales = new Frontales();
             SpritesTraseros = new Traseros();
             PaletaNormal = new PaletaNormal();
             PaletaShiny = new PaletaShiny();
-		
-		}
+
+        }
 
         public Frontales SpritesFrontales
         {
             get;
             set;
         }
-        public Traseros SpritesTraseros {
+        public Traseros SpritesTraseros
+        {
             get;
             set;
-		}
+        }
 
-		public PaletaNormal PaletaNormal {
+        public PaletaNormal PaletaNormal
+        {
             get;
             set;
-		}
+        }
 
-		public PaletaShiny PaletaShiny {
+        public PaletaShiny PaletaShiny
+        {
             get;
             set;
-		}
+        }
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public static SpritesCompleto GetSprites(RomGba rom, int indexOrdenGameFreakPokemon)
+        {
 
-        public static SpritesCompleto GetSprites(RomGba rom,int indexOrdenGameFreakPokemon)
-		{
-	
-			SpritesCompleto spritePokemon=new SpritesCompleto();
+            SpritesCompleto spritePokemon = new SpritesCompleto();
 
             spritePokemon.SpritesFrontales = Frontales.GetFrontales(rom, indexOrdenGameFreakPokemon);
             spritePokemon.SpritesTraseros = Traseros.GetTraseros(rom, indexOrdenGameFreakPokemon);
             spritePokemon.PaletaNormal = PaletaNormal.GetPaletaNormal(rom, indexOrdenGameFreakPokemon);
-			spritePokemon.PaletaShiny=PaletaShiny.GetPaletaShiny(rom,indexOrdenGameFreakPokemon);
+            spritePokemon.PaletaShiny = PaletaShiny.GetPaletaShiny(rom, indexOrdenGameFreakPokemon);
 
-			return spritePokemon;
-		}
+            spritePokemon.IdElemento = (ushort)indexOrdenGameFreakPokemon;
+
+
+            spritePokemon.IdFuente = EdicionPokemon.IDMINRESERVADO;
+
+            if (!((EdicionPokemon)rom.Edicion).EsEsmeralda)
+                spritePokemon.IdFuente -= (int)AbreviacionCanon.BPE;
+
+            return spritePokemon;
+        }
         public static SpritesCompleto[] GetSprites(RomGba rom)
         {
             SpritesCompleto[] sprites = new SpritesCompleto[Huella.GetTotal(rom)];
@@ -83,23 +94,23 @@ namespace PokemonGBAFrameWork.Pokemon
                 sprites[i] = GetSprites(rom, i);
             return sprites;
         }
-		public static void SetSprites(RomGba rom,int indexOrdenGameFreakPokemon,SpritesCompleto spritesPokemon)
-		{
+        public static void SetSprites(RomGba rom, int indexOrdenGameFreakPokemon, SpritesCompleto spritesPokemon)
+        {
 
-            Frontales.SetFrontales(rom,indexOrdenGameFreakPokemon,spritesPokemon.SpritesFrontales);
+            Frontales.SetFrontales(rom, indexOrdenGameFreakPokemon, spritesPokemon.SpritesFrontales);
             Traseros.SetTraseros(rom, indexOrdenGameFreakPokemon, spritesPokemon.SpritesTraseros);
             PaletaNormal.SetPaletaNormal(rom, indexOrdenGameFreakPokemon, spritesPokemon.PaletaNormal);
-            PaletaShiny.SetPaletaShiny(rom, indexOrdenGameFreakPokemon, spritesPokemon.PaletaShiny);	
-			
-		}
-        public static void SetSprites(RomGba rom,IList<SpritesCompleto> sprites)
+            PaletaShiny.SetPaletaShiny(rom, indexOrdenGameFreakPokemon, spritesPokemon.PaletaShiny);
+
+        }
+        public static void SetSprites(RomGba rom, IList<SpritesCompleto> sprites)
         {
             List<Frontales> frontales = new List<Frontales>();
             List<Traseros> traseros = new List<Traseros>();
             List<PaletaNormal> paletaNormals = new List<PaletaNormal>();
             List<PaletaShiny> paletaShinies = new List<PaletaShiny>();
 
-            for(int i=0;i<sprites.Count;i++)
+            for (int i = 0; i < sprites.Count; i++)
             {
                 frontales.Add(sprites[i].SpritesFrontales);
                 traseros.Add(sprites[i].SpritesTraseros);
@@ -111,7 +122,7 @@ namespace PokemonGBAFrameWork.Pokemon
             PaletaNormal.SetPaletaNormal(rom, paletaNormals);
             PaletaShiny.SetPaletaShiny(rom, paletaShinies);
         }
-		
 
-	}
+
+    }
 }

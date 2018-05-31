@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of Pokemon.
     /// </summary>
-    public class PokemonCompleto : IComparable, IElementoBinarioComplejo
+    public class PokemonCompleto :PokemonFrameWorkItem ,IComparable
     {
 
         public enum OrdenPokemon
@@ -83,8 +83,8 @@ namespace PokemonGBAFrameWork
         public Huella Huella { get; set; }
 
         public AtaquesAprendidos AtaquesAprendidos { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         #region IComparable implementation
 
@@ -145,6 +145,13 @@ namespace PokemonGBAFrameWork
             pokemon.AtaquesAprendidos = AtaquesAprendidos.GetAtaquesAprendidos(rom, ordenGameFreak);
             if (pokemon.OrdenNacional.Orden != null && pokemon.OrdenNacional.Orden < totalEntradasPokedex)
                 pokemon.Descripcion = Descripcion.GetDescripcionPokedex(rom, pokemon.OrdenNacional.Orden);
+
+            if (edicion.Idioma == Idioma.Ingles)
+                pokemon.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
+            else pokemon.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
+
+            pokemon.IdElemento = (ushort)ordenGameFreak;
+
             return pokemon;
 
         }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class Traseros:IElementoBinarioComplejo
+    public class Traseros:PokemonFrameWorkItem
     {
         public const byte ID = 0x27;
         public static readonly Zona ZonaImgTrasera;
@@ -25,8 +25,8 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             Sprites = new Llista<BloqueImagen>();
         }
         public Llista<BloqueImagen> Sprites { get => sprites; private set => sprites = value; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public static Traseros GetTraseros(RomGba rom,int posicion)
         {
@@ -39,6 +39,12 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             {
                 traseros.Sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA))));
             }
+            traseros.IdFuente = EdicionPokemon.IDMINRESERVADO;
+
+            if (!((EdicionPokemon)rom.Edicion).EsEsmeralda)
+                traseros.IdFuente -= (int)AbreviacionCanon.BPE;
+            traseros.IdElemento = (ushort)posicion;
+
             return traseros;
 
         }

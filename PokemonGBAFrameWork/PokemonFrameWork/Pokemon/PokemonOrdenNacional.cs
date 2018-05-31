@@ -5,15 +5,15 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-    public class OrdenNacional:IElementoBinarioComplejo
+    public class OrdenNacional:PokemonFrameWorkItem
     {
         public const byte ID = 0x23;
         public static readonly Zona ZonaOrdenNacional;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<OrdenNacional>();
 
         public Word Orden { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         static OrdenNacional()
         {
@@ -40,6 +40,12 @@ namespace PokemonGBAFrameWork.Pokemon
             catch {
                 ordenNacional.Orden = null;
             }
+            if (((EdicionPokemon)rom.Edicion).RegionKanto)
+                ordenNacional.IdFuente = EdicionPokemon.IDKANTO;
+            else ordenNacional.IdFuente = EdicionPokemon.IDHOENN;
+
+            ordenNacional.IdElemento = (ushort)posicion;
+
             return ordenNacional;
         }
         public static OrdenNacional[] GetOrdenNacional(RomGba rom)

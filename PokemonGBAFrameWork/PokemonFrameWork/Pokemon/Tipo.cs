@@ -10,14 +10,14 @@ using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork.Pokemon
 {
 	
-	public  class TipoCompleto:IElementoBinarioComplejo
+	public  class TipoCompleto:PokemonFrameWorkItem
 	{
 
         public const byte ID = 0x2A;
         public static readonly Zona ZonaImagenTipo;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<TipoCompleto>();
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public Nombre Nombre { get; set; }
 
@@ -54,6 +54,11 @@ namespace PokemonGBAFrameWork.Pokemon
 
             TipoCompleto tipo = new TipoCompleto();
             tipo.Nombre = Nombre.GetNombre(rom, posicion);
+            tipo.IdElemento = (ushort)posicion;
+            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
+                tipo.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
+            else tipo.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
+
             return tipo;
 		}
 		public static int GetTotal(RomGba rom)

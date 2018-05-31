@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class PaletaNormal:IElementoBinarioComplejo
+    public class PaletaNormal:PokemonFrameWorkItem
     {
         public const byte ID = 0x25;
         public static readonly Zona ZonaPaletaNormal;
@@ -25,14 +25,16 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
 
         public Paleta Paleta { get; set; }
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public static PaletaNormal GetPaletaNormal(RomGba rom, int posicion)
         {
             PaletaNormal paleta = new PaletaNormal();
             int offsetPaletaNormalPokemon = Zona.GetOffsetRom(ZonaPaletaNormal, rom).Offset + Paleta.LENGTHHEADERCOMPLETO * posicion;
             paleta.Paleta = Paleta.GetPaleta(rom, offsetPaletaNormalPokemon);
+            paleta.IdFuente = EdicionPokemon.IDMINRESERVADO;
+            paleta.IdElemento = (ushort)posicion;
             return paleta;
         }
         public static PaletaNormal[] GetPaletaNormal(RomGba rom)

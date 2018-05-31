@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
-{//        public const byte ID = 0x2C;proximo id
+{//        public const byte ID = 0x2D;proximo id
     public class ElementoSerializado: ElementoSinBase<byte, ushort, long>
 
     {

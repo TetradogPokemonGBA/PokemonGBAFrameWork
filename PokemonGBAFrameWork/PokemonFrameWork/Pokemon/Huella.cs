@@ -20,7 +20,7 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// <summary>
 	/// Description of Huella.
 	/// </summary>
-	public class Huella:IElementoBinarioComplejo
+	public class Huella:PokemonFrameWorkItem
 	{
         public const byte ID = 0x1F;
         public const int LENGHT=32;
@@ -63,8 +63,8 @@ namespace PokemonGBAFrameWork.Pokemon
 			}
             set { blImgHuellaGBA = value; }
 		}
-
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override ElementoBinario Serialitzer => Serializador;
 
         public Bitmap GetImagen()
 		{
@@ -93,7 +93,10 @@ namespace PokemonGBAFrameWork.Pokemon
 			//le el offset del pointer que toca
 			int offsetBytesHuella = GetOffsetHuella(rom, posicion);
 			//lee los bytes de la imagen del offset leido
-			return new Huella(BloqueBytes.GetBytes(rom.Data, offsetBytesHuella, LENGHT));
+			Huella huella= new Huella(BloqueBytes.GetBytes(rom.Data, offsetBytesHuella, LENGHT));
+            huella.IdFuente = EdicionPokemon.IDMINRESERVADO;
+            huella.IdElemento = (ushort)posicion;
+            return huella;
 		}
 		/// <summary>
 		/// Obtiene el offset de la lista de pointers.
