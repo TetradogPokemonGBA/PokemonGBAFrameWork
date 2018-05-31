@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 namespace PokemonGBAFrameWork
 {
@@ -13,10 +14,17 @@ namespace PokemonGBAFrameWork
         public static readonly ElementoBinario Serializador;
         static TwoKeysList<string, long, RomGba> RomsCargadas;
         static TwoKeysList<string, long, Paquete> PaquetesCargados;
+        /// <summary>
+        /// Usuario de Github
+        /// </summary>
+        public string Autor { get; set; }
         public long Id { get; set; }
         public Llista<ElementoSerializado> ElementosPaquetePendientes { get; private set; }
         public PokemonFrameWorkItem[] ItemsCargados { get; private set; }
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+        public Llista<PokemonFrameWorkItem> ItemsNuevos { get; private set; }
+
+        ElementoBinario IElementoBinarioComplejo.Serialitzer => ISerializador;
+        protected virtual ElementoBinario ISerializador => Serializador;
         static Paquete()
         {
             Serializador = ElementoBinario.GetSerializador<Paquete>();
@@ -50,8 +58,9 @@ namespace PokemonGBAFrameWork
         public Paquete()
         {
             ElementosPaquetePendientes = new Llista<ElementoSerializado>();
+            ItemsNuevos = new Llista<PokemonFrameWorkItem>();
             Id = DateTime.Now.Ticks;
-            PaquetesCargados.Add(""+Id, Id, this);
+            PaquetesCargados.Add("" + Id, Id, this);
         }
         public void FullLoad()
         {
@@ -75,7 +84,42 @@ namespace PokemonGBAFrameWork
             }
 
         }
+        public void PrepareToSave()
+        {
+            PokemonFrameWorkItem elementoBase;
+            ElementoSerializado elementoASerializar;
+            for (int i = ItemsCargados.Length - 1; i >= 0; i--)
+                if (ItemsCargados[i] != null && ElementosPaquetePendientes[i].IdTipo == ItemsCargados[i].IdTipo && ElementosPaquetePendientes[i].Id == ItemsCargados[i].IdFuente && ElementosPaquetePendientes[i].IdElemento == ItemsCargados[i].IdElemento)
+                {
+                    ElementosPaquetePendientes.RemoveAt(i);
+                }
+            ItemsNuevos.AddRange(ItemsCargados.Filtra(item => item != null));
+            for (int i = 0; i < ItemsNuevos.Count; i++)
+            {
+                if (ItemsNuevos[i].IdFuente <= EdicionPokemon.IDMINRESERVADO)
+                {
+                    //si el elemento nuevo tiene la base en una rom oficial
+                    elementoBase = GetElementoBase(EdicionPokemon.GetEdicionCompatible(ItemsNuevos[i].IdFuente), ItemsNuevos[i].IdTipo, ItemsNuevos[i].IdElemento);
+                    elementoASerializar = new ElementoSerializado(ItemsNuevos[i].IdTipo, ItemsNuevos[i].IdElemento, ItemsNuevos[i].IdFuente, elementoBase.Serialitzer.GetBytes(elementoBase), ItemsNuevos[i].Serialitzer.GetBytes(ItemsNuevos[i]));
 
+                }
+                else if (PaquetesCargados.ContainsKey2(ItemsNuevos[i].IdFuente))
+                {//se basa en otro paquete
+                    elementoBase = GetFullElement(ItemsNuevos[i].IdFuente, ItemsNuevos[i].IdElemento);
+                    elementoASerializar = new ElementoSerializado(ItemsNuevos[i].IdTipo, ItemsNuevos[i].IdElemento, ItemsNuevos[i].IdFuente, elementoBase.Serialitzer.GetBytes(elementoBase), ItemsNuevos[i].Serialitzer.GetBytes(ItemsNuevos[i]));
+
+                }
+                else
+                {//no se basa en nada externo al paquete :) por eso le pongo como idFuente el id del paquete
+                    elementoASerializar = new ElementoSerializado(ItemsNuevos[i].IdTipo, ItemsNuevos[i].IdElemento, Id, ItemsNuevos[i].Serialitzer.GetBytes(ItemsNuevos[i]));
+
+                }
+                ElementosPaquetePendientes.Add(elementoASerializar);
+            }
+            //asi evito problemas
+            ItemsNuevos.Clear();
+            ItemsCargados = null;
+        }
         public PokemonFrameWorkItem GetFullElement(long idFuente, ushort idElemento)
         {//falta testing
             IElementoBinarioComplejo aux = null;
@@ -97,7 +141,7 @@ namespace PokemonGBAFrameWork
                 else//es 100% original del usuario :3 de allí que  tenga base
                 {
                     //tiene la base
-                    aux = (IElementoBinarioComplejo) GetSerializador(ElementosPaquetePendientes[idElemento].IdTipo).GetObject(ElementosPaquetePendientes[idElemento].BytesSinBase);
+                    aux = (IElementoBinarioComplejo)GetSerializador(ElementosPaquetePendientes[idElemento].IdTipo).GetObject(ElementosPaquetePendientes[idElemento].BytesSinBase);
                 }
                 ItemsCargados[idElemento] = (PokemonFrameWorkItem)aux;
             }
@@ -164,7 +208,7 @@ namespace PokemonGBAFrameWork
         }
         public static ElementoBinario GetSerializador(byte idTipo)
         {
-            ElementoBinario serializador=null;
+            ElementoBinario serializador = null;
             switch (idTipo)
             {
                 case ClaseEntrenadorCompleto.ID: serializador = ClaseEntrenadorCompleto.Serializador; break;

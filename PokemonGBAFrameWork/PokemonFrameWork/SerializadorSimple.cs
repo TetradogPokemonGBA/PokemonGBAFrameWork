@@ -5,10 +5,17 @@ using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork
 {//        public const byte ID = 0x2D;proximo id
     public class ElementoSerializado: ElementoSinBase<byte, ushort, long>
-
     {
         public ElementoSerializado()
         {
+        }
+
+        public ElementoSerializado(byte idTipo, ushort idElemento, long idFuente, byte[] datos)
+        {
+            IdTipo = idTipo;
+            IdElemento = idElemento;
+            base.Id = idFuente;
+            base.BytesSinBase = datos;
         }
 
         public ElementoSerializado(byte idTipo, ushort idElemento, long id, IElementoBinarioComplejo elementoBase, IElementoBinarioComplejo elementoCompleto) : base(idTipo, idElemento, id, elementoBase, elementoCompleto)

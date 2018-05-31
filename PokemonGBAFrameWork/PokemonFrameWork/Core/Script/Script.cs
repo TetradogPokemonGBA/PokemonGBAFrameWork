@@ -978,7 +978,7 @@ namespace PokemonGBAFrameWork
                             //cambiarlo a if y poner .ToLower()
                             //pongo los comandos
                             case "@org":
-                               
+
                                 if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
                                 {
                                     scriptActual = new Script();
@@ -990,679 +990,679 @@ namespace PokemonGBAFrameWork
                                 }
                                 break;
                             case Nop.NOMBRE:
-                                tipoComando=typeof(Nop );
+                                tipoComando = typeof(Nop);
                                 break;
                             case Nop1.NOMBRE:
-                                tipoComando=typeof(Nop1 );
+                                tipoComando = typeof(Nop1);
                                 break;
                             case Call.NOMBRE:
-                                tipoComando=typeof(Call );
+                                tipoComando = typeof(Call);
                                 break;
                             case Goto.NOMBRE:
-                                tipoComando=typeof(Goto );
+                                tipoComando = typeof(Goto);
                                 break;
                             case If1.NOMBRE:
-                                tipoComando=typeof(If1 );
+                                tipoComando = typeof(If1);
                                 break;
                             case If2.NOMBRE:
-                                tipoComando=typeof(If2 );
+                                tipoComando = typeof(If2);
                                 break;
                             case Gotostd.NOMBRE:
-                                tipoComando=typeof(Gotostd );
+                                tipoComando = typeof(Gotostd);
                                 break;
                             case Callstd.NOMBRE:
-                                tipoComando=typeof(Callstd );
+                                tipoComando = typeof(Callstd);
                                 break;
                             case Gotostdif.NOMBRE:
-                                tipoComando=typeof(Gotostdif );
+                                tipoComando = typeof(Gotostdif);
                                 break;
                             case Callstdif.NOMBRE:
-                                tipoComando=typeof(Callstdif );
+                                tipoComando = typeof(Callstdif);
                                 break;
                             case Jumpram.NOMBRE:
-                                tipoComando=typeof(Jumpram );
+                                tipoComando = typeof(Jumpram);
                                 break;
                             case Killscript.NOMBRE:
-                                tipoComando=typeof(Killscript );
+                                tipoComando = typeof(Killscript);
                                 break;
                             case SetByte.NOMBRE:
-                                tipoComando=typeof(SetByte );
+                                tipoComando = typeof(SetByte);
                                 break;
                             case LoadPointer.NOMBRE:
-                                tipoComando=typeof(LoadPointer );
+                                tipoComando = typeof(LoadPointer);
                                 break;
                             case SetByte2.NOMBRE:
-                                tipoComando=typeof(SetByte2 );
+                                tipoComando = typeof(SetByte2);
                                 break;
                             case WriteByteToOffset.NOMBRE:
-                                tipoComando=typeof(WriteByteToOffset );
+                                tipoComando = typeof(WriteByteToOffset);
                                 break;
                             case LoadByteFromPointer.NOMBRE:
-                                tipoComando=typeof(LoadByteFromPointer );
+                                tipoComando = typeof(LoadByteFromPointer);
                                 break;
                             case SetFarByte.NOMBRE:
-                                tipoComando=typeof(SetFarByte );
+                                tipoComando = typeof(SetFarByte);
                                 break;
-                            case Copyscriptbanks.NOMBRE.ToLower():
-                                tipoComando=typeof(Copyscriptbanks );
+                            case Copyscriptbanks.NOMBRE:
+                                tipoComando = typeof(Copyscriptbanks);
                                 break;
                             case CopyByte.NOMBRE:
-                                tipoComando=typeof(CopyByte );
+                                tipoComando = typeof(CopyByte);
                                 break;
                             case SetVar.NOMBRE:
-                                tipoComando=typeof(SetVar );
+                                tipoComando = typeof(SetVar);
                                 break;
                             case AddVar.NOMBRE:
-                                tipoComando=typeof(AddVar );
+                                tipoComando = typeof(AddVar);
                                 break;
                             case SubVar.NOMBRE:
-                                tipoComando=typeof(SubVar );
+                                tipoComando = typeof(SubVar);
                                 break;
                             case CopyVar.NOMBRE:
-                                tipoComando=typeof(CopyVar );
+                                tipoComando = typeof(CopyVar);
                                 break;
                             case CopyVarIfNotZero.NOMBRE:
-                                tipoComando=typeof(CopyVarIfNotZero );
+                                tipoComando = typeof(CopyVarIfNotZero);
                                 break;
                             case CompareBanks.NOMBRE:
-                                tipoComando=typeof(CompareBanks );
+                                tipoComando = typeof(CompareBanks);
                                 break;
                             case CompareBankToByte.NOMBRE:
-                                tipoComando=typeof(CompareBankToByte );
+                                tipoComando = typeof(CompareBankToByte);
                                 break;
                             case CompareBankToFarByte.NOMBRE:
-                                tipoComando=typeof(CompareBankToFarByte );
+                                tipoComando = typeof(CompareBankToFarByte);
                                 break;
                             case CompareFarByteToBank.NOMBRE:
-                                tipoComando=typeof(CompareBankToFarByte );
+                                tipoComando = typeof(CompareBankToFarByte);
                                 break;
                             case CompareFarByteToByte.NOMBRE:
-                                tipoComando=typeof(CompareFarByteToByte );
+                                tipoComando = typeof(CompareFarByteToByte);
                                 break;
                             case CompareFarBytes.NOMBRE:
-                                tipoComando=typeof(CompareFarBytes );
+                                tipoComando = typeof(CompareFarBytes);
                                 break;
                             case Compare.NOMBRE:
-                                tipoComando=typeof(Compare );
+                                tipoComando = typeof(Compare);
                                 break;
                             case CompareVars.NOMBRE:
-                                tipoComando=typeof(CompareVars );
+                                tipoComando = typeof(CompareVars);
                                 break;
                             case CallAsm.NOMBRE:
-                                tipoComando=typeof(CallAsm );
+                                tipoComando = typeof(CallAsm);
                                 break;
                             case Cmd24.NOMBRE:
-                                tipoComando=typeof(Cmd24 );
+                                tipoComando = typeof(Cmd24);
                                 break;
                             case Special.NOMBRE:
-                                tipoComando=typeof(Special );
+                                tipoComando = typeof(Special);
                                 break;
                             case Special2.NOMBRE:
-                                tipoComando=typeof(Special2 );
+                                tipoComando = typeof(Special2);
                                 break;
                             case WaitState.NOMBRE:
-                                tipoComando=typeof(WaitState );
+                                tipoComando = typeof(WaitState);
                                 break;
                             case Pause.NOMBRE:
-                                tipoComando=typeof(Pause );
+                                tipoComando = typeof(Pause);
                                 break;
                             case SetFlag.NOMBRE:
-                                tipoComando=typeof(SetFlag );
+                                tipoComando = typeof(SetFlag);
                                 break;
                             case ClearFlag.NOMBRE:
-                                tipoComando=typeof(ClearFlag );
+                                tipoComando = typeof(ClearFlag);
                                 break;
                             case CheckFlag.NOMBRE:
-                                tipoComando=typeof(CheckFlag );
+                                tipoComando = typeof(CheckFlag);
                                 break;
                             case Cmd2C.NOMBRE:
-                                tipoComando=typeof(Cmd2C );
+                                tipoComando = typeof(Cmd2C);
                                 break;
                             case CheckSound.NOMBRE:
-                                tipoComando=typeof(CheckSound );
+                                tipoComando = typeof(CheckSound);
                                 break;
                             case FanFare.NOMBRE:
-                                tipoComando=typeof(FanFare );
+                                tipoComando = typeof(FanFare);
                                 break;
                             case WaitFanFare.NOMBRE:
-                                tipoComando=typeof(WaitFanFare );
+                                tipoComando = typeof(WaitFanFare);
                                 break;
                             case PlaySong.NOMBRE:
-                                tipoComando=typeof(PlaySong );
+                                tipoComando = typeof(PlaySong);
                                 break;
                             case PlaySong2.NOMBRE:
-                                tipoComando=typeof(PlaySong2 );
+                                tipoComando = typeof(PlaySong2);
                                 break;
                             case FadeDefault.NOMBRE:
-                                tipoComando=typeof(FadeDefault );
+                                tipoComando = typeof(FadeDefault);
                                 break;
                             case FadeSong.NOMBRE:
-                                tipoComando=typeof(FadeSong );
+                                tipoComando = typeof(FadeSong);
                                 break;
                             case FadeOut.NOMBRE:
-                                tipoComando=typeof(FadeOut );
+                                tipoComando = typeof(FadeOut);
                                 break;
                             case FadeIn.NOMBRE:
-                                tipoComando=typeof(FadeIn );
+                                tipoComando = typeof(FadeIn);
                                 break;
                             case CheckDailyFlags.NOMBRE:
-                                tipoComando=typeof(CheckDailyFlags );
+                                tipoComando = typeof(CheckDailyFlags);
                                 break;
                             case ResetVars.NOMBRE:
-                                tipoComando=typeof(ResetVars );
+                                tipoComando = typeof(ResetVars);
                                 break;
                             case Sound.NOMBRE:
-                                tipoComando=typeof(Sound );
+                                tipoComando = typeof(Sound);
                                 break;
                             case Warp.NOMBRE:
-                                tipoComando=typeof(Warp );
+                                tipoComando = typeof(Warp);
                                 break;
                             case WarpMuted.NOMBRE:
-                                tipoComando=typeof(WarpMuted );
+                                tipoComando = typeof(WarpMuted);
                                 break;
                             case WarpWalk.NOMBRE:
-                                tipoComando=typeof(WarpWalk );
+                                tipoComando = typeof(WarpWalk);
                                 break;
                             case WarpHole.NOMBRE:
-                                tipoComando=typeof(WarpHole );
+                                tipoComando = typeof(WarpHole);
                                 break;
                             case WarpTeleport.NOMBRE:
-                                tipoComando=typeof(WarpTeleport );
+                                tipoComando = typeof(WarpTeleport);
                                 break;
                             case Warp3.NOMBRE:
-                                tipoComando=typeof(Warp3 );
+                                tipoComando = typeof(Warp3);
                                 break;
                             case SetWarpplace.NOMBRE:
-                                tipoComando=typeof(SetWarpplace );
+                                tipoComando = typeof(SetWarpplace);
                                 break;
                             case Warp4.NOMBRE:
-                                tipoComando=typeof(Warp4 );
+                                tipoComando = typeof(Warp4);
                                 break;
                             case Warp5.NOMBRE:
-                                tipoComando=typeof(Warp5 );
+                                tipoComando = typeof(Warp5);
                                 break;
                             case GetPlayerPos.NOMBRE:
-                                tipoComando=typeof(GetPlayerPos );
+                                tipoComando = typeof(GetPlayerPos);
                                 break;
                             case CountPokemon.NOMBRE:
-                                tipoComando=typeof(CountPokemon );
+                                tipoComando = typeof(CountPokemon);
                                 break;
                             case AddItem.NOMBRE:
-                                tipoComando=typeof(AddItem );
+                                tipoComando = typeof(AddItem);
                                 break;
                             case RemoveItem.NOMBRE:
-                                tipoComando=typeof(RemoveItem );
+                                tipoComando = typeof(RemoveItem);
                                 break;
                             case CheckItemRoom.NOMBRE:
-                                tipoComando=typeof(CheckItemRoom );
+                                tipoComando = typeof(CheckItemRoom);
                                 break;
                             case CheckItem.NOMBRE:
-                                tipoComando=typeof(CheckItem );
+                                tipoComando = typeof(CheckItem);
                                 break;
                             case CheckItemType.NOMBRE:
-                                tipoComando=typeof(CheckItemType );
+                                tipoComando = typeof(CheckItemType);
                                 break;
                             case AddPcItem.NOMBRE:
-                                tipoComando=typeof(AddPcItem );
+                                tipoComando = typeof(AddPcItem);
                                 break;
                             case CheckPcItem.NOMBRE:
-                                tipoComando=typeof(CheckPcItem );
+                                tipoComando = typeof(CheckPcItem);
                                 break;
                             case AddDecoration.NOMBRE:
-                                tipoComando=typeof(AddDecoration );
+                                tipoComando = typeof(AddDecoration);
                                 break;
                             case RemoveDecoration.NOMBRE:
-                                tipoComando=typeof(RemoveDecoration );
+                                tipoComando = typeof(RemoveDecoration);
                                 break;
                             case TestDecoration.NOMBRE:
-                                tipoComando=typeof(TestDecoration );
+                                tipoComando = typeof(TestDecoration);
                                 break;
                             case CheckDecoration.NOMBRE:
-                                tipoComando=typeof(CheckDecoration );
+                                tipoComando = typeof(CheckDecoration);
                                 break;
                             case ApplyMovement.NOMBRE:
-                                tipoComando=typeof(ApplyMovement );
+                                tipoComando = typeof(ApplyMovement);
                                 break;
                             case ApplyMovementPos.NOMBRE:
-                                tipoComando=typeof(ApplyMovementPos );
+                                tipoComando = typeof(ApplyMovementPos);
                                 break;
                             case WaitMovement.NOMBRE:
-                                tipoComando=typeof(WaitMovement );
+                                tipoComando = typeof(WaitMovement);
                                 break;
                             case WaitMovementPos.NOMBRE:
-                                tipoComando=typeof(WaitMovementPos );
+                                tipoComando = typeof(WaitMovementPos);
                                 break;
                             case HideSprite.NOMBRE:
-                                tipoComando=typeof(HNOMBREeSprite );
+                                tipoComando = typeof(HNOMBREeSprite);
                                 break;
                             case HideSpritePos.NOMBRE:
-                                tipoComando=typeof(HNOMBREeSpritePos );
+                                tipoComando = typeof(HNOMBREeSpritePos);
                                 break;
                             case ShowSprite.NOMBRE:
-                                tipoComando=typeof(ShowSprite );
+                                tipoComando = typeof(ShowSprite);
                                 break;
                             case ShowSpritePos.NOMBRE:
-                                tipoComando=typeof(ShowSpritePos );
+                                tipoComando = typeof(ShowSpritePos);
                                 break;
                             case MoveSprite.NOMBRE:
-                                tipoComando=typeof(MoveSprite );
+                                tipoComando = typeof(MoveSprite);
                                 break;
                             case SpriteVisible.NOMBRE:
-                                tipoComando=typeof(SpriteVisible );
+                                tipoComando = typeof(SpriteVisible);
                                 break;
                             case SpriteInvisible.NOMBRE:
-                                tipoComando=typeof(SpriteInvisible );
+                                tipoComando = typeof(SpriteInvisible);
                                 break;
                             case Faceplayer.NOMBRE:
-                                tipoComando=typeof(Faceplayer );
+                                tipoComando = typeof(Faceplayer);
                                 break;
                             case SpriteFace.NOMBRE:
-                                tipoComando=typeof(SpriteFace );
+                                tipoComando = typeof(SpriteFace);
                                 break;
                             case Trainerbattle.NOMBRE:
-                                tipoComando=typeof(Trainerbattle );
+                                tipoComando = typeof(Trainerbattle);
                                 break;
                             case RepeatTrainerBattle.NOMBRE:
-                                tipoComando=typeof(RepeatTrainerBattle );
+                                tipoComando = typeof(RepeatTrainerBattle);
                                 break;
                             case EndTrainerBattle.NOMBRE:
-                                tipoComando=typeof(EndTrainerBattle );
+                                tipoComando = typeof(EndTrainerBattle);
                                 break;
                             case EndTrainerBattle2.NOMBRE:
-                                tipoComando=typeof(EndTrainerBattle2 );
+                                tipoComando = typeof(EndTrainerBattle2);
                                 break;
                             case CheckTrainerFlag.NOMBRE:
-                                tipoComando=typeof(CheckTrainerFlag );
+                                tipoComando = typeof(CheckTrainerFlag);
                                 break;
                             case ClearTrainerFlag.NOMBRE:
-                                tipoComando=typeof(ClearTrainerFlag );
+                                tipoComando = typeof(ClearTrainerFlag);
                                 break;
                             case SetTrainerFlag.NOMBRE:
-                                tipoComando=typeof(SetTrainerFlag );
+                                tipoComando = typeof(SetTrainerFlag);
                                 break;
                             case MoveSprite2.NOMBRE:
-                                tipoComando=typeof(MoveSprite2 );
+                                tipoComando = typeof(MoveSprite2);
                                 break;
                             case MoveOffScreen.NOMBRE:
-                                tipoComando=typeof(MoveOffScreen );
+                                tipoComando = typeof(MoveOffScreen);
                                 break;
                             case SpriteBehave.NOMBRE:
-                                tipoComando=typeof(SpriteBehave );
+                                tipoComando = typeof(SpriteBehave);
                                 break;
                             case WaitMsg.NOMBRE:
-                                tipoComando=typeof(WaitMsg );
+                                tipoComando = typeof(WaitMsg);
                                 break;
                             case PrepareMsg.NOMBRE:
-                                tipoComando=typeof(PrepareMsg );
+                                tipoComando = typeof(PrepareMsg);
                                 break;
                             case CloseOnKeyPress.NOMBRE:
-                                tipoComando=typeof(CloseOnKeyPress );
+                                tipoComando = typeof(CloseOnKeyPress);
                                 break;
                             case LockAll.NOMBRE:
-                                tipoComando=typeof(LockAll );
+                                tipoComando = typeof(LockAll);
                                 break;
                             case Lock.NOMBRE:
-                                tipoComando=typeof(Lock );
+                                tipoComando = typeof(Lock);
                                 break;
                             case ReleaseAll.NOMBRE:
-                                tipoComando=typeof(ReleaseAll );
+                                tipoComando = typeof(ReleaseAll);
                                 break;
                             case Release.NOMBRE:
-                                tipoComando=typeof(Release );
+                                tipoComando = typeof(Release);
                                 break;
                             case WaitKeyPress.NOMBRE:
-                                tipoComando=typeof(WaitKeyPress );
+                                tipoComando = typeof(WaitKeyPress);
                                 break;
                             case YesNoBox.NOMBRE:
-                                tipoComando=typeof(YesNoBox );
+                                tipoComando = typeof(YesNoBox);
                                 break;
                             case Multichoice.NOMBRE:
-                                tipoComando=typeof(Multichoice );
+                                tipoComando = typeof(Multichoice);
                                 break;
                             case Multichoice2.NOMBRE:
-                                tipoComando=typeof(Multichoice2 );
+                                tipoComando = typeof(Multichoice2);
                                 break;
                             case Multichoice3.NOMBRE:
-                                tipoComando=typeof(Multichoice3 );
+                                tipoComando = typeof(Multichoice3);
                                 break;
                             case ShowBox.NOMBRE:
-                                tipoComando=typeof(ShowBox );
+                                tipoComando = typeof(ShowBox);
                                 break;
                             case HideBox.NOMBRE:
-                                tipoComando=typeof(HideBox );
+                                tipoComando = typeof(HideBox);
                                 break;
                             case ClearBox.NOMBRE:
-                                tipoComando=typeof(ClearBox );
+                                tipoComando = typeof(ClearBox);
                                 break;
                             case ShowPokePic.NOMBRE:
-                                tipoComando=typeof(ShowPokePic );
+                                tipoComando = typeof(ShowPokePic);
                                 break;
                             case HidePokePic.NOMBRE:
-                                tipoComando=typeof(HidePokePic );
+                                tipoComando = typeof(HidePokePic);
                                 break;
                             case ShowContestWinner.NOMBRE:
-                                tipoComando=typeof(ShowContestWinner );
+                                tipoComando = typeof(ShowContestWinner);
                                 break;
                             case Braille.NOMBRE:
-                                tipoComando=typeof(Braille );
+                                tipoComando = typeof(Braille);
                                 break;
                             case GivePokemon.NOMBRE:
-                                tipoComando=typeof(GivePokemon );
+                                tipoComando = typeof(GivePokemon);
                                 break;
                             case GiveEgg.NOMBRE:
-                                tipoComando=typeof(GiveEgg );
+                                tipoComando = typeof(GiveEgg);
                                 break;
                             case SetPkmnPP.NOMBRE:
-                                tipoComando=typeof(SetPkmnPP );
+                                tipoComando = typeof(SetPkmnPP);
                                 break;
                             case CheckAttack.NOMBRE:
-                                tipoComando=typeof(CheckAttack );
+                                tipoComando = typeof(CheckAttack);
                                 break;
                             case BufferPokemon.NOMBRE:
-                                tipoComando=typeof(BufferPokemon );
+                                tipoComando = typeof(BufferPokemon);
                                 break;
                             case BufferFirstPokemon.NOMBRE:
-                                tipoComando=typeof(BufferFirstPokemon );
+                                tipoComando = typeof(BufferFirstPokemon);
                                 break;
                             case BufferPartyPokemon.NOMBRE:
-                                tipoComando=typeof(BufferPartyPokemon );
+                                tipoComando = typeof(BufferPartyPokemon);
                                 break;
                             case BufferItem.NOMBRE:
-                                tipoComando=typeof(BufferItem );
+                                tipoComando = typeof(BufferItem);
                                 break;
                             case BufferDecoration.NOMBRE:
-                                tipoComando=typeof(BufferDecoration );
+                                tipoComando = typeof(BufferDecoration);
                                 break;
                             case BufferAttack.NOMBRE:
-                                tipoComando=typeof(BufferAttack );
+                                tipoComando = typeof(BufferAttack);
                                 break;
                             case BufferNumber.NOMBRE:
-                                tipoComando=typeof(BufferNumber );
+                                tipoComando = typeof(BufferNumber);
                                 break;
                             case BufferStd.NOMBRE:
-                                tipoComando=typeof(BufferStd );
+                                tipoComando = typeof(BufferStd);
                                 break;
                             case BufferString.NOMBRE:
-                                tipoComando=typeof(BufferString );
+                                tipoComando = typeof(BufferString);
                                 break;
                             case PokeMart.NOMBRE:
-                                tipoComando=typeof(PokeMart );
+                                tipoComando = typeof(PokeMart);
                                 break;
                             case PokeMart2.NOMBRE:
-                                tipoComando=typeof(PokeMart2 );
+                                tipoComando = typeof(PokeMart2);
                                 break;
                             case PokeMart3.NOMBRE:
-                                tipoComando=typeof(PokeMart3 );
+                                tipoComando = typeof(PokeMart3);
                                 break;
                             case PokeCasino.NOMBRE:
-                                tipoComando=typeof(PokeCasino );
+                                tipoComando = typeof(PokeCasino);
                                 break;
                             case Cmd8A.NOMBRE:
-                                tipoComando=typeof(Cmd8A );
+                                tipoComando = typeof(Cmd8A);
                                 break;
                             case ChooseContestPkmn.NOMBRE:
-                                tipoComando=typeof(ChooseContestPkmn );
+                                tipoComando = typeof(ChooseContestPkmn);
                                 break;
                             case StartContest.NOMBRE:
-                                tipoComando=typeof(StartContest );
+                                tipoComando = typeof(StartContest);
                                 break;
                             case ShowContestResults.NOMBRE:
-                                tipoComando=typeof(ShowContestResults );
+                                tipoComando = typeof(ShowContestResults);
                                 break;
                             case ContestLinkTransfer.NOMBRE:
-                                tipoComando=typeof(ContestLinkTransfer );
+                                tipoComando = typeof(ContestLinkTransfer);
                                 break;
                             case PokemonGBAFrameWork.ComandosScript.Random.NOMBRE:
-                                tipoComando=typeof(PokemonGBAFrameWork.ComandosScript.Random );
+                                tipoComando = typeof(PokemonGBAFrameWork.ComandosScript.Random);
                                 break;
                             //estos me los salto
                             //falta añadir asta CRY incluido
                             case GiveMoney.NOMBRE:
-                                tipoComando=typeof(GiveMoney );
+                                tipoComando = typeof(GiveMoney);
                                 break;
                             case PayMoney.NOMBRE:
-                                tipoComando=typeof(PayMoney );
+                                tipoComando = typeof(PayMoney);
                                 break;
                             case CheckMoney.NOMBRE:
-                                tipoComando=typeof(CheckMoney );
+                                tipoComando = typeof(CheckMoney);
                                 break;
                             case ShowMoney.NOMBRE:
-                                tipoComando=typeof(ShowMoney );
+                                tipoComando = typeof(ShowMoney);
                                 break;
                             case HideMoney.NOMBRE:
-                                tipoComando=typeof(HideMoney );
+                                tipoComando = typeof(HideMoney);
                                 break;
                             case UpdateMoney.NOMBRE:
-                                tipoComando=typeof(UpdateMoney );
+                                tipoComando = typeof(UpdateMoney);
                                 break;
                             case Cmd96.NOMBRE:
-                                tipoComando=typeof(Cmd96 );
+                                tipoComando = typeof(Cmd96);
                                 break;
                             case FadeScreen.NOMBRE:
-                                tipoComando=typeof(FadeScreen );
+                                tipoComando = typeof(FadeScreen);
                                 break;
                             case FadeScreenDelay.NOMBRE:
-                                tipoComando=typeof(FadeScreenDelay );
+                                tipoComando = typeof(FadeScreenDelay);
                                 break;
                             case Darken.NOMBRE:
-                                tipoComando=typeof(Darken );
+                                tipoComando = typeof(Darken);
                                 break;
                             case Lighten.NOMBRE:
-                                tipoComando=typeof(Lighten );
+                                tipoComando = typeof(Lighten);
                                 break;
                             case PrepareMsg2.NOMBRE:
-                                tipoComando=typeof(PrepareMsg2 );
+                                tipoComando = typeof(PrepareMsg2);
                                 break;
                             case DoAnimation.NOMBRE:
-                                tipoComando=typeof(DoAnimation );
+                                tipoComando = typeof(DoAnimation);
                                 break;
                             case SetAnimation.NOMBRE:
-                                tipoComando=typeof(SetAnimation );
+                                tipoComando = typeof(SetAnimation);
                                 break;
                             case CheckAnimation.NOMBRE:
-                                tipoComando=typeof(ContestLinkTransfer );
+                                tipoComando = typeof(ContestLinkTransfer);
                                 break;
                             case SetHealingPlace.NOMBRE:
-                                tipoComando=typeof(SetHealingPlace );
+                                tipoComando = typeof(SetHealingPlace);
                                 break;
                             case CheckGender.NOMBRE:
-                                tipoComando=typeof(CheckGender );
+                                tipoComando = typeof(CheckGender);
                                 break;
                             case PokemonGBAFrameWork.ComandosScript.Cry.NOMBRE:
-                                tipoComando=typeof(PokemonGBAFrameWork.ComandosScript.Cry );
+                                tipoComando = typeof(PokemonGBAFrameWork.ComandosScript.Cry);
                                 break;
 
                             case SetMapTile.NOMBRE:
-                                tipoComando=typeof(SetMapTile );
+                                tipoComando = typeof(SetMapTile);
                                 break;
                             case ResetWeather.NOMBRE:
-                                tipoComando=typeof(ResetWeather );
+                                tipoComando = typeof(ResetWeather);
                                 break;
                             case SetWeather.NOMBRE:
-                                tipoComando=typeof(SetWeather );
+                                tipoComando = typeof(SetWeather);
                                 break;
                             case DoWeather.NOMBRE:
-                                tipoComando=typeof(DoWeather );
+                                tipoComando = typeof(DoWeather);
                                 break;
                             case CmdA6.NOMBRE:
-                                tipoComando=typeof(CmdA6 );
+                                tipoComando = typeof(CmdA6);
                                 break;
                             case SetMapFooter.NOMBRE:
-                                tipoComando=typeof(SetMapFooter );
+                                tipoComando = typeof(SetMapFooter);
                                 break;
                             case SpriteLevelUp.NOMBRE:
-                                tipoComando=typeof(SpriteLevelUp );
+                                tipoComando = typeof(SpriteLevelUp);
                                 break;
                             case RestoreSpriteLevel.NOMBRE:
-                                tipoComando=typeof(RestoreSpriteLevel );
+                                tipoComando = typeof(RestoreSpriteLevel);
                                 break;
                             case CreateSprite.NOMBRE:
-                                tipoComando=typeof(CreateSprite );
+                                tipoComando = typeof(CreateSprite);
                                 break;
                             case SpriteFace2.NOMBRE:
-                                tipoComando=typeof(SpriteFace2 );
+                                tipoComando = typeof(SpriteFace2);
                                 break;
                             case SetDoorOpened.NOMBRE:
-                                tipoComando=typeof(SetDoorOpened );
+                                tipoComando = typeof(SetDoorOpened);
                                 break;
                             case SetDoorClosed.NOMBRE:
-                                tipoComando=typeof(SetDoorClosed );
+                                tipoComando = typeof(SetDoorClosed);
                                 break;
                             case DoorChange.NOMBRE:
-                                tipoComando=typeof(DoorChange );
+                                tipoComando = typeof(DoorChange);
                                 break;
                             case SetDoorOpened2.NOMBRE:
-                                tipoComando=typeof(SetDoorOpened2 );
+                                tipoComando = typeof(SetDoorOpened2);
                                 break;
                             case CmdB1.NOMBRE:
-                                tipoComando=typeof(CmdB1 );
+                                tipoComando = typeof(CmdB1);
                                 break;
                             case CmdB2.NOMBRE:
-                                tipoComando=typeof(CmdB2 );
+                                tipoComando = typeof(CmdB2);
                                 break;
                             case CheckCoins.NOMBRE:
-                                tipoComando=typeof(CheckCoins );
+                                tipoComando = typeof(CheckCoins);
                                 break;
                             case GiveCoins.NOMBRE:
-                                tipoComando=typeof(GiveCoins );
+                                tipoComando = typeof(GiveCoins);
                                 break;
                             case RemoveCoins.NOMBRE:
-                                tipoComando=typeof(RemoveCoins );
+                                tipoComando = typeof(RemoveCoins);
                                 break;
                             case SetWildBattle.NOMBRE:
-                                tipoComando=typeof(SetWildBattle );
+                                tipoComando = typeof(SetWildBattle);
                                 break;
                             case DoWildBattle.NOMBRE:
-                                tipoComando=typeof(DoWildBattle );
+                                tipoComando = typeof(DoWildBattle);
                                 break;
                             case SetVirtualAddress.NOMBRE:
-                                tipoComando=typeof(SetVirtualAddress );
+                                tipoComando = typeof(SetVirtualAddress);
                                 break;
                             case VirtualGoto.NOMBRE:
-                                tipoComando=typeof(VirtualGoto );
+                                tipoComando = typeof(VirtualGoto);
                                 break;
                             case VirtualCall.NOMBRE:
-                                tipoComando=typeof(VirtualCall );
+                                tipoComando = typeof(VirtualCall);
                                 break;
                             case VirtualGotoIf.NOMBRE:
-                                tipoComando=typeof(VirtualGotoIf );
+                                tipoComando = typeof(VirtualGotoIf);
                                 break;
                             case VirtualCallIf.NOMBRE:
-                                tipoComando=typeof(VirtualCallIf );
+                                tipoComando = typeof(VirtualCallIf);
                                 break;
                             case VirtualMsgBox.NOMBRE:
-                                tipoComando=typeof(VirtualMsgBox );
+                                tipoComando = typeof(VirtualMsgBox);
                                 break;
                             case VirtualLoadPointer.NOMBRE:
-                                tipoComando=typeof(VirtualLoadPointer );
+                                tipoComando = typeof(VirtualLoadPointer);
                                 break;
                             case VirtualBuffer.NOMBRE:
-                                tipoComando=typeof(VirtualBuffer );
+                                tipoComando = typeof(VirtualBuffer);
                                 break;
                             case ShowCoins.NOMBRE:
-                                tipoComando=typeof(ShowCoins );
+                                tipoComando = typeof(ShowCoins);
                                 break;
                             case HideCoins.NOMBRE:
-                                tipoComando=typeof(HideCoins );
+                                tipoComando = typeof(HideCoins);
                                 break;
                             case UpdateCoins.NOMBRE:
-                                tipoComando=typeof(UpdateCoins );
+                                tipoComando = typeof(UpdateCoins);
                                 break;
                             case CmdC3.NOMBRE:
-                                tipoComando=typeof(CmdC3 );
+                                tipoComando = typeof(CmdC3);
                                 break;
                             case Warp6.NOMBRE:
-                                tipoComando=typeof(Warp6 );
+                                tipoComando = typeof(Warp6);
                                 break;
                             case WaitCry.NOMBRE:
-                                tipoComando=typeof(WaitCry );
+                                tipoComando = typeof(WaitCry);
                                 break;
                             case BufferBoxName.NOMBRE:
-                                tipoComando=typeof(BufferBoxName );
+                                tipoComando = typeof(BufferBoxName);
                                 break;
                             case TextColor.NOMBRE:
-                                tipoComando=typeof(TextColor );
+                                tipoComando = typeof(TextColor);
                                 break;
                             case CmdC8.NOMBRE:
-                                tipoComando=typeof(CmdC8 );
+                                tipoComando = typeof(CmdC8);
                                 break;
                             case CmdC9.NOMBRE:
-                                tipoComando=typeof(CmdC9 );
+                                tipoComando = typeof(CmdC9);
                                 break;
                             case SignMsg.NOMBRE:
-                                tipoComando=typeof(SignMsg );
+                                tipoComando = typeof(SignMsg);
                                 break;
                             case NormalMsg.NOMBRE:
-                                tipoComando=typeof(NormalMsg );
+                                tipoComando = typeof(NormalMsg);
                                 break;
                             case CompareHiddenVar.NOMBRE:
-                                tipoComando=typeof(CompareHiddenVar );
+                                tipoComando = typeof(CompareHiddenVar);
                                 break;
                             case SetOvedience.NOMBRE:
-                                tipoComando=typeof(SetOvedience );
+                                tipoComando = typeof(SetOvedience);
                                 break;
                             case CheckObedience.NOMBRE:
-                                tipoComando=typeof(CheckObedience );
+                                tipoComando = typeof(CheckObedience);
                                 break;
                             case ExecuteRam.NOMBRE:
-                                tipoComando=typeof(ExecuteRam );
+                                tipoComando = typeof(ExecuteRam);
                                 break;
                             case SetWorldMapFlag.NOMBRE:
-                                tipoComando=typeof(SetWorldMapFlag );
+                                tipoComando = typeof(SetWorldMapFlag);
                                 break;
                             case WarpTeleport2.NOMBRE:
-                                tipoComando=typeof(WarpTeleport2 );
+                                tipoComando = typeof(WarpTeleport2);
                                 break;
                             case SetCatchLocation.NOMBRE:
-                                tipoComando=typeof(SetCatchLocation );
+                                tipoComando = typeof(SetCatchLocation);
                                 break;
                             case Braille2.NOMBRE:
-                                tipoComando=typeof(Braille2 );
+                                tipoComando = typeof(Braille2);
                                 break;
                             case BufferItems.NOMBRE:
-                                tipoComando=typeof(BufferItems );
+                                tipoComando = typeof(BufferItems);
                                 break;
                             case CmdD5.NOMBRE:
-                                tipoComando=typeof(CmdD5 );
+                                tipoComando = typeof(CmdD5);
                                 break;
                             case CmdD6.NOMBRE:
-                                tipoComando=typeof(CmdD6 );
+                                tipoComando = typeof(CmdD6);
                                 break;
                             case Warp7.NOMBRE:
-                                tipoComando=typeof(Warp7 );
+                                tipoComando = typeof(Warp7);
                                 break;
                             case CmdD8.NOMBRE:
-                                tipoComando=typeof(CmdD8 );
+                                tipoComando = typeof(CmdD8);
                                 break;
                             case CmdD9.NOMBRE:
-                                tipoComando=typeof(CmdD9 );
+                                tipoComando = typeof(CmdD9);
                                 break;
                             case HideBox2.NOMBRE:
-                                tipoComando=typeof(HideBox2 );
+                                tipoComando = typeof(HideBox2);
                                 break;
                             case PrepareMsg3.NOMBRE:
-                                tipoComando=typeof(PrepareMsg3 );
+                                tipoComando = typeof(PrepareMsg3);
                                 break;
                             case FadeScreen3.NOMBRE:
-                                tipoComando=typeof(FadeScreen3 );
+                                tipoComando = typeof(FadeScreen3);
                                 break;
                             case BufferTrainerClass.NOMBRE:
-                                tipoComando=typeof(BufferTrainerClass );
+                                tipoComando = typeof(BufferTrainerClass);
                                 break;
                             case BufferTrainerName.NOMBRE:
-                                tipoComando=typeof(BufferTrainerName );
+                                tipoComando = typeof(BufferTrainerName);
                                 break;
                             case PokenavCall.NOMBRE:
-                                tipoComando=typeof(PokenavCall );
+                                tipoComando = typeof(PokenavCall);
                                 break;
                             case Warp8.NOMBRE:
-                                tipoComando=typeof(Warp8 );
+                                tipoComando = typeof(Warp8);
                                 break;
                             case BufferContestType.NOMBRE:
-                                tipoComando=typeof(BufferContestType );
+                                tipoComando = typeof(BufferContestType);
                                 break;
                             case BufferItems2.NOMBRE:
-                                tipoComando=typeof(BufferItems2 );
+                                tipoComando = typeof(BufferItems2);
                                 break;
                             case "return":
 
@@ -1673,15 +1673,15 @@ namespace PokemonGBAFrameWork
                                 throw new ScriptMalFormadoException();
                                 //voy por copyvar en poner nombre falta hacer constructor en cada uno
                         }
-                       
-                        if(tipoComando!=null)
+
+                        if (tipoComando != null)
                         {
                             propiedades = tipoComando.GetPropiedades();//mirar de poderlas ordenar con atributos
-                            for(int j=0;j<propiedades.Count;j++)
-                                if(propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
+                            for (int j = 0; j < propiedades.Count; j++)
+                                if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
                                 {
-                                    aux = comandoActualCampos[parametros.Count].Contains("x")?(Hex) comandoActualCampos[parametros.Count].Split('x')[1]:(Hex)int.Parse(comandoActualCampos[parametros.Count]);
-                                    switch(propiedades[j].Info.Tipo.Name)
+                                    aux = comandoActualCampos[parametros.Count].Contains("x") ? (Hex)comandoActualCampos[parametros.Count].Split('x')[1] : (Hex)int.Parse(comandoActualCampos[parametros.Count]);
+                                    switch (propiedades[j].Info.Tipo.Name)
                                     {
                                         case "byte":
                                         case nameof(Byte):
@@ -1698,17 +1698,17 @@ namespace PokemonGBAFrameWork
                                             break;
                                     }
                                 }
+                            los atributos se pueden ordenar en un momento dado:)
+                            scriptActual.ComandosScript.Add((Comando)Activator.CreateInstance(tipoComando, parametros.ToArray()));
+            parametros.Clear();
 
-                            scriptActual.ComandosScript.Add((Comando)Activator.CreateInstance(tipoComando,parametros.ToArray()));
-                            parametros.Clear();
-
-                        }
-                    }
+        }
+    }
                     catch
                     {
-                        //lanzo una excepción diciendo que la linea tal tiene un error
+                        lanzo una excepción diciendo que la linea tal tiene un error
                         throw new ScriptMalFormadoException(i);
-                    }
+}
                     //por acabar
                 }
             }

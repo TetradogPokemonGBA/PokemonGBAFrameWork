@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Utilitats;
+﻿using Gabriel.Cat.S.Binaris;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,9 +9,9 @@ namespace PokemonGBAFrameWork
 {
     public class Hackrom : Paquete
     {
-
+        public static readonly new ElementoBinario Serializador = ElementoBinario.GetSerializador<Hackrom>();
         public static string PathHackroms;
-
+        protected override ElementoBinario ISerializador => Serializador;
 
 
         static Hackrom()
