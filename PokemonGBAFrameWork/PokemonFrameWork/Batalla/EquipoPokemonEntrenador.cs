@@ -111,13 +111,14 @@ namespace PokemonGBAFrameWork
             equipo.IdElemento = (ushort)indexEntrenador;
             return equipo;
         }
-        public static EquipoPokemonEntrenador GetEquipo(RomGba rom, BloqueBytes bloqueEntrenador)
+        public static EquipoPokemonEntrenador GetEquipo(RomGba rom, BloqueBytes bloqueEntrenador,int indexEntrenador=-1)
         {
             if (rom == null || bloqueEntrenador == null)
                 throw new ArgumentNullException();
 
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             long idFuente;
+            ushort idEntrenador =(ushort) (indexEntrenador * 10);
             byte[] bytesPokemonEquipo;
             EquipoPokemonEntrenador equipoCargado = new EquipoPokemonEntrenador();
             bool hayItems = (bloqueEntrenador.Bytes[(int)Entrenador.Posicion.HasHeldITem] & 0x2) != 0;
@@ -151,19 +152,43 @@ namespace PokemonGBAFrameWork
                 }
 
                 equipoCargado.Equipo[i].IdFuente = idFuente;
-                equipoCargado.Equipo[i].IdElemento = (ushort)i;
+                equipoCargado.Equipo[i].IdElemento = (ushort)(idEntrenador+i);//asi puedo saber que entrenador :3
             }
 
 
             return equipoCargado;
         }
-
-        public static void SetEquipo(RomGba rom,IList<EquipoPokemonEntrenador> equipos)
-        {//por acabar
-            //borro los datos actuales
-            //reubico
-            //pongo los nuevos
-            for (int i = 0; i < equipos.Count; i++)
+        /// <summary>
+        /// Pone los equipos en los entrenadores en el orden que estan,si no hay el mismo numero de entrenadores que de equipos puede quedar (sin equipos o sin poner...)
+        /// </summary>
+        /// <param name="rom"></param>
+        /// <param name="equipos"></param>
+        /// <param name="throwExceptionOutOfRange"></param>
+        /// <param name="throwExceptionMenosEquiposQueEntrenadoresHay"></param>
+        public static void SetEquipo(RomGba rom,IList<EquipoPokemonEntrenador> equipos,bool throwExceptionOutOfRange=false,bool throwExceptionMenosEquiposQueEntrenadoresHay=false)
+        {
+            bool habiaAtaquesCustom;
+            int totalEntrenadores = Entrenador.GetTotal(rom);
+            int offsetEquipoOffset;
+            int tamañoPokemon;
+            BloqueBytes entrenadorActual;
+            if (throwExceptionOutOfRange&&equipos.Count > totalEntrenadores)
+                throw new ArgumentOutOfRangeException("Hay más equipos que entrenadores...");
+            if (throwExceptionMenosEquiposQueEntrenadoresHay && equipos.Count < totalEntrenadores)
+                throw new ArgumentOutOfRangeException("Hay menos equipos que entrenadores...");
+            //borro los que sobran
+            //o los creo ???
+            for(int i=equipos.Count;i<totalEntrenadores;i++)
+            {
+                //estos entrenadores no tienen equipo asignado!
+                entrenadorActual = Entrenador.GetBytesEntrenador(rom, i);
+                offsetEquipoOffset = new OffsetRom(entrenadorActual.Bytes, (int)Entrenador.Posicion.PointerPokemonData).Offset;
+                habiaAtaquesCustom = (entrenadorActual.Bytes[(int)Entrenador.Posicion.HasCustomMoves] & 0x1) != 0;
+                tamañoPokemon = (habiaAtaquesCustom ? 16 : 8);
+                rom.Data.Remove(offsetEquipoOffset, tamañoPokemon* entrenadorActual.Bytes[(int)Entrenador.Posicion.NumeroPokemons]);
+            }
+            //borro los datos antiguos y pongo los nuevos
+            for (int i = 0; i < equipos.Count && i<totalEntrenadores; i++)
                 SetEquipo(rom, i, equipos[i]);
         }
         public static void SetEquipo(RomGba rom, int indexEntrenador, EquipoPokemonEntrenador equipo)
