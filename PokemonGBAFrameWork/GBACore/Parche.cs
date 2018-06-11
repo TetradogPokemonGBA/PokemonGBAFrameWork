@@ -125,25 +125,32 @@ namespace PokemonGBAFrameWork
 
         public static readonly ElementoBinario Serializador;
         public static readonly Llista<SearchOffsetCompatibleMethod> MetodosBusquedaOffsetsCompatibles;
-        Llista<Parte> partesParche;
-        /// <summary>
-        /// idEdicion, OffsetParche,OffsetEdicion
-        /// </summary>
-        LlistaOrdenada<long, Llista<TwoKeys<int, int>>> dicOffsetsAbsolutos;
+
         static Parche()
         {
             Serializador = ElementoBinario.GetSerializador<Parche>();
             MetodosBusquedaOffsetsCompatibles = new Llista<SearchOffsetCompatibleMethod>();
             //pongo los metodos
         }
-        public Parche() { this.dicOffsetsAbsolutos = new LlistaOrdenada<long, Llista<TwoKeys<int, int>>>(); partesParche = new Llista<Parte>(); }
+        public Parche() {
+            this.DicOffsetsAbsolutos = new LlistaOrdenada<long, Llista<TwoKeys<int, int>>>();
+            PartesParche = new Llista<Parte>();
+            EdicionesCompatiblesConfirmadas = new LlistaOrdenada<long, bool>();
+        }
 
         public Parche(RomGba romVirgen, RomGba romConParche, bool forzarCompatibilidad = false) : this()
         {
-            partesParche.AddRange(Parte.GetPartes(romVirgen, romConParche, forzarCompatibilidad));
+            PartesParche.AddRange(Parte.GetPartes(romVirgen, romConParche, forzarCompatibilidad));
         }
 
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
+
+        public Llista<Parte> PartesParche { get; set; }
+        /// <summary>
+        /// idEdicion, OffsetParche,OffsetEdicion
+        /// </summary>
+        public LlistaOrdenada<long, Llista<TwoKeys<int, int>>> DicOffsetsAbsolutos { get; set; }
+        public LlistaOrdenada<long, bool> EdicionesCompatiblesConfirmadas { get; set; }
 
         public bool TryAddCompatibility(RomGba romVirgen, RomGba romAAñadirCompatibilidad)
         {
@@ -151,13 +158,13 @@ namespace PokemonGBAFrameWork
             TwoKeysList<int, int, RomGba> dic = new TwoKeysList<int, int, RomGba>(); //RomGba es para poner un null...
             int offsetCompatible;
             List<int> offsetsABuscar;
-            if (!dicOffsetsAbsolutos.ContainsKey(romAAñadirCompatibilidad.Edicion.Id))
+            if (!DicOffsetsAbsolutos.ContainsKey(romAAñadirCompatibilidad.Edicion.Id))
             {
                 try
                 {
-                    for (int i = 0; i < partesParche.Count; i++)
+                    for (int i = 0; i < PartesParche.Count; i++)
                     {
-                        offsetsABuscar = partesParche[i].GetOffsets();
+                        offsetsABuscar = PartesParche[i].GetOffsets();
                         for (int j = 0; j < offsetsABuscar.Count; j++)
                         {
                             if (!dic.ContainsKey1(offsetsABuscar[j]))
@@ -172,7 +179,7 @@ namespace PokemonGBAFrameWork
                         }
                     }
 
-                    dicOffsetsAbsolutos.Add(romAAñadirCompatibilidad.Edicion.Id, new Llista<TwoKeys<int, int>>(dic.GetKeys()));
+                    DicOffsetsAbsolutos.Add(romAAñadirCompatibilidad.Edicion.Id, new Llista<TwoKeys<int, int>>(dic.GetKeys()));
                 }
                 catch
                 {

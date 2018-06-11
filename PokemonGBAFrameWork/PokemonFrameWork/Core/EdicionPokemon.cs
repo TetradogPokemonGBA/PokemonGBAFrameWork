@@ -440,6 +440,12 @@ namespace PokemonGBAFrameWork
             }
             return edicion;
         }
+   
+        public static (AbreviacionCanon Edicion,Idioma Idioma,CompilacionPokemon.Version Compilacion) ReadId(long id)
+        {
+            EdicionPokemon edicionPokemon = GetEdicionCompatible(id);
+            return (edicionPokemon.AbreviacionRom, edicionPokemon.Idioma, ((CompilacionPokemon)edicionPokemon.Compilacion).Compilacion);
+        }
     }
     public class IdIncorrectoException:Exception
     {
