@@ -189,10 +189,12 @@ namespace PokemonGBAFrameWork
                     }
                 }
             }
+
+            #region por hacer parte 
             //necesito ordenar los relativos dependientes de otros relativos y comprobar que no haya dead lock
 
             //pongo las partes relativas que tienen offsets relativos por orden
-
+            #endregion
 
             //pongo las partes absolutas
             for (int i = 0; i < PartesParche.Count; i++)
