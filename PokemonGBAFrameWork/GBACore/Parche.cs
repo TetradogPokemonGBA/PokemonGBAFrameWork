@@ -132,12 +132,13 @@ namespace PokemonGBAFrameWork
 
         public static readonly ElementoBinario Serializador;
         public static readonly Llista<SearchOffsetCompatibleMethod> MetodosBusquedaOffsetsCompatibles;
-
+        static readonly SearchOffsetCompatibleMethod[] MetodosDefault;
         static Parche()
         {
             Serializador = ElementoBinario.GetSerializador<Parche>();
             MetodosBusquedaOffsetsCompatibles = new Llista<SearchOffsetCompatibleMethod>();
-            //pongo los metodos
+            
+            MetodosDefault =new SearchOffsetCompatibleMethod[]{ /*pongo los metodos*/ };
         }
         public Parche()
         {
@@ -162,15 +163,49 @@ namespace PokemonGBAFrameWork
         public LlistaOrdenada<long, LlistaOrdenada<int, int>> DicOffsetsAbsolutos { get; set; }
         public LlistaOrdenada<long, bool> EdicionesCompatiblesConfirmadas { get; set; }
         public long IdEdicionOrigen { get { return PartesParche[0].IdEdicionOrigen; } }
+        public List<Parte> CheckDeadLock(bool pararAlPrimeroProblema=false)
+        {
+            List<Parte> partesConProblemas = new List<Parte>();
+            SortedList<int, List<int>> dic = new SortedList<int, List<int>>();
+            List<int> offsets;
+            //miro las partes que se llaman entre ellas
+            for(int i=0;i<PartesParche.Count;i++)
+                if(PartesParche[i].EsRelativa)
+                {
+                    dic.Add(PartesParche[i].OffsetInicio, PartesParche[i].GetOffsets());
+
+                }
+            for (int i = 0; i < PartesParche.Count&&(!pararAlPrimeroProblema||partesConProblemas.Count==0); i++)
+                if (PartesParche[i].EsRelativa)
+                {
+                    offsets = dic[PartesParche[i].OffsetInicio];
+                    for (int j = 0,k=partesConProblemas.Count; j < offsets.Count&&k==partesConProblemas.Count; j++)
+                        if (dic.ContainsKey(offsets[j]) && dic[offsets[j]].Contains(PartesParche[i].OffsetInicio))
+                            partesConProblemas.Add(PartesParche[i]);
+
+                }
+            return partesConProblemas;
+        }
+        public void Restore(RomGba romADesparchear)
+        {
+            throw new NotImplementedException();
+            //encontrar partes relativas y quitarlas
+            //poner las partes absolutas off (se tienen que poner igualmente los offsets compatibles)
+        }
         public void Apply(RomGba romAParchear)
         {
+            const int INTENTOSMAX = 100;
             if (IdEdicionOrigen != romAParchear.Edicion.Id && !DicOffsetsAbsolutos.ContainsKey(romAParchear.Edicion.Id))
                 throw new RomNoCompatibleException(romAParchear.Edicion.GameCode);
+            if (CheckDeadLock(true).Count > 0)
+                throw new Exception("Dead lock detected!");
             //pongo las partes relativas donde sea (si no estan)
             SortedList<int, int> dicOffsetsRelativosPuestos = new SortedList<int, int>();//offsetOriginal,offsetAPoner
             byte[] bytesParte;
             List<int> offsetsParte;
             List<Parte> partesRelativasConOffsetsRelativos = new List<Parte>();
+            int intentos;
+            int pos;
             for (int i = 0; i < PartesParche.Count; i++)
             {
                 if (PartesParche[i].EsRelativa)
@@ -190,11 +225,25 @@ namespace PokemonGBAFrameWork
                 }
             }
 
-            #region por hacer parte 
-            //necesito ordenar los relativos dependientes de otros relativos y comprobar que no haya dead lock
+            intentos = 0;
+            pos = 0;
+            //necesito ordenar los relativos dependientes de otros relativos 
+            while(partesRelativasConOffsetsRelativos.Count>0&&intentos<INTENTOSMAX)
+            {
+                try
+                {
+                    //Pongo las partes relativas que no tienen offsets a partes relativas
+                    bytesParte = PreparaParte(romAParchear.Edicion.Id, partesRelativasConOffsetsRelativos[pos], dicOffsetsRelativosPuestos);
+                    dicOffsetsRelativosPuestos.Add(partesRelativasConOffsetsRelativos[pos].OffsetInicio, romAParchear.Data.SetArrayIfNotExist(bytesParte));
+                    dicOffsetsRelativosPuestos.RemoveAt(pos);
+                    intentos = 0;
+                }
+                catch { intentos++; }
+                pos = pos++ % partesRelativasConOffsetsRelativos.Count;
+            }
+            if (partesRelativasConOffsetsRelativos.Count > 0)//lo malo es que ya se habia aplicado una parte...mirar de solucionarlo...de momento que prueben con un clone y si no hay problemas que sustituyan :)
+                throw new PartesProblematicasException(partesRelativasConOffsetsRelativos);
 
-            //pongo las partes relativas que tienen offsets relativos por orden
-            #endregion
 
             //pongo las partes absolutas
             for (int i = 0; i < PartesParche.Count; i++)
@@ -302,6 +351,12 @@ namespace PokemonGBAFrameWork
                 offsetCompatible = -1;
             else
             {
+                for (int i = 0; i < MetodosDefault.Length && offsetCompatible == int.MinValue; i++)
+                {
+                    offsetCompatible = MetodosDefault[i](romVirgen, romAAñadirCompatibilidad, offsetVirgen);
+                    if (offsetCompatible < 0)
+                        offsetCompatible = int.MinValue;
+                }
                 for (int i = 0; i < MetodosBusquedaOffsetsCompatibles.Count && offsetCompatible == int.MinValue; i++)
                 {
                     offsetCompatible = MetodosBusquedaOffsetsCompatibles[i](romVirgen, romAAñadirCompatibilidad, offsetVirgen);
@@ -313,5 +368,14 @@ namespace PokemonGBAFrameWork
             }
             return offsetCompatible;
         }
+    }
+    public class PartesProblematicasException : Exception
+    {
+        public PartesProblematicasException(IList<Parche.Parte> partes)
+        {
+            this.Partes = partes;
+        }
+
+        public IList<Parche.Parte> Partes { get; private set; }
     }
 }
