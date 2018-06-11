@@ -9,6 +9,13 @@ namespace PokemonGBAFrameWork
 
     public class Parche : IElementoBinarioComplejo
     {
+        /// <summary>
+        /// Delegado para añadir metodos de busqueda de offsets
+        /// </summary>
+        /// <param name="romVirgen"></param>
+        /// <param name="romAAñadirCompatibilidad"></param>
+        /// <param name="offsetVirgen"></param>
+        /// <returns>devuelve el offset compatible o -1 si no lo encuentra</returns>
         public delegate int SearchOffsetCompatibleMethod(RomGba romVirgen, RomGba romAAñadirCompatibilidad, int offsetVirgen);
 
         public class Parte : IElementoBinarioComplejo
@@ -30,7 +37,7 @@ namespace PokemonGBAFrameWork
                     reemplazabaEspaciosEnBlanco = origen.Data.Bytes[j] == ESPACIO0 || origen.Data.Bytes[j] == ESPACIOFF;
 
                 this.IdEdicionOrigen = edicionParche.Id;
-                this.Inicio = inicio;
+                this.OffsetInicio = inicio;
                 this.DatosOn = datos;
                 this.ReemplazabaEspaciosEnBlanco = reemplazabaEspaciosEnBlanco;
                 if (!reemplazabaEspaciosEnBlanco)
@@ -41,7 +48,7 @@ namespace PokemonGBAFrameWork
             }
 
             public long IdEdicionOrigen { get; set; }
-            public int Inicio { get; set; }
+            public int OffsetInicio { get; set; }
             public byte[] DatosOn { get; set; }
             public byte[] DatosOff { get; set; }
             public bool ReemplazabaEspaciosEnBlanco { get; set; }
@@ -132,8 +139,9 @@ namespace PokemonGBAFrameWork
             MetodosBusquedaOffsetsCompatibles = new Llista<SearchOffsetCompatibleMethod>();
             //pongo los metodos
         }
-        public Parche() {
-            this.DicOffsetsAbsolutos = new LlistaOrdenada<long, Llista<TwoKeys<int, int>>>();
+        public Parche()
+        {
+            this.DicOffsetsAbsolutos = new LlistaOrdenada<long, LlistaOrdenada<int, int>>();
             PartesParche = new Llista<Parte>();
             EdicionesCompatiblesConfirmadas = new LlistaOrdenada<long, bool>();
         }
@@ -144,21 +152,109 @@ namespace PokemonGBAFrameWork
         }
 
         ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
-
+        public string Autor { get; set; }
+        public string Descripcion { get; set; }
+        public string UrlPost { get; set; }
         public Llista<Parte> PartesParche { get; set; }
         /// <summary>
         /// idEdicion, OffsetParche,OffsetEdicion
         /// </summary>
-        public LlistaOrdenada<long, Llista<TwoKeys<int, int>>> DicOffsetsAbsolutos { get; set; }
+        public LlistaOrdenada<long, LlistaOrdenada<int, int>> DicOffsetsAbsolutos { get; set; }
         public LlistaOrdenada<long, bool> EdicionesCompatiblesConfirmadas { get; set; }
+        public long IdEdicionOrigen { get { return PartesParche[0].IdEdicionOrigen; } }
+        public void Apply(RomGba romAParchear)
+        {
+            if (IdEdicionOrigen != romAParchear.Edicion.Id && !DicOffsetsAbsolutos.ContainsKey(romAParchear.Edicion.Id))
+                throw new RomNoCompatibleException(romAParchear.Edicion.GameCode);
+            //pongo las partes relativas donde sea (si no estan)
+            SortedList<int, int> dicOffsetsRelativosPuestos = new SortedList<int, int>();//offsetOriginal,offsetAPoner
+            byte[] bytesParte;
+            List<int> offsetsParte;
+            List<Parte> partesRelativasConOffsetsRelativos = new List<Parte>();
+            for (int i = 0; i < PartesParche.Count; i++)
+            {
+                if (PartesParche[i].EsRelativa)
+                {
+                    offsetsParte = PartesParche[i].GetOffsets();
+                    //miro que no sean relativos
+                    if (!HayRelativos(offsetsParte))
+                    {
+                        //Pongo las partes relativas que no tienen offsets a partes relativas
+                        bytesParte = PreparaParte(romAParchear.Edicion.Id, PartesParche[i], dicOffsetsRelativosPuestos);
+                        dicOffsetsRelativosPuestos.Add(PartesParche[i].OffsetInicio, romAParchear.Data.SetArrayIfNotExist(bytesParte));
+                    }
+                    else
+                    {
+                        partesRelativasConOffsetsRelativos.Add(PartesParche[i]);
+                    }
+                }
+            }
+            //necesito ordenar los relativos dependientes de otros relativos y comprobar que no haya dead lock
+
+            //pongo las partes relativas que tienen offsets relativos por orden
+
+
+            //pongo las partes absolutas
+            for (int i = 0; i < PartesParche.Count; i++)
+                if (!PartesParche[i].EsRelativa)
+                {
+                    //pongo las partes absolutas
+                    bytesParte = PreparaParte(romAParchear.Edicion.Id, PartesParche[i], dicOffsetsRelativosPuestos);
+                    romAParchear.Data.SetArray(PartesParche[i].OffsetInicio, bytesParte);
+                }
+        }
+
+        private byte[] PreparaParte(long idDestino, Parte parte, SortedList<int, int> dicOffsetsRelativosPuestos)
+        {//en teoria hay todas las partes relativas necesarias y absolutas compatibles...si falta alguna lanzo excepción
+            byte[] datosPreparados;
+            List<int> offsetsParte = parte.GetOffsets();
+            if (offsetsParte.Count > 0)
+            {
+                datosPreparados = (byte[])parte.DatosOn.Clone();
+                //pongo los offsets compatibles
+                for (int i = 0; i < offsetsParte.Count; i++)
+                {
+                    if (DicOffsetsAbsolutos[idDestino].ContainsKey(offsetsParte[i]))
+                    {
+                        //parte absoluta
+                        OffsetRom.SetOffset(datosPreparados, new OffsetRom(offsetsParte[i]), new OffsetRom(DicOffsetsAbsolutos[idDestino].GetValue(offsetsParte[i])));
+                    }
+                    else if (dicOffsetsRelativosPuestos.ContainsKey(offsetsParte[i]))
+                    {
+                        //parte relativa
+                        OffsetRom.SetOffset(datosPreparados, new OffsetRom(offsetsParte[i]), new OffsetRom(dicOffsetsRelativosPuestos[offsetsParte[i]]));
+                    }
+                    else
+                    {
+                        throw new RomNoCompatibleException(EdicionPokemon.GetEdicionCompatible(idDestino).GameCode);
+                    }
+                }
+            }
+            else
+            {
+                datosPreparados = parte.DatosOn;//al no haber partes no hay que tocar la array así que no pasa nada :)
+            }
+            return datosPreparados;
+        }
+
+        private bool HayRelativos(List<int> offsetsParte)
+        {
+            bool hayRelativos = false;
+            for (int j = 0; j < offsetsParte.Count && !hayRelativos; j++)
+                for (int i = 0; i < PartesParche.Count && !hayRelativos; i++)
+                    if (PartesParche[i].EsRelativa)
+                        hayRelativos = offsetsParte[j] == PartesParche[i].OffsetInicio;
+            return hayRelativos;
+        }
 
         public bool TryAddCompatibility(RomGba romVirgen, RomGba romAAñadirCompatibilidad)
         {
-            bool compatible = true;
-            TwoKeysList<int, int, RomGba> dic = new TwoKeysList<int, int, RomGba>(); //RomGba es para poner un null...
+            bool compatible = romVirgen.Edicion.Id == romAAñadirCompatibilidad.Edicion.Id || DicOffsetsAbsolutos.ContainsKey(romAAñadirCompatibilidad.Edicion.Id);
+            LlistaOrdenada<int, int> dic = new LlistaOrdenada<int, int>();
             int offsetCompatible;
             List<int> offsetsABuscar;
-            if (!DicOffsetsAbsolutos.ContainsKey(romAAñadirCompatibilidad.Edicion.Id))
+
+            if (!compatible)
             {
                 try
                 {
@@ -167,7 +263,7 @@ namespace PokemonGBAFrameWork
                         offsetsABuscar = PartesParche[i].GetOffsets();
                         for (int j = 0; j < offsetsABuscar.Count; j++)
                         {
-                            if (!dic.ContainsKey1(offsetsABuscar[j]))
+                            if (!dic.ContainsKey(offsetsABuscar[j]))
                             {
                                 offsetCompatible = SearchOffsetCompatible(romVirgen, romAAñadirCompatibilidad, offsetsABuscar[j]);
                                 if (offsetCompatible >= 0)
@@ -178,8 +274,7 @@ namespace PokemonGBAFrameWork
 
                         }
                     }
-
-                    DicOffsetsAbsolutos.Add(romAAñadirCompatibilidad.Edicion.Id, new Llista<TwoKeys<int, int>>(dic.GetKeys()));
+                    DicOffsetsAbsolutos.Add(romAAñadirCompatibilidad.Edicion.Id, dic);
                 }
                 catch
                 {
@@ -197,7 +292,7 @@ namespace PokemonGBAFrameWork
         /// <returns>-1 si el offset apunta a un espacio en blanco</returns>
         public static int SearchOffsetCompatible(RomGba romVirgen, RomGba romAAñadirCompatibilidad, int offsetVirgen)
         {
-            
+
             int offsetCompatible = int.MinValue;
 
             //miro si es un offset relativo
