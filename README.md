@@ -4,6 +4,7 @@ Es un framework para realizar apliaciones para hacer hackroms :)
 El objetivo es ser la parte que trata los datos de la gba para que el programador no tenga que pensar en esas cosas :)
 
 Objetivos
+
 Leer/Escribir en la rom las partes que componen el juego, imagenes,objetos,mapas,etc...
 Poder guardar cada elemento libre de copyright asi se puede compartir sin problemas con nintendo.
 Usar los repositorios para tener un control del desarrollo del hack o paquete de modificaciones.
