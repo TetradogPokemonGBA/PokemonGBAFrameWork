@@ -54,6 +54,7 @@ namespace PokemonGBAFrameWork.Mapa
                 }
                 else
                 {
+                    //pongo los pixeles :)
                     paletas = GetPaletas(primaryTileSet, secundaryTileSet);
                     for (int layer = 0; layer < 2; layer++)
                         for (int y = 0; y < 2; y++)
@@ -66,7 +67,7 @@ namespace PokemonGBAFrameWork.Mapa
                                     if (paletas.Length > tile.PaletteIndex)
                                     {
                                         paletaTile = paletas[tile.PaletteIndex];
-                                        for (int j = 0; j < Paleta.LENGTH; j++)
+                                        for (int j = 0; j < Paleta.LENGTH; j++)//por mirar si es Paleta.Lenght...supongo que son paletas normales y corrientes...
                                         {
                                             bmpTile.SetPixel(j, 0, paletaTile[j]);//la parte de X,Y no se como va todavia...
                                         }
@@ -92,7 +93,7 @@ namespace PokemonGBAFrameWork.Mapa
                             }
                 }
             }
-            //pongo los pixeles :)
+            
 
             return bmp;
         }
