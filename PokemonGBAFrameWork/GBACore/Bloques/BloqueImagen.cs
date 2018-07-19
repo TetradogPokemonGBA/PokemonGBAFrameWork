@@ -37,7 +37,7 @@ namespace PokemonGBAFrameWork
             formato = -1;
 
         }
-        public BloqueImagen(int longitudLado) : this(new Bitmap(longitudLado, longitudLado))
+        public BloqueImagen(int longitudLado) : this(new Bitmap(longitudLado, longitudLado),true)
         {
 
         }
