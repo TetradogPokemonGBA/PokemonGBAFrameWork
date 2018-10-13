@@ -48,9 +48,17 @@ namespace PokemonGBAFrameWork
                 VariableBancoMapaRutaValido.Add(0, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariableBancoMapaRutaValido.Add(3, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
 
+                //creo...no se donde se mira...
+                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.ZafiroEsp10,EdicionPokemon.ZafiroUsa10,EdicionPokemon.ZafiroUsa11,EdicionPokemon.ZafiroUsa12);
+                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.RubiEsp10,EdicionPokemon.RubiUsa10,EdicionPokemon.RubiUsa11,EdicionPokemon.RubiUsa12);
+                
+                
                 VariableColumnasFilaRuta.Add(6, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariableColumnasFilaRuta.Add(7, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
-
+				//sacado de pokeruby :D
+				VariableColumnasFilaRuta.Add(6, EdicionPokemon.ZafiroEsp10,EdicionPokemon.ZafiroUsa10,EdicionPokemon.ZafiroUsa11,EdicionPokemon.ZafiroUsa12);
+				VariableColumnasFilaRuta.Add(6, EdicionPokemon.RubiEsp10,EdicionPokemon.RubiUsa10,EdicionPokemon.RubiUsa11,EdicionPokemon.RubiUsa12);
+				
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.EsmeraldaEsp10, 0xD5A140);
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoEsp10, 0x64C685);
 
@@ -59,8 +67,14 @@ namespace PokemonGBAFrameWork
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaEsp10, 0x64BD7D);
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaUsa10, 0x655665, 0x6556D5);
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoUsa10, 0x655D89, 0x655DE9);
-
-                VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaEsp10, 0x161928);
+                //investigando con la info de pokeruby
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RubiEsp10,0x406D90);
+				VariableOffsetTablaFilasRuta.Add(EdicionPokemon.ZafiroEsp10,0x406ACC);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RubiUsa10,0x402E80,0x402E9C);
+				VariableOffsetTablaFilasRuta.Add(EdicionPokemon.ZafiroUsa10,0x402ED8,0x402EF8);
+				
+				//esta parte en pokeruby no se donde se mira...
+				VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaEsp10, 0x161928);
                 VariableOffSetRutina1.Add(EdicionPokemon.RojoFuegoEsp10, 0x141D6E);
 
                 //investigacion a ciegas
@@ -224,12 +238,17 @@ namespace PokemonGBAFrameWork
 
                 VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariableSpecialPokemonErrante.Add(0x129, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
-                //falta saber como activar el evento en rubi y zafiro se activa al pasar la liga y ver la tv...
+                
+                //creo mirar como se asigna el numero def_special InitRoamer /data/specials.inc mirar esto	clear flag FLAG_SYS_TV_LATI	setflag FLAG_LATIOS_OR_LATIAS_ROAMING
+                VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.ZafiroEsp10,EdicionPokemon.ZafiroUsa10,EdicionPokemon.ZafiroUsa11,EdicionPokemon.ZafiroUsa12);
+                VariableSpecialPokemonErrante.Add(0x12B,  EdicionPokemon.RubiEsp10,EdicionPokemon.RubiUsa10,EdicionPokemon.RubiUsa11,EdicionPokemon.RubiUsa12);
+                
                 //-4 en la var del pokemon para los datos encripatos :D
                 VariablePokemonErranteVar.Add(0x4F24, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariablePokemonErranteVar.Add(0x506C, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
                 VariablePokemonErranteVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5100, 0x5114);
                 VariablePokemonErranteVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5100, 0x5114);
+                
                 //investigacion mia :D
                 VariablePokemonErranteVar.Add(0x4B54, EdicionPokemon.RubiEsp10);
 
