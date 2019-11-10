@@ -16,10 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Gotostd:Comando
 	{
 		public const byte ID=0x8;
-		public const int SIZE=2;
-		
-		byte funcion;
-		public Gotostd(byte funcion)
+		public new const int SIZE=2;
+        public const string NOMBRE = "Gotostd";
+        public const string DESCRIPCION = "Salta a la función compilada";
+
+        public Gotostd(byte funcion)
 		{
 			Funcion=funcion;
 		}
@@ -31,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Salta a la función compilada";
+				return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Gotostd";
+				return NOMBRE;
 			}
 		}
 
@@ -53,30 +54,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte Funcion {
-			get {
-				return funcion;
-			}
-			set {
-				funcion = value;
-			}
-		}
-		#region implemented abstract members of Comando
+        public byte Funcion { get; set; }
+        #region implemented abstract members of Comando
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new object[]{Funcion};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			funcion=ptrRom[offsetComando];
+			Funcion=ptrRom[offsetComando];
 		}
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=funcion;
+			*ptrRomPosicionado=Funcion;
 		}
 
 
@@ -84,8 +78,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	}
 	public class Callstd:Gotostd
 	{
-		public const byte ID=0x9;
-		public Callstd(RomGba rom,int offset):base(rom,offset)
+		public new const byte ID=0x9;
+        public new const string NOMBRE= "CallStd";
+        public new const string DESCRIPCION= "Llama a la función compilada";
+        public Callstd(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Callstd(byte[] bytesScript,int offset):base(bytesScript,offset)
 		{}
@@ -93,12 +89,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Nombre {
 			get {
-				return "CallStd";
+                return NOMBRE;
 			}
 		}
 		public override string Descripcion {
 			get {
-				return "Llama a la función compilada";
+                return DESCRIPCION;
 			}
 		}
 		public override byte IdComando {

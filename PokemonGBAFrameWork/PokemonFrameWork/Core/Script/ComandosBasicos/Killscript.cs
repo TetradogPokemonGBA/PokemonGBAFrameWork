@@ -13,9 +13,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0xD;
 
-		public const int SIZE = 1;
-		
-		public Killscript()
+		public new const int SIZE = 1;
+        public const string NOMBRE= "Killscript";
+        public const string DESCRIPCION= "Acaba con el script y restaura la ram";
+
+        public Killscript()
 		{}
 
 		public Killscript(RomGba rom, int offset) : base(rom, offset)
@@ -32,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Killscript";
+                return NOMBRE;
 			}
 		}
 
@@ -44,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Acaba con el script y restaura la ram ";
+                return DESCRIPCION;
 			}
 		}
 

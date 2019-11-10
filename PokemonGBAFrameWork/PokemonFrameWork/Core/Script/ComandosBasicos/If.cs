@@ -16,10 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class If1:Comando,IDeclaracion
 	{
 		public const byte ID=0x6;
-		public const int SIZE=6;
-		
-		byte condicion;
-		Script script;
+		public new const int SIZE=6;
+        public const string NOMBRE = "If1";
+        public const string DESCRIPCION = "Comprueba que la condicion sea true con el 'lastresult'";
+
+        Script script;
 		
 		public If1(byte condicion,Script script)
 		{
@@ -32,17 +33,40 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public unsafe If1(byte* ptRom,int offset):base(ptRom,offset)
 		{}
+        public override string Descripcion
+        {
+            get
+            {
+                return DESCRIPCION;
+            }
+        }
 
-		public byte Condicion {
-			get {
-				return condicion;
-			}
-			set {
-				condicion = value;
-			}
-		}
+        public override byte IdComando
+        {
+            get
+            {
+                return ID;
+            }
+        }
 
-		public Script Script {
+        public override string Nombre
+        {
+            get
+            {
+                return NOMBRE;
+            }
+        }
+
+        public override int Size
+        {
+            get
+            {
+                return SIZE;
+            }
+        }
+        public byte Condicion { get; set; }
+
+        public Script Script {
 			get {
 				return script;
 			}
@@ -84,29 +108,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public override string Descripcion {
-			get {
-				return "Comprueba que la condicion sea true con el 'lastresult'";
-			}
-		}
-
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-
-		public override string Nombre {
-			get {
-				return "If1";
-			}
-		}
-
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+		
 
 		#endregion
 
@@ -120,7 +122,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		#endregion
 	}
 	public class If2:If1{
-		public const byte ID=0x7;
+		public new const byte ID=0x7;
+        public new const string NOMBRE = "If2";
 		public If2(byte condicion,Script script):base(condicion,script)
 		{}
 		public If2(RomGba rom,int offset):base(rom,offset)
@@ -131,7 +134,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Nombre {
 			get {
-				return "If2";
+				return NOMBRE;
 			}
 		}
 		public override byte IdComando {

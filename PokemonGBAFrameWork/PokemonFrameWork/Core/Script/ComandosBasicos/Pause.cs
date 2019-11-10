@@ -16,11 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Pause:Comando
 	{
 		public const byte ID=0x28;
-		public const int SIZE=1+Word.LENGTH;
-		
-		Word delay;
-		
-		public Pause(Word delay)
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE= "Pause";
+        public const string DESCRIPCION= "Pausa el script el tiempo estimado";
+
+        public Pause(Word delay)
 		{
 			Delay=delay;
 		}
@@ -33,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Pausa el script el tiempo estimado";
+                return DESCRIPCION;
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Pause";
+                return NOMBRE;
 			}
 		}
 
@@ -54,28 +54,21 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		
-		public Word Delay {
-			get {
-				return delay;
-			}
-			set {
-				delay = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+
+        public Word Delay { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Delay};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			delay=new Word(ptrRom,offsetComando);
+			Delay=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,delay);
+			Word.SetData(ptrRomPosicionado,Delay);
 		}
 	}
 }

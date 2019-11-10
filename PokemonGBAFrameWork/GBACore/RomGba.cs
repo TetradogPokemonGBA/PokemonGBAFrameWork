@@ -41,6 +41,15 @@ namespace PokemonGBAFrameWork
             path = romFile.FullName.Substring(0, romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length);
 
         }
+        public RomGba(byte[] dataRom, string name="rom", string path = "") : this()
+        {
+            romData = new BloqueBytes(dataRom);
+            this.nombre = name;
+            if (string.IsNullOrEmpty(path))
+0                path = Environment.CurrentDirectory;
+
+            this.path = path;
+        }
         private RomGba()
         { idUnico = new IdUnico(); }
         #endregion
@@ -211,6 +220,10 @@ namespace PokemonGBAFrameWork
             }
             else compareTo = (int)CompareTo.Inferior;
             return compareTo;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
         #endregion
     }

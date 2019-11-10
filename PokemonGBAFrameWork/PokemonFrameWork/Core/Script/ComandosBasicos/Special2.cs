@@ -16,12 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Special2:Comando
 	{
 		public const byte ID=0x26;
-		public const int SIZE=1+1+Word.LENGTH;
-		
-		Word variable;
-		Word eventoALlamar;
-		
-		public Special2(Word eventoALlamar,Word variable)
+		public new const int SIZE=Comando.SIZE+Word.LENGTH+Word.LENGTH;
+        public const string NOMBRE= "Special2";
+        public const string DESCRIPCION= "Como Special pero guardando el valor devuelto";
+
+        public Special2(Word eventoALlamar,Word variable)
 		{
 			EventoALlamar=eventoALlamar;
 			Variable=variable;
@@ -35,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Como Special pero guardando el valor devuelto";
+                return DESCRIPCION;
 			}
 		}
 
@@ -47,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Special";
+                return NOMBRE;
 			}
 		}
 
@@ -57,41 +56,27 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public Word EventoALlamar {
-			get {
-				return eventoALlamar;
-			}
-			set {
-				eventoALlamar = value;
-			}
-		}
-		/// <summary>
-		/// Es la variable donde se guardará el resultado del evento
-		/// </summary>
-		public Word Variable {
-			get {
-				return variable;
-			}
-			set {
-				variable = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word EventoALlamar { get; set; }
+        /// <summary>
+        /// Es la variable donde se guardará el resultado del evento
+        /// </summary>
+        public Word Variable { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Variable,EventoALlamar};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variable=new Word(ptrRom,offsetComando);
-			eventoALlamar=new Word(ptrRom,offsetComando+Word.LENGTH);
+			Variable=new Word(ptrRom,offsetComando);
+			EventoALlamar=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,variable);
+			Word.SetData(ptrRomPosicionado,Variable);
 			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,eventoALlamar);
+			Word.SetData(ptrRomPosicionado,EventoALlamar);
 		}
 	}
 }

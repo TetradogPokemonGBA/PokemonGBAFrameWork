@@ -11,11 +11,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class Goto : Call
 	{
-		public const byte ID = 0x5;
+		public new const byte ID = 0x5;
+        public new const string NOMBRE = "Goto";
+        public new const string DESCRIPCION = "Continua con otro script";
 
-		/*public Goto(Script script):base(script)
+        /*public Goto(Script script):base(script)
 		{}*/
-		public Goto(OffsetRom script):base(script)
+        public Goto(OffsetRom script):base(script)
 		{}
 		public Goto(RomGba rom, int offset) : base(rom, offset)
 		{
@@ -31,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Goto";
+				return NOMBRE;
 			}
 		}
 
@@ -43,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Continua con otro script";
+				return DESCRIPCION;
 			}
 		}
 		public override bool IsEnd {

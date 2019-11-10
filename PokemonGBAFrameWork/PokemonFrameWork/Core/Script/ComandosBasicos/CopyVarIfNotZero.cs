@@ -11,9 +11,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class CopyVarIfNotZero : CopyVar
 	{
-		public const byte ID = 0x1A;
-		
-		public CopyVarIfNotZero(Word variableDestino,Word variableOrigen):base(variableDestino,variableOrigen)
+		public new const byte ID = 0x1A;
+        public new const string NOMBRE= "CopyVarIfNotZero";
+        public new const string DESCRIPCION= "Copia el valor de la variable origen en la variable destino si es mas grande que 0";
+
+        public CopyVarIfNotZero(Word variableDestino,Word variableOrigen):base(variableDestino,variableOrigen)
 		{}
 
 		public CopyVarIfNotZero(RomGba rom, int offset) : base(rom, offset)
@@ -30,13 +32,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Copia el valor de la variable origen en la variable destino si es mas grande que 0";
+                return DESCRIPCION;
 			}
 		}
 
 		public override string Nombre {
 			get {
-				return "CopyVarIfNotZero";
+                return NOMBRE;
 			}
 		}
 

@@ -12,10 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Random:Comando
 	{
 		public const byte ID = 0x8F;
-		public const int SIZE = 3;
-		Word numeroFin;
- 
-		public Random(Word numeroFin)
+		public new const int SIZE = 3;
+        public const string NOMBRE = "Random";
+        public const string DESCRIPCION = "Genera un numero random entre 0 y NumeroFin";
+
+        public Random(Word numeroFin)
 		{
 			NumeroFin = numeroFin;
  
@@ -35,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Genera un numero random entre 0 y NumeroFin";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Random";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,18 +55,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word NumeroFin {
-			get{ return numeroFin; }
-			set{ numeroFin = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word NumeroFin { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ numeroFin };
+			return new Object[]{ NumeroFin };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			numeroFin = new Word(ptrRom, offsetComando);
+			NumeroFin = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

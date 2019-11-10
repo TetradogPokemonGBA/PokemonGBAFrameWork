@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class AddItem:Comando
 	{
 		public const byte ID=0x44;
-		public const int SIZE=5;
+		public new const int SIZE=5;
 		public const string NOMBRE="AddItem";
 		public const string DESCRIPCION="Añade la cantidad del objeto especificado";
 		Word objetoAAñadir;
@@ -76,11 +76,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			objetoAAñadir=new Word(ptrRom,offsetComando);
+			ObjetoAAñadir=new Word(ptrRom,offsetComando);
 
 			offsetComando+=Word.LENGTH;
 
-			cantidad=new Word(ptrRom,offsetComando);
+			Cantidad=new Word(ptrRom,offsetComando);
 		
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)

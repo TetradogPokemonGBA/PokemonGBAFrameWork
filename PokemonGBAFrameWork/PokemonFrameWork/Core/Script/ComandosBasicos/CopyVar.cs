@@ -16,12 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CopyVar:Comando
 	{
 		public const byte ID=0x19;
-		public const int SIZE=0x5;
-		
-		Word variableDestino;
-		Word variableOrigen;
-		
-		public CopyVar(Word variableDestino,Word variableOrigen)
+		public new const int SIZE=0x5;
+        public const string NOMBRE= "CopyVar";
+        public const string DESCRIPCION= "Copia el valor de la variable origen en la variable destino";
+
+        public CopyVar(Word variableDestino,Word variableOrigen)
 		{
 			VariableDestino=variableDestino;
 			VariableOrigen=variableOrigen;
@@ -35,12 +34,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Copia el valor de la variable origen en la variable destino";
+                return DESCRIPCION;
 			}
 		}
 		public override string Nombre {
 			get {
-				return "CopyVar";
+                return NOMBRE;
 			}
 		}
 		public override byte IdComando {
@@ -54,39 +53,25 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public Word VariableDestino {
-			get {
-				return variableDestino;
-			}
-			set {
-				variableDestino = value;
-			}
-		}
+        public Word VariableDestino { get; set; }
 
-		public Word VariableOrigen {
-			get {
-				return variableOrigen;
-			}
-			set {
-				variableOrigen = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word VariableOrigen { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{VariableDestino,VariableOrigen};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variableDestino=new Word(ptrRom,offsetComando);
-			variableOrigen=new Word(ptrRom,offsetComando+Word.LENGTH);
+			VariableDestino=new Word(ptrRom,offsetComando);
+			VariableOrigen=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,variableDestino);
+			Word.SetData(ptrRomPosicionado,VariableDestino);
 			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,variableOrigen);
+			Word.SetData(ptrRomPosicionado,VariableOrigen);
 		}
 	}
 	

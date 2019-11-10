@@ -16,9 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class SetByte:Comando
 	{
 		public const byte ID=0xE;
-		public const int SIZE=0x2;
-		byte byteAPoner;
-		public SetByte(byte byteAPoner)
+		public new const int SIZE=0x2;
+        public const string NOMBRE= "SetByte";
+        public const string DESCRIPCION= "Inserta el byte en la dirección predefinida";
+        public SetByte(byte byteAPoner)
 		{
 		   ByteAPoner=byteAPoner;
 		}
@@ -30,12 +31,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Nombre {
 			get {
-				return "SetByte";
+                return NOMBRE;
 			}
 		}
 		public override string Descripcion {
 			get {
-				return "Inserta el byte en la dirección predefinida";
+                return DESCRIPCION;
 			}
 		}
 		public override byte IdComando {
@@ -44,15 +45,17 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte ByteAPoner {
-			get {
-				return byteAPoner;
-			}
-			set {
-				byteAPoner = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public override int Size
+        {
+            get
+            {
+                return SIZE;
+            }
+        }
+
+
+        public byte ByteAPoner { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ByteAPoner};
 		}
@@ -60,30 +63,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			byteAPoner=ptrRom[offsetComando];
+			ByteAPoner=ptrRom[offsetComando];
 		}
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=byteAPoner;
-		}
-
-		public override int Size {
-			get {
-				return SIZE;
-			}
+			*ptrRomPosicionado=ByteAPoner;
 		}
 
 		#endregion
 	}
 	public class SetByte2:SetByte
 	{
-		public const byte ID=0x10;
-		public const int SIZE=0x3;
-		byte memoryBankToUse;
-		public SetByte2(RomGba rom,int offset):base(rom,offset)
+		public new const byte ID=0x10;
+		public new const int SIZE=0x3;
+        public new const string NOMBRE= "SetByte2";
+        public new const string DESCRIPCION= "Inserta el byte en el memory bank";
+
+        public SetByte2(RomGba rom,int offset):base(rom,offset)
 		{}
 		public SetByte2(byte[] bytesScript,int offset):base(bytesScript,offset)
 		{}
@@ -91,12 +90,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Nombre {
 			get {
-				return "SetByte2";
+                return NOMBRE;
 			}
 		}
 		public override string Descripcion {
 			get {
-				return "Inserta el byte en el memory bank";
+                return DESCRIPCION;
 			}
 		}
 		public override byte IdComando {
@@ -105,29 +104,22 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte MemoryBankToUse {
-			get {
-				return memoryBankToUse;
-			}
-			set {
-				memoryBankToUse = value;
-			}
-		}
-		public override int Size {
+        public byte MemoryBankToUse { get; set; }
+        public override int Size {
 			get {
 				return SIZE;
 			}
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			memoryBankToUse=ptrRom[offsetComando++];
+			MemoryBankToUse=ptrRom[offsetComando++];
 			base.CargarCamando(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			*ptrRomPosicionado=IdComando;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=memoryBankToUse;
+			*ptrRomPosicionado=MemoryBankToUse;
 			ptrRomPosicionado++;
 			*ptrRomPosicionado=ByteAPoner;
 		}

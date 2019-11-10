@@ -13,13 +13,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class Gotostdif : Gotostd
 	{
-		public const byte ID = 0xA;
+		public new const byte ID = 0xA;
 
-		public const int SIZE = 3;
+		public new const int SIZE = 3;
+        public new const string NOMBRE= "Gotostdif";
+        public new const string DESCRIPCION= Gotostd.DESCRIPCION + " si se cumple la condición";
 
-		byte condicion;
-
-		public Gotostdif(byte funcion,byte condicion):base(funcion)
+        public Gotostdif(byte funcion,byte condicion):base(funcion)
 		{Condicion=condicion;}
 		public Gotostdif(RomGba rom, int offset) : base(rom, offset)
 		{
@@ -35,13 +35,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Gotostdif";
+                return NOMBRE;
 			}
 		}
 
 		public override string Descripcion {
 			get {
-				return base.Descripcion + " si se cumple la condición";
+                return DESCRIPCION;
 			}
 		}
 
@@ -51,16 +51,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte Condicion {
-			get {
-				return condicion;
-			}
-			set {
-				condicion = value;
-			}
-		}
+        public byte Condicion { get; set; }
 
-		public override int Size {
+        public override int Size {
 			get {
 				return SIZE;
 			}

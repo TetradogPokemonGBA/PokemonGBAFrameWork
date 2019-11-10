@@ -23,14 +23,13 @@ namespace PokemonGBAFrameWork
         public const byte ID = 0xF;
         public static readonly Creditos Creditos;
         const string ENTER = "\r\n";
-        //enter con el formato correcto// \r\n
+        //enter con el formato correcto en windows// \r\n
         public const byte RETURN = 0x3;
         public const byte END = 0x2;
 
         public static Hex OffsetInicioDynamic = "800000";
-        Llista<Comando> comandosScript;
         string nombreBloque;
-        bool? isEndFinished;
+
         static Script()
         {
             Creditos = new Creditos();
@@ -39,7 +38,7 @@ namespace PokemonGBAFrameWork
 
         public Script()
         {
-            comandosScript = new Llista<Comando>();
+            ComandosScript = new Llista<Comando>();
         }
         public Script(RomGba rom, int offsetScript)
             : this(rom.Data.Bytes, offsetScript)
@@ -759,30 +758,24 @@ namespace PokemonGBAFrameWork
                         break;
                     //si no esta hago una excepcion
                     default:
-                        throw new ScriptMalFormadoException(new OffsetRom(offsetScript-1));
+                        throw new ScriptMalFormadoException(new OffsetRom(offsetScript - 1));
                 }
 
                 if (comandoActual != null)
                 {
                     endScriptComando = comandoActual as IEndScript;
-                    comandosScript.Add(comandoActual);
+                    ComandosScript.Add(comandoActual);
                     offsetScript += comandoActual.Size;
                     offsetScript--;//resto el comando porque ya lo sumo antes
                 }
 
             } while (byteComandoActual != END && byteComandoActual != RETURN && endScriptComando == null || !endScriptComando.IsEnd);
             //tiene que ser un campo calculado...que lea el script y luego devuelva el valor...
-            isEndFinished = endScriptComando == null ? (byteComandoActual == END) : new Nullable<bool>();//si acaba con un goto/call/comandoIEndScript será null si acaba en end será true y si es return pues false
+            IsEndFinished = endScriptComando == null ? (byteComandoActual == END) : new Nullable<bool>();//si acaba con un goto/call/comandoIEndScript será null si acaba en end será true y si es return pues false
         }
 
 
-        public Llista<Comando> ComandosScript
-        {
-            get
-            {
-                return comandosScript;
-            }
-        }
+        public Llista<Comando> ComandosScript { get; private set; }
 
 
         #region ILastResult implementation
@@ -792,9 +785,9 @@ namespace PokemonGBAFrameWork
             {
                 ILastResult lastResult = null;
                 ILastResult aux;
-                for (int i = 0; i < comandosScript.Count; i++)
+                for (int i = 0; i < ComandosScript.Count; i++)
                 {
-                    aux = comandosScript[i] as ILastResult;
+                    aux = ComandosScript[i] as ILastResult;
                     if (aux != null)
                         lastResult = aux;
                 }
@@ -811,9 +804,9 @@ namespace PokemonGBAFrameWork
             {
                 IEndScript iEnd = null;
                 IEndScript aux;
-                for (int i = 0; i < comandosScript.Count && iEnd == null; i++)
+                for (int i = 0; i < ComandosScript.Count && iEnd == null; i++)
                 {
-                    aux = comandosScript[i] as IEndScript;
+                    aux = ComandosScript[i] as IEndScript;
                     if (aux != null && aux.IsEnd)
                         iEnd = aux;
                 }
@@ -823,13 +816,7 @@ namespace PokemonGBAFrameWork
         /// <summary>
         /// Es el valor que tiene al leerse de la rom si es null es porque acaba con un comando IEndScript
         /// </summary>
-        public bool? IsEndFinished
-        {
-            get
-            {
-                return isEndFinished;
-            }
-        }
+        public bool? IsEndFinished { get; private set; }
 
         #endregion
 
@@ -854,10 +841,12 @@ namespace PokemonGBAFrameWork
         public void SetScript(RomGba rom, int offset = -1, bool lastComandIsEnd = true)
         {
             byte[] byteDeclaracion = GetDeclaracion(rom, lastComandIsEnd);
+
             if (offset < 0)
                 rom.Data.SearchEmptyBytes(byteDeclaracion.Length);
             if (offset < 0)
                 throw new RomSinEspacioException();
+
             rom.Data.SetArray(offset, byteDeclaracion);
 
         }
@@ -915,13 +904,13 @@ namespace PokemonGBAFrameWork
             IDeclaracion comandoHaDeclarar;
             int offsetDeclaracion = 0;
             byte[] bytesDeclaracionAux;
-            for (int i = 0; i < comandosScript.Count; i++)
-                sizeTotal += comandosScript[i].Size;
+            for (int i = 0; i < ComandosScript.Count; i++)
+                sizeTotal += ComandosScript[i].Size;
             bytesDeclaracion = new byte[sizeTotal];
 
-            for (int i = 0; i < comandosScript.Count; i++)
+            for (int i = 0; i < ComandosScript.Count; i++)
             {
-                comandoHaDeclarar = comandosScript[i] as IDeclaracion;
+                comandoHaDeclarar = ComandosScript[i] as IDeclaracion;
                 if (comandoHaDeclarar != null)
                 {//si se tiene que insertar los bytes en la rom para obtener el offset para la declaracion la inserto y listo
                     bytesDeclaracionAux = comandoHaDeclarar.GetDeclaracion(rom);
@@ -929,9 +918,9 @@ namespace PokemonGBAFrameWork
                     if (offsetDeclaracion < 0)
                         offsetDeclaracion = rom.Data.SearchEmptySpaceAndSetArray(bytesDeclaracionAux);
                 }
-                bytesDeclaracion.SetArray(offset, comandosScript[i].GetComandoArray(offsetDeclaracion));
+                bytesDeclaracion.SetArray(offset, ComandosScript[i].GetComandoArray(offsetDeclaracion));
 
-                offset += comandosScript[i].Size;
+                offset += ComandosScript[i].Size;
             }
 
             if (EsUnaFuncionAcabadaEnEND(ComandosScript[ComandosScript.Count - 1]))
@@ -963,14 +952,16 @@ namespace PokemonGBAFrameWork
             Type tipoComando;
             List<Gabriel.Cat.S.Utilitats.Propiedad> propiedades;
             List<Object> parametros = new List<object>();
-            Script scriptActual=null;
+            Script scriptActual = null;
             Hex aux;
             for (int i = 0; i < scriptXSE.Count; i++)
             {
+                scriptXSE[i] = scriptXSE[i].Trim();
                 if (scriptXSE[i].Contains(" "))
                 {
                     comandoActualCampos = scriptXSE[i].ToLower().Split(' ');
                     tipoComando = null;
+                    comandoActualCampos[0] = comandoActualCampos[0][0] != '@' ? Char.ToUpper(comandoActualCampos[0][0]) + comandoActualCampos[0].Substring(1).ToLower() : comandoActualCampos[0];
                     try
                     {
                         switch (comandoActualCampos[0])
@@ -1233,10 +1224,10 @@ namespace PokemonGBAFrameWork
                                 tipoComando = typeof(WaitMovementPos);
                                 break;
                             case HideSprite.NOMBRE:
-                                tipoComando = typeof(HNOMBREeSprite);
+                                tipoComando = typeof(HideSprite);
                                 break;
                             case HideSpritePos.NOMBRE:
-                                tipoComando = typeof(HNOMBREeSpritePos);
+                                tipoComando = typeof(HideSpritePos);
                                 break;
                             case ShowSprite.NOMBRE:
                                 tipoComando = typeof(ShowSprite);
@@ -1415,8 +1406,6 @@ namespace PokemonGBAFrameWork
                             case PokemonGBAFrameWork.ComandosScript.Random.NOMBRE:
                                 tipoComando = typeof(PokemonGBAFrameWork.ComandosScript.Random);
                                 break;
-                            //estos me los salto
-                            //falta añadir asta CRY incluido
                             case GiveMoney.NOMBRE:
                                 tipoComando = typeof(GiveMoney);
                                 break;
@@ -1698,17 +1687,17 @@ namespace PokemonGBAFrameWork
                                             break;
                                     }
                                 }
-                            los atributos se pueden ordenar en un momento dado:)
+                            //     los atributos se pueden ordenar en un momento dado:)
                             scriptActual.ComandosScript.Add((Comando)Activator.CreateInstance(tipoComando, parametros.ToArray()));
-            parametros.Clear();
+                            parametros.Clear();
 
-        }
-    }
+                        }
+                    }
                     catch
                     {
-                        lanzo una excepción diciendo que la linea tal tiene un error
+                        //                       lanzo una excepción diciendo que la linea tal tiene un error
                         throw new ScriptMalFormadoException(i);
-}
+                    }
                     //por acabar
                 }
             }
@@ -1716,5 +1705,5 @@ namespace PokemonGBAFrameWork
             return dicScriptsCargados.Values;
         }
     }
-  
+
 }

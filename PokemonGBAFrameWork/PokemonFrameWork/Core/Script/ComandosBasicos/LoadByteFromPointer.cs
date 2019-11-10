@@ -11,9 +11,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class LoadByteFromPointer : WriteByteToOffset
 	{
-		public const byte ID = 0x12;
-		
-		public LoadByteFromPointer(int offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
+		public new const byte ID = 0x12;
+        public new const string NOMBRE= "Loadbytefrompointer";
+        public new const string DESCRIPCION= "Carga el byte de la posición para poder ser usada en otros comandos";
+
+        public LoadByteFromPointer(int offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
 		{}
 		public LoadByteFromPointer(OffsetRom offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
 		{}
@@ -37,13 +39,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Loadbytefrompointer";
+                return NOMBRE;
 			}
 		}
 
 		public override string Descripcion {
 			get {
-				return "Carga el byte de la posición para poder ser usada en otros comandos";
+                return DESCRIPCION;
 			}
 		}
 	}

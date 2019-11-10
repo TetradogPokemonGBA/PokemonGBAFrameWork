@@ -16,10 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Special:Comando
 	{
 		public const byte ID=0x25;
-		public const int SIZE=1+Word.LENGTH;
-		
-		Word eventoALlamar;
-		public Special(Word eventoALlamar)
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE= "Special";
+        public const string DESCRIPCION= "Llama al evento especial";
+
+        public Special(Word eventoALlamar)
 		{
 			EventoALlamar=eventoALlamar;
 		}
@@ -32,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Llama al evento especial";
+                return DESCRIPCION;
 			}
 		}
 
@@ -44,7 +45,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Special";
+                return NOMBRE;
 			}
 		}
 
@@ -54,27 +55,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public Word EventoALlamar {
-			get {
-				return eventoALlamar;
-			}
-			set {
-				eventoALlamar = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word EventoALlamar { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{EventoALlamar};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			eventoALlamar=new Word(ptrRom,offsetComando);
+			EventoALlamar=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,eventoALlamar);
+			Word.SetData(ptrRomPosicionado,EventoALlamar);
 		}
 	}
 

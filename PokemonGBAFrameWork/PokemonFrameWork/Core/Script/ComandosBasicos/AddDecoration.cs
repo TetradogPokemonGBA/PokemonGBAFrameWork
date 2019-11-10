@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class AddDecoration:Comando
 	{
 		public const byte ID=0x4B;
-		public const int SIZE=3;
+		public new const int SIZE=3;
 		public const string NOMBRE="AddDecoration";
 		public const string DESCRIPCION="Añade un objeto decorativo en el pc del player";
-		Word decoracion;
-		
-		public AddDecoration(Word decoracion)
+
+        public AddDecoration(Word decoracion)
 		{
 			Decoracion=decoracion;
 			
@@ -51,20 +50,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Decoracion
+        public Word Decoracion { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return decoracion;}
-			set{decoracion=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{decoracion};
+			return new Object[]{Decoracion};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			decoracion=new Word(ptrRom,offsetComando);
-			offsetComando+=Word.LENGTH;
+			Decoracion=new Word(ptrRom,offsetComando);
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
@@ -72,7 +66,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
 			ptrRomPosicionado++;
 			Word.SetData(ptrRomPosicionado,Decoracion);
-			ptrRomPosicionado+=Word.LENGTH;
 			
 		}
 	}

@@ -12,11 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cry:Comando
 	{
 		public const byte ID = 0xA1;
-		public const int SIZE = 5;
-		Word pokemon;
-		Word efecto;
- 
-		public Cry(Word pokemon, Word efecto)
+		public new const int SIZE = 5;
+        public const string NOMBRE = "Cry";
+        public const string DESCRIPCION = "Reproduce el grito del pokemon.";
+
+        public Cry(Word pokemon, Word efecto)
 		{
 			Pokemon = pokemon;
 			Efecto = efecto;
@@ -37,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Reproduce el grito del pokemon.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Cry";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -56,24 +56,18 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Pokemon {
-			get{ return pokemon; }
-			set{ pokemon = value; }
-		}
-		public Word Efecto {
-			get{ return efecto; }
-			set{ efecto = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Pokemon { get; set; }
+        public Word Efecto { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ pokemon, efecto };
+			return new Object[]{ Pokemon, Efecto };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			pokemon = new Word(ptrRom, offsetComando);
+			Pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			efecto = new Word(ptrRom, offsetComando);
+			Efecto = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

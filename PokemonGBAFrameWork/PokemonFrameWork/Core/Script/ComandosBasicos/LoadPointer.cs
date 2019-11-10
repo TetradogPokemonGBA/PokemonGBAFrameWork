@@ -16,10 +16,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// </summary>
 	public class LoadPointer:Call
 	{
-		public const byte ID=0xF;
-		public const int SIZE=Call.SIZE+1;
-		
-		byte memoryBankToUse;
+		public new const byte ID=0xF;
+		public new const int SIZE=Call.SIZE+1;
+        public new const string NOMBRE = "LoadPointer";
+        public new const string DESCRIPCION = "Carga el puntero de un script para poderlo llamar en otros métodos";
+
+        byte memoryBankToUse;
 
 		
 		/*public LoadPointer(byte memoryBankToUse,Script scriptToLoad):base(scriptToLoad)
@@ -38,12 +40,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Nombre {
 			get {
-				return "LoadPointer";
+				return NOMBRE;
 			}
 		}
 		public override string Descripcion {
 			get {
-				return "Carga el puntero de un script para poderlo llamar en otros métodos";
+				return DESCRIPCION;
 			}
 		}
 		public override byte IdComando {

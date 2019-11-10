@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Call:Comando,IEndScript//,IDeclaracion
 	{
 		public const byte ID=0x4;
-		public const int SIZE=1+OffsetRom.LENGTH;
+		public new const int SIZE=Comando.SIZE+OffsetRom.LENGTH;
 		
 		public const string NOMBRE="Call";
 		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";
@@ -107,9 +107,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)
 		{
-			OffsetRom offset;
+	
 			base.SetComando(ptrRom,parametrosExtra);
-			ptrRom++;
+			ptrRom+=base.Size;
 			try{
 			//	offset=new OffsetRom(parametrosExtra[0]);
 			//	OffsetRom.SetOffset(ptrRom,offset);
