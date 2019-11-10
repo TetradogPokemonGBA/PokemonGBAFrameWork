@@ -12,13 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckMoney:Comando
 	{
 		public const byte ID=0x92;
-		public const int SIZE=6;
+		public new const int SIZE=Comando.SIZE+DWord.LENGTH+1;
 		public const string NOMBRE="CheckMoney";
 		public const string DESCRIPCION="Comprueba si el jugador tiene el dinero especificado.";
-        DWord dineroAComprobar;
-		Byte comprobarEjecucionComando;
-		
-		public CheckMoney(DWord dineroAComprobar,Byte comprobarEjecucionComando)
+
+        public CheckMoney(DWord dineroAComprobar,Byte comprobarEjecucionComando)
 		{
 			DineroAComprobar=dineroAComprobar;
 			ComprobarEjecucionComando=comprobarEjecucionComando;
@@ -53,35 +51,27 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public DWord DineroAComprobar
+        public DWord DineroAComprobar { get; set; }
+        public Byte ComprobarEjecucionComando { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return dineroAComprobar;}
-			set{dineroAComprobar=value;}
-		}
-		public Byte ComprobarEjecucionComando
-		{
-			get{ return comprobarEjecucionComando;}
-			set{comprobarEjecucionComando=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{dineroAComprobar,comprobarEjecucionComando};
+			return new Object[]{DineroAComprobar,ComprobarEjecucionComando};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			dineroAComprobar=new DWord(ptrRom,offsetComando);
+			DineroAComprobar=new DWord(ptrRom,offsetComando);
 			offsetComando+=DWord.LENGTH;
-			comprobarEjecucionComando=*(ptrRom+offsetComando);
+			ComprobarEjecucionComando=*(ptrRom+offsetComando);
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			DWord.SetData(ptrRomPosicionado,DineroAComprobar);
-				ptrRomPosicionado+=DWord.LENGTH;
-			*ptrRomPosicionado=comprobarEjecucionComando;
+		    ptrRomPosicionado+=DWord.LENGTH;
+			*ptrRomPosicionado=ComprobarEjecucionComando;
 			
 		}
 	}

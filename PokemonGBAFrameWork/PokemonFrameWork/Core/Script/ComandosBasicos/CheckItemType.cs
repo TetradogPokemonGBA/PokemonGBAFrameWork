@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckItemType:Comando
 	{
 		public const byte ID = 0x48;
-		public const int SIZE = 3;
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
 		public const string NOMBRE="CheckItemType";
 		public const string DESCRIPCION="Comprueba el tipo del objeto, el resultado se guarda en LASTRESULT";
-		Word objeto;
- 
-		public CheckItemType(Word objeto)
+
+        public CheckItemType(Word objeto)
 		{
 			Objeto = objeto;
  
@@ -56,23 +55,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Objeto {
-			get{ return objeto; }
-			set{ objeto = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Objeto { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ objeto };
+			return new Object[]{ Objeto };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			objeto = new Word(ptrRom, offsetComando);
+			Objeto = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Objeto);
 		}
 	}

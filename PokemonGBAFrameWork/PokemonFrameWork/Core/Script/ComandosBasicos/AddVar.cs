@@ -11,9 +11,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class AddVar : SetVar
 	{
-		public const byte ID = 0x17;
-		public const string NOMBRE="Addvar";
-		public const string DESCRIPCION="Añade cualquier valor a la variable";
+		public new const byte ID = 0x17;
+		public new const string NOMBRE="Addvar";
+		public new const string DESCRIPCION="Añade cualquier valor a la variable";
 		public AddVar(Word variable,Word valorAAñadir):base(variable,valorAAñadir)
 		{}
 			

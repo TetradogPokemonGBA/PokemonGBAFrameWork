@@ -19,20 +19,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public new const int SIZE=Comando.SIZE+OffsetRom.LENGTH;
 		
 		public const string NOMBRE="Call";
-		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";
-		/*
-		Script script;
-		
-		public Call(Script script)
-		{
-			Script=script;
-		}*/
-		
-			OffsetRom script;
+		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";		
+	    
+        OffsetRom offset;
 		
 		public Call(OffsetRom script)
 		{
-			Script=script;
+			Offset=script;
 		}
 		public Call(RomGba rom,int offset):base(rom,offset)
 		{
@@ -64,28 +57,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-	/*	public Script Script
+		public OffsetRom Offset
 		{
 			get{
-				return script;
-			}
-			set{
-				if(value==null)
-					value=new Script();
-				script=value;
-				
-			}
-		}
-	*/
-		public OffsetRom Script
-		{
-			get{
-				return script;
+				return offset;
 			}
 			set{
 				if(value==null)
 					value=new OffsetRom();
-				script=value;
+				offset=value;
 				
 			}
 		}	
@@ -96,13 +76,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 		#region implemented abstract members of Comando
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new object[]{Script};
+			return new object[]{Offset};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom,int offsetActual)
 		{
 			//podria ser que llamara a otra cosa que no fuese un script???
 			//Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
-			 Script=new OffsetRom(ptrRom,offsetActual);
+			 Offset=new OffsetRom(ptrRom,offsetActual);
 		}
 
 		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)
@@ -113,7 +93,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 			try{
 			//	offset=new OffsetRom(parametrosExtra[0]);
 			//	OffsetRom.SetOffset(ptrRom,offset);
-				OffsetRom.SetOffset(ptrRom,Script);
+				OffsetRom.SetOffset(ptrRom,Offset);
 			}catch{
 				
 				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");

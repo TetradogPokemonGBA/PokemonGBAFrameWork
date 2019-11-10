@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class AddDecoration:Comando
 	{
 		public const byte ID=0x4B;
-		public new const int SIZE=3;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
 		public const string NOMBRE="AddDecoration";
 		public const string DESCRIPCION="Añade un objeto decorativo en el pc del player";
 
@@ -64,8 +64,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,Decoracion);
+            ptrRomPosicionado += base.Size;
+            Word.SetData(ptrRomPosicionado,Decoracion);
 			
 		}
 	}

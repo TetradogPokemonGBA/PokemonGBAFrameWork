@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckCoins:Comando
 	{
 		public const byte ID=0xB3;
-		public const int SIZE=3;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
 		public const string NOMBRE="CheckCoins";
 		public const string DESCRIPCION="Guarda el numero de monedas en la variable.";
-		Word variableAUsar;
-		
-		public CheckCoins(Word variableAUsar)
+
+        public CheckCoins(Word variableAUsar)
 		{
 			VariableAUsar=variableAUsar;
 			
@@ -51,24 +50,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word VariableAUsar
+        public Word VariableAUsar { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return variableAUsar;}
-			set{variableAUsar=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{variableAUsar};
+			return new Object[]{VariableAUsar};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variableAUsar=new Word(ptrRom,offsetComando);			
+			VariableAUsar=new Word(ptrRom,offsetComando);			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado,VariableAUsar);			
 		}
 	}

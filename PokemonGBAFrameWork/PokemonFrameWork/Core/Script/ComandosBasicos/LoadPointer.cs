@@ -69,7 +69,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{MemoryBankToUse,Script};
+			return new Object[]{MemoryBankToUse,Offset};
 		}
 		#region implemented abstract members of Comando
 
@@ -81,7 +81,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-			OffsetRom offset=Script;//=new OffsetRom(parametrosExtra[0]);
+			OffsetRom offset=Offset;//=new OffsetRom(parametrosExtra[0]);
 			*ptrRomPosicionado=IdComando;
 			ptrRomPosicionado++;
 			*ptrRomPosicionado=memoryBankToUse;

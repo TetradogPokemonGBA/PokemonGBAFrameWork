@@ -12,13 +12,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckAnimation:Comando
 	{
 		public const byte ID=0x9E;
-		public const int SIZE=3;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
 		
 		public const string NOMBRE="CheckAnimation";
 		public const string DESCRIPCION="comprueba si una animación se está reproduciendo actualmente o no. De esta manera, se detendrá hasta que la animación se haya completado.";
-		Word animacion;
-		
-		public CheckAnimation(Word animacion)
+
+        public CheckAnimation(Word animacion)
 		{
 			Animacion=animacion;
 			
@@ -52,24 +51,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Animacion
+        public Word Animacion { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return animacion;}
-			set{animacion=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{animacion};
+			return new Object[]{Animacion};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			animacion=new Word(ptrRom,offsetComando);
+			Animacion=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado,Animacion);
 		}
 	}

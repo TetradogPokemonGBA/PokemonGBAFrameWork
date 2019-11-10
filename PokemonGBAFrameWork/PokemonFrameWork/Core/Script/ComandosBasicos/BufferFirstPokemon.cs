@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class BufferFirstPokemon:Comando
 	{
 		public const byte ID = 0x7E;
-		public const int SIZE = 2;
+		public new const int SIZE = Comando.SIZE+1;
 		public const string NOMBRE="BufferFirstPokemon";
 		public const string DESCRIPCION="Guarda en el Buffer  especificado el nombre del primer pokemon del equipo";
-		Byte buffer;
- 
-		public BufferFirstPokemon(Byte buffer)
+
+        public BufferFirstPokemon(Byte buffer)
 		{
 			Buffer = buffer;
  
@@ -56,25 +55,22 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Buffer {
-			get{ return buffer; }
-			set{ buffer = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte Buffer { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ buffer };
+			return new Object[]{ Buffer };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			buffer = *(ptrRom + offsetComando);
+			Buffer = *(ptrRom + offsetComando);
 
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = buffer;
+            ptrRomPosicionado += base.Size;
+            *ptrRomPosicionado = Buffer;
 
 		}
 	}

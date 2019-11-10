@@ -12,14 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class BufferPartyPokemon:Comando
 	{
 		public const byte ID = 0x7F;
-		public const int SIZE = 4;
+		public new const int SIZE = Comando.SIZE+1+Word.LENGTH;
 		public const string NOMBRE="BufferPartyPokemon";
 		public const string DESCRIPCION="Guarda el nombre del pokemon seleccionado del equipo en el Buffer especificado";
-		
-		Byte buffer;
-		Word pokemon;
- 
-		public BufferPartyPokemon(Byte buffer, Word pokemon)
+
+        public BufferPartyPokemon(Byte buffer, Word pokemon)
 		{
 			Buffer = buffer;
 			Pokemon = pokemon;
@@ -59,30 +56,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Buffer {
-			get{ return buffer; }
-			set{ buffer = value; }
-		}
-		public Word Pokemon {
-			get{ return pokemon; }
-			set{ pokemon = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte Buffer { get; set; }
+        public Word Pokemon { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ buffer, pokemon };
+			return new Object[]{ Buffer, Pokemon };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			buffer = *(ptrRom + offsetComando);
+			Buffer = *(ptrRom + offsetComando);
 			offsetComando++;
-			pokemon = new Word(ptrRom, offsetComando);
+			Pokemon = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = buffer;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = Buffer;
 			++ptrRomPosicionado; 
 			Word.SetData(ptrRomPosicionado, Pokemon);
 		}

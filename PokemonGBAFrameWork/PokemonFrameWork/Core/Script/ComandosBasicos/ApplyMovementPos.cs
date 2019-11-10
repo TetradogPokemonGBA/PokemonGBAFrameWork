@@ -2,6 +2,7 @@
  * Usuario: Pikachu240
  * Licencia GNU GPL V3
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFrameWork.ComandosScript
@@ -9,21 +10,16 @@ namespace PokemonGBAFrameWork.ComandosScript
     /// <summary>
     /// Description of ApplyMovementPos.
     /// </summary>
-    public class ApplyMovementPos : Comando
+    public class ApplyMovementPos : ApplyMovement
     {
-        public const byte ID = 0x50;
-        public const int SIZE = 9;
-        public const string NOMBRE = "ApplyMovementPos";
-        public const string DESCRIPCION = "Mueve el personaje y luego establece las coordenadas X/Y";
-        Word personajeAUsar;
-        OffsetRom datosMovimiento;
-        Byte coordenadaX;
-        Byte coordenadaY;
+        public new const byte ID = 0x50;
+        public new const int SIZE = ApplyMovement.SIZE+1+1;
+        public new const string NOMBRE = "ApplyMovementPos";
+        public new const string DESCRIPCION = "Mueve el personaje y luego establece las coordenadas X/Y";
 
-        public ApplyMovementPos(Word personajeAUsar, OffsetRom datosMovimiento, Byte coordenadaX, Byte coordenadaY)
+        public ApplyMovementPos(Word personajeAUsar, OffsetRom datosMovimiento, Byte coordenadaX, Byte coordenadaY):base(personajeAUsar,datosMovimiento)
         {
-            PersonajeAUsar = personajeAUsar;
-            DatosMovimiento = datosMovimiento;
+
             CoordenadaX = coordenadaX;
             CoordenadaY = coordenadaY;
 
@@ -65,53 +61,30 @@ namespace PokemonGBAFrameWork.ComandosScript
                 return SIZE;
             }
         }
-        public Word PersonajeAUsar
-        {
-            get { return personajeAUsar; }
-            set { personajeAUsar = value; }
-        }
-        public OffsetRom DatosMovimiento
-        {
-            get { return datosMovimiento; }
-            set { datosMovimiento = value; }
-        }
-        public Byte CoordenadaX
-        {
-            get { return coordenadaX; }
-            set { coordenadaX = value; }
-        }
-        public Byte CoordenadaY
-        {
-            get { return coordenadaY; }
-            set { coordenadaY = value; }
-        }
+
+        public Byte CoordenadaX { get; set; }
+        public Byte CoordenadaY { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
         {
-            return new Object[] { personajeAUsar, datosMovimiento, coordenadaX, coordenadaY };
+            return base.GetParams().AfegirValors( new object[]{ CoordenadaX, CoordenadaY });
         }
         protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
         {
-            personajeAUsar = new Word(ptrRom, offsetComando);
-            offsetComando += Word.LENGTH;
-            datosMovimiento = new OffsetRom(ptrRom, new OffsetRom(ptrRom, offsetComando).Offset);
-            offsetComando += OffsetRom.LENGTH;
-            coordenadaX = *(ptrRom + offsetComando);
+            base.CargarCamando(ptrRom, offsetComando);
+            offsetComando += base.ParamsSize;
+            CoordenadaX = *(ptrRom + offsetComando);
             offsetComando++;
-            coordenadaY = *(ptrRom + offsetComando);
+            CoordenadaY = *(ptrRom + offsetComando);
 
         }
         protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
         {
             base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado++;
-            Word.SetData(ptrRomPosicionado, PersonajeAUsar);
-            ptrRomPosicionado += Word.LENGTH;
-            OffsetRom.SetOffset(ptrRomPosicionado, datosMovimiento);
-            ptrRomPosicionado += OffsetRom.LENGTH;
-            *ptrRomPosicionado = coordenadaX;
+            ptrRomPosicionado+=base.Size;
+            *ptrRomPosicionado = CoordenadaX;
             ++ptrRomPosicionado;
-            *ptrRomPosicionado = coordenadaY;
+            *ptrRomPosicionado = CoordenadaY;
 
         }
     }

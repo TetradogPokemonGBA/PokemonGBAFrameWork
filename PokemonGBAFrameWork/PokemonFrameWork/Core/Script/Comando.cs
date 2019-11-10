@@ -50,8 +50,14 @@ namespace PokemonGBAFrameWork
 		public virtual int Size {
 			get{ return SIZE; }
 		}
-
-		public  string LineaEjecucionXSE {
+        public int ParamsSize
+        {
+            get
+            {
+                return Size - Comando.SIZE;
+            }
+        }
+        public  string LineaEjecucionXSE {
 			get {
 				StringBuilder strLinea = new StringBuilder(Nombre.ToLower());
 				IList<object> parametros = GetParams();
@@ -92,6 +98,7 @@ namespace PokemonGBAFrameWork
 			}
 			
 		}
+
 		protected virtual IList<object> GetParams()
 		{
 			return new object[]{ };

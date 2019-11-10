@@ -12,13 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class ApplyMovement:Comando
 	{
 		public const byte ID=0x4F;
-		public const int SIZE=7;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH+OffsetRom.LENGTH;
 		public const string NOMBRE="ApplyMovement";
 		public const string DESCRIPCION="Aplica los movimientos al persoanje especificado";
-		Word personajeAUsar;
-		OffsetRom datosMovimiento;
-		
-		public ApplyMovement(Word personajeAUsar,OffsetRom datosMovimiento)
+
+        public ApplyMovement(Word personajeAUsar,OffsetRom datosMovimiento)
 		{
 			PersonajeAUsar=personajeAUsar;
 			DatosMovimiento=datosMovimiento;
@@ -53,33 +51,25 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word PersonajeAUsar
+        public Word PersonajeAUsar { get; set; }
+        public OffsetRom DatosMovimiento { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return personajeAUsar;}
-			set{personajeAUsar=value;}
-		}
-		public OffsetRom DatosMovimiento
-		{
-			get{ return datosMovimiento;}
-			set{datosMovimiento=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{personajeAUsar,datosMovimiento};
+			return new Object[]{PersonajeAUsar,DatosMovimiento};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			personajeAUsar=new Word(ptrRom,offsetComando);
+			PersonajeAUsar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
-			datosMovimiento=new OffsetRom(ptrRom,offsetComando);
+			DatosMovimiento=new OffsetRom(ptrRom,offsetComando);
 
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,PersonajeAUsar);
+            ptrRomPosicionado += base.Size;
+            Word.SetData(ptrRomPosicionado,PersonajeAUsar);
 			ptrRomPosicionado+=Word.LENGTH;
 			OffsetRom.SetOffset(ptrRomPosicionado,DatosMovimiento);
 			

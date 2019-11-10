@@ -11,7 +11,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class CheckFlag : SetFlag
 	{
-		public const byte ID = 0x2B;
+		public new const byte ID = 0x2B;
 		public const string NOMBRE="CheckFlag";
 		public const string DESCRIPCION="Comprueba el estado del flag y lo guarda en 'lastresult'";
 

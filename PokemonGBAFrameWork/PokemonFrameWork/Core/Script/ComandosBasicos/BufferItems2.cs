@@ -9,21 +9,14 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// <summary>
 	/// Description of BufferItems2.
 	/// </summary>
-	public class BufferItems2:Comando
+	public class BufferItems2:BufferItems
 	{
-		public const byte ID = 0xE2;
-		public const int SIZE = 6;
-		public const string NOMBRE="BufferItems2";
-		public const string DESCRIPCION="Guarda el nombre en plural del objeto en el buffer especificado";
-		Byte buffer;
-		Word objetoAGuardar;
-		Word cantidad;
-		
-		public BufferItems2(Byte buffer, Word objetoAGuardar, Word cantidad)
+		public new const byte ID = 0xE2;
+		public new const string NOMBRE="BufferItems2";
+		public new const string DESCRIPCION="Guarda el nombre en plural del objeto en el buffer especificado";
+
+        public BufferItems2(Byte buffer, Word objetoAGuardar, Word cantidad):base(buffer,objetoAGuardar,cantidad)
 		{
-			Buffer = buffer;
-			ObjetoAGuardar = objetoAGuardar;
-			Cantidad = cantidad;
 			
 		}
 		
@@ -60,45 +53,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Buffer {
-			get{ return buffer; }
-			set{ buffer = value; }
-		}
-		public Word ObjetoAGuardar {
-			get{ return objetoAGuardar; }
-			set{ objetoAGuardar = value; }
-		}
-		public Word Cantidad {
-			get{ return cantidad; }
-			set{ cantidad = value; }
-		}
-		protected override AbreviacionCanon GetCompatibilidad()
+
+        protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPE;
 		}
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ buffer, objetoAGuardar, cantidad };
-		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-		{
-			buffer = *(ptrRom + offsetComando);
-			offsetComando++;
-			objetoAGuardar = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			cantidad = new Word(ptrRom, offsetComando);
-		
-		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = buffer;
-			++ptrRomPosicionado;
-			Word.SetData(ptrRomPosicionado, ObjetoAGuardar);
-			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, Cantidad);
+
 	
-		}
 	}
 }

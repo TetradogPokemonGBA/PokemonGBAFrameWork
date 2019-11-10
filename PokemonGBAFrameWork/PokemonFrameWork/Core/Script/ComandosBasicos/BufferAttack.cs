@@ -12,11 +12,9 @@ namespace PokemonGBAFrameWork.ComandosScript
     public class BufferAttack : Comando
     {
         public const byte ID = 0x82;
-        public const int SIZE = 4;
+        public new const int SIZE =Comando.SIZE+1+Word.LENGTH;
         public const string NOMBRE = "BufferAttack";
         public const string DESCRIPCION = "Guarda el nombre del ataque en el buffer especificado.";
-        Byte buffer;
-        Word ataque;
 
         public BufferAttack(Byte buffer, Word ataque)
         {
@@ -61,33 +59,25 @@ namespace PokemonGBAFrameWork.ComandosScript
                 return SIZE;
             }
         }
-        public Byte Buffer
-        {
-            get { return buffer; }
-            set { buffer = value; }
-        }
-        public Word Ataque
-        {
-            get { return ataque; }
-            set { ataque = value; }
-        }
+        public Byte Buffer { get; set; }
+        public Word Ataque { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
         {
-            return new Object[] { buffer, ataque };
+            return new Object[] { Buffer, Ataque };
         }
         protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
         {
-            buffer = *(ptrRom + offsetComando);
+            Buffer = *(ptrRom + offsetComando);
             offsetComando++;
-            ataque = new Word(ptrRom, offsetComando);
+            Ataque = new Word(ptrRom, offsetComando);
 
         }
         protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
         {
             base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado++;
-            *ptrRomPosicionado = buffer;
+            ptrRomPosicionado += base.Size;
+            *ptrRomPosicionado = Buffer;
             ++ptrRomPosicionado;
             Word.SetData(ptrRomPosicionado, Ataque);
 

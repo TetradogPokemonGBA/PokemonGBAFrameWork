@@ -12,12 +12,9 @@ namespace PokemonGBAFrameWork.ComandosScript
     public class BufferBoxName : Comando
     {
         public const byte ID = 0xC6;
-        public const int SIZE = 4;
+        public new const int SIZE = Comando.SIZE+1+Word.LENGTH;
         public const string NOMBRE = "BufferBoxName";
         public const string DESCRIPCION = "Guarda el nombre de la caja especificada en el buffer especificado";
-
-        Byte buffer;
-        Word cajaPcAGuardar;
 
         public BufferBoxName(Byte buffer, Word cajaPcAGuardar)
         {
@@ -67,33 +64,25 @@ namespace PokemonGBAFrameWork.ComandosScript
                 return SIZE;
             }
         }
-        public Byte Buffer
-        {
-            get { return buffer; }
-            set { buffer = value; }
-        }
-        public Word CajaPcAGuardar
-        {
-            get { return cajaPcAGuardar; }
-            set { cajaPcAGuardar = value; }
-        }
+        public Byte Buffer { get; set; }
+        public Word CajaPcAGuardar { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
         {
-            return new Object[] { buffer, cajaPcAGuardar };
+            return new Object[] { Buffer, CajaPcAGuardar };
         }
         protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
         {
-            buffer = *(ptrRom + offsetComando);
+            Buffer = *(ptrRom + offsetComando);
             offsetComando++;
-            cajaPcAGuardar = new Word(ptrRom, offsetComando);
+            CajaPcAGuardar = new Word(ptrRom, offsetComando);
 
         }
         protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
         {
             base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado++;
-            *ptrRomPosicionado = buffer;
+            ptrRomPosicionado += base.Size;
+            *ptrRomPosicionado = Buffer;
             ++ptrRomPosicionado;
             Word.SetData(ptrRomPosicionado, CajaPcAGuardar);
 

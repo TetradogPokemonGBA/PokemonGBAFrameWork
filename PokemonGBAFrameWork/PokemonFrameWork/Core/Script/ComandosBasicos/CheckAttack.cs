@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckAttack:Comando
 	{
 		public const byte ID=0x7C;
-		public const int SIZE=3;		
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;		
 		public const string NOMBRE="CheckAttack";
 		public const string DESCRIPCION="Comprueba que haya un pokemon en el equipo con un ataque en particular";
-		Word ataqueAComprobar;
-		
-		public CheckAttack(Word ataqueAComprobar)
+
+        public CheckAttack(Word ataqueAComprobar)
 		{
 			AtaqueAComprobar=ataqueAComprobar;
 			
@@ -51,24 +50,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word AtaqueAComprobar
+        public Word AtaqueAComprobar { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return ataqueAComprobar;}
-			set{ataqueAComprobar=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ataqueAComprobar};
+			return new Object[]{AtaqueAComprobar};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			ataqueAComprobar=new Word(ptrRom,offsetComando);			
+			AtaqueAComprobar=new Word(ptrRom,offsetComando);			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado,AtaqueAComprobar);			
 		}
 	}

@@ -12,13 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckItem:Comando
 	{
 		public const byte ID = 0x47;
-		public const int SIZE = 5;
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
 		public const string NOMBRE="CheckItem";
 		public const string DESCRIPCION="Comprueba si el player lleva la cantidad del objeto especificado";
-		Word objeto;
-		Word cantidad;
- 
-		public CheckItem(Word objeto, Word cantidad)
+
+        public CheckItem(Word objeto, Word cantidad)
 		{
 			Objeto = objeto;
 			Cantidad = cantidad;
@@ -58,29 +56,23 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Objeto {
-			get{ return objeto; }
-			set{ objeto = value; }
-		}
-		public Word Cantidad {
-			get{ return cantidad; }
-			set{ cantidad = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Objeto { get; set; }
+        public Word Cantidad { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ objeto, cantidad };
+			return new Object[]{ Objeto, Cantidad };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			objeto = new Word(ptrRom, offsetComando);
+			Objeto = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			cantidad = new Word(ptrRom, offsetComando);
+			Cantidad = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Objeto);
 			ptrRomPosicionado += Word.LENGTH;
 			Word.SetData(ptrRomPosicionado, Cantidad); 

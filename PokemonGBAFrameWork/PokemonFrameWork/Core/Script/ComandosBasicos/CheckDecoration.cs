@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckDecoration:Comando
 	{
 		public const byte ID=0x4E;
-		public const int SIZE=3;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
 		public const string NOMBRE="CheckDecoration";
 		public const string DESCRIPCION="Comprueba si un objeto decorativo esta en el pc del player";
-		Word decoracion;
-		
-		public CheckDecoration(Word decoracion)
+
+        public CheckDecoration(Word decoracion)
 		{
 			Decoracion=decoracion;
 			
@@ -51,24 +50,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Decoracion
+        public Word Decoracion { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return decoracion;}
-			set{decoracion=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{decoracion};
+			return new Object[]{Decoracion};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			decoracion=new Word(ptrRom,offsetComando);
+			Decoracion=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=Word.LENGTH;
 			Word.SetData(ptrRomPosicionado,Decoracion);			
 		}
 	}

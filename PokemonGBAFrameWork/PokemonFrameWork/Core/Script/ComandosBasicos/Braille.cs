@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Braille:Comando
 	{
 		public const byte ID = 0x78;
-		public const int SIZE = 5;
+		public new const int SIZE = Comando.SIZE+OffsetRom.LENGTH;
 		public const string NOMBRE = "Braille";
 		public const string DESCRIPCION = "Muestra una caja con texto en braille( no soporta '\\l','\\p','\\n')";
-		OffsetRom brailleData;
-		
-		public Braille(OffsetRom brailleData)
+
+        public Braille(OffsetRom brailleData)
 		{
 			BrailleData = brailleData;
 			
@@ -56,25 +55,22 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public OffsetRom BrailleData {
-			get{ return brailleData; }
-			set{ brailleData = value; }
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public OffsetRom BrailleData { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ brailleData };
+			return new Object[]{ BrailleData };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			brailleData = new OffsetRom(ptrRom, offsetComando);//por mirar
-			offsetComando += OffsetRom.LENGTH;
+			BrailleData = new OffsetRom(ptrRom, offsetComando);
+
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			OffsetRom.SetOffset(ptrRomPosicionado, BrailleData);
 			
 		}

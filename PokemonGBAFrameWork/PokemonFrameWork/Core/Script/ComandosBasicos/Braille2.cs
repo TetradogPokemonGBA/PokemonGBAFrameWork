@@ -9,18 +9,16 @@ namespace PokemonGBAFrameWork.ComandosScript
     /// <summary>
     /// Description of Braille2.
     /// </summary>
-    public class Braille2 : Comando
+    public class Braille2 : Braille
     {
-        public const byte ID = 0xD3;
-        public const int SIZE = 5;
-        public const string NOMBRE = "Braille2";
-        public const string DESCRIPCION = "Establece la variable 0x8004 en un valor basado en el ancho de la cadena en braille en el texto.";
+        public new const byte ID = 0xD3;
+        public new const string NOMBRE = "Braille2";
+        public new const string DESCRIPCION = "Establece la variable 0x8004 en un valor basado en el ancho de la cadena en braille en el texto.";
 
-        OffsetRom brailleData;
 
-        public Braille2(OffsetRom brailleData)
+        public Braille2(OffsetRom brailleData):base(brailleData)
         {
-            BrailleData = brailleData;
+         
 
         }
 
@@ -53,32 +51,7 @@ namespace PokemonGBAFrameWork.ComandosScript
                 return NOMBRE;
             }
         }
-        public override int Size
-        {
-            get
-            {
-                return SIZE;
-            }
-        }
-        public OffsetRom BrailleData
-        {
-            get { return brailleData; }
-            set { brailleData = value; }
-        }
 
-        protected override System.Collections.Generic.IList<object> GetParams()
-        {
-            return new Object[] { brailleData };
-        }
-        protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-        {
-            brailleData = new OffsetRom(ptrRom, offsetComando);
-        }
-        protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-        {
-            base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado++;
-            OffsetRom.SetOffset(ptrRomPosicionado, brailleData);
-        }
+
     }
 }

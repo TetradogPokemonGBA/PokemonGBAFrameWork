@@ -12,13 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class BufferTrainerClass:Comando
 	{
 		public const byte ID = 0xDD;
-		public const int SIZE = 4;
+		public new const int SIZE = Comando.SIZE+1+Word.LENGTH;
 		public const string NOMBRE="BufferTrainerClass";
 		public const string DESCRIPCION="Guarda en el buffer el nombre de la clase de entrenador especificada.";
-		Byte buffer;
-		Word claseEntrenador;
- 
-		public BufferTrainerClass(Byte buffer, Word claseEntrenador)
+
+        public BufferTrainerClass(Byte buffer, Word claseEntrenador)
 		{
 			Buffer = buffer;
 			ClaseEntrenador = claseEntrenador;
@@ -58,33 +56,27 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Buffer {
-			get{ return buffer; }
-			set{ buffer = value; }
-		}
-		public Word ClaseEntrenador {
-			get{ return claseEntrenador; }
-			set{ claseEntrenador = value; }
-		}
- 		protected override AbreviacionCanon GetCompatibilidad()
+        public Byte Buffer { get; set; }
+        public Word ClaseEntrenador { get; set; }
+        protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPE;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ buffer, claseEntrenador };
+			return new Object[]{ Buffer, ClaseEntrenador };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			buffer = *(ptrRom + offsetComando);
+			Buffer = *(ptrRom + offsetComando);
 			offsetComando++;
-			claseEntrenador = new Word(ptrRom, offsetComando); 
+			ClaseEntrenador = new Word(ptrRom, offsetComando); 
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = buffer;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = Buffer;
 			++ptrRomPosicionado; 
 			Word.SetData(ptrRomPosicionado, ClaseEntrenador);
 

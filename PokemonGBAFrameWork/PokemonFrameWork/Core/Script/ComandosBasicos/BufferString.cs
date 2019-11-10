@@ -12,13 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class BufferString:Comando
 	{
 		public const byte ID=0x85;
-		public const int SIZE=6;
+		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
 		public const string NOMBRE="BufferString";
 		public const string DESCRIPCION="Guarda una string en el Buffer especificado";
-		Byte buffer;
-		OffsetRom texto;
-		
-		public BufferString(Byte buffer,OffsetRom texto)
+
+        public BufferString(Byte buffer,OffsetRom texto)
 		{
 			Buffer=buffer;
 			String=texto;
@@ -53,34 +51,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Buffer
+        public Byte Buffer { get; set; }
+        public OffsetRom String { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return buffer;}
-			set{buffer=value;}
-		}
-		public OffsetRom String
-		{
-			get{ return texto;}
-			set{texto=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{buffer,texto};
+			return new Object[]{Buffer,String};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			buffer=*(ptrRom+offsetComando);
+			Buffer=*(ptrRom+offsetComando);
 			offsetComando++;
-			texto=new OffsetRom(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);		
+			String=new OffsetRom(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);		
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=buffer;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=Buffer;
 			++ptrRomPosicionado;
-			OffsetRom.SetOffset(ptrRomPosicionado,texto);		
+			OffsetRom.SetOffset(ptrRomPosicionado,String);		
 		}
 	}
 }

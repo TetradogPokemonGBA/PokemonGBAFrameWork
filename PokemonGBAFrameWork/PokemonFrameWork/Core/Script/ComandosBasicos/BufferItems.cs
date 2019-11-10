@@ -2,6 +2,7 @@
  * Usuario: Pikachu240
  * Licencia GNU GPL V3
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFrameWork.ComandosScript
@@ -9,22 +10,17 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// <summary>
 	/// Description of BufferItems.
 	/// </summary>
-	public class BufferItems:Comando
+	public class BufferItems:BufferItem
 	{
-		public const byte ID = 0xD4;
-		public const int SIZE = 6;
-		public const string NOMBRE="BufferItems";
-		public const string DESCRIPCION="Stores a plural item name within a specified buffer.";
-		Byte buffer;
-		Word objetoAGuardar;
-		Word cantidad;
- 
-		public BufferItems(Byte buffer, Word objetoAGuardar, Word cantidad)
+		public new const byte ID = 0xD4;
+		public new const int SIZE = BufferItem.SIZE+Word.LENGTH;
+		public new const string NOMBRE="BufferItems";
+		public new const string DESCRIPCION="Stores a plural item name within a specified buffer.";
+
+        public BufferItems(Byte buffer, Word objetoAGuardar, Word cantidad):base(buffer,objetoAGuardar)
 		{
-			Buffer = buffer;
-			ObjetoAGuardar = objetoAGuardar;
 			Cantidad = cantidad;
- 
+
 		}
    
 		public BufferItems(RomGba rom, int offset)
@@ -60,42 +56,27 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Buffer {
-			get{ return buffer; }
-			set{ buffer = value; }
-		}
-		public Word ObjetoAGuardar {
-			get{ return objetoAGuardar; }
-			set{ objetoAGuardar = value; }
-		}
-		public Word Cantidad {
-			get{ return cantidad; }
-			set{ cantidad = value; }
-		}
- 		protected override AbreviacionCanon GetCompatibilidad()
+
+        public Word Cantidad { get; set; }
+        protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPG|AbreviacionCanon.BPR;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ buffer, objetoAGuardar, cantidad };
+			return base.GetParams().AfegirValor(Cantidad) ;
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			buffer = *(ptrRom + offsetComando);
-			offsetComando++;
-			objetoAGuardar = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			cantidad = new Word(ptrRom, offsetComando);
+            base.CargarCamando(ptrRom, offsetComando);
+			offsetComando += base.ParamsSize;
+			Cantidad = new Word(ptrRom, offsetComando);
 	}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = buffer;
-			++ptrRomPosicionado; 
-			Word.SetData(ptrRomPosicionado, ObjetoAGuardar);
-			ptrRomPosicionado += Word.LENGTH;
+        
+			ptrRomPosicionado += BufferItem.SIZE;
 			Word.SetData(ptrRomPosicionado, Cantidad);
 
 		}

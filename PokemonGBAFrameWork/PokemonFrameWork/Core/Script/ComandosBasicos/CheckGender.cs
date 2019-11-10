@@ -12,7 +12,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckGender:Comando
 	{
 		public const byte ID = 0xA0;
-		public const int SIZE = 1;
 		public const string NOMBRE="CheckGender";
 		public const string DESCRIPCION="Comprueba si el jugador es chico o chica y lo guarda en LASTRESULT.";
   
@@ -49,16 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
                          
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ };
-		}
 
 	}
 }
