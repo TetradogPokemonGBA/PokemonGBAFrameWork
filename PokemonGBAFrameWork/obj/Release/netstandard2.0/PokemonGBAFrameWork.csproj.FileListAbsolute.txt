@@ -14,3 +14,4 @@ C:\Users\tetra\source\repos\PokemonGBAFrameWork\PokemonGBAFrameWork\obj\Release\
 C:\Users\tetra\source\repos\PokemonGBAFrameWork\PokemonGBAFrameWork\bin\Release\netstandard2.0\PokemonGBAFrameWork.deps.json
 C:\Users\tetra\source\repos\PokemonGBAFrameWork\PokemonGBAFrameWork\bin\Release\netstandard2.0\PokemonGBAFrameWork.dll
 C:\Users\tetra\source\repos\PokemonGBAFrameWork\PokemonGBAFrameWork\bin\Release\netstandard2.0\PokemonGBAFrameWork.pdb
+C:\Users\tetra\source\repos\PokemonGBAFrameWork\PokemonGBAFrameWork\obj\Release\netstandard2.0\PokemonGBAFrameWork.csprojAssemblyReference.cache

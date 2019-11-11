@@ -28,6 +28,7 @@ namespace PokemonGBAFrameWork
         //enter con el formato correcto en windows// \r\n
         public const byte RETURN = 0x3;
         public const byte END = 0x2;
+        public static readonly string[] ComentariosUnaLinea = { "//", "#" };
 
         public static Hex OffsetInicioDynamic = "800000";
         string nombreBloque;
@@ -952,7 +953,7 @@ namespace PokemonGBAFrameWork
             return FromXSE(System.IO.File.ReadAllLines(pathArchivoXSE));
         }
         public static IList<Script> FromXSE(IList<string> scriptXSE)
-        {//por acabar
+        {//por probar
             if (scriptXSE == null)
                 throw new ArgumentNullException("scriptXSE");
            
@@ -987,12 +988,17 @@ namespace PokemonGBAFrameWork
             for (int i = 0; i < scriptXSE.Count; i++)
             {
                 scriptXSE[i] = scriptXSE[i].Trim();
-                if (scriptXSE[i].Length>0&&!scriptXSE[i].Contains("//") && scriptXSE[i].Contains(" "))
+                if (scriptXSE[i].Length>0&&!scriptXSE[i].StartsWith(ComentariosUnaLinea) && scriptXSE[i].Contains(" "))
                 {
                     if (scriptXSE[i].Contains("/*"))
                     {
                         inicioComentario = scriptXSE[i].IndexOf("/*");
                         scriptXSE[i] = scriptXSE[i].Remove(inicioComentario,inicioComentario- scriptXSE[i].IndexOf("*/"));
+                    }
+                    for(int k=0;k<ComentariosUnaLinea.Length;k++)
+                    if(scriptXSE[i].Contains(ComentariosUnaLinea[k]))
+                    {
+                            scriptXSE[i] = scriptXSE[i].Remove(scriptXSE[i].IndexOf(ComentariosUnaLinea[k]));
                     }
                     comandoActualCampos = scriptXSE[i].ToLower().Split(' ');
                     tipoComando = null;
@@ -1065,5 +1071,6 @@ namespace PokemonGBAFrameWork
             return dicScriptsCargados.Values;
         }
     }
+
 
 }
