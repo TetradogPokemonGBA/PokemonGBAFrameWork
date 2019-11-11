@@ -955,10 +955,9 @@ namespace PokemonGBAFrameWork
         {//por acabar
             if (scriptXSE == null)
                 throw new ArgumentNullException("scriptXSE");
-            //quitar el dinamic
-            //tener en cuenta los define...
-            //quitar lineas en blanco
-            //anidar scripts anidados
+           
+
+           
             SortedList<string, Script> dicScriptsCargados = new SortedList<string, Script>();
             string[] comandoActualCampos;
             Type tipoComando;
@@ -966,11 +965,35 @@ namespace PokemonGBAFrameWork
             List<Object> parametros = new List<object>();
             Script scriptActual = null;
             Hex aux;
+            int inicioComentario;
+            string[] defineCampos;
+            string lineaLower;
+          
+            
+            for(int i= scriptXSE.Count-1; i>=0;i--)
+            {//tener en cuenta los define...
+                lineaLower = scriptXSE[i].ToLower();
+                if (lineaLower.Contains("define"))
+                {
+                    defineCampos = lineaLower.Split(' ');
+                    for(int j=i;j>=0;j--)
+                    {
+                        if (scriptXSE[j].ToLower().Contains(defineCampos[1]))
+                            scriptXSE[j] = scriptXSE[j].ToLower().Replace(defineCampos[1], defineCampos[2]);
+                    }
+                    scriptXSE.RemoveAt(i);
+                }else if(lineaLower.Contains("dynamic")) scriptXSE.RemoveAt(i);  //quitar el dinamic
+            }
             for (int i = 0; i < scriptXSE.Count; i++)
             {
                 scriptXSE[i] = scriptXSE[i].Trim();
-                if (scriptXSE[i].Contains(" "))
+                if (scriptXSE[i].Length>0&&!scriptXSE[i].Contains("//") && scriptXSE[i].Contains(" "))
                 {
+                    if (scriptXSE[i].Contains("/*"))
+                    {
+                        inicioComentario = scriptXSE[i].IndexOf("/*");
+                        scriptXSE[i] = scriptXSE[i].Remove(inicioComentario,inicioComentario- scriptXSE[i].IndexOf("*/"));
+                    }
                     comandoActualCampos = scriptXSE[i].ToLower().Split(' ');
                     tipoComando = null;
                     try
@@ -978,7 +1001,7 @@ namespace PokemonGBAFrameWork
 
                         if (comandoActualCampos[0] == "@org")
                         {
-
+                            //anidar scripts anidados
                             if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
                             {
                                 scriptActual = new Script();
@@ -1032,7 +1055,7 @@ namespace PokemonGBAFrameWork
                     }
                     catch
                     {
-                        //                       lanzo una excepción diciendo que la linea tal tiene un error
+                        // lanzo una excepción diciendo que la linea tal tiene un error
                         throw new ScriptMalFormadoException(i);
                     }
               
