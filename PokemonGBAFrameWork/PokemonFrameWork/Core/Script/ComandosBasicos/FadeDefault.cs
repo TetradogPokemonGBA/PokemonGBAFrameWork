@@ -16,8 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class FadeDefault:Comando
 	{
 		public const byte ID=0x35;
+        public const string NOMBRE = "FadeDefault";
+        public const string DESCRIPCION = "Suavemente cambia a la canción por defecto del mapa";
 
-		public FadeDefault()
+        public FadeDefault()
 		{}
 		public FadeDefault(RomGba rom,int offset):base(rom,offset)
 		{
@@ -28,7 +30,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Suavemente cambia a la canción por defecto del mapa";
+                return DESCRIPCION;
 			}
 		}
 
@@ -39,7 +41,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "FadeDefault";
+                return NOMBRE;
 			}
 		}
 	}

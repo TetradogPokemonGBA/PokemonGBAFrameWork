@@ -12,8 +12,9 @@ namespace PokemonGBAFrameWork.ComandosScript
     public class CmdC8 : Comando
     {
         public const byte ID = 0xC8;
-        public const int SIZE = 1 + DWord.LENGTH;
+        public new const int SIZE = Comando.SIZE + DWord.LENGTH;
         public const string NOMBRE = "CmdC8";
+        public const string DESCRIPCION= "Bajo Investigación";
 
         public CmdC8(DWord unknow)
         {
@@ -31,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
         {
             get
             {
-                return "Bajo Investigación";
+                return DESCRIPCION;
             }
         }
 
@@ -71,7 +72,7 @@ namespace PokemonGBAFrameWork.ComandosScript
         protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
         {
             base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado++;
+            ptrRomPosicionado+=base.Size;
             DWord.SetData(ptrRomPosicionado, Unknow);
         }
     }

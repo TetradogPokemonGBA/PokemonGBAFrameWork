@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork
             romData = new BloqueBytes(dataRom);
             this.nombre = name;
             if (string.IsNullOrEmpty(path))
-0                path = Environment.CurrentDirectory;
+                path = Environment.CurrentDirectory;
 
             this.path = path;
         }

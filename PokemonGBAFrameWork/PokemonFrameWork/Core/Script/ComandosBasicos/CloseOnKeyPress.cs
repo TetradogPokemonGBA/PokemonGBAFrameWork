@@ -12,8 +12,8 @@ namespace PokemonGBAFrameWork.ComandosScript
     public class CloseOnKeyPress : Comando
     {
         public const byte ID = 0x68;
-        public const int SIZE = 1;
         public const string NOMBRE = "CloseOnKeyPress";
+        public const string DESCRIPCION= "Mantiene abierto un mensaje y lo cierra al pulsar una tecla";
         public CloseOnKeyPress()
         {
 
@@ -30,7 +30,7 @@ namespace PokemonGBAFrameWork.ComandosScript
         {
             get
             {
-                return "Mantiene abierto un mensaje y lo cierra al pulsar una tecla";
+                return DESCRIPCION;
             }
         }
 
@@ -46,13 +46,6 @@ namespace PokemonGBAFrameWork.ComandosScript
             get
             {
                 return NOMBRE;
-            }
-        }
-        public override int Size
-        {
-            get
-            {
-                return SIZE;
             }
         }
 

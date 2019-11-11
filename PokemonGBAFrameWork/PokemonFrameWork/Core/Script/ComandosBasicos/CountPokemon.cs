@@ -16,8 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CountPokemon:Comando
 	{
 		public const byte ID = 0x43;
+        public const string NOMBRE= "CountPokemon";
+        public const string DESCRIPCION= "Cuenta el numero de pokemon del equipo y guarda el resultado en 'lastresult'";
 
-		public CountPokemon()
+        public CountPokemon()
 		{}
 		public CountPokemon(RomGba rom, int offset) : base(rom, offset)
 		{
@@ -33,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "CountPokemon";
+                return NOMBRE;
 			}
 		}
 
@@ -45,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Cuenta el numero de pokemon del equipo y guarda el resultado en 'lastresult'";
+                return DESCRIPCION;
 			}
 		}
 		

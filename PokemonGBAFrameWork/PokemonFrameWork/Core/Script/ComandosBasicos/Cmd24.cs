@@ -16,11 +16,13 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cmd24:Comando
 	{
 		public const byte ID=0x24;
-		public const int SIZE=1+OffsetRom.LENGTH;
+		public new const int SIZE=Comando.SIZE+OffsetRom.LENGTH;
         public const string NOMBRE = "Cmd24";
+        public const string DESCRIPCION = "Se desconoce el uso que tiene";
         OffsetRom offsetDesconocido;
-		
-		public Cmd24(int offset):this(new OffsetRom(offset))
+        
+
+        public Cmd24(int offset):this(new OffsetRom(offset))
 		{}
 		public Cmd24(OffsetRom offsetDesconocido)
 		{
@@ -35,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Se desconoce el uso que tiene";
+                return DESCRIPCION;
 			}
 		}
 
@@ -79,7 +81,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			OffsetRom.SetOffset(ptrRomPosicionado,offsetDesconocido);
 		}
 	}

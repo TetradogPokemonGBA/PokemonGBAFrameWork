@@ -16,10 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class FadeOut:Comando
 	{
 		public const byte ID=0x37;
-		public const int SIZE=2;
-		
-		byte velocidadDesvanecimiento;
-		public FadeOut(byte velocidadDesvanecimiento)
+		public new const int SIZE=Comando.SIZE+1;
+        public const string NOMBRE = "FadeOut";
+        public const string DESCRIPCION = "Se desvanece la canción actual del Sappy";
+        public FadeOut(byte velocidadDesvanecimiento)
 		{
 			VelocidadDesvanecimiento=velocidadDesvanecimiento;
 		}
@@ -32,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Se desvanece la canción actual del Sappy";
+                return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "FadeOut";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -51,27 +51,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public byte VelocidadDesvanecimiento {
-			get {
-				return velocidadDesvanecimiento;
-			}
-			set {
-				velocidadDesvanecimiento = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public byte VelocidadDesvanecimiento { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{VelocidadDesvanecimiento};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			velocidadDesvanecimiento=ptrRom[offsetComando];
+			VelocidadDesvanecimiento=ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=velocidadDesvanecimiento;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=VelocidadDesvanecimiento;
 		}
 		
 	}

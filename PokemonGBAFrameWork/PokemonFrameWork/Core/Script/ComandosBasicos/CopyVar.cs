@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CopyVar:Comando
 	{
 		public const byte ID=0x19;
-		public new const int SIZE=0x5;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE= "CopyVar";
         public const string DESCRIPCION= "Copia el valor de la variable origen en la variable destino";
 
@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado,VariableDestino);
 			ptrRomPosicionado+=Word.LENGTH;
 			Word.SetData(ptrRomPosicionado,VariableOrigen);

@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CheckObedience:Comando
 	{
 		public const byte ID = 0xCE;
-		public const int SIZE = 3;
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
 		public const string NOMBRE="CheckObedience";
 		public const string DESCRIPCION="Comprueba si el pokemon del equipo especificado obedece o no y guarda el valor en LASTRESULT.";
-		Word pokemon;
- 
-		public CheckObedience(Word pokemon)
+
+        public CheckObedience(Word pokemon)
 		{
 			Pokemon = pokemon;
  
@@ -56,23 +55,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Pokemon {
-			get{ return pokemon; }
-			set{ pokemon = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Pokemon { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ pokemon };
+			return new Object[]{ Pokemon };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			pokemon = new Word(ptrRom, offsetComando);
+			Pokemon = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Pokemon); 
 		}
 	}

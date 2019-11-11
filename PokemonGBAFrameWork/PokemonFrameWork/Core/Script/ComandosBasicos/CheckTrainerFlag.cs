@@ -13,10 +13,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID = 0x60;
         public const string NOMBRE = "CheckTrainerFlag";
-        public const int SIZE = 3;
-		Word entrenador;
- 
-		public CheckTrainerFlag(Word entrenador)
+        public new const int SIZE = Comando.SIZE+Word.LENGTH;
+        public const string DESCRIPCION= "Comprueba si el flag del entrenador esta activado y guarda el resultado en LASTRESULT";
+
+        public CheckTrainerFlag(Word entrenador)
 		{
 			Entrenador = entrenador;
  
@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Comprueba si el flag del entrenador esta activado y guarda el resultado en LASTRESULT";
+                return DESCRIPCION;
 			}
 		}
 
@@ -55,25 +55,21 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Entrenador {
-			get{ return entrenador; }
-			set{ entrenador = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Entrenador { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ entrenador };
+			return new Object[]{ Entrenador };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			entrenador = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
- 
+			Entrenador = new Word(ptrRom, offsetComando);
+
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Entrenador);
 		}
 	}

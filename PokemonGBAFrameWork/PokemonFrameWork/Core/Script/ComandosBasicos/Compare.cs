@@ -16,12 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Compare:Comando
 	{
 		public const int ID=0x21;
-		public const int SIZE=0x5;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE = "Compare";
-        Word variable;
-		Word valorAComparar;
-		
-		public Compare(Word variable,Word valorAComparar)
+        public const string DESCRIPCION= "Compara el valor de la variable con el valor pasado como parametro";
+
+        public Compare(Word variable,Word valorAComparar)
 		{
 			Variable=variable;
 			ValorAComparar=valorAComparar;
@@ -37,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Compara el valor de la variable con el valor pasado como parametro";
+                return DESCRIPCION;
 			}
 		}
 
@@ -59,39 +58,25 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public Word Variable {
-			get {
-				return variable;
-			}
-			set {
-				variable = value;
-			}
-		}
-		public Word ValorAComparar {
-			get {
-				return valorAComparar;
-			}
-			set {
-				valorAComparar = value;
-			}
-		}
-		#endregion
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Variable { get; set; }
+        public Word ValorAComparar { get; set; }
+        #endregion
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Variable,ValorAComparar};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variable=new Word(ptrRom,offsetComando);
-			valorAComparar=new Word(ptrRom,offsetComando+Word.LENGTH);
+			Variable=new Word(ptrRom,offsetComando);
+			ValorAComparar=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,variable);
+			ptrRomPosicionado+=base.Size;
+			Word.SetData(ptrRomPosicionado,Variable);
 			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,valorAComparar);
+			Word.SetData(ptrRomPosicionado,ValorAComparar);
 		}
 	}
 }

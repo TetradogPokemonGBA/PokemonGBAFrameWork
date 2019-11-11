@@ -12,8 +12,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class ChooseContestPkmn:Comando
 	{
 		public const byte ID=0x8B;
-		public const int SIZE=1;
         public const string NOMBRE = "ChooseContestPkmn";
+        public const string DESCRIPCION= "Abre un menu para escoger el pokemon concursante.";
         public ChooseContestPkmn()
 		{
 			
@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Abre un menu para escoger el pokemon concursante.";
+                return DESCRIPCION;
 			}
 		}
 

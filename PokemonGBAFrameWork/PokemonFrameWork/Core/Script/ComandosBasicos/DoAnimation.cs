@@ -12,10 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class DoAnimation:Comando
 	{
 		public const byte ID = 0x9C;
-		public const int SIZE = 3;
-		Word animacion;
- 
-		public DoAnimation(Word animacion)
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE = "DoAnimation";
+        public const string DESCRIPCION = "Ejecuta la animación de movimiento especificada.";
+        public DoAnimation(Word animacion)
 		{
 			Animacion = animacion;
  
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Ejecuta la animación de movimiento especificada.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "DoAnimation";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,23 +54,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Animacion {
-			get{ return animacion; }
-			set{ animacion = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Animacion { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ animacion };
+			return new Object[]{ Animacion };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			animacion = new Word(ptrRom, offsetComando);
+			Animacion = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Animacion);
 		}
 	}

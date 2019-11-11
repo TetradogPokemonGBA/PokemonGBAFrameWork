@@ -16,11 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareBankToByte:Comando
 	{
 		public const byte ID=0x1C;
-		public const int SIZE=3;
+		public new const int SIZE=Comando.SIZE+1+1;
         public const string NOMBRE = "CompareBankToByte";
-        byte bank;
-		byte valueToCompare;
-		public CompareBankToByte(byte bank,byte valorAComparar)
+        public const string DESCRIPCION= "Compara la variable guardada en el bank (buffer) con la variable";
+
+        public CompareBankToByte(byte bank,byte valorAComparar)
 		{
 			Bank=bank;
 			ValueToCompare=valorAComparar;
@@ -43,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Compara la variable guardada en el bank (buffer) con la variable";
+                return DESCRIPCION;
 			}
 		}
 		public override int Size {
@@ -52,39 +52,25 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte Bank {
-			get {
-				return bank;
-			}
-			set {
-				bank = value;
-			}
-		}
+        public byte Bank { get; set; }
 
-		public byte ValueToCompare {
-			get {
-				return valueToCompare;
-			}
-			set {
-				valueToCompare = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public byte ValueToCompare { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Bank,ValueToCompare};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{		
-			bank=ptrRom[offsetComando++];
-			valueToCompare=ptrRom[offsetComando];
+			Bank=ptrRom[offsetComando++];
+			ValueToCompare=ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=Bank;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=bank;
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=valueToCompare;
+			*ptrRomPosicionado=ValueToCompare;
 		}
 	}
 }

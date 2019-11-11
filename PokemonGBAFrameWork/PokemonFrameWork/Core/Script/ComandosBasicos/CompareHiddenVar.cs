@@ -12,12 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareHiddenVar:Comando
 	{
 		public const byte ID = 0xCC;
-		public const int SIZE = 4;
+		public new const int SIZE = Comando.SIZE+1+DWord.LENGTH;
         public const string NOMBRE = "CompareHiddenVar";
-        Byte variable;
-		DWord valorAComparar;
- 
-		public CompareHiddenVar(Byte variable, DWord valorAComparar)
+        public const string DESCRIPCION= "Compara el valor de las variables ocultas.";
+
+        public CompareHiddenVar(Byte variable, DWord valorAComparar)
 		{
 			Variable = variable;
 			ValorAComparar = valorAComparar;
@@ -38,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Compara el valor de las variables ocultas.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -57,30 +56,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Variable {
-			get{ return variable; }
-			set{ variable = value; }
-		}
-		public DWord ValorAComparar {
-			get{ return valorAComparar; }
-			set{ valorAComparar = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte Variable { get; set; }
+        public DWord ValorAComparar { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ variable, valorAComparar };
+			return new Object[]{ Variable, ValorAComparar };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variable = *(ptrRom + offsetComando);
+			Variable = *(ptrRom + offsetComando);
 			offsetComando++;
-			valorAComparar = new DWord(ptrRom, offsetComando);
+			ValorAComparar = new DWord(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = variable;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = Variable;
 			++ptrRomPosicionado;
             DWord.SetData(ptrRomPosicionado, ValorAComparar);
 		}

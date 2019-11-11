@@ -16,12 +16,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Copyscriptbanks:Comando
 	{
 		public const byte ID=0x14;
-		public const int SIZE=0x3;
+		public new const int SIZE=Comando.SIZE+1+1;
         public const string NOMBRE = "Copyscriptbanks";
-        byte bankDestination;
-		byte bankSource;
-		
-		public Copyscriptbanks(byte bankDestination,byte bankSource)
+        public const string DESCRIPCION= "Copia un bank script a otro";
+
+        public Copyscriptbanks(byte bankDestination,byte bankSource)
 		{
 			BankDestination=bankDestination;
 			BankSource=bankSource;
@@ -36,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		#region implemented abstract members of Comando
 		public override string Descripcion {
 			get {
-				return "Copia un bank script a otro";
+                return DESCRIPCION;
 			}
 		}
 		public override byte IdComando {
@@ -54,41 +53,27 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		#endregion
+        #endregion
 
-		public byte BankDestination {
-			get {
-				return bankDestination;
-			}
-			set {
-				bankDestination = value;
-			}
-		}
+        public byte BankDestination { get; set; }
 
-		public byte BankSource {
-			get {
-				return bankSource;
-			}
-			set {
-				bankSource = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public byte BankSource { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{BankDestination,BankSource};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bankDestination=ptrRom[offsetComando];
-			bankSource=ptrRom[offsetComando+1];
+			BankDestination=ptrRom[offsetComando];
+			BankSource=ptrRom[offsetComando+1];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=BankDestination;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=bankDestination;
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=bankSource;
+			*ptrRomPosicionado=BankSource;
 		}
 	}
 }

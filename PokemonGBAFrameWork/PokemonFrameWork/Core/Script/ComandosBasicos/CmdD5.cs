@@ -12,8 +12,8 @@ namespace PokemonGBAFrameWork.ComandosScript
     public class CmdD5 : Comando
     {
         public const byte ID = 0xD5;
-        public const int SIZE = 1;
         public const string NOMBRE = "CmdD5";
+        public const string DESCRIPCION= "Bajo investigacion.Podria actuar como nop.";
         public CmdD5()
         {
 
@@ -30,7 +30,7 @@ namespace PokemonGBAFrameWork.ComandosScript
         {
             get
             {
-                return "Bajo investigacion.Podria actuar como nop.";
+                return DESCRIPCION;
             }
         }
 

@@ -16,7 +16,7 @@ namespace PokemonGBAFrameWork.GBACore.Mapa.Mapa
 
         public static Bitmap ToBitmap(TileSet primary,TileSet secundary,int index)
         {
-
+            throw new NotImplementedException();
         }
         public static  BloqueImagen GetTile(int index, TileSet primaryTileSet, TileSet secundaryTileSet)
         {

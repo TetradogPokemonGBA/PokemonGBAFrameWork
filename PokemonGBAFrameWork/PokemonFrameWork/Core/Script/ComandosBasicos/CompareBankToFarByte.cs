@@ -16,10 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareBankToFarByte:Comando
 	{
 		public const byte ID=0x1D;
-		public const int SIZE=6;
+		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
         public const string NOMBRE = "CompareBankToFarByte";
-        byte bank;
-		OffsetRom offsetToByteToCompare;
+        public const string DESCRIPCION= "Compara la variable guardada en el bank (buffer) con el byte que apunte el offset";
+        OffsetRom offsetToByteToCompare;
 		
 		public CompareBankToFarByte(byte bank,int offsetToByteToCompare):this(bank,new OffsetRom(offsetToByteToCompare))
 		{
@@ -48,7 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Compara la variable guardada en el bank (buffer) con el byte que apunte el offset";
+                return DESCRIPCION;
 			}
 		}
 		public override int Size {
@@ -57,20 +57,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte Bank {
-			get {
-				return bank;
-			}
-			set {
-				bank = value;
-			}
-		}
+        public byte Bank { get; set; }
 
-		public OffsetRom OffsetToByteToCompare {
+        public OffsetRom OffsetToByteToCompare {
 			get {
 				return offsetToByteToCompare;
 			}
 			set {
+                if (value == null)
+                    value = new OffsetRom();
 				offsetToByteToCompare = value;
 			}
 		}
@@ -80,14 +75,14 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bank=ptrRom[offsetComando++];
+			Bank=ptrRom[offsetComando++];
 			offsetToByteToCompare=new OffsetRom(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=bank;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=Bank;
 			ptrRomPosicionado++;
 			OffsetRom.SetOffset(ptrRomPosicionado,offsetToByteToCompare);
 		}

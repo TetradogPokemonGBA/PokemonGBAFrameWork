@@ -12,11 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CmdC3:Comando
 	{
 		public const byte ID = 0xC3;
-		public const int SIZE = 2;
+		public new const int SIZE = Comando.SIZE+1;
         public const string NOMBRE = "CmdC3";
-        Byte unknow;
- 
-		public CmdC3(Byte unknow)
+        public const string DESCRIPCION= "Bajo investigación";
+
+        public CmdC3(Byte unknow)
 		{
 			Unknow = unknow;
  
@@ -36,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Bajo investigación";
+                return DESCRIPCION;
 			}
 		}
 
@@ -55,24 +55,21 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Unknow {
-			get{ return unknow; }
-			set{ unknow = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte Unknow { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ unknow };
+			return new Object[]{ Unknow };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			unknow = *(ptrRom + offsetComando);
+			Unknow = *(ptrRom + offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = unknow;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = Unknow;
 		}
 	}
 }

@@ -13,6 +13,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x8A;
         public const string NOMBRE = "Cmd8A";
+        public const string DESCRIPCION= "[aparentemente no hace nada]";
         public Cmd8A()
 		{
 
@@ -28,7 +29,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "[aparentemente no hace nada]";
+                return DESCRIPCION;
 			}
 		}
 

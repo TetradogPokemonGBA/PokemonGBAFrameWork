@@ -11,9 +11,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 {
 	public class FadeIn : FadeOut
 	{
-		public const byte ID = 0x38;
+		public new const byte ID = 0x38;
+        public new const string NOMBRE = "FadeIn";
+        public new const string DESCRIPCION = "Se desvanece la canción actual del Sappy";
 
-		public FadeIn(byte velocidadDesvanecimiento):base(velocidadDesvanecimiento)
+        public FadeIn(byte velocidadDesvanecimiento):base(velocidadDesvanecimiento)
 		{}
 		public FadeIn(RomGba rom, int offset) : base(rom, offset)
 		{
@@ -29,7 +31,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Se desvanece la canción actual del Sappy";
+                return DESCRIPCION;
 			}
 		}
 
@@ -41,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "FadeIn";
+                return NOMBRE;
 			}
 		}
 	}

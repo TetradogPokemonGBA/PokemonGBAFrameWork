@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Cry:Comando
 	{
 		public const byte ID = 0xA1;
-		public new const int SIZE = 5;
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE = "Cry";
         public const string DESCRIPCION = "Reproduce el grito del pokemon.";
 
@@ -72,7 +72,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Pokemon);
 			ptrRomPosicionado += Word.LENGTH;
 			Word.SetData(ptrRomPosicionado, Efecto);

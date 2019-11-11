@@ -16,8 +16,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareFarBytes:Comando
 	{
 		public const int ID=0x20;
-		public const int SIZE=9;
+		public new const int SIZE=Comando.SIZE+OffsetRom.LENGTH+OffsetRom.LENGTH;
         public const string NOMBRE = "CompareFarBytes";
+        public const string DESCRIPCION= "Compara los bytes aljados en los offsets";
         OffsetRom offsetA;
 		OffsetRom offsetB;
 		
@@ -46,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Compara los bytes aljados en los offsets";
+                return DESCRIPCION;
 			}
 		}
 		public override int Size {
@@ -59,8 +60,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get {
 				return offsetA;
 			}
-			set {
-				offsetA = value;
+			set
+            {
+                if (value == null)
+                    value = new OffsetRom();
+                offsetA = value;
 			}
 		}
 
@@ -68,8 +72,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 			get {
 				return offsetB;
 			}
-			set {
-				offsetB = value;
+			set
+            {
+                if (value == null)
+                    value = new OffsetRom();
+                offsetB = value;
 			}
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
@@ -84,7 +91,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			OffsetRom.SetOffset(ptrRomPosicionado,offsetA);
 			OffsetRom.SetOffset(ptrRomPosicionado+OffsetRom.LENGTH,offsetB);
 		}

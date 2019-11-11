@@ -17,6 +17,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public const byte ID=0x2C;
         public const string NOMBRE = "Cmd2C";
+        public const string DESCRIPCION= "Uso desconocido, podria hacer igual que nop";
         public Cmd2C()	
 		{
 
@@ -31,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Uso desconocido, podria hacer igual que nop";
+                return DESCRIPCION;
 			}
 		}
 

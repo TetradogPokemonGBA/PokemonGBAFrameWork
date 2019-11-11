@@ -16,10 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareFarByteToBank:Comando
 	{
 		public const byte ID=0x1E;
-		public const int SIZE=6;
+		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
         public const string NOMBRE = "CompareFarByteToBank";
-        byte bank;
-		OffsetRom offsetToByte;
+        public const string DESCRIPCION= "Compara el byte que apunte el offset con la variable guardada en el bank (buffer)";
+        OffsetRom offsetToByte;
 		
 		public CompareFarByteToBank(byte bank,int offsetToByte):this(bank,new OffsetRom(offsetToByte))
 		{}
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Compara el byte que apunte el offset con la variable guardada en el bank (buffer)";
+                return DESCRIPCION;
 			}
 		}
 		public override int Size {
@@ -55,20 +55,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte BankToCompare {
-			get {
-				return bank;
-			}
-			set {
-				bank = value;
-			}
-		}
+        public byte BankToCompare { get; set; }
 
-		public OffsetRom OffsetToByte {
+        public OffsetRom OffsetToByte {
 			get {
 				return offsetToByte;
 			}
 			set {
+                if (value == null)
+                    value = new OffsetRom();
 				offsetToByte = value;
 			}
 		}
@@ -79,15 +74,15 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			offsetToByte=new OffsetRom(ptrRom,offsetComando);
-			bank=ptrRom[offsetComando+OffsetRom.LENGTH];
+			BankToCompare=ptrRom[offsetComando+OffsetRom.LENGTH];
 			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			OffsetRom.SetOffset(ptrRomPosicionado,offsetToByte);
-			ptrRomPosicionado[OffsetRom.LENGTH]=bank;
+			ptrRomPosicionado[OffsetRom.LENGTH]=BankToCompare;
 		}
 	}
 	

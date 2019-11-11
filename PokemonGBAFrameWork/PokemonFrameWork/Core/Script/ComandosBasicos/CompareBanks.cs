@@ -16,11 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CompareBanks:Comando
 	{
 		public const byte ID=0x1B;
-		public const int SIZE=5;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE = "CompareBanks";
-        Word bank1;
-		Word bank2;
-		public CompareBanks(Word bank1,Word bank2)
+        public const string DESCRIPCION= "Compara dos banks";
+        public CompareBanks(Word bank1,Word bank2)
 		{
 			Bank1=bank1;
 			Bank2=bank2;
@@ -34,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Compara dos banks";
+                return DESCRIPCION;
 			}
 		}
 
@@ -56,38 +55,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public Word Bank1 {
-			get {
-				return bank1;
-			}
-			set {
-				bank1 = value;
-			}
-		}
+        public Word Bank1 { get; set; }
 
-		public Word Bank2 {
-			get {
-				return bank2;
-			}
-			set {
-				bank2 = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Bank2 { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Bank1,Bank2};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			bank1=new Word(ptrRom,offsetComando);
-			bank2=new Word(ptrRom,offsetComando+Word.LENGTH);
+			Bank1=new Word(ptrRom,offsetComando);
+			Bank2=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,bank1);
-			Word.SetData(ptrRomPosicionado+Word.LENGTH,bank2);
+			ptrRomPosicionado+=base.Size;
+			Word.SetData(ptrRomPosicionado,Bank1);
+			Word.SetData(ptrRomPosicionado+Word.LENGTH,Bank2);
 		}
 	}
 }

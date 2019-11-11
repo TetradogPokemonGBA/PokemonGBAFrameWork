@@ -12,15 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class CreateSprite:Comando
 	{
 		public const byte ID = 0xAA;
-		public const int SIZE = 9;
-		Byte spriteAUsar;
-		Byte personajeVirtual;
-		Word coordenadaX;
-		Word coordenadaY;
-		Byte comportamiento;
-		Byte orientacion;
- 
-		public CreateSprite(Byte spriteAUsar, Byte personajeVirtual, Word coordenadaX, Word coordenadaY, Byte comportamiento, Byte orientacion)
+		public new const int SIZE = Comando.SIZE+1+1+Word.LENGTH+Word.LENGTH+1+1;
+        public const string NOMBRE = "CreateSprite";
+        public const string DESCRIPCION = "Crea un sprite virtual en el mapa actual.";
+
+        public CreateSprite(Byte spriteAUsar, Byte personajeVirtual, Word coordenadaX, Word coordenadaY, Byte comportamiento, Byte orientacion)
 		{
 			SpriteAUsar = spriteAUsar;
 			PersonajeVirtual = personajeVirtual;
@@ -45,7 +41,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Crea un sprite virtual en el mapa actual.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -56,7 +52,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "CreateSprite";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -64,71 +60,53 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte SpriteAUsar {
-			get{ return spriteAUsar; }
-			set{ spriteAUsar = value; }
-		}
-		public Byte PersonajeVirtual {
-			get{ return personajeVirtual; }
-			set{ personajeVirtual = value; }
-		}
-		public Word CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Word CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
-		public Byte Comportamiento {
-			get{ return comportamiento; }
-			set{ comportamiento = value; }
-		}
-		public Byte Orientacion {
-			get{ return orientacion; }
-			set{ orientacion = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte SpriteAUsar { get; set; }
+        public Byte PersonajeVirtual { get; set; }
+        public Word CoordenadaX { get; set; }
+        public Word CoordenadaY { get; set; }
+        public Byte Comportamiento { get; set; }
+        public Byte Orientacion { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[] {
-				spriteAUsar,
-				personajeVirtual,
-				coordenadaX,
-				coordenadaY,
-				comportamiento,
-				orientacion
+				SpriteAUsar,
+				PersonajeVirtual,
+				CoordenadaX,
+				CoordenadaY,
+				Comportamiento,
+				Orientacion
 			};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			spriteAUsar = *(ptrRom + offsetComando);
+			SpriteAUsar = *(ptrRom + offsetComando);
 			offsetComando++;
-			personajeVirtual = *(ptrRom + offsetComando);
+			PersonajeVirtual = *(ptrRom + offsetComando);
 			offsetComando++;
-			coordenadaX = new Word(ptrRom, offsetComando);
+			CoordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
+			CoordenadaY = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			comportamiento = *(ptrRom + offsetComando);
+			Comportamiento = *(ptrRom + offsetComando);
 			offsetComando++;
-			orientacion = *(ptrRom + offsetComando); 
+			Orientacion = *(ptrRom + offsetComando); 
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = spriteAUsar;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = SpriteAUsar;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = personajeVirtual;
+			*ptrRomPosicionado = PersonajeVirtual;
 			++ptrRomPosicionado; 
 			Word.SetData(ptrRomPosicionado, CoordenadaX);
 			ptrRomPosicionado += Word.LENGTH;
 			Word.SetData(ptrRomPosicionado, CoordenadaY);
 			ptrRomPosicionado += Word.LENGTH;
-			*ptrRomPosicionado = comportamiento;
+			*ptrRomPosicionado = Comportamiento;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = orientacion;
+			*ptrRomPosicionado = Orientacion;
 		}
 	}
 }

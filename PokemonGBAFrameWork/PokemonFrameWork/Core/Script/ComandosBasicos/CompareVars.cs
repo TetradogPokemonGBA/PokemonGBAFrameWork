@@ -17,12 +17,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		
 		public const int ID=0x22;
-		public const int SIZE=5;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE = "CompareVars";
-        Word variableA;
-		Word variableB;
-		
-		public CompareVars(Word variableA,Word variableB)
+        public const string DESCRIPCION= "Compara el valor de las variables";
+
+        public CompareVars(Word variableA,Word variableB)
 		{
 			VariableA=variableA;
 			VariableB=variableB;
@@ -38,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Compara el valor de las variables";
+                return DESCRIPCION;
 			}
 		}
 
@@ -60,38 +59,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public Word VariableA {
-			get {
-				return variableA;
-			}
-			set {
-				variableA = value;
-			}
-		}
+        public Word VariableA { get; set; }
 
-		public Word VariableB {
-			get {
-				return variableB;
-			}
-			set {
-				variableB = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word VariableB { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{variableA,variableB};
+			return new Object[]{VariableA,VariableB};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			variableA=new Word(ptrRom,offsetComando);
-			variableB=new Word(ptrRom,offsetComando+Word.LENGTH);
+			VariableA=new Word(ptrRom,offsetComando);
+			VariableB=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,variableA);
-			Word.SetData(ptrRomPosicionado+Word.LENGTH,variableB);
+			ptrRomPosicionado+=base.Size;
+			Word.SetData(ptrRomPosicionado,VariableA);
+			Word.SetData(ptrRomPosicionado+Word.LENGTH,VariableB);
 		}
 	}
 }

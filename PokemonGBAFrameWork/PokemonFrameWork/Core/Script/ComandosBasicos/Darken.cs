@@ -12,10 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Darken:Comando
 	{
 		public const byte ID = 0x99;
-		public const int SIZE = 3;
-		Word tamañoDestello;
- 
-		public Darken(Word tamañoDestello)
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE= "Darken";
+        public const string DESCRIPCION= "Llama a la animación destello que oscurece el área, deberia ser llamado desde un script de nivel.";
+        public Darken(Word tamañoDestello)
 		{
 			TamañoDestello = tamañoDestello;
  
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Llama a la animación destello que oscurece el área, deberia ser llamado desde un script de nivel.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Darken";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,23 +54,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word TamañoDestello {
-			get{ return tamañoDestello; }
-			set{ tamañoDestello = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word TamañoDestello { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ tamañoDestello };
+			return new Object[]{ TamañoDestello };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			tamañoDestello = new Word(ptrRom, offsetComando);
+			TamañoDestello = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, TamañoDestello);
 		}
 	}

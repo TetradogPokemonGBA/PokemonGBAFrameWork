@@ -14,6 +14,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public const byte ID = 0xB1;
 
         public const string NOMBRE = "CmdB1";
+        public const string DESCRPICION= "Bajo investigación,podria hacer igual que nop";
         public CmdB1()
 		{
 
@@ -34,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Bajo investigación,podria hacer igual que nop";
+                return DESCRPICION;
 			}
 		}
 
