@@ -12,12 +12,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class GiveEgg:Comando
 	{
 		public const byte ID=0x7A;
-		public const int SIZE=3;
-
-		Word pokemon;
-		public GiveEgg(Word pokemon)
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE = "GiveEgg";
+        public const string DESCRIPCION = "Entrega un huevo al entrenador.";
+        public GiveEgg(Word pokemon)
 		{
-			this.pokemon=pokemon;
+			this.Pokemon=pokemon;
 		}
 		
 		public GiveEgg(RomGba rom,int offset):base(rom,offset)
@@ -28,18 +28,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public unsafe GiveEgg(byte* ptRom,int offset):base(ptRom,offset)
 		{}
 
-		public Word Pokemon {
-			get {
-				return pokemon;
-			}
-			set {
-				pokemon = value;
-			}
-		}
+        public Word Pokemon { get; set; }
 
-		public override string Descripcion {
+        public override string Descripcion {
 			get {
-				return "Entrega un huevo al entrenador.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +43,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "GiveEgg";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -65,12 +58,12 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			pokemon=new Word(ptrRom,offsetComando);
+			Pokemon=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado,Pokemon);
 			
 		}

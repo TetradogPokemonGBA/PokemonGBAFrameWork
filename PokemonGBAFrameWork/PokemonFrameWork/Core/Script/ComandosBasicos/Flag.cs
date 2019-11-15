@@ -16,10 +16,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class SetFlag:Comando
 	{
 		public const byte ID=0x29;
-		public const int SIZE=1+Word.LENGTH;
-		
-		Word flag;
-		public SetFlag(Word flag)
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE = "SetFlag";
+        public const string DESCRIPCION = "Activa el flag";
+        public SetFlag(Word flag)
 		{
 			Flag=flag;
 		}
@@ -32,7 +32,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Activa el flag";
+                return DESCRIPCION;
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "SetFlag";
+                return NOMBRE;
 			}
 		}
 
@@ -53,36 +53,31 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		
-		
-		public Word Flag {
-			get {
-				return flag;
-			}
-			set {
-				flag = value;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+
+
+        public Word Flag { get; set; }
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Flag};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			flag=new Word(ptrRom,offsetComando);
+			Flag=new Word(ptrRom,offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,flag);
+			ptrRomPosicionado+=base.Size;
+			Word.SetData(ptrRomPosicionado,Flag);
 		}
 	}
 	public class ClearFlag:SetFlag
 	{
-		public const byte ID=0x2A;
+		public new const byte ID=0x2A;
+        public new const string NOMBRE = "ClearFlag";
+        public new const string DESCRIPCION = "Desactiva el flag";
 
-		public ClearFlag(RomGba rom,int offset):base(rom,offset)
+        public ClearFlag(RomGba rom,int offset):base(rom,offset)
 		{
 		}
 		public ClearFlag(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -91,7 +86,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Desactiva el flag";
+                return DESCRIPCION;
 			}
 		}
 
@@ -102,7 +97,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ClearFlag";
+                return NOMBRE;
 			}
 		}
 	}

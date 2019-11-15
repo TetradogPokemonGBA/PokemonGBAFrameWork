@@ -21,14 +21,7 @@ namespace PokemonGBAFrameWork.ComandosScript
         public new const string NOMBRE = "LoadPointer";
         public new const string DESCRIPCION = "Carga el puntero de un script para poderlo llamar en otros métodos";
 
-        byte memoryBankToUse;
-
-		
-		/*public LoadPointer(byte memoryBankToUse,Script scriptToLoad):base(scriptToLoad)
-		{
-			MemoryBankToUse=memoryBankToUse;
-		}*/
-		public LoadPointer(byte memoryBankToUse,OffsetRom scriptToLoad):base(scriptToLoad)
+        public LoadPointer(byte memoryBankToUse,OffsetRom scriptToLoad):base(scriptToLoad)
 		{
 			MemoryBankToUse=memoryBankToUse;
 		}
@@ -54,15 +47,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 			}
 		}
 
-		public byte MemoryBankToUse {
-			get {
-				return memoryBankToUse;
-			}
-			set {
-				memoryBankToUse = value;
-			}
-		}
-		public override int Size {
+        public byte MemoryBankToUse { get; set; }
+        public override int Size {
 			get {
 				return SIZE;
 			}
@@ -75,16 +61,16 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			memoryBankToUse=ptrRom[offsetComando];
+			MemoryBankToUse=ptrRom[offsetComando];
 			base.CargarCamando(ptrRom,offsetComando+1);
 		}
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-			OffsetRom offset=Offset;//=new OffsetRom(parametrosExtra[0]);
+			OffsetRom offset=Offset;
 			*ptrRomPosicionado=IdComando;
 			ptrRomPosicionado++;
-			*ptrRomPosicionado=memoryBankToUse;
+			*ptrRomPosicionado=MemoryBankToUse;
 			ptrRomPosicionado++;
 			OffsetRom.SetOffset(ptrRomPosicionado,offset);
 		}

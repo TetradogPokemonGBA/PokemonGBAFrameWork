@@ -12,12 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class MoveSprite:Comando
 	{
 		public const byte ID = 0x57;
-		public const int SIZE = 7;
-		Word personajeAMover;
-		Word coordenadaX;
-		Word coordenadaY;
- 
-		public MoveSprite(Word personajeAMover, Word coordenadaX, Word coordenadaY)
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH+Word.LENGTH;
+        public const string NOMBRE = "MoveSprite";
+        public const string DESCRIPCION = "Mueve un sprite a una localización especifica";
+        public MoveSprite(Word personajeAMover, Word coordenadaX, Word coordenadaY)
 		{
 			PersonajeAMover = personajeAMover;
 			CoordenadaX = coordenadaX;
@@ -39,7 +37,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Mueve un sprite a una localización especifica";
+                return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "MoveSprite";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -58,35 +56,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word PersonajeAMover {
-			get{ return personajeAMover; }
-			set{ personajeAMover = value; }
-		}
-		public Word CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Word CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word PersonajeAMover { get; set; }
+        public Word CoordenadaX { get; set; }
+        public Word CoordenadaY { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personajeAMover, coordenadaX, coordenadaY };
+			return new Object[]{ PersonajeAMover, CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			personajeAMover = new Word(ptrRom, offsetComando);
+			PersonajeAMover = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaX = new Word(ptrRom, offsetComando);
+			CoordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
+			CoordenadaY = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, PersonajeAMover);
 			ptrRomPosicionado += Word.LENGTH;
 			Word.SetData(ptrRomPosicionado, CoordenadaX);

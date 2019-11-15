@@ -12,13 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class HideBox:Comando
 	{
 		public const byte ID=0x73;
-		public const int SIZE=5;
-		Byte posicionX;
-		Byte posicionY;
-		Byte ancho;
-		Byte alto;
-		
-		public HideBox(Byte posicionX,Byte posicionY,Byte ancho,Byte alto)
+		public new const int SIZE=Comando.SIZE+1+1+1+1;
+        public const string NOMBRE = "HideBox";
+        public const string DESCRIPCION = "Oculta una caja abierta";
+        public HideBox(Byte posicionX,Byte posicionY,Byte ancho,Byte alto)
 		{
 			PosicionX=posicionX;
 			PosicionY=posicionY;
@@ -36,7 +33,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Oculta una caja abierta";
+                return DESCRIPCION;
 			}
 		}
 
@@ -47,7 +44,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "HideBox";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -55,55 +52,39 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte PosicionX
-		{
-			get{ return posicionX;}
-			set{posicionX=value;}
-		}
-		public Byte PosicionY
-		{
-			get{ return posicionY;}
-			set{posicionY=value;}
-		}
-		public Byte Ancho
-		{
-			get{ return ancho;}
-			set{ancho=value;}
-		}
-		public Byte Alto
-		{
-			get{ return alto;}
-			set{alto=value;}
-		}
-		protected override AbreviacionCanon GetCompatibilidad()
+        public Byte PosicionX { get; set; }
+        public Byte PosicionY { get; set; }
+        public Byte Ancho { get; set; }
+        public Byte Alto { get; set; }
+        protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.AXP|AbreviacionCanon.AXV;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{posicionX,posicionY,ancho,alto};
+			return new Object[]{PosicionX,PosicionY,Ancho,Alto};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			posicionX=*(ptrRom+offsetComando);
+			PosicionX=*(ptrRom+offsetComando);
 			offsetComando++;
-			posicionY=*(ptrRom+offsetComando);
+			PosicionY=*(ptrRom+offsetComando);
 			offsetComando++;
-			ancho=*(ptrRom+offsetComando);
+			Ancho=*(ptrRom+offsetComando);
 			offsetComando++;
-			alto=*(ptrRom+offsetComando);
+			Alto=*(ptrRom+offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=posicionX;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=PosicionX;
 			++ptrRomPosicionado;
-			*ptrRomPosicionado=posicionY;
+			*ptrRomPosicionado=PosicionY;
 			++ptrRomPosicionado;
-			*ptrRomPosicionado=ancho;
+			*ptrRomPosicionado=Ancho;
 			++ptrRomPosicionado;
-			*ptrRomPosicionado=alto;
+			*ptrRomPosicionado=Alto;
 		}
 	}
 }

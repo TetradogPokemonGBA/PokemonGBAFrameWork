@@ -73,7 +73,8 @@ namespace PokemonGBAFrameWork.ComandosScript
             set
             {
                 if (value == null)
-                    value = new OffsetRom(); offsetDestination = value;
+                    value = new OffsetRom(); 
+                offsetDestination = value;
             }
         }
 

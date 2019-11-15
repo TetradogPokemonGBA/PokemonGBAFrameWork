@@ -12,7 +12,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Jumpram : Comando
 	{
 		public const byte ID = 0xC;
-		public new const int SIZE = 1;
         public const string NOMBRE= "Jumpram";
         public const string DESCRIPCION= "Salta a la dirección por defecto de la memoria ram y ejecuta el script guardado allí";
 
@@ -49,11 +48,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 
 		#region implemented abstract members of Comando
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+
 	#endregion
 	}
 }

@@ -71,7 +71,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			animacion = *(ptrRom + offsetComando);
+			animacion = ptrRom[offsetComando];
 			offsetComando++;
 			variableAUsar = new Word(ptrRom, offsetComando);
 		}

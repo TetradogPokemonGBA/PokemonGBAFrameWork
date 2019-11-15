@@ -12,10 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class HideSprite:Comando
 	{
 		public const byte ID = 0x53;
-		public const int SIZE = 3;
-		Word personajeAOcultar;
- 
-		public HideSprite(Word personajeAOcultar)
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE = "HideSprite";
+        public const string DESCRIPCION = "Oculta un Sprite";
+        public HideSprite(Word personajeAOcultar)
 		{
 			PersonajeAOcultar = personajeAOcultar;
  
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Oculta un Sprite";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "HideSprite";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,23 +54,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word PersonajeAOcultar {
-			get{ return personajeAOcultar; }
-			set{ personajeAOcultar = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word PersonajeAOcultar { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personajeAOcultar };
+			return new Object[]{ PersonajeAOcultar };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			personajeAOcultar = new Word(ptrRom, offsetComando);
+			PersonajeAOcultar = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, PersonajeAOcultar);
 		}
 	}

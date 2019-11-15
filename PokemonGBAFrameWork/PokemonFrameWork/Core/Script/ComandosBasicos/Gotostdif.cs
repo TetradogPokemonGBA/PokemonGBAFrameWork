@@ -15,7 +15,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public new const byte ID = 0xA;
 
-		public new const int SIZE = 3;
+		public new const int SIZE = Gotostd.SIZE+1;
         public new const string NOMBRE= "Gotostdif";
         public new const string DESCRIPCION= Gotostd.DESCRIPCION + " si se cumple la condición";
 
@@ -65,7 +65,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando);
-			Condicion = ptrRom[++offsetComando];
+            offsetComando += base.ParamsSize;
+			Condicion = ptrRom[offsetComando];
 		}
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)

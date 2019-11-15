@@ -79,9 +79,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			personajeAMostrar = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaX = *(ptrRom + offsetComando);
+			coordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = *(ptrRom + offsetComando);
+			coordenadaY = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

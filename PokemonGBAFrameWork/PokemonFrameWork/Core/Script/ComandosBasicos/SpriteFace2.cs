@@ -71,9 +71,9 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			personajeVirtual = *(ptrRom + offsetComando);
+			personajeVirtual = ptrRom[offsetComando];
 			offsetComando++;
-			orientacion = *(ptrRom + offsetComando);
+			orientacion = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

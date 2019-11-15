@@ -12,9 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class HideBox2:Comando
 	{
 		public const byte ID = 0xDA;
-		public const int SIZE = 1;
-  
-		public HideBox2()
+        public const string NOMBRE = "HideBox2";
+        public const string DESCRIPCION = "Oculta una caja mostrada.";
+
+        public HideBox2()
 		{
    
 		}
@@ -33,7 +34,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Oculta una caja mostrada.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -44,14 +45,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "HideBox2";
+                return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+	
 		protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPE;

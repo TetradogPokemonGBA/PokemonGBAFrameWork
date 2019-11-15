@@ -16,17 +16,17 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class If1:Comando,IDeclaracion
 	{
 		public const byte ID=0x6;
-		public new const int SIZE=6;
+		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
         public const string NOMBRE = "If1";
         public const string DESCRIPCION = "Comprueba que la condicion sea true con el 'lastresult'";
 
-        Script script;
-		
-		public If1(byte condicion,Script script)
-		{
-			Condicion=condicion;
-			Script=script;
-		}
+        OffsetRom offsetScript;
+		public If1(byte condicion,OffsetRom offsetScript)
+        {
+            Condicion = condicion;
+            OffsetScript = offsetScript;
+        }
+
 		public If1(RomGba rom,int offset):base(rom,offset)
 		{}
 		public If1(byte[] bytesScript,int offset):base(bytesScript,offset)
@@ -66,19 +66,19 @@ namespace PokemonGBAFrameWork.ComandosScript
         }
         public byte Condicion { get; set; }
 
-        public Script Script {
+        public OffsetRom OffsetScript {
 			get {
-				return script;
+				return offsetScript;
 			}
 			set {
 				if(value==null)
-					value=new Script();
-				script = value;
+					value=new OffsetRom();
+				offsetScript = value;
 			}
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{Condicion,Script};
+			return new Object[]{Condicion,OffsetScript};
 		}
 		#region implemented abstract members of Comando
 		
@@ -86,26 +86,18 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			//byte condicion ptr script
 			Condicion=ptrRom[offsetComando++];
-			Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetComando).Offset);
+			OffsetScript=new OffsetRom(ptrRom,offsetComando);
 			
 		}
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			
-			OffsetRom offset;
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			try{
-				offset=new OffsetRom(parametrosExtra[0]);
-				*ptrRomPosicionado=Condicion;
-				ptrRomPosicionado++;
-				OffsetRom.SetOffset(ptrRomPosicionado,offset);
-				
-			}catch{
-				
-				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");
-			}
+			ptrRomPosicionado+=base.Size;
+            *ptrRomPosicionado = Condicion;
+            ptrRomPosicionado++;
+            OffsetRom.SetOffset(ptrRomPosicionado, OffsetScript);
 		}
 
 		
@@ -116,7 +108,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 
 		public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
 		{
-			return Script.GetDeclaracion(rom,parametrosExtra);
+			return new Script(rom,OffsetScript).GetDeclaracion(rom,parametrosExtra);
 		}
 
 		#endregion
@@ -124,7 +116,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class If2:If1{
 		public new const byte ID=0x7;
         public new const string NOMBRE = "If2";
-		public If2(byte condicion,Script script):base(condicion,script)
+		public If2(byte condicion,OffsetRom offsetScript):base(condicion, offsetScript)
 		{}
 		public If2(RomGba rom,int offset):base(rom,offset)
 		{}

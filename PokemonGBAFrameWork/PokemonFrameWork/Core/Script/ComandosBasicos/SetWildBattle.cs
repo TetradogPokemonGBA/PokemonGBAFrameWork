@@ -79,7 +79,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			nivel = *(ptrRom + offsetComando);
+			nivel = ptrRom[offsetComando];
 			offsetComando++;
 			objeto = new Word(ptrRom, offsetComando);
 		}

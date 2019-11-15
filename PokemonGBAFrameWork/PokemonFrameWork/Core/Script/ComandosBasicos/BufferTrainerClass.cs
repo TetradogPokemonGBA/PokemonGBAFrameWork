@@ -68,7 +68,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			Buffer = *(ptrRom + offsetComando);
+			Buffer = ptrRom[offsetComando];
 			offsetComando++;
 			ClaseEntrenador = new Word(ptrRom, offsetComando); 
 		}

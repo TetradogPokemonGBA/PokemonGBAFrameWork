@@ -12,10 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class GiveCoins:Comando
 	{
 		public const byte ID = 0xB4;
-		public const int SIZE = 3;
-		Word numeroDeFichasADar;
- 
-		public GiveCoins(Word numeroDeFichasADar)
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE = "GiveCoins";
+        public const string DESCRIPCION = "Da al jugador el numero especificado de fichas.";
+        public GiveCoins(Word numeroDeFichasADar)
 		{
 			NumeroDeFichasADar = numeroDeFichasADar;
  
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Da al jugador el numero especificado de fichas.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "GiveCoins";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,23 +54,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word NumeroDeFichasADar {
-			get{ return numeroDeFichasADar; }
-			set{ numeroDeFichasADar = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word NumeroDeFichasADar { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ numeroDeFichasADar };
+			return new Object[]{ NumeroDeFichasADar };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			numeroDeFichasADar = new Word(ptrRom, offsetComando);
+			NumeroDeFichasADar = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, NumeroDeFichasADar);
 		}
 	}

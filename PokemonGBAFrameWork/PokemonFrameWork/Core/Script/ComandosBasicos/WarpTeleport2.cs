@@ -89,11 +89,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			banco = *(ptrRom + offsetComando);
+			banco = ptrRom[offsetComando];
 			offsetComando++;
-			mapa = *(ptrRom + offsetComando);
+			mapa = ptrRom[offsetComando];
 			offsetComando++;
-			salida = *(ptrRom + offsetComando);
+			salida = ptrRom[offsetComando];
 			offsetComando++;
 			coordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;

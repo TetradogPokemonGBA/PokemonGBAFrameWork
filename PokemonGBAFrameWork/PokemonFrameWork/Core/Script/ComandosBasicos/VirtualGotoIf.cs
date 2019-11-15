@@ -72,7 +72,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			condicion = *(ptrRom + offsetComando);
+			condicion = ptrRom[offsetComando];
 			offsetComando++;
 			funcionPersonalizada = new OffsetRom(ptrRom, offsetComando);
 		}

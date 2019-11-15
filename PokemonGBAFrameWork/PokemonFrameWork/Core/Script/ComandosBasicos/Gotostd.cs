@@ -69,7 +69,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			*ptrRomPosicionado=Funcion;
 		}
 
@@ -81,6 +81,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public new const byte ID=0x9;
         public new const string NOMBRE= "CallStd";
         public new const string DESCRIPCION= "Llama a la función compilada";
+        public Callstd(byte function) : base(function) { }
         public Callstd(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Callstd(byte[] bytesScript,int offset):base(bytesScript,offset)

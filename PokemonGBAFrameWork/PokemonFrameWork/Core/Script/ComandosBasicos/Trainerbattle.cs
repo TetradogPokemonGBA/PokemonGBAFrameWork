@@ -110,7 +110,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			kindOfBattle = *(ptrRom + offsetComando);
+			kindOfBattle = ptrRom[offsetComando];
 
 			offsetComando++;
 

@@ -12,11 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class GiveMoney:Comando
 	{
 		public const byte ID = 0x90;
-		public const int SIZE = 6;
-		DWord dineroADar;
-		Byte comprobarEjecucionComando;
-		
-		public GiveMoney(DWord dineroADar, Byte comprobarEjecucionComando)
+		public new const int SIZE = Comando.SIZE+DWord.LENGTH+1;
+        public const string NOMBRE = "GiveMoney";
+        public const string DESCRIPCION = "Da al jugador algo de dinero.";
+        public GiveMoney(DWord dineroADar, Byte comprobarEjecucionComando)
 		{
 			DineroADar = dineroADar;
 			ComprobarEjecucionComando = comprobarEjecucionComando;
@@ -37,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Da al jugador algo de dinero.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "GiveMoney";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -56,32 +55,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public DWord DineroADar {
-			get{ return dineroADar; }
-			set{ dineroADar = value; }
-		}
-		public Byte ComprobarEjecucionComando {
-			get{ return comprobarEjecucionComando; }
-			set{ comprobarEjecucionComando = value; }
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public DWord DineroADar { get; set; }
+        public Byte ComprobarEjecucionComando { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ dineroADar, comprobarEjecucionComando };
+			return new Object[]{ DineroADar, ComprobarEjecucionComando };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			dineroADar = new DWord(ptrRom , offsetComando);
+			DineroADar = new DWord(ptrRom , offsetComando);
 			offsetComando += DWord.LENGTH;
-			comprobarEjecucionComando = *(ptrRom + offsetComando);
+			ComprobarEjecucionComando = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			DWord.SetData(ptrRomPosicionado, DineroADar);
 			ptrRomPosicionado += DWord.LENGTH;
-			*ptrRomPosicionado = comprobarEjecucionComando;
+			*ptrRomPosicionado = ComprobarEjecucionComando;
 		}
 	}
 }

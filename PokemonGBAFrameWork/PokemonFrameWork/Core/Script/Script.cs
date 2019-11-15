@@ -53,6 +53,7 @@ namespace PokemonGBAFrameWork
         {
             ComandosScript = new Llista<Comando>();
         }
+        public Script(RomGba rom,OffsetRom offsetScript) : this(rom, offsetScript.Offset) { }
         public Script(RomGba rom, int offsetScript)
             : this(rom.Data.Bytes, offsetScript)
         {
@@ -990,15 +991,18 @@ namespace PokemonGBAFrameWork
                 scriptXSE[i] = scriptXSE[i].Trim();
                 if (scriptXSE[i].Length>0&&!scriptXSE[i].StartsWith(ComentariosUnaLinea) && scriptXSE[i].Contains(" "))
                 {
-                    if (scriptXSE[i].Contains("/*"))
+                    inicioComentario = scriptXSE[i].IndexOf("/*");
+                    if (inicioComentario>=0)
                     {
-                        inicioComentario = scriptXSE[i].IndexOf("/*");
                         scriptXSE[i] = scriptXSE[i].Remove(inicioComentario,inicioComentario- scriptXSE[i].IndexOf("*/"));
                     }
-                    for(int k=0;k<ComentariosUnaLinea.Length;k++)
-                    if(scriptXSE[i].Contains(ComentariosUnaLinea[k]))
+                    for (int k = 0; k < ComentariosUnaLinea.Length; k++)
                     {
-                            scriptXSE[i] = scriptXSE[i].Remove(scriptXSE[i].IndexOf(ComentariosUnaLinea[k]));
+                        inicioComentario = scriptXSE[i].IndexOf(ComentariosUnaLinea[k]);
+                        if (inicioComentario>=0)
+                        {
+                            scriptXSE[i] = scriptXSE[i].Remove(inicioComentario);
+                        }
                     }
                     comandoActualCampos = scriptXSE[i].ToLower().Split(' ');
                     tipoComando = null;

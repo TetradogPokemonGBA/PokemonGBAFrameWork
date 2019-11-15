@@ -12,8 +12,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Killscript : Comando
 	{
 		public const byte ID = 0xD;
-
-		public new const int SIZE = 1;
         public const string NOMBRE= "Killscript";
         public const string DESCRIPCION= "Acaba con el script y restaura la ram";
 
@@ -47,12 +45,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 		public override string Descripcion {
 			get {
                 return DESCRIPCION;
-			}
-		}
-
-		public override int Size {
-			get {
-				return SIZE;
 			}
 		}
 	}

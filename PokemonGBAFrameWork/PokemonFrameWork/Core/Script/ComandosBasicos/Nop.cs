@@ -16,7 +16,6 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Nop:Comando
 	{
 		public const byte ID=0x0;
-		public new const int SIZE=1;
         public const string NOMBRE = "Nop";
         public const string DESCRIPCION = "No hace absolutamente nada";
 		
@@ -43,11 +42,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+
 
 		
 	}
@@ -55,6 +50,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	{
 		public new const byte ID=0x1;
         public new const string NOMBRE = "Nop1";
+        public Nop1() { }
 		public Nop1(RomGba rom,int offset):base(rom,offset)
 		{}
 		public Nop1(byte[] bytesScript,int offset):base(bytesScript,offset)

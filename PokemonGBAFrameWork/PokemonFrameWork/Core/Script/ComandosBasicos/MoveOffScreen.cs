@@ -12,10 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class MoveOffScreen:Comando
 	{
 		public const byte ID = 0x64;
-		public const int SIZE = 3;
-		Word personaje;
- 
-		public MoveOffScreen(Word personaje)
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+        public const string NOMBRE = "MoveOffScreen";
+        public const string DESCRIPCION = "Changes the location of the specified sprite to a value which is exactly one tile above the top legt corner of the screen";
+        public MoveOffScreen(Word personaje)
 		{
 			Personaje = personaje;
  
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Changes the location of the specified sprite to a value which is exactly one tile above the top legt corner of the screen";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "MoveOffScreen";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,23 +54,20 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Personaje {
-			get{ return personaje; }
-			set{ personaje = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Word Personaje { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personaje };
+			return new Object[]{ Personaje };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			personaje = new Word(ptrRom, offsetComando);
+			Personaje = new Word(ptrRom, offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
+			ptrRomPosicionado+=base.Size;
 			Word.SetData(ptrRomPosicionado, Personaje);
 		}
 	}

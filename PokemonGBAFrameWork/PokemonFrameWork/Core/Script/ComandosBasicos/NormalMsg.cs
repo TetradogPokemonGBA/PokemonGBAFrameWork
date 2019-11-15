@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class NormalMsg:Comando
 	{
 		public const byte ID = 0xCB;
-		public const int SIZE = 1;
+
   
 		public NormalMsg()
 		{
@@ -47,11 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return "NormalMsg";
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+
 		protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPG | AbreviacionCanon.BPR;

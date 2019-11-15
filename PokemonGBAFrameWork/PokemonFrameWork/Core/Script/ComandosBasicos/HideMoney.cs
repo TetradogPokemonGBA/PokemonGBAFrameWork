@@ -12,11 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class HideMoney:Comando
 	{
 		public const byte ID = 0x94;
-		public const int SIZE = 3;
-		Byte coordenadaX;
-		Byte coordenadaY;
- 
-		public HideMoney(Byte coordenadaX, Byte coordenadaY)
+		public new const int SIZE = Comando.SIZE+1+1;
+        public const string NOMBRE = "HideMoney";
+        public const string DESCRIPCION = "Oculta la ventana del dinero";
+        public HideMoney(Byte coordenadaX, Byte coordenadaY)
 		{
 			CoordenadaX = coordenadaX;
 			CoordenadaY = coordenadaY;
@@ -37,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Oculta la ventana del dinero";
+                return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "HideMoney";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -56,32 +55,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte CoordenadaX { get; set; }
+        public Byte CoordenadaY { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ coordenadaX, coordenadaY };
+			return new Object[]{ CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			coordenadaX = *(ptrRom + offsetComando);
+			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = *(ptrRom + offsetComando);
+			CoordenadaY = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = coordenadaX;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = CoordenadaX;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = coordenadaY; 
+			*ptrRomPosicionado = CoordenadaY; 
 		}
 	}
 }

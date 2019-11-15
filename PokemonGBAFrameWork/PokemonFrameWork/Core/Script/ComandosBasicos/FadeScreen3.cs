@@ -12,10 +12,11 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class FadeScreen3:Comando
 	{
 		public const byte ID = 0xDC;
-		public const int SIZE = 2;
-		Byte unknown;
- 
-		public FadeScreen3(Byte unknown)
+		public new const int SIZE = Comando.SIZE+1;
+        public const string NOMBRE = "FadeScreen3";
+        public const string DESCRIPCION = "Desvanece la pantalla entrando o saliendo.";
+
+        public FadeScreen3(Byte unknown)
 		{
 			Unknown = unknown;
  
@@ -35,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Desvanece la pantalla entrando o saliendo.";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +47,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "FadeScreen3";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,27 +55,24 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Unknown {
-			get{ return unknown; }
-			set{ unknown = value; }
-		}
- 		protected override AbreviacionCanon GetCompatibilidad()
+        public Byte Unknown { get; set; }
+        protected override AbreviacionCanon GetCompatibilidad()
 		{
 			return AbreviacionCanon.BPE;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ unknown };
+			return new Object[]{ Unknown };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			unknown = *(ptrRom + offsetComando);
+			Unknown = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = unknown;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = Unknown;
 		}
 	}
 }

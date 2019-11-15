@@ -17,10 +17,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 				
 		}
 		public const byte ID=0x97;
-		public const int SIZE=2;
-		Byte efectoDeDesvanecimiento;
-		
-		public FadeScreen(Byte efectoDeDesvanecimiento)
+		public new const int SIZE=Comando.SIZE+1;
+        public const string NOMBRE = "FedeScreen";
+        public const string DESCRIPCION = "Desavanece la pantalla entrando o saliendo";
+        public FadeScreen(Byte efectoDeDesvanecimiento)
 		{
 			EfectoDeDesvanecimiento=efectoDeDesvanecimiento;
 			
@@ -35,7 +35,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Desavanece la pantalla entrando o saliendo";
+                return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "FedeScreen";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,30 +54,26 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte EfectoDeDesvanecimiento
-		{
-			get{ return efectoDeDesvanecimiento;}
-			set{efectoDeDesvanecimiento=value;}
-		}
-		public EfectoFedeScreen Efecto
+        public Byte EfectoDeDesvanecimiento { get; set; }
+        public EfectoFedeScreen Efecto
 		{
 			get{return (EfectoFedeScreen)EfectoDeDesvanecimiento;}
-			set{efectoDeDesvanecimiento=(byte)value;}
+			set{EfectoDeDesvanecimiento=(byte)value;}
 			
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{efectoDeDesvanecimiento};
+			return new Object[]{EfectoDeDesvanecimiento};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			efectoDeDesvanecimiento=*(ptrRom+offsetComando);			
+			EfectoDeDesvanecimiento=*(ptrRom+offsetComando);			
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=efectoDeDesvanecimiento;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado=EfectoDeDesvanecimiento;
 		}
 	}
 }

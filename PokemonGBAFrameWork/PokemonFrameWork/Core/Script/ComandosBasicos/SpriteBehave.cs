@@ -73,7 +73,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{
 			personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			comportamiento = *(ptrRom + offsetComando);
+			comportamiento = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{

@@ -12,10 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Lighten:Comando
 	{
 		public const byte ID = 0x9A;
-		public const int SIZE = 2;
-		Byte tamañoDestello;
- 
-		public Lighten(Byte tamañoDestello)
+		public new const int SIZE = Comando.SIZE+1;
+        public const string NOMBRE = "Lighten";
+        public const string DESCRIPCION = "Llama a la animación destello para alumbrar el área";
+        public Lighten(Byte tamañoDestello)
 		{
 			TamañoDestello = tamañoDestello;
  
@@ -35,8 +35,8 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Llama a la animación destello para alumbrar el área";
-			}
+                return DESCRIPCION;
+            }
 		}
 
 		public override byte IdComando {
@@ -46,7 +46,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Lighten";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +54,21 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte TamañoDestello {
-			get{ return tamañoDestello; }
-			set{ tamañoDestello = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte TamañoDestello { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ tamañoDestello };
+			return new Object[]{ TamañoDestello };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			tamañoDestello = *(ptrRom + offsetComando); 
+			TamañoDestello = ptrRom[offsetComando]; 
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = tamañoDestello;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = TamañoDestello;
 		}
 	}
 }

@@ -65,7 +65,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			Variable = *(ptrRom + offsetComando);
+			Variable = ptrRom[offsetComando];
 			offsetComando++;
 			ValorAComparar = new DWord(ptrRom, offsetComando);
 		}

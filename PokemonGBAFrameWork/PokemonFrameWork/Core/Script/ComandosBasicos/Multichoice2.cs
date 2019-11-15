@@ -12,14 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class Multichoice2:Comando
 	{
 		public const byte ID = 0x70;
-		public const int SIZE = 6;
-		Byte coordenadaX;
-		Byte coordenadaY;
-		Byte idLista;
-		Byte opcionPorDefecto;
-		Byte botonBCancela;
- 
-		public Multichoice2(Byte coordenadaX, Byte coordenadaY, Byte idLista, Byte opcionPorDefecto, Byte botonBCancela)
+		public new const int SIZE = Comando.SIZE+Multichoice.SIZE+1;
+        public const string NOMBRE = "Multichoice2";
+        public const string DESCRIPCION = "Pone una lista de opciones para que el jugador haga, con opción por defecto";
+        public Multichoice2(Byte coordenadaX, Byte coordenadaY, Byte idLista, Byte opcionPorDefecto, Byte botonBCancela)
 		{
 			CoordenadaX = coordenadaX;
 			CoordenadaY = coordenadaY;
@@ -43,7 +39,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Pone una lista de opciones para que el jugador haga, con opción por defecto";
+                return DESCRIPCION;
 			}
 		}
 
@@ -54,7 +50,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Multichoice2";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -62,62 +58,47 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
-		public Byte IdLista {
-			get{ return idLista; }
-			set{ idLista = value; }
-		}
-		public Byte OpcionPorDefecto {
-			get{ return opcionPorDefecto; }
-			set{ opcionPorDefecto = value; }
-		}
-		public Byte BotonBCancela {
-			get{ return botonBCancela; }
-			set{ botonBCancela = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
+        public Byte CoordenadaX { get; set; }
+        public Byte CoordenadaY { get; set; }
+        public Byte IdLista { get; set; }
+        public Byte OpcionPorDefecto { get; set; }
+        public Byte BotonBCancela { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[] {
-				coordenadaX,
-				coordenadaY,
-				idLista,
-				opcionPorDefecto,
-				botonBCancela
+				CoordenadaX,
+				CoordenadaY,
+				IdLista,
+				OpcionPorDefecto,
+				BotonBCancela
 			};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			coordenadaX = *(ptrRom + offsetComando);
+			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = *(ptrRom + offsetComando);
+			CoordenadaY = ptrRom[offsetComando];
 			offsetComando++;
-			idLista = *(ptrRom + offsetComando);
+			IdLista = ptrRom[offsetComando];
 			offsetComando++;
-			opcionPorDefecto = *(ptrRom + offsetComando);
+			OpcionPorDefecto = ptrRom[offsetComando];
 			offsetComando++;
-			botonBCancela = *(ptrRom + offsetComando);
+			BotonBCancela = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = coordenadaX;
+			ptrRomPosicionado+=base.Size;
+			*ptrRomPosicionado = CoordenadaX;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = coordenadaY;
+			*ptrRomPosicionado = CoordenadaY;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = idLista;
+			*ptrRomPosicionado = IdLista;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = opcionPorDefecto;
+			*ptrRomPosicionado = OpcionPorDefecto;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = botonBCancela;
+			*ptrRomPosicionado = BotonBCancela;
 		}
 	}
 }

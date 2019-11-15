@@ -12,11 +12,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 	public class FadeScreenDelay:Comando
 	{
 		public const byte ID=0x98;
-		public const int SIZE=3;
-		Byte efectoDeDesvanecimiento;
-		Byte retardo;
-		
-		public FadeScreenDelay(Byte efectoDeDesvanecimiento,Byte retardo)
+		public new const int SIZE=Comando.SIZE+1+1;
+        public const string NOMBRE = "FadeScreenDelay";
+        public const string DESCRIPCION = "Desvanece la pantalla entrando o saliendo, después de un rato";
+        public FadeScreenDelay(Byte efectoDeDesvanecimiento,Byte retardo)
 		{
 			EfectoDeDesvanecimiento=efectoDeDesvanecimiento;
 			Retardo=retardo;
@@ -32,7 +31,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Desvanece la pantalla entrando o saliendo, después de un rato";
+                return DESCRIPCION;
 			}
 		}
 
@@ -43,7 +42,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "FadeScreenDelay";
+                return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -51,39 +50,33 @@ namespace PokemonGBAFrameWork.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte EfectoDeDesvanecimiento
-		{
-			get{ return efectoDeDesvanecimiento;}
-			set{efectoDeDesvanecimiento=value;}
-		}
-		public FadeScreen.EfectoFedeScreen Efecto
+        public Byte EfectoDeDesvanecimiento { get; set; }
+
+        public FadeScreen.EfectoFedeScreen Efecto
 		{
 			get{return (FadeScreen.EfectoFedeScreen)EfectoDeDesvanecimiento;}
-			set{efectoDeDesvanecimiento=(byte)value;}
+			set{EfectoDeDesvanecimiento=(byte)value;}
 			
 		}
-		public Byte Retardo
+        public Byte Retardo { get; set; }
+
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			get{ return retardo;}
-			set{retardo=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{efectoDeDesvanecimiento,retardo};
+			return new Object[]{EfectoDeDesvanecimiento,Retardo};
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
-			efectoDeDesvanecimiento=*(ptrRom+offsetComando);
+			EfectoDeDesvanecimiento=*(ptrRom+offsetComando);
 			offsetComando++;
-			retardo=*(ptrRom+offsetComando);
+			Retardo=*(ptrRom+offsetComando);
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			*ptrRomPosicionado=efectoDeDesvanecimiento;
+            ptrRomPosicionado += base.Size;
+			*ptrRomPosicionado=EfectoDeDesvanecimiento;
 			++ptrRomPosicionado;
-			*ptrRomPosicionado=retardo;
+			*ptrRomPosicionado=Retardo;
 		}
 	}
 }

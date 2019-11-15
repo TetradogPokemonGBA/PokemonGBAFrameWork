@@ -9,19 +9,16 @@ namespace PokemonGBAFrameWork.ComandosScript
 	/// <summary>
 	/// Description of MoveSprite2.
 	/// </summary>
-	public class MoveSprite2:Comando
+	public class MoveSprite2:MoveSprite
 	{
-		public const byte ID = 0x63;
-		public const int SIZE = 7;
-		Word personaje;
-		Word coordenadaX;
-		Word coordenadaY;
- 
-		public MoveSprite2(Word personaje, Word coordenadaX, Word coordenadaY)
+		public new const byte ID = 0x63;
+        public new const string NOMBRE = "MoveSprite2";
+        public new const string DESCRIPCION = MoveSprite.DESCRIPCION+" (de forma permanente)";
+
+
+        public MoveSprite2(Word personaje, Word coordenadaX, Word coordenadaY):base(personaje,coordenadaX,coordenadaY)
 		{
-			Personaje = personaje;
-			CoordenadaX = coordenadaX;
-			CoordenadaY = coordenadaY;
+	
  
 		}
    
@@ -39,7 +36,7 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Mueve un sprite a una localización especifica (de forma permanente)";
+                return DESCRIPCION;
 			}
 		}
 
@@ -50,48 +47,10 @@ namespace PokemonGBAFrameWork.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "MoveSprite2";
+                return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word Personaje {
-			get{ return personaje; }
-			set{ personaje = value; }
-		}
-		public Word CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Word CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ personaje, coordenadaX, coordenadaY };
-		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
-		{
-			personaje = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			coordenadaX = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
-		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
-		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado, Personaje);
-			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, CoordenadaX);
-			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, CoordenadaY);
-		}
+
+	
 	}
 }
