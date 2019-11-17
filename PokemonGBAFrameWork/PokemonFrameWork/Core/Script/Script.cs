@@ -23,37 +23,29 @@ namespace PokemonGBAFrameWork
     {
         public const byte ID = 0xF;
         public static readonly Creditos Creditos;
-        static readonly LlistaOrdenada<string, Type> DicTypes;
+
         const string ENTER = "\r\n";
         //enter con el formato correcto en windows// \r\n
         public const byte RETURN = 0x3;
         public const byte END = 0x2;
-        public static readonly string[] ComentariosUnaLinea = { "//", "#" };
+
 
         public static Hex OffsetInicioDynamic = "800000";
         string nombreBloque;
 
         static Script()
         {
-            Assembly assembly = Assembly.Load("PokemonGBAFrameWork.ComandosScript");
-            Type[] types = assembly.GetTypes();
+
             Creditos = new Creditos();
             Creditos.Add("XSE", "HackMew", "Hacer la aplicacion y sus explicaciones");
-            DicTypes = new LlistaOrdenada<string, Type>();
 
-
-            for (int i = 0; i < types.Length; i++)
-            {
-
-                DicTypes.Add(types[i].Name.ToLower(), types[i]);
-            }
         }
 
         public Script()
         {
             ComandosScript = new Llista<Comando>();
         }
-        public Script(RomGba rom,OffsetRom offsetScript) : this(rom, offsetScript.Offset) { }
+        public Script(RomGba rom, OffsetRom offsetScript) : this(rom, offsetScript.Offset) { }
         public Script(RomGba rom, int offsetScript)
             : this(rom.Data.Bytes, offsetScript)
         {
@@ -957,118 +949,73 @@ namespace PokemonGBAFrameWork
         {//por probar
             if (scriptXSE == null)
                 throw new ArgumentNullException("scriptXSE");
-           
 
-           
             SortedList<string, Script> dicScriptsCargados = new SortedList<string, Script>();
             string[] comandoActualCampos;
-            Type tipoComando;
-            List<Gabriel.Cat.S.Utilitats.Propiedad> propiedades;
-            List<Object> parametros = new List<object>();
             Script scriptActual = null;
-            Hex aux;
-            int inicioComentario;
             string[] defineCampos;
             string lineaLower;
-          
-            
-            for(int i= scriptXSE.Count-1; i>=0;i--)
+
+
+            for (int i = scriptXSE.Count - 1; i >= 0; i--)
             {//tener en cuenta los define...
                 lineaLower = scriptXSE[i].ToLower();
                 if (lineaLower.Contains("define"))
                 {
                     defineCampos = lineaLower.Split(' ');
-                    for(int j=i;j>=0;j--)
+                    for (int j = i; j >= 0; j--)
                     {
                         if (scriptXSE[j].ToLower().Contains(defineCampos[1]))
                             scriptXSE[j] = scriptXSE[j].ToLower().Replace(defineCampos[1], defineCampos[2]);
                     }
                     scriptXSE.RemoveAt(i);
-                }else if(lineaLower.Contains("dynamic")) scriptXSE.RemoveAt(i);  //quitar el dinamic
+                }
+                else if (lineaLower.Contains("dynamic")) scriptXSE.RemoveAt(i);  //quitar el dinamic
             }
+
+
             for (int i = 0; i < scriptXSE.Count; i++)
             {
-                scriptXSE[i] = scriptXSE[i].Trim();
-                if (scriptXSE[i].Length>0&&!scriptXSE[i].StartsWith(ComentariosUnaLinea) && scriptXSE[i].Contains(" "))
+                try
                 {
-                    inicioComentario = scriptXSE[i].IndexOf("/*");
-                    if (inicioComentario>=0)
-                    {
-                        scriptXSE[i] = scriptXSE[i].Remove(inicioComentario,inicioComentario- scriptXSE[i].IndexOf("*/"));
-                    }
-                    for (int k = 0; k < ComentariosUnaLinea.Length; k++)
-                    {
-                        inicioComentario = scriptXSE[i].IndexOf(ComentariosUnaLinea[k]);
-                        if (inicioComentario>=0)
-                        {
-                            scriptXSE[i] = scriptXSE[i].Remove(inicioComentario);
-                        }
-                    }
-                    comandoActualCampos = scriptXSE[i].ToLower().Split(' ');
-                    tipoComando = null;
-                    try
-                    {
 
-                        if (comandoActualCampos[0] == "@org")
-                        {
-                            //anidar scripts anidados
-                            if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
-                            {
-                                scriptActual = new Script();
-                                dicScriptsCargados.Add(comandoActualCampos[1], scriptActual);
-                            }
-                            else
-                            {
-                                scriptActual = dicScriptsCargados[comandoActualCampos[1]];
-                            }
-                        }
+                    scriptXSE[i] = Comando.NormalizaStringXSE(scriptXSE[i]);
 
-                        else if (comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end" && DicTypes.ContainsKey(comandoActualCampos[0]))
+                    if (scriptXSE[i].Contains(" "))
+                        comandoActualCampos = scriptXSE[i].Split(' ');
+                    else comandoActualCampos = new string[] { scriptXSE[i] };
+
+                    if (comandoActualCampos[0] == "@org")
+                    {
+                        //anidar scripts anidados
+                        if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
                         {
-                            tipoComando = DicTypes[comandoActualCampos[0]];
+                            scriptActual = new Script();
+                            dicScriptsCargados.Add(comandoActualCampos[1], scriptActual);
                         }
                         else
                         {
-                            //si no esta hago una excepcion
-                            throw new ScriptMalFormadoException();
-                        }
-
-                        if (tipoComando != null)
-                        {
-                            propiedades = tipoComando.GetPropiedades();//mirar de poderlas ordenar con atributos
-                            for (int j = 0; j < propiedades.Count; j++)
-                                if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
-                                {
-                                    aux = comandoActualCampos[parametros.Count].Contains("x") ? (Hex)comandoActualCampos[parametros.Count].Split('x')[1] : (Hex)int.Parse(comandoActualCampos[parametros.Count]);
-                                    switch (propiedades[j].Info.Tipo.Name)
-                                    {
-                                        case "byte":
-                                        case nameof(Byte):
-                                            parametros.Add((byte)aux);
-                                            break;
-                                        case nameof(OffsetRom):
-                                            parametros.Add(new OffsetRom((int)aux));
-                                            break;
-                                        case nameof(Word):
-                                            parametros.Add(new Word((ushort)aux));
-                                            break;
-                                        case nameof(DWord):
-                                            parametros.Add(new DWord((uint)aux));
-                                            break;
-                                    }
-                                }
-                            //     los atributos se pueden ordenar en un momento dado:)
-                            scriptActual.ComandosScript.Add((Comando)Activator.CreateInstance(tipoComando, parametros.ToArray()));
-                            parametros.Clear();
-
+                            scriptActual = dicScriptsCargados[comandoActualCampos[1]];
                         }
                     }
-                    catch
+
+                    else if (comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end" && Comando.DicTypes.ContainsKey(comandoActualCampos[0]))
                     {
-                        // lanzo una excepción diciendo que la linea tal tiene un error
-                        throw new ScriptMalFormadoException(i);
+                        scriptActual.ComandosScript.Add(Comando.LoadXSECommand(comandoActualCampos));
                     }
-              
+                    else
+                    {
+                        //si no esta hago una excepcion
+                        throw new Exception();
+                    }
+
+
+
+                }
+                catch
+                {
+                    // lanzo una excepción diciendo que la linea tal tiene un error
+                    throw new ScriptMalFormadoException(i);
                 }
             }
 

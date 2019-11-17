@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "PokemonGBAFrameWork/1.0.1.0-preview2": {
+      "PokemonGBAFrameWork/1.0.1.0-preview3": {
         "dependencies": {
           "Gabriel.Cat.S.Binaris": "1.0.5-preview1.0.8",
           "Gabriel.Cat.S.Utilitats": "1.0.4.4-preview1.0.5",
@@ -78,7 +78,7 @@
     }
   },
   "libraries": {
-    "PokemonGBAFrameWork/1.0.1.0-preview2": {
+    "PokemonGBAFrameWork/1.0.1.0-preview3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

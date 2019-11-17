@@ -387,13 +387,13 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.1-preview2",
+    "version": "1.0.1-preview3",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tetra\\Source\\Repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
+      "projectUniqueName": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "projectName": "PokemonGBAFrameWork",
-      "projectPath": "C:\\Users\\tetra\\Source\\Repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
+      "projectPath": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "packagesPath": "C:\\Users\\tetra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tetra\\Source\\Repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\obj\\",
+      "outputPath": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

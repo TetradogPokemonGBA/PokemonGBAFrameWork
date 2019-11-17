@@ -8,7 +8,9 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
 
 namespace PokemonGBAFrameWork
@@ -19,7 +21,21 @@ namespace PokemonGBAFrameWork
 	public abstract class Comando
 	{
 		public const int SIZE = 1;
+        public static readonly LlistaOrdenada<string, Type> DicTypes;
+        public static readonly string[] ComentariosUnaLinea = { "//", "#" };
+        static Comando()
+        {
+            Assembly assembly = Assembly.Load("PokemonGBAFrameWork.ComandosScript");
+            Type[] types = assembly.GetTypes();
+            DicTypes = new LlistaOrdenada<string, Type>();
 
+
+            for (int i = 0; i < types.Length; i++)
+            {
+
+                DicTypes.Add(types[i].Name.ToLower(), types[i]);
+            }
+        }
         internal Comando()
 		{
 		}
@@ -148,5 +164,72 @@ namespace PokemonGBAFrameWork
 			return Nombre;
 		}
 		
-	}
+        public static Comando LoadXSECommand(string comando)
+        {
+
+            comando = NormalizaStringXSE(comando);
+            return LoadXSECommand(comando.Contains(" ")?comando.Split(' '):new string[] { comando });
+        }
+        public static string NormalizaStringXSE(string comando)
+        {
+            int inicioComentario;
+
+            comando = comando.Trim();
+            if (comando.Length > 0 && !comando.StartsWith(ComentariosUnaLinea))
+            {
+                inicioComentario = comando.IndexOf("/*");
+                if (inicioComentario >= 0)
+                {
+                    comando = comando.Remove(inicioComentario, inicioComentario - comando.IndexOf("*/"));
+                }
+                for (int k = 0; k < ComentariosUnaLinea.Length; k++)
+                {
+                    inicioComentario = comando.IndexOf(ComentariosUnaLinea[k]);
+                    if (inicioComentario >= 0)
+                    {
+                        comando = comando.Remove(inicioComentario);
+                    }
+                }
+            }
+            else throw new ComandoMalFormadoExcepcion();
+            return comando;
+        }
+        public static Comando LoadXSECommand(params string[] camposComando)
+        {
+            Hex aux;
+            Comando comando;
+            List<Propiedad> propiedades;
+            List<Object> parametros = new List<object>();
+            Type commandType = DicTypes[camposComando[0].ToLower()];
+             propiedades = commandType.GetPropiedades();//mirar de poderlas ordenar con atributos
+                for (int j = 0; j < propiedades.Count; j++)
+                    if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
+                    {
+                        aux = camposComando[parametros.Count].Contains("x") ? (Hex)camposComando[parametros.Count].Split('x')[1] : (Hex)int.Parse(camposComando[parametros.Count]);
+                        switch (propiedades[j].Info.Tipo.Name)
+                        {
+                            case "byte":
+                            case nameof(Byte):
+                                parametros.Add((byte)aux);
+                                break;
+                            case nameof(OffsetRom):
+                                parametros.Add(new OffsetRom((int)aux));
+                                break;
+                            case nameof(Word):
+                                parametros.Add(new Word((ushort)aux));
+                                break;
+                            case nameof(DWord):
+                                parametros.Add(new DWord((uint)aux));
+                                break;
+                        }
+                    }
+                //     los atributos se pueden ordenar en un momento dado:)
+                comando=(Comando)Activator.CreateInstance(commandType, parametros.ToArray());
+
+
+
+                return comando;
+        }
+      
+    }
 }

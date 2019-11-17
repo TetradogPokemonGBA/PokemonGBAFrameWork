@@ -10,4 +10,8 @@ namespace PokemonGBAFrameWork
         public ScriptMalFormadoException(OffsetRom offset) : base(String.Format("Script mal formado en offset {0}", offset))
         { }
     }
+    public class ComandoMalFormadoExcepcion : Exception
+    {
+        public ComandoMalFormadoExcepcion(string comando=""):base(String.Format("Comando {0} mal formado",comando)) { }
+    }
 }
