@@ -315,6 +315,7 @@ namespace PokemonGBAFrameWork
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);//por ver algo :)
             }
             return valida;
 
