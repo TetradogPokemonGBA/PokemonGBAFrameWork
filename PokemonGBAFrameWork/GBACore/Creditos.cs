@@ -12,30 +12,23 @@ namespace PokemonGBAFrameWork
         public const int POKEMONCOMMUNITY = 1;
         public const int GITHUB = 2;
 
-        LlistaOrdenada<string, LlistaOrdenadaPerGrups<string, string>> dicCreditos;//key1 Comunidad,key2 usuario,value que ha hecho
         public Creditos()
         {
-            dicCreditos = new LlistaOrdenada<string, LlistaOrdenadaPerGrups<string, string>>();
+            DicCreditos = new LlistaOrdenada<string, LlistaOrdenadaPerGrups<string, string>>();
             for (int i = 0; i < Comunidades.Length; i++)
-                dicCreditos.Add(Comunidades[i], new LlistaOrdenadaPerGrups<string, string>());
+                DicCreditos.Add(Comunidades[i], new LlistaOrdenadaPerGrups<string, string>());
         }
         public void Add(string comunidad, string usuario, string queHaHecho)
         {
-            if (!dicCreditos.ContainsKey(comunidad))
-                dicCreditos.Add(comunidad, new LlistaOrdenadaPerGrups<string, string>());
-            dicCreditos[comunidad].Add(usuario, queHaHecho);
+            if (!DicCreditos.ContainsKey(comunidad))
+                DicCreditos.Add(comunidad, new LlistaOrdenadaPerGrups<string, string>());
+            DicCreditos[comunidad].Add(usuario, queHaHecho);
         }
 
         /// <summary>
         /// Key1 Comunidad,Key2 usuario,Value queHaHeho
         /// </summary>
-        public LlistaOrdenada<string, LlistaOrdenadaPerGrups<string, string>> DicCreditos
-        {
-            get
-            {
-                return dicCreditos;
-            }
-        }
+        public LlistaOrdenada<string, LlistaOrdenadaPerGrups<string, string>> DicCreditos { get; private set; }
         public override string ToString()
         {
             return ToString("");
@@ -48,7 +41,7 @@ namespace PokemonGBAFrameWork
             //\t\tquehahecho\n
             str.Append(app);
             str.Append("\n");
-            foreach (KeyValuePair<string, LlistaOrdenadaPerGrups<string, string>> comunidad in dicCreditos)
+            foreach (KeyValuePair<string, LlistaOrdenadaPerGrups<string, string>> comunidad in DicCreditos)
             {
                 if (comunidad.Value.Count() > 0)
                 {

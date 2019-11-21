@@ -118,8 +118,6 @@ namespace PokemonGBAFrameWork
             RojoFuegoEsp10.Id,
             VerdeHojaEsp10.Id
         };
-        Idioma idioma;
-        AbreviacionCanon abreviacionCanon;
 
         private EdicionPokemon(Edicion edicion)
             : base(edicion.InicialIdioma, edicion.Abreviacion, edicion.NombreCompleto)
@@ -135,22 +133,8 @@ namespace PokemonGBAFrameWork
                 Id = GetId(this);
         }
         #region Propiedades
-        public Idioma Idioma
-        {
-            get
-            {
-                return idioma;
-            }
-            private set { idioma = value; }
-        }
-        public AbreviacionCanon AbreviacionRom
-        {
-            get
-            {
-                return abreviacionCanon;
-            }
-            private set { abreviacionCanon = value; }
-        }
+        public Idioma Idioma { get; private set; }
+        public AbreviacionCanon AbreviacionRom { get; private set; }
         public bool RegionKanto
         {
             get { return this.AbreviacionRom == AbreviacionCanon.BPG || this.AbreviacionRom == AbreviacionCanon.BPR; }
@@ -190,7 +174,7 @@ namespace PokemonGBAFrameWork
 
         public bool EstaModificada
         {
-            get { return (char)idioma != InicialIdioma || Abreviacion != AbreviacionRom.ToString(); }
+            get { return (char)Idioma != InicialIdioma || Abreviacion != AbreviacionRom.ToString(); }
         }
 
         public bool EsRubiOZafiro { get { return EsRubi || EsZafiro; } }
@@ -201,7 +185,7 @@ namespace PokemonGBAFrameWork
             EdicionPokemon other = obj as EdicionPokemon;
             bool equals = other != null;
             if (equals)
-                equals = this.idioma == other.idioma && this.abreviacionCanon == other.abreviacionCanon;
+                equals = this.Idioma == other.Idioma && this.AbreviacionRom == other.AbreviacionRom;
             return equals;
         }
         public override bool Compatible(Edicion edicion)
@@ -238,9 +222,9 @@ namespace PokemonGBAFrameWork
             int compareTo;
             if (edicion != null)
             {
-                compareTo = idioma.CompareTo(edicion.idioma);
+                compareTo = Idioma.CompareTo(edicion.Idioma);
                 if (compareTo == (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals)
-                    compareTo = abreviacionCanon.CompareTo(edicion.abreviacionCanon);
+                    compareTo = AbreviacionRom.CompareTo(edicion.AbreviacionRom);
 
             }
             else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Iguals;

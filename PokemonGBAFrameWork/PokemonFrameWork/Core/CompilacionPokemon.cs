@@ -18,7 +18,7 @@ namespace PokemonGBAFrameWork
 	/// </summary>
 	public class CompilacionPokemon:Compilacion
 	{
-        public enum Version
+        public new enum Version
         {
             Primera=1,
             Segunda=Primera*2,

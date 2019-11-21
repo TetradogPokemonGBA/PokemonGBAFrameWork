@@ -958,7 +958,8 @@ namespace PokemonGBAFrameWork
 
 
             for (int i = scriptXSE.Count - 1; i >= 0; i--)
-            {//tener en cuenta los define...
+            {
+                //tener en cuenta los define
                 lineaLower = scriptXSE[i].ToLower();
                 if (lineaLower.Contains("define"))
                 {
@@ -999,11 +1000,11 @@ namespace PokemonGBAFrameWork
                         }
                     }
 
-                    else if (comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end" && Comando.DicTypes.ContainsKey(comandoActualCampos[0]))
+                    else if (Comando.DicTypes.ContainsKey(comandoActualCampos[0]))
                     {
                         scriptActual.ComandosScript.Add(Comando.LoadXSECommand(comandoActualCampos));
                     }
-                    else
+                    else if(comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end")
                     {
                         //si no esta hago una excepcion
                         throw new Exception();
