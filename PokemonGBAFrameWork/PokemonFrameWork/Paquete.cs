@@ -11,7 +11,7 @@ namespace PokemonGBAFrameWork
     {
         public static string PathRomsBase;
         public static string PathPaquetes;
-        public static readonly ElementoBinario Serializador;
+        public static readonly ElementoBinario Serializador=Gabriel.Cat.S.Binaris.ElementoBinario.GetSerializador<Paquete>();
         static TwoKeysList<string, long, RomGba> RomsCargadas;
         static TwoKeysList<string, long, Paquete> PaquetesCargados;
         /// <summary>
@@ -23,7 +23,7 @@ namespace PokemonGBAFrameWork
         public PokemonFrameWorkItem[] ItemsCargados { get; private set; }
         public Llista<PokemonFrameWorkItem> ItemsNuevos { get; private set; }
 
-        ElementoBinario IElementoBinarioComplejo.Serialitzer => ISerializador;
+        public ElementoBinario Serialitzer => ISerializador;
         protected virtual ElementoBinario ISerializador => Serializador;
         static Paquete()
         {
@@ -297,6 +297,23 @@ namespace PokemonGBAFrameWork
                 catch { }
 
             }
+
+        }
+        public static RomGba GetRom(string name)
+        {
+            return RomsCargadas.GetValueWithKey1(name);
+        }
+        public static RomGba GetRom(EdicionPokemon edicion)
+        {
+            RomGba rom = null;
+            RomsCargadas.WhileEach((r) =>
+            {
+                if (EdicionPokemon.GetEdicionPokemon(r.Value).Equals(edicion))
+                    rom = r.Value;
+
+               return rom == null;
+            });
+            return rom;
         }
     }
     public class RomBaseNoCargadaException : Exception { }

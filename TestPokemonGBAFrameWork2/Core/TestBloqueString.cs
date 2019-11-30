@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Gabriel.Cat.S.Extension;
 using PokemonGBAFrameWork;
 
-namespace TestPokemonGBAFrameWork
+namespace TestPokemonGBAFrameWork2
 {
     [TestClass]
    public class TestBloqueString

@@ -58,7 +58,7 @@ namespace PokemonGBAFrameWork
         {
             get
             {
-                if (edicion == null)//si da problemas lo quito otra vez...
+                if (this.edicion == null)//si da problemas lo quito otra vez...
                     this.edicion = Edicion.GetEdicion(this);
                 return this.edicion;
             }
