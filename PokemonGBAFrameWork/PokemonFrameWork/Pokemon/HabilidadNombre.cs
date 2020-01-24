@@ -48,27 +48,5 @@ namespace PokemonGBAFrameWork.Habilidad
             nombre.Text.Texto = BloqueString.GetString(rom, offsetNombre, LENGTHNOMBRE).Texto;
             return nombre;
         }
-        public static void SetNombre(RomGba rom, int index, Nombre nombre)
-        {
-            int offsetNombre;
-            offsetNombre = Zona.GetOffsetRom(ZonaNombreHabilidad, rom).Offset + index * LENGTHNOMBRE;
-            BloqueString.Remove(rom, offsetNombre);
-            BloqueString.SetString(rom, offsetNombre, nombre.Text);
-
-        }
-        public static void SetNombre(RomGba rom, IList<Nombre> nombres)
-        {
-            OffsetRom offsetNombre;
-            int totalActual = HabilidadCompleta.GetTotal(rom);
-            offsetNombre = Zona.GetOffsetRom(ZonaNombreHabilidad, rom);
-            rom.Data.Remove(offsetNombre.Offset, totalActual * LENGTHNOMBRE);
-            if (totalActual < nombres.Count)
-            {
-                //reubico
-                OffsetRom.SetOffset(rom, offsetNombre, rom.Data.SearchEmptyBytes(nombres.Count * LENGTHNOMBRE));
-            }
-            for (int i = 0; i < nombres.Count; i++)
-                SetNombre(rom, i, nombres[i]);
-        }
     }
 }

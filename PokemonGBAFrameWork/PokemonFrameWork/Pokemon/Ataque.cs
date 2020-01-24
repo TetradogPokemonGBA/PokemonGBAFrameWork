@@ -197,50 +197,7 @@ namespace PokemonGBAFrameWork
 			return ataques;
 		}
 
-		public static void SetAtaque(RomGba rom,int posicionAtaque,AtaqueCompleto ataqueAPoner)
-		{
+	
 
-
-            Nombre.SetNombre(rom, posicionAtaque, ataqueAPoner.Nombre);
-            Descripcion.SetDescripcion(rom, posicionAtaque, ataqueAPoner.Descripcion);
-			//pongo los datos
-			Datos.SetDatos(rom,posicionAtaque,ataqueAPoner.Datos);
-
-            Concursos.SetConcursos(rom, posicionAtaque, ataqueAPoner.Concursos);
-			QuitarLimite(rom,posicionAtaque);
-		}
-
-		public static void SetAtaques(RomGba rom, IList<AtaqueCompleto> ataques)
-        {
-            List<Datos> datos = new List<Datos>();
-            List<Concursos> concursos = new List<Concursos>();
-            List<Descripcion> descripcions = new List<Descripcion>();
-            List<Nombre> nombres = new List<Nombre>();
-            for(int i=0;i<ataques.Count;i++)
-            {
-                datos.Add(ataques[i].Datos);
-                concursos.Add(ataques[i].Concursos);
-                descripcions.Add(ataques[i].Descripcion);
-                nombres.Add(ataques[i].Nombre);
-            }
-            Datos.SetDatos(rom, datos);
-            Concursos.SetConcursos(rom, concursos);
-            Descripcion.SetDescripcion(rom, descripcions);
-            Nombre.SetNombre(rom, nombres);
-
-		}
-
-
-
-		public static void QuitarLimite(RomGba rom,int posicion)
-		{
-			//quito el limite
-			if(posicion>Descripcion.GetTotal(rom))
-            {
-				rom.Data.SetArray(Variable.GetVariable(VariableLimitadoAtaques, rom.Edicion),BytesDesLimitadoAtaques);
-
-                Concursos.QuitarLimite(rom, posicion);
-			}
-		}
 	}
 }

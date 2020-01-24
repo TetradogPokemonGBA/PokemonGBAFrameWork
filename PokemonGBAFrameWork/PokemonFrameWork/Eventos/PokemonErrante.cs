@@ -146,44 +146,7 @@ namespace PokemonGBAFrameWork
                 return ruta;
 
             }
-            public static void SetRutas(RomGba rom, IList<Ruta> rutasDondeAparece)
-            {
-
-                int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
-                byte[] bytesRutas = new byte[rutasDondeAparece.Count * columnas];
-                if (rutasDondeAparece.Count == 0 || rutasDondeAparece.Count > MAXIMODERUTAS)
-                    throw new ArgumentOutOfRangeException(); //como maximo 255 rutas
-                                                             //borro la tabla anterior
-                rom.Data.Remove(Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
-                //pongo cuantas filas hay donde toca
-                rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)] = (byte)rutasDondeAparece.Count;
-                rom.Data[Variable.GetVariable(VariableOffSetRutina2, rom.Edicion)] = (byte)rutasDondeAparece.Count;
-                rom.Data[Variable.GetVariable(VariableOffSetRutina3, rom.Edicion)] = (byte)(rutasDondeAparece.Count - 1);//numero de filas-1 en el offset3
-                                                                                                                         //guardo la nueva tabla //el offset de la tabla tiene que acabar en '0', '4', '8', 'C'
-                unsafe
-                {
-                    fixed (byte* ptrBytesRutas = bytesRutas)
-                    {
-                        byte* ptBytesRutas = ptrBytesRutas, ptBytesRuta;
-                        for (int i = 0; i < rutasDondeAparece.Count; i++)
-                        {
-                            fixed (byte* ptrBytesRuta = rutasDondeAparece[i].Rutas)
-                            {
-                                ptBytesRuta = ptrBytesRuta;
-                                for (int j = 0; j < columnas; j++)
-                                {
-                                    *ptBytesRutas = *ptBytesRuta;
-                                    ptBytesRutas++;
-                                    ptBytesRuta++;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                OffsetRom.SetOffset(rom, new OffsetRom(Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion)), rom.Data.SearchEmptySpaceAndSetArray(bytesRutas));
-            }
-
+  
         }
         public class Pokemon : IElementoBinarioComplejo
         {
@@ -429,12 +392,6 @@ namespace PokemonGBAFrameWork
                 stats = bitsStat.ToByte();
             }
             #endregion
-            //metodos para sacar el script en texto y en bytes...mas adelante sacarlo con las clases de los scripts :D
-            //script
-            public static void SetPokemonScript(RomGba rom, int offset, Pokemon pokemonErrante)
-            {
-                rom.Data.SetArray(offset, GetScript(rom.Edicion, pokemonErrante).GetDeclaracion(rom));
-            }
 
             public static Script GetScript(Edicion edicion, Pokemon pokemonErrante)
             {

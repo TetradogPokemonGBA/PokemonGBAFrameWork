@@ -44,34 +44,5 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 paletaNormals[i] = GetPaletaNormal(rom, i);
             return paletaNormals;
         }
-        public static void SetPaletaNormal(RomGba rom, int posicion, PaletaNormal paleta)
-        {
-            paleta.Paleta.Id = (short)posicion;
-            Paleta.SetPaleta(rom, paleta.Paleta);
-
-
-        }
-        public static void SetPaletaNormal(RomGba rom, IList<PaletaNormal> paletas)
-        {
-            //borro las paletas
-            int total = Huella.GetTotal(rom);
-            int offsetPaletaNormalPokemon = Zona.GetOffsetRom(ZonaPaletaNormal, rom).Offset;
-            for (int i = 0; i < total; i++)
-            {
-                try
-                {
-                    Paleta.Remove(rom, offsetPaletaNormalPokemon);
-                }
-                catch { }
-                rom.Data.Remove(offsetPaletaNormalPokemon, Paleta.LENGTHHEADERCOMPLETO);
-
-                offsetPaletaNormalPokemon += Paleta.LENGTHHEADERCOMPLETO;
-            }
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaPaletaNormal, rom), rom.Data.SearchEmptyBytes(paletas.Count * Paleta.LENGTHHEADERCOMPLETO));
-            //pongo los datos
-            for (int i = 0; i < paletas.Count; i++)
-                SetPaletaNormal(rom, i, paletas[i]);
-        }
-    }
+     }
 }

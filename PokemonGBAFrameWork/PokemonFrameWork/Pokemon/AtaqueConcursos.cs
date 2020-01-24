@@ -96,56 +96,6 @@ namespace PokemonGBAFrameWork.Ataque
                 concursos[i] = GetConcursos(rom, i);
             return concursos;
         }
-        public static void SetConcursos(RomGba rom, int posicion, Concursos concursos)
-        {
-            OffsetRom offsetDatosConcurso;
-
-            int offsetPointerDatos;
-
-            if (((EdicionPokemon)rom.Edicion).RegionHoenn)
-            {
-                //pongo los datos de los concursos de hoenn
-
-                offsetPointerDatos = Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset + posicion * (int)LongitudCampos.DatosConcurso;
-                offsetDatosConcurso = new OffsetRom(rom, offsetPointerDatos);
-                if (offsetDatosConcurso.IsAPointer)
-                    rom.Data.Remove(offsetDatosConcurso.Offset, (int)LongitudCampos.DatosConcurso);//quito los viejos
-                OffsetRom.SetOffset(rom, offsetDatosConcurso, rom.Data.SearchEmptySpaceAndSetArray(concursos.DatosConcursosHoenn.Bytes));//pongo los nuevos
-            }
-        }
-        public static void SetConcursos(RomGba rom, IList<Concursos> concursos)
-        {
-            if (((EdicionPokemon)rom.Edicion).RegionHoenn)
-            {
-                if (concursos.Count > AtaqueCompleto.MAXATAQUESSINASM)//mas adelante adapto el hack de Jambo
-                    throw new ArgumentOutOfRangeException("concursos");
-                if (Descripcion.GetTotal(rom) < concursos.Count)
-                    AtaqueCompleto.QuitarLimite(rom, concursos.Count);
-                //elimino los datos
-                //int total = Descripcion.GetTotal(rom);
-                //int offsetOffsetsConcursos = Zona.GetOffsetRom(ZonaDatosConcursosHoenn, rom).Offset;
-                //int offset = offsetOffsetsConcursos;
-                //for (int i = 0; i < total; i++)
-                //{
-                //    rom.Data.Remove(offset, (int)LongitudCampos.DatosConcurso);
-                //    offset += OffsetRom.LENGTH;
-                //}
-                //rom.Data.Remove(offsetOffsetsConcursos, total * OffsetRom.LENGTH);
-                //reubico
-                //pongo los datos
-                for (int i = 0; i < concursos.Count; i++)
-                    SetConcursos(rom, i, concursos[i]);
-            }
-        }
-        public static void QuitarLimite(RomGba rom, int posicion)
-        {
-            if (((EdicionPokemon)rom.Edicion).RegionHoenn)
-            {
-                //quito la limitacion de los concursos de hoenn
-                rom.Data.SetArray(Variable.GetVariable(VariableAtaqueConcurso, rom.Edicion), BytesDesLimitadoAtaquesConcurso);
-                rom.Data.SetArray(Variable.GetVariable(VariableAnimacionAtaqueConcurso, rom.Edicion), BytesDesLimitadoAnimacionAtaques);
-
-            }
-        }
+    
     }
 }

@@ -59,17 +59,6 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
             else nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
             return nombre;
         }
-        public static void SetNombre(RomGba rom,int index,Nombre nombre)
-        {
-            BloqueString.SetString(rom, Zona.GetOffsetRom(ZonaNombreTipo, rom, rom.Edicion).Offset + index * (int)LongitudCampo.Nombre, nombre.Texto);
-        }
-        public static void SetNombre(RomGba rom,IList<Nombre> nombres)
-        {
-            int total = TipoCompleto.GetTotal(rom);
-            rom.Data.Remove(Zona.GetOffsetRom(ZonaNombreTipo, rom, rom.Edicion).Offset, total * (int)LongitudCampo.Nombre);
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaNombreTipo, rom, rom.Edicion), rom.Data.SearchEmptyBytes(nombres.Count * (int)LongitudCampo.Nombre));
-            for (int i = 0; i < nombres.Count; i++)
-                SetNombre(rom, i, nombres[i]);
-        }
+     
     }
 }

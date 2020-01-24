@@ -276,47 +276,6 @@ namespace PokemonGBAFrameWork
             return entrenadores;
         }
 
-        public static void SetEntrenador(RomGba rom,  int index, Entrenador entrenador)
-        {
-            BloqueBytes bloqueEntrenador = GetBytesEntrenador(rom, index);
-            bloqueEntrenador.Bytes[(int)Posicion.Musica] = entrenador.MusicaBatalla;
-
-            if (entrenador.EsUnaEntrenadora)
-            {
-                bloqueEntrenador.Bytes[(int)Posicion.EsChica] += 0x80;//va asi???por mirar
-            }
-
-            bloqueEntrenador.Bytes[(int)Posicion.MoneyClass] = entrenador.TrainerClass;
-            BloqueString.SetString(rom, bloqueEntrenador.OffsetInicio + (int)Posicion.Nombre, entrenador.Nombre);
-            DWord.SetData(bloqueEntrenador, (int)Posicion.Inteligencia, entrenador.Inteligencia);//mirar si va asi :D
-            Word.SetData(bloqueEntrenador, (int)Posicion.Item1, entrenador.Item1);//mirar si va asi :D
-            Word.SetData(bloqueEntrenador, (int)Posicion.Item2, entrenador.Item2);//mirar si va asi :D
-            Word.SetData(bloqueEntrenador, (int)Posicion.Item3, entrenador.Item3);//mirar si va asi :D
-            Word.SetData(bloqueEntrenador, (int)Posicion.Item4, entrenador.Item4);//mirar si va asi :D
-            bloqueEntrenador.Bytes[(int)Posicion.Sprite] = entrenador.SpriteIndex;
-            //pongo los datos
-            EquipoPokemonEntrenador.SetEquipo(rom, bloqueEntrenador, entrenador.EquipoPokemon);
-            rom.Data.SetArray(bloqueEntrenador.OffsetInicio, bloqueEntrenador.Bytes);
-        }
-
-        public static void SetEntrenador(RomGba rom, IList<Entrenador> entrenadores)
-        {
-            int totalActual = GetTotal(rom);
-            OffsetRom offsetData;
-            if (entrenadores.Count != totalActual)
-            {
-                offsetData = Zona.GetOffsetRom(ZonaEntrenador, rom);
-
-                rom.Data.Remove(offsetData.Offset, totalActual * LENGTH);
-                //borro los datos
-                if (entrenadores.Count > totalActual)
-                {
-                    //busco un nuevo lugar para los datos
-                    OffsetRom.SetOffset(rom, offsetData, rom.Data.SearchEmptyBytes(LENGTH * entrenadores.Count));
-                }
-            }
-            for (int i = 0; i < entrenadores.Count; i++)
-                SetEntrenador(rom, i, entrenadores[i]);
-        }
+      
     }
 }

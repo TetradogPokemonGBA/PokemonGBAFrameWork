@@ -38,40 +38,5 @@ namespace PokemonGBAFrameWork.Habilidad
             descripcion.Texto.Texto= BloqueString.GetString(rom, offsetDescripcion).Texto;
             return descripcion;
         }
-        public static void SetDescripcion(RomGba rom,int index,Descripcion descripcion)
-        {
-            int offsetDescripcion;
-            try
-            {
-                offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcionHabilidad, rom).Offset + index * OffsetRom.LENGTH).Offset;
-                BloqueString.Remove(rom, offsetDescripcion);
-                BloqueString.SetString(rom, offsetDescripcion, descripcion.Texto);
-            }
-            catch
-            {
-                //quiere decir que no hay pointer y se tiene que poner todo
-                rom.Data.SetArray(Zona.GetOffsetRom(ZonaDescripcionHabilidad, rom).Offset + index * OffsetRom.LENGTH, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto)).BytesPointer);
-            }
-        }
-        public static void SetDescripcion(RomGba rom,IList<Descripcion> descripciones)
-        {
-            OffsetRom offsetDescripcion;
-            int totalActual = HabilidadCompleta.GetTotal(rom);
-
-            if (totalActual != descripciones.Count)
-            {
-                offsetDescripcion = Zona.GetOffsetRom(ZonaDescripcionHabilidad, rom);
-                //borro
-                rom.Data.Remove(offsetDescripcion.Offset, totalActual * OffsetRom.LENGTH);
-                if (totalActual < descripciones.Count)
-                {
-                    //reubico
-                    OffsetRom.SetOffset(rom, offsetDescripcion, rom.Data.SearchEmptyBytes(descripciones.Count * OffsetRom.LENGTH));
-                }
-            }
-            for (int i = 0; i < descripciones.Count; i++)
-                SetDescripcion(rom, i, descripciones[i]);
-
-        }
-    }
+     }
 }

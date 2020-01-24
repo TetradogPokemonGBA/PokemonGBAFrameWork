@@ -222,76 +222,7 @@ namespace PokemonGBAFrameWork.Pokemon
 
 
         }
-
-        public static void SetDescripcionPokedex(RomGba rom, IList<Descripcion> descripciones)
-        {
-            //borro los datos antiguos
-            int totalAntiguo = GetTotal(rom);
-            for (int i = 0; i < totalAntiguo; i++)
-                Remove(rom, i);
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaDescripcion, rom), rom.Data.SearchEmptyBytes(descripciones.Count * LongitudDescripcion((EdicionPokemon)rom.Edicion)));
-            //pongo los datos
-            for (int i = 0; i < descripciones.Count; i++)
-                SetDescripcion(rom, i, descripciones[i]);
-        }
-
-        public static void SetDescripcion(RomGba rom, int ordenNacionalPokemon, Descripcion descripcion)
-        {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-            int offsetDescripcionPokemon = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + ordenNacionalPokemon * LongitudDescripcion(edicion);
-            int posicionActual = offsetDescripcionPokemon;
-            int totalPagina = TotalText(edicion);
-            BloqueString.Remove(rom, posicionActual);
-            BloqueString.SetString(rom, posicionActual, descripcion.Especie);
-            posicionActual += (int)LongitudCampos.NombreEspecie;
-
-            Word.SetData(rom, posicionActual, descripcion.Altura);
-            posicionActual += Word.LENGTH;
-            Word.SetData(rom, posicionActual, descripcion.Peso);
-            posicionActual += Word.LENGTH;
-
-            //pongo las paginas de la pokedex
-            try
-            {
-                BloqueString.Remove(rom, new OffsetRom(rom, posicionActual).Offset);
-            }
-            catch { }
-            rom.Data.SetArray(posicionActual, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto.Texto.Substring(0, totalPagina))).BytesPointer);
-            posicionActual += OffsetRom.LENGTH;
-            if (edicion.EsRubiOZafiro)
-            {
-                try
-                {
-                    BloqueString.Remove(rom, new OffsetRom(rom, posicionActual).Offset);
-                }
-                catch { }
-                if (descripcion.Texto.Texto.Length > totalPagina)
-                    rom.Data.SetArray(posicionActual, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto.Texto.Substring(totalPagina))).BytesPointer);
-                posicionActual += OffsetRom.LENGTH;
-            }
-
-            Word.SetData(rom, posicionActual, descripcion.Numero);
-            posicionActual += Word.LENGTH;
-            Word.SetData(rom, posicionActual, descripcion.EscalaPokemon);
-            posicionActual += Word.LENGTH;
-            Word.SetData(rom, posicionActual, descripcion.DireccionPokemon);
-            posicionActual += Word.LENGTH;
-            Word.SetData(rom, posicionActual, descripcion.EscalaEntrenador);
-            posicionActual += Word.LENGTH;
-            Word.SetData(rom, posicionActual, descripcion.DireccionEntrenador);
-            posicionActual += Word.LENGTH;
-            Word.SetData(rom, posicionActual, descripcion.Numero2);
-        }
-        private static int TotalText(EdicionPokemon edicion)
-        {
-            int total;
-            if (!edicion.EsRubiOZafiro)
-                total = (int)LongitudCampos.PaginasGeneral;
-            else total = (int)LongitudCampos.PaginasRubiZafiro;
-            return total;
-        }
-        public static int LongitudDescripcion(EdicionPokemon edicion)
+       public static int LongitudDescripcion(EdicionPokemon edicion)
         {
             int total;
             if (!edicion.EsEsmeralda)
@@ -335,25 +266,5 @@ namespace PokemonGBAFrameWork.Pokemon
             return ValidarOffset(rom, offsetInicio + ordenGameFreak * LongitudDescripcion((EdicionPokemon)rom.Edicion));
         }
 
-        public static void Remove(RomGba rom, int ordenNacionalPokemon)
-        {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-
-            int offsetDescripcionPokemon = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + ordenNacionalPokemon * LongitudDescripcion(edicion);
-            int posicionActual = offsetDescripcionPokemon;
-
-            posicionActual += (int)LongitudCampos.NombreEspecie;
-            posicionActual += Word.LENGTH;
-            posicionActual += Word.LENGTH;
-            //borro las paginas de la pokedex
-            BloqueString.Remove(rom, new OffsetRom(rom, posicionActual).Offset);
-            posicionActual += OffsetRom.LENGTH;
-            if (edicion.EsRubiOZafiro)
-            {
-                BloqueString.Remove(rom, new OffsetRom(rom, posicionActual).Offset);
-            }
-            //borro los datos
-            rom.Data.Remove(offsetDescripcionPokemon, LongitudDescripcion(edicion));
-        }
-    }
+     }
 }

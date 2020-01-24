@@ -74,22 +74,6 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
             nombre.IdElemento = (ushort)index;
             return nombre;
         }
-        public static void SetNombre(RomGba rom,int index,Nombre nombre)
-        {
-            int offsetInicioNombre = Zona.GetOffsetRom(ZonaNombres, rom).Offset + index * (int)Longitud.Nombre;
-            BloqueString.Remove(rom, offsetInicioNombre);
-            BloqueString.SetString(rom, offsetInicioNombre, nombre.Text);
-
-        }
-        public static void SetNombre(RomGba rom,IList<Nombre> nombres)
-        {
-            OffsetRom offsetInicioNombre;
-            int totalActual = Sprite.GetTotal(rom);
-            offsetInicioNombre = Zona.GetOffsetRom(ZonaNombres, rom);
-            rom.Data.Remove(offsetInicioNombre.Offset, totalActual * (int)Longitud.Nombre);
-            OffsetRom.SetOffset(rom, offsetInicioNombre, rom.Data.SearchEmptyBytes(nombres.Count * (int)Longitud.Nombre));
-            for (int i = 0; i < nombres.Count; i++)
-                SetNombre(rom, i, nombres[i]);
-        }
+     
     }
 }

@@ -205,38 +205,7 @@ namespace PokemonGBAFrameWork
 
 
 
-        public static void SetPaleta(RomGba rom, Paleta paleta)
-        {
-            SetPaleta(rom, paleta.Offset, paleta);
-        }
-        public static void SetPaleta(RomGba rom, int offsetHeaderPaleta, Paleta paleta, bool borrarDatosPaletaAntigua = true)
-        {
-            SetPaletaSinHeader(rom, offsetHeaderPaleta, paleta, borrarDatosPaletaAntigua);
-            rom.Data.SetArray(offsetHeaderPaleta + OffsetRom.LENGTH, paleta.Header);
-            paleta.offset = offsetHeaderPaleta;
-
-
-
-        }
-
-        public static void SetPaletaSinHeader(RomGba rom, int offset, Paleta paleta, bool borrarDatosPaletaAntigua = true)
-        {
-            //sacado de Nameless
-            int offsetData;
-            byte[] bytesPaleta = GetBytesGBA(paleta);
-            OffsetRom offsetAux;
-
-
-            if (borrarDatosPaletaAntigua)
-            {
-                offsetAux = new OffsetRom(rom, offset);
-                if (offsetAux.IsAPointer)
-                    rom.Data.Remove(offsetAux.Offset, bytesPaleta.Length);
-            }
-
-            offsetData = rom.Data.SearchEmptySpaceAndSetArray(bytesPaleta);
-            rom.Data.SetArray(offset, new OffsetRom(offsetData).BytesPointer);
-        }
+     
 
         public static byte[] GetBytesGBA(Paleta paleta, bool comprimirLz77 = true)
         {
@@ -278,18 +247,7 @@ namespace PokemonGBAFrameWork
             return new OffsetRom(gbaRom, offsetToCheck).IsAPointer && gbaRom.Data.Bytes.ArrayEqual(DefaultHeader, offsetToCheck + OffsetRom.LENGTH + 2);
         }
 
-        public static void Remove(RomGba rom, int offsetPaletaActual)
-        {
-            OffsetRom offsetDatos;
-
-            offsetDatos = new OffsetRom(rom, offsetPaletaActual);
-            //borro los datos
-            if (offsetDatos.IsAPointer)
-                rom.Data.Remove(offsetDatos.Offset, LZ77.Longitud(rom.Data.Bytes, offsetDatos.Offset));
-            //borro el header
-            rom.Data.Remove(offsetPaletaActual, LENGTHHEADERCOMPLETO);
-
-        }
+    
 
     }
 

@@ -75,24 +75,6 @@ namespace PokemonGBAFrameWork.Pokemon
 			return tipos;
 		}
 
-		public static void SetTipo(RomGba rom, TipoCompleto tipo, int posicion)
-		{
-			if (rom == null ||tipo == null || posicion < 0) throw new ArgumentException();
-            Nombre.SetNombre(rom, posicion, tipo.Nombre);
-
-		}
-
-		public static void SetTipos(RomGba rom,  IList<TipoCompleto> tipos)
-		{
-
-			if (rom == null || tipos == null) throw new ArgumentNullException();
-
-            List<Nombre> nombres = new List<Nombre>();
-            for (int i = 0; i < tipos.Count; i++)
-            {
-                nombres.Add(tipos[i].Nombre);
-            }
-            Nombre.SetNombre(rom, nombres);
-		}
+	
 	}
 }

@@ -383,21 +383,19 @@
   },
   "packageFolders": {
     "C:\\Users\\tetra\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.1-preview3",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
+      "projectUniqueName": "C:\\Users\\tetra\\Codigo fuente\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "projectName": "PokemonGBAFrameWork",
-      "projectPath": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
+      "projectPath": "C:\\Users\\tetra\\Codigo fuente\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "packagesPath": "C:\\Users\\tetra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\obj\\",
+      "outputPath": "C:\\Users\\tetra\\Codigo fuente\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
         "C:\\Users\\tetra\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -450,7 +448,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -68,38 +68,5 @@ namespace PokemonGBAFrameWork.Ataque
                 descripcions[i] = GetDescripcion(rom, i);
             return descripcions;
         }
-        public static void SetDescripcion(RomGba rom,int posicion,Descripcion descripcion)
-        {
-            int offsetDescripcion;
-
-            if (posicion != 0)
-            {
-                offsetDescripcion = offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + (posicion - 1) * OffsetRom.LENGTH).Offset;
-                BloqueString.Remove(rom, offsetDescripcion);
-                rom.Data.SetArray(offsetDescripcion, new OffsetRom(BloqueString.SetString(rom, descripcion.Texto)).BytesPointer);
-            }
-        }
-        public static void SetDescripcion(RomGba rom,IList<Descripcion> descripcions)
-        {
-            if (descripcions.Count > AtaqueCompleto.MAXATAQUESSINASM)//mas adelante adapto el hack de Jambo
-                throw new ArgumentOutOfRangeException("descripcions");
-            //borro los datos
-            int offset = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset;
-            int total = GetTotal(rom)-1;//el primero no tiene...
-
-            if (total < descripcions.Count)
-                AtaqueCompleto.QuitarLimite(rom, descripcions.Count);
-
-            for (int i=0;i<total;i++)
-            {
-                BloqueString.Remove(rom, new OffsetRom(rom, offset).Offset);
-                total += OffsetRom.LENGTH;
-            }
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaDescripcion, rom), rom.Data.SearchEmptyBytes(descripcions.Count * OffsetRom.LENGTH));
-            //pongo los datos
-            for (int i = 0; i < descripcions.Count; i++)
-                SetDescripcion(rom, i, descripcions[i]);
-        }
-    }
+      }
 }

@@ -197,33 +197,7 @@ namespace PokemonGBAFrameWork
                 for (int i = 0; i < paletas.Count; i++)
                     paletas[i].CambiarPosicion(colorLeft, colorRight);
         }
-        public static void SetBloqueImagen(RomGba rom, int offsetHeader, BloqueImagen bloqueImg, bool borrarDatosAnterioresImg = true, bool setPaletasSacadasDeLaRom = false)
-        {//mirar si va bien
 
-            OffsetRom offsetHeaderAux;
-            if (borrarDatosAnterioresImg && bloqueImg.Offset > 0)
-            {
-                offsetHeaderAux = new OffsetRom(rom, offsetHeader);
-                if (offsetHeaderAux.IsAPointer)
-                    rom.Data.Remove(Convert.ToInt32(offsetHeaderAux.Offset), LZ77.Longitud(rom.Data.Bytes, bloqueImg.Offset));
-            }
-            bloqueImg.offset = offsetHeader;
-            if (setPaletasSacadasDeLaRom)
-                for (int i = 0; i < bloqueImg.Paletas.Count; i++)
-                    if (bloqueImg.Paletas[i].Offset > 0)
-                    {
-
-                        Paleta.SetPaleta(rom, bloqueImg.Paletas[i]);
-                    }
-
-            rom.Data.SetArray(offsetHeader + OffsetRom.LENGTH, bloqueImg.Header);
-            SetBloqueImagenSinHeader(rom, offsetHeader, bloqueImg);
-        }
-
-        public static void SetBloqueImagenSinHeader(RomGba rom, int offsetImagen, BloqueImagen bloqueImg)
-        {
-            rom.Data.SetArray(offsetImagen, new OffsetRom(rom, rom.Data.SearchEmptySpaceAndSetArray(bloqueImg.DatosComprimidos())).BytesPointer);
-        }
 
         public static BloqueImagen GetBloqueImagenSinHeader(RomGba rom, int offsetPointerData)
         {
@@ -373,14 +347,7 @@ namespace PokemonGBAFrameWork
             return new OffsetRom(gbaRom, offsetToCheck).IsAPointer && gbaRom.Data[offsetToCheck + 7] != 0x8;
         }
 
-        public static void Remove(RomGba rom, int offsetSpriteActual)
-        {
-            int offsetDatos = new OffsetRom(rom, offsetSpriteActual).Offset;
-            //borro los datos
-            rom.Data.Remove(offsetDatos, LZ77.Longitud(rom.Data.Bytes, offsetDatos));
-            //borro el header
-            rom.Data.Remove(offsetSpriteActual, LENGTHHEADERCOMPLETO);
-        }
+
         #region Conversiones
         public static implicit operator Bitmap(BloqueImagen bloqueImg)
         {

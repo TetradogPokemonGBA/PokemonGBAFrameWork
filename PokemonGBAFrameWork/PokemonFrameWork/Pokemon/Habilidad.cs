@@ -63,27 +63,7 @@ namespace PokemonGBAFrameWork
             return habilidades;
         }
 
-        public static void SetHabilidades(RomGba rom, IList<HabilidadCompleta> habilidades)
-        {
 
-            List<Nombre> nombres = new List<Nombre>();
-            List<Descripcion> descripciones = new List<Descripcion>();
-            for (int i = 0; i < habilidades.Count; i++)
-            {
-                nombres.Add(habilidades[i].Nombre);
-                descripciones.Add(habilidades[i].Descripcion);
-            }
-            Nombre.SetNombre(rom, nombres);
-            Descripcion.SetDescripcion(rom, descripciones);
-        }
-
-
-
-        public static void SetHabilidad(RomGba rom, int index, HabilidadCompleta habilidad)
-        {
-            Nombre.SetNombre(rom, index, habilidad.Nombre);
-            Descripcion.SetDescripcion(rom, index, habilidad.Descripcion);
-        }
 
     }
 }

@@ -200,24 +200,11 @@ namespace PokemonGBAFrameWork.Pokemon
 			return bytesImgDescomprimidosRGBA;
 		}
 
-		/// <summary>
-		/// Escribe los datos de la huella en la rom
-		/// </summary>
-		/// <param name="rom"></param>
-		/// <param name="huella">se usara el offset para escribir los bytes que contiene en la rom y actualizar el pointer con la direccion que tenga el bloque</param>
-		/// <param name="posicion"></param>
-		public static void SetHuella(RomGba rom, int posicion, Huella huella)
-        {
-			if (huella == null ||  huella.BytesHuellaGBA.Bytes.Length != LENGHT|| rom == null || posicion < 0)
-				throw new ArgumentException();
-
-			OffsetRom.SetOffset(rom,new OffsetRom(Zona.GetOffsetRom(ZonaHuella,rom).Offset + posicion * OffsetRom.LENGTH), rom.Data.SearchEmptySpaceAndSetArray(huella.BytesHuellaGBA.Bytes));
-		}
 		static byte[] WriteImage(Bitmap bmp)
 		{
 			return ConvertToGBA(ComprimirBytesImg(bmp.GetBytes()));
 		}
-		private static byte[] ComprimirBytesImg(byte[] bytesImgDescomprimidosRGBA)
+	    static byte[] ComprimirBytesImg(byte[] bytesImgDescomprimidosRGBA)
 		{//al parecer no comprime igual...y no son los mismos bytes que saco de la rom...
 			//puede ser que los ponga al rebes?? porque la imagen se veia cortada por la mitad y girada...eso quiere decir que se corta verticalmente....
 			const byte BITSBYTE = 8;
@@ -330,14 +317,7 @@ namespace PokemonGBAFrameWork.Pokemon
 			}
 			return bytesGBA;
 		}
-        public static void SetHuella(RomGba rom,IList<Huella> huellas)
-        {
-            //quito los datos antiguos
-            //reubico
-            //pongo las huellas
-            for (int i = 0; i < huellas.Count; i++)
-                SetHuella(rom, i, huellas[i]);
-        }
+  
 		/// <summary>
 		/// Sirve para saber como queda guardada la imagen :) en la rom
 		/// </summary>

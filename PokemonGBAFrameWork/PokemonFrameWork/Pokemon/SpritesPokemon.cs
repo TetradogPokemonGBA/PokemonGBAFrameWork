@@ -94,35 +94,7 @@ namespace PokemonGBAFrameWork.Pokemon
                 sprites[i] = GetSprites(rom, i);
             return sprites;
         }
-        public static void SetSprites(RomGba rom, int indexOrdenGameFreakPokemon, SpritesCompleto spritesPokemon)
-        {
-
-            Frontales.SetFrontales(rom, indexOrdenGameFreakPokemon, spritesPokemon.SpritesFrontales);
-            Traseros.SetTraseros(rom, indexOrdenGameFreakPokemon, spritesPokemon.SpritesTraseros);
-            PaletaNormal.SetPaletaNormal(rom, indexOrdenGameFreakPokemon, spritesPokemon.PaletaNormal);
-            PaletaShiny.SetPaletaShiny(rom, indexOrdenGameFreakPokemon, spritesPokemon.PaletaShiny);
-
-        }
-        public static void SetSprites(RomGba rom, IList<SpritesCompleto> sprites)
-        {
-            List<Frontales> frontales = new List<Frontales>();
-            List<Traseros> traseros = new List<Traseros>();
-            List<PaletaNormal> paletaNormals = new List<PaletaNormal>();
-            List<PaletaShiny> paletaShinies = new List<PaletaShiny>();
-
-            for (int i = 0; i < sprites.Count; i++)
-            {
-                frontales.Add(sprites[i].SpritesFrontales);
-                traseros.Add(sprites[i].SpritesTraseros);
-                paletaNormals.Add(sprites[i].PaletaNormal);
-                paletaShinies.Add(sprites[i].PaletaShiny);
-            }
-            Frontales.SetFrontales(rom, frontales);
-            Traseros.SetTraseros(rom, traseros);
-            PaletaNormal.SetPaletaNormal(rom, paletaNormals);
-            PaletaShiny.SetPaletaShiny(rom, paletaShinies);
-        }
-
+  
 
     }
 }

@@ -54,26 +54,7 @@ namespace PokemonGBAFrameWork.Ataque
                 nombres[i] = GetNombre(rom, i);
             return nombres;
         }
-        public static void SetNombre(RomGba rom,int posicionAtaque,Nombre nombre)
-        {
-            int offsetNombre = Zona.GetOffsetRom(ZonaNombre, rom).Offset + posicionAtaque * (int)LongitudCampos.Nombre;
-            BloqueString.Remove(rom, offsetNombre);
-            BloqueString.SetString(rom, offsetNombre, nombre.Texto);
-
-        }
-        public static void SetNombre(RomGba rom,IList<Nombre> nombres)
-        {
-            if (nombres.Count > AtaqueCompleto.MAXATAQUESSINASM)//mas adelante adapto el hack de Jambo
-                throw new ArgumentOutOfRangeException("nombres");
-            if (Descripcion.GetTotal(rom) < nombres.Count)
-                AtaqueCompleto.QuitarLimite(rom, nombres.Count);
-
-            rom.Data.Remove(Zona.GetOffsetRom(ZonaNombre, rom).Offset, Descripcion.GetTotal(rom) * (int)LongitudCampos.Nombre);
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaNombre, rom), rom.Data.SearchEmptyBytes(nombres.Count * (int)LongitudCampos.Nombre));
-            for (int i = 0; i < nombres.Count; i++)
-                SetNombre(rom, i, nombres[i]);
-        }
-
+ 
         public int CompareTo(object obj)
         {
             Nombre other = obj as Nombre;

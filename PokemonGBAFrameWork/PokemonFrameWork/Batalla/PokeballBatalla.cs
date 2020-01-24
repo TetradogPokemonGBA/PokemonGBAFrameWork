@@ -75,53 +75,6 @@ namespace PokemonGBAFrameWork
         }
 
 
-        public static void SetPokeballBatalla(RomGba rom,int index, PokeballBatalla pokeball)
-        {
-            int offsetSprite = Zona.GetOffsetRom(ZonaSpritePokeballBatalla,rom).Offset + index * BloqueImagen.LENGTHHEADERCOMPLETO;
-            int offsetPaleta = Zona.GetOffsetRom(ZonaPaletaPokeballBatalla,rom).Offset + index * Paleta.LENGTHHEADERCOMPLETO;
-
-            BloqueImagen.SetBloqueImagen(rom, offsetSprite, pokeball.Sprite);
-            Paleta.SetPaleta(rom, offsetPaleta, pokeball.Sprite.Paletas[0]);
-
-        }
-
-        public static void SetPokeballBatalla(RomGba rom, IList<PokeballBatalla> pokeballs)
-        {
-            OffsetRom offsetSprite;
-            OffsetRom offsetPaleta;
-            int offsetSpriteActual;
-            int offsetPaletaActual;
-            int totalActual = GetTotal(rom);
-            if (totalActual != pokeballs.Count)
-            {
-                offsetSprite = Zona.GetOffsetRom(ZonaSpritePokeballBatalla,rom);
-                offsetPaleta = Zona.GetOffsetRom(ZonaPaletaPokeballBatalla,rom);
-                offsetSpriteActual = offsetSprite.Offset;
-                offsetPaletaActual = offsetPaleta.Offset;
-                for (int i = 0; i < totalActual; i++)
-                {
-                    BloqueImagen.Remove(rom, offsetSpriteActual);
-                    Paleta.Remove(rom, offsetPaletaActual);
-
-                    offsetSpriteActual += BloqueImagen.LENGTHHEADERCOMPLETO;
-                    offsetPaletaActual += Paleta.LENGTHHEADERCOMPLETO;
-
-                }
-                //borro los datos
-                if (totalActual < pokeballs.Count)
-                {
-                    //reubico
-                    OffsetRom.SetOffset(rom, offsetSprite, rom.Data.SearchEmptyBytes(pokeballs.Count * BloqueImagen.LENGTHHEADERCOMPLETO));
-                    OffsetRom.SetOffset(rom, offsetPaleta, rom.Data.SearchEmptyBytes(pokeballs.Count * Paleta.LENGTHHEADERCOMPLETO));
-
-                }
-
-            }
-            for (int i = 0; i < pokeballs.Count; i++)
-                SetPokeballBatalla(rom, i, pokeballs[i]);
-
-        }
-
-
+    
     }
 }

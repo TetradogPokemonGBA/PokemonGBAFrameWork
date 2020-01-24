@@ -97,28 +97,7 @@ namespace PokemonGBAFrameWork
             return objetos;
         }
 
-        public static void SetObjeto(RomGba rom, int index, ObjetoCompleto objeto)
-        {
-
-            Objeto.Datos.SetDatos(rom, index, objeto.Datos);
-            Objeto.Sprite.SetSprite(rom, index, objeto.Sprite);
-
-
-        }
-
-        public static void SetObjetos(RomGba rom, IList<ObjetoCompleto> objetos)
-        {
-            IList<Sprite> sprites = new List<Sprite>();
-            IList<Datos> datos = new List<Datos>();
-            for (int i = 0; i < objetos.Count; i++)
-            {
-                sprites.Add(objetos[i].Sprite);
-                datos.Add(objetos[i].Datos);
-            }
-            Datos.SetDatos(rom, datos);
-            Sprite.SetSprite(rom, sprites);
-
-        }
+     
 
 
     }

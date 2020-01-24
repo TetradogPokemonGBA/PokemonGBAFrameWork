@@ -278,37 +278,7 @@ namespace PokemonGBAFrameWork.Pokemon
 			return  Zona.GetOffsetRom(ZonaAtaquesAprendidos, rom).Offset + (ordenGameFreakPokemon * OffsetRom.LENGTH);
 		}
 
-		public static void SetAtaquesAprendidos(RomGba rom, int ordenGameFreakPokemon,AtaquesAprendidos ataquesAprendidos,LlistaOrdenadaPerGrups<int,AtaquesAprendidos> dicAtaquesPokemon)
-		{
-			int offsetPointer = GetOffsetPointer(rom, ordenGameFreakPokemon);
-			int offset = new OffsetRom(rom,offsetPointer).Offset;
-			int offsetData=rom.Data.SearchEmptySpaceAndSetArray(ataquesAprendidos.ToBytesGBA());
-			BloqueBytes bloqueOri = BloqueBytes.GetBytes(rom.Data,offset, MarcaFin);
-			dicAtaquesPokemon.Remove(offset, ataquesAprendidos);
-			if(!dicAtaquesPokemon.ContainsKey(offset))//si ya no hay ningun pokemon que use esos datos los borro
-			{
-				rom.Data.Remove( offset, bloqueOri.Bytes.Length);
-				OffsetRom.SetOffset(rom,new OffsetRom(offset),offsetData);
-			}else{
-				
-				rom.Data.SetArray(offsetPointer,new OffsetRom(offsetData).BytesPointer);
-				
-			}
-
-			dicAtaquesPokemon.Add(offset, ataquesAprendidos);//añado al diccionario el nuevo offset con los ataques :)
-		}
-        public static void SetAtaquesAprendidos(RomGba rom,IList<AtaquesAprendidos> ataquesAprendidos, LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dicAtaques=null)
-        {
-            if (dicAtaques == null)
-                dicAtaques = GetAtaquesAprendidosDic(rom);
-            int total = Huella.GetTotal(rom);
-            for (int i = 0; i < total; i++)
-                Remove(rom, i);
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaAtaquesAprendidos, rom),rom.Data.SearchEmptyBytes(ataquesAprendidos.Count * OffsetRom.LENGTH));
-            for (int i = 0; i < ataquesAprendidos.Count; i++)
-                SetAtaquesAprendidos(rom,i, ataquesAprendidos[i], dicAtaques);
-        }
-		public static LlistaOrdenadaPerGrups<int,AtaquesAprendidos> GetAtaquesAprendidosDic(RomGba rom)
+			public static LlistaOrdenadaPerGrups<int,AtaquesAprendidos> GetAtaquesAprendidosDic(RomGba rom)
 		{
 			LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<int, AtaquesAprendidos>();
 			for (int i = 0, f = Huella.GetTotal(rom); i < f; i++)
@@ -316,12 +286,7 @@ namespace PokemonGBAFrameWork.Pokemon
 			return dic;
 		}
 
-		public static void Remove(RomGba rom, int ordenGameFreak)
-		{
-			int offsetData=GetOffsetPointer(rom,ordenGameFreak);
-			rom.Data.Remove(offsetData,rom.Data.SearchArray(offsetData,MarcaFin)-offsetData);
-		}
-
+	
 
 
       

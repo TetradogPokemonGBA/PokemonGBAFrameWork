@@ -47,34 +47,5 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 paletaShinys[i] = GetPaletaShiny(rom, i);
             return paletaShinys;
         }
-        public static void SetPaletaShiny(RomGba rom, int posicion, PaletaShiny paleta)
-        {
-            paleta.Paleta.Id = (short)posicion;
-            Paleta.SetPaleta(rom, paleta.Paleta);
-
-
-        }
-        public static void SetPaletaShiny(RomGba rom, IList<PaletaShiny> paletas)
-        {
-            //borro las paletas
-            int total = Huella.GetTotal(rom);
-            int offsetPaletaShinyPokemon = Zona.GetOffsetRom(ZonaPaletaShiny, rom).Offset;
-            for (int i = 0; i < total; i++)
-            {
-                try
-                {
-                    Paleta.Remove(rom, offsetPaletaShinyPokemon);
-                }
-                catch { }
-                rom.Data.Remove(offsetPaletaShinyPokemon, Paleta.LENGTHHEADERCOMPLETO);
-
-                offsetPaletaShinyPokemon += Paleta.LENGTHHEADERCOMPLETO;
-            }
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaPaletaShiny, rom), rom.Data.SearchEmptyBytes(paletas.Count * Paleta.LENGTHHEADERCOMPLETO));
-            //pongo los datos
-            for (int i = 0; i < paletas.Count; i++)
-                SetPaletaShiny(rom, i, paletas[i]);
-        }
-    }
+     }
 }

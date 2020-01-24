@@ -61,51 +61,6 @@ namespace PokemonGBAFrameWork.Objeto
             }
             return sprite;
         }
-        public static void SetSprite(RomGba rom, int index,Sprite sprite)
-        {
-            int offsetImagenYPaleta;
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-
-            if (!edicion.EsRubiOZafiro)
-            {
-                offsetImagenYPaleta = Zona.GetOffsetRom(ZonaImagenesObjeto, rom).Offset + index * (OffsetRom.LENGTH + OffsetRom.LENGTH);
-                //esas ediciones no tienen imagen los objetos
-                BloqueImagen.SetBloqueImagenSinHeader(rom, offsetImagenYPaleta,sprite.Imagen);
-                Paleta.SetPaletaSinHeader(rom, offsetImagenYPaleta + OffsetRom.LENGTH, sprite.Imagen.Paletas[0]);
-
-            }
-
-        }
-        public static void SetSprite(RomGba rom,IList<Sprite> sprites)
-        {
-
-            OffsetRom offsetImg;
-            int offsetActualImg;
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-            //borro las imagenes y sus paletas
-            int totalActual;
-            if (!edicion.EsRubiOZafiro)
-            {
-                totalActual =Datos.GetTotal(rom);
-                offsetImg = Zona.GetOffsetRom(ZonaImagenesObjeto, rom);
-                offsetActualImg = offsetImg.Offset;
-                for (int i = 0; i < totalActual; i++)
-                {
-                    BloqueImagen.Remove(rom, offsetActualImg);
-                    offsetActualImg += OffsetRom.LENGTH;
-                    Paleta.Remove(rom, offsetActualImg);
-                    offsetActualImg += OffsetRom.LENGTH;
-                }
-                //borro los punteros de las imagenes y las paletas :D
-               
-                if (totalActual < sprites.Count)
-                {
-                    rom.Data.Remove(offsetImg.Offset, totalActual * (OffsetRom.LENGTH * 2));
-                    OffsetRom.SetOffset(rom, offsetImg, rom.Data.SearchEmptyBytes(sprites.Count * OffsetRom.LENGTH * 2));
-                }
-                for (int i = 0; i < sprites.Count; i++)
-                    SetSprite(rom, i, sprites[i]);
-            }
-        }
+    
     }
 }

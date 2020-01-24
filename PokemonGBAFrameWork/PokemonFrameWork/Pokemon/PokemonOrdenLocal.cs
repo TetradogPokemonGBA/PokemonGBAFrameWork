@@ -53,17 +53,5 @@ namespace PokemonGBAFrameWork.Pokemon
                 oredenesNacional[i] = GetOrdenLocal(rom, i);
             return oredenesNacional;
         }
-        public static void SetOrdenLocal(RomGba rom, int posicion, OrdenLocal orden)
-        {
-            Word.SetData(rom, Zona.GetOffsetRom(ZonaOrdenLocal, rom).Offset + posicion * Word.LENGTH, orden.Orden == null ? new Word(0) : orden.Orden);
-
-        }
-        public static void SetOrdenLocal(RomGba rom, IList<OrdenLocal> ordenes)
-        {
-            rom.Data.Remove(Zona.GetOffsetRom(ZonaOrdenLocal, rom).Offset, Huella.GetTotal(rom) * Word.LENGTH);
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaOrdenLocal, rom), rom.Data.SearchEmptyBytes(ordenes.Count * Word.LENGTH));
-            for (int i = 0; i < ordenes.Count; i++)
-                SetOrdenLocal(rom, i, ordenes[i]);
-        }
-    }
+      }
 }

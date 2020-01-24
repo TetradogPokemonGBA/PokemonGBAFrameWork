@@ -418,25 +418,7 @@ namespace PokemonGBAFrameWork.Ataque
             datos.IdFuente = EdicionPokemon.IDMINRESERVADO;
             return datos;
         }
-        public static void SetDatos(RomGba rom, int posicion, Datos datosAtaque)
-        {
-            rom.Data.SetArray(Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset + posicion * Longitud, datosAtaque.blDatosAtaque.Bytes);
-        }
-        public static void SetDatos(RomGba rom, IList<Datos> datos)
-        {
-            if (datos.Count > AtaqueCompleto.MAXATAQUESSINASM)//mas adelante adapto el hack de Jambo
-                throw new ArgumentOutOfRangeException("datos");
-            int total = Descripcion.GetTotal(rom);
-            if (total < datos.Count)
-                AtaqueCompleto.QuitarLimite(rom, datos.Count);
-            //elimino los datos
-            rom.Data.Remove(Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset, total * Longitud);
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaDatosAtaques, rom), rom.Data.SearchEmptyBytes(datos.Count * Longitud));
-            //pongo los datos
-            for (int i = 0; i < datos.Count; i++)
-                SetDatos(rom, i, datos[i]);
-        }
+   
 
 
     }

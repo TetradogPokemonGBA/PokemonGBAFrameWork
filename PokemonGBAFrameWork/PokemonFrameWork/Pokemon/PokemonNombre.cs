@@ -52,23 +52,5 @@ namespace PokemonGBAFrameWork.Pokemon
                 nombres[i] = GetNombre(rom, i);
             return nombres;
         }
-        public static void SetNombre(RomGba rom, int posicionOrdenGameFreak,Nombre nombre)
-        {
-            int offsetNombre = Zona.GetOffsetRom(ZonaNombre, rom).Offset + posicionOrdenGameFreak * (int)LongitudCampos.NombreCompilado;
-
-            BloqueString.Remove(rom, offsetNombre);
-            BloqueString.SetString(rom, offsetNombre,nombre.Texto);
-
-        }
-        public static void SetNombre(RomGba rom,IList<Nombre> nombres)
-        {
-            //quito los datos
-            rom.Data.Remove(Zona.GetOffsetRom(ZonaNombre, rom).Offset, Huella.GetTotal(rom) * (int)LongitudCampos.NombreCompilado);
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaNombre, rom),rom.Data.SearchEmptyBytes(nombres.Count * (int)LongitudCampos.NombreCompilado));
-            //pongo los datos
-            for (int i = 0; i < nombres.Count; i++)
-                SetNombre(rom, i, nombres[i]);
-        }
-    }
+      }
 }

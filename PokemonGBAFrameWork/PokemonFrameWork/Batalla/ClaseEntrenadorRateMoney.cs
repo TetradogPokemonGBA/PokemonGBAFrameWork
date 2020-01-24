@@ -64,27 +64,6 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
             return rateMoney;
         }
-        public static void SetRateMoney(RomGba rom, int index, RateMoney rate)
-        {
-            int offsetInicioRateMoney;
-            if (!((EdicionPokemon)rom.Edicion).EsRubiOZafiro)
-            {
-                offsetInicioRateMoney = Zona.GetOffsetRom(ZonaRatesMoney, rom).Offset + (index * (int)Longitud.RateMoney);
-                rom.Data.SetArray(offsetInicioRateMoney, Serializar.GetBytes(rate.Rate).AddArray(new byte[] { 0x0, 0x0 }));
-            }
-        }
-        public static void SetRateMoney(RomGba rom, IList<RateMoney> rates)
-        {
-            OffsetRom offsetInicioRateMoney;
-            int totalActual = Sprite.GetTotal(rom);
-            if (!((EdicionPokemon)rom.Edicion).EsRubiOZafiro)
-            {
-                offsetInicioRateMoney = Zona.GetOffsetRom(ZonaRatesMoney, rom);
-                rom.Data.Remove(offsetInicioRateMoney.Offset, totalActual * (int)Longitud.RateMoney);
-                OffsetRom.SetOffset(rom, offsetInicioRateMoney, rom.Data.SearchEmptyBytes(rates.Count * (int)Longitud.RateMoney));
-                for (int i = 0; i < rates.Count; i++)
-                    SetRateMoney(rom, i, rates[i]);
-            }
-        }
+
     }
 }

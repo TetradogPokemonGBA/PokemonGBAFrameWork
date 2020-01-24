@@ -55,46 +55,5 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 traseros[i] = GetTraseros(rom, i);
             return traseros;
         }
-        public static void SetTraseros(RomGba rom,int posicion,Traseros traseros)
-        {
-            BloqueImagen bloqueCompleto;
-            byte[] auxImg;
-            int offsetImgTraseraPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
-
-            auxImg = new byte[traseros.Sprites.Count *SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA];
-            for (int i = 0, pos = 0; i < traseros.Sprites.Count; i++, pos += SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)
-            {
-                auxImg.SetArray(pos, traseros.Sprites[i].DatosDescomprimidos.Bytes);
-            }
-            bloqueCompleto = new BloqueImagen(new BloqueBytes(auxImg));
-            bloqueCompleto.Id = (short)posicion;
-            bloqueCompleto.DatosDescomprimidos.Bytes = auxImg;
-            bloqueCompleto.Offset = new OffsetRom(rom, offsetImgTraseraPokemon).Offset;
-            //pongo las nuevas imagenes
-            BloqueImagen.SetBloqueImagen(rom, offsetImgTraseraPokemon, bloqueCompleto);
-
-        }
-        public static void SetTraseros(RomGba rom, IList<Traseros> traseros)
-        {
-            //borro las imagenes
-            int total = Huella.GetTotal(rom);
-            int offsetImgTraseraPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset;
-            for(int i=0;i<total;i++)
-            {
-                try
-                {
-                    BloqueImagen.Remove(rom, offsetImgTraseraPokemon);
-                }
-                catch { }
-                rom.Data.Remove(offsetImgTraseraPokemon, BloqueImagen.LENGTHHEADERCOMPLETO);
-
-                offsetImgTraseraPokemon += BloqueImagen.LENGTHHEADERCOMPLETO;
-            }
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaImgTrasera, rom), rom.Data.SearchEmptyBytes(traseros.Count * BloqueImagen.LENGTHHEADERCOMPLETO));
-            //pongo los datos
-            for (int i = 0; i < traseros.Count; i++)
-                SetTraseros(rom, i, traseros[i]);
-        }
     }
 }

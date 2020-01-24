@@ -556,29 +556,6 @@ namespace PokemonGBAFrameWork.Pokemon
                 stats[i] = GetStats(rom, i);
             return stats;
         }
-        /// <summary>
-        /// Poner después del SetObjetos si no se especifica el total
-        /// </summary>
-        /// <param name="rom"></param>
-        /// <param name="posicion"></param>
-        /// <param name="stats"></param>
-        /// <param name="totalObjetos"></param>
-        public static void SetStats(RomGba rom,int posicion,Stats stats,int totalObjetos=-1)
-        {
-            if (totalObjetos < 0)
-                totalObjetos = Objeto.Datos.GetTotal(rom);
-            stats.SetObjetosEnLosStats(totalObjetos);
-            rom.Data.SetArray(new OffsetRom(Zona.GetOffsetRom(ZonaStats, rom).Offset + posicion * OffsetRom.LENGTH).Offset, stats.Datos.Bytes);
-        }
-        public static void SetStats(RomGba rom,IList<Stats> stats, int totalObjetos = -1)
-        {
-            if (totalObjetos < 0)
-                totalObjetos = Objeto.Datos.GetTotal(rom);
-            rom.Data.Remove(Zona.GetOffsetRom(ZonaStats, rom).Offset, Huella.GetTotal(rom) * (int)LongitudCampos.TotalStats);
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaStats, rom),rom.Data.SearchEmptyBytes(stats.Count* (int)LongitudCampos.TotalStats));
-            for (int i = 0; i < stats.Count; i++)
-                SetStats(rom, i, stats[i],totalObjetos);
-        }
-
+ 
     }
 }

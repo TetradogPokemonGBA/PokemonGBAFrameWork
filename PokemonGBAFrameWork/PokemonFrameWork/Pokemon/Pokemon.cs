@@ -62,23 +62,6 @@ namespace PokemonGBAFrameWork
         public Stats Stats { get; set; }
 
 
-        //public Cry Cry {
-        //	get {
-        //		return cry;
-        //	}
-        //	set {
-        //		cry = value;
-        //	}
-        //}
-
-        //public Growl Growl {
-        //	get {
-        //		return growl;
-        //	}
-        //	set {
-        //		growl = value;
-        //	}
-        //}
 
         public Huella Huella { get; set; }
 
@@ -166,69 +149,6 @@ namespace PokemonGBAFrameWork
 
         }
 
-        public static void SetPokemon(RomGba rom, PokemonCompleto pokemon, int totalEntradasPokedex=-1, int totalObjetos=-1, LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dicAtaquesPokemon=null)
-        {
-            if (totalEntradasPokedex < 0)
-                totalEntradasPokedex = Descripcion.GetTotal(rom);
-            if (totalObjetos < 0)
-                totalObjetos = Objeto.Datos.GetTotal(rom);
-            if (dicAtaquesPokemon == null)
-                dicAtaquesPokemon = AtaquesAprendidos.GetAtaquesAprendidosDic(rom);
-
-            OrdenLocal.SetOrdenLocal(rom, pokemon.OrdenGameFreak, pokemon.OrdenLocal);
-            Nombre.SetNombre(rom, pokemon.OrdenGameFreak, pokemon.Nombre);
-            Stats.SetStats(rom, pokemon.OrdenGameFreak, pokemon.Stats,totalObjetos);
-
-            OrdenNacional.SetOrdenNacional(rom, pokemon.OrdenGameFreak, pokemon.OrdenNacional);
-            if (pokemon.Descripcion != null && pokemon.OrdenNacional.Orden != null && pokemon.OrdenNacional.Orden < totalEntradasPokedex)
-                Descripcion.SetDescripcion(rom, pokemon.OrdenNacional.Orden, pokemon.Descripcion);
-
-            if (pokemon.AtaquesAprendidos != null)
-                AtaquesAprendidos.SetAtaquesAprendidos(rom, pokemon.OrdenGameFreak, pokemon.AtaquesAprendidos, dicAtaquesPokemon);
-
-            if (pokemon.Huella != null)
-                Huella.SetHuella(rom, pokemon.OrdenGameFreak, pokemon.Huella);
-
-            if (pokemon.Sprites != null)
-                SpritesCompleto.SetSprites(rom, pokemon.OrdenGameFreak, pokemon.Sprites);
-
-            //falta hacer los setCry y setGrowl
-        }
-
-        public static void SetPokedex(RomGba rom, IList<PokemonCompleto> pokedex)
-        {
-            List<OrdenLocal> ordenesLocal = new List<OrdenLocal>();
-            List<OrdenNacional> ordenesNacionales = new List<OrdenNacional>();
-            List<Huella> huellas = new List<Huella>();
-            List<SpritesCompleto> sprites = new List<SpritesCompleto>();
-            List<AtaquesAprendidos> ataquesAprendidos = new List<AtaquesAprendidos>();
-            List<Descripcion> descripcions = new List<Descripcion>();
-            List<Nombre> nombres = new List<Nombre>();
-            List<Stats> stats = new List<Stats>();
-
-            for(int i=0;i<pokedex.Count;i++)
-            {
-                ordenesLocal.Add(pokedex[i].OrdenLocal);
-                ordenesNacionales.Add(pokedex[i].OrdenNacional);
-                huellas.Add(pokedex[i].Huella);
-                sprites.Add(pokedex[i].Sprites);
-                ataquesAprendidos.Add(pokedex[i].AtaquesAprendidos);
-                descripcions.Add(pokedex[i].Descripcion);
-                nombres.Add(pokedex[i].Nombre);
-                stats.Add(pokedex[i].Stats);
-            }
-
-            OrdenLocal.SetOrdenLocal(rom, ordenesLocal);
-            OrdenNacional.SetOrdenNacional(rom, ordenesNacionales);
-            Huella.SetHuella(rom, huellas);
-            SpritesCompleto.SetSprites(rom, sprites);
-            AtaquesAprendidos.SetAtaquesAprendidos(rom, ataquesAprendidos);
-            Descripcion.SetDescripcionPokedex(rom, descripcions);
-            Nombre.SetNombre(rom, nombres);
-            Stats.SetStats(rom, stats);
-            
-        }
-
-
+ 
     }
 }

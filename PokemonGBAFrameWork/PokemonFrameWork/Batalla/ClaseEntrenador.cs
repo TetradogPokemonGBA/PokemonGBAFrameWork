@@ -66,33 +66,6 @@ namespace PokemonGBAFrameWork
         }
 
 
-        public static void SetClaseEntrenador(RomGba rom, ClaseEntrenadorCompleto claseEntrenador, int index)
-        {
-            if (rom == null || claseEntrenador == null)
-                throw new ArgumentNullException();
 
-            Nombre.SetNombre(rom, index, claseEntrenador.Nombre);
-            Sprite.SetSprite(rom, index, claseEntrenador.Sprite);
-            RateMoney.SetRateMoney(rom, index, claseEntrenador.RateMoney);
-
-        }
-
-        public static void SetClasesEntrenador(RomGba rom, IList<ClaseEntrenadorCompleto> clasesEntrenador)
-        {
-            IList<Sprite> sprites = new List<Sprite>();
-            IList<Nombre> nombres = new List<Nombre>();
-            IList<RateMoney> rates = new List<RateMoney>();
-
-
-            for (int i = 0; i < clasesEntrenador.Count; i++)
-            {
-                sprites.Add(clasesEntrenador[i].Sprite);
-                nombres.Add(clasesEntrenador[i].Nombre);
-                rates.Add(clasesEntrenador[i].RateMoney);
-            }
-            Sprite.SetSprite(rom, sprites);
-            Nombre.SetNombre(rom, nombres);
-            RateMoney.SetRateMoney(rom, rates);
-        }
     }
 }

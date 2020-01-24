@@ -88,48 +88,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 frontales[i] = GetFrontales(rom, i);
             return frontales;
         }
-        public static void SetFrontales(RomGba rom,int posicion,Frontales frontales)
-        {
-            byte[] auxImg;
-            BloqueImagen bloqueCompleto;
-
-            int offsetImgFrontalPokemon = Zona.GetOffsetRom(ZonaImgFrontal, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
-
-            auxImg = new byte[frontales.Sprites.Count *SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA];
-            for (int i = 0, pos = 0; i < frontales.Sprites.Count; i++, pos +=SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)
-            {
-                auxImg.SetArray(pos, frontales.Sprites[i].DatosDescomprimidos.Bytes);
-            }
-
-            bloqueCompleto = new BloqueImagen(new BloqueBytes(auxImg));
-            bloqueCompleto.Id = (short)posicion;
-            bloqueCompleto.Offset = new OffsetRom(rom, offsetImgFrontalPokemon).Offset;
-            //pongo las nuevas imagenes
-            BloqueImagen.SetBloqueImagen(rom, offsetImgFrontalPokemon, bloqueCompleto);
-
-        }
-        public static void SetFrontales(RomGba rom,IList<Frontales> frontales)
-        {            //borro las imagenes
-            int total = Huella.GetTotal(rom);
-            int offsetImgFrontalPokemon = Zona.GetOffsetRom(ZonaImgFrontal, rom).Offset;
-            for (int i = 0; i < total; i++)
-            {
-                try
-                {
-                    BloqueImagen.Remove(rom, offsetImgFrontalPokemon);
-                }
-                catch { }
-                rom.Data.Remove(offsetImgFrontalPokemon, BloqueImagen.LENGTHHEADERCOMPLETO);
-
-                offsetImgFrontalPokemon += BloqueImagen.LENGTHHEADERCOMPLETO;
-            }
-            //reubico
-            OffsetRom.SetOffset(rom, Zona.GetOffsetRom(ZonaImgFrontal, rom), rom.Data.SearchEmptyBytes(frontales.Count * BloqueImagen.LENGTHHEADERCOMPLETO));
-            //pongo los datos
-            for (int i = 0; i < frontales.Count; i++)
-                SetFrontales(rom, i, frontales[i]);
-        }
-
+ 
 
     }
 }
