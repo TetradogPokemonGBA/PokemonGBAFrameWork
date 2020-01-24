@@ -2,12 +2,12 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.8": {
+      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.9": {
         "type": "package",
         "dependencies": {
-          "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.1",
-          "Gabriel.Cat.S.Utilitats": "1.0.4.4-preview1.0.5",
-          "System.Drawing.Common": "4.6.0-preview6.19303.8"
+          "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.4",
+          "Gabriel.Cat.S.Utilitats": "1.0.4.4-preview1.0.6",
+          "System.Drawing.Common": "4.7.0"
         },
         "compile": {
           "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll": {}
@@ -16,10 +16,10 @@
           "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll": {}
         }
       },
-      "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.1": {
+      "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.4": {
         "type": "package",
         "dependencies": {
-          "Gabriel.Cat.S.Utilitats": "1.0.4.3-preview1.0.1"
+          "Gabriel.Cat.S.Utilitats": "1.0.4.4-preview1.0.6"
         },
         "compile": {
           "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll": {}
@@ -28,11 +28,11 @@
           "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll": {}
         }
       },
-      "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.5": {
+      "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.6": {
         "type": "package",
         "dependencies": {
-          "Microsoft.CSharp": "4.5.0-rc1",
-          "System.Drawing.Common": "4.6.0-preview.18571.3"
+          "Microsoft.CSharp": "4.7.0",
+          "System.Drawing.Common": "4.7.0"
         },
         "compile": {
           "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll": {}
@@ -41,7 +41,7 @@
           "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll": {}
         }
       },
-      "Microsoft.CSharp/4.5.0-rc1": {
+      "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
           "ref/netstandard2.0/Microsoft.CSharp.dll": {}
@@ -74,7 +74,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "System.Drawing.Common/4.6.0-preview6.19303.8": {
+      "System.Drawing.Common/4.7.0": {
         "type": "package",
         "compile": {
           "ref/netstandard2.0/System.Drawing.Common.dll": {}
@@ -86,46 +86,46 @@
     }
   },
   "libraries": {
-    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.8": {
-      "sha512": "MAumWpWKEHDMpsMQo76nbUvi1AFnLgQBZfJ9uOxB5GpYhu7T3FGT3FBf6G7X0CGoiYpplfsCLh46cs7XKcUVMQ==",
+    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.9": {
+      "sha512": "Wdck4sXTHefdTBKdpPhBwo1j/gVjKu+Ao9RlC4IT88X8Izv3k+g3SaQ/OVkboMvbgFTQ6EbbTW/QVc5HMapZWA==",
       "type": "package",
-      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.8",
+      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "gabriel.cat.s.binaris.1.0.5-preview1.0.8.nupkg.sha512",
+        "gabriel.cat.s.binaris.1.0.5-preview1.0.9.nupkg.sha512",
         "gabriel.cat.s.binaris.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll"
       ]
     },
-    "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.1": {
-      "sha512": "tTHPj2GgWWBDramopj+oEAbk6ZdRF42e9BQ5dhYHYfq30wAQonZpM0t1f2o7iGlC2iVr5jgjrQ6Vc77s/tiqew==",
+    "Gabriel.Cat.S.Seguretat/1.0.2.2-Preview1.0.4": {
+      "sha512": "mDkeXecPt3V6g4RwosvYsR3L8bcgSEJV4LsyJc3mJkd4kFDB4dvsU27lNU10eKSdH3iayVNTN6JuAplTVNqDVA==",
       "type": "package",
-      "path": "gabriel.cat.s.seguretat/1.0.2.2-preview1.0.1",
+      "path": "gabriel.cat.s.seguretat/1.0.2.2-preview1.0.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "gabriel.cat.s.seguretat.1.0.2.2-preview1.0.1.nupkg.sha512",
+        "gabriel.cat.s.seguretat.1.0.2.2-preview1.0.4.nupkg.sha512",
         "gabriel.cat.s.seguretat.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll"
       ]
     },
-    "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.5": {
-      "sha512": "VxuQ9Jv4h0GOP5rGVlmV2Hn8J45Q6JepFyVG8cVQiRKLPd+wwNezqvF7f4UXhvDOHzgHrqtPSvhPyZzjg6lnCA==",
+    "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.6": {
+      "sha512": "8iLTV6gtix4vYys1uLYSM+1jJja8HFNCpdHUJxu9pUTjkD5Sn6F1N4JLZPHztKNYK55MsZ/xaWYV2AchHfqa7w==",
       "type": "package",
-      "path": "gabriel.cat.s.utilitats/1.0.4.4-preview1.0.5",
+      "path": "gabriel.cat.s.utilitats/1.0.4.4-preview1.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "gabriel.cat.s.utilitats.1.0.4.4-preview1.0.5.nupkg.sha512",
+        "gabriel.cat.s.utilitats.1.0.4.4-preview1.0.6.nupkg.sha512",
         "gabriel.cat.s.utilitats.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll"
       ]
     },
-    "Microsoft.CSharp/4.5.0-rc1": {
-      "sha512": "+TFL2i2HPDkba7xOnAiYNLHLso/rJatwiHbGETeCHVwlCCycElxJqbtIBv6S0PmWUJ/QNSher/St1hM6+RKiLg==",
+    "Microsoft.CSharp/4.7.0": {
+      "sha512": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
       "type": "package",
-      "path": "microsoft.csharp/4.5.0-rc1",
+      "path": "microsoft.csharp/4.7.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -138,6 +138,7 @@
         "lib/netcoreapp2.0/_._",
         "lib/netstandard1.3/Microsoft.CSharp.dll",
         "lib/netstandard2.0/Microsoft.CSharp.dll",
+        "lib/netstandard2.0/Microsoft.CSharp.xml",
         "lib/portable-net45+win8+wp8+wpa81/_._",
         "lib/uap10.0.16299/_._",
         "lib/win8/_._",
@@ -147,7 +148,7 @@
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
         "lib/xamarinwatchos10/_._",
-        "microsoft.csharp.4.5.0-rc1.nupkg.sha512",
+        "microsoft.csharp.4.7.0.nupkg.sha512",
         "microsoft.csharp.nuspec",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
@@ -331,10 +332,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "System.Drawing.Common/4.6.0-preview6.19303.8": {
-      "sha512": "JthhU920Ja1/61F3pHSWhQ6tsiGv8/LOdkk+BcFNlV7CAUYrUDYbOinuwpmTMD0Th1wZy366cUyGPV5HHRav1g==",
+    "System.Drawing.Common/4.7.0": {
+      "sha512": "v+XbyYHaZjDfn0ENmJEV1VYLgGgCTx1gnfOBcppowbpOAriglYgGCvFCPr2EEZyBvXlpxbEsTwkOlInl107ahA==",
       "type": "package",
-      "path": "system.drawing.common/4.6.0-preview6.19303.8",
+      "path": "system.drawing.common/4.7.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -343,9 +344,7 @@
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
         "lib/net461/System.Drawing.Common.dll",
-        "lib/net461/System.Drawing.Common.xml",
         "lib/netstandard2.0/System.Drawing.Common.dll",
-        "lib/netstandard2.0/System.Drawing.Common.xml",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
@@ -354,20 +353,19 @@
         "ref/MonoTouch10/_._",
         "ref/net461/System.Drawing.Common.dll",
         "ref/netcoreapp3.0/System.Drawing.Common.dll",
+        "ref/netcoreapp3.0/System.Drawing.Common.xml",
         "ref/netstandard2.0/System.Drawing.Common.dll",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
         "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll",
-        "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.xml",
         "runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll",
         "runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.xml",
         "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll",
-        "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.xml",
         "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll",
         "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.xml",
-        "system.drawing.common.4.6.0-preview6.19303.8.nupkg.sha512",
+        "system.drawing.common.4.7.0.nupkg.sha512",
         "system.drawing.common.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -376,8 +374,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.8",
-      "Gabriel.Cat.S.Utilitats >= 1.0.4.4-preview1.0.5",
+      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.9",
+      "Gabriel.Cat.S.Utilitats >= 1.0.4.4-preview1.0.6",
       "NETStandard.Library >= 2.0.3"
     ]
   },
@@ -386,7 +384,7 @@
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
-    "version": "1.0.1-preview3",
+    "version": "1.0.1-preview4",
     "restore": {
       "projectUniqueName": "C:\\Users\\tetra\\Codigo fuente\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "projectName": "PokemonGBAFrameWork",
@@ -425,11 +423,11 @@
         "dependencies": {
           "Gabriel.Cat.S.Binaris": {
             "target": "Package",
-            "version": "[1.0.5-preview1.0.8, )"
+            "version": "[1.0.5-preview1.0.9, )"
           },
           "Gabriel.Cat.S.Utilitats": {
             "target": "Package",
-            "version": "[1.0.4.4-preview1.0.5, )"
+            "version": "[1.0.4.4-preview1.0.6, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",
