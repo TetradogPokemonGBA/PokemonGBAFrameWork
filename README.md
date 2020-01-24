@@ -12,6 +12,7 @@ Usar las paginas de repositorios estilo github para hacer una especie de tienda 
 Mirar que no de problemas en las plataformas Unix,Windows,Mobil aunque sea standard el tratamiento de archivos puede dar problemas...
 
 Futuro
+
 hacer parte de escribir en GBA ya compilado.
 
 La licencia es GNU NO COMERCIAL asi que os animo a desarrollar vuestras versiones del FrameWork y si quereis me podeis ayudar teneis toda la libertad que da la licencia GNU
