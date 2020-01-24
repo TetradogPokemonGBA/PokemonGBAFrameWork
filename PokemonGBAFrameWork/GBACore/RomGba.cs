@@ -128,22 +128,12 @@ namespace PokemonGBAFrameWork
         /// <summary>
         /// Pone la edicion en los datos en memoria
         /// </summary>
-        public void SaveEdicion()
-        {
-            Edicion.SetEdicion(this, Edicion);
-        }
+  
         public void LoadEdicion()
         {
             edicion = null;//asi cuando la lean por la propiedad la cargaran...
         }
-        public void Save()
-        {
-            if (File.Exists(FullPath))
-                File.Delete(FullPath);
 
-            SaveEdicion();
-            Data.Bytes.Save(FullPath);
-        }
         public void Load()
         {
             romData = new BloqueBytes(File.ReadAllBytes(FullPath));
@@ -158,43 +148,8 @@ namespace PokemonGBAFrameWork
             if (UnLoaded != null)
                 UnLoaded(this, new EventArgs());
         }
-        /// <summary>
-        /// Crea una backup de los datos en memoria
-        /// </summary>
-        /// <returns>Ruta backup</returns>
-        public string BackUp()
-        {
-            string path = Path + "BackUp." + DateTime.Now.Ticks + "." + Nombre + EXTENSION;
-            File.WriteAllBytes(path, Data.Bytes);
-            return path;
 
-        }
-        /// <summary>
-        /// Devuelve una copia de la rom
-        /// </summary>
-        /// <returns></returns>
-        public RomGba Clone()
-        {
-            RomGba rom = new RomGba();
-            rom.Path = Path;
-            rom.Nombre = Nombre;
-            rom.edicion = this.Edicion.Clone();
-            rom.romData = rom.Data.Clon();
-            return rom;
-        }
 
-        public void ChangeSize(int sizeRom)
-        {
-            if (sizeRom > MAXLENGTH)
-                sizeRom = MAXLENGTH;
-            else if (sizeRom < MINLENGHT)
-                sizeRom = MINLENGHT;
-
-            byte[] array = Data.Bytes;
-            Array.Resize(ref array, sizeRom);
-            Data.Bytes = array;
-
-        }
         #endregion
 
         #region Overrides

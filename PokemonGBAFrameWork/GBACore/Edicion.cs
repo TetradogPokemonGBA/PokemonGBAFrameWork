@@ -162,15 +162,6 @@ namespace PokemonGBAFrameWork
 
             return edicion;
         }
-        public static void SetEdicion(RomGba rom, Edicion edicion)
-        {
-            if (rom == null || edicion == null)
-                throw new ArgumentNullException();
-
-            rom[(int)Variables.Idioma] = (byte)edicion.InicialIdioma;
-            rom.Data.SetArray((int)Variables.Abreviacion, System.Text.Encoding.UTF8.GetBytes(edicion.Abreviacion.PadRight((int)LongitudCampos.Abreviacion)));
-            rom.Data.SetArray((int)Variables.NombreCompleto, System.Text.Encoding.UTF8.GetBytes(edicion.NombreCompleto.PadRight((int)LongitudCampos.NombreCompleto)));
-        }
 
         int IComparable<Edicion>.CompareTo(Edicion other)
         {
