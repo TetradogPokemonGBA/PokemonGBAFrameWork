@@ -350,7 +350,17 @@ namespace PokemonGBAFrameWork
 
                 }
             }
-
+            public bool Quemado
+            {
+                get
+                {
+                    return GetStatNoDormido(Stat.Quemado);
+                }
+                set
+                {
+                    SetStatNoDormido(Stat.Quemado, value);
+                }
+            }
 
 
             public Dormido TurnosDormido
