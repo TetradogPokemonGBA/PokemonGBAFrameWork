@@ -2,11 +2,11 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.9": {
+      "Gabriel.Cat.S.Binaris/1.1.0": {
         "type": "package",
         "dependencies": {
           "Gabriel.Cat.S.Seguretat": "1.0.2.2-Preview1.0.4",
-          "Gabriel.Cat.S.Utilitats": "1.0.4.4-preview1.0.6",
+          "Gabriel.Cat.S.Utilitats": "1.0.4.4-preview1.0.8",
           "System.Drawing.Common": "4.7.0"
         },
         "compile": {
@@ -28,7 +28,7 @@
           "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll": {}
         }
       },
-      "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.6": {
+      "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.8": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -86,14 +86,14 @@
     }
   },
   "libraries": {
-    "Gabriel.Cat.S.Binaris/1.0.5-preview1.0.9": {
-      "sha512": "Wdck4sXTHefdTBKdpPhBwo1j/gVjKu+Ao9RlC4IT88X8Izv3k+g3SaQ/OVkboMvbgFTQ6EbbTW/QVc5HMapZWA==",
+    "Gabriel.Cat.S.Binaris/1.1.0": {
+      "sha512": "UODtZqrBLg5aTliNFkEEOYMszRMYiRcFRF/z7LHhVOVg2GwUaPlOKIFTM0MNV7h5PIgtUL2UG5Jcv54J+y5hRQ==",
       "type": "package",
-      "path": "gabriel.cat.s.binaris/1.0.5-preview1.0.9",
+      "path": "gabriel.cat.s.binaris/1.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "gabriel.cat.s.binaris.1.0.5-preview1.0.9.nupkg.sha512",
+        "gabriel.cat.s.binaris.1.1.0.nupkg.sha512",
         "gabriel.cat.s.binaris.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Binaris.dll"
       ]
@@ -110,14 +110,14 @@
         "lib/netstandard2.0/Gabriel.Cat.S.Seguretat.dll"
       ]
     },
-    "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.6": {
-      "sha512": "8iLTV6gtix4vYys1uLYSM+1jJja8HFNCpdHUJxu9pUTjkD5Sn6F1N4JLZPHztKNYK55MsZ/xaWYV2AchHfqa7w==",
+    "Gabriel.Cat.S.Utilitats/1.0.4.4-preview1.0.8": {
+      "sha512": "C/jkuL5smNhe+rVU8QryOHKio4wbVhovoxUpteT3nFyvHsPGvvrJXQYnVVrx8ui/R0pBQ68Su+35KFXcyWexcA==",
       "type": "package",
-      "path": "gabriel.cat.s.utilitats/1.0.4.4-preview1.0.6",
+      "path": "gabriel.cat.s.utilitats/1.0.4.4-preview1.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "gabriel.cat.s.utilitats.1.0.4.4-preview1.0.6.nupkg.sha512",
+        "gabriel.cat.s.utilitats.1.0.4.4-preview1.0.8.nupkg.sha512",
         "gabriel.cat.s.utilitats.nuspec",
         "lib/netstandard2.0/Gabriel.Cat.S.Utilitats.dll"
       ]
@@ -374,8 +374,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Gabriel.Cat.S.Binaris >= 1.0.5-preview1.0.9",
-      "Gabriel.Cat.S.Utilitats >= 1.0.4.4-preview1.0.6",
+      "Gabriel.Cat.S.Binaris >= 1.1.0",
+      "Gabriel.Cat.S.Utilitats >= 1.0.4.4-preview1.0.8",
       "NETStandard.Library >= 2.0.3"
     ]
   },
@@ -383,7 +383,7 @@
     "C:\\Users\\tetra\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.1-preview5",
+    "version": "1.0.1-preview6",
     "restore": {
       "projectUniqueName": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFrameWork.csproj",
       "projectName": "PokemonGBAFrameWork",
@@ -418,11 +418,11 @@
         "dependencies": {
           "Gabriel.Cat.S.Binaris": {
             "target": "Package",
-            "version": "[1.0.5-preview1.0.9, )"
+            "version": "[1.1.0, )"
           },
           "Gabriel.Cat.S.Utilitats": {
             "target": "Package",
-            "version": "[1.0.4.4-preview1.0.6, )"
+            "version": "[1.0.4.4-preview1.0.8, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",
