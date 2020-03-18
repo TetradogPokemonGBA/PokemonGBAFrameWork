@@ -23,8 +23,7 @@ namespace PokemonGBAFrameWork
         char idioma;
         string abreviacion;
         string nombreCompleto;
-        Compilacion compilacion;
-        long id;
+
         public Edicion(char idioma, string abreviacion, string nombreCompleto,int version=1,int subVersion=0)
         {
             InicialIdioma = idioma;
@@ -88,10 +87,10 @@ namespace PokemonGBAFrameWork
 
         IComparable IClauUnicaPerObjecte.Clau => this;
 
-        public string GameCode { get { return Abreviacion+InicialIdioma+Compilacion.Name; } }
+        public string GameCode => Abreviacion + InicialIdioma + Compilacion.Name;
 
-        public Compilacion Compilacion { get => compilacion; protected set => compilacion = value; }
-        public long Id { get => id; set => id = value; }
+        public Compilacion Compilacion { get; protected set; }
+        public long Id { get; set; }
 
         public virtual bool Compatible(Edicion edicion)
         {
@@ -159,7 +158,7 @@ namespace PokemonGBAFrameWork
             edicion.InicialIdioma = (char)rom[(int)Variables.Idioma];
             edicion.Abreviacion = System.Text.Encoding.ASCII.GetString(rom.Data.SubArray((int)Variables.Abreviacion, (int)LongitudCampos.Abreviacion));
             edicion.NombreCompleto = System.Text.Encoding.ASCII.GetString(rom.Data.SubArray((int)Variables.NombreCompleto, (int)LongitudCampos.NombreCompleto));
-
+    ;
             return edicion;
         }
 

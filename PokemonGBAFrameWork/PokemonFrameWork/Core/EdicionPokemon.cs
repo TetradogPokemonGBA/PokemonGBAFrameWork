@@ -12,12 +12,11 @@ using System;
 
 namespace PokemonGBAFrameWork
 {
-    [Flags]
     public enum Idioma
     {
-        Español = AbreviacionCanon.BPG * 2,
-        Ingles = Español * 2,
-        Otro = Ingles * 2
+        Español = 'S',
+        Ingles = 'E',
+        Otro = 'O'
     }
     [Flags]
     public enum AbreviacionCanon

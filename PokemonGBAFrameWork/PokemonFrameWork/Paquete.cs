@@ -35,16 +35,12 @@ namespace PokemonGBAFrameWork
 
             try
             {
-                if (!Directory.Exists(PathRomsBase))
-                    Directory.CreateDirectory(PathRomsBase);
-                else
+                if (Directory.Exists(PathRomsBase))
                 {
                     CargarRomsBase();
                 }
-                if (!System.IO.Directory.Exists(PathPaquetes))
-                    System.IO.Directory.CreateDirectory(PathPaquetes);
-                else
-                {
+                if (System.IO.Directory.Exists(PathPaquetes))
+                { 
                     CargarPaquetes();
                 }
 
@@ -290,7 +286,7 @@ namespace PokemonGBAFrameWork
                     if (!RomsCargadas.ContainsKey2(edicionPokemon.Id))
                     {
                         RomsCargadas.Add(romActual.Nombre, edicionPokemon.Id, romActual);
-                        romActual.UnLoad();
+                        
                     }
 
                 }

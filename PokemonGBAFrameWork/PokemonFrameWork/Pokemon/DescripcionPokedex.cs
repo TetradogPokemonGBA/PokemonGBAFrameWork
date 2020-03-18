@@ -32,28 +32,18 @@ namespace PokemonGBAFrameWork.Pokemon
 
         public static readonly Zona ZonaDescripcion;
 
-        BloqueString blEspecie;
-        BloqueString blDescripcion;//en el set si es Rubi o Zafiro se divide en dos paginas
-        Word peso;
-        Word altura;
-        Word escalaPokemon;
-        Word escalaEntrenador;
-        //datos que desconozco
-        Word numero;
-        Word direccionPokemon;
-        Word direccionEntrenador;
-        Word numero2;
-
         static Descripcion()
         {
             ZonaDescripcion = new Zona("DescripcionPokedex");
 
             ZonaDescripcion.Add(EdicionPokemon.EsmeraldaEsp10, 0xBFA48);
             ZonaDescripcion.Add(EdicionPokemon.EsmeraldaUsa10, 0xBFA20);
+
             ZonaDescripcion.Add(EdicionPokemon.RojoFuegoEsp10, 0x88FEC);
             ZonaDescripcion.Add(EdicionPokemon.RojoFuegoUsa10, 0x88E34, 0x88E48);
             ZonaDescripcion.Add(EdicionPokemon.VerdeHojaEsp10, 0x88FC0);
             ZonaDescripcion.Add(EdicionPokemon.VerdeHojaUsa10, 0x88E08, 0x88E1C);
+
             ZonaDescripcion.Add(EdicionPokemon.RubiEsp10, 0x8F998);
             ZonaDescripcion.Add(EdicionPokemon.ZafiroEsp10, 0x8F998);
             ZonaDescripcion.Add(EdicionPokemon.RubiUsa10, 0x8F508, 0x8F528);
@@ -68,110 +58,30 @@ namespace PokemonGBAFrameWork.Pokemon
         /// <summary>
         /// Se tiene que dividir entre 10 para obtener la medida en Kg
         /// </summary>
-        public Word Peso
-        {
-            get
-            {
-                return peso;
-            }
-            set
-            {
-                peso = value;
-            }
-        }
+        public Word Peso { get; set; }
         /// <summary>
         /// Se tiene que dividir entre 10 para obtener la medida en metros
         /// </summary>
-        public Word Altura
-        {
-            get
-            {
-                return altura;
-            }
-            set
-            {
-                altura = value;
-            }
-        }
+        public Word Altura { get; set; }
 
-        public Word EscalaPokemon
-        {
-            get
-            {
-                return escalaPokemon;
-            }
-            set
-            {
-                escalaPokemon = value;
-            }
-        }
+        public Word EscalaPokemon { get; set; }
 
-        public Word EscalaEntrenador
-        {
-            get
-            {
-                return escalaEntrenador;
-            }
-            set
-            {
-                escalaEntrenador = value;
-            }
-        }
+        public Word EscalaEntrenador { get; set; }
 
-        public Word Numero
-        {
-            get
-            {
-                return numero;
-            }
-            set
-            {
-                numero = value;
-            }
-        }
+        public Word Numero { get; set; }
 
-        public Word DireccionPokemon
-        {
-            get
-            {
-                return direccionPokemon;
-            }
-            set
-            {
-                direccionPokemon = value;
-            }
-        }
+        public Word DireccionPokemon { get; set; }
 
-        public Word DireccionEntrenador
-        {
-            get
-            {
-                return direccionEntrenador;
-            }
-            set
-            {
-                direccionEntrenador = value;
-            }
-        }
+        public Word DireccionEntrenador { get; set; }
 
-        public Word Numero2
-        {
-            get
-            {
-                return numero2;
-            }
-            set
-            {
-                numero2 = value;
-            }
-        }
+        public Word Numero2 { get; set; }
 
 
 
-        public BloqueString Especie { get => blEspecie; set => blEspecie = value; }
-        public BloqueString Texto { get => blDescripcion; set => blDescripcion = value; }
+        public BloqueString Especie { get; set; }
+        public BloqueString Texto { get; set; }
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override byte IdTipo => ID; 
         public override ElementoBinario Serialitzer => Serializador;
 
         public static Descripcion[] GetDescripcionPokedex(RomGba rom)

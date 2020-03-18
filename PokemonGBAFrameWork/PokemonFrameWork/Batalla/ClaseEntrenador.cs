@@ -12,7 +12,7 @@ namespace PokemonGBAFrameWork
     {
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<ClaseEntrenadorCompleto>();
         public const byte ID = 0x0;
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
+        public override byte IdTipo => ID; 
         public override ElementoBinario Serialitzer => Serializador;
         public RateMoney RateMoney { get; set; }
 

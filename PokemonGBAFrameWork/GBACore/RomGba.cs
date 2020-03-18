@@ -17,8 +17,6 @@ namespace PokemonGBAFrameWork
         public const int MINLENGHT = 1;//mirar cual es el minimo
         string path;
 
-        Edicion edicion;
-        BloqueBytes romData;
         string nombre;
         IdUnico idUnico;
 
@@ -30,25 +28,18 @@ namespace PokemonGBAFrameWork
 
 
         }
-        public RomGba(FileInfo romFile) : this()
+        public RomGba(FileInfo romFile) : this(File.ReadAllBytes(romFile.FullName),romFile.Name,romFile.Directory.FullName)
         {
-
-
-            if (romFile == null)
-                throw new ArgumentNullException();
-
-            nombre = System.IO.Path.GetFileNameWithoutExtension(romFile.FullName);
-            path = romFile.FullName.Substring(0, romFile.FullName.Length - System.IO.Path.GetFileName(romFile.FullName).Length);
-
         }
         public RomGba(byte[] dataRom, string name="rom", string path = "") : this()
         {
-            romData = new BloqueBytes(dataRom);
+            Data = new BloqueBytes(dataRom);
             this.nombre = name;
             if (string.IsNullOrEmpty(path))
                 path = Environment.CurrentDirectory;
 
             this.path = path;
+            Edicion=Edicion.GetEdicion(this);
         }
         private RomGba()
         { idUnico = new IdUnico(); }
@@ -56,22 +47,14 @@ namespace PokemonGBAFrameWork
         #region propiedades
         public Edicion Edicion
         {
-            get
-            {
-                if (this.edicion == null)//si da problemas lo quito otra vez...
-                    this.edicion = Edicion.GetEdicion(this);
-                return this.edicion;
-            }
+            get;
+            protected set;
         }
 
         public BloqueBytes Data
         {
-            get
-            {
-                if (romData == null)
-                    Load();
-                return romData;
-            }
+            get;
+            protected set;
         }
 
         public string Nombre
@@ -87,7 +70,7 @@ namespace PokemonGBAFrameWork
                 if (Data != null)
                 {
                     if (String.IsNullOrEmpty(value))//null or ""
-                        nombre = "Hack " + edicion.NombreCompleto;
+                        nombre = "Hack " + Edicion.NombreCompleto;
                     else nombre = value;
                 }
                 System.IO.File.Move(pathAnterior, FullPath);
@@ -129,25 +112,9 @@ namespace PokemonGBAFrameWork
         /// Pone la edicion en los datos en memoria
         /// </summary>
   
-        public void LoadEdicion()
-        {
-            edicion = null;//asi cuando la lean por la propiedad la cargaran...
-        }
+   
 
-        public void Load()
-        {
-            romData = new BloqueBytes(File.ReadAllBytes(FullPath));
-        }
-        /// <summary>
-        /// Descarga los datos de la memoria ram
-        /// </summary>
-        public void UnLoad()
-        {
-            romData = null;
-            edicion = null;
-            if (UnLoaded != null)
-                UnLoaded(this, new EventArgs());
-        }
+
 
 
         #endregion
