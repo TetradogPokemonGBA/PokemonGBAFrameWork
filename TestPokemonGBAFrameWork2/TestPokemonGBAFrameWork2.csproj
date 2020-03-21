@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PokemonGBAFrameWork\PokemonGBAFrameWork.csproj" />
+    <ProjectReference Include="..\PokemonGBAFrameWork\PokemonGBAFramework.RomGBA.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,12 +10,14 @@
  */
 using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
+using Poke;
+using PokemonGBAFramework;
 using System;
 using System.Collections.Generic;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Datos : PokemonFrameWorkItem,IComparable<Datos>
+    public class Datos : IComparable<Datos>
     {
 
         enum Custom
@@ -42,10 +44,7 @@ namespace PokemonGBAFrameWork.Ataque
             Category,
             PadByte3
         }
-        public enum Categoria
-        {
-            Fisico, Especial, Estatus
-        }
+
         public const byte ID = 0x16;
         public static readonly Creditos Creditos;
         public static readonly Zona ZonaDatosAtaques;
@@ -82,7 +81,7 @@ namespace PokemonGBAFrameWork.Ataque
         {
             blDatosAtaque = new BloqueBytes(Longitud);
         }
-        public Datos(byte effect, byte basePower, byte type, byte accuracy, byte pp, byte effectAccuracy, byte target, byte priority, bool makeContact, bool isAffectedByProtect, bool isAffectedByMagicCoat, bool isAffectedBySnatch, bool isAffectedByMirrorMove, bool isAffectedByKingsRock, byte padByte1, Categoria category, byte padByte3) : this()
+        public Datos(byte effect, byte basePower, byte type, byte accuracy, byte pp, byte effectAccuracy, byte target, byte priority, bool makeContact, bool isAffectedByProtect, bool isAffectedByMagicCoat, bool isAffectedBySnatch, bool isAffectedByMirrorMove, bool isAffectedByKingsRock, byte padByte1, PokemonGBAFramework.Pokemon.Ataque.DatosAtaque.Categoria category, byte padByte3) : this()
         {
             Effect = effect;
             BasePower = basePower;
@@ -351,11 +350,11 @@ namespace PokemonGBAFrameWork.Ataque
             }
         }
 
-        public Categoria Category
+        public PokemonGBAFramework.Pokemon.Ataque.DatosAtaque.Categoria Category
         {
             get
             {
-                return (Categoria)blDatosAtaque.Bytes[(int)CamposDatosAtaque.Category];
+                return (PokemonGBAFramework.Pokemon.Ataque.DatosAtaque.Categoria)blDatosAtaque.Bytes[(int)CamposDatosAtaque.Category];
             }
 
             set
@@ -376,8 +375,7 @@ namespace PokemonGBAFrameWork.Ataque
                 blDatosAtaque.Bytes[(int)CamposDatosAtaque.PadByte3] = value;
             }
         }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
         #endregion
         private bool IsCustomEnabled(int indexCustomToCalculate)
         {
@@ -404,19 +402,16 @@ namespace PokemonGBAFrameWork.Ataque
             else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             return compareTo;
         }
-        public static Datos[] GetDatos(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetDatos(RomGba rom)
         {
-            Datos[] datos = new Datos[Descripcion.GetTotal(rom)];
-            for (int i = 0; i < datos.Length; i++)
-                datos[i] = GetDatos(rom, i);
-            return datos;
+            return Poke.Extension.GetPaquete(rom, "Datos Ataques", (r, i) => GetDatos(r, i), Descripcion.GetTotal(rom));
         }
-        public static Datos GetDatos(RomGba rom, int posicion)
+        public static PokemonGBAFramework.Pokemon.Ataque.DatosAtaque GetDatos(RomGba rom, int posicion)
         {
             Datos datos= new Datos() { blDatosAtaque = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaDatosAtaques, rom).Offset + posicion * Longitud, Longitud) };
-            datos.IdElemento = (ushort)posicion;
-            datos.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            return datos;
+            PokemonGBAFramework.Pokemon.Ataque.DatosAtaque datosAtaque = new PokemonGBAFramework.Pokemon.Ataque.DatosAtaque();
+            datos.SetValues(datosAtaque);
+            return datosAtaque;
         }
    
 

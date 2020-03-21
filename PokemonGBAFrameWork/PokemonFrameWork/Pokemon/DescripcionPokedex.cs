@@ -9,6 +9,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,7 @@ namespace PokemonGBAFrameWork.Pokemon
     /// <summary>
     /// Description of DescripcionPokedex.
     /// </summary>
-    public class Descripcion : PokemonFrameWorkItem
+    public class Descripcion 
     {
         public enum LongitudCampos
         {
@@ -81,22 +82,18 @@ namespace PokemonGBAFrameWork.Pokemon
         public BloqueString Especie { get; set; }
         public BloqueString Texto { get; set; }
 
-        public override byte IdTipo => ID; 
-        public override ElementoBinario Serialitzer => Serializador;
 
-        public static Descripcion[] GetDescripcionPokedex(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetDescripcionPokedex(RomGba rom)
         {
-            Descripcion[] descripcions = new Descripcion[GetTotal(rom)];
-            for (int i = 0; i < descripcions.Length; i++)
-                descripcions[i] = GetDescripcionPokedex(rom, i);
-            return descripcions;
+            return Poke.Extension.GetPaquete(rom,"Descripciones Pokedex",(r,i)=>GetDescripcionPokedex(r,i),GetTotal(rom));
         }
 
-        public static Descripcion GetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon)
+        public static PokemonGBAFramework.Pokemon.DescripcionPokedex GetDescripcionPokedex(RomGba rom, int ordenNacionalPokemon)
         {
             int offsetDescripcionPokemon = Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + ordenNacionalPokemon * LongitudDescripcion((EdicionPokemon)rom.Edicion);
             int posicionActual = offsetDescripcionPokemon;
             Descripcion descripcionPokemon = new Descripcion();
+            PokemonGBAFramework.Pokemon.DescripcionPokedex descripcion = new PokemonGBAFramework.Pokemon.DescripcionPokedex();
             descripcionPokemon.Especie = BloqueString.GetString(rom, posicionActual, (int)LongitudCampos.NombreEspecie);
             posicionActual += (int)LongitudCampos.NombreEspecie;
             descripcionPokemon.Altura = new Word(rom, posicionActual);
@@ -122,13 +119,9 @@ namespace PokemonGBAFrameWork.Pokemon
             posicionActual += Word.LENGTH;
             descripcionPokemon.Numero2 = new Word(rom, posicionActual);
 
-            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
-                descripcionPokemon.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
-            else descripcionPokemon.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
+            descripcionPokemon.SetValues(descripcion);
 
-            descripcionPokemon.IdElemento = (ushort)ordenNacionalPokemon;
-
-            return descripcionPokemon;
+            return descripcion;
 
 
         }

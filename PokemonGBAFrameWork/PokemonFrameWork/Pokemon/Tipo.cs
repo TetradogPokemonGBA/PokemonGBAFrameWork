@@ -10,16 +10,13 @@ using Gabriel.Cat.S.Binaris;
 namespace PokemonGBAFrameWork.Pokemon
 {
 	
-	public  class TipoCompleto:PokemonFrameWorkItem
+	public  class TipoCompleto
 	{
 
         public const byte ID = 0x2A;
         public static readonly Zona ZonaImagenTipo;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<TipoCompleto>();
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
-        public Nombre Nombre { get; set; }
 
         static TipoCompleto()
 		{
@@ -41,40 +38,13 @@ namespace PokemonGBAFrameWork.Pokemon
 		}
 		
 
-
-
-		public override string ToString()
-		{
-			return Nombre.Texto;
-		}
-        public static TipoCompleto GetTipo(RomGba rom,int posicion)
-        {
-
-			if (rom == null ||  posicion < 0) throw new ArgumentException();
-
-            TipoCompleto tipo = new TipoCompleto();
-            tipo.Nombre = Nombre.GetNombre(rom, posicion);
-            tipo.IdElemento = (ushort)posicion;
-            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
-                tipo.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
-            else tipo.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
-
-            return tipo;
-		}
 		public static int GetTotal(RomGba rom)
 		{
 			//de momento no se...mas adelante
 			return 18;
 		}
 
-		public static TipoCompleto[] GetTipos(RomGba rom)
-		{
-            TipoCompleto[] tipos = new TipoCompleto[GetTotal(rom)];
-			for (int i = 0; i < tipos.Length;i++)
-				tipos[i] = GetTipo(rom, i);
-			return tipos;
-		}
-
+	
 	
 	}
 }

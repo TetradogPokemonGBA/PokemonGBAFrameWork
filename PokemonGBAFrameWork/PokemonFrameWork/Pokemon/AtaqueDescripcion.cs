@@ -1,18 +1,18 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using PokemonGBAFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Descripcion:PokemonFrameWorkItem
+    public class Descripcion
     {
         public const byte ID = 0x17;
-        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Descripcion>();
+
 
         public static readonly Zona ZonaDescripcion;
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         public BloqueString Texto { get; set; }
 
@@ -43,9 +43,8 @@ namespace PokemonGBAFrameWork.Ataque
             }
             return total;
         }
-        public static Descripcion GetDescripcion(RomGba rom,int posicion)
+        public static PokemonGBAFramework.Pokemon.Ataque.DescripcionAtaque GetDescripcion(RomGba rom,int posicion)
         {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             Descripcion descripcion;
             int offsetDescripcion;
             if (posicion != 0)//el primero no tiene
@@ -53,20 +52,17 @@ namespace PokemonGBAFrameWork.Ataque
                 offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcion, rom).Offset + (posicion - 1)*OffsetRom.LENGTH).Offset;
                 descripcion = new Descripcion();
                 descripcion.Texto = BloqueString.GetString(rom, offsetDescripcion);
-                if (edicion.Idioma == Idioma.Ingles)
-                    descripcion.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
-                else descripcion.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
-                descripcion.IdElemento = (ushort)posicion;
+        
             }
-            else descripcion = null;
-            return descripcion;
+            else descripcion = new Descripcion() { Texto = new BloqueString("") };
+
+            return new PokemonGBAFramework.Pokemon.Ataque.DescripcionAtaque() { Descripcion = descripcion.Texto.Texto };
         }
-        public static Descripcion[] GetDescripcion(RomGba rom)
+
+        public static Paquete GetDescripcion(RomGba rom)
         {
-            Descripcion[] descripcions = new Descripcion[GetTotal(rom)];
-            for (int i = 0; i < descripcions.Length; i++)
-                descripcions[i] = GetDescripcion(rom, i);
-            return descripcions;
+            return Poke.Extension.GetPaquete(rom, "Descripcion Ataque", (r, i) => GetDescripcion(r, i), GetTotal(rom));
         }
-      }
+      
+    }
 }

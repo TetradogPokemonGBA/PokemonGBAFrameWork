@@ -1,18 +1,20 @@
 ﻿using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using Poke;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class Traseros:PokemonFrameWorkItem
+    public class Traseros
     {
         public const byte ID = 0x27;
         public static readonly Zona ZonaImgTrasera;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Traseros>();
-        Llista<BloqueImagen> sprites;
+
         static Traseros()
         {
             ZonaImgTrasera = new Zona("Imagen Trasera Pokemon");
@@ -24,36 +26,28 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         {
             Sprites = new Llista<BloqueImagen>();
         }
-        public Llista<BloqueImagen> Sprites { get => sprites; private set => sprites = value; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+        public Llista<BloqueImagen> Sprites { get; private set; }
 
-        public static Traseros GetTraseros(RomGba rom,int posicion)
+
+
+
+        public static PokemonGBAFramework.Pokemon.Sprites.Traseros GetTraseros(RomGba rom, int posicion)
         {
             byte[] auxImg;
             Traseros traseros = new Traseros();
-            int offsetImgTraseraPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
-            BloqueImagen bloqueImgTrasera = BloqueImagen.GetBloqueImagen(rom, offsetImgTraseraPokemon);
-            auxImg = bloqueImgTrasera.DatosDescomprimidos.Bytes;
-            for (int i = 0, f = auxImg.Length / SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos +=SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)
+            int offsetImgFrontalPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
+            BloqueImagen bloqueImgFrontal = BloqueImagen.GetBloqueImagen(rom, offsetImgFrontalPokemon);
+            auxImg = bloqueImgFrontal.DatosDescomprimidos.Bytes;
+            for (int i = 0, f = auxImg.Length / SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)
             {
                 traseros.Sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA))));
             }
-            traseros.IdFuente = EdicionPokemon.IDMINRESERVADO;
 
-            if (!((EdicionPokemon)rom.Edicion).EsEsmeralda)
-                traseros.IdFuente -= (int)AbreviacionCanon.BPE;
-            traseros.IdElemento = (ushort)posicion;
-
-            return traseros;
-
+            return new PokemonGBAFramework.Pokemon.Sprites.Traseros() { Imagenes = traseros.Sprites.Select((img) => img.GetImg()).ToList() };
         }
-        public static Traseros[] GetTraseros(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetTraseros(RomGba rom)
         {
-            Traseros[] traseros = new Traseros[Huella.GetTotal(rom)];
-            for (int i = 0; i < traseros.Length; i++)
-                traseros[i] = GetTraseros(rom, i);
-            return traseros;
+            return rom.GetPaquete("Traseros Pokemon", (r, i) => GetTraseros(r, i), Huella.GetTotal(rom));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,19 +25,21 @@ namespace PokemonGBAFrameWork.Habilidad
             ZonaDescripcionHabilidad.Add(0xA009C, EdicionPokemon.RubiEsp10, EdicionPokemon.ZafiroEsp10);
 
         }
-        public static Descripcion[] GetDescripcion(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetDescripcion(RomGba rom)
         {
-            Descripcion[] descripcions = new Descripcion[HabilidadCompleta.GetTotal(rom)];
-            for (int i = 0; i < descripcions.Length; i++)
-                descripcions[i] = GetDescripcion(rom, i);
-            return descripcions;
+
+            return rom.GetPaquete("Descripciones Habilidades",(r,i)=>GetDescripcion(r,i),GetTotal(rom));
         }
-        public static Descripcion GetDescripcion(RomGba rom,int index)
+        public static PokemonGBAFramework.Pokemon.DescripcionHabilidad GetDescripcion(RomGba rom,int index)
         {
-            Descripcion descripcion = new Descripcion();
+
             int offsetDescripcion = new OffsetRom(rom, Zona.GetOffsetRom(ZonaDescripcionHabilidad, rom).Offset + index * OffsetRom.LENGTH).Offset;
-            descripcion.Texto.Texto= BloqueString.GetString(rom, offsetDescripcion).Texto;
-            return descripcion;
+
+            return new PokemonGBAFramework.Pokemon.DescripcionHabilidad() { Descripcion = BloqueString.GetString(rom, offsetDescripcion).Texto };
         }
-     }
+        public static int GetTotal(RomGba rom)
+        {
+            return 78;
+        }
+    }
 }

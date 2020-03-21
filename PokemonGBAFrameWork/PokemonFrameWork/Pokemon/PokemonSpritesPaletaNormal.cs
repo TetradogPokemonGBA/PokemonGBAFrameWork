@@ -1,11 +1,12 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class PaletaNormal:PokemonFrameWorkItem
+    public class PaletaNormal
     {
         public const byte ID = 0x25;
         public static readonly Zona ZonaPaletaNormal;
@@ -25,24 +26,18 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
         }
 
         public Paleta Paleta { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
-        public static PaletaNormal GetPaletaNormal(RomGba rom, int posicion)
+        public static PokemonGBAFramework.Pokemon.Sprites.PaletaNormal GetPaletaNormal(RomGba rom, int posicion)
         {
             PaletaNormal paleta = new PaletaNormal();
             int offsetPaletaNormalPokemon = Zona.GetOffsetRom(ZonaPaletaNormal, rom).Offset + Paleta.LENGTHHEADERCOMPLETO * posicion;
             paleta.Paleta = Paleta.GetPaleta(rom, offsetPaletaNormalPokemon);
-            paleta.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            paleta.IdElemento = (ushort)posicion;
-            return paleta;
+
+            return new PokemonGBAFramework.Pokemon.Sprites.PaletaNormal() { Colores = paleta.Paleta.Colores };
         }
-        public static PaletaNormal[] GetPaletaNormal(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetPaletaNormal(RomGba rom)
         {
-            PaletaNormal[] paletaNormals = new PaletaNormal[Huella.GetTotal(rom)];
-            for (int i = 0; i < paletaNormals.Length; i++)
-                paletaNormals[i] = GetPaletaNormal(rom, i);
-            return paletaNormals;
+           return rom.GetPaquete("Paletas normales Pokemon",(r,i)=>GetPaletaNormal(r,i),Huella.GetTotal(rom));
         }
      }
 }

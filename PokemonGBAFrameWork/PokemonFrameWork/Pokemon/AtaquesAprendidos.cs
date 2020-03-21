@@ -14,13 +14,15 @@ using Gabriel.Cat;
 using Gabriel.Cat.S.Utilitats;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Binaris;
+using System.Linq;
+using PokemonGBAFramework;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
 	/// <summary>
 	/// Description of AtaquesAprendidos.
 	/// </summary>
-	public class AtaquesAprendidos:PokemonFrameWorkItem,IComparable,IComparable<AtaquesAprendidos>
+	public class AtaquesAprendidos:IComparable,IComparable<AtaquesAprendidos>
 	{
 		public class AtaqueAprendido:IComparable<AtaqueAprendido>,IComparable,IElementoBinarioComplejo
 		{
@@ -86,6 +88,11 @@ namespace PokemonGBAFrameWork.Pokemon
 			{
 				return Ataque+":"+Nivel;
 			}
+
+			public static PokemonGBAFramework.Pokemon.Ataque.AtaqueAprendido GetAtaqueAprendido(AtaqueAprendido ataque)
+			{
+				return new PokemonGBAFramework.Pokemon.Ataque.AtaqueAprendido() { Ataque = ataque.Ataque, Nivel = ataque.Nivel };
+			}
 		}
         public const byte ID = 0x1A;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<AtaquesAprendidos>();
@@ -138,8 +145,7 @@ namespace PokemonGBAFrameWork.Pokemon
 				ataques = value;
 			}
 		}
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         public IdUnico Id { get; set; }
 
@@ -248,19 +254,17 @@ namespace PokemonGBAFrameWork.Pokemon
             else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
             return compareTo;
         }
-        public static AtaquesAprendidos[] GetAtaquesAprendidos(RomGba rom)
+        public static Paquete GetAtaquesAprendidos(RomGba rom)
         {
-            AtaquesAprendidos[] ataquesAprendidos = new AtaquesAprendidos[Huella.GetTotal(rom)];
-            for (int i = 0; i < ataquesAprendidos.Length; i++)
-                ataquesAprendidos[i] = GetAtaquesAprendidos(rom, i);
-            return ataquesAprendidos;
+            return Poke.Extension.GetPaquete(rom,"Ataques aprendidos",(r,i)=>GetAtaquesAprendidos(r,i),Huella.GetTotal(rom));
         }
-        public static AtaquesAprendidos GetAtaquesAprendidos(RomGba rom,int ordenGameFreakPokemon)
+        public static PokemonGBAFramework.Pokemon.Ataque.AtaquesAprendidos GetAtaquesAprendidos(RomGba rom,int ordenGameFreakPokemon)
 		{
 			//missigno de por si usa el mismo puntero que bulbasaur por eso tienen los mismos ataques,supongo que sera para que no de error y no ocupar espacio...
 			int offset =new OffsetRom(rom,GetOffsetPointer(rom, ordenGameFreakPokemon)).Offset;
 			BloqueBytes bloque = BloqueBytes.GetBytes(rom.Data,offset,MarcaFin);
 			AtaquesAprendidos ataquesAprendidos = new AtaquesAprendidos();
+
 			//pongo los ataques
 			for(int i=0;i<bloque.Bytes.Length;i+=2)
 			{
@@ -269,22 +273,15 @@ namespace PokemonGBAFrameWork.Pokemon
 			ataquesAprendidos.Ataques.SortByQuickSort();//por si lo hacen de forma externa que lo lea bien :)
 			ataquesAprendidos.OffsetBytesAtaqueAprendido = offset;
 
-            ataquesAprendidos.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            ataquesAprendidos.IdElemento = (ushort)ordenGameFreakPokemon;
-			return ataquesAprendidos;
+
+			return new PokemonGBAFramework.Pokemon.Ataque.AtaquesAprendidos() { Ataques = ataquesAprendidos.Ataques.Select((ataque) =>AtaqueAprendido.GetAtaqueAprendido(ataque)).ToList() };
 		}
 		private static int GetOffsetPointer(RomGba rom,int ordenGameFreakPokemon)
 		{
 			return  Zona.GetOffsetRom(ZonaAtaquesAprendidos, rom).Offset + (ordenGameFreakPokemon * OffsetRom.LENGTH);
 		}
 
-			public static LlistaOrdenadaPerGrups<int,AtaquesAprendidos> GetAtaquesAprendidosDic(RomGba rom)
-		{
-			LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<int, AtaquesAprendidos>();
-			for (int i = 0, f = Huella.GetTotal(rom); i < f; i++)
-				dic.Add(new OffsetRom(rom, GetOffsetPointer(rom,  i)).Offset, GetAtaquesAprendidos(rom,  i));
-			return dic;
-		}
+
 
 	
 

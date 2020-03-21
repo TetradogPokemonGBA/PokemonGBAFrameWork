@@ -1,19 +1,19 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-   public class OrdenLocal:PokemonFrameWorkItem
+   public class OrdenLocal
     {
         public const byte ID = 0x22;
         public static readonly Zona ZonaOrdenLocal;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<OrdenLocal>();
 
         public Word Orden { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         static OrdenLocal()
         {
@@ -28,7 +28,7 @@ namespace PokemonGBAFrameWork.Pokemon
 
         }
 
-        public static OrdenLocal GetOrdenLocal(RomGba rom, int posicion)
+        public static PokemonGBAFramework.Pokemon.OrdenLocal GetOrdenLocal(RomGba rom, int posicion)
         {
             OrdenLocal ordenLocal = new OrdenLocal();
             try
@@ -39,19 +39,12 @@ namespace PokemonGBAFrameWork.Pokemon
             {
                 ordenLocal.Orden = null;
             }
-            if (((EdicionPokemon)rom.Edicion).RegionKanto)
-                ordenLocal.IdFuente = EdicionPokemon.IDKANTO;
-            else ordenLocal.IdFuente = EdicionPokemon.IDHOENN;
 
-            ordenLocal.IdElemento = (ushort)posicion;
-            return ordenLocal;
+            return new PokemonGBAFramework.Pokemon.OrdenLocal() { Orden = ordenLocal.Orden != null ? ordenLocal.Orden : -1 };
         }
-        public static OrdenLocal[] GetOrdenLocal(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetOrdenLocal(RomGba rom)
         {
-            OrdenLocal[] oredenesNacional = new OrdenLocal[Huella.GetTotal(rom)];
-            for (int i = 0; i < oredenesNacional.Length; i++)
-                oredenesNacional[i] = GetOrdenLocal(rom, i);
-            return oredenesNacional;
+            return rom.GetPaquete("Ordenes Local", (r, i) => GetOrdenLocal(r, i), Huella.GetTotal(rom));
         }
       }
 }

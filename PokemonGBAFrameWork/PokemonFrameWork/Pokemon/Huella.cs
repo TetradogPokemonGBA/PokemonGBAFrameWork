@@ -10,6 +10,8 @@
  */
 using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
+using Poke;
+using PokemonGBAFramework;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,7 +22,7 @@ namespace PokemonGBAFrameWork.Pokemon
 	/// <summary>
 	/// Description of Huella.
 	/// </summary>
-	public class Huella:PokemonFrameWorkItem
+	public class Huella
 	{
         public const byte ID = 0x1F;
         public const int LENGHT=32;
@@ -63,8 +65,7 @@ namespace PokemonGBAFrameWork.Pokemon
 			}
             set { blImgHuellaGBA = value; }
 		}
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         public Bitmap GetImagen()
 		{
@@ -80,23 +81,19 @@ namespace PokemonGBAFrameWork.Pokemon
 			
 			blImgHuellaGBA.Bytes=WriteImage(imgHuella);			
 		}
-        public static Huella[] GetHuella(RomGba rom)
+        public static Paquete GetHuella(RomGba rom)
         {
-            Huella[] huellas = new Huella[Huella.GetTotal(rom)];
-            for (int i = 0; i < huellas.Length; i++)
-                huellas[i] = GetHuella(rom, i);
-            return huellas;
+            return rom.GetPaquete("Huellas",(r,i)=>GetHuella(r,i),Huella.GetTotal(rom));
         }
 
-        public static Huella GetHuella(RomGba rom, int posicion)
+        public static PokemonGBAFramework.Pokemon.HuellaPokemon GetHuella(RomGba rom, int posicion)
 		{
 			//le el offset del pointer que toca
 			int offsetBytesHuella = GetOffsetHuella(rom, posicion);
 			//lee los bytes de la imagen del offset leido
 			Huella huella= new Huella(BloqueBytes.GetBytes(rom.Data, offsetBytesHuella, LENGHT));
-            huella.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            huella.IdElemento = (ushort)posicion;
-            return huella;
+
+            return new PokemonGBAFramework.Pokemon.HuellaPokemon() { Huella = huella.GetImagen() };
 		}
 		/// <summary>
 		/// Obtiene el offset de la lista de pointers.

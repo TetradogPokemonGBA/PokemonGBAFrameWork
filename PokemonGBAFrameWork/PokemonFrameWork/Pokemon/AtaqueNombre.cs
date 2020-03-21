@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Ataque
 {
-    public class Nombre:PokemonFrameWorkItem,IComparable
+    public class Nombre:IComparable
     {
         enum LongitudCampos
         {
@@ -16,8 +16,7 @@ namespace PokemonGBAFrameWork.Ataque
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public BloqueString Texto { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         static Nombre()
         {
@@ -36,23 +35,17 @@ namespace PokemonGBAFrameWork.Ataque
         {
             return Texto.ToString();
         }
-        public static Nombre GetNombre(RomGba rom,int posicionAtaque)
+        public static PokemonGBAFramework.Pokemon.Ataque.NombreAtaque GetNombre(RomGba rom,int posicionAtaque)
         {
             Nombre nombre = new Nombre();
             int offsetNombre = Zona.GetOffsetRom(ZonaNombre, rom).Offset + posicionAtaque * (int)LongitudCampos.Nombre;
-            nombre.Texto.Texto= BloqueString.GetString(rom, offsetNombre, (int)LongitudCampos.Nombre).Texto;
-            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
-                nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
-            else nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
-            nombre.IdElemento = (ushort)posicionAtaque;
-            return nombre;
+           return new PokemonGBAFramework.Pokemon.Ataque.NombreAtaque() { Nombre = BloqueString.GetString(rom, offsetNombre, (int)LongitudCampos.Nombre).Texto };
+
+      
         }
-        public static Nombre[] GetNombre(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetNombre(RomGba rom)
         {
-            Nombre[] nombres = new Nombre[Descripcion.GetTotal(rom)];
-            for (int i = 0; i < nombres.Length; i++)
-                nombres[i] = GetNombre(rom, i);
-            return nombres;
+            return Poke.Extension.GetPaquete(rom,"Nombres Ataques",(r,i)=>GetNombre(r,i),Descripcion.GetTotal(rom));
         }
  
         public int CompareTo(object obj)

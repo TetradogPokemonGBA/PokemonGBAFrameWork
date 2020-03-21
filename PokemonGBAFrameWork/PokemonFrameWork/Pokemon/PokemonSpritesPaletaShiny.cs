@@ -1,11 +1,12 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class PaletaShiny:PokemonFrameWorkItem
+    public class PaletaShiny
     {
         public const byte ID = 0x26;
         public static readonly Zona ZonaPaletaShiny;
@@ -28,24 +29,18 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
 
         public Paleta Paleta { get; set; }
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-
-        public static PaletaShiny GetPaletaShiny(RomGba rom, int posicion)
+  
+        public static PokemonGBAFramework.Pokemon.Sprites.PaletaShiny GetPaletaNormal(RomGba rom, int posicion)
         {
             PaletaShiny paleta = new PaletaShiny();
-            int offsetPaletaShinyPokemon = Zona.GetOffsetRom(ZonaPaletaShiny, rom).Offset + Paleta.LENGTHHEADERCOMPLETO * posicion;
-            paleta.Paleta = Paleta.GetPaleta(rom, offsetPaletaShinyPokemon);
-            paleta.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            paleta.IdElemento = (ushort)posicion;
-            return paleta;
+            int offsetPaletaNormalPokemon = Zona.GetOffsetRom(ZonaPaletaShiny, rom).Offset + Paleta.LENGTHHEADERCOMPLETO * posicion;
+            paleta.Paleta = Paleta.GetPaleta(rom, offsetPaletaNormalPokemon);
+
+            return new PokemonGBAFramework.Pokemon.Sprites.PaletaShiny() { Colores = paleta.Paleta.Colores };
         }
-        public static PaletaShiny[] GetPaletaShiny(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetPaletaNormal(RomGba rom)
         {
-            PaletaShiny[] paletaShinys = new PaletaShiny[Huella.GetTotal(rom)];
-            for (int i = 0; i < paletaShinys.Length; i++)
-                paletaShinys[i] = GetPaletaShiny(rom, i);
-            return paletaShinys;
+            return rom.GetPaquete("Paletas normales Pokemon", (r, i) => GetPaletaNormal(r, i), Huella.GetTotal(rom));
         }
-     }
+    }
 }

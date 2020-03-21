@@ -1,9 +1,11 @@
 ﻿using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
@@ -42,8 +44,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
                 return sprites;
             }
         }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         public BitmapAnimated GetAnimacionImagenFrontal(Paleta paleta)
         {
@@ -63,7 +64,7 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
 
             return bmpAnimated;
         }
-        public static Frontales GetFrontales(RomGba rom,int posicion)
+        public static PokemonGBAFramework.Pokemon.Sprites.Frontales GetFrontales(RomGba rom,int posicion)
         {
             byte[] auxImg;
             Frontales frontales = new Frontales();
@@ -74,19 +75,12 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             {
                 frontales.sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA))));
             }
-            frontales.IdFuente = EdicionPokemon.IDMINRESERVADO;
 
-            if (!((EdicionPokemon)rom.Edicion).EsEsmeralda)
-                frontales.IdFuente -= (int)AbreviacionCanon.BPE;
-            frontales.IdElemento = (ushort)posicion;
-            return frontales;
+            return new PokemonGBAFramework.Pokemon.Sprites.Frontales() { Imagenes=frontales.Sprites.Select((img)=>img.GetImg()).ToList()};
         }
-        public static Frontales[] GetFrontales(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetFrontales(RomGba rom)
         {
-            Frontales[] frontales = new Frontales[Huella.GetTotal(rom)];
-            for (int i = 0; i < frontales.Length; i++)
-                frontales[i] = GetFrontales(rom, i);
-            return frontales;
+            return rom.GetPaquete("Frontales Pokemon", (r, i) => GetFrontales(r, i), Huella.GetTotal(rom));
         }
  
 

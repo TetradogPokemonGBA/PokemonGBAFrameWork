@@ -20,13 +20,8 @@ namespace PokemonGBAFrameWork
     /// <summary>
     /// Description of Ataque.
     /// </summary>
-    public class AtaqueCompleto:PokemonFrameWorkItem,IComparable
+    public class AtaqueCompleto
 	{
-        public const byte ID = 0x14;
-        //son 9 bits en total de alli el 511 :) asi en 2 bytes hay ataque y nivel :)
-        public const int MAXATAQUESSINASM = 511;//hasta que no sepa como se cambia para poner más se queda este maximo :) //hay un tutorial de como hacerlo pero se necesita insertar una rutina ASM link:http://www.pokecommunity.com/showthread.php?t=263479
-        public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<AtaqueCompleto>();
-
         enum LongitudCampos
 		{
 					
@@ -51,11 +46,6 @@ namespace PokemonGBAFrameWork
         static readonly byte[] BytesDesLimitadoAtaques;
 
         public const int LENGTHLIMITADOR = 16;
-
-        Nombre nombre;
-		Descripcion descripcion;
-		Datos datos;
-		Concursos datosConcursosHoenn;
 		
 		static AtaqueCompleto()
 		{
@@ -106,96 +96,6 @@ namespace PokemonGBAFrameWork
 
 
         }
-        public AtaqueCompleto()
-		{
-				descripcion=new Descripcion();
-			datos=new Datos();
-            datosConcursosHoenn = new Concursos();
-		}
-		#region Propiedades
-		public Nombre Nombre {
-			get {
-				return nombre;
-			}
-            set
-            {
-                nombre = value;
-            }
-		}
-
-		public Descripcion Descripcion {
-			get {
-				return descripcion;
-			}
-            set
-            {
-                descripcion = value;
-            }
-		}
-
-		public Datos Datos {
-			get {
-				return datos;
-			}
-            set { datos = value; }
-		}
-
-		public Concursos Concursos {
-			get {
-				return datosConcursosHoenn;
-			}
-            set { datosConcursosHoenn = value; }
-		}
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-        #region IComparable implementation
-
-
-        public int CompareTo(object obj)
-		{
-            int compareTo;
-            AtaqueCompleto ataque = obj as AtaqueCompleto;
-            if (ataque != null)
-            {
-                compareTo = Nombre.CompareTo(ataque.Nombre);
-            }
-            else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
-            return compareTo;
-		}
-
-
-		#endregion
-
-		#endregion
-		public override string ToString()
-		{
-			return Nombre.ToString();
-		}
-		
-		public static AtaqueCompleto GetAtaque(RomGba rom,int posicionAtaque)
-		{//por mirar la obtenxion del offset descripcion
-
-			
-			AtaqueCompleto ataque=new AtaqueCompleto();
-
-            ataque.Nombre = Nombre.GetNombre(rom, posicionAtaque);
-            ataque.Descripcion = Descripcion.GetDescripcion(rom, posicionAtaque);
-			
-			ataque.Datos=Datos.GetDatos(rom,posicionAtaque);
-
-            ataque.Concursos = Concursos.GetConcursos(rom, posicionAtaque);
-            ataque.IdElemento = (ushort)posicionAtaque;
-            ataque.IdFuente = EdicionPokemon.IDMINRESERVADO;
-			return ataque;
-		}
-
-		public static AtaqueCompleto[] GetAtaques(RomGba rom)
-		{
-			AtaqueCompleto[] ataques=new AtaqueCompleto[Descripcion.GetTotal(rom)];
-			for(int i=0;i<ataques.Length;i++)
-				ataques[i]=GetAtaque(rom,i);
-			return ataques;
-		}
 
 	
 

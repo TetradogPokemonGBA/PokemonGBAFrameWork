@@ -1,11 +1,12 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-   public class Stats:PokemonFrameWorkItem
+   public class Stats
     {
         public enum LongitudCampos
         {
@@ -488,8 +489,6 @@ namespace PokemonGBAFrameWork.Pokemon
 
         #endregion
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
         public void SetObjetosEnLosStats(int totalObjetos)
         {
@@ -541,20 +540,17 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             return (((ivs + 2 * Hp + (evs / 4) + 100) * nivel) / 100) + 10;
         }
-        public static Stats GetStats(RomGba rom,int posicion)
+        public static PokemonGBAFramework.Pokemon.StatsPokemon GetStats(RomGba rom,int posicion)
         {
             Stats stats= new Stats() { Datos = BloqueBytes.GetBytes(rom.Data, Zona.GetOffsetRom(ZonaStats, rom).Offset + (posicion * (int)LongitudCampos.TotalStats), (int)LongitudCampos.TotalStats) };
+            PokemonGBAFramework.Pokemon.StatsPokemon statsPokemon = new PokemonGBAFramework.Pokemon.StatsPokemon();
             stats.GetObjetosDeLosStats();
-            stats.IdElemento = (ushort)posicion;
-            stats.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            return stats;
+            stats.SetValues(statsPokemon);
+            return statsPokemon;
         }
-        public static Stats[] GetStats(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetStats(RomGba rom)
         {
-            Stats[] stats = new Stats[Huella.GetTotal(rom)];
-            for (int i = 0; i < stats.Length; i++)
-                stats[i] = GetStats(rom, i);
-            return stats;
+            return rom.GetPaquete("Stats Pokemon", (r, i) => GetStats(r, i), Huella.GetTotal(rom));
         }
  
     }

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Poke;
 namespace PokemonGBAFrameWork.Habilidad
 {
     public class Nombre:IElementoBinarioComplejo
@@ -34,19 +34,16 @@ namespace PokemonGBAFrameWork.Habilidad
         {
             return Text;
         }
-        public static Nombre[] GetNombre(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetNombre(RomGba rom)
         {
-            Nombre[] nombres = new Nombre[HabilidadCompleta.GetTotal(rom)];
-            for (int i = 0; i < nombres.Length; i++)
-                nombres[i] = GetNombre(rom, i);
-            return nombres;
+            return rom.GetPaquete("Nombres Habilidades",(r,i)=>GetNombre(r,i),Habilidad.Descripcion.GetTotal(rom));
         }
-        public static Nombre GetNombre(RomGba rom, int index)
+        public static PokemonGBAFramework.Pokemon.NombreHabilidad GetNombre(RomGba rom, int index)
         {
-            Nombre nombre = new Nombre();
             int offsetNombre = Zona.GetOffsetRom(ZonaNombreHabilidad, rom).Offset + index * LENGTHNOMBRE;
-            nombre.Text.Texto = BloqueString.GetString(rom, offsetNombre, LENGTHNOMBRE).Texto;
-            return nombre;
+
+            return new PokemonGBAFramework.Pokemon.NombreHabilidad() { Nombre = BloqueString.GetString(rom, offsetNombre, LENGTHNOMBRE).Texto };
+  
         }
     }
 }

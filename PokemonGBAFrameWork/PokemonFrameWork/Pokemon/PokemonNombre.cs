@@ -1,11 +1,13 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
+using PokemonGBAFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-    public class Nombre:PokemonFrameWorkItem
+    public class Nombre
     {
         public enum LongitudCampos
         {
@@ -17,8 +19,6 @@ namespace PokemonGBAFrameWork.Pokemon
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Nombre>();
 
         public BloqueString Texto { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
         static Nombre()
         {
@@ -37,20 +37,16 @@ namespace PokemonGBAFrameWork.Pokemon
         {
             return Texto.ToString();
         }
-        public static Nombre GetNombre(RomGba rom,int posicionOrdenGameFreak)
+        public static PokemonGBAFramework.Pokemon.NombrePokemon GetNombre(RomGba rom,int posicionOrdenGameFreak)
         {
             Nombre nombre = new Nombre();
             nombre.Texto = BloqueString.GetString(rom, Zona.GetOffsetRom(ZonaNombre, rom).Offset + (posicionOrdenGameFreak * (int)LongitudCampos.NombreCompilado));
-            nombre.IdFuente = EdicionPokemon.IDMINRESERVADO;
-            nombre.IdElemento = (ushort)posicionOrdenGameFreak;
-            return nombre;
+
+            return new PokemonGBAFramework.Pokemon.NombrePokemon() { Nombre = nombre.Texto.Texto };
         }
-        public static Nombre[] GetNombre(RomGba rom)
+        public static Paquete GetNombre(RomGba rom)
         {
-            Nombre[] nombres = new Nombre[Huella.GetTotal(rom)];
-            for (int i = 0; i < nombres.Length; i++)
-                nombres[i] = GetNombre(rom, i);
-            return nombres;
+            return rom.GetPaquete("Nombres Pokemon", (r, i) => GetNombre(r, i), Huella.GetTotal(rom));
         }
       }
 }

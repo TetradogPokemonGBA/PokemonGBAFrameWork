@@ -1,19 +1,18 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon
 {
-    public class OrdenNacional:PokemonFrameWorkItem
+    public class OrdenNacional
     {
         public const byte ID = 0x23;
         public static readonly Zona ZonaOrdenNacional;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<OrdenNacional>();
 
         public Word Orden { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
         static OrdenNacional()
         {
@@ -30,31 +29,23 @@ namespace PokemonGBAFrameWork.Pokemon
 
         }
 
-        public static OrdenNacional GetOrdenNacional(RomGba rom,int posicion)
+        public static PokemonGBAFramework.Pokemon.OrdenLocal GetOrdenNacional(RomGba rom, int posicion)
         {
-            OrdenNacional ordenNacional = new OrdenNacional();
+            OrdenLocal ordenLocal = new OrdenLocal();
             try
             {
-                ordenNacional.Orden = new Word(rom, Zona.GetOffsetRom(ZonaOrdenNacional, rom).Offset + (posicion- 1) * 2);
+                ordenLocal.Orden = new Word(rom, Zona.GetOffsetRom(ZonaOrdenNacional, rom).Offset + (posicion - 1) * 2);
             }
-            catch {
-                ordenNacional.Orden = null;
+            catch
+            {
+                ordenLocal.Orden = null;
             }
-            if (((EdicionPokemon)rom.Edicion).RegionKanto)
-                ordenNacional.IdFuente = EdicionPokemon.IDKANTO;
-            else ordenNacional.IdFuente = EdicionPokemon.IDHOENN;
 
-            ordenNacional.IdElemento = (ushort)posicion;
-
-            return ordenNacional;
+            return new PokemonGBAFramework.Pokemon.OrdenLocal() { Orden = ordenLocal.Orden != null ? ordenLocal.Orden : -1 };
         }
-        public static OrdenNacional[] GetOrdenNacional(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetOrdenNacional(RomGba rom)
         {
-            OrdenNacional[] oredenesNacional = new OrdenNacional[Huella.GetTotal(rom)];
-            for (int i = 0; i < oredenesNacional.Length; i++)
-                oredenesNacional[i] = GetOrdenNacional(rom, i);
-            return oredenesNacional;
+            return rom.GetPaquete("Ordenes Local", (r, i) => GetOrdenNacional(r, i), Huella.GetTotal(rom));
         }
-    
     }
 }

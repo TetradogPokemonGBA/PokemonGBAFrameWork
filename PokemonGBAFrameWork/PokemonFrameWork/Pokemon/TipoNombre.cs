@@ -1,11 +1,12 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Tipo
 {
-    public class Nombre:PokemonFrameWorkItem
+    public class Nombre
     {
         public enum LongitudCampo
         { Nombre = 7 }
@@ -15,8 +16,6 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
         public static readonly Zona ZonaNombreTipo;
 
         public BloqueString Texto { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
         static Nombre()
         {
@@ -42,22 +41,15 @@ namespace PokemonGBAFrameWork.Pokemon.Tipo
             Texto = new BloqueString((int)LongitudCampo.Nombre);
             Texto.Texto = nombre;
         }
-        public static Nombre[] GetNombre(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetNombre(RomGba rom)
         {
-            Nombre[] nombres = new Nombre[TipoCompleto.GetTotal(rom)];
-            for (int i = 0; i < nombres.Length; i++)
-                nombres[i] = GetNombre(rom, i);
-            return nombres;
+            return rom.GetPaquete("Nombre Tipos", (r,i)=>GetNombre(r,i), TipoCompleto.GetTotal(rom));
         }
-        public static Nombre GetNombre(RomGba rom,int index)
+        public static PokemonGBAFramework.Pokemon.NombrePokemon GetNombre(RomGba rom,int index)
         {
-            Nombre nombre=new Nombre();
-            nombre.Texto.Texto= BloqueString.GetString(rom, Zona.GetOffsetRom(ZonaNombreTipo, rom, rom.Edicion).Offset + index * (int)LongitudCampo.Nombre, (int)LongitudCampo.Nombre, true).Texto;
-            nombre.IdElemento = (ushort)index;
-            if (((EdicionPokemon)rom.Edicion).Idioma == Idioma.Ingles)
-                nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Español;
-            else nombre.IdFuente = EdicionPokemon.IDMINRESERVADO - (int)Idioma.Ingles;
-            return nombre;
+          return new PokemonGBAFramework.Pokemon.NombrePokemon() { Nombre = BloqueString.GetString(rom, Zona.GetOffsetRom(ZonaNombreTipo, rom, rom.Edicion).Offset + index * (int)LongitudCampo.Nombre, (int)LongitudCampo.Nombre, true).Texto };
+
+
         }
      
     }
