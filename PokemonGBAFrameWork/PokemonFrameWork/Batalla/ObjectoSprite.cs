@@ -5,16 +5,14 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Objeto
 {
-    public class Sprite:PokemonFrameWorkItem
+    public class Sprite
     {
         public const byte ID = 0x8;
         public static readonly Zona ZonaImagenesObjeto;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
 
         public BloqueImagen Imagen { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-
+   
         static Sprite()
         {
             ZonaImagenesObjeto = new Zona("Imagen Y Paleta Objeto");
@@ -50,14 +48,7 @@ namespace PokemonGBAFrameWork.Objeto
                 blImg.Paletas.Add(Paleta.GetPaletaSinHeader(rom, offsetImagenYPaleta + OffsetRom.LENGTH));
                 sprite.Imagen = blImg;
 
-                if (edicion.EsEsmeralda)
-                    sprite.IdFuente = EdicionPokemon.IDESMERALDA;
-                else if (edicion.EsRubiOZafiro)
-                    sprite.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-                else
-                    sprite.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
-                sprite.IdElemento = (ushort)index;
             }
             return sprite;
         }

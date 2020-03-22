@@ -9,11 +9,11 @@ namespace TestPokemonGBAFrameWork2.PokemonFrameWork
     [TestClass]
    public class TestPokemon
     {
-        [TestMethod]
-        public void CargarPokemon()
-        {
-            RomPokemon rom = new RomPokemon(Properties.Resources.PokemonRojoFuego);
-            PokemonCompleto.GetPokedex(rom);
-        }
+        //[TestMethod]
+        //public void CargarPokemon()
+        //{
+        //    RomGba rom = new RomGba(Properties.Resources.PokemonRojoFuego);
+
+        //}
     }
 }

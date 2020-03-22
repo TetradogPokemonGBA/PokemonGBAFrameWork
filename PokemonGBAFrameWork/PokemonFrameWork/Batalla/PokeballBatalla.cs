@@ -1,11 +1,12 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class PokeballBatalla:PokemonFrameWorkItem
+    public class PokeballBatalla
     {
         public const byte ID = 0xB;
         public static readonly Zona ZonaPaletaPokeballBatalla;
@@ -37,9 +38,7 @@ namespace PokemonGBAFrameWork
         }
 
         public BloqueImagen Sprite { get; set; }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-
+    
         public static int GetTotal(RomGba rom)
         {
             int total = 0;
@@ -54,24 +53,19 @@ namespace PokemonGBAFrameWork
             return total;
         }
 
-        public static PokeballBatalla GetPokeballBatalla(RomGba rom,  int index)
+        public static PokemonGBAFramework.Batalla.Pokeball GetPokeballBatalla(RomGba rom,  int index)
         {
             int offsetSprite = Zona.GetOffsetRom( ZonaSpritePokeballBatalla,rom).Offset + index * BloqueImagen.LENGTHHEADERCOMPLETO;
             int offsetPaleta = Zona.GetOffsetRom(ZonaPaletaPokeballBatalla,rom).Offset + index * Paleta.LENGTHHEADERCOMPLETO;
             PokeballBatalla pokeball = new PokeballBatalla();
             pokeball.Sprite = BloqueImagen.GetBloqueImagen(rom, offsetSprite);
             pokeball.Sprite.Paletas.Add(Paleta.GetPaleta(rom, offsetPaleta));
-            pokeball.IdElemento = (ushort)index;
-            pokeball.IdFuente = EdicionPokemon.IDMINRESERVADO;//en todas las roms hay las mismas pokeballs
-            return pokeball;
+            return new PokemonGBAFramework.Batalla.Pokeball() { Imagen = pokeball.Sprite.GetImg() };
         }
 
-        public static PokeballBatalla[] GetPokeballBatalla(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetPokeballBatalla(RomGba rom)
         {
-            PokeballBatalla[] pokeballs = new PokeballBatalla[GetTotal(rom)];
-            for (int i = 0; i < pokeballs.Length; i++)
-                pokeballs[i] = GetPokeballBatalla(rom,  i);
-            return pokeballs;
+            return rom.GetPaquete("Pokeballs Batalla",(r,i)=>GetPokeballBatalla(r,i),GetTotal(rom));
         }
 
 

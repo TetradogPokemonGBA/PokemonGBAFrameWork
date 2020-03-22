@@ -1,13 +1,15 @@
 ﻿using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using Poke;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class EquipoPokemonEntrenador:PokemonFrameWorkItem
+    public class EquipoPokemonEntrenador
     {
         enum Posicion
         {
@@ -68,8 +70,7 @@ namespace PokemonGBAFrameWork
                 return num;
             }
         }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+
 
         public bool HayAtaquesCustom()
         {
@@ -90,34 +91,27 @@ namespace PokemonGBAFrameWork
             return hayObjetosEquipados;
         }
 
-        public static EquipoPokemonEntrenador[] GetEquipo(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetEquipo(RomGba rom)
         {
-            EquipoPokemonEntrenador[] equiposPokemonEntrenador = new EquipoPokemonEntrenador[Entrenador.GetTotal(rom)];
-            for (int i = 0; i < equiposPokemonEntrenador.Length; i++)
-                equiposPokemonEntrenador[i] = GetEquipo(rom, i);
-            return equiposPokemonEntrenador;
+            return rom.GetPaquete("Equipos Entrenadores",(r,i)=>GetEquipo(r,i),Entrenador.GetTotal(rom));
         }
-        public static EquipoPokemonEntrenador GetEquipo(RomGba rom, int indexEntrenador)
+        public static PokemonGBAFramework.Batalla.EquipoPokemonEntrenador GetEquipo(RomGba rom, int indexEntrenador)
         {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-            EquipoPokemonEntrenador equipo= GetEquipo(rom, Entrenador.GetBytesEntrenador(rom, indexEntrenador));
-            if (edicion.EsEsmeralda)
-                equipo.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                equipo.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                equipo.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
-            equipo.IdElemento = (ushort)indexEntrenador;
-            return equipo;
+            EquipoPokemonEntrenador equipo= GetEquipo(rom, Entrenador.GetBytesEntrenador(rom, indexEntrenador));
+
+            return new PokemonGBAFramework.Batalla.EquipoPokemonEntrenador() { Equipo=equipo.Equipo.Select((e)=> {
+                PokemonGBAFramework.Batalla.PokemonEntrenador pokemon = new PokemonGBAFramework.Batalla.PokemonEntrenador();
+                e.SetValues(pokemon);
+                return pokemon;
+
+               }).ToList()};
         }
         public static EquipoPokemonEntrenador GetEquipo(RomGba rom, BloqueBytes bloqueEntrenador,int indexEntrenador=-1)
         {
             if (rom == null || bloqueEntrenador == null)
                 throw new ArgumentNullException();
 
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-            long idFuente;
             ushort idEntrenador =(ushort) (indexEntrenador * 10);
             byte[] bytesPokemonEquipo;
             EquipoPokemonEntrenador equipoCargado = new EquipoPokemonEntrenador();
@@ -127,12 +121,6 @@ namespace PokemonGBAFrameWork
             BloqueBytes bloqueDatosEquipo = BloqueBytes.GetBytes(rom.Data, new OffsetRom(bloqueEntrenador.Bytes, (int)Entrenador.Posicion.PointerPokemonData).Offset, bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons] * tamañoPokemon);
             equipoCargado.OffsetToDataPokemon = bloqueDatosEquipo.OffsetInicio;
 
-            if (edicion.EsEsmeralda)
-                idFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                idFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                idFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
             for (int i = 0, f = bloqueEntrenador.Bytes[(int)Entrenador.Posicion.NumeroPokemons]; i < f; i++)
             {
@@ -151,9 +139,7 @@ namespace PokemonGBAFrameWork
                     equipoCargado.Equipo[i].Move4 = new Word(bytesPokemonEquipo, (int)Posicion.Move4);
                 }
 
-                equipoCargado.Equipo[i].IdFuente = idFuente;
-                equipoCargado.Equipo[i].IdElemento = (ushort)(idEntrenador+i);//asi puedo saber que entrenador :3
-            }
+               }
 
 
             return equipoCargado;

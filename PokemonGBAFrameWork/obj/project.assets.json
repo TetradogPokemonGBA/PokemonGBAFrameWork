@@ -402,7 +402,7 @@
     "C:\\Users\\tetra\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.1-preview6",
+    "version": "1.0.0-preview1",
     "restore": {
       "projectUniqueName": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFramework.RomGBA.csproj",
       "projectName": "PokemonGBAFramework.RomGBA",

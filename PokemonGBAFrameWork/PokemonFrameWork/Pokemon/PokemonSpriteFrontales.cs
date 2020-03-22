@@ -10,8 +10,10 @@ using System.Text;
 
 namespace PokemonGBAFrameWork.Pokemon.Sprite
 {
-    public class Frontales:PokemonFrameWorkItem
+    public class Frontales
     {
+        public const int LONGITUDLADO = 64;
+        public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
         public const byte ID = 0x24;
         private static readonly Paleta PaletaAnimacion;
         public static readonly Zona ZonaImgFrontal;
@@ -71,9 +73,9 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             int offsetImgFrontalPokemon = Zona.GetOffsetRom(ZonaImgFrontal, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
             BloqueImagen bloqueImgFrontal = BloqueImagen.GetBloqueImagen(rom, offsetImgFrontalPokemon);
             auxImg = bloqueImgFrontal.DatosDescomprimidos.Bytes;
-            for (int i = 0, f = auxImg.Length / SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)
+            for (int i = 0, f = auxImg.Length / TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += TAMAÑOIMAGENDESCOMPRIMIDA)
             {
-                frontales.sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA))));
+                frontales.sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, TAMAÑOIMAGENDESCOMPRIMIDA))));
             }
 
             return new PokemonGBAFramework.Pokemon.Sprites.Frontales() { Imagenes=frontales.Sprites.Select((img)=>img.GetImg()).ToList()};

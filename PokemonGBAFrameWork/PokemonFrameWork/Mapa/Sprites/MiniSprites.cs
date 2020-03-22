@@ -8,25 +8,28 @@
  */
 using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework;
+using PokemonGBAFramework.Mapa.Sprites;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace PokemonGBAFrameWork.Mini
 {
 	/// <summary>
 	/// Description of MiniSprites.
 	/// </summary>
-	public class Sprite:PokemonFrameWorkItem
+	public class Sprite
 	{
         public const byte ID = 0x12;
         const int TAMAÑOHEADER=36;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Sprite>();
 
         public static readonly Zona ZonaMiniSpritesData;
-		OffsetRom pt1,pt2,pt3,pt4,pt5;//de momento solo se que el pt4 es para los frames...los demás deben de ser para algo pero no lo sé...
+		OffsetRom pt1,pt2,pt3, pt5;//de momento solo se que el pt4 es para los frames...los demás deben de ser para algo pero no lo sé...
 		Llista<BloqueSprite> blSprites;
-		Paleta paleta;
-		int width,height;
+
 		static Sprite()
 		{
 			ZonaMiniSpritesData=new Zona("Mini sprites OverWorld-Data");
@@ -54,66 +57,34 @@ namespace PokemonGBAFrameWork.Mini
 			
 		}
 		public int LengthData{
-			get{return height*width/2;}
+			get{return Height*Width/2;}
 		}
-		public int Height {
-			get {
-				return height;
-			}
-            set { height = value; }
-		}
-		public int Width {
-			get {
-				return width;
-			}
-            set { width = value; }
-		}
-		public Paleta Paleta {
-			get {
-				return paleta;
-			}
-			 set{paleta=value;}
-		}
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public Paleta Paleta { get; set; }
 
-		public OffsetRom OffsetImage {
-			get {
-				return pt4;
-			}
-            set { pt4 = value; }
-		}
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
+        public OffsetRom OffsetImage { get; set; }
 
         public Bitmap this[int indexMini]
 		{
 			get{
-				return blSprites[indexMini].GetBitmap(paleta);
+				return blSprites[indexMini].GetBitmap(Paleta);
 			}
 		}
 		bool IsOk()
 		{
-			return pt1.IsAPointer&&pt2.IsAPointer&&pt3.IsAPointer&&pt4.IsAPointer&&pt5.IsAPointer&&height<=(int)BloqueSprite.Medidas.MuyGrande&&width<=(int)BloqueSprite.Medidas.MuyGrande;
+			return pt1.IsAPointer&&pt2.IsAPointer&&pt3.IsAPointer&&OffsetImage.IsAPointer&&pt5.IsAPointer&&Height<=(int)BloqueSprite.Medidas.MuyGrande&&Width<=(int)BloqueSprite.Medidas.MuyGrande;
 		}
 
-		public static Sprite GetMiniSprite(RomGba rom,int posicion,Paletas paletas=null)
+		public static SpriteMini GetMiniSprite(RomGba rom,int posicion,List<PaletaMini> paletas)
 		{
             if (paletas == null)
-                paletas = Paletas.GetPaletasMinis(rom);
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+                paletas = Paletas.GetPaletas(rom);
             TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom);
 			//obtengo el inicio y el fin
 			Sprite sprite= GetMiniSprite(rom,posicion,paletas,inicioYFin.Key1,inicioYFin.Key2);
 
-            if (edicion.EsEsmeralda)
-                sprite.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                sprite.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                sprite.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
-
-            sprite.IdElemento = (ushort)posicion;
-
-            return sprite;
+            return new SpriteMini() { Minis = sprite.Minis.Select((mini)=>mini.GetBitmap(mini.Paleta)).ToArray() };
 		}
 		static TwoKeys<int,int> GetTablaYTotal(RomGba rom,int totalMinis=-1)
 		{
@@ -123,15 +94,15 @@ namespace PokemonGBAFrameWork.Mini
 			int offsetInicioTabla=Zona.GetOffsetRom(ZonaMiniSpritesData, rom).Offset;
 			return new TwoKeys<int, int>(offsetInicioTabla,totalMinis);
 		}
-		static Sprite GetMiniSprite(RomGba rom,int posicion,Paletas paletas,int offsetTablaMinis,int totalMinis)
+		static Sprite GetMiniSprite(RomGba rom,int posicion,List<PaletaMini> paletas,int offsetTablaMinis,int totalMinis)
 		{
 
 			int offsetSprites;
 			Sprite mini = CargarDatosMini(rom, posicion, paletas);
 			//mirar de obtenerlos a todos
-			offsetSprites=mini.pt4.Offset;
+			offsetSprites=mini.OffsetImage.Offset;
 				for(int i=0,f=GetTotalFrames(rom,mini,offsetTablaMinis,totalMinis);i<f;i++)
-					mini.blSprites.Add(BloqueSprite.GetSprite(rom,mini.Paleta,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.width,mini.height));
+					mini.blSprites.Add(BloqueSprite.GetSprite(rom,mini.Paleta,new OffsetRom(rom,offsetSprites+i*BloqueImagen.LENGTHHEADERCOMPLETO).Offset,mini.Width,mini.Height));
 			
 			return mini;
 			
@@ -144,7 +115,7 @@ namespace PokemonGBAFrameWork.Mini
 			int total=0;
 
 			//busco un offset que su pointer este en la rom :) como marca fin ;)
-			int offsetActual=mini.pt4.Offset;
+			int offsetActual=mini.OffsetImage.Offset;
 			OffsetRom offsetImg;
 			bool acabado=false;
 			int offsetHeaderActual;
@@ -168,45 +139,53 @@ namespace PokemonGBAFrameWork.Mini
 			}while(!acabado);
 			return total;
 		}
-		static Sprite CargarDatosMini(RomGba rom, int posicion, Paletas paletas)
+		static Sprite CargarDatosMini(RomGba rom, int posicion, List<PaletaMini> paletas)
 		{
 			int offsetHeader = new OffsetRom(rom, Zona.GetOffsetRom(ZonaMiniSpritesData, rom).Offset + (posicion * OffsetRom.LENGTH)).Offset;
 			byte[] bytesHeader = rom.Data.Bytes;
 			Sprite mini = new Sprite();
 
 			//obtengo las medidas del minisprite
-			mini.width = Serializar.ToInt(new byte[] {
+			mini.Width = Serializar.ToInt(new byte[] {
 			                              	bytesHeader[offsetHeader+8],
 			                              	bytesHeader[offsetHeader+9],
 			                              	0,
 			                              	0
 			                              });
-			mini.height = Serializar.ToInt(new byte[] {
+			mini.Height = Serializar.ToInt(new byte[] {
 			                               	bytesHeader[offsetHeader+10],
 			                               	bytesHeader[offsetHeader+11],
 			                               	0,
 			                               	0
 			                               });
-			mini.Paleta = paletas[bytesHeader[offsetHeader+2]];
+			mini.Paleta =new Paleta(paletas[bytesHeader[offsetHeader+2]].Paleta);
 			mini.pt1 = new OffsetRom(bytesHeader, offsetHeader+16);
 			mini.pt2 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH);
 			mini.pt3 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 2);
-			mini.pt4 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 3);
+			mini.OffsetImage = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 3);
 			mini.pt5 = new OffsetRom(bytesHeader,offsetHeader+ 16 + OffsetRom.LENGTH * 4);
 			return mini;
 		}
 
 
-		public static Sprite[] GetMiniSprite(RomGba rom)
+		public static Paquete GetMiniSprite(RomGba rom)
 		{
-			return GetMiniSprite(rom,Paletas.GetPaletasMinis(rom));
+			SpriteMini[] minis= GetMiniSprite(rom,Paletas.GetPaletas(rom));
+			Elemento elemento;
+			Paquete paquete = new Paquete() {Nombre= "MiniSprites" };
+			for(int i=0;i<minis.Length;i++)
+			{
+				elemento = new Elemento(minis[i]);
+				paquete.ElementosNuevos.Add(elemento.Id,elemento);
+			}
+			return Poke.Extension.SetRomData(rom, paquete);
 		}
-		public static Sprite[] GetMiniSprite(RomGba rom,Paletas paletas)
+		public static SpriteMini[] GetMiniSprite(RomGba rom,List<PaletaMini> paletas)
 		{
 			TwoKeys<int,int> inicioYFin=GetTablaYTotal(rom);
-			Sprite[] minis=new Sprite[GetTotal(rom)];
+			SpriteMini[] minis=new SpriteMini[GetTotal(rom)];
 			for(int i=0;i<minis.Length;i++)
-				minis[i]=GetMiniSprite(rom,i,paletas,inicioYFin.Key1,inicioYFin.Key2);
+				minis[i] =  new SpriteMini() { Minis = GetMiniSprite(rom, i, paletas, inicioYFin.Key1, inicioYFin.Key2).Minis.Select((mini) => mini.GetBitmap(mini.Paleta)).ToArray() }; 
 			
 			return minis;
 		}

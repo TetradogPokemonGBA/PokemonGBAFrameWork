@@ -1,11 +1,13 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
+using PokemonGBAFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class Entrenador:PokemonFrameWorkItem 
+    public class Entrenador 
     {
         public enum Posicion
         {
@@ -194,9 +196,7 @@ namespace PokemonGBAFrameWork
                 inteligencia = value;
             }
         }
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-
+    
         public uint CalcularDinero(RomGba rom)
         {
             uint tamañoPokemonBytes = 8;
@@ -226,36 +226,27 @@ namespace PokemonGBAFrameWork
             return num - 1;
         }
 
-        public static Entrenador GetEntrenador(RomGba rom, int index)
+        public static PokemonGBAFramework.Batalla.Entrenador GetEntrenador(RomGba rom, int index)
         {
 
             BloqueBytes bytesEntrenador = GetBytesEntrenador(rom, index);
-            Entrenador entranadorCargado = new Entrenador();
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-
+            Entrenador entrenadorCargado = new Entrenador();
+            PokemonGBAFramework.Batalla.Entrenador entrenador = new PokemonGBAFramework.Batalla.Entrenador();
             //le pongo los datos
-            entranadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
-            entranadorCargado.MusicaBatalla = (byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & MAXMUSIC);
-            entranadorCargado.TrainerClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];//quizas es la clase de entrenador :D y no el rango de dinero que da...
-            entranadorCargado.Nombre.Texto = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
-            entranadorCargado.Inteligencia = new DWord(bytesEntrenador.Bytes, (int)Posicion.Inteligencia);//mirar si es asi :D
-            entranadorCargado.Item1 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item1);//mirar si es asi :D
-            entranadorCargado.Item2 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item2);//mirar si es asi :D
-            entranadorCargado.Item3 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item3);//mirar si es asi :D
-            entranadorCargado.Item4 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item4);//mirar si es asi :D
-            entranadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
-            entranadorCargado.EquipoPokemon = EquipoPokemonEntrenador.GetEquipo(rom, bytesEntrenador);
+            entrenadorCargado.EsUnaEntrenadora = (bytesEntrenador.Bytes[(int)Posicion.EsChica] & 0x80) != 0;
+            entrenadorCargado.MusicaBatalla = (byte)(bytesEntrenador.Bytes[(int)Posicion.Musica] & MAXMUSIC);
+            entrenadorCargado.TrainerClass = bytesEntrenador.Bytes[(int)Posicion.MoneyClass];//quizas es la clase de entrenador :D y no el rango de dinero que da...
+            entrenadorCargado.Nombre.Texto = BloqueString.GetString(bytesEntrenador, (int)Posicion.Nombre, (int)Longitud.Nombre);
+            entrenadorCargado.Inteligencia = new DWord(bytesEntrenador.Bytes, (int)Posicion.Inteligencia);//mirar si es asi :D
+            entrenadorCargado.Item1 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item1);//mirar si es asi :D
+            entrenadorCargado.Item2 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item2);//mirar si es asi :D
+            entrenadorCargado.Item3 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item3);//mirar si es asi :D
+            entrenadorCargado.Item4 = new Word(bytesEntrenador.Bytes, (int)Posicion.Item4);//mirar si es asi :D
+            entrenadorCargado.SpriteIndex = bytesEntrenador.Bytes[(int)Posicion.Sprite];
+            entrenadorCargado.EquipoPokemon = EquipoPokemonEntrenador.GetEquipo(rom, bytesEntrenador);
+            entrenadorCargado.SetValues(entrenador);
 
-            if (edicion.EsEsmeralda)
-                entranadorCargado.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                entranadorCargado.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                entranadorCargado.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
-
-            entranadorCargado.IdElemento = (ushort)index;
-
-            return entranadorCargado;
+            return entrenador;
 
         }
         public static BloqueBytes GetBytesEntrenador(RomGba rom, int index)
@@ -266,14 +257,9 @@ namespace PokemonGBAFrameWork
             return BloqueBytes.GetBytes(rom.Data, poscionEntrenador, TAMAÑOENTRENADOR);
         }
 
-        public static Entrenador[] GetEntrenador(RomGba rom)
+        public static Paquete GetEntrenador(RomGba rom)
         {
-            Entrenador[] entrenadores = new Entrenador[GetTotal(rom)];
-            for (int i = 0; i < entrenadores.Length; i++)
-                entrenadores[i] = GetEntrenador(rom,  i);
-
-
-            return entrenadores;
+            return rom.GetPaquete("Entrenadores", (r, i) => GetEntrenador(r, i), GetTotal(rom));
         }
 
       

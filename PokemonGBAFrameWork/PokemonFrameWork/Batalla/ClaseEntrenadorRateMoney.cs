@@ -1,13 +1,16 @@
 ﻿using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using Poke;
+using PokemonGBAFramework;
+using PokemonGBAFramework.Batalla;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class RateMoney : PokemonFrameWorkItem
+    public class RateMoney 
     {
         enum Longitud
         {
@@ -33,36 +36,26 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         }
         public byte Rate { get => rate; set => rate = value; }
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
-        public static RateMoney[] GetRateMoney(RomGba rom)
+
+        public static Paquete GetRateMoney(RomGba rom)
         {
-            RateMoney[] rates = new RateMoney[ClaseEntrenador.Sprite.GetTotal(rom)];
-            for (int i = 0; i < rates.Length; i++)
-                rates[i] = GetRateMoney(rom, i);
-            return rates;
+            return rom.GetPaquete("Nombres Clases Entrenador", (r, i) => GetRateMoney(r, i), ClaseEntrenador.Sprite.GetTotal(rom));
         }
-        public static RateMoney GetRateMoney(RomGba rom, int index)
+        public static RateMoneyClaseEntrenador GetRateMoney(RomGba rom, int index)
         {
-            RateMoney rateMoney = new RateMoney();
+            int rate;
             EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
             int offsetRateMoney;
             if (!edicion.EsRubiOZafiro)
             {
                 offsetRateMoney = Zona.GetOffsetRom(ZonaRatesMoney, rom).Offset + index * (int)Longitud.RateMoney;
-                rateMoney.Rate = rom.Data[offsetRateMoney];
-                if (edicion.EsEsmeralda)
-                    rateMoney.IdFuente = EdicionPokemon.IDESMERALDA;
-                else if (edicion.EsRubiOZafiro)
-                    rateMoney.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-                else
-                    rateMoney.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
+                rate = rom.Data[offsetRateMoney];
 
-                rateMoney.IdElemento = (ushort)index;
             }
+            else rate = -1;
 
-            return rateMoney;
+            return new RateMoneyClaseEntrenador() { Rate = rate };
         }
 
     }

@@ -11,6 +11,8 @@
 using Gabriel.Cat.S.Binaris;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using Poke;
+using PokemonGBAFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,7 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public static class PokemonErrante
     {
-        public class Ruta : PokemonFrameWorkItem
+        public class Ruta 
         {
             public const byte ID = 0x10;
             public const int MAXLENGTH = 7;
@@ -106,44 +108,27 @@ namespace PokemonGBAFrameWork
 
             public byte[] Rutas { get; set; }
 
-            public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-            public override ElementoBinario Serialitzer => Serializador;
-
+      
             public Ruta()
             {
                 Rutas = new byte[MAXLENGTH];
             }
 
-            public static Ruta[] GetRutas(RomGba rom)
+            public static Paquete GetRutas(RomGba rom)
             {
-                Ruta[] rutas = new Ruta[rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]];
-                for (int i = 0; i < rutas.Length; i++)
-                {
-                    rutas[i] = GetRuta(rom, i);
-                }
-                return rutas;
+                return rom.GetPaquete("Rutas pokemon errante",(r,i)=>GetRuta(r,i), rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
 
             }
 
-            public static Ruta GetRuta(RomGba rom, int posicion)
+            public static PokemonGBAFramework.Eventos.PokemonErrante.Ruta GetRuta(RomGba rom, int posicion)
             {
                 int columnas = Variable.GetVariable(VariableColumnasFilaRuta, rom.Edicion);
                 Ruta ruta = new Ruta();
                 BloqueBytes bloqueDatos = BloqueBytes.GetBytes(rom.Data, Variable.GetVariable(VariableOffsetTablaFilasRuta, rom.Edicion), columnas * rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
-                EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
 
                 for (int j = 0; j < columnas; j++)
                     ruta.Rutas[j] = bloqueDatos.Bytes[posicion * columnas + j];
-
-                ruta.IdElemento = (ushort)posicion;
-                if (edicion.EsEsmeralda)
-                    ruta.IdFuente = EdicionPokemon.IDESMERALDA;
-                else if (edicion.RegionKanto)
-                    ruta.IdFuente = EdicionPokemon.IDKANTO;
-                else
-                    ruta.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;//lo pongo por si se llega ha hacer que esté ya hecho :)
-
-                return ruta;
+            return new PokemonGBAFramework.Eventos.PokemonErrante.Ruta() { Rutas = ruta.Rutas.Casting<int>() };
 
             }
   
@@ -182,7 +167,7 @@ namespace PokemonGBAFrameWork
 
             public const int MAXTURNOSDORMIDO = 7;
 
-            PokemonGBAFrameWork.PokemonCompleto pokemon;
+   
             Word vida;
             Word nivel;
             byte stats;
@@ -239,26 +224,14 @@ namespace PokemonGBAFrameWork
                 VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp10);
             }
             public Pokemon() { }
-            public Pokemon(PokemonGBAFrameWork.PokemonCompleto pokemon, Word vida = null, Word nivel = null, byte stats = 0)
+            public Pokemon( Word vida = null, Word nivel = null, byte stats = 0)
             {
-                PokemonErrante = pokemon;
+            
                 Vida = vida;
                 Nivel = nivel;
                 Stats = stats;
             }
-            public PokemonGBAFrameWork.PokemonCompleto PokemonErrante
-            {
-                get
-                {
-                    return pokemon;
-                }
-
-                set
-                {
-                    if (value == null) throw new ArgumentNullException();
-                    pokemon = value;
-                }
-            }
+ 
 
             public Word Vida
             {
@@ -390,6 +363,8 @@ namespace PokemonGBAFrameWork
 
             ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
 
+            public Word OrdenNacional { get;  set; }
+
             public bool GetStatNoDormido(Stat i)
             {
                 return stats.ToBits()[3 + (int)i];
@@ -410,7 +385,7 @@ namespace PokemonGBAFrameWork
                 ushort auxNivelYEstado;
                 Script scriptPokemonErrante = new Script();
                 scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(new Word((ushort)Variable.GetVariable(VariableSpecialPokemonErrante, edicion))));
-                scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion)), pokemonErrante.PokemonErrante.OrdenNacional.Orden));
+                scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion)), pokemonErrante.OrdenNacional));
                 scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariableVitalidadVar, edicion)), pokemonErrante.Vida));
                 estado = ((Hex)pokemonErrante.Stats).ToString().PadLeft(2, '0');
                 nivel = ((Hex)((byte)pokemonErrante.Nivel)).ToString();

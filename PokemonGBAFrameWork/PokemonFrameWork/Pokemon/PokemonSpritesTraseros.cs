@@ -38,9 +38,9 @@ namespace PokemonGBAFrameWork.Pokemon.Sprite
             int offsetImgFrontalPokemon = Zona.GetOffsetRom(ZonaImgTrasera, rom).Offset + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
             BloqueImagen bloqueImgFrontal = BloqueImagen.GetBloqueImagen(rom, offsetImgFrontalPokemon);
             auxImg = bloqueImgFrontal.DatosDescomprimidos.Bytes;
-            for (int i = 0, f = auxImg.Length / SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA)
+            for (int i = 0, f = auxImg.Length / Frontales.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += Frontales.TAMAÑOIMAGENDESCOMPRIMIDA)
             {
-                traseros.Sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, SpritesCompleto.TAMAÑOIMAGENDESCOMPRIMIDA))));
+                traseros.Sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, Frontales.TAMAÑOIMAGENDESCOMPRIMIDA))));
             }
 
             return new PokemonGBAFramework.Pokemon.Sprites.Traseros() { Imagenes = traseros.Sprites.Select((img) => img.GetImg()).ToList() };

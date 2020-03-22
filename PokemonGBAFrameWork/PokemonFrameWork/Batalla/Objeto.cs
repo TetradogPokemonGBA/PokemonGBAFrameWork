@@ -1,4 +1,6 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
+using PokemonGBAFramework;
 using PokemonGBAFrameWork.Objeto;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Text;
 
 namespace PokemonGBAFrameWork
 {
-    public class ObjetoCompleto:PokemonFrameWorkItem
+    public class ObjetoCompleto
     {
         public const byte ID = 0x9;
         //estas dos zonas descubiertas con LSAs Complete Item Editor usando los offsets que da para facilitar la investigación
@@ -58,9 +60,7 @@ namespace PokemonGBAFrameWork
         public Sprite Sprite { get; set; }
         public Datos Datos { get; set; }
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-
+  
         #endregion
 
 
@@ -71,30 +71,23 @@ namespace PokemonGBAFrameWork
 
 
 
-        public static ObjetoCompleto GetObjeto(RomGba rom, int index)
+        public static PokemonGBAFramework.Batalla.Objeto GetObjeto(RomGba rom, int index)
         {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+ 
             ObjetoCompleto objeto = new ObjetoCompleto();
+            PokemonGBAFramework.Batalla.Objeto obj = new PokemonGBAFramework.Batalla.Objeto();
             objeto.Datos = Datos.GetDatos(rom, index);
             objeto.Sprite = Sprite.GetSprite(rom, index);
-            if (edicion.EsEsmeralda)
-                objeto.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                objeto.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                objeto.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
-            objeto.IdElemento = (ushort)index;
-            return objeto;
+            obj.Imagen = objeto.Sprite.Imagen.GetImg();
+            objeto.Datos.SetValues(obj);
+            return obj;
 
         }
 
-        public static ObjetoCompleto[] GetObjetos(RomGba rom)
+        public static Paquete GetObjetos(RomGba rom)
         {
-            ObjetoCompleto[] objetos = new ObjetoCompleto[Datos.GetTotal(rom)];
-            for (int i = 0; i < objetos.Length; i++)
-                objetos[i] = GetObjeto(rom, i);
-            return objetos;
+            return rom.GetPaquete("Objetos",(r,i)=>GetObjeto(r,i),Datos.GetTotal(rom));
         }
 
      

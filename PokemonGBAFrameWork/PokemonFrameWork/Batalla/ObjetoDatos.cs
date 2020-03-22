@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static PokemonGBAFramework.Batalla.Objeto;
 
 namespace PokemonGBAFrameWork.Objeto
 {
-    public class Datos:PokemonFrameWorkItem
+    public class Datos
     {
         public enum LongitudCampos
         {
@@ -28,16 +29,7 @@ namespace PokemonGBAFrameWork.Objeto
             extraParameter = 4
 
         }
-        public enum BolsilloObjetos
-        {
 
-            Desconocido,
-            Items,
-            Pokeballs,
-            MTMO,
-            Bayas,
-            ObjetosClave
-        }
         public const byte ID = 0xA;
         public static readonly Zona ZonaDatosObjeto;
         public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Datos>();
@@ -234,8 +226,6 @@ namespace PokemonGBAFrameWork.Objeto
             }
         }
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
         #endregion
         public static int GetTotal(RomGba rom)
         {
@@ -291,7 +281,7 @@ namespace PokemonGBAFrameWork.Objeto
         }
         public static Datos GetDatos(RomGba rom, int index)
         {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
+
             int offsetDatos = Zona.GetOffsetRom(ZonaDatosObjeto, rom).Offset + index * (int)LongitudCampos.Total;
             OffsetRom aux;
             byte[] blDatos = rom.Data.SubArray(offsetDatos, (int)LongitudCampos.Total);
@@ -318,18 +308,7 @@ namespace PokemonGBAFrameWork.Objeto
                 datos.pointerFieldUsage = aux;
             //lo que hacia que fuera tan lento cargando era el uso de try catch!!
             datos.extraParameter = new DWord(blDatos, 40);
-            if (edicion.EsEsmeralda)
-                datos.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                datos.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                datos.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
-            if (edicion.Idioma == Idioma.Ingles)
-                datos.IdFuente = datos.IdFuente - (int)Idioma.Español;
-            else datos.IdFuente = datos.IdFuente - (int)Idioma.Ingles;
-
-            datos.IdElemento = (ushort)index;
 
             return datos;
         }

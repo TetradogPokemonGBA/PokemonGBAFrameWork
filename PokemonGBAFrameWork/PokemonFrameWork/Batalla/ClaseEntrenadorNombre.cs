@@ -1,11 +1,12 @@
 ﻿using Gabriel.Cat.S.Binaris;
+using Poke;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFrameWork.ClaseEntrenador
 {
-    public class Nombre : PokemonFrameWorkItem
+    public class Nombre 
     {
         enum Longitud
         {
@@ -18,8 +19,6 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
 
         public BloqueString Text { get; set; }
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
 
         static Nombre()
         {
@@ -45,33 +44,17 @@ namespace PokemonGBAFrameWork.ClaseEntrenador
         {
             return Text.ToString();
         }
-        public static Nombre[] GetNombre(RomGba rom)
+        public static PokemonGBAFramework.Paquete GetNombre(RomGba rom)
         {
-            Nombre[] nombres = new Nombre[ClaseEntrenador.Sprite.GetTotal(rom)];
-            for (int i = 0; i < nombres.Length; i++)
-                nombres[i] = GetNombre(rom, i);
-            return nombres;
+            return rom.GetPaquete("Nombres Clases Entrenador", (r, i) => GetNombre(r, i), ClaseEntrenador.Sprite.GetTotal(rom));
         }
-        public static Nombre GetNombre(RomGba rom,int index)
+        public static PokemonGBAFramework.Batalla.NombreClaseEntrenador GetNombre(RomGba rom,int index)
         {
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-
             int offsetNombre = Zona.GetOffsetRom(ZonaNombres, rom).Offset + (index) * (int)Longitud.Nombre;
-            Nombre nombre=new Nombre();
-            nombre.Text = BloqueString.GetString(rom, offsetNombre);
+          
+            PokemonGBAFramework.Batalla.NombreClaseEntrenador nombre =new PokemonGBAFramework.Batalla.NombreClaseEntrenador();
+            nombre.Nombre = BloqueString.GetString(rom, offsetNombre).Texto;
 
-            if (edicion.EsEsmeralda)
-                nombre.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                nombre.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                nombre.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
-
-            if (edicion.Idioma == Idioma.Ingles)
-                nombre.IdFuente = nombre.IdFuente - (int)Idioma.Español;
-            else nombre.IdFuente = nombre.IdFuente - (int)Idioma.Ingles;
-
-            nombre.IdElemento = (ushort)index;
             return nombre;
         }
      

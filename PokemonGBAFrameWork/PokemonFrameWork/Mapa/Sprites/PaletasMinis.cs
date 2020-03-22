@@ -12,13 +12,16 @@ using Gabriel.Cat.S.Utilitats;
 
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Binaris;
+using PokemonGBAFramework.Mapa.Sprites;
+using PokemonGBAFramework;
+using System.Collections.Generic;
 
 namespace PokemonGBAFrameWork.Mini
 {
     /// <summary>
     /// Description of PaletasMinis.
     /// </summary>
-    public class Paletas : PokemonFrameWorkItem
+    public class Paletas 
     {
 
         public const byte ID = 0x13;
@@ -56,9 +59,7 @@ namespace PokemonGBAFrameWork.Mini
 			}
 		}
 
-        public override byte IdTipo { get => ID; set => base.IdTipo = value; }
-        public override ElementoBinario Serialitzer => Serializador;
-
+  
         public Paleta this[byte idPaleta]
 		{
 			get{
@@ -66,27 +67,39 @@ namespace PokemonGBAFrameWork.Mini
 			}
 		}
 
-		public static Paletas GetPaletasMinis(RomGba rom)
+		public static Paquete GetPaletasMinis(RomGba rom)
 		{
-            EdicionPokemon edicion = (EdicionPokemon)rom.Edicion;
-            Paletas paletas=new Paletas();
+			Paquete paquete=new Paquete() { Nombre = "Paletas Minis" };
+			Elemento elemento;
 			//obtengo la paleta
-			int	offsetTablaPaleta=Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
-			try{
-				while(true)
-					paletas.PaletasMinis.Add(GetPaletaMinis(rom,paletas.paletas.Count,offsetTablaPaleta));
-			}catch{}
-			paletas.PaletasMinis.SortByQuickSort();
-            if (edicion.EsEsmeralda)
-                paletas.IdFuente = EdicionPokemon.IDESMERALDA;
-            else if (edicion.EsRubiOZafiro)
-                paletas.IdFuente = EdicionPokemon.IDRUBIANDZAFIRO;
-            else
-                paletas.IdFuente = EdicionPokemon.IDROJOFUEGOANDVERDEHOJA;
 
-            return paletas;
+			foreach (PaletaMini paleta in GetPaletas(rom))
+			{
+				elemento = new Elemento(paleta);
+				paquete.ElementosNuevos.Add(elemento.Id, elemento);
+			}
+		
+            return Poke.Extension.SetRomData(rom,paquete);
 		}
-        public static Paleta GetPaletaMinis(RomGba rom,int posicion,int offsetTablaPaleta = -1)
+
+		public static List<PaletaMini> GetPaletas(RomGba rom)
+		{
+			List<PaletaMini> paletas=new List<PaletaMini>();
+			//obtengo la paleta
+			int offsetTablaPaleta = Zona.GetOffsetRom(ZonaMiniSpritesPaleta, rom).Offset;
+			try
+			{
+				while (true)
+				{
+					paletas.Add(GetPaletaMinis(rom, paletas.Count, offsetTablaPaleta));
+				}
+			}
+			catch { }
+
+
+			return paletas;
+		}
+		public static PaletaMini GetPaletaMinis(RomGba rom,int posicion,int offsetTablaPaleta = -1)
         {
             
             if (offsetTablaPaleta<0)
@@ -95,7 +108,7 @@ namespace PokemonGBAFrameWork.Mini
 
             Paleta paleta= Paleta.GetPaleta(rom, offsetTablaPaleta + posicion * Paleta.LENGTHHEADERCOMPLETO);
 
-            return paleta;
+            return new PaletaMini() { Paleta = paleta.Colores };
         }
         //falta set
 	}
