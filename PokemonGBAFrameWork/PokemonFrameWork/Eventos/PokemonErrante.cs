@@ -24,7 +24,7 @@ namespace PokemonGBAFrameWork
     /// </summary>
     public static class PokemonErrante
     {
-        public class Ruta 
+        public class Ruta
         {
             public const byte ID = 0x10;
             public const int MAXLENGTH = 7;
@@ -51,16 +51,16 @@ namespace PokemonGBAFrameWork
                 VariableBancoMapaRutaValido.Add(3, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
 
                 //creo...no se donde se mira...
-                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.ZafiroEsp10,EdicionPokemon.ZafiroUsa10,EdicionPokemon.ZafiroUsa11,EdicionPokemon.ZafiroUsa12);
-                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.RubiEsp10,EdicionPokemon.RubiUsa10,EdicionPokemon.RubiUsa11,EdicionPokemon.RubiUsa12);
-                
-                
+                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.ZafiroEsp10, EdicionPokemon.ZafiroUsa10, EdicionPokemon.ZafiroUsa11, EdicionPokemon.ZafiroUsa12);
+                VariableBancoMapaRutaValido.Add(0, EdicionPokemon.RubiEsp10, EdicionPokemon.RubiUsa10, EdicionPokemon.RubiUsa11, EdicionPokemon.RubiUsa12);
+
+
                 VariableColumnasFilaRuta.Add(6, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariableColumnasFilaRuta.Add(7, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
-				//sacado de pokeruby :D
-				VariableColumnasFilaRuta.Add(6, EdicionPokemon.ZafiroEsp10,EdicionPokemon.ZafiroUsa10,EdicionPokemon.ZafiroUsa11,EdicionPokemon.ZafiroUsa12);
-				VariableColumnasFilaRuta.Add(6, EdicionPokemon.RubiEsp10,EdicionPokemon.RubiUsa10,EdicionPokemon.RubiUsa11,EdicionPokemon.RubiUsa12);
-				
+                //sacado de pokeruby :D
+                VariableColumnasFilaRuta.Add(6, EdicionPokemon.ZafiroEsp10, EdicionPokemon.ZafiroUsa10, EdicionPokemon.ZafiroUsa11, EdicionPokemon.ZafiroUsa12);
+                VariableColumnasFilaRuta.Add(6, EdicionPokemon.RubiEsp10, EdicionPokemon.RubiUsa10, EdicionPokemon.RubiUsa11, EdicionPokemon.RubiUsa12);
+
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.EsmeraldaEsp10, 0xD5A140);
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoEsp10, 0x64C685);
 
@@ -70,13 +70,13 @@ namespace PokemonGBAFrameWork
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.VerdeHojaUsa10, 0x655665, 0x6556D5);
                 VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RojoFuegoUsa10, 0x655D89, 0x655DE9);
                 //investigando con la info de pokeruby
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RubiEsp10,0x406D90);
-				VariableOffsetTablaFilasRuta.Add(EdicionPokemon.ZafiroEsp10,0x406ACC);
-                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RubiUsa10,0x402E80,0x402E9C);
-				VariableOffsetTablaFilasRuta.Add(EdicionPokemon.ZafiroUsa10,0x402ED8,0x402EF8);
-				
-				//esta parte en pokeruby no se donde se mira...
-				VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaEsp10, 0x161928);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RubiEsp10, 0x406D90);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.ZafiroEsp10, 0x406ACC);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.RubiUsa10, 0x402E80, 0x402E9C);
+                VariableOffsetTablaFilasRuta.Add(EdicionPokemon.ZafiroUsa10, 0x402ED8, 0x402EF8);
+
+                //esta parte en pokeruby no se donde se mira...
+                VariableOffSetRutina1.Add(EdicionPokemon.EsmeraldaEsp10, 0x161928);
                 VariableOffSetRutina1.Add(EdicionPokemon.RojoFuegoEsp10, 0x141D6E);
 
                 //investigacion a ciegas
@@ -108,7 +108,7 @@ namespace PokemonGBAFrameWork
 
             public byte[] Rutas { get; set; }
 
-      
+
             public Ruta()
             {
                 Rutas = new byte[MAXLENGTH];
@@ -116,7 +116,7 @@ namespace PokemonGBAFrameWork
 
             public static Paquete GetRutas(RomGba rom)
             {
-                return rom.GetPaquete("Rutas pokemon errante",(r,i)=>GetRuta(r,i), rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
+                return rom.GetPaquete("Rutas pokemon errante", (r, i) => GetRuta(r, i), rom.Data[Variable.GetVariable(VariableOffSetRutina1, rom.Edicion)]);
 
             }
 
@@ -128,34 +128,15 @@ namespace PokemonGBAFrameWork
 
                 for (int j = 0; j < columnas; j++)
                     ruta.Rutas[j] = bloqueDatos.Bytes[posicion * columnas + j];
-            return new PokemonGBAFramework.Eventos.PokemonErrante.Ruta() { Rutas = ruta.Rutas.Casting<int>() };
+                return new PokemonGBAFramework.Eventos.PokemonErrante.Ruta() { Rutas = ruta.Rutas.Casting<int>() };
 
             }
-  
+
         }
-        public class Pokemon : IElementoBinarioComplejo
+        public class Pokemon
         {
 
-            public enum Stat
-            {
-                Dormido = -1, Envenenado = 0, Quemado = 1, Congelado = 2, Paralizado = 3, EnvenenamientoGrave = 4
-            }
-            public enum Disponibilidad
-            {//- Variable de la disponibilidad (0x100 = disponible, 0x0 = no disponible) = Esmeralda 0x5F29; FR 0x5071
-                Activo = 0x100, Inactivo = 0
-            }
-            public enum Dormido : int
-            {
-                NoDormido = 0,//000
-                UnTurno,//001
-                DosTurnos,//010
-                TresTurnos,//011
-                CuatroTurnos,//100
-                CincoTurnos,//101
-                SeisTurnos,//110
-                SieteTurnos//111
 
-            }
             public const byte ID = 0x11;
             public static readonly ElementoBinario Serializador = ElementoBinario.GetSerializador<Pokemon>();
 
@@ -167,10 +148,7 @@ namespace PokemonGBAFrameWork
 
             public const int MAXTURNOSDORMIDO = 7;
 
-   
-            Word vida;
-            Word nivel;
-            byte stats;
+
 
             //falta Rubi y Zafiro esp y usa
             static Pokemon()
@@ -186,17 +164,17 @@ namespace PokemonGBAFrameWork
 
                 VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariableSpecialPokemonErrante.Add(0x129, EdicionPokemon.RojoFuegoUsa10, EdicionPokemon.VerdeHojaUsa10, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
-                
+
                 //creo mirar como se asigna el numero def_special InitRoamer /data/specials.inc mirar esto	clear flag FLAG_SYS_TV_LATI	setflag FLAG_LATIOS_OR_LATIAS_ROAMING
-                VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.ZafiroEsp10,EdicionPokemon.ZafiroUsa10,EdicionPokemon.ZafiroUsa11,EdicionPokemon.ZafiroUsa12);
-                VariableSpecialPokemonErrante.Add(0x12B,  EdicionPokemon.RubiEsp10,EdicionPokemon.RubiUsa10,EdicionPokemon.RubiUsa11,EdicionPokemon.RubiUsa12);
-                
+                VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.ZafiroEsp10, EdicionPokemon.ZafiroUsa10, EdicionPokemon.ZafiroUsa11, EdicionPokemon.ZafiroUsa12);
+                VariableSpecialPokemonErrante.Add(0x12B, EdicionPokemon.RubiEsp10, EdicionPokemon.RubiUsa10, EdicionPokemon.RubiUsa11, EdicionPokemon.RubiUsa12);
+
                 //-4 en la var del pokemon para los datos encripatos :D
                 VariablePokemonErranteVar.Add(0x4F24, EdicionPokemon.EsmeraldaUsa10, EdicionPokemon.EsmeraldaEsp10);
                 VariablePokemonErranteVar.Add(0x506C, EdicionPokemon.RojoFuegoEsp10, EdicionPokemon.VerdeHojaEsp10);
                 VariablePokemonErranteVar.Add(EdicionPokemon.VerdeHojaUsa10, 0x5100, 0x5114);
                 VariablePokemonErranteVar.Add(EdicionPokemon.RojoFuegoUsa10, 0x5100, 0x5114);
-                
+
                 //investigacion mia :D
                 VariablePokemonErranteVar.Add(0x4B54, EdicionPokemon.RubiEsp10);
 
@@ -223,171 +201,18 @@ namespace PokemonGBAFrameWork
                                                                                          //logica
                 VariableDisponibleVar.Add(0x4B59, EdicionPokemon.RubiEsp10);
             }
-            public Pokemon() { }
-            public Pokemon( Word vida = null, Word nivel = null, byte stats = 0)
-            {
-            
-                Vida = vida;
-                Nivel = nivel;
-                Stats = stats;
-            }
- 
-
-            public Word Vida
-            {
-                get
-                {
-                    return vida;
-                }
-
-                set
-                {
-                    if (value == null)
-                        value = new Word(1);
-                    vida = value;
-                }
-            }
-
-            public Word Nivel
-            {
-                get
-                {
-                    return nivel;
-                }
-
-                set
-                {
-                    if (value == null)
-                        value = new Word(1);
-                    else if (value > byte.MaxValue)
-                        throw new ArgumentOutOfRangeException();
-                    nivel = value;
-                }
-            }
-
-            public byte Stats
-            {
-                get
-                {
-                    return stats;
-                }
-
-                set
-                {
-                    stats = value;
-
-                }
-            }
-
-            #region Stats por separado
-            public bool EnvenenadoGrave
-            {
-                get
-                {
-                    return GetStatNoDormido(Stat.EnvenenamientoGrave);
-                }
-                set
-                {
-                    SetStatNoDormido(Stat.EnvenenamientoGrave, value);
-                }
-            }
-            public bool Envenenado
-            {
-                get
-                {
-                    return GetStatNoDormido(Stat.Envenenado);
-                }
-                set
-                {
-                    SetStatNoDormido(Stat.Envenenado, value);
-                }
-            }
-            public bool Paralizado
-            {
-                get
-                {
-                    return GetStatNoDormido(Stat.Paralizado);
-                }
-                set { SetStatNoDormido(Stat.Paralizado, value); }
-            }
-            public bool Congelado
-            {
-                get
-                {
-                    return GetStatNoDormido(Stat.Congelado);
-                }
-                set
-                {
-
-                    SetStatNoDormido(Stat.Congelado, value);
-
-                }
-            }
-            public bool Quemado
-            {
-                get
-                {
-                    return GetStatNoDormido(Stat.Quemado);
-                }
-                set
-                {
-                    SetStatNoDormido(Stat.Quemado, value);
-                }
-            }
 
 
-            public Dormido TurnosDormido
-            {
-                //no funciona...por arreglar...
-                get
-                {
-                    bool[] fix = { false, false, false, false, false };
-                    byte bTurnos = fix.AfegirValors(stats.ToBits().SubArray(0, 3)).ToArray().ToByte();
-                    return (Dormido)bTurnos;
-
-                }
-                set
-                {
-
-                    IList<bool> bitsStat;
-                    bool[] bitsAPoner;
-
-                    //pongo los turnos
-                    bitsAPoner = ((byte)value).ToBits();
-                    bitsStat = stats.ToBits();
-                    for (int i = 0, f = 3; i < f; i++)
-                        bitsStat[i] = bitsAPoner[5 + i];
-                    stats = bitsStat.ToArray().ToByte();
-                }
-            }
-
-            ElementoBinario IElementoBinarioComplejo.Serialitzer => Serializador;
-
-            public Word OrdenNacional { get;  set; }
-
-            public bool GetStatNoDormido(Stat i)
-            {
-                return stats.ToBits()[3 + (int)i];
-            }
-
-            public void SetStatNoDormido(Stat i, bool value)
-            {
-                bool[] bitsStat = stats.ToBits();
-                bitsStat[3 + (int)i] = value;
-                stats = bitsStat.ToByte();
-            }
-            #endregion
-
-            public static Script GetScript(Edicion edicion, Pokemon pokemonErrante)
+            public static Script GetScript(Edicion edicion, PokemonGBAFramework.Eventos.PokemonErrante pokemonErrante)
             {
                 Hex nivelYEstado;
                 string estado, nivel;
                 ushort auxNivelYEstado;
                 Script scriptPokemonErrante = new Script();
                 scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(new Word((ushort)Variable.GetVariable(VariableSpecialPokemonErrante, edicion))));
-                scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion)), pokemonErrante.OrdenNacional));
+                scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariablePokemonErranteVar, edicion)), pokemonErrante.Pokemon));
                 scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(new Word((ushort)Variable.GetVariable(VariableVitalidadVar, edicion)), pokemonErrante.Vida));
-                estado = ((Hex)pokemonErrante.Stats).ToString().PadLeft(2, '0');
+                estado = ((Hex)pokemonErrante.GetStats()).ToString().PadLeft(2, '0');
                 nivel = ((Hex)((byte)pokemonErrante.Nivel)).ToString();
                 nivelYEstado = (Hex)(estado + nivel);
                 auxNivelYEstado = (ushort)(uint)nivelYEstado;

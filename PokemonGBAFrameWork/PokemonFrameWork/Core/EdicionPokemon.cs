@@ -52,12 +52,12 @@ namespace PokemonGBAFrameWork
         /// <summary>
         ///Este es el ID máximo reservado hasta que añada nuevos idiomas
         /// </summary>
-        public const long IDMINRESERVADO = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
-        public const long IDRUBIANDZAFIRO= (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV +(int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
-        public const long IDESMERALDA = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.BPE + (int)CompilacionPokemon.Version.Primera;
-        public const long IDROJOFUEGOANDVERDEHOJA = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.BPR + (int)AbreviacionCanon.BPG + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda;
-        public const long IDHOENN= (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
-        public const long IDKANTO = IDROJOFUEGOANDVERDEHOJA;
+        //public const long IDMINRESERVADO = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)AbreviacionCanon.BPG + (int)AbreviacionCanon.BPR + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
+        //public const long IDRUBIANDZAFIRO= (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV +(int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
+        //public const long IDESMERALDA = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.BPE + (int)CompilacionPokemon.Version.Primera;
+        //public const long IDROJOFUEGOANDVERDEHOJA = (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.BPR + (int)AbreviacionCanon.BPG + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda;
+        //public const long IDHOENN= (int)Idioma.Español + (int)Idioma.Ingles + (int)AbreviacionCanon.AXP + (int)AbreviacionCanon.AXV + (int)AbreviacionCanon.BPE + (int)CompilacionPokemon.Version.Primera + (int)CompilacionPokemon.Version.Segunda + (int)CompilacionPokemon.Version.Ultima;
+        //public const long IDKANTO = IDROJOFUEGOANDVERDEHOJA;
         //Ediciones canon usa
         public static readonly EdicionPokemon RubiUsa10 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[0]);
         public static readonly EdicionPokemon RubiUsa11 = new EdicionPokemon(new Edicion((char)Idioma.Ingles, "AXV", "POKEMON RUBY"), Idioma.Ingles, AbreviacionCanon.AXV, CompilacionPokemon.Compilaciones[1]);
@@ -176,7 +176,7 @@ namespace PokemonGBAFrameWork
             get { return (char)Idioma != InicialIdioma || Abreviacion != AbreviacionRom.ToString(); }
         }
 
-        public bool EsRubiOZafiro { get { return EsRubi || EsZafiro; } }
+        public bool EsRubiOZafiro => EsRubi || EsZafiro; 
         #endregion
         #region Overrides
         public override bool Equals(object obj)
@@ -283,7 +283,7 @@ namespace PokemonGBAFrameWork
 
         public static long GetId(EdicionPokemon edicionPokemon)
         {
-            return (int)edicionPokemon.Idioma + (int)edicionPokemon.AbreviacionRom + (int)((CompilacionPokemon)edicionPokemon.Compilacion).Compilacion;
+            return (int)edicionPokemon.Idioma*1000 + (int)edicionPokemon.AbreviacionRom + (int)((CompilacionPokemon)edicionPokemon.Compilacion).Compilacion;
         }
 
         static bool ValidaEdicion(RomGba rom, EdicionPokemon edicionPokemon)
@@ -321,9 +321,6 @@ namespace PokemonGBAFrameWork
         }
         public static EdicionPokemon GetEdicionCompatible(long id)
         {
-            if (id > IDMINRESERVADO)
-                throw new IdIncorrectoException("una Base Canon");
-
             EdicionPokemon edicion;
             Idioma idioma = (Idioma)id;
             CompilacionPokemon.Version version = (CompilacionPokemon.Version)id;

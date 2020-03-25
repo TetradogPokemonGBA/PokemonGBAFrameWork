@@ -83,7 +83,7 @@
           "lib/netstandard2.0/System.Drawing.Common.dll": {}
         }
       },
-      "PokemonGBAFramework/1.2.0-preview1": {
+      "PokemonGBAFramework/1.2.0-preview3": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -384,7 +384,7 @@
         "version.txt"
       ]
     },
-    "PokemonGBAFramework/1.2.0-preview1": {
+    "PokemonGBAFramework/1.2.0-preview3": {
       "type": "project",
       "path": "../../Nueva/PokemonGBAFramework/PokemonGBAFramework/PokemonGBAFramework.csproj",
       "msbuildProject": "../../Nueva/PokemonGBAFramework/PokemonGBAFramework/PokemonGBAFramework.csproj"
@@ -395,14 +395,14 @@
       "Gabriel.Cat.S.Binaris >= 1.1.0",
       "Gabriel.Cat.S.Utilitats >= 1.0.4.4-preview1.0.8",
       "NETStandard.Library >= 2.0.3",
-      "PokemonGBAFramework >= 1.2.0-preview1"
+      "PokemonGBAFramework >= 1.2.0-preview3"
     ]
   },
   "packageFolders": {
     "C:\\Users\\tetra\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.0-preview1",
+    "version": "1.0.0-preview2",
     "restore": {
       "projectUniqueName": "C:\\Users\\tetra\\source\\repos\\PokemonGBAFrameWork\\PokemonGBAFrameWork\\PokemonGBAFramework.RomGBA.csproj",
       "projectName": "PokemonGBAFramework.RomGBA",
