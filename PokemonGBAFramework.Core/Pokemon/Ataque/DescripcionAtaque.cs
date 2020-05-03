@@ -29,7 +29,7 @@ namespace PokemonGBAFramework.Core
             if (posicionAtaque != 0)//el primero no tiene
             {
                 offsetDescripcion = GetOffset(rom, zonaDescripcionAtaque, posicionAtaque).Offset;
-                descripcion.Texto = BloqueString.GetString(rom, offsetDescripcion);
+                descripcion.Texto = BloqueString.Get(rom, offsetDescripcion);
 
             }
 

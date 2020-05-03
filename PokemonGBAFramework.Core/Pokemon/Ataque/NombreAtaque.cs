@@ -40,7 +40,7 @@ namespace PokemonGBAFramework.Core
             if (Equals(offsetInicioDescripcionAtaque, default))
                 offsetInicioDescripcionAtaque = GetOffset(rom);
             NombreAtaque nombre = new NombreAtaque();
-            nombre.Texto = BloqueString.GetString(rom, offsetInicioDescripcionAtaque + posicionAtaque * LENGTH, LENGTH);
+            nombre.Texto = BloqueString.Get(rom, offsetInicioDescripcionAtaque + posicionAtaque * LENGTH, LENGTH);
             return nombre;
         }
         public static NombreAtaque[] Get(RomGba rom) => DescripcionAtaque.GetAll<NombreAtaque>(rom, Get, GetOffset(rom));

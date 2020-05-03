@@ -21,7 +21,7 @@ namespace PokemonGBAFramework.Core
         {
             if (Equals(offsetInicioNombre, default))
                 offsetInicioNombre =GetOffset(rom);
-            return new Nombre() { Texto = BloqueString.GetString(rom, offsetInicioNombre + (posicionPokemonGameFreak * LENGTH), LENGTH) };
+            return new Nombre() { Texto = BloqueString.Get(rom, offsetInicioNombre + (posicionPokemonGameFreak * LENGTH), LENGTH) };
         }
         public static Nombre[] Get(RomGba rom) =>Huella.GetAll<Nombre>(rom, Nombre.Get,GetOffset(rom));
         public static Nombre[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Nombre>(rom, (r, o) => Nombre.Get(r), GetOffset(rom));
