@@ -7,9 +7,9 @@ namespace PokemonGBAFramework.Core
         public static readonly byte[] MuestraAlgoritmo = { 0x04, 0x48, 0x81, 0x42, 0x0C, 0xD9, 0x04, 0x48 };
         public static readonly int InicioRelativo = -MuestraAlgoritmo.Length - 96;
 
-        public static OrdenLocal GetOrdenNacional(RomGba rom, int posicion, OffsetRom inicioOrdenNacional = default)
+        public static OrdenNacional Get(RomGba rom, int posicion, OffsetRom inicioOrdenNacional = default)
         {
-            return BaseOrden.GetOrden<OrdenLocal>(rom, posicion, MuestraAlgoritmo, InicioRelativo, inicioOrdenNacional);
+            return BaseOrden.GetOrden<OrdenNacional>(rom, posicion, MuestraAlgoritmo, InicioRelativo, inicioOrdenNacional);
         }
 
         public static OffsetRom GetOffset(RomGba rom)
@@ -21,13 +21,13 @@ namespace PokemonGBAFramework.Core
         {
             return Zona.Search(rom, MuestraAlgoritmo, InicioRelativo);
         }
-        public static KeyValuePair<OrdenLocal, T> GetOrdenado<T>(RomGba rom, int posOriginal, GetMethod<T> metodo, OffsetRom offsetInicioMetodo = default, OffsetRom offsetInicioOrdenNacional = default)
+        public static KeyValuePair<OrdenNacional, T> GetOrdenado<T>(RomGba rom, int posOriginal, GetMethod<T> metodo, OffsetRom offsetInicioMetodo = default, OffsetRom offsetInicioOrdenNacional = default)
         {
-            return BaseOrden.GetOrdenado<OrdenLocal, T>(rom, MuestraAlgoritmo, InicioRelativo, posOriginal, metodo, offsetInicioMetodo, offsetInicioOrdenNacional);
+            return BaseOrden.GetOrdenado<OrdenNacional, T>(rom, MuestraAlgoritmo, InicioRelativo, posOriginal, metodo, offsetInicioMetodo, offsetInicioOrdenNacional);
         }
         public static T[] GetOrdenados<T>(RomGba rom, GetTodos<T> metodo, OffsetRom offsetMetodo = default, OffsetRom offsetInicioOrdenNacional = default)
         {
-            return BaseOrden.GetOrdenados<OrdenLocal, T>(rom, MuestraAlgoritmo, InicioRelativo, metodo, offsetMetodo, offsetInicioOrdenNacional);
+            return BaseOrden.GetOrdenados<OrdenNacional, T>(rom, MuestraAlgoritmo, InicioRelativo, metodo, offsetMetodo, offsetInicioOrdenNacional);
         }
     }
 }

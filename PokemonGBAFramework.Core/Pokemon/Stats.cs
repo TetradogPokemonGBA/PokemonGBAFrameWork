@@ -78,6 +78,7 @@ namespace PokemonGBAFramework.Core
             Rosa
 
         }
+
         const int PASOSCICLOECLOSION = 256;
         const int MAXIMOSPASOSECLOSION = PASOSCICLOECLOSION * PASOSCICLOECLOSION;
         const int LENGTHNIVELEVS = 4;
@@ -535,7 +536,7 @@ namespace PokemonGBAFramework.Core
         {
             return (((ivs + 2 * Hp + (evs / 4) + 100) * nivel) / 100) + 10;
         }
-        public static Stats GetStats(RomGba rom, int posicion,OffsetRom offsetInicioStats=default)
+        public static Stats Get(RomGba rom, int posicion,OffsetRom offsetInicioStats=default)
         {
             if (Equals(offsetInicioStats, default))
                 offsetInicioStats = GetOffset(rom);
@@ -570,9 +571,9 @@ namespace PokemonGBAFramework.Core
             return Zona.Search(rom, algoritmo, inicio);
         }
 
-        public static Stats[] GetStats(RomGba rom) => Huella.GetTodos<Stats>(rom, GetStats, GetOffset(rom));
-        public static Stats[] GetStatsOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Stats>(rom, (r, o) => GetStats(r), GetOffset(rom));
-        public static Stats[] GetStatsOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Stats>(rom, (r, o) => GetStats(r), GetOffset(rom));
+        public static Stats[] Get(RomGba rom) => Huella.GetAll<Stats>(rom, Get, GetOffset(rom));
+        public static Stats[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Stats>(rom, (r, o) => Get(r), GetOffset(rom));
+        public static Stats[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Stats>(rom, (r, o) => Get(r), GetOffset(rom));
 
     }
 }

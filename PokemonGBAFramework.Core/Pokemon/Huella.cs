@@ -14,10 +14,10 @@ namespace PokemonGBAFramework.Core
 		public const int LENGHT = 32;
 		static readonly Color[] PaletaHuella = { Color.Transparent, Color.Black };
 
-		public static readonly byte[] AlgoritmoKanto = { 0x00, 0x94, 0x14, 0x25, 0x01, 0x95, 0x02 };
-		public static readonly int InicioRelativoKanto =-AlgoritmoKanto.Length -32;
-		public static readonly byte[] AlgoritmoHoenn = { 0x10, 0xB5, 0x00, 0x04, 0x09, 0x04, 0x09 };
-		public static readonly int InicioRelativoHoenn =-AlgoritmoHoenn.Length -Zona.LENGTH;
+		public static readonly byte[] MuestraAlgoritmoKanto = { 0x00, 0x94, 0x14, 0x25, 0x01, 0x95, 0x02 };
+		public static readonly int InicioRelativoKanto =-MuestraAlgoritmoKanto.Length -32;
+		public static readonly byte[] MuestraAlgoritmoHoenn = { 0x10, 0xB5, 0x00, 0x04, 0x09, 0x04, 0x09 };
+		public static readonly int InicioRelativoHoenn =-MuestraAlgoritmoHoenn.Length -Zona.LENGTH;
 		public Huella()
 		{
 			BytesHuellaGBA = new BloqueBytes(LENGHT);
@@ -46,10 +46,10 @@ namespace PokemonGBAFramework.Core
 		}
 
 
-		public static Huella GetHuella(RomGba rom, int posicion, OffsetRom inicioOffsetHuella = default)
+		public static Huella Get(RomGba rom, int posicion, OffsetRom inicioOffsetHuella = default)
 		{
 			//le el offset del pointer que toca
-			int offsetBytesHuella = GetOffsetHuella(rom, posicion,inicioOffsetHuella);
+			int offsetBytesHuella = GetOffset(rom, posicion,inicioOffsetHuella);
 			//lee los bytes de la imagen del offset leido
 			return new Huella(BloqueBytes.GetBytes(rom.Data, offsetBytesHuella, LENGHT));
 		}
@@ -59,7 +59,7 @@ namespace PokemonGBAFramework.Core
 		/// <param name="rom"></param>
 		/// <param name="posicion"></param>
 		/// <returns></returns>
-		public static int GetOffsetHuella(RomGba rom, int posicion,OffsetRom inicioOffsetHuella=default)
+		public static int GetOffset(RomGba rom, int posicion,OffsetRom inicioOffsetHuella=default)
 		{
 			const int NOENCONTRADO = -1;
 			if (Equals(inicioOffsetHuella, default))
@@ -75,14 +75,14 @@ namespace PokemonGBAFramework.Core
 
 		public static Zona GetZona(RomGba rom)
 		{
-			return Zona.Search(rom, rom.Edicion.EsKanto ? AlgoritmoKanto : AlgoritmoHoenn, rom.Edicion.EsKanto ? InicioRelativoKanto : InicioRelativoHoenn);
+			return Zona.Search(rom, rom.Edicion.EsKanto ? MuestraAlgoritmoKanto : MuestraAlgoritmoHoenn, rom.Edicion.EsKanto ? InicioRelativoKanto : InicioRelativoHoenn);
 		}
 
 		public static bool PoscionIsOK(RomGba rom, int posicion, OffsetRom inicioOffsetHuella = default)
 		{
 			//asi puedo calcular el numero de pokemons que hay sin hacer faena en vano.
 			const int MARCAFIN = -1;
-			return GetOffsetHuella(rom, posicion,inicioOffsetHuella) != MARCAFIN;
+			return GetOffset(rom, posicion,inicioOffsetHuella) != MARCAFIN;
 		}
 		static Bitmap ReadImage(byte[] bytesHuellaGBA)
 		{
@@ -309,10 +309,10 @@ namespace PokemonGBAFramework.Core
 			return total - 1;
 		}
 
-		public static Huella[] GetHuellas(RomGba rom) => GetTodos<Huella>(rom, Huella.GetHuella);
-		public static Huella[] GetHuellasOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Huella>(rom,(r,o)=>Huella.GetHuellas(r), GetOffset(rom));
-		public static Huella[] GetHuellasOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Huella>(rom, (r, o) => Huella.GetHuellas(r), GetOffset(rom));
-		public static T[] GetTodos<T>(RomGba rom,GetMethod<T> metodo,OffsetRom inicioMetodo=default)
+		public static Huella[] Get(RomGba rom) => GetAll<Huella>(rom, Huella.Get);
+		public static Huella[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Huella>(rom,(r,o)=>Huella.Get(r), GetOffset(rom));
+		public static Huella[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Huella>(rom, (r, o) => Huella.Get(r), GetOffset(rom));
+		public static T[] GetAll<T>(RomGba rom,GetMethod<T> metodo,OffsetRom inicioMetodo=default)
 		{
 			T[] total = new T[GetTotal(rom)];
 			for (int i = 0; i < total.Length; i++)

@@ -10,7 +10,7 @@ namespace PokemonGBAFramework.Core
         public static readonly byte[] MuestraAlgoritmo = { 0x00, 0x0C, 0x01, 0x1C, 0xFA, 0x28, 0x10 };
         public static readonly int InicioRelativo = -MuestraAlgoritmo.Length - 48 - OffsetRom.LENGTH;
 
-        public static OrdenLocal GetOrdenLocal(RomGba rom, int posicion,OffsetRom inicioOrdenLocal=default)
+        public static OrdenLocal Get(RomGba rom, int posicion,OffsetRom inicioOrdenLocal=default)
         {
             return BaseOrden.GetOrden<OrdenLocal>(rom, posicion, MuestraAlgoritmo, InicioRelativo, inicioOrdenLocal);
         }

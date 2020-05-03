@@ -17,15 +17,15 @@ namespace PokemonGBAFramework.Core
         {
             return Texto.ToString();
         }
-        public static Nombre GetNombre(RomGba rom,int posicionPokemonGameFreak,OffsetRom offsetInicioNombre = default)
+        public static Nombre Get(RomGba rom,int posicionPokemonGameFreak,OffsetRom offsetInicioNombre = default)
         {
             if (Equals(offsetInicioNombre, default))
                 offsetInicioNombre =GetOffset(rom);
             return new Nombre() { Texto = BloqueString.GetString(rom, offsetInicioNombre + (posicionPokemonGameFreak * LENGTH), LENGTH) };
         }
-        public static Nombre[] GetNombres(RomGba rom) =>Huella.GetTodos<Nombre>(rom, Nombre.GetNombre,GetOffset(rom));
-        public static Nombre[] GetNombresOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Nombre>(rom, (r, o) => Nombre.GetNombres(r), GetOffset(rom));
-        public static Nombre[] GetNombresOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Nombre>(rom, (r, o) => Nombre.GetNombres(r), GetOffset(rom));
+        public static Nombre[] Get(RomGba rom) =>Huella.GetAll<Nombre>(rom, Nombre.Get,GetOffset(rom));
+        public static Nombre[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Nombre>(rom, (r, o) => Nombre.Get(r), GetOffset(rom));
+        public static Nombre[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Nombre>(rom, (r, o) => Nombre.Get(r), GetOffset(rom));
         public static Zona GetZona(RomGba rom)
         {
             return Zona.Search(rom.Data.Bytes, MuestraAlgoritmo,InicioRelativo);

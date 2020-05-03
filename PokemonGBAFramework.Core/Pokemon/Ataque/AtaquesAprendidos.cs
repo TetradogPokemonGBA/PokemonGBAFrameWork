@@ -181,14 +181,8 @@ namespace PokemonGBAFramework.Core
 			else compareTo = (int)Gabriel.Cat.S.Utilitats.CompareTo.Inferior;
 			return compareTo;
 		}
-		public static AtaquesAprendidos[] GetAtaquesAprendidos(RomGba rom)
-		{
-			AtaquesAprendidos[] ataquesAprendidos = new AtaquesAprendidos[Huella.GetTotal(rom)];
-			for (int i = 0; i < ataquesAprendidos.Length; i++)
-				ataquesAprendidos[i] = GetAtaquesAprendidos(rom, i);
-			return ataquesAprendidos;
-		}
-		public static AtaquesAprendidos GetAtaquesAprendidos(RomGba rom, int ordenGameFreakPokemon,OffsetRom offsetInicioAtaquesAprendidos=default)
+
+		public static AtaquesAprendidos Get(RomGba rom, int ordenGameFreakPokemon,OffsetRom offsetInicioAtaquesAprendidos=default)
 		{
 			if (Equals(offsetInicioAtaquesAprendidos, default))
 				offsetInicioAtaquesAprendidos = GetOffset(rom);
@@ -222,18 +216,18 @@ namespace PokemonGBAFramework.Core
 			return offsetInicioAtaquesAprendidos + (ordenGameFreakPokemon * OffsetRom.LENGTH);
 		}
 
-		public static LlistaOrdenadaPerGrups<int, AtaquesAprendidos> GetAtaquesAprendidosDic(RomGba rom)
+		public static LlistaOrdenadaPerGrups<int, AtaquesAprendidos> GetDic(RomGba rom)
 		{
 			LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<int, AtaquesAprendidos>();
 			OffsetRom offset = GetOffset(rom);
 			for (int i = 0, f = Huella.GetTotal(rom); i < f; i++)
-				dic.Add(new OffsetRom(rom, GetOffsetPointer(i, offset)).Offset, GetAtaquesAprendidos(rom, i));
+				dic.Add(new OffsetRom(rom, GetOffsetPointer(i, offset)).Offset, Get(rom, i));
 			return dic;
 		}
 
-		public static AtaquesAprendidos[] GetTodosLosAtaquesAprendidos(RomGba rom) => Huella.GetTodos<AtaquesAprendidos>(rom, GetAtaquesAprendidos, GetOffset(rom));
-		public static AtaquesAprendidos[] GetTodosLosAtaquesAprendidosOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => GetTodosLosAtaquesAprendidos(r), GetOffset(rom));
-		public static AtaquesAprendidos[] GetTodosLosAtaquesAprendidosOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => GetTodosLosAtaquesAprendidos(r), GetOffset(rom));
+		public static AtaquesAprendidos[] GetRange(RomGba rom) => Huella.GetAll<AtaquesAprendidos>(rom, Get, GetOffset(rom));
+		public static AtaquesAprendidos[] GetRangeOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => GetRange(r), GetOffset(rom));
+		public static AtaquesAprendidos[] GetRangeOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => GetRange(r), GetOffset(rom));
 
 
 
