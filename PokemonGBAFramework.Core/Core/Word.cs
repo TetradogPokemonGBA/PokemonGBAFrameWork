@@ -12,7 +12,10 @@ namespace PokemonGBAFramework.Core
         public const int LENGTH = 2;
 
 
-
+        public override string ToString()
+        {
+            return (ushort)this+"";
+        }
         #region Constructores
         public Word() : this(0) { }
         public Word(ushort word) : base(Serializar.GetBytes(word)) { }

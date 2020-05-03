@@ -89,7 +89,7 @@ namespace PokemonGBAFramework.Core
 
         public static readonly int InicioRelativoKanto =-MuestraAlgoritmoKanto.Length -176;
         public static readonly int InicioRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 176;
-        public static readonly int InicioRelativoRubiYZafiro = MuestraAlgoritmoRubiYZafiro.Length - 16;
+        public static readonly int InicioRelativoRubiYZafiro = -MuestraAlgoritmoRubiYZafiro.Length - 16;
         /// <summary>
         /// forma parte de un stat junto con la de color en el mismo byte numero 25
         /// </summary>

@@ -297,10 +297,12 @@ namespace PokemonGBAFramework.Core
 		{
 			return ReadImage(WriteImage(bmp));
 		}
-		public static int GetTotal(RomGba rom)
+		public static int GetTotal(RomGba rom, OffsetRom offsetHuella=default)
 		{
 			int total = 0;
-			int offsetHuella = GetOffset(rom);
+			if(Equals(offsetHuella,default))
+				 offsetHuella = GetOffset(rom);
+
 			while (new OffsetRom(rom, offsetHuella).IsAPointer)
 			{
 				offsetHuella += OffsetRom.LENGTH;
@@ -315,8 +317,15 @@ namespace PokemonGBAFramework.Core
 		public static T[] GetAll<T>(RomGba rom,GetMethod<T> metodo,OffsetRom inicioMetodo=default)
 		{
 			T[] total = new T[GetTotal(rom)];
-			for (int i = 0; i < total.Length; i++)
-				total[i] = metodo(rom, i, inicioMetodo);
+			try
+			{
+				for (int i = 0; i < total.Length; i++)
+					total[i] = metodo(rom, i, inicioMetodo);
+			}
+			catch(Exception ex)
+			{
+				System.Diagnostics.Debugger.Break();
+			}
 			return total;
 		}
 	}

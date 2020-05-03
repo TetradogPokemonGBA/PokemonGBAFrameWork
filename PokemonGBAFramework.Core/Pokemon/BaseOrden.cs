@@ -5,6 +5,10 @@ namespace PokemonGBAFramework.Core
     public class BaseOrden
     {
         public Word Orden { get; set; }
+        public override string ToString()
+        {
+            return Orden.ToString();
+        }
         protected static T GetOrden<T>(RomGba rom, int posicion, byte[] muestraAlgoritmo, int inicioRelativo, OffsetRom inicioOrdenLocal = default) where T:BaseOrden,new()
         {
             T ordenLocal = new T();
@@ -36,16 +40,21 @@ namespace PokemonGBAFramework.Core
             T item = metodo(rom, posOriginal, offsetInicioMetodo);
             return new KeyValuePair<TOrden, T>(GetOrden<TOrden>(rom, posOriginal,muestraAlgoritmo,inicioRelativo, offsetInicioOrdenLocal), item);
         }
-        protected static T[] GetOrdenados<TOrden,T>(RomGba rom, byte[] muestraAlgoritmo, int inicioRelativo, GetTodos<T> metodo, OffsetRom offsetMetodo = default, OffsetRom offsetInicioOrdenLocal = default) where TOrden : BaseOrden, new()
+        protected static T[] GetOrdenados<TOrden,T>(RomGba rom, byte[] muestraAlgoritmo, int inicioRelativo, GetTodos<T> metodo, OffsetRom offsetMetodo = default, OffsetRom offsetInicio = default) where TOrden : BaseOrden, new()
         {
+            int aux;
             T[] items = metodo(rom, offsetMetodo);
             T[] ordenados = new T[items.Length];
 
-            if (Equals(offsetInicioOrdenLocal, default))
-                offsetInicioOrdenLocal = GetOffset(rom,muestraAlgoritmo,inicioRelativo);
+            if (Equals(offsetInicio, default))
+                offsetInicio = GetOffset(rom,muestraAlgoritmo,inicioRelativo);
 
             for (int i = 0; i < ordenados.Length; i++)
-                ordenados[GetOrden<TOrden>(rom, i,muestraAlgoritmo,inicioRelativo, offsetInicioOrdenLocal).Orden] = items[i];
+            {
+                aux = GetOrden<TOrden>(rom, i, muestraAlgoritmo, inicioRelativo, offsetInicio).Orden;
+                if(aux>=0&&aux<ordenados.Length)
+                   ordenados[aux] = items[i];
+            }
 
             return ordenados;
         }

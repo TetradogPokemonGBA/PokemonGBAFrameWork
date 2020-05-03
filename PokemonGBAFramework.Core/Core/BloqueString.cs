@@ -298,12 +298,16 @@ namespace PokemonGBAFramework.Core
                         }
                         ptrBytesGBA++;
                     }
-                    chString = new char[bytesGBA.Length + longitudAdemas - MARCAFIN];
+
+                    if (bytesGBA.Length > 0)
+                        chString = new char[bytesGBA.Length + longitudAdemas - MARCAFIN];
+                    else chString = new char[0];
+                    
                     ptrBytesGBA = ptBytesGBA;
                     fixed (char* ptChString = chString)
                     {
                         ptrChString = ptChString;
-                        for (int i = 0; i < bytesGBA.Length; i++)
+                        for (int i = 0; i < chString.Length; i++)
                         {
                             switch (*ptrBytesGBA)
                             {
