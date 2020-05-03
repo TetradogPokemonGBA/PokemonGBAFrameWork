@@ -225,9 +225,9 @@ namespace PokemonGBAFramework.Core
 			return dic;
 		}
 
-		public static AtaquesAprendidos[] GetRange(RomGba rom) => Huella.GetAll<AtaquesAprendidos>(rom, Get, GetOffset(rom));
-		public static AtaquesAprendidos[] GetRangeOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => GetRange(r), GetOffset(rom));
-		public static AtaquesAprendidos[] GetRangeOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => GetRange(r), GetOffset(rom));
+		public static AtaquesAprendidos[] Get(RomGba rom) => Huella.GetAll<AtaquesAprendidos>(rom, Get, GetOffset(rom));
+		public static AtaquesAprendidos[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => Get(r), GetOffset(rom));
+		public static AtaquesAprendidos[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => Get(r), GetOffset(rom));
 
 
 

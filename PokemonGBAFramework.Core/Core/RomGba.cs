@@ -20,7 +20,7 @@ namespace PokemonGBAFramework.Core
         public Edicion Edicion {
             get {
                 if (Equals(edicion, default))
-                    edicion = Edicion.Get(this);
+                    edicion =Edicion.Get(this);
                 return edicion; 
             }
             set => edicion = value;

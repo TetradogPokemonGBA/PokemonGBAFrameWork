@@ -74,8 +74,6 @@ namespace PokemonGBAFramework.Core
 
 		public static Ataque Get(RomGba rom, int posicionAtaque)
 		{//por mirar la obtenxion del offset descripcion
-
-
 			Ataque ataque = new Ataque();
 
 			ataque.Nombre = NombreAtaque.Get(rom, posicionAtaque);
@@ -88,14 +86,7 @@ namespace PokemonGBAFramework.Core
 			return ataque;
 		}
 
-		public static Ataque[] Get(RomGba rom)
-		{
-			Ataque[] ataques = new Ataque[DescripcionAtaque.GetTotal(rom)];
-			for (int i = 0; i < ataques.Length; i++)
-				ataques[i] = Get(rom, i);
-			return ataques;
-		}
+		public static Ataque[] Get(RomGba rom) => DescripcionAtaque.GetAll<Ataque>(rom,(r,i,o)=> Get(r,i),default);
 
-
-    }
+	}
 }
