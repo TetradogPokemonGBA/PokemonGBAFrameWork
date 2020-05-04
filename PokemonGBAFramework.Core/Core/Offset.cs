@@ -146,7 +146,7 @@ namespace PokemonGBAFramework.Core
         }
         #endregion
         #region conversion
-        public static implicit operator OffsetRom(int offset)
+        public static explicit operator OffsetRom(int offset)
         {
             return offset >= 0 ? new OffsetRom(offset) : default;
         }

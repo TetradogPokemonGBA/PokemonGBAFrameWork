@@ -20,18 +20,18 @@ namespace PokemonGBAFramework.Core
             return BaseSprite.Get<Traseros>(rom,posicion,offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
         }
 
-        public static Traseros[] Get(RomGba rom)
+        public static Traseros[] Get(RomGba rom, OffsetRom offsetTraseros = default)
         {
-            return BaseSprite.Get<Traseros>(rom, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.Get<Traseros>(rom, GetMuestra(rom), GetIndex(rom),offsetTraseros);
         }
 
-        public static Traseros[] GetOrdenLocal(RomGba rom)
+        public static Traseros[] GetOrdenLocal(RomGba rom, OffsetRom offsetTraseros = default)
         {
-            return BaseSprite.GetOrdenLocal<Traseros>(rom, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.GetOrdenLocal<Traseros>(rom, GetMuestra(rom), GetIndex(rom), offsetTraseros);
         }
-        public static Traseros[] GetOrdenNacional(RomGba rom)
+        public static Traseros[] GetOrdenNacional(RomGba rom,OffsetRom offsetTraseros=default)
         {
-            return BaseSprite.GetOrdenNacional<Traseros>(rom, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.GetOrdenNacional<Traseros>(rom, GetMuestra(rom), GetIndex(rom), offsetTraseros);
         }
         public static OffsetRom GetOffset(RomGba rom)
         {

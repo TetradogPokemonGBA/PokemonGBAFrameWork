@@ -311,9 +311,9 @@ namespace PokemonGBAFramework.Core
 			return total - 1;
 		}
 
-		public static Huella[] Get(RomGba rom) => GetAll<Huella>(rom, Huella.Get);
-		public static Huella[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Huella>(rom,(r,o)=>Huella.Get(r), GetOffset(rom));
-		public static Huella[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Huella>(rom, (r, o) => Huella.Get(r), GetOffset(rom));
+		public static Huella[] Get(RomGba rom,OffsetRom offsetHuellas=default) => GetAll<Huella>(rom, Huella.Get,offsetHuellas);
+		public static Huella[] GetOrdenLocal(RomGba rom, OffsetRom offsetHuellas = default) => OrdenLocal.GetOrdenados<Huella>(rom,(r,o)=>Huella.Get(r),Equals(offsetHuellas,default)? GetOffset(rom):offsetHuellas);
+		public static Huella[] GetOrdenNacional(RomGba rom, OffsetRom offsetHuellas = default) => OrdenNacional.GetOrdenados<Huella>(rom, (r, o) => Huella.Get(r), Equals(offsetHuellas, default) ? GetOffset(rom) : offsetHuellas);
 		public static T[] GetAll<T>(RomGba rom,GetMethod<T> metodo,OffsetRom inicioMetodo=default)
 		{
 			T[] total = new T[GetTotal(rom)];
@@ -324,7 +324,10 @@ namespace PokemonGBAFramework.Core
 			}
 			catch(Exception ex)
 			{
-				System.Diagnostics.Debugger.Break();
+				if(System.Diagnostics.Debugger.IsAttached)
+					System.Diagnostics.Debugger.Break();
+
+				throw ex;
 			}
 			return total;
 		}

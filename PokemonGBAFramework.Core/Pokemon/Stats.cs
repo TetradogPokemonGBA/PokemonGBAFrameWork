@@ -571,9 +571,9 @@ namespace PokemonGBAFramework.Core
             return Zona.Search(rom, algoritmo, inicio);
         }
 
-        public static Stats[] Get(RomGba rom) => Huella.GetAll<Stats>(rom, Get, GetOffset(rom));
-        public static Stats[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Stats>(rom, (r, o) => Get(r), GetOffset(rom));
-        public static Stats[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Stats>(rom, (r, o) => Get(r), GetOffset(rom));
+        public static Stats[] Get(RomGba rom,OffsetRom offsetStats=default) => Huella.GetAll<Stats>(rom, Get,Equals(offsetStats,default)? GetOffset(rom):offsetStats);
+        public static Stats[] GetOrdenLocal(RomGba rom, OffsetRom offsetStats = default) => OrdenLocal.GetOrdenados<Stats>(rom, (r, o) => Get(r), Equals(offsetStats, default) ? GetOffset(rom) : offsetStats);
+        public static Stats[] GetOrdenNacional(RomGba rom, OffsetRom offsetStats = default) => OrdenNacional.GetOrdenados<Stats>(rom, (r, o) => Get(r), Equals(offsetStats, default) ? GetOffset(rom) : offsetStats);
 
     }
 }

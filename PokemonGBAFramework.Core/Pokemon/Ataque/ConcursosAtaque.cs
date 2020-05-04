@@ -46,7 +46,7 @@ namespace PokemonGBAFramework.Core
             }
             return concursosAtaque;
         }
-        public static ConcursosAtaque[] Get(RomGba rom) => DescripcionAtaque.GetAll<ConcursosAtaque>(rom, Get, GetOffset(rom));
+        public static ConcursosAtaque[] Get(RomGba rom,OffsetRom offsetConcursosAtaque=default) => DescripcionAtaque.GetAll<ConcursosAtaque>(rom, Get,Equals(offsetConcursosAtaque,default)? GetOffset(rom):offsetConcursosAtaque);
       
         public static OffsetRom GetOffset(RomGba rom)
         {

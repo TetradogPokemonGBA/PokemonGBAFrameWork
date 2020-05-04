@@ -353,7 +353,7 @@ namespace PokemonGBAFramework.Core
             datos.blDatosAtaque.Bytes = rom.Data.Bytes.SubArray(offsetInicioDatosAtaque + posicionAtaque * LENGTH, LENGTH);
             return datos;
         }
-        public static DatosAtaque[] Get(RomGba rom) => DescripcionAtaque.GetAll<DatosAtaque>(rom, Get, GetOffset(rom));
+        public static DatosAtaque[] Get(RomGba rom,OffsetRom offsetDatosAtaque=default) => DescripcionAtaque.GetAll<DatosAtaque>(rom, Get,Equals(offsetDatosAtaque,default)? GetOffset(rom):offsetDatosAtaque);
 
         public static OffsetRom GetOffset(RomGba rom)
         {

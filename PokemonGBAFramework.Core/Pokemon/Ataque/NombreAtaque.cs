@@ -43,7 +43,7 @@ namespace PokemonGBAFramework.Core
             nombre.Texto = BloqueString.Get(rom, offsetInicioDescripcionAtaque + posicionAtaque * LENGTH, LENGTH);
             return nombre;
         }
-        public static NombreAtaque[] Get(RomGba rom) => DescripcionAtaque.GetAll<NombreAtaque>(rom, Get, GetOffset(rom));
+        public static NombreAtaque[] Get(RomGba rom,OffsetRom offsetNombreAtaque=default) => DescripcionAtaque.GetAll<NombreAtaque>(rom, Get,Equals(offsetNombreAtaque,default)? GetOffset(rom):offsetNombreAtaque);
 
         public static OffsetRom GetOffset(RomGba rom)
         {
@@ -59,15 +59,16 @@ namespace PokemonGBAFramework.Core
                 algoritmo = MuestraAlgoritmoEsmeralda;
                 inicio = InicioRelativoEsmeralda;
             }
-            else if (rom.Edicion.EsHoenn)
-            {
-                algoritmo = MuestraAlgoritmoRubiYZafiro;
-                inicio = InicioRelativoRubiYZafiro;
-            }
-            else
+            else if (rom.Edicion.EsKanto)
             {
                 algoritmo = MuestraAlgoritmoKanto;
                 inicio = InicioRelativoKanto;
+ 
+            }
+            else
+            {
+                algoritmo = MuestraAlgoritmoRubiYZafiro;
+                inicio = InicioRelativoRubiYZafiro;
             }
             return Zona.Search(rom, algoritmo, inicio);
         }

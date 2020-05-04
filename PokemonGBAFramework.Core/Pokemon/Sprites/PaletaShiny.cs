@@ -13,38 +13,30 @@ namespace PokemonGBAFramework.Core
 
         public static PaletaShiny Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
-            return Get<PaletaShiny>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
+            return Get<PaletaShiny>(rom, posicion, offsetImgFrontal, MuestraAlgoritmo, IndexRelativo);
         }
 
-        public static PaletaShiny[] Get(RomGba rom)
+        public static PaletaShiny[] Get(RomGba rom,OffsetRom offsetPaletaShiny=default)
         {
-            return Get<PaletaShiny>(rom, GetMuestra(rom), GetIndex(rom));
+            return Get<PaletaShiny>(rom, MuestraAlgoritmo, IndexRelativo, offsetPaletaShiny);
         }
 
-        public static PaletaShiny[] GetOrdenLocal(RomGba rom)
+        public static PaletaShiny[] GetOrdenLocal(RomGba rom, OffsetRom offsetPaletaShiny = default)
         {
-            return GetOrdenLocal<PaletaShiny>(rom, GetMuestra(rom), GetIndex(rom));
+            return GetOrdenLocal<PaletaShiny>(rom, MuestraAlgoritmo, IndexRelativo, offsetPaletaShiny);
         }
-        public static PaletaShiny[] GetOrdenNacional(RomGba rom)
+        public static PaletaShiny[] GetOrdenNacional(RomGba rom, OffsetRom offsetPaletaShiny = default)
         {
-            return GetOrdenNacional<PaletaShiny>(rom, GetMuestra(rom), GetIndex(rom));
+            return GetOrdenNacional<PaletaShiny>(rom, MuestraAlgoritmo, IndexRelativo,offsetPaletaShiny);
         }
         public static OffsetRom GetOffset(RomGba rom)
         {
-            return GetOffset(rom, GetMuestra(rom), GetIndex(rom));
+            return GetOffset(rom, MuestraAlgoritmo, IndexRelativo);
         }
         public static Zona GetZona(RomGba rom)
         {
-            return GetZona(rom, GetMuestra(rom), GetIndex(rom));
-        }
-        static byte[] GetMuestra(RomGba rom)
-        {
-            return MuestraAlgoritmo;
+            return GetZona(rom, MuestraAlgoritmo, IndexRelativo);
         }
 
-        static int GetIndex(RomGba rom)
-        {
-            return IndexRelativo;
-        }
     }
 }

@@ -63,18 +63,18 @@ namespace PokemonGBAFramework.Core
             return BaseSprite.Get<Frontales>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
         }
 
-        public static Frontales[] Get(RomGba rom)
+        public static Frontales[] Get(RomGba rom, OffsetRom offsetImgFrontal = default)
         {
-            return BaseSprite.Get<Frontales>(rom, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.Get<Frontales>(rom, GetMuestra(rom), GetIndex(rom), offsetImgFrontal);
         }
 
-        public static Frontales[] GetOrdenLocal(RomGba rom)
+        public static Frontales[] GetOrdenLocal(RomGba rom, OffsetRom offsetImgFrontal = default)
         {
-            return BaseSprite.GetOrdenLocal<Frontales>(rom, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.GetOrdenLocal<Frontales>(rom, GetMuestra(rom), GetIndex(rom), offsetImgFrontal);
         }
-        public static Frontales[] GetOrdenNacional(RomGba rom)
+        public static Frontales[] GetOrdenNacional(RomGba rom, OffsetRom offsetImgFrontal = default)
         {
-            return BaseSprite.GetOrdenNacional<Frontales>(rom, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.GetOrdenNacional<Frontales>(rom, GetMuestra(rom), GetIndex(rom),offsetImgFrontal);
         }
         public static OffsetRom GetOffset(RomGba rom)
         {

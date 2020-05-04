@@ -12,38 +12,32 @@ namespace PokemonGBAFramework.Core
 
         public static PaletaNormal Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
-            return Get<PaletaNormal>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
+            return Get<PaletaNormal>(rom, posicion, offsetImgFrontal, MuestraAlgoritmo, IndexRelativo);
         }
 
-        public static PaletaNormal[] Get(RomGba rom)
+        public static PaletaNormal[] Get(RomGba rom, OffsetRom offsetPaletaNormal = default)
         {
-            return Get<PaletaNormal>(rom, GetMuestra(rom), GetIndex(rom));
+            return Get<PaletaNormal>(rom, MuestraAlgoritmo, IndexRelativo, offsetPaletaNormal);
         }
 
-        public static PaletaNormal[] GetOrdenLocal(RomGba rom)
+        public static PaletaNormal[] GetOrdenLocal(RomGba rom, OffsetRom offsetPaletaNormal = default)
         {
-            return GetOrdenLocal<PaletaNormal>(rom, GetMuestra(rom), GetIndex(rom));
+            return GetOrdenLocal<PaletaNormal>(rom, MuestraAlgoritmo, IndexRelativo, offsetPaletaNormal);
         }
-        public static PaletaNormal[] GetOrdenNacional(RomGba rom)
+        public static PaletaNormal[] GetOrdenNacional(RomGba rom,OffsetRom offsetPaletaNormal=default)
         {
-            return GetOrdenNacional<PaletaNormal>(rom, GetMuestra(rom), GetIndex(rom));
+            return GetOrdenNacional<PaletaNormal>(rom, MuestraAlgoritmo, IndexRelativo, offsetPaletaNormal);
         }
         public static OffsetRom GetOffset(RomGba rom)
         {
-            return GetOffset(rom, GetMuestra(rom), GetIndex(rom));
+            return GetOffset(rom, MuestraAlgoritmo, IndexRelativo);
         }
         public static Zona GetZona(RomGba rom)
         {
-            return GetZona(rom, GetMuestra(rom), GetIndex(rom));
-        }
-        static byte[] GetMuestra(RomGba rom)
-        {
-            return MuestraAlgoritmo;
+            return GetZona(rom, MuestraAlgoritmo, IndexRelativo);
         }
 
-        static int GetIndex(RomGba rom)
-        {
-            return IndexRelativo;
-        }
+
+
     }
 }

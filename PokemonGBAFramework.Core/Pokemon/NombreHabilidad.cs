@@ -30,10 +30,10 @@ namespace PokemonGBAFramework.Core
             nombre.Texto = BloqueString.Get(rom, offsetInicioNombreTipo + posicion * LENGTH,LENGTH);
             return nombre;
         }
-        public static NombreHabilidad[] Get(RomGba rom)
+        public static NombreHabilidad[] Get(RomGba rom,OffsetRom offsetNombreHabilidad=default)
         {
             NombreHabilidad[] nombres = new NombreHabilidad[GetTotal(rom)];
-            OffsetRom offset = GetOffset(rom);
+            OffsetRom offset =Equals(offsetNombreHabilidad,default)? GetOffset(rom):offsetNombreHabilidad;
             for (int i = 0; i < nombres.Length; i++)
                 nombres[i] = Get(rom, i, offset);
             return nombres;

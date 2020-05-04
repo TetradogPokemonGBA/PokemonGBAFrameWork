@@ -72,21 +72,21 @@ namespace PokemonGBAFramework.Core
 			return Nombre.ToString();
 		}
 
-		public static Ataque Get(RomGba rom, int posicionAtaque)
+		public static Ataque Get(RomGba rom, int posicionAtaque,OffsetRom offsetNombreAtaque=default,OffsetRom offsetDescripcionAtaque=default,OffsetRom offsetDatosAtaque=default,OffsetRom offsetConcursos=default)
 		{//por mirar la obtenxion del offset descripcion
 			Ataque ataque = new Ataque();
 
-			ataque.Nombre = NombreAtaque.Get(rom, posicionAtaque);
-			ataque.Descripcion = DescripcionAtaque.Get(rom, posicionAtaque);
+			ataque.Nombre = NombreAtaque.Get(rom, posicionAtaque,offsetNombreAtaque);
+			ataque.Descripcion = DescripcionAtaque.Get(rom, posicionAtaque,offsetDescripcionAtaque);
 
-			ataque.Datos = DatosAtaque.Get(rom, posicionAtaque);
+			ataque.Datos = DatosAtaque.Get(rom, posicionAtaque,offsetDatosAtaque);
 
-			ataque.Concursos = ConcursosAtaque.Get(rom, posicionAtaque);
+			ataque.Concursos = ConcursosAtaque.Get(rom, posicionAtaque,offsetConcursos);
 
 			return ataque;
 		}
 
-		public static Ataque[] Get(RomGba rom) => DescripcionAtaque.GetAll<Ataque>(rom,(r,i,o)=> Get(r,i),default);
+		public static Ataque[] Get(RomGba rom, OffsetRom offsetNombreAtaque = default, OffsetRom offsetDescripcionAtaque = default, OffsetRom offsetDatosAtaque = default, OffsetRom offsetConcursos = default) => DescripcionAtaque.GetAll<Ataque>(rom,(r,i,o)=> Get(r,i,offsetNombreAtaque,offsetDescripcionAtaque,offsetDatosAtaque,offsetConcursos),default);
 
 	}
 }

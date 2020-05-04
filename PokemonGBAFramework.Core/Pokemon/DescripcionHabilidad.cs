@@ -25,10 +25,10 @@ namespace PokemonGBAFramework.Core
         {
             return Texto.ToString();
         }
-        public static DescripcionHabilidad[] Get(RomGba rom)
+        public static DescripcionHabilidad[] Get(RomGba rom,OffsetRom offsetDescripcionHabilidades=default)
         {
             DescripcionHabilidad[] descripcions = new DescripcionHabilidad[NombreHabilidad.GetTotal(rom)];
-            OffsetRom offset = GetOffset(rom);
+            OffsetRom offset =Equals(offsetDescripcionHabilidades,default)? GetOffset(rom):offsetDescripcionHabilidades;
             for (int i = 0; i < descripcions.Length; i++)
                 descripcions[i] = Get(rom, i,offset);
             return descripcions;

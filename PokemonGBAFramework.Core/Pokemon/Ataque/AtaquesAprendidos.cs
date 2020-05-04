@@ -216,18 +216,18 @@ namespace PokemonGBAFramework.Core
 			return offsetInicioAtaquesAprendidos + (ordenGameFreakPokemon * OffsetRom.LENGTH);
 		}
 
-		public static LlistaOrdenadaPerGrups<int, AtaquesAprendidos> GetDic(RomGba rom)
+		public static LlistaOrdenadaPerGrups<int, AtaquesAprendidos> GetDic(RomGba rom, OffsetRom offsetAtaquesAprendidos = default,int totalPokemon=-1)
 		{
 			LlistaOrdenadaPerGrups<int, AtaquesAprendidos> dic = new LlistaOrdenadaPerGrups<int, AtaquesAprendidos>();
-			OffsetRom offset = GetOffset(rom);
-			for (int i = 0, f = Huella.GetTotal(rom); i < f; i++)
+			OffsetRom offset = Equals(offsetAtaquesAprendidos, default) ? GetOffset(rom) : offsetAtaquesAprendidos;
+			for (int i = 0, f =totalPokemon<0? Huella.GetTotal(rom):totalPokemon; i < f; i++)
 				dic.Add(new OffsetRom(rom, GetOffsetPointer(i, offset)).Offset, Get(rom, i));
 			return dic;
 		}
 
-		public static AtaquesAprendidos[] Get(RomGba rom) => Huella.GetAll<AtaquesAprendidos>(rom, Get, GetOffset(rom));
-		public static AtaquesAprendidos[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => Get(r), GetOffset(rom));
-		public static AtaquesAprendidos[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => Get(r), GetOffset(rom));
+		public static AtaquesAprendidos[] Get(RomGba rom, OffsetRom offsetAtaquesAprendidos = default) => Huella.GetAll<AtaquesAprendidos>(rom, Get, Equals(offsetAtaquesAprendidos, default) ? GetOffset(rom) : offsetAtaquesAprendidos);
+		public static AtaquesAprendidos[] GetOrdenLocal(RomGba rom, OffsetRom offsetAtaquesAprendidos = default) => OrdenLocal.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => Get(r), Equals(offsetAtaquesAprendidos, default) ? GetOffset(rom) : offsetAtaquesAprendidos);
+		public static AtaquesAprendidos[] GetOrdenNacional(RomGba rom,OffsetRom offsetAtaquesAprendidos=default) => OrdenNacional.GetOrdenados<AtaquesAprendidos>(rom, (r, o) => Get(r),Equals(offsetAtaquesAprendidos,default)? GetOffset(rom):offsetAtaquesAprendidos);
 
 
 

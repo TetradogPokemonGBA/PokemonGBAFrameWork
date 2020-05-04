@@ -106,23 +106,25 @@ namespace PokemonGBAFramework.Core
 
         }
 
-        public static Pokemon[] Get(RomGba rom)
+        public static Pokemon[] Get(RomGba rom, OffsetRom offsetDescripcionPokedex = default, OffsetRom offsetOrdenLocal = default, OffsetRom offsetOrdenNacional = default, OffsetRom offsetNombre = default, OffsetRom offsetHuella = default, OffsetRom offsetStats = default, OffsetRom offsetAtaquesAprendidos = default, OffsetRom[] offsetsSprites = default, int totalPokemon = -1, int totalDescripciones = -1)
         {
-            const int MISSIGNO = 0;
+             const int MISSIGNO = 0;
 
-            OffsetRom offsetDescripcionPokedex = DescripcionPokedex.GetOffset(rom);
-            OffsetRom offsetOrdenLocal = OrdenLocal.GetOffset(rom);
-            OffsetRom offsetOrdenNacional = OrdenNacional.GetOffset(rom);
-            OffsetRom offsetNombre = Nombre.GetOffset(rom);
-            OffsetRom offsetHuella = Huella.GetOffset(rom);
-            OffsetRom offsetAtaquesAprendidos = AtaquesAprendidos.GetOffset(rom);
-            OffsetRom offsetStats = Stats.GetOffset(rom);
-            OffsetRom[] offsetSprites = Sprites.GetOffsets(rom);
+            Pokemon[] pokedex = new Pokemon[totalPokemon<0?Huella.GetTotal(rom, offsetHuella):totalPokemon];
+            int totalEntradasPokedex =totalDescripciones<0? DescripcionPokedex.GetTotal(rom, offsetDescripcionPokedex):totalDescripciones;
 
-            Pokemon[] pokedex = new Pokemon[Huella.GetTotal(rom,offsetHuella)];
-            int totalEntradasPokedex = DescripcionPokedex.GetTotal(rom,offsetDescripcionPokedex);
+             offsetDescripcionPokedex =Equals(offsetDescripcionPokedex, default)? DescripcionPokedex.GetOffset(rom):offsetDescripcionPokedex;
+             offsetOrdenLocal = Equals(offsetOrdenLocal, default) ? OrdenLocal.GetOffset(rom):offsetOrdenLocal;
+             offsetOrdenNacional = Equals(offsetOrdenNacional, default) ? OrdenNacional.GetOffset(rom):offsetOrdenNacional;
+             offsetNombre = Equals(offsetNombre, default) ? Nombre.GetOffset(rom):offsetNombre;
+             offsetHuella = Equals(offsetHuella, default) ? Huella.GetOffset(rom):offsetHuella;
+             offsetAtaquesAprendidos = Equals(offsetAtaquesAprendidos, default) ? AtaquesAprendidos.GetOffset(rom):offsetAtaquesAprendidos;
+             offsetStats = Equals(offsetStats, default) ? Stats.GetOffset(rom):offsetStats;
+             offsetsSprites = Equals(offsetsSprites, default) ? Sprites.GetOffsets(rom): offsetsSprites;
+
+
             for (int i = 0; i < pokedex.Length; i++)
-                pokedex[i] = Get(rom, i, totalEntradasPokedex,offsetDescripcionPokedex,offsetOrdenLocal,offsetOrdenNacional,offsetNombre,offsetHuella,offsetStats,offsetAtaquesAprendidos,offsetSprites);
+                pokedex[i] = Get(rom, i, totalEntradasPokedex,offsetDescripcionPokedex,offsetOrdenLocal,offsetOrdenNacional,offsetNombre,offsetHuella,offsetStats,offsetAtaquesAprendidos, offsetsSprites);
            
             if(pokedex[MISSIGNO].OrdenGameFreak==pokedex[MISSIGNO].OrdenLocal.Orden) //es missigno que tiene en la nacional el mismo orden que Mew por eso lo pongo
                  pokedex[MISSIGNO].OrdenNacional.Orden = pokedex[MISSIGNO].OrdenGameFreak;
@@ -130,17 +132,17 @@ namespace PokemonGBAFramework.Core
             return pokedex;
 
         }
-        public static Pokemon[] GetOrdenLocal(RomGba rom)
+        public static Pokemon[] GetOrdenLocal(RomGba rom, OffsetRom offsetDescripcionPokedex = default, OffsetRom offsetOrdenLocal = default, OffsetRom offsetOrdenNacional = default, OffsetRom offsetNombre = default, OffsetRom offsetHuella = default, OffsetRom offsetStats = default, OffsetRom offsetAtaquesAprendidos = default, OffsetRom[] offsetsSprites = default)
         {
-            Pokemon[] pokemon = Get(rom);
+            Pokemon[] pokemon = Get(rom,offsetDescripcionPokedex,offsetOrdenLocal,offsetOrdenNacional,offsetNombre,offsetHuella,offsetStats,offsetAtaquesAprendidos,offsetsSprites);
             Pokemon[] ordenados = new Pokemon[pokemon.Length];
             for (int i = 0; i < pokemon.Length; i++)
                 ordenados[pokemon[i].OrdenLocal.Orden] = pokemon[i];
             return ordenados;
         }
-        public static Pokemon[] GetOrdenNacional(RomGba rom)
+        public static Pokemon[] GetOrdenNacional(RomGba rom, OffsetRom offsetDescripcionPokedex = default, OffsetRom offsetOrdenLocal = default, OffsetRom offsetOrdenNacional = default, OffsetRom offsetNombre = default, OffsetRom offsetHuella = default, OffsetRom offsetStats = default, OffsetRom offsetAtaquesAprendidos = default, OffsetRom[] offsetsSprites = default)
         {
-            Pokemon[] pokemon = Get(rom);
+            Pokemon[] pokemon = Get(rom, offsetDescripcionPokedex, offsetOrdenLocal, offsetOrdenNacional, offsetNombre, offsetHuella, offsetStats, offsetAtaquesAprendidos, offsetsSprites);
             Pokemon[] ordenados = new Pokemon[pokemon.Length];
             for (int i = 0; i < pokemon.Length; i++)
                 ordenados[pokemon[i].OrdenNacional.Orden] = pokemon[i];

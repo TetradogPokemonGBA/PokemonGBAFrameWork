@@ -9,7 +9,16 @@ namespace PokemonGBAFramework.Core
         {
             return Orden.ToString();
         }
-        protected static T GetOrden<T>(RomGba rom, int posicion, byte[] muestraAlgoritmo, int inicioRelativo, OffsetRom inicioOrdenLocal = default) where T:BaseOrden,new()
+        protected static T[] Get<T>(RomGba rom, byte[] muestraAlgoritmo, int inicioRelativo, OffsetRom offsetOrdenNacional = default, OffsetRom offsetHuella = default) where T : BaseOrden, new()
+        {
+            if (Equals(offsetOrdenNacional, default))
+                offsetOrdenNacional = GetOffset(rom,muestraAlgoritmo,inicioRelativo);
+            T[] orden = new T[Huella.GetTotal(rom, offsetHuella)];
+            for (int i = 0; i < orden.Length; i++)
+                orden[i] = Get<T>(rom, i,muestraAlgoritmo,inicioRelativo,offsetOrdenNacional);
+            return orden;
+        }
+        protected static T Get<T>(RomGba rom, int posicion, byte[] muestraAlgoritmo, int inicioRelativo, OffsetRom inicioOrdenLocal = default) where T:BaseOrden,new()
         {
             T ordenLocal = new T();
             if (Equals(inicioOrdenLocal, default))
@@ -38,7 +47,7 @@ namespace PokemonGBAFramework.Core
         protected static KeyValuePair<TOrden, T> GetOrdenado<TOrden,T>(RomGba rom, byte[] muestraAlgoritmo, int inicioRelativo, int posOriginal, GetMethod<T> metodo, OffsetRom offsetInicioMetodo = default, OffsetRom offsetInicioOrdenLocal = default) where TOrden : BaseOrden, new()
         {
             T item = metodo(rom, posOriginal, offsetInicioMetodo);
-            return new KeyValuePair<TOrden, T>(GetOrden<TOrden>(rom, posOriginal,muestraAlgoritmo,inicioRelativo, offsetInicioOrdenLocal), item);
+            return new KeyValuePair<TOrden, T>(Get<TOrden>(rom, posOriginal,muestraAlgoritmo,inicioRelativo, offsetInicioOrdenLocal), item);
         }
         protected static T[] GetOrdenados<TOrden,T>(RomGba rom, byte[] muestraAlgoritmo, int inicioRelativo, GetTodos<T> metodo, OffsetRom offsetMetodo = default, OffsetRom offsetInicio = default) where TOrden : BaseOrden, new()
         {
@@ -51,7 +60,7 @@ namespace PokemonGBAFramework.Core
 
             for (int i = 0; i < ordenados.Length; i++)
             {
-                aux = GetOrden<TOrden>(rom, i, muestraAlgoritmo, inicioRelativo, offsetInicio).Orden;
+                aux = Get<TOrden>(rom, i, muestraAlgoritmo, inicioRelativo, offsetInicio).Orden;
                 if(aux>=0&&aux<ordenados.Length)
                    ordenados[aux] = items[i];
             }

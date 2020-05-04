@@ -59,10 +59,10 @@ namespace PokemonGBAFramework.Core
         {
             return Texto.ToString();
         }
-        public static DescripcionPokedex[] GetOrdenNacional(RomGba rom)
+        public static DescripcionPokedex[] GetOrdenNacional(RomGba rom, OffsetRom offsetInicioDescripcionPokedex = default)
         {
             DescripcionPokedex[] nombres = new DescripcionPokedex[GetTotal(rom)];
-            OffsetRom offset = GetOffset(rom);
+            OffsetRom offset =Equals(offsetInicioDescripcionPokedex,default)? GetOffset(rom):offsetInicioDescripcionPokedex;
             for (int i = 0; i < nombres.Length; i++)
                 nombres[i] = Get(rom, i, offset);
             return nombres;

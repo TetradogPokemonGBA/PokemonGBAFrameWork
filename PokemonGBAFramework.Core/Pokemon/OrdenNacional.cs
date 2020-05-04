@@ -6,10 +6,13 @@ namespace PokemonGBAFramework.Core
     {
         public static readonly byte[] MuestraAlgoritmo = { 0x04, 0x48, 0x81, 0x42, 0x0C, 0xD9, 0x04, 0x48 };
         public static readonly int InicioRelativo = -MuestraAlgoritmo.Length - 96;
-
+        public static OrdenNacional[] Get(RomGba rom, OffsetRom offsetOrdenNacional = default, OffsetRom offsetHuella = default)
+        {
+            return BaseOrden.Get<OrdenNacional>(rom,MuestraAlgoritmo, InicioRelativo, offsetOrdenNacional,offsetHuella);
+        }
         public static OrdenNacional Get(RomGba rom, int posicion, OffsetRom inicioOrdenNacional = default)
         {
-            return BaseOrden.GetOrden<OrdenNacional>(rom, posicion, MuestraAlgoritmo, InicioRelativo, inicioOrdenNacional);
+            return BaseOrden.Get<OrdenNacional>(rom, posicion, MuestraAlgoritmo, InicioRelativo, inicioOrdenNacional);
         }
 
         public static OffsetRom GetOffset(RomGba rom)

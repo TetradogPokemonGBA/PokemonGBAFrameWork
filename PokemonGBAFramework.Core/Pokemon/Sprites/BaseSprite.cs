@@ -36,18 +36,18 @@ namespace PokemonGBAFramework.Core
         {
             return Zona.Search(rom, muestraAlgoritmo, index);
         }
-        protected static T[] Get<T>(RomGba rom, byte[] muestraAlgoritmo, int index) where T : BaseSprite, new()
+        protected static T[] Get<T>(RomGba rom, byte[] muestraAlgoritmo, int index, OffsetRom offsetSprite = default) where T : BaseSprite, new()
         {
-            return Huella.GetAll<T>(rom, (r, pos, offset) => Get<T>(r, pos, offset, muestraAlgoritmo, index), GetOffset(rom, muestraAlgoritmo, index));
+            return Huella.GetAll<T>(rom, (r, pos, offset) => Get<T>(r, pos, offset, muestraAlgoritmo, index),Equals(offsetSprite,default)? GetOffset(rom, muestraAlgoritmo, index):offsetSprite);
         }
 
-        protected static T[] GetOrdenLocal<T>(RomGba rom, byte[] muestraAlgoritmo, int index) where T : BaseSprite, new()
+        protected static T[] GetOrdenLocal<T>(RomGba rom, byte[] muestraAlgoritmo, int index,OffsetRom offsetSprite=default) where T : BaseSprite, new()
         {
-            return OrdenLocal.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index));
+            return OrdenLocal.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index,offsetSprite));
         }
-        protected static T[] GetOrdenNacional<T>(RomGba rom, byte[] muestraAlgoritmo, int index) where T : BaseSprite, new()
+        protected static T[] GetOrdenNacional<T>(RomGba rom, byte[] muestraAlgoritmo, int index, OffsetRom offsetSprite = default) where T : BaseSprite, new()
         {
-            return OrdenNacional.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index));
+            return OrdenNacional.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index,offsetSprite));
         }
 
     }

@@ -14,40 +14,48 @@ namespace PokemonGBAFramework.Core
         public static readonly int InicioRelativoKanto = -MuestraAlgoritmoKanto.Length - 48;
 
         public BloqueString Texto { get; set; }
-        public static int GetTotal(RomGba rom)
+        public static int GetTotal(RomGba rom, OffsetRom offsetDescripcionAtaque = default)
         {
             int total = 1;//como el primero no tiene me lo salto
-            OffsetRom zonaDescripcionAtaque =new OffsetRom(rom, GetZona(rom));
-            while (GetOffset(rom, zonaDescripcionAtaque, total).IsAPointer) total++;
+
+            if (Equals(offsetDescripcionAtaque, default))
+                offsetDescripcionAtaque = GetOffset(rom);
+
+            while (new OffsetRom(rom, offsetDescripcionAtaque + total * OffsetRom.LENGTH).IsAPointer) total++;
+
             return total;
         }
 
-        public static DescripcionAtaque Get(RomGba rom, int posicionAtaque,OffsetRom zonaDescripcionAtaque=default)
+        public static DescripcionAtaque Get(RomGba rom, int posicionAtaque,OffsetRom offsetDescripcionAtaque=default)
         {
             int offsetDescripcion;
             DescripcionAtaque descripcion = new DescripcionAtaque();
             if (posicionAtaque != 0)//el primero no tiene
             {
-                offsetDescripcion = GetOffset(rom, zonaDescripcionAtaque, posicionAtaque).Offset;
+                if (Equals(offsetDescripcionAtaque, default))
+                    offsetDescripcionAtaque = GetOffset(rom);
+                offsetDescripcion = new OffsetRom(rom, offsetDescripcionAtaque + posicionAtaque * OffsetRom.LENGTH).Offset;
                 descripcion.Texto = BloqueString.Get(rom, offsetDescripcion);
 
             }
 
             return descripcion;
         }
-        public static DescripcionAtaque[] Get(RomGba rom) {
+        public static DescripcionAtaque[] Get(RomGba rom,OffsetRom offsetDescripcionAtaque=default) {
+
             DescripcionAtaque[] descripciones = new DescripcionAtaque[GetTotal(rom)];
-            OffsetRom zonaDescrìpcionAtaque = GetZona(rom);
+
+            if(Equals(offsetDescripcionAtaque,default))
+                 offsetDescripcionAtaque = GetOffset(rom);
+
             for (int i = 0; i < descripciones.Length; i++)
-                descripciones[i] = Get(rom, i, zonaDescrìpcionAtaque);
+                descripciones[i] = Get(rom, i, offsetDescripcionAtaque);
             return descripciones;
         }
 
-        public static OffsetRom GetOffset(RomGba rom,OffsetRom zonaDescripcionAtaque=default,int posicionAtaque=1)
+        public static OffsetRom GetOffset(RomGba rom)
         {
-            if (Equals(zonaDescripcionAtaque, default))
-                zonaDescripcionAtaque =new OffsetRom(rom,GetZona(rom));
-            return new OffsetRom(rom, zonaDescripcionAtaque+posicionAtaque*OffsetRom.LENGTH);
+          return new OffsetRom(rom,GetZona(rom));
         }
         
         public static int GetZona(RomGba rom)

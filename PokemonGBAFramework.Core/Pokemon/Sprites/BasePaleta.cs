@@ -2,8 +2,6 @@
 {
     public abstract class BasePaleta
     {
-
-
         public BasePaleta()
         {
             Paleta = new Paleta();
@@ -31,10 +29,10 @@
         {
             return Zona.Search(rom, muestraAlgoritmo, index);
         }
-        protected static T[] Get<T>(RomGba rom, byte[] muestraAlgoritmo, int index) where T : BasePaleta, new() => Huella.GetAll<T>(rom,(r,pos,offset)=> Get<T>(rom, pos, offset, muestraAlgoritmo, index), GetOffset(rom, muestraAlgoritmo, index));
+        protected static T[] Get<T>(RomGba rom, byte[] muestraAlgoritmo, int index, OffsetRom offsetPaleta = default) where T : BasePaleta, new() => Huella.GetAll<T>(rom,(r,pos,offset)=> Get<T>(rom, pos, offset, muestraAlgoritmo, index),Equals(offsetPaleta,default)? GetOffset(rom, muestraAlgoritmo, index):offsetPaleta);
 
-        protected static T[] GetOrdenLocal<T>(RomGba rom, byte[] muestraAlgoritmo, int index) where T : BasePaleta, new() => OrdenLocal.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index));
-        protected static T[] GetOrdenNacional<T>(RomGba rom, byte[] muestraAlgoritmo, int index) where T : BasePaleta, new() => OrdenNacional.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index));
+        protected static T[] GetOrdenLocal<T>(RomGba rom, byte[] muestraAlgoritmo, int index, OffsetRom offsetPaleta = default) where T : BasePaleta, new() => OrdenLocal.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index,offsetPaleta));
+        protected static T[] GetOrdenNacional<T>(RomGba rom, byte[] muestraAlgoritmo, int index,OffsetRom offsetPaleta=default) where T : BasePaleta, new() => OrdenNacional.GetOrdenados<T>(rom, (r, o) => Get<T>(r, muestraAlgoritmo, index,offsetPaleta));
         
         public static implicit operator Paleta(BasePaleta paleta)=>paleta.Paleta;
     }
