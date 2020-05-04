@@ -299,13 +299,15 @@ namespace PokemonGBAFramework.Core
 		}
 		public static int GetTotal(RomGba rom, OffsetRom offsetHuella=default)
 		{
+			int offset;
 			int total = 0;
+
 			if(Equals(offsetHuella,default))
 				 offsetHuella = GetOffset(rom);
-
-			while (new OffsetRom(rom, offsetHuella).IsAPointer)
+			offset = offsetHuella;
+			while (new OffsetRom(rom, offset).IsAPointer)
 			{
-				offsetHuella += OffsetRom.LENGTH;
+				offset += OffsetRom.LENGTH;
 				total++;
 			}
 			return total - 1;
