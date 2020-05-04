@@ -29,5 +29,5 @@ namespace PokemonGBAFramework.Core
         {
             return BaseOrden.GetOrdenados<OrdenNacional, T>(rom, MuestraAlgoritmo, InicioRelativo, metodo, offsetMetodo, offsetInicioOrdenNacional);
         }
-    }
+    } 
 }

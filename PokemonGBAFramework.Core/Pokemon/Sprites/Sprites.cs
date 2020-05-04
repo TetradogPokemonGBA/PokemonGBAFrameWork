@@ -32,5 +32,40 @@ namespace PokemonGBAFramework.Core
 
             return sprites;
         }
+        public static Sprites[] Get(RomGba rom,OffsetRom[] offsetsSprites = default)
+        {
+            if (Equals(offsetsSprites, default))
+                offsetsSprites = GetOffsets(rom);
+
+            return Huella.GetAll<Sprites>(rom, (r, i, o) => Get(r, i, offsetsSprites));
+        }
+        public static Sprites[] GetOrdenLocal(RomGba rom, OffsetRom[] offsetsSprites = default, OffsetRom offsetOrdenLocal = default)
+        {
+            Sprites[] pokemon = Get(rom,offsetsSprites);
+            Sprites[] ordenados = new Sprites[pokemon.Length];
+
+            if (Equals(offsetOrdenLocal, default))
+                offsetOrdenLocal = OrdenLocal.GetOffset(rom);
+
+            ordenados[0] = pokemon[0];
+
+            for (int i = 1; i < pokemon.Length; i++)
+                ordenados[(int)(Word)OrdenLocal.Get(rom, i, offsetOrdenLocal)] = pokemon[i];
+            return ordenados;
+        }
+        public static Sprites[] GetOrdenNacional(RomGba rom, OffsetRom[] offsetsSprites = default,OffsetRom offsetOrdenNacional=default)
+        {
+            Sprites[] pokemon = Get(rom,offsetsSprites);
+            Sprites[] ordenados = new Sprites[pokemon.Length];
+
+            if (Equals(offsetOrdenNacional, default))
+                offsetOrdenNacional = OrdenNacional.GetOffset(rom);
+
+            ordenados[0] = pokemon[0];
+
+            for (int i = 1; i < pokemon.Length; i++)
+                ordenados[(int)(Word)OrdenNacional.Get(rom,i,offsetOrdenNacional)] = pokemon[i];
+            return ordenados;
+        }
     }
 }

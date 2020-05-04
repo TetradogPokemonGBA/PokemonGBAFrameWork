@@ -58,5 +58,6 @@ namespace PokemonGBAFramework.Core
 
             return ordenados;
         }
+        public static implicit operator Word(BaseOrden orden)=>orden.Orden;
     }
 }

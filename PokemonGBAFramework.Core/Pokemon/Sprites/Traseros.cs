@@ -1,51 +1,85 @@
-﻿using Gabriel.Cat.S.Extension;
-using Gabriel.Cat.S.Utilitats;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
-    public class Traseros 
+    public class Traseros:BaseSprite
     {
+        public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x01, 0x0C, 0x00, 0x2F, 0x06 };
+        public static readonly int IndexRelativoRubiYZafiro = 16 - MuestraAlgoritmoRubiYZafiro.Length;
 
-        public Traseros()
+        public static readonly byte[] MuestraAlgoritmoKanto = { 0xF8, 0x05, 0x00, 0x00, 0x18, 0x3A, 0x00 };
+        public static readonly int IndexRelativoKanto = -MuestraAlgoritmoKanto.Length - 48;
+
+        public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x40, 0x18, 0x29, 0x1C, 0x3A };
+        public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 32;
+
+        public static Traseros Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
-            Sprites = new Llista<BloqueImagen>();
-        }
-        public Llista<BloqueImagen> Sprites { get; private set; }
-
-        public static Traseros Get(RomGba rom, int posicion,OffsetRom offsetImgTrasera)
-        {
-            if (Equals(offsetImgTrasera, default))
-                offsetImgTrasera = GetOffset(rom);
-            byte[] auxImg;
-            Traseros traseros = new Traseros();
-            int offsetImgTraseraPokemon = offsetImgTrasera + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
-            BloqueImagen bloqueImgTrasera = BloqueImagen.GetBloqueImagen(rom, offsetImgTraseraPokemon);
-            auxImg = bloqueImgTrasera.DatosDescomprimidos.Bytes;
-            for (int i = 0, f = auxImg.Length / Core.Sprites.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += Core.Sprites.TAMAÑOIMAGENDESCOMPRIMIDA)
-            {
-                traseros.Sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, Core.Sprites.TAMAÑOIMAGENDESCOMPRIMIDA))));
-            }
-
-            return traseros;
-
+            return BaseSprite.Get<Traseros>(rom,posicion,offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
         }
 
+        public static Traseros[] Get(RomGba rom)
+        {
+            return BaseSprite.Get<Traseros>(rom, GetMuestra(rom), GetIndex(rom));
+        }
+
+        public static Traseros[] GetOrdenLocal(RomGba rom)
+        {
+            return BaseSprite.GetOrdenLocal<Traseros>(rom, GetMuestra(rom), GetIndex(rom));
+        }
+        public static Traseros[] GetOrdenNacional(RomGba rom)
+        {
+            return BaseSprite.GetOrdenNacional<Traseros>(rom, GetMuestra(rom), GetIndex(rom));
+        }
         public static OffsetRom GetOffset(RomGba rom)
         {
-            return new OffsetRom(rom, GetZona(rom));
+            return BaseSprite.GetOffset(rom, GetMuestra(rom), GetIndex(rom));
         }
-
-        public static int GetZona(RomGba rom)
+        public static Zona GetZona(RomGba rom)
         {
-            throw new NotImplementedException();
+            return BaseSprite.GetZona(rom, GetMuestra(rom), GetIndex(rom));
+        }
+        static byte[] GetMuestra(RomGba rom)
+        {
+            byte[] algoritmo;
+
+            if (rom.Edicion.EsKanto)
+            {
+                algoritmo = MuestraAlgoritmoKanto;
+
+            }
+            else if (rom.Edicion.Version == Edicion.Pokemon.Esmeralda)
+            {
+                algoritmo = MuestraAlgoritmoEsmeralda;
+
+            }
+            else
+            {
+                algoritmo = MuestraAlgoritmoRubiYZafiro;
+
+            }
+            return algoritmo;
         }
 
-        public static Traseros[] Get(RomGba rom) => Huella.GetAll<Traseros>(rom, Traseros.Get, GetOffset(rom));
+        static int GetIndex(RomGba rom)
+        {
+            int inicio;
+            if (rom.Edicion.EsKanto)
+            {
+                inicio = IndexRelativoKanto;
+            }
+            else if (rom.Edicion.Version == Edicion.Pokemon.Esmeralda)
+            {
+                inicio = IndexRelativoEsmeralda;
+            }
+            else
+            {
+                inicio = IndexRelativoRubiYZafiro;
+            }
+            return inicio;
+        }
 
-        public static Traseros[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Traseros>(rom, (r, o) => Traseros.Get(r), GetOffset(rom));
-        public static Traseros[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Traseros>(rom, (r, o) => Traseros.Get(r), GetOffset(rom));
     }
 }

@@ -7,8 +7,19 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
-    public class Frontales 
+    public class Frontales:BaseSprite
     {
+
+        public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x82, 0x42, 0x02, 0xD0, 0x88 };
+        public static readonly int IndexRelativoRubiYZafiro = -32 - MuestraAlgoritmoRubiYZafiro.Length;
+
+        public static readonly byte[] MuestraAlgoritmoKanto = { 0x0C, 0x1C, 0x17, 0x1C, 0x1D };
+        public static readonly int IndexRelativoKanto = -MuestraAlgoritmoKanto.Length - 80;
+
+        public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x00, 0x20, 0x09, 0x5E, 0x51, 0x40 };
+        public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 64;
+
+        #region Animacion Imagen Frontal Esmeralda
         private static readonly Paleta PaletaAnimacion;
 
         static Frontales()
@@ -24,11 +35,7 @@ namespace PokemonGBAFramework.Core
             PaletaAnimacion.Colores[0] = System.Drawing.Color.White;
 
         }
-        public Frontales()
-        {
-            Sprites = new Llista<BloqueImagen>();
-        }
-        public Llista<BloqueImagen> Sprites { get; private set; }
+
 
         public BitmapAnimated GetAnimacionImagenFrontal(Paleta paleta)
         {
@@ -49,39 +56,72 @@ namespace PokemonGBAFramework.Core
 
             return bmpAnimated;
         }
-        public static Frontales Get(RomGba rom, int posicion,OffsetRom offsetImgFrontal=default)
+        #endregion
+
+        public static Frontales Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
-            if (Equals(offsetImgFrontal, default))
-                offsetImgFrontal = GetOffset(rom);
-
-            byte[] auxImg;
-            Frontales frontales = new Frontales();
-            int offsetImgFrontalPokemon = offsetImgFrontal + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
-            BloqueImagen bloqueImgFrontal = BloqueImagen.GetBloqueImagen(rom, offsetImgFrontalPokemon);
-
-            auxImg = bloqueImgFrontal.DatosDescomprimidos.Bytes;
-            for (int i = 0, f = auxImg.Length / Core.Sprites.TAMAÑOIMAGENDESCOMPRIMIDA, pos = 0; i < f; i++, pos += Core.Sprites.TAMAÑOIMAGENDESCOMPRIMIDA)
-            {
-                frontales.Sprites.Add(new BloqueImagen(new BloqueBytes(auxImg.SubArray(pos, Core.Sprites.TAMAÑOIMAGENDESCOMPRIMIDA))));
-            }
-
-            return frontales;
+            return BaseSprite.Get<Frontales>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
         }
 
+        public static Frontales[] Get(RomGba rom)
+        {
+            return BaseSprite.Get<Frontales>(rom, GetMuestra(rom), GetIndex(rom));
+        }
+
+        public static Frontales[] GetOrdenLocal(RomGba rom)
+        {
+            return BaseSprite.GetOrdenLocal<Frontales>(rom, GetMuestra(rom), GetIndex(rom));
+        }
+        public static Frontales[] GetOrdenNacional(RomGba rom)
+        {
+            return BaseSprite.GetOrdenNacional<Frontales>(rom, GetMuestra(rom), GetIndex(rom));
+        }
         public static OffsetRom GetOffset(RomGba rom)
         {
-            return new OffsetRom(rom, GetZona(rom));
+            return BaseSprite.GetOffset(rom, GetMuestra(rom), GetIndex(rom));
         }
-
-        public static int GetZona(RomGba rom)
+        public static Zona GetZona(RomGba rom)
         {
-            throw new NotImplementedException();
+            return BaseSprite.GetZona(rom, GetMuestra(rom), GetIndex(rom));
+        }
+        static byte[] GetMuestra(RomGba rom)
+        {
+            byte[] algoritmo;
+
+            if (rom.Edicion.EsKanto)
+            {
+                algoritmo = MuestraAlgoritmoKanto;
+
+            }
+            else if (rom.Edicion.Version == Edicion.Pokemon.Esmeralda)
+            {
+                algoritmo = MuestraAlgoritmoEsmeralda;
+
+            }
+            else
+            {
+                algoritmo = MuestraAlgoritmoRubiYZafiro;
+
+            }
+            return algoritmo;
         }
 
-        public static Frontales[] Get(RomGba rom) => Huella.GetAll<Frontales>(rom, Get, GetOffset(rom));
-
-        public static Frontales[] GetOrdenLocal(RomGba rom) => OrdenLocal.GetOrdenados<Frontales>(rom, (r, o) => Frontales.Get(r), GetOffset(rom));
-        public static Frontales[] GetOrdenNacional(RomGba rom) => OrdenNacional.GetOrdenados<Frontales>(rom, (r, o) => Frontales.Get(r), GetOffset(rom));
-
+        static int GetIndex(RomGba rom)
+        {
+            int inicio;
+            if (rom.Edicion.EsKanto)
+            {
+                inicio = IndexRelativoKanto;
+            }
+            else if (rom.Edicion.Version == Edicion.Pokemon.Esmeralda)
+            {
+                inicio = IndexRelativoEsmeralda;
+            }
+            else
+            {
+                inicio = IndexRelativoRubiYZafiro;
+            }
+            return inicio;
+        }
     }
 }

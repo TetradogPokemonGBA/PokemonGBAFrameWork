@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core
         public bool EsKanto => Version >= Pokemon.RojoFuego;
         public bool EsHoenn => !EsKanto;
         public bool EsEsmeralda => Version == Pokemon.Esmeralda;
+        public bool EsRubiOZafiro => !EsEsmeralda && EsHoenn;
         public static Edicion Get(RomGba romGba)
         {
             Edicion edicion = new Edicion();
