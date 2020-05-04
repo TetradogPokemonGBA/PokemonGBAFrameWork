@@ -24,8 +24,4 @@
     <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pokemon\Sprites\" />
-  </ItemGroup>
-
 </Project>
