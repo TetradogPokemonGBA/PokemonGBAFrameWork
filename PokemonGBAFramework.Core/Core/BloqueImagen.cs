@@ -55,13 +55,13 @@ namespace PokemonGBAFramework.Core
             get { return Serializar.GetBytes(Formato).AddArray(Serializar.GetBytes(Id)); }
             set
             {
-                if (value == null)
+                if (value == default)
                     throw new ArgumentNullException();
                 if (value.Length < LENGTHHEADER)
                     value = value.AddArray(new byte[LENGTHHEADER - value.Length]);
                 //por mirar
-                Formato = Serializar.ToShort(value.SubArray(0, 2));
-                Id = Serializar.ToShort(value.SubArray(2, 2));
+                Formato = Serializar.ToShort(value.SubArray(0, sizeof(short)));
+                Id = Serializar.ToShort(value.SubArray(sizeof(short), sizeof(short)));
 
             }
         }
