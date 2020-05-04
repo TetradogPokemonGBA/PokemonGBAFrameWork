@@ -15,7 +15,16 @@ namespace PokemonGBAFramework.Core
 
         public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0xB3, 0xFD, 0x11, 0x49, 0x00 };
         public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 16;
+        public DescripcionHabilidad()
+        {
+            Texto = new BloqueString();
+
+        }
         public BloqueString Texto { get; set; }
+        public override string ToString()
+        {
+            return Texto.ToString();
+        }
         public static DescripcionHabilidad[] Get(RomGba rom)
         {
             DescripcionHabilidad[] descripcions = new DescripcionHabilidad[NombreHabilidad.GetTotal(rom)];
