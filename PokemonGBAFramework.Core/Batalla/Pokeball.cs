@@ -7,11 +7,11 @@ namespace PokemonGBAFramework.Core
 {
     public class PokeballBatalla
     {
-        public static readonly byte[] MuestraAlgoritmoSprite = { 0xA5, 0x8E, 0xE0, 0x8E, 0x00, 0x04 };
-        public static readonly int IndexRelativoSprite = -MuestraAlgoritmoSprite.Length - 48;
-
-        public static readonly byte[] MuestraAlgoritmoPaleta = { 0x00, 0x0E, 0x80, 0x46, 0xA5 };
+        public static readonly byte[] MuestraAlgoritmoPaleta  = { 0xA5, 0x8E, 0xE0, 0x8E, 0x00, 0x04 };
         public static readonly int IndexRelativoPaleta = -MuestraAlgoritmoPaleta.Length - 48;
+
+        public static readonly byte[] MuestraAlgoritmoSprite = { 0x00, 0x0E, 0x80, 0x46, 0xA5 };
+        public static readonly int IndexRelativoSprite  = -MuestraAlgoritmoSprite.Length - 48;
         public PokeballBatalla()
         {
             Sprite = new BloqueImagen();
@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core
 
         public static implicit operator BloqueImagen(PokeballBatalla pokeball)=>pokeball.Sprite;
         public static implicit operator Bitmap(PokeballBatalla pokeball) => pokeball.Sprite[0];
-        public static int GetTotal(RomGba rom,OffsetRom offsetSpritePokeball=default/*,OffsetRom offsetPaletaPokeball=default*/)
+        public static int GetTotal(RomGba rom,OffsetRom offsetSpritePokeball=default,OffsetRom offsetPaletaPokeball=default)
         {
             int total = 0;
             int offsetSprite = Equals(offsetSpritePokeball,default)?GetOffsetSprite(rom):offsetSpritePokeball;
-            //int offsetPaleta = Equals(offsetPaletaPokeball, default) ? GetOffsetPaleta(rom) : offsetPaletaPokeball;
-            while (BloqueImagen.IsHeaderOk(rom, offsetSprite)/* && Paleta.IsHeaderOk(rom, offsetPaleta)*/)
+            int offsetPaleta = Equals(offsetPaletaPokeball, default) ? GetOffsetPaleta(rom) : offsetPaletaPokeball;
+            while (BloqueImagen.IsHeaderOk(rom, offsetSprite) && Paleta.IsHeaderOk(rom, offsetPaleta))
             {
                 total++;
-                //offsetPaleta += Paleta.LENGTHHEADERCOMPLETO;
+                offsetPaleta += Paleta.LENGTHHEADERCOMPLETO;
                 offsetSprite += BloqueImagen.LENGTHHEADERCOMPLETO;
             }
             return total;
@@ -73,7 +73,7 @@ namespace PokemonGBAFramework.Core
 
         public static PokeballBatalla[] Get(RomGba rom, OffsetRom offsetSpritePokeball = default, OffsetRom offsetPaletaPokeball = default,int totalPokeballs=-1)
         {
-            PokeballBatalla[] pokeballs = new PokeballBatalla[totalPokeballs<0?GetTotal(rom,offsetSpritePokeball/*,offsetPaletaPokeball*/):totalPokeballs];
+            PokeballBatalla[] pokeballs = new PokeballBatalla[totalPokeballs<0?GetTotal(rom,offsetSpritePokeball,offsetPaletaPokeball):totalPokeballs];
             offsetSpritePokeball = Equals(offsetSpritePokeball, default) ? GetOffsetSprite(rom) : offsetSpritePokeball;
             offsetPaletaPokeball = Equals(offsetPaletaPokeball, default) ? GetOffsetPaleta(rom) : offsetPaletaPokeball;
             for (int i = 0; i < pokeballs.Length; i++)
