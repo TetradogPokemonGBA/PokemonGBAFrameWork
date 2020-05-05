@@ -16,11 +16,12 @@ namespace PokemonGBAFramework.Core
             PaginasRubiZafiro = 2,
             PaginasGeneral = 1,
         }
-        public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x00, 0x2D, 0x0A, 0xD0, 0x29, 0x1C };
+
+        public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0xC0, 0x22, 0x00, 0x03, 0x27, 0x4D, 0x28 };
         public static readonly int InicioRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 16;
 
         public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x00, 0x2A, 0x09, 0xD0, 0xA3, 0xE0 };
-        public static readonly int InicioRelativoRubiYZafiro = -MuestraAlgoritmoEsmeralda.Length - 48;
+        public static readonly int InicioRelativoRubiYZafiro = -MuestraAlgoritmoRubiYZafiro.Length - 48;
 
         public static readonly byte[] MuestraAlgoritmoKanto = { 0x07, 0x98, 0x03, 0x22, 0x2D, 0xF0 };
         public static readonly int InicioRelativoKanto = -MuestraAlgoritmoKanto.Length - 32;

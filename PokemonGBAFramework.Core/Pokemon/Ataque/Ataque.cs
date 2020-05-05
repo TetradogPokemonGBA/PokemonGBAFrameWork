@@ -86,7 +86,15 @@ namespace PokemonGBAFramework.Core
 			return ataque;
 		}
 
-		public static Ataque[] Get(RomGba rom, OffsetRom offsetNombreAtaque = default, OffsetRom offsetDescripcionAtaque = default, OffsetRom offsetDatosAtaque = default, OffsetRom offsetConcursos = default) => DescripcionAtaque.GetAll<Ataque>(rom,(r,i,o)=> Get(r,i,offsetNombreAtaque,offsetDescripcionAtaque,offsetDatosAtaque,offsetConcursos),default);
+		public static Ataque[] Get(RomGba rom, OffsetRom offsetNombreAtaque = default, OffsetRom offsetDescripcionAtaque = default, OffsetRom offsetDatosAtaque = default, OffsetRom offsetConcursos = default)
+		{
+			offsetNombreAtaque=Equals(offsetNombreAtaque, default) ? NombreAtaque.GetOffset(rom) : offsetNombreAtaque;
+			offsetDescripcionAtaque= Equals(offsetDescripcionAtaque, default) ? DescripcionAtaque.GetOffset(rom) : offsetDescripcionAtaque;
+			offsetDatosAtaque= Equals(offsetDatosAtaque, default) ? DatosAtaque.GetOffset(rom) : offsetDatosAtaque;
+			if(rom.Edicion.EsHoenn)
+				offsetConcursos= Equals(offsetConcursos, default) ? ConcursosAtaque.GetOffset(rom) : offsetConcursos;
+			return DescripcionAtaque.GetAll<Ataque>(rom, (r, i, o) => Get(r, i,offsetNombreAtaque,offsetDescripcionAtaque,offsetDatosAtaque,offsetConcursos ), default);
+		}
 
 	}
 }

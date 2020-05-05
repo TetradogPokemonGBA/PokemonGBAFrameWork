@@ -16,19 +16,23 @@ namespace PokemonGBAFramework.Core
         {
             return Offset.ToString();
         }
-        public static Zona Search(RomGba rom, byte[] muestraAlgoritmo, int offsetAlgoritmo = 0)
+        public static Zona Search(RomGba rom, byte[] muestraAlgoritmo, int posicionPointer = 0)
         {
-            return Search(rom.Data.Bytes, muestraAlgoritmo, offsetAlgoritmo);
+            return Search(rom.Data.Bytes, muestraAlgoritmo, posicionPointer);
         }
-        public static Zona Search(byte[] rom, byte[] muestraAlgoritmo, int offsetAlgoritmo = 0)
+        public static Zona Search(byte[] rom, byte[] muestraAlgoritmo, int posicionPointer = 0)
         {
-            int busqueda = rom.SearchArray(muestraAlgoritmo);
-            int offset = busqueda + muestraAlgoritmo.Length;
-           
-            offset += offsetAlgoritmo;
+            int busqueda = rom.SearchArray(muestraAlgoritmo)+muestraAlgoritmo.Length;
+            int offset = busqueda;
+
             if (busqueda == -1)
                 throw new Exception("La muestra no se ha encontrado en la rom!");
 
+            offset += posicionPointer;
+
+            if (offset < 0)
+                throw new Exception("No se ha encontrado ningun pointer, revisa el numero de pointers a saltar hasta la zona!");
+            
             if (!OffsetRom.Check(rom, offset))
                 throw new Exception("el offset no apunta a un Pointer!!");
 

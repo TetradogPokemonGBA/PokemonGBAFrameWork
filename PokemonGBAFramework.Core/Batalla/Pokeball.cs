@@ -10,8 +10,8 @@ namespace PokemonGBAFramework.Core
         public static readonly byte[] MuestraAlgoritmoPaleta  = { 0xA5, 0x8E, 0xE0, 0x8E, 0x00, 0x04 };
         public static readonly int IndexRelativoPaleta = -MuestraAlgoritmoPaleta.Length - 48;
 
-        public static readonly byte[] MuestraAlgoritmoSprite = { 0x00, 0x0E, 0x80, 0x46, 0xA5 };
-        public static readonly int IndexRelativoSprite  = -MuestraAlgoritmoSprite.Length - 48;
+        public static readonly byte[] MuestraAlgoritmoSprite = { 0x91, 0x86, 0x0B, 0x9C, 0x21, 0x0C };
+        public static readonly int IndexRelativoSprite = -MuestraAlgoritmoSprite.Length + 48;
         public PokeballBatalla()
         {
             Sprite = new BloqueImagen();

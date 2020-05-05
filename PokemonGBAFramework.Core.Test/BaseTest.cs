@@ -18,7 +18,11 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         [TestMethod]
         public void TestGetIndividualEsmeraldaFRA() => TestGetIndividual(Resource1.EsmeraldaFRA);
         [TestMethod]
-        public void TestGetIndividualEsmeraldaJAP() => TestGetIndividual(Resource1.EsmeraldaJAP);
+        public void TestGetIndividualEsmeraldaGER() => TestGetIndividual(Resource1.EsmeraldaGER);
+        [TestMethod]
+        public void TestGetIndividualEsmeraldaUSA() => TestGetIndividual(Resource1.EsmeraldaUSA);
+        //[TestMethod]
+        //public void TestGetIndividualEsmeraldaJAP() => TestGetIndividual(Resource1.EsmeraldaJAP);
         [TestMethod]
         public void TestGetIndividualVerdeHojaUSA11() => TestGetIndividual(Resource1.VerdeHojaUSA11);
         [TestMethod]
@@ -42,7 +46,11 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         [TestMethod]
         public void TestGetTodosEsmeraldaFRA() => TestGetTodos(Resource1.EsmeraldaFRA);
         [TestMethod]
-        public void TestGetTodosEsmeraldaJAP() => TestGetTodos(Resource1.EsmeraldaJAP);
+        public void TestGetTodosEsmeraldaGER() => TestGetTodos(Resource1.EsmeraldaGER);
+        [TestMethod]
+        public void TestGetTodosEsmeraldaUSA() => TestGetTodos(Resource1.EsmeraldaUSA);
+        //[TestMethod]
+        //public void TestGetTodosEsmeraldaJAP() => TestGetTodos(Resource1.EsmeraldaJAP);
         [TestMethod]
         public void TestGetTodosVerdeHojaUSA11() => TestGetTodos(Resource1.VerdeHojaUSA11);
         [TestMethod]

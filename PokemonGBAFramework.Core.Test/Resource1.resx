@@ -124,8 +124,14 @@
   <data name="EsmeraldaFRA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\2187 - Pokemon Version Emeraude (F)(Eternity).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="EsmeraldaGER" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2185 - Pokemon Smaragd Edition (G)(Rising Sun).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="EsmeraldaJAP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\1649 - Pokemon Emerald (J)(Independent).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EsmeraldaUSA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Pokemon Emerald (U).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RojoFuegoESP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Pokemon Rojo Fuego.gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -83,9 +83,29 @@ namespace PokemonGBAFramework.Core.Test {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        internal static byte[] EsmeraldaGER {
+            get {
+                object obj = ResourceManager.GetObject("EsmeraldaGER", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         internal static byte[] EsmeraldaJAP {
             get {
                 object obj = ResourceManager.GetObject("EsmeraldaJAP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] EsmeraldaUSA {
+            get {
+                object obj = ResourceManager.GetObject("EsmeraldaUSA", resourceCulture);
                 return ((byte[])(obj));
             }
         }

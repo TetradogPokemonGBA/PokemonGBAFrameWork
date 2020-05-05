@@ -14,7 +14,7 @@ namespace PokemonGBAFramework.Core
         public static readonly int InicioRelativoRubiYZafiro = 12;
 
         public static readonly byte[] MuestraAlgoritmoKanto = { 0xD1, 0x00, 0x89, 0x1A, 0x06 };
-        public static readonly int InicioRelativoKanto = -MuestraAlgoritmoKanto.Length - 16;
+        public static readonly int InicioRelativoKanto = -MuestraAlgoritmoKanto.Length - 48;
 
         public BloqueString Texto { get; set; }
         public override string ToString()

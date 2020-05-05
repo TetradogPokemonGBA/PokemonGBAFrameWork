@@ -36,10 +36,15 @@ namespace PokemonGBAFramework.Core
         {
 
         }
+
+      
+
         public OffsetRom(BloqueBytes datos, int inicioPointer) : this(datos.Bytes, inicioPointer)
         {
 
         }
+
+
         public OffsetRom(byte[] datos, int inicioPointer) : this(datos.SubArray(inicioPointer, LENGTH))
         {
 
@@ -218,6 +223,30 @@ namespace PokemonGBAFramework.Core
                     *ptrDatos = ZERO;//pongo 0x0 porque los pointers que apuntan al offset 0 es que no estan puestos...
                 }
             }
+        }
+        public static int GetOffsetPointerSiguiente(byte[] rom, int offset)
+        {
+            const byte FINPOINTER = 0x8;
+            do
+            {
+                offset = rom.IndexByte(offset, FINPOINTER) - OffsetRom.LENGTH+1;
+            }
+            while (offset>=0&&offset<rom.Length&&!Check(rom, offset));
+            if (offset == rom.Length)
+                offset = -1;
+            return offset;
+        }
+        public static int GetOffsetPointerAnterior(byte[] rom, int offset)
+        {
+            const byte FINPOINTER = 0x8;
+            do
+            {
+                while(rom[offset]!=FINPOINTER)
+                  offset--;
+                offset -= OffsetRom.LENGTH - 1;
+            }
+            while (offset >=0 && !Check(rom, offset));
+            return offset;
         }
 
     }
