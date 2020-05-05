@@ -72,21 +72,21 @@ namespace PokemonGBAFramework.Core
         public DWord ExtraParameter { get; set; }
 
         #endregion
-        public static int GetTotal(RomGba rom,OffsetRom offsetDatosObjeto=default)
+        public static int GetTotal(RomGba rom, OffsetRom offsetDatosObjeto = default)
         {
             const byte MARCAFINNOMBRE = 0xFF;
             const byte EMPTYBYTENAME = 0x0;
-           
+
             bool acabado;
             bool nombreComprobadoCorrectamente;
             BloqueBytes datosItem;
             int posicionDesripcionObjeto = (int)LongitudCampos.NombreCompilado + (int)LongitudCampos.Index + (int)LongitudCampos.Price + (int)LongitudCampos.HoldEffect + (int)LongitudCampos.Parameter;
 
             int totalItems = 0;
-            int offsetInicio = Equals(offsetDatosObjeto,default)?GetOffset(rom):offsetDatosObjeto;
+            int offsetInicio = Equals(offsetDatosObjeto, default) ? GetOffset(rom) : offsetDatosObjeto;
             int offsetActual = offsetInicio;
             //cada objeto como minimo tiene un pointer si no lo tiene es que no tiene el formato bien :) ademas el nombre si no llega al final acaba en FF :D
-           
+
 
             do
             {
@@ -130,22 +130,22 @@ namespace PokemonGBAFramework.Core
             return Zona.Search(rom, MuestraAlgoritmo, IndexRelativo);
         }
 
-        public static DatosObjeto[] Get(RomGba rom,OffsetRom offsetDatosObjeto=default,int totalObjetos=-1)
+        public static DatosObjeto[] Get(RomGba rom, OffsetRom offsetDatosObjeto = default, int totalObjetos = -1)
         {
-            DatosObjeto[] datos = new DatosObjeto[totalObjetos<0?GetTotal(rom):totalObjetos];
+            DatosObjeto[] datos = new DatosObjeto[totalObjetos < 0 ? GetTotal(rom) : totalObjetos];
 
             if (Equals(offsetDatosObjeto, default))
                 offsetDatosObjeto = GetOffset(rom);
 
             for (int i = 0; i < datos.Length; i++)
-                datos[i] = Get(rom, i,offsetDatosObjeto);
+                datos[i] = Get(rom, i, offsetDatosObjeto);
 
             return datos;
         }
-        public static DatosObjeto Get(RomGba rom, int index,OffsetRom offsetDatosObjeto=default)
+        public static DatosObjeto Get(RomGba rom, int index, OffsetRom offsetDatosObjeto = default)
         {
             OffsetRom aux;
-            int offsetDatos = (Equals(offsetDatosObjeto,default)?GetOffset(rom):offsetDatosObjeto) + index * (int)LongitudCampos.Total;
+            int offsetDatos = (Equals(offsetDatosObjeto, default) ? GetOffset(rom) : offsetDatosObjeto) + index * (int)LongitudCampos.Total;
             byte[] blDatos = rom.Data.SubArray(offsetDatos, (int)LongitudCampos.Total);
             DatosObjeto datos = new DatosObjeto();
 
