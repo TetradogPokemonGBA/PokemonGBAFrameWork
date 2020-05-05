@@ -130,14 +130,19 @@ namespace PokemonGBAFramework.Core
             return Zona.Search(rom, MuestraAlgoritmo, IndexRelativo);
         }
 
-        public static DatosObjeto[] GetDatos(RomGba rom)
+        public static DatosObjeto[] Get(RomGba rom,OffsetRom offsetDatosObjeto=default,int totalObjetos=-1)
         {
-            DatosObjeto[] datos = new DatosObjeto[GetTotal(rom)];
+            DatosObjeto[] datos = new DatosObjeto[totalObjetos<0?GetTotal(rom):totalObjetos];
+
+            if (Equals(offsetDatosObjeto, default))
+                offsetDatosObjeto = GetOffset(rom);
+
             for (int i = 0; i < datos.Length; i++)
-                datos[i] = GetDatos(rom, i);
+                datos[i] = Get(rom, i,offsetDatosObjeto);
+
             return datos;
         }
-        public static DatosObjeto GetDatos(RomGba rom, int index,OffsetRom offsetDatosObjeto=default)
+        public static DatosObjeto Get(RomGba rom, int index,OffsetRom offsetDatosObjeto=default)
         {
             OffsetRom aux;
             int offsetDatos = (Equals(offsetDatosObjeto,default)?GetOffset(rom):offsetDatosObjeto) + index * (int)LongitudCampos.Total;
