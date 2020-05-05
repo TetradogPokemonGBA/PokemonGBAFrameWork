@@ -30,7 +30,7 @@ namespace PokemonGBAFramework.Core
                 throw new Exception("La muestra no se ha encontrado en la rom!");
 
             if (!OffsetRom.Check(rom, offset))
-                throw new Exception("el offset fallan,porque no se ha encontrado un Pointer!!");
+                throw new Exception("el offset no apunta a un Pointer!!");
 
             return offset;
         }

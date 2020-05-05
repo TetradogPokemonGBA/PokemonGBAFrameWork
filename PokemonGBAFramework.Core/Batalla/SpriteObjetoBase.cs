@@ -13,9 +13,11 @@ namespace PokemonGBAFramework.Core
         {
             T[] sprites = new T[totalObjetos];
 
-            if (Equals(offsetSpriteObjeto, default))
-                offsetSpriteObjeto = GetOffset(rom,muestraAlgorimo,indexRelativo);
-
+            if (!rom.Edicion.EsRubiOZafiro)
+            {
+                if (Equals(offsetSpriteObjeto, default))
+                    offsetSpriteObjeto = GetOffset(rom, muestraAlgorimo, indexRelativo);
+            }
             for (int i = 0; i < sprites.Length; i++)
                 sprites[i] = Get<T>(rom, i,muestraAlgorimo,indexRelativo,offsetSpriteObjeto);
 

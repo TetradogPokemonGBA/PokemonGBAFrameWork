@@ -32,7 +32,7 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         protected void TestGetIndividual<T>(byte[] romData, GetIndividual<T> metodo)
         {
             RomGba rom = new RomGba(romData);
-            Assert.IsNotNull(metodo(rom, 0));
+            Assert.IsNotNull(metodo(rom, 5));
         }
         #region Todos
         [TestMethod]
