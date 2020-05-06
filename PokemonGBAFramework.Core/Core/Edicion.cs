@@ -36,7 +36,7 @@ namespace PokemonGBAFramework.Core
                      //faltan más checks 
                      //al final pongo esto
                         edicion.Version = Pokemon.RubiOZafiro;
-                        if (Zona.Search(romGba, NombreClaseEntrenador.MuestraAlgoritmoRubiYZafiroEUR, NombreClaseEntrenador.IndexRelativoRubyYZafiroEUR, false) < 0)
+                        if (Zona.Search(romGba, NombreClaseEntrenador.MuestraAlgoritmoRubiYZafiroFREE, NombreClaseEntrenador.IndexRelativoRubyYZafiroFREE, false) < 0)
                             edicion.RegionVersion = Region.USA;
                     }
 

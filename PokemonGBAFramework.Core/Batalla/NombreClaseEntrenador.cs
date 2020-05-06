@@ -16,8 +16,8 @@ namespace PokemonGBAFramework.Core
         public static readonly int IndexRelativoEsmeralda = - MuestraAlgoritmoEsmeralda.Length-96;
 
         //al parecer son diferentes...
-        public static readonly byte[] MuestraAlgoritmoRubiYZafiroEUR= { 0x70, 0xB5, 0x02, 0x1C, 0x0E };
-        public static readonly int IndexRelativoRubyYZafiroEUR = -1 - 80;
+        public static readonly byte[] MuestraAlgoritmoRubiYZafiroFREE= { 0x70, 0xB5, 0x02, 0x1C, 0x0E };
+        public static readonly int IndexRelativoRubyYZafiroFREE = -1 - 80;
 
         public static readonly byte[] MuestraAlgoritmoRubiYZafiroUSA = { 0x09, 0x49, 0x58, 0x18, 0x04, 0x70 };
         public static readonly int IndexRelativoRubyYZafiroUSA = -MuestraAlgoritmoRubiYZafiroUSA.Length-64;
@@ -75,8 +75,8 @@ namespace PokemonGBAFramework.Core
             {
                 if (rom.Edicion.RegionVersion == Edicion.Region.Free) 
                 { 
-                     algoritmo = MuestraAlgoritmoRubiYZafiroEUR;
-                     index = IndexRelativoRubyYZafiroEUR; 
+                     algoritmo = MuestraAlgoritmoRubiYZafiroFREE;
+                     index = IndexRelativoRubyYZafiroFREE; 
                 }
                 else
                 {
