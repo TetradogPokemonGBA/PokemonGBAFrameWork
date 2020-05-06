@@ -246,22 +246,92 @@ namespace PokemonGBAFramework.Core
         #endregion
         public static Word GetVariableNivelYEstadoVar(Edicion edicion)
         {
-            throw new NotImplementedException();
+            Word var;
+            if (edicion.EsEsmeralda)
+            {
+                var = 0x4F26;//ESP,USA
+            }
+            else if (edicion.EsKanto)
+            {
+                var = 0x506E;//ESP
+            }
+            else
+            {
+                var = 0x4B56;//ESP
+            }
+            return var;
         }
 
         public static Word GetVariableVitalidadVar(Edicion edicion)
         {
-            throw new NotImplementedException();
+            Word var;
+            if (edicion.EsEsmeralda)
+            {
+                var = 0x4F25;//ESP,USA
+            }
+            else if (edicion.EsKanto)
+            {
+                var = 0x506D;//ESP
+            }
+            else
+            {
+                var = 0x4B55;//ESP
+            }
+            return var;
         }
 
         public static Word GetVariablePokemonErranteVar(Edicion edicion)
         {
-            throw new NotImplementedException();
+            Word var;
+            if (edicion.EsEsmeralda)
+            {
+                var = 0x4F24;//ESP,USA
+            }
+            else if (edicion.EsKanto)
+            {
+                var = 0x506C;//ESP
+            }
+            else
+            {
+                var = 0x4B54;//ESP
+            }
+            return var;
         }
 
         public static Word GetVariableSpecialPokemonErrante(Edicion edicion)
         {
-            throw new NotImplementedException();
+            Word var;
+            if (edicion.EsEsmeralda)
+            {
+                var = 0x12B;//ESP,USA
+            }
+            else if (edicion.EsKanto)
+            {
+                var = 0x129;//ESP
+            }
+            else
+            {
+                var = 0x12B;//ESP
+            }
+            return var;
+        }
+
+        public static Word GetVariableVariableDisponibleVar(Edicion edicion)
+        {
+            Word var;
+            if (edicion.EsEsmeralda)
+            {
+                var = 0x5F29;//ESP,USA
+            }
+            else if (edicion.EsKanto)
+            {
+                var = 0x5071;//ESP
+            }
+            else
+            {
+                var = 0x4B59;//ESP
+            }
+            return var;
         }
         #endregion
     }

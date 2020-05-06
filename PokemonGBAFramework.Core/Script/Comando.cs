@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.Extension;
 
 namespace PokemonGBAFramework.Core
 {
@@ -166,7 +167,6 @@ namespace PokemonGBAFramework.Core
 		
         public static Comando LoadXSECommand(string comando)
         {
-
             comando = NormalizaStringXSE(comando);
             return LoadXSECommand(comando.Contains(" ")?comando.Split(' '):new string[] { comando });
         }
