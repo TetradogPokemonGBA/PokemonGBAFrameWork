@@ -59,22 +59,22 @@ namespace PokemonGBAFramework.Core
         public class Paleta 
         {
             public static readonly byte[] MuestraAlgoritmoKanto = { 0x00, 0xB5, 0x00, 0x04, 0x09, 0x06, 0x07};
-            public static readonly int IndexRelativoKanto = MuestraAlgoritmoKanto.Length;
+            public static readonly int IndexRelativoKanto =-OffsetRom.LENGTH -MuestraAlgoritmoKanto.Length;
 
             public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0xE1, 0x00, 0x88, 0x46, 0x12, 0x4E };
             public static readonly int IndexRelativoRubiYZafiro = -MuestraAlgoritmoRubiYZafiro.Length-32;
 
             public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x01, 0x70, 0x60, 0xE0 };
-            public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 32;
+            public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length + 32;
 
-            public Paleta Colores { get; set; }
+            public Core.Paleta Colores { get; set; }
             public static implicit operator Core.Paleta(Paleta paleta)=>paleta.Colores;
 
             public static Paleta Get(RomGba rom, int index,OffsetRom offsetPaletaSpriteClaseEntrenador=default)
             {
           
                 int offsetSpritePaleta = Equals(offsetPaletaSpriteClaseEntrenador,default)?GetOffset(rom):offsetPaletaSpriteClaseEntrenador + index * Core.Paleta.LENGTHHEADERCOMPLETO;
-                Paleta paleta = Paleta.Get(rom, offsetSpritePaleta);
+                Paleta paleta =new Paleta() { Colores = Core.Paleta.Get(rom, offsetSpritePaleta) };
              
                 return paleta;
             }

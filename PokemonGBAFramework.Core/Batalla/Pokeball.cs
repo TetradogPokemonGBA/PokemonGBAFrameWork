@@ -67,7 +67,7 @@ namespace PokemonGBAFramework.Core
             pokeball = new PokeballBatalla();
 
             pokeball.Sprite = BloqueImagen.GetBloqueImagen(rom, offsetSprite);
-            pokeball.Sprite.Paletas.Add(Paleta.GetPaleta(rom, offsetPaleta));
+            pokeball.Sprite.Paletas.Add(Paleta.Get(rom, offsetPaleta));
             return pokeball;
         }
 

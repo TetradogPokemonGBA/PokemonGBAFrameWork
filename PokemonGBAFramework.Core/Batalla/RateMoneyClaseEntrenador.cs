@@ -19,6 +19,10 @@ namespace PokemonGBAFramework.Core
         public static readonly int IndexRelativoKanto = 0;
 
         public byte Rate { get; set; }
+        public override string ToString()
+        {
+            return Rate.ToString();
+        }
 
         public static implicit operator int(RateMoneyClaseEntrenador rate)=>rate.Rate;
         public static RateMoneyClaseEntrenador[] Get(RomGba rom,OffsetRom offsetRateMoneyClaseEntrenador=default,OffsetRom offsetSpriteClaseEntrenador=default,OffsetRom offsetPaletaSpriteClaseEntrenador=default,int totalClaseEntrenador=-1)

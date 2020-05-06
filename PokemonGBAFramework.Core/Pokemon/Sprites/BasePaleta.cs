@@ -16,7 +16,7 @@
                 offsetPaletaNormal = GetOffset(rom,muestraAlgoritmo,index);
             T paleta = new T();
             int offsetPaletaNormalPokemon = offsetPaletaNormal + Paleta.LENGTHHEADERCOMPLETO * posicion;
-            paleta.Paleta = Paleta.GetPaleta(rom, offsetPaletaNormalPokemon);
+            paleta.Paleta = Paleta.Get(rom, offsetPaletaNormalPokemon);
             return paleta;
         }
 

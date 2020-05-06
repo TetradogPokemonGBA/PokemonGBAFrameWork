@@ -152,7 +152,7 @@ namespace PokemonGBAFramework.Core
             }
             return paleta;
         }
-        public static Paleta GetPaleta(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
+        public static Paleta Get(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
         {
             byte[] header = rom.Data.SubArray(offsetPointerPaleta + OffsetRom.LENGTH, LENGTHHEADER);//lo posiciono para leer la información que contiene sin el pointer
             Paleta paletaCargada = GetPaletaSinHeader(rom, offsetPointerPaleta, showBackgroundColor);

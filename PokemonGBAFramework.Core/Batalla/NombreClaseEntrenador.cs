@@ -15,6 +15,9 @@ namespace PokemonGBAFramework.Core
         public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x09, 0x0F, 0x28, 0x1C, 0xF0 };
         public static readonly int IndexRelativoEsmeralda = - MuestraAlgoritmoEsmeralda.Length-96;
 
+
+
+        //esta parte todavia no se ha encontrado...
         public static readonly byte[] MuestraAlgoritmoRubiYZafiro= { 0x09, 0x0F, 0x28, 0x1C, 0xF0 };
         public static readonly int IndexRelativoRubyYZafiro = -MuestraAlgoritmoRubiYZafiro.Length - 96;
 
