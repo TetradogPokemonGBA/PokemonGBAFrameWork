@@ -13,7 +13,7 @@ namespace PokemonGBAFramework.Core
 	{
 
 		public static readonly byte[] MuestraAlgoritmo = { 0xD0, 0x00, 0x80, 0x19, 0x80, 0x88, 0xA8 };
-		public static readonly int IndexRelativo = -MuestraAlgoritmo.Length  + 16;
+		public static readonly int IndexRelativo = 9;
 
 		public PaletasMinisMapa()
 		{

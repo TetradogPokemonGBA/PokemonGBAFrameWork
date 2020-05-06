@@ -49,7 +49,7 @@ namespace PokemonGBAFramework.Core
 			MiniSpriteMapa sprite;
 			TwoKeys<OffsetRom, int> inicioYTotal = GetTablaYTotal(rom,totalMinis,offsetMiniSpritesMapaData);
 			if (Equals(paletas, default))
-				paletas = PaletasMinisMapa.Get(rom, inicioYTotal.Key1);
+				paletas = PaletasMinisMapa.Get(rom, offsetPaletaMiniSpriteMapa);
 			sprite = Get(rom, posicion, paletas, inicioYTotal.Key1, inicioYTotal.Key2);
 
 			return sprite;
