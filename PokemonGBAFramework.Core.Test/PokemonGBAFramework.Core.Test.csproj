@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PokemonGBAFramework.Core\PokemonGBAFramework.Core.csproj" />
+    <ProjectReference Include="..\PokemonGBAFramework.Core.Core\PokemonGBAFramework.Core.Core.csproj" />
   </ItemGroup>
 
 </Project>

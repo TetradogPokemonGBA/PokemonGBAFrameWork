@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 
-namespace PokemonGBAFrameWork.Extension
+namespace PokemonGBAFramework.Core.Extension
 {
     public static class ExtensionBitmap
     {

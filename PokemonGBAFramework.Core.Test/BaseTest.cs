@@ -7,8 +7,9 @@ namespace PokemonGBAFramework.Core.Test.Batalla
 {
     public delegate T GetIndividual<T>(RomGba rom, int pos);
     public delegate T GetAll<T>(RomGba rom);
+
     [TestClass]
-    public abstract class BaseTest
+    public abstract class BaseTestIndividual
     {
         #region Roms Individual
         [TestMethod]
@@ -41,6 +42,11 @@ namespace PokemonGBAFramework.Core.Test.Batalla
             RomGba rom = new RomGba(romData);
             Assert.IsNotNull(metodo(rom, 5));
         }
+    }
+    [TestClass]
+    public abstract class BaseTest:BaseTestIndividual
+    {
+
         #region Todos
         [TestMethod]
         public void TestGetTodosRubiESP() => TestGetTodos(Resource1.RubiESP);
