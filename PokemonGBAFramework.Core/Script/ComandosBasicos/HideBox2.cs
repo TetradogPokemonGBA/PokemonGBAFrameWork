@@ -49,9 +49,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			}
 		}
 	
-		protected override AbreviacionCanon GetCompatibilidad()
+		protected override Edicion.Pokemon GetCompatibilidad()
 		{
-			return AbreviacionCanon.BPE;
+			return Edicion.Pokemon.Esmeralda;
 		}
 	}
 }

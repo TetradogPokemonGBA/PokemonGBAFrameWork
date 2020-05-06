@@ -52,9 +52,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		protected override AbreviacionCanon GetCompatibilidad()
+		protected override Edicion.Pokemon GetCompatibilidad()
 		{
-			return AbreviacionCanon.BPG | AbreviacionCanon.BPR;
+			return Edicion.Pokemon.VerdeHoja | Edicion.Pokemon.RojoFuego;
 		}
 	}
 }

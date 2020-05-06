@@ -45,9 +45,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return NOMBRE;
 			}
 		}
-		protected override AbreviacionCanon GetCompatibilidad()
+		protected override Edicion.Pokemon GetCompatibilidad()
 		{
-			return AbreviacionCanon.AXP|AbreviacionCanon.AXV|AbreviacionCanon.BPE;
+			return Edicion.Pokemon.Zafiro|Edicion.Pokemon.Rubi|Edicion.Pokemon.Esmeralda;
 		}
 	}
 }

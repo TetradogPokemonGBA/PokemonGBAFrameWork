@@ -145,14 +145,14 @@ namespace PokemonGBAFramework.Core
 		{
 			*ptrRomPosicionado = IdComando;
 		}
-		public bool CheckCompatibilidad(PokemonGBAFramework.Core.AbreviacionCanon abreviacion)
+		public bool CheckCompatibilidad(PokemonGBAFramework.Core.Edicion.Pokemon abreviacion)
 		{
 			return (GetCompatibilidad() & abreviacion) == abreviacion;
 		}
-		protected virtual PokemonGBAFramework.Core.AbreviacionCanon GetCompatibilidad()
+		protected virtual PokemonGBAFramework.Core.Edicion.Pokemon GetCompatibilidad()
 		{
-			AbreviacionCanon[] abreviaciones = (AbreviacionCanon[])Enum.GetValues(typeof(AbreviacionCanon));
-			AbreviacionCanon compatibilidad = abreviaciones[0];
+			Edicion.Pokemon[] abreviaciones = (Edicion.Pokemon[])Enum.GetValues(typeof(Edicion.Pokemon));
+			Edicion.Pokemon compatibilidad = abreviaciones[0];
 			for (int i = 1; i < abreviaciones.Length; i++)
 				compatibilidad |= abreviaciones[i];
 			return compatibilidad;

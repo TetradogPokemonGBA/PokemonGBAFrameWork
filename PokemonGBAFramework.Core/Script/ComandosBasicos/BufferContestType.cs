@@ -58,9 +58,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
         public Byte Buffer { get; set; }
         public Word TipoConcurso { get; set; }
-        protected override AbreviacionCanon GetCompatibilidad()
+        protected override Edicion.Pokemon GetCompatibilidad()
 		{
-			return AbreviacionCanon.BPE;
+			return Edicion.Pokemon.Esmeralda;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{

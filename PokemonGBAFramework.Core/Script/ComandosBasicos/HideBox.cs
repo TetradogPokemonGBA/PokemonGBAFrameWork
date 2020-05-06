@@ -56,9 +56,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Byte PosicionY { get; set; }
         public Byte Ancho { get; set; }
         public Byte Alto { get; set; }
-        protected override AbreviacionCanon GetCompatibilidad()
+        protected override Edicion.Pokemon GetCompatibilidad()
 		{
-			return AbreviacionCanon.AXP|AbreviacionCanon.AXV;
+			return Edicion.Pokemon.Zafiro|Edicion.Pokemon.Rubi;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{

@@ -58,9 +58,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 
         public Word Cantidad { get; set; }
-        protected override AbreviacionCanon GetCompatibilidad()
+        protected override Edicion.Pokemon GetCompatibilidad()
 		{
-			return AbreviacionCanon.BPG|AbreviacionCanon.BPR;
+			return Edicion.Pokemon.VerdeHoja|Edicion.Pokemon.RojoFuego;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
