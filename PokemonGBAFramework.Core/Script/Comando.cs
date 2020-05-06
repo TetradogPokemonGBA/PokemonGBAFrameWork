@@ -26,15 +26,15 @@ namespace PokemonGBAFramework.Core
         public static readonly string[] ComentariosUnaLinea = { "//", "#" };
         static Comando()
         {
-            Assembly assembly = Assembly.Load("PokemonGBAFramework.Core.ComandosScript");
+            Assembly assembly = Assembly.Load("PokemonGBAFramework.Core");
             Type[] types = assembly.GetTypes();
             DicTypes = new LlistaOrdenada<string, Type>();
 
 
             for (int i = 0; i < types.Length; i++)
             {
-
-                DicTypes.Add(types[i].Name.ToLower(), types[i]);
+				if (types[i].FullName.Contains("ComandosScript"))
+					DicTypes.Add(types[i].Name.ToLower(), types[i]);
             }
         }
         internal Comando()

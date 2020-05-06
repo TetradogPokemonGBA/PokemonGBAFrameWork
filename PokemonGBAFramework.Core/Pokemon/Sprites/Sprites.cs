@@ -20,6 +20,7 @@ namespace PokemonGBAFramework.Core
 
         public static Sprites Get(RomGba rom, int ordenGameFreak, OffsetRom[] offsetsSprites=default)
         {
+            Paleta[] paletas;
             Sprites sprites = new Sprites();
 
             if (Equals(offsetsSprites, default))
@@ -29,6 +30,12 @@ namespace PokemonGBAFramework.Core
             sprites.Traseros = Traseros.Get(rom, ordenGameFreak, offsetsSprites[1]);
             sprites.PaletaNomal = PaletaNormal.Get(rom, ordenGameFreak, offsetsSprites[2]);
             sprites.PaletaShiny = PaletaShiny.Get(rom, ordenGameFreak, offsetsSprites[3]);
+            paletas = new Paleta[] { sprites.PaletaNomal, sprites.PaletaShiny };
+
+            for (int i = 0; i < sprites.Frontales.Sprites.Count; i++)
+                sprites.Frontales.Sprites[i].Paletas.AddRange(paletas);
+            for (int i = 0; i < sprites.Traseros.Sprites.Count; i++)
+                sprites.Traseros.Sprites[i].Paletas.AddRange(paletas);
 
             return sprites;
         }

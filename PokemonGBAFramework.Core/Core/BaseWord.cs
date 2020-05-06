@@ -107,7 +107,7 @@ namespace PokemonGBAFramework.Core
         }
         public static unsafe void SetData(byte* ptrDatosPosicionados, BaseWord word)
         {
-            MetodosUnsafe.WriteBytes(ptrDatosPosicionados, word.Data);
+           MetodosUnsafe.WriteBytes(ptrDatosPosicionados, word.Data);
         }
 
         public static bool operator ==(BaseWord lhs, BaseWord rhs)

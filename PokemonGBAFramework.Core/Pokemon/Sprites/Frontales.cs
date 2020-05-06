@@ -43,21 +43,24 @@ namespace PokemonGBAFramework.Core
             Bitmap[] gifAnimated = new Bitmap[Sprites.Count + 2];
             int[] delay = new int[gifAnimated.Length];
 
+            //para que se vea en negro al empezar
+            gifAnimated[0] = Sprites[0] + PaletaAnimacion;
+            delay[0] = 450;
 
-            gifAnimated[1] = Sprites[0] + PaletaAnimacion;
-            delay[1] = 200;
             for (int i = 2, j = 0; i < gifAnimated.Length; i++, j++)
             {
                 gifAnimated[i] = Sprites[j] + paleta;
                 delay[i] = 500;
             }
-            gifAnimated[0] = gifAnimated[2];
+            gifAnimated[1] = gifAnimated[2];
+            delay[1] = 350;
+            
             bmpAnimated = gifAnimated.ToAnimatedBitmap(false, delay);
-
+            bmpAnimated.FrameAlAcabar = 2;
             return bmpAnimated;
         }
         #endregion
-
+        public static explicit operator Bitmap(Frontales frontales)=>frontales.Sprites[0];
         public static Frontales Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
             return BaseSprite.Get<Frontales>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom));

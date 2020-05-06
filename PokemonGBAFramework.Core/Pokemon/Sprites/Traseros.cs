@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace PokemonGBAFramework.Core
@@ -15,6 +16,7 @@ namespace PokemonGBAFramework.Core
         public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x40, 0x18, 0x29, 0x1C, 0x3A };
         public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 32;
 
+        public static explicit operator Bitmap(Traseros traseros) => traseros.Sprites[0];
         public static Traseros Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
             return BaseSprite.Get<Traseros>(rom,posicion,offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
