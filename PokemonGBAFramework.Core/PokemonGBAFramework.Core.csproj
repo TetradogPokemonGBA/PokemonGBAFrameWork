@@ -2,19 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Company>PokemonGBAFramework.Core</Company>
-    <Authors>PokemonGBAFramework.Core</Authors>
+    <Company>PokemonGBAFramework</Company>
+    <Authors>PokemonGBAFramework</Authors>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Es una versión del framework de pokemon que busca las zonas a partir de partes del algoritmo que son unicas y estan en todas las roms de la misma edición.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.5.0</Version>
+    <PackageId>PokemonGBAFramework</PackageId>
+    <Product>PokemonGBAFramework</Product>
+    <PackageProjectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</PackageProjectUrl>
+    <Copyright>GNUV3 no comercial</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="..\..\Gabriel.Cat.Wpf\LICENSE.txt">
+    <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

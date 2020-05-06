@@ -8,7 +8,9 @@ using System.Text;
 namespace PokemonGBAFramework.Core
 {
     public class PokemonErrante
-    { 
+    {
+        public static readonly Creditos Creditos;
+
         public class Mapa
         {
             public const int SALTOSESKANTO = 7;
@@ -202,7 +204,11 @@ namespace PokemonGBAFramework.Core
             #endregion
             public Core.Pokemon Errante { get; set; }
         }
-
+        static PokemonErrante()
+        {
+            Creditos = new Creditos();
+            Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO], "Ratzhier", "Investigación");
+        }
         public static Script GetScript(RomGba rom, Pokemon pokemonErrante) => GetScript(rom.Edicion, pokemonErrante);
         public static Script GetScript(Edicion edicion, Pokemon pokemonErrante)
         {
