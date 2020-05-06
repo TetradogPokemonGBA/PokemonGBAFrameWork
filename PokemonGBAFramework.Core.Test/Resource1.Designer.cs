@@ -149,5 +149,15 @@ namespace PokemonGBAFramework.Core.Test {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        internal static byte[] ZafiroUSA12 {
+            get {
+                object obj = ResourceManager.GetObject("ZafiroUSA12", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

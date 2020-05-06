@@ -145,4 +145,7 @@
   <data name="ZafiroITA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Pokemon - Versione Zaffiro (Italy).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ZafiroUSA12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Pokemon Sapphire (U) (1.2).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

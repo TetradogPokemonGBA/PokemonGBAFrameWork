@@ -15,11 +15,12 @@ namespace PokemonGBAFramework.Core
         public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x09, 0x0F, 0x28, 0x1C, 0xF0 };
         public static readonly int IndexRelativoEsmeralda = - MuestraAlgoritmoEsmeralda.Length-96;
 
+        //al parecer son diferentes...
+        public static readonly byte[] MuestraAlgoritmoRubiYZafiroEUR= { 0x70, 0xB5, 0x02, 0x1C, 0x0E };
+        public static readonly int IndexRelativoRubyYZafiroEUR = -1 - 80;
 
-
-        //esta parte todavia no se ha encontrado...
-        public static readonly byte[] MuestraAlgoritmoRubiYZafiro= { 0x09, 0x0F, 0x28, 0x1C, 0xF0 };
-        public static readonly int IndexRelativoRubyYZafiro = -MuestraAlgoritmoRubiYZafiro.Length - 96;
+        public static readonly byte[] MuestraAlgoritmoRubiYZafiroUSA = { 0x09, 0x49, 0x58, 0x18, 0x04, 0x70 };
+        public static readonly int IndexRelativoRubyYZafiroUSA = -MuestraAlgoritmoRubiYZafiroUSA.Length-64;
 
         public NombreClaseEntrenador()
         {
@@ -58,21 +59,33 @@ namespace PokemonGBAFramework.Core
         {
             byte[] algoritmo;
             int index;
+
             if (rom.Edicion.EsKanto)
             {
                 algoritmo = MuestraAlgoritmoKanto;
                 index = IndexRelativoKanto;
-            }else if (rom.Edicion.EsEsmeralda)
+
+            }
+            else if (rom.Edicion.EsEsmeralda)
             {
                 algoritmo = MuestraAlgoritmoEsmeralda;
                 index = IndexRelativoEsmeralda;
             }
             else
             {
-                //esta parte todavia no se ha encontrado...
-                algoritmo = MuestraAlgoritmoRubiYZafiro;
-                index = IndexRelativoRubyYZafiro;
+                if (rom.Edicion.RegionVersion == Edicion.Region.Free) 
+                { 
+                     algoritmo = MuestraAlgoritmoRubiYZafiroEUR;
+                     index = IndexRelativoRubyYZafiroEUR; 
+                }
+                else
+                {
+                    algoritmo = MuestraAlgoritmoRubiYZafiroUSA;
+                    index = IndexRelativoRubyYZafiroUSA;
+                }
             }
+
+
             return Zona.Search(rom, algoritmo, index);
         }
     }

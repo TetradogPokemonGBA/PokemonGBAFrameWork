@@ -11,16 +11,22 @@ namespace PokemonGBAFramework.Core
         {
             Rubi,Zafiro,RubiOZafiro,Esmeralda,RojoFuego,VerdeHoja,RojoOVerde
         }
+        public enum Region
+        {
+            Free,USA
+        }
+
 
         public Pokemon Version { get; set; }
         public bool EsKanto => Version >= Pokemon.RojoFuego;
         public bool EsHoenn => !EsKanto;
         public bool EsEsmeralda => Version == Pokemon.Esmeralda;
         public bool EsRubiOZafiro => !EsEsmeralda && EsHoenn;
+        public Region RegionVersion { get; set; }
         public static Edicion Get(RomGba romGba)
         {
             Edicion edicion = new Edicion();
-
+            edicion.RegionVersion = Region.Free;
             if (romGba.Data.Bytes.SearchArray(Nombre.MuestraAlgoritmo) > 0)
             {
                 if (romGba.Data.Bytes.SearchArray(Huella.MuestraAlgoritmoHoenn) > 0)
@@ -30,6 +36,8 @@ namespace PokemonGBAFramework.Core
                      //faltan más checks 
                      //al final pongo esto
                         edicion.Version = Pokemon.RubiOZafiro;
+                        if (Zona.Search(romGba, NombreClaseEntrenador.MuestraAlgoritmoRubiYZafiroEUR, NombreClaseEntrenador.IndexRelativoRubyYZafiroEUR, false) < 0)
+                            edicion.RegionVersion = Region.USA;
                     }
 
                     else if (romGba.Data.Bytes.SearchArray(Stats.MuestraAlgoritmoEsmeralda) > 0)
