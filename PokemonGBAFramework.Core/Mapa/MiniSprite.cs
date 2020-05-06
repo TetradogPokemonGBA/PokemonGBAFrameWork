@@ -44,7 +44,7 @@ namespace PokemonGBAFramework.Core
 			return Pt1.IsAPointer && Pt2.IsAPointer && Pt3.IsAPointer && OffsetImage.IsAPointer && Pt5.IsAPointer && Height <= (int)BloqueSprite.Medidas.MuyGrande && Width <= (int)BloqueSprite.Medidas.MuyGrande;
 		}
 
-		public static MiniSpriteMapa GetMiniSprite(RomGba rom, int posicion, PaletasMinisMapa paletas = default,OffsetRom offsetMiniSpritesMapaData=default,OffsetRom offsetPaletaMiniSpriteMapa=default,int totalMinis=-1)
+		public static MiniSpriteMapa Get(RomGba rom, int posicion, PaletasMinisMapa paletas = default,OffsetRom offsetMiniSpritesMapaData=default,OffsetRom offsetPaletaMiniSpriteMapa=default,int totalMinis=-1)
 		{
 			MiniSpriteMapa sprite;
 			TwoKeys<OffsetRom, int> inicioYTotal = GetTablaYTotal(rom,totalMinis,offsetMiniSpritesMapaData);
