@@ -129,11 +129,11 @@ namespace PokemonGBAFramework.Core
 
         public static implicit operator byte[](BaseWord word)
         {
-            return word.Data;
+            return word.Data.InvertirClone();//no se si es la solución pero de momento funciona...
         }
         public static explicit operator Hex(BaseWord word)
         {
-            return (Hex)word.Data;
+            return (Hex)(byte[])word;
         }
 
     }

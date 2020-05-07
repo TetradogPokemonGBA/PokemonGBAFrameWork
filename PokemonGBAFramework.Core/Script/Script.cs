@@ -863,7 +863,7 @@ namespace PokemonGBAFramework.Core
         /// <param name="etiqueta"></param>
         /// <param name="idEnd"></param>
         /// <returns></returns>
-        public string GetDeclaracionXSE(string etiqueta = "Start", bool isEnd = false, bool addDynamicTag = true)
+        public string GetDeclaracionXSE(string etiqueta = "Start", bool? isEnd = false, bool addDynamicTag = true)
         {
 
             if (etiqueta == null)
@@ -884,13 +884,13 @@ namespace PokemonGBAFramework.Core
                 strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
             }
             strSCript.Append(ENTER);
-            if (EsUnaFuncionAcabadaEnEND(ComandosScript[ComandosScript.Count - 1]))
+            if (isEnd.GetValueOrDefault()||EsUnaFuncionAcabadaEnEND(ComandosScript[ComandosScript.Count - 1]))
             {
-                if (isEnd)
                     strSCript.Append("end");
-                else
-                    strSCript.Append("return");
             }
+            else if(isEnd.HasValue)//si tiene y no ha entrado antes es que es false osea es un return :)
+                strSCript.Append("return");
+
             return strSCript.ToString();
 
         }

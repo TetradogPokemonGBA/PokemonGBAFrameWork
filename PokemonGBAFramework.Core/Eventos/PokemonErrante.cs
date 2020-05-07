@@ -15,7 +15,7 @@ namespace PokemonGBAFramework.Core
         {
             public const int SALTOSESKANTO = 7;
             public const int SALTOSHOENN = 6;
-
+            public const int MAXSALTOS = byte.MaxValue + 1;
             public static readonly byte[] MuestraAlgoritmoTablaKanto = { 0x02, 0x33, 0x02, 0x34, 0x02, 0x53, 0x02, 0x54, 0x02 };
             public static readonly byte[] MuestraAlgoritmoTablaRubiYZafiro = { 0x60, 0x7E, 0x02, 0x02, 0x0A, 0x00, 0x00, 0x00 };
             public static readonly byte[] MuestraAlgoritmoTablaEsmeralda = { 0xF0, 0x01, 0x00, 0x00, 0xE1, 0x11, 0x00, 0x00 };
@@ -23,13 +23,14 @@ namespace PokemonGBAFramework.Core
             public class Salto
             {
                 public byte[] Rutas { get; set; }
-
+                public bool Check() => Rutas.Select((r) => r != 0xFF).Count() >= 3;
                 public override string ToString()
                 {
                     return String.Join(" ",Rutas.Select((r)=>((Hex)r).ToString()));
                 }
             }
             public List<Salto> Saltos { get; set; } = new List<Salto>();
+            public bool CheckCount() => Saltos != default && Saltos.Count < MAXSALTOS;
 
             public static Mapa Get(RomGba rom,OffsetRom offsetMapaPokemonErrante = default)
             {
@@ -49,7 +50,7 @@ namespace PokemonGBAFramework.Core
                     salto = new Salto() { Rutas = rom.Data.SubArray(offsetMapa, totalRutasSalto) };
                     acabado = salto.Rutas[0]==FIN;
                     if(!acabado)
-                     mapa.Saltos.Add(salto);
+                       mapa.Saltos.Add(salto);
                     offsetMapa += totalRutasSalto;
                 } while (!acabado);
                 return mapa;
@@ -223,7 +224,8 @@ namespace PokemonGBAFramework.Core
             nivel = ((Hex)((byte)pokemonErrante.Nivel)).ToString();
             nivelYEstado = (Hex)(estado + nivel);
             auxNivelYEstado = (ushort)(uint)nivelYEstado;
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableNivelYEstadoVar(edicion), new Word(auxNivelYEstado)));//por mirar
+            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableNivelYEstadoVar(edicion), new Word(auxNivelYEstado)));
+            
             return scriptPokemonErrante;
 
 
