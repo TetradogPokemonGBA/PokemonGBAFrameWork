@@ -33,7 +33,7 @@ namespace PokemonGBAFramework.Core
                 offsetImagenYPaleta = (Equals(offsetSpriteObjeto, default) ? GetOffset(rom,muestraAlgorimo,indexRelativo) : offsetSpriteObjeto) + index * (OffsetRom.LENGTH + OffsetRom.LENGTH);
                 //esas ediciones no tienen imagen los objetos
                 blImg = BloqueImagen.GetBloqueImagenSinHeader(rom, offsetImagenYPaleta);
-                blImg.Paletas.Add(Paleta.GetPaletaSinHeader(rom, offsetImagenYPaleta + OffsetRom.LENGTH));
+                blImg.Paletas.Add(Paleta.GetSinHeader(rom, offsetImagenYPaleta + OffsetRom.LENGTH));
                 sprite.Sprite = blImg;
             }
             return sprite;

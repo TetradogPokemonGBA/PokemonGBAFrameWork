@@ -106,7 +106,7 @@ namespace PokemonGBAFramework.Core
 
         #endregion
 
-        public static Paleta GetPaletaSinHeader(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
+        public static Paleta GetSinHeader(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
         {
             //sacado de Nameless
             if (rom == null || offsetPointerPaleta < 0)
@@ -123,7 +123,7 @@ namespace PokemonGBAFramework.Core
             else
                 bytesPaletaDescomprimidos = rom.Data.Bytes.SubArray(offsetPaletaData, TOTALBYTESPALETA);//son dos bytes por color
 
-            paleta = GetPaleta(bytesPaletaDescomprimidos);
+            paleta = Get(bytesPaletaDescomprimidos);
             if (!showBackgroundColor)
             {
                 paleta[0] = BackgroundColorDefault;
@@ -131,14 +131,16 @@ namespace PokemonGBAFramework.Core
             paleta.Offset = offsetPointerPaleta;
             return paleta;
         }
-        public static Paleta GetPaleta(byte[] datosPaletaDescomprimida)
-        {
-
-            Paleta paleta = new Paleta();
-
+        public static Paleta Get(byte[] datosPaletaDescomprimida)
+        {   
+            
             ushort tempValue;
             byte r, g, b;
             System.Drawing.Color colorPaleta;
+
+            Paleta paleta = new Paleta();
+
+   
 
             for (int i = 0; i < LENGTH; i++)
             {
@@ -155,7 +157,7 @@ namespace PokemonGBAFramework.Core
         public static Paleta Get(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
         {
             byte[] header = rom.Data.SubArray(offsetPointerPaleta + OffsetRom.LENGTH, LENGTHHEADER);//lo posiciono para leer la información que contiene sin el pointer
-            Paleta paletaCargada = GetPaletaSinHeader(rom, offsetPointerPaleta, showBackgroundColor);
+            Paleta paletaCargada = GetSinHeader(rom, offsetPointerPaleta, showBackgroundColor);
             paletaCargada.Header = header;
             return paletaCargada;
         }
