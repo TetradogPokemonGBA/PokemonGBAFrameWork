@@ -11,7 +11,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public byte B2 { get; set; }
         public byte B3 { get; set; }
         public long PGFX { get; set; }
-        public long PPalettes { get; set; }
+        public long OffsetPaletas { get; set; }
         public long PBlocks { get; set; }
         public long PBehavior { get; set; }
         public long PAnimation { get; set; }
@@ -30,7 +30,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             PGFX = new OffsetRom(rom, BOffset);
             BOffset += OffsetRom.LENGTH;
-            PPalettes = new OffsetRom(rom, BOffset);
+            OffsetPaletas = new OffsetRom(rom, BOffset);
             BOffset += OffsetRom.LENGTH;
             PBlocks = new OffsetRom(rom, BOffset);
             BOffset += OffsetRom.LENGTH;

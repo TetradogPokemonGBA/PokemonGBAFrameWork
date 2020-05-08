@@ -12,26 +12,26 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 		public WildPokemon(RomGba rom, int offset)
 		{
 
-			MinLV = rom.Data[offset++];
-			MaxLV = rom.Data[offset++];
+			NivelMinimo = rom.Data[offset++];
+			NivelMaximo = rom.Data[offset++];
 			Especie = new Word(rom, offset);
 		}
 
-		public WildPokemon(Word pokemon, int minLV=1, int maxLV=100)
+		public WildPokemon(Word pokemon, int minLV=1, int maxLV=0)
         {
 
-			MinLV = (byte)minLV;
-			MaxLV = (byte)maxLV;
+			NivelMinimo = (byte)minLV;
+			NivelMaximo = (byte)maxLV;
 			Especie = pokemon;
 		}
 
-		public byte MinLV { get; set; }
-		public byte MaxLV { get; set; }
+		public byte NivelMinimo { get; set; }
+		public byte NivelMaximo { get; set; }
 		public Word Especie { get; set; }
 
 		public byte[] GetBytes()
 		{
-			return new byte[] { MinLV, MaxLV }.AddArray(Especie!=default?Especie.Data:new byte[Word.LENGTH]);
+			return new byte[] { NivelMinimo, NivelMaximo }.AddArray(Especie!=default?Especie.Data:new byte[Word.LENGTH]);
 		}
 	}
 

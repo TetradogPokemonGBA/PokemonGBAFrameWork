@@ -8,7 +8,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 	{
 		public const int MaxTileNum = 0x3FF;
 		public const int MaxPaletaNum = 12;
-
+		public const int LADO = 8;
 		private int tileNum;
 		private int pal;
 

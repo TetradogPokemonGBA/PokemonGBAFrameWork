@@ -20,6 +20,19 @@ namespace PokemonGBAFramework.Core.Extension
         public const int R = A - 1;
         public const int G = R - 1;
         public const int B = G - 1;
+        public static Bitmap HorizontalFlip(this Bitmap img)
+        {
+            Bitmap dimg = (Bitmap)img.Clone();
+            dimg.RotateFlip(RotateFlipType.RotateNoneFlipX);//mirar que sea asi
+            return dimg;
+        }
+
+        public static Bitmap VerticalFlip(this Bitmap img)
+        {
+            Bitmap dimg = (Bitmap)img.Clone();
+            dimg.RotateFlip(RotateFlipType.RotateNoneFlipY);//mirar que sea asi
+            return dimg;
+        }
         public static T[] GetFila<T>(this T[,] matriz,int fila)
         {
             T[] tFila = new T[matriz.GetDimensiones()[0]];

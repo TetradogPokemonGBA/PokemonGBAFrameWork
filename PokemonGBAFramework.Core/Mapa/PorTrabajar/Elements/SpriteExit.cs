@@ -4,27 +4,13 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core.Mapa.Elements
 {
-    public class SpriteExit
+    public class SpriteExit:SpriteBase
     {
         public const int LENGTH = 8;
 
-        public SpriteExit(RomGba rom, int offset)
+        public SpriteExit() : this(0, 0) { }
+        public SpriteExit(byte x, byte y):base(x,y)
         {
-            X = rom.Data[offset++];
-            B2 = rom.Data[offset++];
-            Y = rom.Data[offset++];
-            B4 = rom.Data[offset++];
-            B5 = rom.Data[offset++];
-            B6 = rom.Data[offset++];
-            Map = rom.Data[offset++];
-            Bank = rom.Data[offset++];
-        }
-
-        public SpriteExit(byte x, byte y)
-        {
-
-            X = x;
-            Y = y;
             B2 = 0;
             B4 = 0;
             B5 = 0;
@@ -32,11 +18,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             Map = 0;
             Bank = 0;
         }
-
-
-        public byte X { get; set; }
         public byte B2 { get; set; }
-        public byte Y { get; set; }
         public byte B4 { get; set; }
         public byte B5 { get; set; }
         public byte B6 { get; set; }
@@ -44,9 +26,23 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
         public byte Bank { get; set; }
 
 
-        public byte[] GetBytes()
+        public override byte[] GetBytes()
         {
             return new byte[] {X,B2,Y,B4,B5,B6,Map,Bank };
+        }
+
+        public static SpriteExit Get(RomGba rom, int offset)
+        {
+            SpriteExit spriteExit = new SpriteExit();
+            spriteExit.X = rom.Data[offset++];
+            spriteExit.B2 = rom.Data[offset++];
+            spriteExit.Y = rom.Data[offset++];
+            spriteExit.B4 = rom.Data[offset++];
+            spriteExit.B5 = rom.Data[offset++];
+            spriteExit.B6 = rom.Data[offset++];
+            spriteExit.Map = rom.Data[offset++];
+            spriteExit.Bank = rom.Data[offset++];
+            return spriteExit;
         }
     }
 

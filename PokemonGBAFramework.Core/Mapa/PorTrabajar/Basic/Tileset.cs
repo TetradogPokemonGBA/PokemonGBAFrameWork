@@ -9,56 +9,90 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class Tileset
 	{
-		private RomGba rom;
-		private BloqueImagen image;
-		private Bitmap[,] bi;
-		private Paleta[,] palettes;
-		private Paleta[,] palettesFromROM;
-		private static Tileset lastPrimary;
-		public TilesetHeader tilesetHeader;
+		class TileLoader
+		{
+			SortedList<int, Bitmap>[] buffer;
+			int paleta;
+			public TileLoader(SortedList<int, Bitmap>[] hash, int palette)
+			{
+				buffer = hash;
+				paleta = palette;
+			}
 
-		public const int numBlocks = 1024; //(tilesetHeader.isPrimary ? DataStore.MainTSBlocks : DataStore.LocalTSBlocks); //INI RSE=0x207 : 0x88, FR=0x280 : 0x56
 
-		private SortedList<int, Bitmap>[] renderedTiles;
-		private SortedList<int, Bitmap>[] customRenderedTiles;
+			public void run(Tileset tileset, int mainTSSize, int localTSSize, int mainTSPalCount)
+			{
+				int k = tileset.TilesetHeader.IsPrimary ? mainTSSize : localTSSize;
+
+				for (int i = 0; i < 1023; i++)
+				{
+					try
+					{
+						buffer[paleta].Add(i, tileset.Get(i, paleta, false, false, 0, mainTSPalCount));
+					}
+					catch (Exception e)
+					{
+						// e.printStackTrace();
+						Console.WriteLine("An error occured while writing tile " + i + " with palette " + paleta);
+					}
+				}
+
+			}
+
+		}
+
+		public const int NUMBLOCKS = 1024; //(tilesetHeader.isPrimary ? DataStore.MainTSBlocks : DataStore.LocalTSBlocks); //INI RSE=0x207 : 0x88, FR=0x280 : 0x56
+		public const int MAXTIME =4;
+		public const int MAXFILA = 16;
+		public const int HEIGHT = Tile.LADO * MAXFILA;
+		public const int WIDTH = Tile.LADO * MAXTIME;
+
 		private static readonly byte[] localTSLZHeader = new byte[] { 10, 80, 9, 00, 32, 00, 00 };
 		private static readonly byte[] globalTSLZHeader = new byte[] { 10, 80, 9, 00, 32, 00, 00 };
 
-		public bool modified = false;
+		private BloqueImagen image;
+		private Bitmap[,] tileset;
+		private Paleta[,] paletas;
+		private Paleta[,] paletasOriginales;
+		private SortedList<int, Bitmap>[] renderedTiles;
+		private SortedList<int, Bitmap>[] customRenderedTiles;
 
 		public Tileset(RomGba rom, int offset, int mainTSHeight, int localTSHeight)
 		{
-			this.rom = rom;
-			loadData(offset);
-			renderTiles(mainTSHeight,localTSHeight);
+			loadData(rom,offset);
+			renderTiles(rom,mainTSHeight,localTSHeight);
 		}
 
-		public void loadData(int offset)
+		public TilesetHeader TilesetHeader { get; private set; }
+		public static Tileset LastPrimary { get; set; }
+		public bool Modified { get; set; } = false;
+
+		public void loadData(RomGba rom,int offset)
 		{
-			tilesetHeader = new TilesetHeader(rom, offset);
+			TilesetHeader = new TilesetHeader(rom, offset);
 		}
 
-		public void renderGraphics(int mainTSHeight,int localTSHeight)
+		public void renderGraphics(RomGba rom, int mainTSHeight,int localTSHeight)
 		{
 			RomGba backup;
 			byte[] uncompressedData;
-			int imageDataPtr = (int)tilesetHeader.PGFX;
+			int imageDataPtr = (int)TilesetHeader.PGFX;
 
-			if (tilesetHeader.IsPrimary)
-				lastPrimary = this;
+			if (TilesetHeader.IsPrimary)
+				LastPrimary = this;
 			
 
-			if (tilesetHeader.BCompressed == 1)
+			if (TilesetHeader.BCompressed == 1)
 				uncompressedData = LZ77.Descomprimir(rom.Data.Bytes, imageDataPtr);
 			else
 			{
 				backup = new RomGba((byte[])rom.Data.Bytes.Clone()); //Backup in case repairs fail
-				rom.Data.SetArray((int)tilesetHeader.PGFX, (tilesetHeader.IsPrimary ? globalTSLZHeader : localTSLZHeader)); //Attempt to repair the LZ77 data
+				rom.Data.SetArray((int)TilesetHeader.PGFX, (TilesetHeader.IsPrimary ? globalTSLZHeader : localTSLZHeader)); //Attempt to repair the LZ77 data
 				uncompressedData = LZ77.Descomprimir(rom.Data.Bytes, imageDataPtr);
 				rom = new RomGba((byte[])backup.Data.Bytes.Clone()); //TODO add dialog to allow repairs to be permanant
 				if (uncompressedData == null) //If repairs didn't go well, revert ROM and pull uncompressed data
 				{
-					uncompressedData = rom.Data.SubArray(imageDataPtr, (tilesetHeader.IsPrimary ? 128 * mainTSHeight : 128 * localTSHeight) / 2); //TODO: Hardcoded to FR tileset sizes
+					uncompressedData = rom.Data.SubArray(imageDataPtr, (TilesetHeader.IsPrimary ? 128 * mainTSHeight : 128 * localTSHeight) / 2); //TODO: Hardcoded to FR tileset sizes
 				}
 			}
 
@@ -71,248 +105,177 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				customRenderedTiles[i] = new SortedList<int, Bitmap>();
 
 			image = new BloqueImagen() { DatosDescomprimidos = new BloqueBytes(uncompressedData) };
-			image.Paletas.Add(palettes[0,0]);//, new Point(128, (tilesetHeader.isPrimary ? DataStore.MainTSHeight : DataStore.LocalTSHeight)));
+			image.Paletas.Add(paletas[0,0]);//, new Point(128, (tilesetHeader.isPrimary ? DataStore.MainTSHeight : DataStore.LocalTSHeight)));
 		}
 
-		public void renderPalettes()
+		public void LoadPaletas(RomGba rom)
 		{
-			palettes = new Paleta[4,16];
-			bi = new Bitmap[4,16];
+			const int LENGTHFILA = 0x200;
 
-			for (int i = 0; i < 4; i++)
+			paletas = new Paleta[MAXTIME, MAXFILA];
+			tileset = new Bitmap[MAXTIME, MAXFILA];
+
+			for (int i = 0; i < MAXTIME; i++)
 			{
-				for (int j = 0; j < 16; j++)
+				for (int j = 0; j < MAXFILA; j++)
 				{
-					palettes[i,j] =  Paleta.Get(rom.Data.SubArray(((int)tilesetHeader.PPalettes) + ((32 * j) + (i * 0x200)), 32));
+					paletas[i,j] =  Paleta.Get(rom,(int)TilesetHeader.OffsetPaletas + ((Paleta.LENGTH * j) + (i * LENGTHFILA)));
 				}
 			}
-			palettesFromROM = palettes;
+			paletasOriginales = (Paleta[,])paletas.Clone();
 		}
 
-		public void renderTiles(int mainTSHeight, int localTSHeight)
+		public void renderTiles(RomGba rom, int mainTSHeight, int localTSHeight)
 		{
-			renderPalettes();
-			renderGraphics(mainTSHeight,localTSHeight);
+			LoadPaletas(rom);
+			renderGraphics(rom,mainTSHeight,localTSHeight);
 		}
 
-		//public void startTileThreads()
-		//{
-		//	for (int i = 0; i < (tilesetHeader.IsPrimary ? DataStore.MainTSPalCount : 13); i++)
-		//		new TileLoader(renderedTiles, i).start();
-		//}
 
-		public Bitmap getTileWithCustomPal(int tileNum, Paleta palette, bool xFlip, bool yFlip, int time)
+
+		public Bitmap Get(int tileNum, Paleta palette, bool xFlip, bool yFlip, int time)
 		{
-			int x = ((tileNum) % (bi[time,0].Width / 8)) * 8;
-			int y = ((tileNum) / (bi[time,0].Width / 8)) * 8;
-			Bitmap toSend = (image+palette).Recortar(new Point(x, y),new Size( 8, 8));
+			const int FIRST = 0;
 
-			if (!xFlip && !yFlip)//no tiene sentido porque si no son false los dos entrara en un if y si lo son en el return ira lo mismo...
-				return toSend;
+			int x = ((tileNum) % (tileset[time, FIRST].Width / Tile.LADO)) * Tile.LADO;
+			int y = ((tileNum) / (tileset[time, FIRST].Width / Tile.LADO)) * Tile.LADO;
+			Bitmap toSend = (image+palette).Recortar(new Point(x, y),new Size( Tile.LADO, Tile.LADO));
+			
 			if (xFlip)
-				toSend = horizontalFlip(toSend);
+				toSend = toSend.HorizontalFlip();
 			if (yFlip)
-				toSend = verticalFlip(toSend);
+				toSend = toSend.VerticalFlip();
 
 			return toSend;
 		}
 
-		public Bitmap getTile(int tileNum, int palette, bool xFlip, bool yFlip, int time,int mainTSPalCount)
+		public Bitmap Get(int tileNum, int palette, bool xFlip, bool yFlip, int time,int totalPaletas)
 		{
-			if (palette < mainTSPalCount)
+			
+			int x;
+			int y;
+			Bitmap toSend=default;
+			if (palette < totalPaletas)
 			{
-				if (renderedTiles[palette + (time * 16)].ContainsKey(tileNum)) //Check to see if we've cached that tile
+				if (renderedTiles[palette + (time * MAXFILA)].ContainsKey(tileNum)) //Check to see if we've cached that tile
 				{
-					if (xFlip && yFlip)
-						return verticalFlip(horizontalFlip(renderedTiles[palette + (time * 16)][tileNum]));
-					else if (xFlip)
-					{
-						return horizontalFlip(renderedTiles[palette + (time * 16)][tileNum]);
-					}
-					else if (yFlip)
-					{
-						return verticalFlip(renderedTiles[palette + (time * 16)][tileNum]);
-					}
-
-					return renderedTiles[palette + (time * 16)][tileNum];
+					toSend = renderedTiles[palette + (time * 16)][tileNum];
 				}
 			}
 			else if (palette < 13)
 			{
-				if (customRenderedTiles[(palette - mainTSPalCount) + (time * 16)].ContainsKey(tileNum)) //Check to see if we've cached that tile
+				if (customRenderedTiles[(palette - totalPaletas) + (time * 16)].ContainsKey(tileNum)) //Check to see if we've cached that tile
 				{
-					if (xFlip && yFlip)
-						return verticalFlip(horizontalFlip(customRenderedTiles[(palette - mainTSPalCount) + (time * 16)][tileNum]));
-					else if (xFlip)
-					{
-						return horizontalFlip(customRenderedTiles[(palette - mainTSPalCount) + (time * 16)][tileNum]);
-					}
-					else if (yFlip)
-					{
-						return verticalFlip(customRenderedTiles[(palette - mainTSPalCount) + (time * 16)][tileNum]);
-					}
+					toSend = customRenderedTiles[(palette - totalPaletas) + (time * 16)][tileNum];
 
-					return customRenderedTiles[(palette - mainTSPalCount) + (time * 16)][tileNum];
 				}
 			}
 			else
 			{
-				//	System.out.println("Attempted to read tile " + tileNum + " of palette " + palette + " in " + (tilesetHeader.isPrimary ? "global" : "local") + " tileset!");
-				return new Bitmap(8, 8);
+				toSend = new Bitmap(Tile.LADO, Tile.LADO);
 			}
 
-			int x = ((tileNum) % (128 / 8)) * 8;
-			int y = ((tileNum) / (128 / 8)) * 8;
-			Bitmap toSend = new Bitmap(8, 8);
-			try
-			{
-				toSend = bi[time,palette].Recortar(new Point(x, y),new Size( 8, 8));
-			}
-			catch (Exception e)
-			{
-				//e.printStackTrace();
-				//	System.out.println("Attempted to read 8x8 at " + x + ", " + y);
-			}
-			if (palette < mainTSPalCount || renderedTiles.Length > mainTSPalCount)
-				renderedTiles[palette + (time * 16)].Add(tileNum, toSend);
-			else
-				customRenderedTiles[(palette - mainTSPalCount) + (time * 16)].Add(tileNum, toSend);
 
-			if (!xFlip && !yFlip)
-				return toSend;
+			if (Equals(toSend, default))
+			{
+				x = ((tileNum) % (HEIGHT / Tile.LADO)) * Tile.LADO;
+				y = ((tileNum) / (HEIGHT / Tile.LADO)) * Tile.LADO;
+				toSend = new Bitmap(Tile.LADO, Tile.LADO);
+				try
+				{
+					toSend = tileset[time, palette].Recortar(new Point(x, y), new Size(Tile.LADO, Tile.LADO));
+				}
+				catch
+				{
+					Console.WriteLine($"Attempted to read {Tile.LADO}x{Tile.LADO} at {x},{y}");
+				}
+				if (palette < totalPaletas || renderedTiles.Length > totalPaletas)
+					renderedTiles[palette + (time * MAXFILA)].Add(tileNum, toSend);
+				else
+					customRenderedTiles[(palette - totalPaletas) + (time * 16)].Add(tileNum, toSend);
+
+			}
+
 			if (xFlip)
-				toSend = horizontalFlip(toSend);
+			{
+				toSend = toSend.HorizontalFlip();
+			}
 			if (yFlip)
-				toSend = verticalFlip(toSend);
+			{
+				toSend = toSend.VerticalFlip();
+			}
 
 			return toSend;
 		}
 
-		public Paleta[] getPalette(int time)
+		public Paleta[] GetPaletas(int time)
 		{
-			return palettes.GetFila(time);
+			return paletas.GetFila(time);
 		}
 
-		public Paleta[,] getROMPalette()
+		public Paleta[,] GetTodasLasPaletas()
 		{
-			return (Paleta[,])palettesFromROM.Clone(); //No touchy the real palette!
+			return (Paleta[,])paletasOriginales.Clone(); //No touchy the real palette!
 		}
 
-		public void resetPalettes()
+		public void RestaurarPaletas()
 		{
-			palettes = getROMPalette();
+			paletas = GetTodasLasPaletas();
 		}
 
-		public void setPalette(Paleta[] pal, int time)
-		{
-			palettes.SetFila(time,pal);
+		public void SetPaletas(int time, Paleta[] pal)
+        {
+			paletas.SetFila(time,pal);
 		}
 
-		public void setPalette(Paleta pal, int index, int time)
-		{
-			palettes[time,index] = pal;
+		public void SetPaleta(int time, int index, Paleta pal)
+        {
+			paletas[time,index] = pal;
 		}
 
-		public void rerenderTileSet(int palette, int time)
-		{
-			bi[time,palette] = image[palettes[time,palette]];
+		public void Refresh(int time, int palette)
+        {
+			tileset[time,palette] = image[paletas[time,palette]];
 		}
 
-		public void renderPalettedTiles()
+		public void Refresh()
 		{
-			for (int j = 0; j < 4; j++)
+			for (int t = 0; t < MAXTIME; t++)
 			{
-				for (int i = 0; i < 16; i++)
+				for (int f = 0; f < MAXFILA; f++)
 				{
-					bi[j,i] = image + (palettes[j,i]);
+					tileset[t,f] = image + (paletas[t,f]);
 
 				}
 			}
-			for (int j = 0; j < 4; j++)
-				for (int i = 0; i < 16; i++)
-					rerenderTileSet(i, j);
+			for (int t = 0; t < MAXTIME; t++)
+				for (int f = 0; f < MAXFILA; f++)
+					Refresh(t, f);
 		}
 		public void resetCustomTiles()
 		{
-			customRenderedTiles = new SortedList<int, Bitmap>[16 * 4];
-			for (int i = 0; i < 16 * 4; i++)
+			customRenderedTiles = new SortedList<int, Bitmap>[MAXFILA * MAXTIME];
+			for (int i = 0,f = MAXFILA * MAXTIME; i <f; i++)
 				customRenderedTiles[i] = new SortedList<int, Bitmap>();
 		}
 
-		private Bitmap horizontalFlip(Bitmap img)
-		{
-			Bitmap dimg = (Bitmap)img.Clone();
-			dimg.RotateFlip(RotateFlipType.RotateNoneFlipX);//mirar que sea asi
-			return dimg;
+
+
+		public Bitmap getTileSet(int time, int palette)
+        {
+			return tileset[time,palette];
 		}
 
-		private Bitmap verticalFlip(Bitmap img)
-		{
-			Bitmap dimg = (Bitmap)img.Clone();
-			dimg.RotateFlip(RotateFlipType.RotateNoneFlipY);//mirar que sea asi
-			return dimg;
-		}
-
-		public Bitmap getTileSet(int palette, int time)
-		{
-			return bi[time,palette];
-		}
-
-		public Bitmap getIndexedTileSet(int palette, int time)
-		{
-			return image + (palettes[time,palette]);//true
-		}
-
-		public TilesetHeader getTilesetHeader()
-		{
-			return tilesetHeader;
+		public Bitmap GetIndexedTileSet(int time, int paleta)
+        {
+			return image + (paletas[time,paleta]);//true
 		}
 
 
-		private class TileLoader
-		{
-			SortedList<int, Bitmap>[]
-			buffer;
-			int pal;
-			public TileLoader(SortedList<int, Bitmap>[] hash, int palette)
-			{
-				buffer = hash;
-				pal = palette;
-			}
 
 
-			public void run(Tileset tileset,int mainTSSize,int localTSSize,int mainTSPalCount)
-			{
-				int k = tileset.getTilesetHeader().IsPrimary ? mainTSSize : localTSSize;
 
-				for (int i = 0; i < 1023; i++)
-				{
-					try
-					{
-						buffer[pal].Add(i, tileset.getTile(i, pal, false, false, 0,mainTSPalCount));
-					}
-					catch (Exception e)
-					{
-						// e.printStackTrace();
-						Console.WriteLine("An error occured while writing tile " + i + " with palette " + pal);
-					}
-				}
 
-			}
 
-		}
-
-		//public void Save()
-		//{
-		//	//for (int j = 0; j < 1; j++) //Caused issues last time I tested it...
-		//	//{
-		//	//	for (int i = 0; i < (tilesetHeader.isPrimary ? DataStore.MainTSPalCount : 16); i++)
-		//	//	{
-		//	//		posicion en la rom donde va la paleta (((int)tilesetHeader.pPalettes) + (32 * i + (j * 0x200)));
-		//	//		palettes[j][i].save(rom);
-		//	//	}
-		//	//}
-		//	//tilesetHeader.save();
-		//}
 	}
 }

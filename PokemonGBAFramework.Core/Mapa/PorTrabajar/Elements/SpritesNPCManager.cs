@@ -5,91 +5,43 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core.Mapa.Elements
 {
-    public class SpritesNPCManager
+    public class SpritesNPCManager:BaseManager<SpriteNPC>
     {
-        public List<SpriteNPC> mapNPCs;
-        private int internalOffset;
-        private int originalSize;
-        private Map loadedMap;
-
-        public int[] GetSpriteIndices()
+        public SpritesNPCManager(RomGba rom, int offset, int count):base(rom,offset,count)
         {
-            int i = 0;
-            int[] indices = new int[mapNPCs.Count];
-            for (i = 0; i < mapNPCs.Count; i++)
+            
+        }
+
+        protected override int LengthSingelItem => SpriteNPC.LENGTH;
+
+       
+        public int[] GetIndices()
+        {
+            int[] indices = new int[Items.Count];
+            for (int i = 0; i < Items.Count; i++)
             {
-                indices[i] = mapNPCs[i].BSpriteSet;
+                indices[i] = Items[i].SpriteSet;
             }
             return indices;
         }
 
-        public int getSpriteIndexAt(int x, int y)
+        protected override SpriteNPC IGet(RomGba rom, int offset)
         {
-            const int MARCAFIN = -1;
-            int pos = MARCAFIN;
-            int i;
-            for (i = 0; i < mapNPCs.Count && pos == MARCAFIN; i++)
-            {
-                if (mapNPCs[i].BX == x && mapNPCs[i].BY == y)
-                {
-                    pos = i;
-                }
-            }
-
-            return pos;
-
+            return Get(rom, offset);
         }
 
-        public SpritesNPCManager(RomGba rom,Map m, int offset, int count)
+        protected override SpriteNPC IGetNew(int x, int y)
         {
-            internalOffset = offset;
-            loadedMap = m;
-            mapNPCs = new List<SpriteNPC>();
-            int i = 0;
-            for (i = 0; i < count; i++)
-            {
-                mapNPCs.Add(new SpriteNPC(rom,offset));
-                offset += SpriteNPC.LENGTH;
-            }
-            originalSize = getSize();
+            return GetNew((byte)x,(byte) y);
         }
-
-        public int getSize()
+        public static SpriteNPC Get(RomGba rom, int offset)
         {
-            return mapNPCs.Count* SpriteNPC.LENGTH;
+            return SpriteNPC.Get(rom, offset);
         }
-
-        public void add(int x, int y)
+        public static SpriteNPC GetNew(int x, int y)
         {
-            mapNPCs.Add(new SpriteNPC((byte)x, (byte)y));
+            return new SpriteNPC((byte)x, (byte)y);
         }
-
-        public void remove(int x, int y)
-        {
-            mapNPCs.RemoveAt(getSpriteIndexAt(x, y));
-        }
-
-        //public void save()
-        //{
-        //    rom.floodBytes(BitConverter.shortenPointer(internalOffset), rom.freeSpaceByte, originalSize);
-
-        //    // TODO make this a setting, ie always repoint vs keep pointers
-        //    int i = getSize();
-        //    if (originalSize < getSize())
-        //    {
-        //        internalOffset = rom.findFreespace(DataStore.FreespaceStart, getSize());
-
-        //        if (internalOffset < 0x08000000)
-        //            internalOffset += 0x08000000;
-        //    }
-
-        //    loadedMap.mapSprites.pNPC = internalOffset;
-        //    loadedMap.mapSprites.bNumNPC = (byte)mapNPCs.size();
-
-        //    rom.Seek(internalOffset);
-        //    for (SpriteNPC n : mapNPCs)
-        //        n.save();
-        //}
     }
 
 }

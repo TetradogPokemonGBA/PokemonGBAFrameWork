@@ -33,12 +33,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		mapHeader = new MapHeader(rom, dataOffset);
 		
 		mapConnections = new ConnectionData(rom, mapHeader);
-		mapSprites = new HeaderSprites(rom, (int)mapHeader.OffsetSprites);
+		mapSprites =  HeaderSprites.Get(rom, (int)mapHeader.OffsetSprites);
 
-		mapNPCManager = new SpritesNPCManager(rom, this, (int)mapSprites.PNPC, mapSprites.BNumNPC);
-		mapSignManager = new SpritesSignManager(rom, this, (int)mapSprites.PSigns, mapSprites.BNumSigns);
-		mapTriggerManager = new TriggerManager(rom, this, (int)mapSprites.PTraps, mapSprites.BNumTraps);
-		mapExitManager = new SpritesExitManager(rom, this, (int)mapSprites.PExits, mapSprites.BNumExits);
+		mapNPCManager =  new SpritesNPCManager(rom, (int)mapSprites.OffsetNPC, mapSprites.NumNPC);
+		mapSignManager = new SpritesSignManager(rom, (int)mapSprites.OffsetSigns, mapSprites.NumSigns);
+		mapTriggerManager = new TriggerManager(rom,(int)mapSprites.OffsetTraps, mapSprites.NumTraps);
+		mapExitManager =  new SpritesExitManager(rom, (int)mapSprites.OffsetExits, mapSprites.NumExits);
 
 		mapData = new MapData(rom, mapHeader,localTSize,engine);
 		mapTileData = new MapTileData(rom, mapData);
