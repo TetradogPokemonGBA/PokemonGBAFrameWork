@@ -30,9 +30,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 	public Map(RomGba rom, int dataOffset,int localTSize,int engine=0)
 	{
 		this.dataOffset = dataOffset;
-		mapHeader = new MapHeader(rom, dataOffset);
+		mapHeader =  MapHeader.Get(rom,new OffsetRom(dataOffset));
 		
-		mapConnections = new ConnectionData(rom, mapHeader);
+		mapConnections =  ConnectionData.Get(rom, mapHeader);
 		mapSprites =  HeaderSprites.Get(rom, (int)mapHeader.OffsetSprites);
 
 		mapNPCManager =  new SpritesNPCManager(rom, (int)mapSprites.OffsetNPC, mapSprites.NumNPC);
@@ -40,7 +40,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		mapTriggerManager = new TriggerManager(rom,(int)mapSprites.OffsetTraps, mapSprites.NumTraps);
 		mapExitManager =  new SpritesExitManager(rom, (int)mapSprites.OffsetExits, mapSprites.NumExits);
 
-		mapData = new MapData(rom, mapHeader,localTSize,engine);
+		mapData =  MapData.Get(rom, mapHeader);
 		mapTileData = new MapTileData(rom, mapData);
 		isEdited = true;
 	}
