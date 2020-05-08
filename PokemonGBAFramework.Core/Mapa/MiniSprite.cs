@@ -25,12 +25,14 @@ namespace PokemonGBAFramework.Core
 		public int Height { get; set; }
         public int Width { get; set; }
         public Paleta Paleta { get; set; }
-
+		/// <summary>
+		/// Offset que apunta a los datos de la imagen
+		/// </summary>
         public OffsetRom OffsetImage { get; set; }
-        public OffsetRom Pt1 { get; set; }
-        public OffsetRom Pt2 { get; set; }
-        public OffsetRom Pt3 { get; set; }
-        public OffsetRom Pt5 { get; set; }
+        public OffsetRom OffsetAnimacion2 { get; set; }
+        public OffsetRom OffsetSize { get; set; }
+        public OffsetRom PtAnimation { get; set; }
+        public OffsetRom OffsetLoadCode { get; set; }
 
         public Bitmap this[int indexMini]
 		{
@@ -41,7 +43,7 @@ namespace PokemonGBAFramework.Core
 		}
 		bool IsOk()
 		{
-			return Pt1.IsAPointer && Pt2.IsAPointer && Pt3.IsAPointer && OffsetImage.IsAPointer && Pt5.IsAPointer && Height <= (int)BloqueSprite.Medidas.MuyGrande && Width <= (int)BloqueSprite.Medidas.MuyGrande;
+			return OffsetAnimacion2.IsAPointer && OffsetSize.IsAPointer && PtAnimation.IsAPointer && OffsetImage.IsAPointer && OffsetLoadCode.IsAPointer && Height <= (int)BloqueSprite.Medidas.MuyGrande && Width <= (int)BloqueSprite.Medidas.MuyGrande;
 		}
 
 		public static MiniSpriteMapa Get(RomGba rom, int posicion, PaletasMinisMapa paletas = default,OffsetRom offsetMiniSpritesMapaData=default,OffsetRom offsetPaletaMiniSpriteMapa=default,int totalMinis=-1)
@@ -76,7 +78,6 @@ namespace PokemonGBAFramework.Core
 
 		static MiniSpriteMapa Get(RomGba rom, int posicion, PaletasMinisMapa paletas, OffsetRom offsetMiniSpritesMapaData , int totalMinis)
 		{
-
 			int offsetSprites;
 			MiniSpriteMapa mini = GetDatos(rom, posicion, paletas,offsetMiniSpritesMapaData);
 			//mirar de obtenerlos a todos
@@ -139,13 +140,14 @@ namespace PokemonGBAFramework.Core
 											   bytesHeader[offsetHeader+11],
 											   0,
 											   0
-										   });
+										  });
+			/*´No se si  los pt tienen ese nombre/funcion */						
 			mini.Paleta = paletas[bytesHeader[offsetHeader + 2]];
-			mini.Pt1 = new OffsetRom(bytesHeader, offsetHeader + 16);
-			mini.Pt2 = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH);
-			mini.Pt3 = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH * 2);
+			/*1*/mini.OffsetAnimacion2 = new OffsetRom(bytesHeader, offsetHeader + 16);
+			/*2*/mini.OffsetSize = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH);
+			/*3*/mini.PtAnimation = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH * 2);
 			mini.OffsetImage = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH * 3);
-			mini.Pt5 = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH * 4);
+			/*5*/mini.OffsetLoadCode = new OffsetRom(bytesHeader, offsetHeader + 16 + OffsetRom.LENGTH * 4);
 			return mini;
 		}
 

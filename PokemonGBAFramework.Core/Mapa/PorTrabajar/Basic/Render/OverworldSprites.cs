@@ -206,16 +206,23 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			offset += Word.LENGTH;
 			oam2 = new Word(rom, offset);
 			offset += Word.LENGTH;
+			
 			ptr2anim = new OffsetRom(rom, offset);
 			offset += OffsetRom.LENGTH;
+			
 			ptrSize = new OffsetRom(rom, offset);//Pointer to unknown data. Determines sprite size
 			offset += OffsetRom.LENGTH; 
+			
 			ptrAnim = new OffsetRom(rom, offset); //Pointer to unknown data. Determines sprite mobility: just one sprite, can only turn (gym leaders) or fully mobile.
 			offset += OffsetRom.LENGTH; ;
+			
 			ptrGraphic = new OffsetRom(rom, offset); //Pointer to pointer to graphics <- not a typo ;)
 			offset += OffsetRom.LENGTH;
+			
 			LoadCode = new OffsetRom(rom, offset);
+			
 			trueGraphicsPointer = new OffsetRom(rom,(int)ptrGraphic);//Grab the real one
+			
 			if (OverworldSprites.myPal == null)
 			{
 				GrabPal(rom,spriteColors);

@@ -6,41 +6,42 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class Tile
 	{
-		public const int MaxTileNum = 0x3FF;
-		public const int MaxPaletaNum = 12;
+		public const int MaxIndexTile = 0x3FF;
+		public const int MaxIndexPaleta = 12;
 		public const int LADO = 8;
-		private int tileNum;
-		private int pal;
+
+		private int indexTile;
+		private int indexPaleta;
 
 		public Tile(int tileNum, int palette, bool xFlip, bool yFlip)
 		{
-			TileNumber = tileNum;
-			PaletteNum = palette;
+			IndexTile = tileNum;
+			IndexPaleta = palette;
 			XFlip = xFlip;
 			YFlip = yFlip;
 		}
 
 
-		public int TileNumber
+		public int IndexTile
 		{
-			get => tileNum;
+			get => indexTile;
 			set
 			{
-				if (value > MaxTileNum)
-					value = MaxTileNum;
+				if (value > MaxIndexTile)
+					value = MaxIndexTile;
 
-				tileNum = value;
+				indexTile = value;
 			}
 		}
-		public int PaletteNum
+		public int IndexPaleta
 		{
-			get => pal;
+			get => indexPaleta;
 			set
 			{
-				if (value > MaxPaletaNum)
-					value = MaxPaletaNum;
+				if (value > MaxIndexPaleta)
+					value = MaxIndexPaleta;
 
-				pal = value;
+				indexPaleta = value;
 			}
 		}
 
@@ -49,7 +50,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 		public Tile getNewInstance()
 		{
-			return new Tile(tileNum, pal, XFlip, YFlip);
+			return new Tile(indexTile, indexPaleta, XFlip, YFlip);
 		}
 	}
 }

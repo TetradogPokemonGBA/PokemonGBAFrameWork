@@ -23,7 +23,7 @@ namespace PokemonGBAFramework.Core
             New  // Perfect!
         }
 
-        public static byte[] Descomprimir(byte[] datos, int offsetInicio = 0)
+        public static byte[] Descomprimir(byte[] datos, int offsetInicio = 0,bool throwExceptionONull=true)
         {
             byte[] data;
             int dataLength;
@@ -97,10 +97,10 @@ namespace PokemonGBAFramework.Core
                 }
 
             }
-            else
-            {
-                throw new Exception("This data is not Lz77 compressed!");
-            }
+            else if(throwExceptionONull)
+                    throw new Exception("This data is not Lz77 compressed!");
+            else data = default;
+
 
             return data;
         }

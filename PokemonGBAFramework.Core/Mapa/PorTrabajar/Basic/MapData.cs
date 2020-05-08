@@ -6,63 +6,45 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class MapData
 	{
-
-
-		public MapData(RomGba rom, MapHeader mHeader,int localTSize,int engine=0)
-		{
-			MapHeader = mHeader;
-			load(rom,localTSize,engine);
-		}
+		public MapData(){	}
 		public MapHeader MapHeader { get; set; }
-		public long MapWidth { get; set; }
-		public long MapHeight { get; set; }
-		public int BorderTilePtr { get; set; }
-		public int MapTilesPtr { get; set; }
-		public int GlobalTileSetPtr { get; set; }
-		public int LocalTileSetPtr { get; set; }
-		public int BorderWidth { get; set; }
-		public int BorderHeight { get; set; }
-		public int SecondarySize { get; set; }
+		public DWord MapWidth { get; set; }
+		public DWord MapHeight { get; set; }
+		public OffsetRom BorderTilePtr { get; set; }
+		public OffsetRom MapTilesPtr { get; set; }
+		public OffsetRom GlobalTileSetPtr { get; set; }
+		public OffsetRom LocalTileSetPtr { get; set; }
+		public Word BorderWidth { get; set; }
+		public Word BorderHeight { get; set; }
+		public Word SecondarySize=> new Word((ushort)(BorderWidth + 0xA0));
 
-		public int load(RomGba rom,int localTSSize, int engine=0)
+
+		public static MapData Get(RomGba rom, MapHeader mapHeader)
 		{
-			int secondSize;
-			MapWidth = new OffsetRom(rom, ((int)MapHeader.OffsetMap));
-			MapHeight = new OffsetRom(rom, ((int)MapHeader.OffsetMap) + 0x4);
-			BorderTilePtr = new OffsetRom(rom, ((int)MapHeader.OffsetMap) + 0x8);
-			MapTilesPtr = new OffsetRom(rom, ((int)MapHeader.OffsetMap) + 0xC);
-			GlobalTileSetPtr = new OffsetRom(rom, ((int)MapHeader.OffsetMap) + 0x10);
-			LocalTileSetPtr = new OffsetRom(rom,((int)MapHeader.OffsetMap) + 0x14);
-			BorderWidth = new Word(rom,((int)MapHeader.OffsetMap) + 0x18);
-			BorderHeight = new Word(rom, ((int)MapHeader.OffsetMap) + 0x1A);
-			SecondarySize = BorderWidth + 0xA0;
-			//System.out.println(borderWidth + " " + borderHeight);
-			if (engine == 0) //If this is a RSE game...
-			{
-				BorderWidth = 2;
-				BorderHeight = 2;
-				secondSize = SecondarySize;
-			}
-			else
-			{
-				SecondarySize = localTSSize;
-				secondSize = localTSSize;
-			}
-			return secondSize;
+			return Get(rom, mapHeader.OffsetMap);
+		}
+		public static MapData Get(RomGba rom,OffsetRom offsetMapHeader)
+		{
+			MapData mapData = new MapData();
+			int offsetMap = offsetMapHeader;
+			mapData.MapWidth = new DWord(rom, offsetMap );
+			offsetMap += DWord.LENGTH;
+			mapData.MapHeight = new DWord(rom,offsetMap);
+			offsetMap += DWord.LENGTH;
+			mapData.BorderTilePtr = new OffsetRom(rom, offsetMap);
+			offsetMap += OffsetRom.LENGTH;
+			mapData.MapTilesPtr = new OffsetRom(rom, offsetMap);
+			offsetMap += OffsetRom.LENGTH;
+			mapData.GlobalTileSetPtr = new OffsetRom(rom, offsetMap);
+			offsetMap += OffsetRom.LENGTH;
+			mapData.LocalTileSetPtr = new OffsetRom(rom,offsetMap);
+			offsetMap += OffsetRom.LENGTH;
+			mapData.BorderWidth = new Word(rom,offsetMap);
+			offsetMap += Word.LENGTH;
+			mapData.BorderHeight = new Word(rom, offsetMap);
+			return mapData;
 		}
 
-
-	//public void save()
-	//{
-	//	rom.Seek(((int)mapHeader.pMap));
-	//	rom.writePointer(mapWidth);
-	//	rom.writePointer(mapHeight);
-	//	rom.writePointer(borderTilePtr);
-	//	rom.writePointer(mapTilesPtr);
-	//	rom.writePointer(globalTileSetPtr);
-	//	rom.writePointer(localTileSetPtr);
-	//	//rom.writeBytes(((int)mapHeader.pMap), new byte[]{(byte)(borderWidth), (byte)(borderHeight)}); //Isn't quite working yet :/
-	//}
 }
 
 }

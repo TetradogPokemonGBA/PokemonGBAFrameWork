@@ -6,66 +6,40 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
     public class TilesetHeader
     {
-        public byte BCompressed { get; set; }
+        const byte IsPrimaryByte = 0x0;
+        const byte IsNotPrimaryByte = 0x1;
+        const byte IsCompressedByte = 0x1;
+        public  static readonly byte[] HeaderFix = new byte[] { 10, 80, 9, 00, 32, 00, 00 };
+        public bool IsCompressed { get; set; }
         public bool IsPrimary { get; set; }
         public byte B2 { get; set; }
         public byte B3 { get; set; }
-        public long PGFX { get; set; }
-        public long OffsetPaletas { get; set; }
-        public long PBlocks { get; set; }
-        public long PBehavior { get; set; }
-        public long PAnimation { get; set; }
-        public long HdrSize { get; set; }
-        public int BOffset { get; set; }
-        public RomGba Rom { get; set; }//de momento lo dejo luego ya lo pondré mejor
+        public OffsetRom OffsetImagen { get; set; }
+        public OffsetRom OffsetPaletas { get; set; }
+        public OffsetRom PBlocks { get; set; }
+        public OffsetRom PBehavior { get; set; }
+        public OffsetRom PAnimation { get; set; }
 
-        public TilesetHeader(RomGba rom, int offset,int engine=1)
+        public static TilesetHeader Get(RomGba rom, int offset)
         {
-            this.Rom = rom;
-            BOffset = offset;
-            BCompressed = rom.Data[BOffset++];
-            IsPrimary = (rom.Data[BOffset++] == 0);//Reflect this when saving
-            B2 = rom.Data[BOffset++];
-            B3 = rom.Data[BOffset++];
+            TilesetHeader tilesetHeader = new TilesetHeader();
+            tilesetHeader.IsCompressed = rom.Data[offset++]==IsCompressedByte;
+            tilesetHeader.IsPrimary = (rom.Data[offset++] == IsPrimaryByte);
+            tilesetHeader.B2 = rom.Data[offset++];
+            tilesetHeader.B3 = rom.Data[offset++];
 
-            PGFX = new OffsetRom(rom, BOffset);
-            BOffset += OffsetRom.LENGTH;
-            OffsetPaletas = new OffsetRom(rom, BOffset);
-            BOffset += OffsetRom.LENGTH;
-            PBlocks = new OffsetRom(rom, BOffset);
-            BOffset += OffsetRom.LENGTH;
-            if (engine == 1)
-            {
-                PAnimation = new OffsetRom(rom, BOffset);
-                BOffset += OffsetRom.LENGTH;
-                PBehavior = new OffsetRom(rom, BOffset);
-                BOffset += OffsetRom.LENGTH;
-            }
-            else
-            {
-                PBehavior = new OffsetRom(rom, BOffset);
-                BOffset += OffsetRom.LENGTH;
-                PAnimation = new OffsetRom(rom, BOffset);
-                BOffset += OffsetRom.LENGTH;
-            }
-            HdrSize = BOffset - offset;
+            tilesetHeader.OffsetImagen = new OffsetRom(rom, offset);
+            offset += OffsetRom.LENGTH;
+            tilesetHeader.OffsetPaletas = new OffsetRom(rom, offset);
+            offset += OffsetRom.LENGTH;
+            tilesetHeader.PBlocks = new OffsetRom(rom, offset);
+            offset += OffsetRom.LENGTH;
 
-        }
+            tilesetHeader.PAnimation = new OffsetRom(rom, offset);
+            offset += OffsetRom.LENGTH;
+            tilesetHeader.PBehavior = new OffsetRom(rom, offset);
+            return tilesetHeader;
+        } 
 
-
-        //public void save()
-        //{
-        //	rom.Seek(bOffset);
-        //	rom.writeByte(bCompressed);
-        //	rom.writeByte((byte)(isPrimary ? 0x0 : 0x1));
-        //	rom.writeByte(b2);
-        //	rom.writeByte(b3);
-
-        //	rom.writePointer((int)pGFX);
-        //	rom.writePointer((int)pPalettes);
-        //	rom.writePointer((int)pBlocks);
-        //	rom.writePointer((int)pAnimation);
-        //	rom.writePointer((int)pBehavior);
-        //}
     }
 }

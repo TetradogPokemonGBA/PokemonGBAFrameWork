@@ -10,12 +10,8 @@ namespace PokemonGBAFramework.Core.Mapa.Structs
 		public int ID { get; set; }
 		public int Meta { get; set; }
 
-		public void SetID(int i)
-		{
-			ID = i;
 
-		}
-		public MapTile(int id, int meta)
+		public MapTile(int id=0, int meta=0)
 		{
 			ID = id;
 			Meta = meta;

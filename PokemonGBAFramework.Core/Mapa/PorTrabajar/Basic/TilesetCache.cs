@@ -28,15 +28,13 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				tile = cache[offset];
 				if (tile.Modified)
 				{
-					tile.loadData(offset);
-					tile.renderTiles(mainTSHeight,localTSHeight);
-					tile.Modified = false;
+					tile = Tileset.Get(rom, tile.TilesetHeader, mainTSHeight, localTSHeight);
 				}
 			
 			}
 			else
 			{
-				 tile = new Tileset(rom, offset,mainTSHeight,localTSHeight);
+				 tile =  Tileset.Get(rom, offset,mainTSHeight,localTSHeight);
 				cache.Add(offset, tile);
 
 			}
@@ -59,8 +57,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				Get(rom, loadedMap.getMapData().LocalTileSetPtr, mainTSHeight, localTSHeight).SetPaletas(j, Get(rom, loadedMap.getMapData().GlobalTileSetPtr, mainTSHeight, localTSHeight).GetPaletas(j));
 			Get(rom, loadedMap.getMapData().LocalTileSetPtr, mainTSHeight, localTSHeight).Refresh();
 			Get(rom, loadedMap.getMapData().GlobalTileSetPtr, mainTSHeight, localTSHeight).Refresh();
-			//Get(rom, loadedMap.getMapData().LocalTileSetPtr).startTileThreads();
-			//Get(rom, loadedMap.getMapData().GlobalTileSetPtr).startTileThreads();
 		}
 	}
 

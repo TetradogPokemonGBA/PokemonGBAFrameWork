@@ -6,76 +6,41 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class ConnectionData
 	{
-		private int originalSize;
-		private MapHeader mapHeader;
-		public int pNumConnections;
-		public OffsetRom pData;
-		public List<Connection> aConnections;
+		public List<Connection> ConnectionsList { get; set; }
 
-		public ConnectionData(RomGba rom, MapHeader mHeader)
+		public ConnectionData()
 		{
-			mapHeader = mHeader;
-			load(rom);
+			ConnectionsList = new List<Connection>();
 		}
 
-		public void load(RomGba rom)
-		{
-			int offset = mapHeader.OffsetConnect;
-			pNumConnections = new OffsetRom(rom, offset);
-			offset += OffsetRom.LENGTH;
-			pData = new OffsetRom(rom, offset);
-			aConnections = new List<Connection>();
+		public int Size=> ConnectionsList.Count * Connection.LENGTH;
 
-			offset = pData;
-			for (int i = 0; i < pNumConnections; i++)
+		public void Add(Connection.Type type, byte bank, byte map)
+		{
+			ConnectionsList.Add(new Connection(type, bank, map));
+		}
+
+		public static ConnectionData Get(RomGba rom, MapHeader mapHeader)
+		{
+			return Get(rom, mapHeader.OffsetConnect);
+		}
+		public static ConnectionData Get(RomGba rom, OffsetRom mapHeaderConnect)
+		{
+			int offsetData;
+			ConnectionData connectionData = new ConnectionData();
+			int offset = mapHeaderConnect;
+			uint numConnections = new DWord(rom, offset);
+			offset += DWord.LENGTH;
+			offsetData = new OffsetRom(rom, offset);
+
+			for (uint i = 0; i < numConnections; i++)
 			{
-				aConnections.Add(new Connection(rom,offset));
-				offset += Connection.LENGTH;
+				connectionData.ConnectionsList.Add(Connection.Get(rom, offsetData));
+				offsetData += Connection.LENGTH;
 			}
-
-			originalSize = getConnectionDataSize();
+			return connectionData;
 		}
 
-		//public void save()
-		//{
-		//	if (pData < 0x08000000)
-		//		pData += 0x08000000;
-
-		//	rom.Seek(BitConverter.shortenPointer(mapHeader.pConnect));
-		//	rom.writePointer(pNumConnections);
-		//	rom.writePointer(pData);
-
-		//	rom.Seek(BitConverter.shortenPointer(pData));
-		//	for (int i = 0; i < pNumConnections; i++)
-		//	{
-		//		aConnections[i].save();
-		//	}
-		//}
-
-		public int getConnectionDataSize()
-		{
-			return aConnections.Count * Connection.LENGTH;
-		}
-
-		public void addConnection()
-		{
-
-		}
-
-		public void addConnection(RomGba rom,Connection.Type c, byte bank, byte map)
-		{
-			pNumConnections++;
-			aConnections.Add(new Connection(c, bank, map));
-			//rom.floodBytes(BitConverter.shortenPointer(pData), rom.freeSpaceByte, originalSize);
-
-			//TODO make this a setting, ie always repoint vs keep pointers
-			if (originalSize < getConnectionDataSize())
-			{
-				pData =new OffsetRom(rom.Data.SearchEmptyBytes(getConnectionDataSize()));
-			}
-
-
-		}
 	}
 
 }
