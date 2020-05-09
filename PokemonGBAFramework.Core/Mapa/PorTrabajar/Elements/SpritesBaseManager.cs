@@ -9,8 +9,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 		public BaseManager(RomGba rom, int offset, int count)
 		{
 			Items = new List<T>();
-			int i = 0;
-			for (i = 0; i < count; i++)
+			for (int i = 0; i < count; i++)
 			{
 				Items.Add(IGet(rom, offset));
 				offset += SpriteSign.LENGTH;

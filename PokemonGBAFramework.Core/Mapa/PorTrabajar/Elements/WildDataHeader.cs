@@ -10,51 +10,35 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	{
 		public const int LENGTH = 20;
 
+		public WildDataHeader() { }
 
-		public WildDataHeader(RomGba rom, int offset) : this(rom.Data.Bytes, offset) { }
-
-		public WildDataHeader(byte[] rom, int offset = 0)
-		{
-			const int FILLERBYTES = 2;
-
-			BBank = rom[offset++];
-			BMap = rom[offset++];
-			offset += FILLERBYTES;
-			PGrass = new OffsetRom(rom, offset);
-			offset += OffsetRom.LENGTH;
-			PWater = new OffsetRom(rom, offset);
-			offset += OffsetRom.LENGTH;
-			PTrees = new OffsetRom(rom, offset);
-			offset += OffsetRom.LENGTH;
-			PFishing = new OffsetRom(rom, offset);
-		}
 		public WildDataHeader(int bank, int map, OffsetRom offsetGrass, OffsetRom offsetWater, OffsetRom offsetTree, OffsetRom offsetFishing)
 		{
-			BBank = (byte)bank;
-			BMap = (byte)map;
-			PGrass = offsetGrass;
-			PWater = offsetWater;
-			PTrees = offsetTree;
-			PFishing = offsetFishing;
+			Bank = (byte)bank;
+			Map = (byte)map;
+			OffsetGrass = offsetGrass;
+			OffsetWater = offsetWater;
+			OffsetTrees = offsetTree;
+			OffsetFishing = offsetFishing;
 		}
 
 
-		public byte BBank { get; set; }
-		public byte BMap { get; set; }
-		public OffsetRom PGrass { get; set; }
-		public OffsetRom PWater { get; set; }
-		public OffsetRom PTrees { get; set; }
-		public OffsetRom PFishing { get; set; }
+		public byte Bank { get; set; }
+		public byte Map { get; set; }
+		public OffsetRom OffsetGrass { get; set; }
+		public OffsetRom OffsetWater { get; set; }
+		public OffsetRom OffsetTrees { get; set; }
+		public OffsetRom OffsetFishing { get; set; }
 
 		public byte[] GetBytes()
 		{
 			const int FILLERBYTES = 2;
 			byte[] emptyPointer = new byte[OffsetRom.LENGTH];
-			return new byte[] { BBank, BMap }.AddArray(new byte[FILLERBYTES],
-													   PGrass != default ? PGrass.BytesPointer : emptyPointer,
-													   PWater != default ? PWater.BytesPointer : emptyPointer,
-													   PTrees != default ? PTrees.BytesPointer : emptyPointer, 
-													   PFishing != default ? PFishing.BytesPointer : emptyPointer
+			return new byte[] { Bank, Map }.AddArray(new byte[FILLERBYTES],
+													!Equals(OffsetGrass,default) ? OffsetGrass.BytesPointer : emptyPointer,
+													!Equals(OffsetWater, default) ? OffsetWater.BytesPointer : emptyPointer,
+													!Equals(OffsetTrees, default) ? OffsetTrees.BytesPointer : emptyPointer,
+													!Equals(OffsetFishing, default) ? OffsetFishing.BytesPointer : emptyPointer
 													    );
 
 		}
@@ -66,7 +50,26 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 		public WildDataHeader Clon()
 		{
-			return new WildDataHeader(GetBytes());
+			return  Get(GetBytes());
+		}
+		public static WildDataHeader Get(RomGba rom, int offset) => Get(rom.Data.Bytes, offset);
+
+		public static WildDataHeader Get(byte[] rom, int offset = 0)
+		{
+			const int FILLERBYTES = 2;
+
+			WildDataHeader wildDataHeader = new WildDataHeader();
+			wildDataHeader.Bank = rom[offset++];
+			wildDataHeader.Map = rom[offset++];
+			offset += FILLERBYTES;
+			wildDataHeader.OffsetGrass = new OffsetRom(rom, offset);
+			offset += OffsetRom.LENGTH;
+			wildDataHeader.OffsetWater = new OffsetRom(rom, offset);
+			offset += OffsetRom.LENGTH;
+			wildDataHeader.OffsetTrees = new OffsetRom(rom, offset);
+			offset += OffsetRom.LENGTH;
+			wildDataHeader.OffsetFishing = new OffsetRom(rom, offset);
+			return wildDataHeader;
 		}
 	}
 

@@ -7,96 +7,74 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class BorderTileData
 	{
-		private int dataLoc;
 		private MapData mData;
 		private MapTile[,] mapTiles;
-		public BorderTileData(RomGba rom, int offset, MapData mData)
+
+
+		public int Size=> mData.BorderWidth * mData.BorderHeight * Word.LENGTH;
+
+		public MapTile Get(RomGba rom, OffsetRom offset,int x, int y)
 		{
-			dataLoc = offset;
-			this.mData = mData;
-			mapTiles = new MapTile[mData.BorderWidth,mData.BorderHeight];
-			for (int x = 0; x < mData.BorderWidth; x++)
-			{
-				for (int y = 0; y < mData.BorderHeight; y++)
-				{
-					mapTiles[x,y] = getTile(rom,x, y);
-				}
-			}
+			MapTile tile;
+			int raw;
+			int index;
 
-		}
-
-		public int Size=> ((mData.BorderWidth * mData.BorderHeight) * 2);
-
-		public MapTile getTile(RomGba rom,int x, int y)
-		{
-			if (mapTiles[x,y] != null)
-				return mapTiles[x,y];
+			if (mapTiles[x,y] != default)
+				tile= mapTiles[x,y];
 			else
 			{
-				int index = (y * mData.BorderWidth) + x;
-				int raw =new Word(rom,dataLoc + index * 2);
-				MapTile m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
-				mapTiles[x,y] = m;
-				return m;
+				index = (y * mData.BorderWidth) + x;
+			    raw =new Word(rom, offset + index * Word.LENGTH);
+				tile= new MapTile(raw & 0x3FF, (raw & 0xFC00) >> 10);
+				mapTiles[x,y] = tile;
+				
 			}
+			return tile;
 		}
 
 
-		public MapTile[,] getTiles(RomGba rom,int x, int y, int width, int height)
+		public MapTile[,] Get(RomGba rom,OffsetRom offset,int x, int y, int width, int height)
 		{
-			MapTile[,] m = new MapTile[width,height];
+			MapTile[,] mapTiles = new MapTile[width,height];
 			for (int i = x; i < x + width; i++)
 			{
 				for (int j = y; j < y + width; j++)
 				{
-					m[i - x,j - y] = getTile(rom,i, j);
+					mapTiles[i - x,j - y] = Get(rom,offset,i, j);
 				}
 			}
-			return m;
+			return mapTiles;
 		}
 
-		public void save(RomGba rom)
+		public byte[] GetBytes()
 		{
-	
+
+			byte[] data = new byte[Size];
+			int dataLoc = 0;
 			for (int x = 0; x < mData.BorderWidth; x++)
 			{
 				for (int y = 0; y < mData.BorderHeight; y++)
 				{
-
-					//int index = (int) ((y*mData.borderWidth) + x);
-					Word.SetData(rom,dataLoc,(Word)(ushort)(mapTiles[y,x].ID + ((mapTiles[y,x].Meta & 0x3F) << 10)));
+					Word.SetData(data,dataLoc,(Word)(ushort)(mapTiles[y,x].ID + ((mapTiles[y,x].Meta & 0x3F) << 10)));
 					dataLoc += Word.LENGTH;
 				}
 			}
+			return data;
 		}
-
-		public void resize(long xSize, long ySize)
+		public static BorderTileData Get(RomGba rom, OffsetRom offset, MapData mData)
 		{
-			/*MapTile[][] newMapTiles = new MapTile[(int)xSize][(int)ySize];
-			mData.borderWidth = (int) xSize;
-			mData.borderHeight = (int) ySize;
-			rom.floodBytes(originalPointer, rom.freeSpaceByte, originalSize);
-
-			//TODO make this a setting, ie always repoint vs keep pointers
-			if(originalSize < getSize())
+			BorderTileData borderTileData = new BorderTileData();
+			borderTileData.mData = mData;
+			borderTileData.mapTiles = new MapTile[mData.BorderWidth, mData.BorderHeight];
+			for (int x = 0; x < mData.BorderWidth; x++)
 			{
-				mData.mapTilesPtr = rom.findFreespace(DataStore.FreespaceStart, getSize());
-			}
-
-			for(int x = 0; x < xSize; x++)
-				for(int y = 0; y < ySize; y++)
+				for (int y = 0; y < mData.BorderHeight; y++)
 				{
-					try
-					{
-						newMapTiles[x][y] = mapTiles[x][y];
-					}
-					catch(Exception e)
-					{
-						newMapTiles[x][y] = new MapTile(0,0);
-					}
+					borderTileData.mapTiles[x, y] = borderTileData.Get(rom, offset, x, y);
 				}
-
-			mapTiles = newMapTiles;*/
+			}
+			return borderTileData;
 		}
+		
 	}
 }

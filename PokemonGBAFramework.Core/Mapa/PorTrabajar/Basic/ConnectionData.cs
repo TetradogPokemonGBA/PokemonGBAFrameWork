@@ -24,11 +24,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		{
 			return Get(rom, mapHeader.OffsetConnect);
 		}
-		public static ConnectionData Get(RomGba rom, OffsetRom mapHeaderConnect)
+		public static ConnectionData Get(RomGba rom, OffsetRom offsetMapHeaderConnect)
 		{
 			int offsetData;
 			ConnectionData connectionData = new ConnectionData();
-			int offset = mapHeaderConnect;
+			int offset = offsetMapHeaderConnect;
 			uint numConnections = new DWord(rom, offset);
 			offset += DWord.LENGTH;
 			offsetData = new OffsetRom(rom, offset);

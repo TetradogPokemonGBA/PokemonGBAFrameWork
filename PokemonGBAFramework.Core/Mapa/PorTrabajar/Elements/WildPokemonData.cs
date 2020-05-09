@@ -10,53 +10,8 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 		public const int LENGTH = 8;
 
 		public static readonly int[] NumPokemon = new int[] { 12, 5, 5, 10 };
+		public WildPokemonData() { }
 
-		public WildPokemonData(RomGba rom, WildData.Type tipoArea,int offset)
-		{
-			Type = tipoArea;
-			if (offset <= 0x1FFFFFF && offset >= 0x100)
-			{
-
-
-				try
-				{
-					Ratio = rom.Data[offset++];
-					DNEnabled = rom.Data[offset++];
-					offset += 0x2;
-					OffsetPokemonData = new OffsetRom(rom,offset);
-					offset += OffsetRom.LENGTH;
-					AreaWildPokemon = new WildPokemon[(DNEnabled > 0 ? 4 : 1),NumPokemon[(int)Type]];
-					ADNPokemon = new OffsetRom[4];
-
-					for (int j = 0; j < 4; j++)
-					{
-						if (DNEnabled == 0x1)
-							ADNPokemon[j] = new OffsetRom(rom,(int)(OffsetPokemonData) + (j * 4));
-						else
-							ADNPokemon[j] = default;
-					}
-
-
-					for (int j = 0, jf = (DNEnabled > 0 ? 4 : 1); j < jf; j++)
-					{
-						if (DNEnabled == 0)
-							offset=((int)OffsetPokemonData);
-						else
-							offset=((int)ADNPokemon[j] & 0x1FFFFFF);
-
-						for (int i = 0; i < NumPokemon[(int)Type]; i++)
-						{
-							AreaWildPokemon[j,i] = new WildPokemon(rom,offset);
-							offset += WildPokemon.LENGTH;
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					Console.WriteLine(e.Message);
-				}
-			}
-		}
 
 		public WildPokemonData(WildData.Type tipoArea, byte ratio,Word pokemon=default)
 		{
@@ -152,6 +107,58 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 		public Object Clone() => Clon();
 		public WildPokemonData Clon()=> new WildPokemonData(this);
+
+		public static WildPokemonData Get(RomGba rom, WildData.Type tipoArea, OffsetRom offsetWildPokemonData)
+		{
+			WildPokemonData wildPokemonData = new WildPokemonData();
+			int offset = offsetWildPokemonData;
+			wildPokemonData.Type = tipoArea;
+			if (offset <= 0x1FFFFFF && offset >= 0x100)
+			{
+
+
+				try
+				{
+					wildPokemonData.Ratio = rom.Data[offset++];
+					wildPokemonData.DNEnabled = rom.Data[offset++];
+					offset += 0x2;
+					wildPokemonData.OffsetPokemonData = new OffsetRom(rom, offset);
+					offset += OffsetRom.LENGTH;
+					wildPokemonData.AreaWildPokemon = new WildPokemon[(wildPokemonData.DNEnabled > 0 ? 4 : 1), NumPokemon[(int)wildPokemonData.Type]];
+					wildPokemonData.ADNPokemon = new OffsetRom[4];
+
+					for (int j = 0; j < 4; j++)
+					{
+						if (wildPokemonData.DNEnabled == 0x1)
+							wildPokemonData.ADNPokemon[j] = new OffsetRom(rom, (int)(wildPokemonData.OffsetPokemonData) + (j * OffsetRom.LENGTH));
+						else
+							wildPokemonData.ADNPokemon[j] = default;
+					}
+
+
+					for (int j = 0, jf = (wildPokemonData.DNEnabled > 0 ? 4 : 1); j < jf; j++)
+					{
+						if (wildPokemonData.DNEnabled == 0)
+							offset = (wildPokemonData.OffsetPokemonData);
+						else
+							offset = ((int)wildPokemonData.ADNPokemon[j] & 0x1FFFFFF);
+
+						for (int i = 0; i < NumPokemon[(int)wildPokemonData.Type]; i++)
+						{
+							wildPokemonData.AreaWildPokemon[j, i] = WildPokemon.Get(rom, offset);
+							offset += WildPokemon.LENGTH;
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e.Message);
+					wildPokemonData = default;
+				}
+
+			}
+			return wildPokemonData;
+		}
 	}
 
 }

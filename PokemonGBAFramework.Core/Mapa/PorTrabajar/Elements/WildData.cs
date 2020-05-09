@@ -9,31 +9,14 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	{
 		public enum Type
 		{
-			Water,Grass,Tree,Fishing
+			Grass,Water,Tree,Fishing
 		}
-
-		public WildPokemonData[] WildArea { get; set; } = new WildPokemonData[Enum.GetNames(typeof(Type)).Length];
+		public static readonly int NumWildAreas = Enum.GetNames(typeof(Type)).Length;
+		public WildPokemonData[] WildArea { get; set; } = new WildPokemonData[NumWildAreas];
 		public WildDataHeader WildDataHeader { get; set; }
 
+		public WildData() { }
 
-		public WildData(RomGba rom, WildDataHeader wildDataHeader)
-		{
-
-			WildDataHeader = wildDataHeader;
-
-
-			if (wildDataHeader.PGrass != default)
-				WildArea[0] = new WildPokemonData(rom, WildData.Type.Grass,(int)wildDataHeader.PGrass);
-
-			if (wildDataHeader.PWater != default)
-				WildArea[1] = new WildPokemonData(rom, WildData.Type.Water, (int)wildDataHeader.PWater);
-
-			if (wildDataHeader.PTrees != default)
-				WildArea[2] = new WildPokemonData(rom, WildData.Type.Tree, (int)wildDataHeader.PTrees);
-
-			if (wildDataHeader.PFishing != default)
-				WildArea[3] = new WildPokemonData(rom, WildData.Type.Fishing, (int)wildDataHeader.PFishing);
-		}
 
 		public WildData(int bank, int map, OffsetRom offsetGrass, OffsetRom offsetWater, OffsetRom offsetTree, OffsetRom offsetFishing)
 		{
@@ -71,24 +54,24 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 				{
 					case Type.Water:
 						position = 1;
-						offset = WildDataHeader.PWater;
-						WildDataHeader.PWater = default;
+						offset = WildDataHeader.OffsetWater;
+						WildDataHeader.OffsetWater = default;
 						break;
 					case Type.Tree:
 						position = 2;
-						offset = WildDataHeader.PTrees;
-						WildDataHeader.PTrees = default;
+						offset = WildDataHeader.OffsetTrees;
+						WildDataHeader.OffsetTrees = default;
 			
 						break;
 					case Type.Fishing:
 						position = 3;
-						offset = WildDataHeader.PFishing;
-						WildDataHeader.PFishing = default;
+						offset = WildDataHeader.OffsetFishing;
+						WildDataHeader.OffsetFishing = default;
 						break;
 					default:
 						position = 0;
-						offset = WildDataHeader.PGrass;
-						WildDataHeader.PGrass = default;
+						offset = WildDataHeader.OffsetGrass;
+						WildDataHeader.OffsetGrass = default;
 						break;
 				}
 
@@ -126,6 +109,26 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 		public Object Clone() => Clon();
 		public WildData Clon() => new WildData(this);
+
+		public static WildData Get(RomGba rom, WildDataHeader wildDataHeader)
+		{
+			WildData wildData = new WildData();
+			wildData.WildDataHeader = wildDataHeader;
+
+
+			if (!Equals(wildDataHeader.OffsetGrass, default))
+				wildData.WildArea[0] =  WildPokemonData.Get(rom, WildData.Type.Grass, wildDataHeader.OffsetGrass);
+
+			if (!Equals(wildDataHeader.OffsetWater, default))
+				wildData.WildArea[1] = WildPokemonData.Get(rom, WildData.Type.Water, wildDataHeader.OffsetWater);
+
+			if (!Equals(wildDataHeader.OffsetTrees, default))
+				wildData.WildArea[2] = WildPokemonData.Get(rom, WildData.Type.Tree, wildDataHeader.OffsetTrees);
+
+			if (!Equals(wildDataHeader.OffsetFishing, default))
+				wildData.WildArea[3] = WildPokemonData.Get(rom, WildData.Type.Fishing, wildDataHeader.OffsetFishing);
+			return wildData;
+		}
 	}
 
 }

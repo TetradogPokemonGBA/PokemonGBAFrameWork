@@ -190,7 +190,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
              blockPointer = (int)((isSecondaryBlock ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (blockNum * 16));
     
           
-            b = new Block(rom,renderer,realBlockNum);
+            b = Block.Get(rom,renderer,realBlockNum);
 
             tripleTile = false;
 

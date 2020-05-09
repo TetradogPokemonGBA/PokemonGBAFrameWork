@@ -6,11 +6,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
     public class BorderMap
     {
-        public BorderMap(RomGba rom, Map m)
+        public BorderMap(RomGba rom, Map map)
         {
-            Map = m;
-            MapTileData = new BorderTileData(rom, MapData.BorderTilePtr, MapData);
-            IsEdited = false;
+            Map = map;
+            MapTileData =  BorderTileData.Get(rom, MapData.OffsetBorderTile, MapData);
         }
 
         public BorderTileData MapTileData { get; set; }

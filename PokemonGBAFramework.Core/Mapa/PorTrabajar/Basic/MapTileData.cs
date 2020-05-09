@@ -10,27 +10,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 	{
 		private MapData mData;
 		private MapTile[,] mapTiles;
-		public MapTileData(RomGba rom, MapData mData)
-		{
-			int index;
-			int raw;
-			MapTile m;
-			this.mData = mData;
-			mapTiles = new MapTile[(uint)mData.MapWidth, (uint)mData.MapHeight];
-			for (int x = 0; x < mData.MapWidth; x++)
-			{
-				for (int y = 0; y < mData.MapHeight; y++)
-				{
 
-					index = (int)((y * mData.MapWidth) + x);
-					raw = new Word(rom, mData.MapTilesPtr + index * 2);
-					m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
-					mapTiles[x, y] = m;
-
-				}
-			}
-		}
-		public int Size => (int)((mData.MapWidth * mData.MapHeight) * 2);
+		public int Size => (int)((mData.Width * mData.Height) * 2);
 		public MapTile Get(int x, int y)
 		{
 			MapTile tile;
@@ -40,12 +21,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				tile = mapTiles[0, y];
 			else if (y < 0)
 				tile = mapTiles[x, 0];
-			else if (x > mData.MapWidth && y > mData.MapHeight)
-				tile = mapTiles[(uint)mData.MapWidth, (uint)mData.MapHeight];
-			else if (x > mData.MapWidth)
-				tile = mapTiles[(uint)mData.MapWidth, y];
-			else if (y > mData.MapHeight)
-				tile = mapTiles[x, (uint)mData.MapHeight];
+			else if (x > mData.Width && y > mData.Height)
+				tile = mapTiles[(uint)mData.Width, (uint)mData.Height];
+			else if (x > mData.Width)
+				tile = mapTiles[(uint)mData.Width, y];
+			else if (y > mData.Height)
+				tile = mapTiles[x, (uint)mData.Height];
 			else tile = mapTiles[x, y];
 
 			return tile;
@@ -70,8 +51,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public void Resize(int xSize, int ySize)
 		{
 			MapTile[,] newMapTiles = new MapTile[xSize, ySize];
-			mData.MapWidth = (uint)xSize;
-			mData.MapHeight = (uint)ySize;
+			mData.Width = (uint)xSize;
+			mData.Height = (uint)ySize;
 
 			for (int x = 0, xOld = mapTiles.GetLength(DimensionMatriz.X), yOld = mapTiles.GetLength(DimensionMatriz.Y); x < xSize; x++)
 				for (int y = 0; y < ySize; y++)
@@ -84,6 +65,30 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				}
 
 			mapTiles = newMapTiles;
+		}
+		public static MapTileData Get(RomGba rom, MapData mData)
+		{
+			int index;
+			int raw;
+			MapTile m;
+
+			MapTileData mapTileData = new MapTileData();
+			mapTileData.mData = mData;
+			mapTileData.mapTiles = new MapTile[(uint)mData.Width, (uint)mData.Height];
+
+			for (int x = 0; x < mData.Width; x++)
+			{
+				for (int y = 0; y < mData.Height; y++)
+				{
+
+					index = (int)((y * mData.Width) + x);
+					raw = new Word(rom, mData.OffsetMapTiles + index * 2);
+					m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
+					mapTileData.mapTiles[x, y] = m;
+
+				}
+			}
+			return mapTileData;
 		}
 	}
 

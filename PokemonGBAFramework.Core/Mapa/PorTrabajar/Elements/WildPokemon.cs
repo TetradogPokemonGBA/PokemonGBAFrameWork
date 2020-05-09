@@ -9,14 +9,8 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	{
 		public const int LENGTH = 4;
 
-		public WildPokemon(RomGba rom, int offset)
-		{
 
-			NivelMinimo = rom.Data[offset++];
-			NivelMaximo = rom.Data[offset++];
-			Especie = new Word(rom, offset);
-		}
-
+		public WildPokemon():this(new Word(0)) { }
 		public WildPokemon(Word pokemon, int minLV=1, int maxLV=0)
         {
 
@@ -31,7 +25,15 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 		public byte[] GetBytes()
 		{
-			return new byte[] { NivelMinimo, NivelMaximo }.AddArray(Especie!=default?Especie.Data:new byte[Word.LENGTH]);
+			return new byte[] { NivelMinimo, NivelMaximo }.AddArray(!Equals(Especie,default)?Especie.Data:new byte[Word.LENGTH]);
+		}
+		public static WildPokemon Get(RomGba rom, int offset)
+		{
+			WildPokemon wildPokemon = new WildPokemon();
+			wildPokemon.NivelMinimo = rom.Data[offset++];
+			wildPokemon.NivelMaximo = rom.Data[offset++];
+			wildPokemon.Especie = new Word(rom, offset);
+			return wildPokemon;
 		}
 	}
 

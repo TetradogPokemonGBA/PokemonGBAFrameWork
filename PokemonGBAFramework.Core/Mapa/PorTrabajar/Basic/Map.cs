@@ -21,9 +21,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public TriggerManager MapTriggerManager { get; set; }
 		public OverworldSpritesManager OverworldSpritesManager { get; set; }
 		public OverworldSprites[] EventSprites { get; set; }
-		public bool IsEdited { get; set; }
 
-		public static Map Get(RomGba rom, int bank, int map) => Get(rom, (int)BankLoader.maps[bank][map]);
+		public static Map Get(RomGba rom, int bank, int map,BankLoader bankLoader) => Get(rom, bankLoader.maps[bank][map]);
 
 		public static Map Get(RomGba rom, int dataOffset)
 		{
@@ -39,8 +38,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			mapa.MapExitManager = new SpritesExitManager(rom, mapa.MapSprites.OffsetExits, mapa.MapSprites.NumExits);
 
 			mapa.MapData = MapData.Get(rom, mapa.MapHeader);
-			mapa.MapTileData = new MapTileData(rom, mapa.MapData);
-			mapa.IsEdited = true;
+			mapa.MapTileData =  MapTileData.Get(rom, mapa.MapData);
 			return mapa;
 		}
 	}

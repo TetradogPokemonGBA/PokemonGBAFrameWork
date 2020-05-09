@@ -43,15 +43,15 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 		public static void switchTileset(RomGba rom,Map loadedMap)
 		{
-			Get(rom, loadedMap.MapData.GlobalTileSetPtr).RestaurarPaletas();
-			Get(rom, loadedMap.MapData.LocalTileSetPtr).RestaurarPaletas();
+			Get(rom, loadedMap.MapData.OffsetGlobalTileset).RestaurarPaletas();
+			Get(rom, loadedMap.MapData.OffsetLocalTileset).RestaurarPaletas();
 			for (int j = 1; j < 5; j++)
 				for (int i = TilesetHeader.GetPaletaCount(rom) - 1; i < 13; i++)
-					Get(rom, loadedMap.MapData.GlobalTileSetPtr).GetPaletas(j - 1)[i] = Get(rom, loadedMap.MapData.LocalTileSetPtr).GetTodasLasPaletas()[j - 1,i];
+					Get(rom, loadedMap.MapData.OffsetGlobalTileset).GetPaletas(j - 1)[i] = Get(rom, loadedMap.MapData.OffsetLocalTileset).GetTodasLasPaletas()[j - 1,i];
 			for (int j = 0; j < 4; j++)
-				Get(rom, loadedMap.MapData.LocalTileSetPtr).SetPaletas(j, Get(rom, loadedMap.MapData.GlobalTileSetPtr).GetPaletas(j));
-			Get(rom, loadedMap.MapData.LocalTileSetPtr).Refresh();
-			Get(rom, loadedMap.MapData.GlobalTileSetPtr).Refresh();
+				Get(rom, loadedMap.MapData.OffsetLocalTileset).SetPaletas(j, Get(rom, loadedMap.MapData.OffsetGlobalTileset).GetPaletas(j));
+			Get(rom, loadedMap.MapData.OffsetLocalTileset).Refresh();
+			Get(rom, loadedMap.MapData.OffsetGlobalTileset).Refresh();
 		}
 	}
 
