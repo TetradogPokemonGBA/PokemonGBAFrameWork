@@ -97,6 +97,10 @@ namespace PokemonGBAFramework.Core
                 BytesPointer = new byte[] { BytesPointer[3], BytesPointer[2], BytesPointer[1], identificado };
             }
         }
+
+
+        
+
         public void Fix(bool is08 = true)
         {
             if(!IsAPointer)
@@ -166,9 +170,13 @@ namespace PokemonGBAFramework.Core
             return offsetRom.Offset;
         }
         #endregion
-        public static bool Check(byte[] rom, int offset)
+
+        public static bool Check(RomGba rom, int offset) => Check(rom.Data, offset);
+        public static bool Check(BloqueBytes bloque, int offset) => Check(bloque.Bytes, offset);
+        public static bool Check(byte[] bytes, int offset)
         {
-            return new OffsetRom(rom, offset).IsAPointer;
+            offset += POSICIONIDENTIFICADOR;
+            return bytes[offset]==BYTEIDENTIFICADOR16MB||bytes[offset] == BYTEIDENTIFICADOR32MB;
         }
         public static void SetOffset(RomGba rom, OffsetRom offsetAReemplazar, int offsetAPoner)
         {

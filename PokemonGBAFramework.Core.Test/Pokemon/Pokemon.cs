@@ -15,7 +15,7 @@ namespace PokemonGBAFramework.Core.Test.Pokemon
         }
         public override void TestGetTodos(byte[] romData)
         {
-            base.TestGetTodos<Core.Pokemon[]>(romData, (r) => Core.Pokemon.Get(r));
+            base.TestGetTodos<Core.Pokemon>(romData, (r) => Core.Pokemon.Get(r));
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace PokemonGBAFramework.Core.Test.Batalla
 {
     public delegate T GetIndividual<T>(RomGba rom, int pos);
-    public delegate T GetAll<T>(RomGba rom);
+    public delegate T[] GetAll<T>(RomGba rom);
 
     [TestClass]
     public abstract class BaseTestIndividual
@@ -75,7 +75,7 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         protected void TestGetTodos<T>(byte[] romData, GetAll<T> metodo)
         {
             RomGba rom = new RomGba(romData);
-            Assert.IsNotNull(metodo(rom));
+            Assert.IsTrue(metodo(rom).Length>0);
         }
     }
 }

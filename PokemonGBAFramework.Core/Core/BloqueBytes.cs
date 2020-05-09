@@ -117,7 +117,7 @@ namespace PokemonGBAFramework.Core
         public int SearchEmptyBytes(int length, byte byteEmpty, int inicio = 0x800000)
         {
             //tiene que acabar en 0,4,8,C
-            const int MINIMO = 25;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
+            const int MINIMO = 150;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
             int offsetEncontrado = inicio;
             int lengthFinal = length;
             bool continuarBuscando;

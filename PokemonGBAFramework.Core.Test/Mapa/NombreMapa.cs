@@ -4,18 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PokemonGBAFramework.Core.Test.Pokemon
+namespace PokemonGBAFramework.Core.Test.Mapa
 {
     [TestClass]
-    public class AtaquesAprendidos : BaseTest
+    public class MapLabel : BaseTest
     {
         public override void TestGetIndividual(byte[] romData)
         {
-            base.TestGetIndividual<Core.AtaquesAprendidos>(romData, (r, o) => Core.AtaquesAprendidos.Get(r, o));
+            base.TestGetIndividual<Core.Mapa.Basic.MapLabel>(romData, (r, o) => Core.Mapa.Basic.MapLabel.Get(r, o));
         }
         public override void TestGetTodos(byte[] romData)
         {
-            base.TestGetTodos<Core.AtaquesAprendidos>(romData, (r) => Core.AtaquesAprendidos.Get(r));
+            base.TestGetTodos<Core.Mapa.Basic.MapLabel>(romData, (r) => Core.Mapa.Basic.MapLabel.Get(r));
         }
     }
 }

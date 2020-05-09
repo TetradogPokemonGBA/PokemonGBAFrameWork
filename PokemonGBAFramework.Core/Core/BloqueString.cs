@@ -179,30 +179,30 @@ namespace PokemonGBAFramework.Core
             return Texto;
         }
 
-        public static int SetString(RomGba rom, string str, bool acabaEnFFByte = true)
+        public static int Set(RomGba rom, string str, bool acabaEnFFByte = true)
         {
             int offsetEmpty = rom.Data.SearchEmptyBytes(ToByteArray(str).Length + 1);
-            SetString(rom, offsetEmpty, str, acabaEnFFByte);
+            Set(rom, offsetEmpty, str, acabaEnFFByte);
             return offsetEmpty;
         }
-        public static void SetString(RomGba rom, int offsetInicio, string str, bool acabaEnFFByte = true)
+        public static void Set(RomGba rom, int offsetInicio, string str, bool acabaEnFFByte = true)
         {
 
             byte[] bytesGbaString = ToByteArray(str, acabaEnFFByte);
             rom.Data.SetArray(offsetInicio, bytesGbaString);
 
         }
-        public static void SetString(RomGba rom, int offsetInicio, BloqueString str)
+        public static void Set(RomGba rom, int offsetInicio, BloqueString str)
         {
 
-            SetString(rom, offsetInicio, str.Texto, str.AcabaEnFFByte);
+            Set(rom, offsetInicio, str.Texto, str.AcabaEnFFByte);
         }
 
-        public static int SetString(RomGba rom, BloqueString str)
+        public static int Set(RomGba rom, BloqueString str)
         {
             int offsetEmpty = rom.Data.SearchEmptyBytes(str.LengthInnerRom);
 
-            SetString(rom, offsetEmpty, str.Texto, str.AcabaEnFFByte);
+            Set(rom, offsetEmpty, str.Texto, str.AcabaEnFFByte);
             return offsetEmpty;
         }
 
@@ -234,7 +234,7 @@ namespace PokemonGBAFramework.Core
         }
         public static BloqueString Get(byte[] blDatos, int offsetInicio, byte marcaFin = 0xFF)
         {//por revisar
-            return Get(blDatos, offsetInicio, blDatos.IndexByte(offsetInicio, marcaFin) - offsetInicio);
+            return Get(blDatos, offsetInicio, blDatos.IndexByte(offsetInicio, marcaFin)+1 - offsetInicio);
         }
         public static void Remove(RomGba rom, int offsetString)
         {

@@ -14,7 +14,7 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         }
         public override void TestGetTodos(byte[] romData)
         {
-            base.TestGetTodos<Core.Objeto[]>(romData, (r) => Core.Objeto.Get(r));
+            base.TestGetTodos<Core.Objeto>(romData, (r) => Core.Objeto.Get(r));
         }
     }
 }

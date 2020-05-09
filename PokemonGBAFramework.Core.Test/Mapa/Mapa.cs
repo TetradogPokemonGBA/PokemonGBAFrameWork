@@ -15,7 +15,7 @@ namespace PokemonGBAFramework.Core.Test.Mapa
         }
         public override void TestGetTodos(byte[] romData)
         {
-            base.TestGetTodos<Core.Mapa.Basic.Map[]>(romData, (r) => Core.Mapa.Basic.Map.Get(r));
+            base.TestGetTodos<Core.Mapa.Basic.Map>(romData, (r) => Core.Mapa.Basic.Map.Get(r));
         }
     }
 }

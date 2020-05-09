@@ -15,7 +15,7 @@ namespace PokemonGBAFramework.Core.Test.Mapa
         }
         public override void TestGetTodos(byte[] romData)
         {
-            base.TestGetTodos<Core.MiniSpriteMapa[]>(romData, (r) => Core.MiniSpriteMapa.Get(r));
+            base.TestGetTodos<Core.MiniSpriteMapa>(romData, (r) => Core.MiniSpriteMapa.Get(r));
         }
     }
 }

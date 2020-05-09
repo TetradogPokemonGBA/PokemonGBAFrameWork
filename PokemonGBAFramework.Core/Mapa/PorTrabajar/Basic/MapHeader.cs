@@ -6,8 +6,82 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
     public class MapHeader
     {
+        public enum TipoMapa:byte
+        {
+            NULL1,
+            Pueblo,
+            Ciudad,
+            Ruta,
+            Cueva,
+            Buceando,
+            NULL2,
+            NULL3,
+            Edificio,
+            BaseSecreta
+        }
+        public enum Destello : byte
+        {
+            SinNecesidad,
+            Disponible,
+            NoDisponible
+        }
+        public enum Tiempo : byte
+        {
+            Edificio,
+            SoleadoConNubes,
+            Normal,
+            Lloviendo,
+            CuatroCoposDeNieve,
+            LluviaConTruenos,
+            Niebla,
+            Nevando,
+            TormentaDeArena,
+            NieblaDesdeEsquinaSuperiorDerecha,
+            NieblaDensaYBrillante,
+            Nublado,
+            BajoTierraConUsandoDestello,
+            DiluvioConTruenos,
+            NieblaSubmarina,
+            NULL
+
+        }
+        public enum Lucha : byte
+        {
+            Aleatorio,
+            Gimnasio,
+            TeamRocket,
+            NULL,
+            Top4Primero,
+            Top4Segundo,
+            Top4Tercero,
+            Top4Ultimo,
+            BigRedPokeball
+
+        }
+        public enum DisplayNameStyle : byte
+        {
+            NoMostrar,
+            Mostrar,
+            NULL1,
+            NULL2,
+            NULL3,
+            NULL4,
+            Pueblo,
+            NULL5,
+            NULL6,
+            NULL7,
+            NULL8,
+            NULL9,
+            NULL10,
+            Ciudad,
+            NULL11,
+            NULL12
+
+        }
+
         public static byte[] MuestraAlgoritmo = {0x03, 0x4A, 0x80, 0x0B, 0x80, 0x18, 0x00, 0x68 };
         public static int IndexRelativo = 16-MuestraAlgoritmo.Length;
+       
         public OffsetRom OffsetMap { get; set; }
         public OffsetRom OffsetSprites { get; set; }
         public OffsetRom OffsetScript { get; set; }
@@ -15,12 +89,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public Word Song { get; set; }
         public Word Map { get; set; }
         public byte LabelID { get; set; }
-        public byte Flash { get; set; }
-        public byte Weather { get; set; }
-        public byte Type { get; set; }
-        public byte SinUso1 { get; set; }
+        public Destello Flash { get; set; }
+        public Tiempo Weather { get; set; }
+        public TipoMapa Tipo { get; set; }
+        public Lucha Fight { get; set; }//por logica
         public byte SinUso2 { get; set; }
-        public byte LabelToggle { get; set; }
+        public DisplayNameStyle DisplayName { get; set; }
         public byte SinUso3 { get; set; }
 
         public static MapHeader Get(RomGba rom, OffsetRom offsetMapHeader)
@@ -42,12 +116,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offset += Word.LENGTH;
 
             mapHeader.LabelID = rom.Data[offset++];
-            mapHeader.Flash = rom.Data[offset++];
-            mapHeader.Weather = rom.Data[offset++];
-            mapHeader.Type = rom.Data[offset++];
-            mapHeader.SinUso1 = rom.Data[offset++];
+            mapHeader.Flash =(Destello) rom.Data[offset++];
+            mapHeader.Weather =(Tiempo) rom.Data[offset++];
+            mapHeader.Tipo =(TipoMapa) rom.Data[offset++];
+            mapHeader.Fight =(Lucha) rom.Data[offset++];
             mapHeader.SinUso2 = rom.Data[offset++];
-            mapHeader.LabelToggle = rom.Data[offset++];
+            mapHeader.DisplayName =(DisplayNameStyle) rom.Data[offset++];
             mapHeader.SinUso3 = rom.Data[offset++];
 
             if (mapHeader.OffsetMap.IsEmpty)

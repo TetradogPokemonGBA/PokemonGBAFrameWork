@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
+
 namespace PokemonGBAFramework.Core
 {
-    public class RomGba
+    public class RomGba:ICloneable,IClonable<RomGba>
     {
+        public const byte FreeSpaceFinderByteEsmeralda = byte.MinValue;
+        public const byte FreeSpaceFinderByteGeneral = byte.MaxValue;
         public const int MAXLENGTH = 33554432;
         private Edicion edicion;
 
@@ -25,6 +29,17 @@ namespace PokemonGBAFramework.Core
             }
             set => edicion = value;
             
+        }
+
+        public int GetOffsetFreeSpace(int length)
+        {   
+            return Data.SearchEmptyBytes(length, Edicion.EsEsmeralda ? FreeSpaceFinderByteEsmeralda : FreeSpaceFinderByteGeneral);
+        }
+
+        public object Clone() => Clon();
+        public RomGba Clon()
+        {
+            return new RomGba((byte[])Data.Bytes.Clone());
         }
     }
 }
