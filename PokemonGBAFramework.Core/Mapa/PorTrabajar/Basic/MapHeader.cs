@@ -36,10 +36,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offset += OffsetRom.LENGTH;
             mapHeader.OffsetConnect = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
-            mapHeader.Song =new Word(rom, new OffsetRom(rom, offset));
-            offset += OffsetRom.LENGTH;
-            mapHeader.Map = new Word(rom, new OffsetRom(rom, offset));
-            offset += OffsetRom.LENGTH;
+            mapHeader.Song =new Word(rom, offset);
+            offset += Word.LENGTH;
+            mapHeader.Map = new Word(rom,offset);
+            offset += Word.LENGTH;
 
             mapHeader.LabelID = rom.Data[offset++];
             mapHeader.Flash = rom.Data[offset++];
@@ -72,24 +72,28 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             return mapHeader;
         }
-        public static List<MapHeader> GetAll(RomGba rom ,OffsetRom offsetTablaMapHeader=default)
+        public static MapHeader[] GetAll(RomGba rom, OffsetRom offsetTablaMapHeader = default)
         {
-            OffsetRom aux;
-            List<MapHeader> lst = new List<MapHeader>();
             int offset;
+            OffsetRom aux;
+            List<OffsetRom> lst = new List<OffsetRom>();
+            MapHeader[] mapHeaders;
             if (Equals(offsetTablaMapHeader, default))
                 offsetTablaMapHeader = GetOffset(rom);
-            offset= offsetTablaMapHeader;
-            aux = new OffsetRom(rom, offset);
-            
-                while(aux.IsAPointer)
-                {
-                    lst.Add(Get(rom, aux));
-                    offset += OffsetRom.LENGTH;
-                    aux = new OffsetRom(rom, offset);
-                }
+            offset = offsetTablaMapHeader;
 
-            return lst;
+            do
+            {
+                aux = new OffsetRom(rom, offset);
+                if (aux.IsAPointer)
+                    lst.Add(aux);
+                offset += OffsetRom.LENGTH;
+
+            } while (aux.IsAPointer);
+            mapHeaders = new MapHeader[lst.Count];
+            for (int i = 0; i < mapHeaders.Length; i++)
+                mapHeaders[i] = Get(rom, lst[i]);
+            return mapHeaders;
         }
 
         public static OffsetRom GetOffset(RomGba rom)

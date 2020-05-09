@@ -54,8 +54,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		}
 		public static Map[] Get(RomGba rom,OffsetRom offsetTablaMapaHeader = default)
 		{
-			List<MapHeader> headers = MapHeader.GetAll(rom, offsetTablaMapaHeader);
-			Map[] mapas = new Map[headers.Count];
+			MapHeader[] headers = MapHeader.GetAll(rom, offsetTablaMapaHeader);
+			Map[] mapas = new Map[headers.Length];
 			for (int i = 0; i < mapas.Length; i++)
 				mapas[i] = Get(rom, headers[i]);
 			return mapas;
