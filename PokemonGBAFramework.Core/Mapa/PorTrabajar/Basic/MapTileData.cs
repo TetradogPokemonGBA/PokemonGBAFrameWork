@@ -51,8 +51,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public void Resize(int xSize, int ySize)
 		{
 			MapTile[,] newMapTiles = new MapTile[xSize, ySize];
-			mData.Width = (uint)xSize;
-			mData.Height = (uint)ySize;
+			mData.Width =(ushort)xSize;
+			mData.Height =(ushort)ySize;
 
 			for (int x = 0, xOld = mapTiles.GetLength(DimensionMatriz.X), yOld = mapTiles.GetLength(DimensionMatriz.Y); x < xSize; x++)
 				for (int y = 0; y < ySize; y++)
@@ -76,16 +76,19 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			mapTileData.mData = mData;
 			mapTileData.mapTiles = new MapTile[(uint)mData.Width, (uint)mData.Height];
 
-			for (int x = 0; x < mData.Width; x++)
+			if (!Equals(mData.OffsetMapTiles, default))
 			{
-				for (int y = 0; y < mData.Height; y++)
+				for (int x = 0; x < mData.Width; x++)
 				{
+					for (int y = 0; y < mData.Height; y++)
+					{
 
-					index = (int)((y * mData.Width) + x);
-					raw = new Word(rom, mData.OffsetMapTiles + index * 2);
-					m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
-					mapTileData.mapTiles[x, y] = m;
+						index = (int)((y * mData.Width) + x);
+						raw = new Word(rom, mData.OffsetMapTiles + index * 2);
+						m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
+						mapTileData.mapTiles[x, y] = m;
 
+					}
 				}
 			}
 			return mapTileData;

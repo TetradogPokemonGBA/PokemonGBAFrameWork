@@ -22,24 +22,43 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public OverworldSpritesManager OverworldSpritesManager { get; set; }
 		public OverworldSprites[] EventSprites { get; set; }
 
-		public static Map Get(RomGba rom, int bank, int map,BankLoader bankLoader) => Get(rom, bankLoader.maps[bank][map]);
+		public static Map Get(RomGba rom, int bank, int map,BankLoader bankLoader) => Get(rom, (int)bankLoader.maps[bank][map]);
 
-		public static Map Get(RomGba rom, int dataOffset)
+		public static Map Get(RomGba rom,int posMapa, OffsetRom offsetMapHeader=default)
+		{
+			if (Equals(offsetMapHeader,default))
+				offsetMapHeader = MapHeader.GetOffset(rom);
+			int offset=offsetMapHeader+ posMapa * OffsetRom.LENGTH;
+			return Get(rom, MapHeader.Get(rom, new OffsetRom(rom,offset)));
+		}
+		public static Map Get(RomGba rom, MapHeader mapHeader)
 		{
 			Map mapa = new Map();
-			mapa.MapHeader = MapHeader.Get(rom, new OffsetRom(dataOffset));
+			mapa.MapHeader = mapHeader;
 
 			mapa.MapConnections = ConnectionData.Get(rom, mapa.MapHeader);
 			mapa.MapSprites = HeaderSprites.Get(rom, mapa.MapHeader.OffsetSprites);
 
-			mapa.MapNPCManager = new SpritesNPCManager(rom, mapa.MapSprites.OffsetNPC, mapa.MapSprites.NumNPC);
-			mapa.MapSignManager = new SpritesSignManager(rom, mapa.MapSprites.OffsetSigns, mapa.MapSprites.NumSigns);
-			mapa.MapTriggerManager = new TriggerManager(rom, mapa.MapSprites.OffsetTraps, mapa.MapSprites.NumTraps);
-			mapa.MapExitManager = new SpritesExitManager(rom, mapa.MapSprites.OffsetExits, mapa.MapSprites.NumExits);
+			if (!Equals(mapa.MapSprites.OffsetNPC, default))
+				mapa.MapNPCManager = new SpritesNPCManager(rom, mapa.MapSprites.OffsetNPC, mapa.MapSprites.NumNPC);
+			if (!Equals(mapa.MapSprites.OffsetSigns, default))
+				mapa.MapSignManager = new SpritesSignManager(rom, mapa.MapSprites.OffsetSigns, mapa.MapSprites.NumSigns);
+			if(!Equals(mapa.MapSprites.OffsetTraps,default))
+				mapa.MapTriggerManager = new TriggerManager(rom, mapa.MapSprites.OffsetTraps, mapa.MapSprites.NumTraps);
+			if (!Equals(mapa.MapSprites.OffsetExits, default))
+				mapa.MapExitManager = new SpritesExitManager(rom, mapa.MapSprites.OffsetExits, mapa.MapSprites.NumExits);
 
 			mapa.MapData = MapData.Get(rom, mapa.MapHeader);
 			mapa.MapTileData =  MapTileData.Get(rom, mapa.MapData);
 			return mapa;
+		}
+		public static Map[] Get(RomGba rom,OffsetRom offsetTablaMapaHeader = default)
+		{
+			List<MapHeader> headers = MapHeader.GetAll(rom, offsetTablaMapaHeader);
+			Map[] mapas = new Map[headers.Count];
+			for (int i = 0; i < mapas.Length; i++)
+				mapas[i] = Get(rom, headers[i]);
+			return mapas;
 		}
 	}
 

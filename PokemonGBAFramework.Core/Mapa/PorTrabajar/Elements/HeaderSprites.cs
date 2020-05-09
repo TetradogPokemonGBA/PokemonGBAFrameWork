@@ -31,6 +31,22 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			headerSprites.OffsetTraps = new OffsetRom(rom, offsetData);
 			offsetData += OffsetRom.LENGTH;
 			headerSprites.OffsetSigns = new OffsetRom(rom, offsetData);
+			if (!headerSprites.OffsetNPC.IsEmpty)
+				headerSprites.OffsetNPC.Fix();
+			else headerSprites.OffsetNPC = default;
+
+			if (!headerSprites.OffsetExits.IsEmpty)
+				headerSprites.OffsetExits.Fix();
+			else headerSprites.OffsetExits = default;
+
+			if (!headerSprites.OffsetTraps.IsEmpty)
+				headerSprites.OffsetTraps.Fix();
+			else headerSprites.OffsetTraps = default;
+
+			if (!headerSprites.OffsetSigns.IsEmpty)
+				headerSprites.OffsetSigns.Fix();
+			else headerSprites.OffsetSigns = default;
+
 			return headerSprites;
 		}
 	}

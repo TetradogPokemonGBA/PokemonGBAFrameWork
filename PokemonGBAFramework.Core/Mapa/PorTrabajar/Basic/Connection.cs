@@ -41,13 +41,17 @@ namespace PokemonGBAFramework.Core.Mapa
 		{
 			Connection connection = new Connection();
 
-			connection.ConnectionType = (Type)(uint)new DWord(rom,offset);
-			offset += DWord.LENGTH;
+			connection.ConnectionType = (Type)(uint)new Word(rom,offset);//no lo lee bien...aunque algunos parece que si...
+			offset += OffsetRom.LENGTH;
 			connection.Offset = new OffsetRom(rom,offset);
 			offset += OffsetRom.LENGTH;
 			connection.Bank = rom.Data[offset++];
 			connection.Map = rom.Data[offset++];
 			connection.Filler = new Word(rom, offset);
+
+			if (!connection.Offset.IsEmpty)
+				connection.Offset.Fix();
+			else connection.Offset = default;
 
 			return connection;
 

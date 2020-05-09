@@ -69,6 +69,23 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			wildDataHeader.OffsetTrees = new OffsetRom(rom, offset);
 			offset += OffsetRom.LENGTH;
 			wildDataHeader.OffsetFishing = new OffsetRom(rom, offset);
+
+			if (wildDataHeader.OffsetGrass.IsEmpty)
+				wildDataHeader.OffsetGrass = default;
+			else wildDataHeader.OffsetGrass.Fix();
+
+			if (wildDataHeader.OffsetWater.IsEmpty)
+				wildDataHeader.OffsetWater = default;
+			else wildDataHeader.OffsetWater.Fix();
+
+			if (wildDataHeader.OffsetTrees.IsEmpty)
+				wildDataHeader.OffsetTrees = default;
+			else wildDataHeader.OffsetTrees.Fix();
+
+			if (wildDataHeader.OffsetFishing.IsEmpty)
+				wildDataHeader.OffsetFishing = default;
+			else wildDataHeader.OffsetFishing.Fix();
+
 			return wildDataHeader;
 		}
 	}

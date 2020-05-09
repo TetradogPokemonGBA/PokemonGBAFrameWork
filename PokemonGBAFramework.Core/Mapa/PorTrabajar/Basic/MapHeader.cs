@@ -26,7 +26,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public static MapHeader Get(RomGba rom, OffsetRom offsetMapHeader)
         {
             MapHeader mapHeader = new MapHeader();
-            int offset = offsetMapHeader;// & 0x1FFFFFF;//no se porque hacen eso...
+            int offset = offsetMapHeader & 0x1FFFFFF;
 
             mapHeader.OffsetMap = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
@@ -36,10 +36,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offset += OffsetRom.LENGTH;
             mapHeader.OffsetConnect = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
-            mapHeader.Song = new Word(rom, offset);
-            offset += Word.LENGTH;
-            mapHeader.Map = new Word(rom, offset);
-            offset += Word.LENGTH;
+            mapHeader.Song =new Word(rom, new OffsetRom(rom, offset));
+            offset += OffsetRom.LENGTH;
+            mapHeader.Map = new Word(rom, new OffsetRom(rom, offset));
+            offset += OffsetRom.LENGTH;
 
             mapHeader.LabelID = rom.Data[offset++];
             mapHeader.Flash = rom.Data[offset++];
@@ -49,6 +49,26 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             mapHeader.SinUso2 = rom.Data[offset++];
             mapHeader.LabelToggle = rom.Data[offset++];
             mapHeader.SinUso3 = rom.Data[offset++];
+
+            if (mapHeader.OffsetMap.IsEmpty)
+                mapHeader.OffsetMap = default;
+            else mapHeader.OffsetMap.Fix();
+
+            if (mapHeader.OffsetSprites.IsEmpty)
+                mapHeader.OffsetSprites = default;
+            else mapHeader.OffsetSprites.Fix();
+
+            if (mapHeader.OffsetScript.IsEmpty)
+                mapHeader.OffsetScript = default;
+            else mapHeader.OffsetScript.Fix();
+
+            if (mapHeader.OffsetScript.IsEmpty)
+                mapHeader.OffsetScript = default;
+            else mapHeader.OffsetScript.Fix();
+
+            if (mapHeader.OffsetConnect.IsEmpty)
+                mapHeader.OffsetConnect = default;
+            else mapHeader.OffsetConnect.Fix();
 
             return mapHeader;
         }

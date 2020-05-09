@@ -42,7 +42,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			{
 				for (int i = 0; i < NumPokemon[(int)Type]; i++)
 				{
-					AreaWildPokemon[j,i] = new WildPokemon(1, 1, 0);
+					AreaWildPokemon[j,i] = new WildPokemon();
 				}
 			}
 		}

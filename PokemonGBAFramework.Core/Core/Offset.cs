@@ -2,6 +2,7 @@
 using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFramework.Core
@@ -71,7 +72,7 @@ namespace PokemonGBAFramework.Core
                 return BytesPointer[POSICIONIDENTIFICADOR] == BYTEIDENTIFICADOR16MB || BytesPointer[POSICIONIDENTIFICADOR] == BYTEIDENTIFICADOR32MB;
             }
         }
-
+        public bool IsEmpty => !BytesPointer.Any((p) => p != 0x0);
         public int Offset
         {
             get
@@ -95,6 +96,11 @@ namespace PokemonGBAFramework.Core
                 BytesPointer = Serializar.GetBytes(value);
                 BytesPointer = new byte[] { BytesPointer[3], BytesPointer[2], BytesPointer[1], identificado };
             }
+        }
+        public void Fix(bool is08 = true)
+        {
+            if(!IsAPointer)
+               BytesPointer[POSICIONIDENTIFICADOR] = (byte)(is08 ? BYTEIDENTIFICADOR16MB : BYTEIDENTIFICADOR32MB);
         }
 
         public override string ToString()

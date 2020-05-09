@@ -97,6 +97,12 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             offset += Word.LENGTH;
             spriteNPC.B23 = rom.Data[offset++];
             spriteNPC.B24 = rom.Data[offset++];
+
+            if (spriteNPC.OffsetScript.IsEmpty)
+                spriteNPC.OffsetScript = default;
+            else spriteNPC.OffsetScript.Fix();
+
+
             return spriteNPC;
         }
 

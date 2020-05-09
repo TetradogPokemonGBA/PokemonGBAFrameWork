@@ -1,4 +1,5 @@
-﻿using Gabriel.Cat.S.Utilitats;
+﻿using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,7 +37,7 @@ namespace PokemonGBAFramework.Core
         #region Conversiones
         public static implicit operator uint(DWord word)
         {
-            return Serializar.ToUInt(word.Data);
+            return Serializar.ToUInt(word.Data.InvertirClone());
         }
 
         public static implicit operator DWord(uint word)

@@ -8,8 +8,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 	{
 		public MapData(){	}
 		public MapHeader MapHeader { get; set; }
-		public DWord Width { get; set; }
-		public DWord Height { get; set; }
+		public Word Width { get; set; }
+		public Word Height { get; set; }
 		public OffsetRom OffsetBorderTile { get; set; }
 		public OffsetRom OffsetMapTiles { get; set; }
 		public OffsetRom OffsetGlobalTileset { get; set; }
@@ -21,16 +21,14 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 		public static MapData Get(RomGba rom, MapHeader mapHeader)
 		{
-			return Get(rom, mapHeader.OffsetMap);
-		}
-		public static MapData Get(RomGba rom,OffsetRom offsetMapHeader)
-		{
+		
 			MapData mapData = new MapData();
-			int offsetMap = offsetMapHeader;
-			mapData.Width = new DWord(rom, offsetMap );
-			offsetMap += DWord.LENGTH;
-			mapData.Height = new DWord(rom,offsetMap);
-			offsetMap += DWord.LENGTH;
+			int offsetMap = mapHeader.OffsetMap;
+			mapData.MapHeader = mapHeader;
+			mapData.Width =new Word(rom,new OffsetRom(rom, offsetMap ));
+			offsetMap += OffsetRom.LENGTH;
+			mapData.Height = new Word(rom, new OffsetRom(rom,offsetMap));
+			offsetMap += OffsetRom.LENGTH;
 			mapData.OffsetBorderTile = new OffsetRom(rom, offsetMap);
 			offsetMap += OffsetRom.LENGTH;
 			mapData.OffsetMapTiles = new OffsetRom(rom, offsetMap);
@@ -42,6 +40,24 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			mapData.BorderWidth = new Word(rom,offsetMap);
 			offsetMap += Word.LENGTH;
 			mapData.BorderHeight = new Word(rom, offsetMap);
+
+			if (mapData.OffsetBorderTile.IsEmpty)
+				mapData.OffsetBorderTile = default;
+			else mapData.OffsetBorderTile.Fix();
+
+			if (mapData.OffsetMapTiles.IsEmpty)
+				mapData.OffsetMapTiles = default;
+			else mapData.OffsetMapTiles.Fix();
+
+			if (mapData.OffsetGlobalTileset.IsEmpty)
+				mapData.OffsetGlobalTileset = default;
+			else mapData.OffsetGlobalTileset.Fix();
+
+			if (mapData.OffsetLocalTileset.IsEmpty)
+				mapData.OffsetLocalTileset = default;
+			else mapData.OffsetLocalTileset.Fix();
+
+
 			return mapData;
 		}
 

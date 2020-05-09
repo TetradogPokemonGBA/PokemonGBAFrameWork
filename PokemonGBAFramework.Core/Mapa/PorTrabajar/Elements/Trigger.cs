@@ -51,6 +51,11 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			trigger.H6 = new Word(rom, offset);
 			offset += Word.LENGTH;
 			trigger.OffsetScript = new OffsetRom(rom, offset);
+
+			if (trigger.OffsetScript.IsEmpty)
+				trigger.OffsetScript = default;
+			else trigger.OffsetScript.Fix();
+
 			return trigger;
 		}
 	}
