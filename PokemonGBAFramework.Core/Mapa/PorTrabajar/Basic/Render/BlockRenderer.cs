@@ -16,9 +16,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
             REFERENCE
         }
 
+        public static int currentTime = 0;
+
         private Tileset global;
         private Tileset local;
-        public static int currentTime = 0;
+
         public BlockRenderer(Tileset global = default, Tileset local = default)
         {
             this.global = global;
@@ -48,41 +50,56 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
             return local;
         }
 
-        public Bitmap renderBlock(RomGba rom, int blockNum, int mainTSSize, int mainTsBlcks, int mainTsPalCount, int engine = 1)
+        public Bitmap renderBlock(RomGba rom, int blockNum)
         {
-            return renderBlock(rom, blockNum, true, mainTSSize, mainTsBlcks,mainTsPalCount, engine);
+            return renderBlock(rom, blockNum, true);
         }
 
-        public Bitmap renderBlock(RomGba rom, int blockNum, bool transparency, int mainTSSize, int mainTsBlcks,int mainTsPalCount, int engine = 1)
+        public Bitmap renderBlock(RomGba rom, int blockNum, bool transparency)
         {
+            int orig;
+            int tileNum;
+            int palette;
+            bool xFlip;
+            bool yFlip;
+            int blockPointer;
+            Bitmap block;
+            Collage collage;
+            TripleType type;
+            bool second;
+            int tripNum;
+
+            int x = 0;
+            int y = 0;
+            int layerNumber = 0;
             int origBlockNum = blockNum;
             bool isSecondaryBlock = false;
-            if (blockNum >= mainTsBlcks)
+            int mainTSSize = TilesetHeader.GetMainSize(rom);
+            int mainTsBlcks = TilesetHeader.GetMainBlocks(rom);
+            if (blockNum >= TilesetHeader.GetMainHeight(rom))
             {
                 isSecondaryBlock = true;
                 blockNum -= mainTsBlcks;
             }
 
-            int blockPointer = (int)((isSecondaryBlock ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (blockNum * 16));
-            Bitmap block = new Bitmap(16, 16);
-            Collage collage = new Collage();
+            blockPointer = (int)((isSecondaryBlock ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (blockNum * 16));
+            block = new Bitmap(16, 16);
+            collage = new Collage();
             //Graphics2D g = (Graphics2D)block.getGraphics();
             //g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-            int x = 0;
-            int y = 0;
-            int layerNumber = 0;
 
-            TripleType type = TripleType.NONE;
-            if ((getBehaviorByte(rom, origBlockNum, mainTsBlcks, engine) >> (engine == 1 ? 24 : 8) & 0x30) == 0x30)
+
+             type = TripleType.NONE;
+            if ((getBehaviorByte(rom, origBlockNum) >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x30) == 0x30)
                 type = TripleType.LEGACY;
 
-            if ((getBehaviorByte(rom, origBlockNum, mainTsBlcks, engine) >> (engine == 1 ? 24 : 8) & 0x40) == 0x40)
+            if ((getBehaviorByte(rom, origBlockNum) >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x40) == 0x40)
             {
                 blockPointer += 8;
                 type = TripleType.LEGACY2;
             }
 
-            else if ((getBehaviorByte(rom, origBlockNum, mainTsBlcks, engine) >> (engine == 1 ? 24 : 8) & 0x60) == 0x60 && engine == 1)
+            else if ((getBehaviorByte(rom, origBlockNum) >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x60) == 0x60 && !rom.Edicion.EsRubiOZafiro)
                 type = TripleType.REFERENCE;
 
             if (type != TripleType.NONE && System.Diagnostics.Debugger.IsAttached)
@@ -92,8 +109,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
             {
                 if (type == TripleType.REFERENCE && i == 16)
                 {
-                    bool second = false;
-                    int tripNum = (int)((getBehaviorByte(rom, origBlockNum, mainTsBlcks, engine) >> 14) & 0x3FF);
+                    second = false;
+                    tripNum = (int)((getBehaviorByte(rom, origBlockNum) >> 14) & 0x3FF);
                     if (tripNum >= mainTsBlcks)
                     {
                         second = true;
@@ -103,11 +120,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                     blockPointer = (int)((second ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (tripNum * 16)) + 8;
                     blockPointer -= i;
                 }
-                int orig = new Word(rom, blockPointer + i);
-                int tileNum = orig & 0x3FF;
-                int palette = (orig & 0xF000) >> 12;
-                bool xFlip = (orig & 0x400) > 0;
-                bool yFlip = (orig & 0x800) > 0;
+                 orig = new Word(rom, blockPointer + i);
+                 tileNum = orig & 0x3FF;
+                 palette = (orig & 0xF000) >> 12;
+                 xFlip = (orig & 0x400) > 0;
+                 yFlip = (orig & 0x800) > 0;
                 if (transparency && layerNumber == 0)
                 {
                     //try
@@ -123,11 +140,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
 
                 if (tileNum < mainTSSize)
                 {
-                   collage.Add(global.Get(tileNum, palette, xFlip, yFlip, currentTime,mainTsPalCount), x * 8, y * 8);
+                   collage.Add(global.Get(rom,tileNum, palette, xFlip, yFlip, currentTime), x * 8, y * 8);
                 }
                 else
                 {
-                    collage.Add(local.Get(tileNum - mainTSSize, palette, xFlip, yFlip, currentTime,mainTsPalCount), x * 8, y * 8);
+                    collage.Add(local.Get(rom,tileNum - mainTSSize, palette, xFlip, yFlip, currentTime), x * 8, y * 8);
                 }
                 x++;
                 if (x > 1)
@@ -147,31 +164,43 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
             return collage.CrearCollage();
         }
 
-        public Block getBlock(RomGba rom,BlockRenderer renderer, int blockNum, int mainTsBlocks, int engine = 1)
+        public Block getBlock(RomGba rom,BlockRenderer renderer, int blockNum)
         {
+            int tileNum;
+            int palette;
+            bool xFlip;
+            bool yFlip;
+            Block b;
+            int orig;
+            bool tripleTile;
+            int blockPointer;
             bool isSecondaryBlock = false;
             int realBlockNum = blockNum;
+            int mainTsBlocks = TilesetHeader.GetMainBlocks(rom);
+            int x = 0;
+            int y = 0;
+            int layerNumber = 0;
+
             if (blockNum >= mainTsBlocks)
             {
                 isSecondaryBlock = true;
                 blockNum -= mainTsBlocks;
             }
 
-            int blockPointer = (int)((isSecondaryBlock ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (blockNum * 16));
-            int x = 0;
-            int y = 0;
-            int layerNumber = 0;
-            Block b = new Block(rom,renderer,realBlockNum,mainTsBlocks,engine );
+             blockPointer = (int)((isSecondaryBlock ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (blockNum * 16));
+    
+          
+            b = new Block(rom,renderer,realBlockNum);
 
-            bool tripleTile = false;
+            tripleTile = false;
 
-            if ((b.backgroundMetaData >> (engine == 1 ? 24 : 8) & 0x30) == 0x30)
+            if ((b.backgroundMetaData >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x30) == 0x30)
             {
                 tripleTile = true;
                 if (System.Diagnostics.Debugger.IsAttached)
                     Console.WriteLine("Rendering triple tile block!");
             }
-            else if ((b.backgroundMetaData >> (engine == 1 ? 24 : 8) & 0x40) == 0x40)
+            else if ((b.backgroundMetaData >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x40) == 0x40)
             {
 
                 tripleTile = true;
@@ -182,11 +211,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
 
             for (int i = 0; i < (tripleTile ? 24 : 16); i++)
             {
-                int orig = new Word(rom, blockPointer + i);
-                int tileNum = orig & 0x3FF;
-                int palette = (orig & 0xF000) >> 12;
-                bool xFlip = (orig & 0x400) > 0;
-                bool yFlip = (orig & 0x800) > 0;
+                orig = new Word(rom, blockPointer + i);
+                 tileNum = orig & 0x3FF;
+                 palette = (orig & 0xF000) >> 12;
+                 xFlip = (orig & 0x400) > 0;
+                 yFlip = (orig & 0x800) > 0;
 
                 //			if(i < 16)
                 b.setTile(x + (layerNumber * 2), y, new Tile(tileNum, palette, xFlip, yFlip));
@@ -207,18 +236,23 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
             return b;
         }
 
-        public long getBehaviorByte(RomGba rom, int blockID, int mainTsBlocks, int engineVersion = 1)
-        {
-            int pBehavior = (int)getGlobalTileset().TilesetHeader.PBehavior;
-            int blockNum = blockID;
+        public DWord getBehaviorByte(RomGba rom, int blockID)
+        {   
             int offset;
+            DWord bytes;
+            int mainTsBlocks = TilesetHeader.GetMainBlocks(rom);
+            int pBehavior = getGlobalTileset().TilesetHeader.PBehavior;
+            int blockNum = blockID;
+
             if (blockNum >= mainTsBlocks)
             {
                 blockNum -= mainTsBlocks;
-                pBehavior = (int)getLocalTileset().TilesetHeader.PBehavior;
+                pBehavior = getLocalTileset().TilesetHeader.PBehavior;
             }
-            offset = pBehavior + (blockNum * (engineVersion == 1 ? 4 : 2));
-            long bytes = engineVersion == 1 ? new OffsetRom(rom, offset) : new OffsetRom(rom, offset) & 0xFFFF;
+            offset = pBehavior + (blockNum * (rom.Edicion.EsRubiOZafiro ? 2 : 4));
+            bytes = new DWord(rom, offset);
+            if(rom.Edicion.EsRubiOZafiro)
+              bytes&= 0xFFFF;
             return bytes;
         }
     }

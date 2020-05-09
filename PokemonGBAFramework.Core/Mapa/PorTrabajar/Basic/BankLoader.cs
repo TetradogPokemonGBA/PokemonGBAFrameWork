@@ -7,29 +7,20 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class BankLoader
 	{
-		int tblOffs;
-		//JLabel lbl;
-		//JTree tree;
-		//DefaultMutableTreeNode node;
-		private static int mapNamesPtr;
-		public static List<long>[] maps;
-		public static List<long> bankPointers = new List<long>();
-		public static bool banksLoaded = false;
-		public static SortedList<int, String> mapNames = new SortedList<int, String>();
+		public OffsetRom OffsetMapNames { get; set; }
+		public  List<OffsetRom>[] maps;
+		public  List<OffsetRom> bankPointers = new List<OffsetRom>();
+		public  bool banksLoaded = false;
+		public  SortedList<int, String> mapNames = new SortedList<int, String>();
 
-		public static void reset(RomGba rom,int mapLabels, int numBanks)
+		public void reset(RomGba rom, int mapLabels, int numBanks)
 		{
-			try
-			{
-				mapNamesPtr = new OffsetRom(rom,mapLabels);
-				maps = new List<long>[numBanks];
-				bankPointers = new List<long>();
-				banksLoaded = false;
-			}
-			catch (Exception e)
-			{
 
-			}
+			OffsetMapNames = new OffsetRom(rom, mapLabels);
+			maps = new List<OffsetRom>[numBanks];
+			bankPointers.Clear();
+			banksLoaded = false;
+
 		}
 
 		//public BankLoader(int tableOffset, RomGba rom, JLabel label, JTree tree, DefaultMutableTreeNode node)
@@ -44,59 +35,60 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		//}
 
 
-		public void run(RomGba rom,int numBanks,int[] mapBankSize,int mapsLabels,int engineVersion=1)
+		public List<MapTreeNode> run(RomGba rom,int offset,int numBanks,int[] mapBankSize,OffsetRom offsetMapLabels)
 		{
+
 			int mapNum = 0;
-			List<byte[]> preMapList;
 			int bankNum = 0;
-			//Date d = new Date();
-			int tblOffs = this.tblOffs;
+			OffsetRom dataPtr;
+			int miniMapNum;
+			int mapName;
+			int mapNamePokePtr;
+			int tblOffs = offset;
+			string convMapName;
+			List<MapTreeNode> node = new List<MapTreeNode>();
+			List<OffsetRom> mapList = new List<OffsetRom>();
+			List<byte[]> preMapList = new List<byte[]>();
 			List<byte[]> bankPointersPre = new List<byte[]>();
+
 			for (int i = 0; i < 4; i++)
 			{
 			bankPointersPre.Add(rom.Data.SubArray(tblOffs, numBanks));
 				tblOffs += OffsetRom.LENGTH;
 			}
-			//DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
-			//DefaultMutableTreeNode root = node;
 
-
-			foreach (byte[] b in bankPointersPre)
+			for(int i=0; i<bankPointersPre.Count;i++)
 			{
-				//setStatus("Loading banks into tree...\t" + bankNum);
-				bankPointers.Add(Serializar.ToInt(b));
-				//DefaultMutableTreeNode node = new DefaultMutableTreeNode(String.valueOf(bankNum));
-				//model.insertNodeInto(node, root, root.getChildCount());
+				bankPointers.Add(new OffsetRom(bankPointersPre[i]));
 				bankNum++;
 			}
 
 	
-			foreach (long l in bankPointers)
+			for(int i=0;i< bankPointers.Count;i++)
 			{
-				preMapList = new List<byte[]>();
-				for (int i = 0; i < 4; i++)
+				preMapList.Clear();
+				for (int k = 0; k < 4; k++)
 				{
-					bankPointersPre.Add(rom.Data.SubArray((int)l, mapBankSize[mapNum]));
+					bankPointersPre.Add(rom.Data.SubArray(bankPointers[i], mapBankSize[mapNum]));
 				}
 
-				List<long> mapList = new List<long>();
-				int miniMapNum = 0;
-				foreach (byte[] b in preMapList)
+				mapList.Clear();
+				miniMapNum = 0;
+				for(int j=0;j< preMapList.Count;j++)
 				{
-					//setStatus("Loading maps into tree...\tBank " + mapNum + ", map " + miniMapNum);
 					try
 					{
-						long dataPtr = Serializar.ToInt(b);
+						dataPtr = new OffsetRom(preMapList[j]);
 						mapList.Add(dataPtr);
-						int mapName = rom.Data.Bytes[ (int)((dataPtr - (8 << 24)) + 0x14)];
+						mapName = rom.Data.Bytes[ (int)((dataPtr - (8 << 24)) + 0x14)];
 						//mapName -= 0x58; //TODO: Add Jambo51's map header hack
-						int mapNamePokePtr = 0;
-						String convMapName = "";
-						if (engineVersion == 1)
+					    mapNamePokePtr = 0;
+						convMapName = "";
+						if (!rom.Edicion.EsRubiOZafiro)
 						{
 							if (!mapNames.ContainsKey(mapName))
 							{
-								mapNamePokePtr =new OffsetRom(rom,(int)mapsLabels + ((mapName - 0x58) * 4)); //TODO use the actual structure
+								mapNamePokePtr =new OffsetRom(rom,offsetMapLabels + ((mapName - 0x58) * 4)); //TODO use the actual structure
 								convMapName = BloqueString.Get(rom, mapNamePokePtr);
 								mapNames.Add(mapName, convMapName);
 							}
@@ -105,11 +97,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 								convMapName = mapNames[mapName];
 							}
 						}
-						else if (engineVersion == 0)//RSE
+						else
 						{
 							if (!mapNames.ContainsKey(mapName))
 							{
-								mapNamePokePtr =new OffsetRom( rom,(int)mapsLabels + ((mapName * 8) + 4));
+								mapNamePokePtr =new OffsetRom( rom,offsetMapLabels + ((mapName * 8) + 4));
 								convMapName = BloqueString.Get(rom, mapNamePokePtr);
 								mapNames.Add(mapName, convMapName);
 							}
@@ -119,8 +111,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 							}
 						}
 
-						MapTreeNode node = new MapTreeNode(convMapName + " (" + mapNum + "." + miniMapNum + ")", mapNum, miniMapNum); //TODO: Pull PokeText from header
-						//findNode(root, mapNum + "").add(node);
+						 node.Add(new MapTreeNode(convMapName + " (" + mapNum + "." + miniMapNum + ")", mapNum, miniMapNum)); //TODO: Pull PokeText from header
 						miniMapNum++;
 					}
 					catch (Exception e)
@@ -132,68 +123,17 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				mapNum++;
 			}
 
-			//setStatus("Refreshing tree...");
-			//model.reload(root);
-			//for (int i = 0; i < tree.getRowCount(); i++)
-			//{
-			//	//TreePath path = tree.getPathForRow(i);
-			//	//if (path != null)
-			//	//{
-			//	//	//javax.swing.tree.TreeNode node = (javax.swing.tree.TreeNode)path.getLastPathComponent();
-			//	//	//String str = node.toString();
-			//	//	//DefaultTreeModel models = (DefaultTreeModel)tree.getModel();
-			//	//	//models.valueForPathChanged(path, str);
-			//	//}
-			//}
-			//banksLoaded = true;
 
-			//Date eD = new Date();
+			return node;
 
-			//double loadTime = eD.getTime() - d.getTime();
-
-			//setStatus("Banks loaded in " + loadTime + "ms" + (loadTime < 1000 ? "! :DDD" : "."));
 		}
-
-		//public void setStatus(String status)
-		//{
-		//	lbl.setText(status);
-		//}
-
-		//private TreePath findPath(DefaultMutableTreeNode root, String s)
-		//{
-
-		//	Enumeration<DefaultMutableTreeNode> e = root.depthFirstEnumeration();
-		//	while (e.hasMoreElements())
-		//	{
-		//		DefaultMutableTreeNode node = e.nextElement();
-		//		if (node.toString().equalsIgnoreCase(s))
-		//		{
-		//			return new TreePath(node.getPath());
-		//		}
-		//	}
-		//	return null;
-		//}
-
-		//private DefaultMutableTreeNode findNode(DefaultMutableTreeNode root, String s)
-		//{
-		//	Enumeration<DefaultMutableTreeNode> e = root.depthFirstEnumeration();
-		//	while (e.hasMoreElements())
-		//	{
-		//		DefaultMutableTreeNode node = e.nextElement();
-		//		if (node.toString().equalsIgnoreCase(s))
-		//		{
-		//			return node;
-		//		}
-		//	}
-		//	return null;
-		//}
 
 		public class MapTreeNode
 		{
 			public int bank;
 			public int map;
 			public string name;
-			public MapTreeNode(String name, int bank2, int map2)
+			public MapTreeNode(string name, int bank2, int map2)
 			{
 				this.name = name;
 				bank = bank2;

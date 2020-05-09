@@ -44,14 +44,14 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			return toSend;
 		}
 
-		public Bitmap Get(Tile tile,int time, int totalPaletas) => Get(tile.IndexTile, tile.IndexPaleta, tile.XFlip, tile.YFlip,time, totalPaletas);
-		public Bitmap Get(int tileNum, int palette, bool xFlip, bool yFlip, int time,int totalPaletas)
+		public Bitmap Get(RomGba rom, Tile tile,int time) => Get(rom,tile.IndexTile, tile.IndexPaleta, tile.XFlip, tile.YFlip,time);
+		public Bitmap Get(RomGba rom,int tileNum, int palette, bool xFlip, bool yFlip, int time)
 		{
 			int index;
 			int x;
 			int y;
 			Bitmap toSend=default;
-
+			int totalPaletas = TilesetHeader.GetPaletaCount(rom);
 			if (palette < totalPaletas)
 			{
 				index = palette + (time * MAXFILA);
@@ -167,12 +167,13 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		}
 
 
-		public static Tileset Get(RomGba rom,int offset,int mainTSHeight,int localTSHeight)
+		public static Tileset Get(RomGba rom,int offset)
 		{
-			return Get(rom,TilesetHeader.Get(rom, offset), mainTSHeight, localTSHeight);
+			return Get(rom,TilesetHeader.Get(rom, offset));
 		}
-		public static Tileset Get(RomGba rom,TilesetHeader tileSetHeader, int mainTSHeight, int localTSHeight)
+		public static Tileset Get(RomGba rom,TilesetHeader tileSetHeader)
 		{
+
 			byte[] oldHeader;
 			byte[] uncompressedData;
 			int imageDataPtr;
@@ -194,7 +195,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				if (uncompressedData == null)//If repairs didn't go well, revert ROM and pull uncompressed data
 				{
 					rom.Data.SetArray(tileset.TilesetHeader.OffsetImagen, oldHeader);//lo pongo como estaba
-					uncompressedData = rom.Data.SubArray(imageDataPtr, (tileset.TilesetHeader.IsPrimary ? 128 * mainTSHeight : 128 * localTSHeight) / 2); //TODO: Hardcoded to FR tileset sizes
+					uncompressedData = rom.Data.SubArray(imageDataPtr, (tileset.TilesetHeader.IsPrimary ? 128 * TilesetHeader.GetMainHeight(rom) : 128 * TilesetHeader.GetLocalHeight(rom)) / 2); //TODO: Hardcoded to FR tileset sizes
 
 				}
 

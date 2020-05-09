@@ -141,8 +141,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		void MakeMeReal(RomGba rom,int sizeSmall,int sizeNormal,int sizeLarge)
 		{
 
-
-
+			byte[] dBuff;
+			int offset;
 			int sz = 0;
 			
 			if (ptrSize == sizeSmall)
@@ -175,8 +175,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 			}
 
-			int offset = (int)trueGraphicsPointer;
-			byte[] dBuff = rom.Data.SubArray(offset, sz * 2);
+			offset = (int)trueGraphicsPointer;
+			dBuff = rom.Data.SubArray(offset, sz * 2);
 			rawImage = new BloqueImagen() { DatosDescomprimidos = new BloqueBytes(dBuff) };
 			rawImage.Paletas.Add(myPal[iPal & 0xF]);//, new Point(128, 128));//pntSz);	
 

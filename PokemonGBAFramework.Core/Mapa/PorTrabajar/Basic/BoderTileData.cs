@@ -7,8 +7,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class BorderTileData
 	{
-		private int originalPointer;
-		private int originalSize;
 		private int dataLoc;
 		private MapData mData;
 		private MapTile[,] mapTiles;
@@ -24,14 +22,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 					mapTiles[x,y] = getTile(rom,x, y);
 				}
 			}
-			this.originalPointer = mData.BorderTilePtr;
-			this.originalSize = getSize();
+
 		}
 
-		public int getSize()
-		{
-			return (int)((mData.BorderWidth * mData.BorderHeight) * 2);
-		}
+		public int Size=> ((mData.BorderWidth * mData.BorderHeight) * 2);
 
 		public MapTile getTile(RomGba rom,int x, int y)
 		{

@@ -13,7 +13,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public int blockID;
 		public long backgroundMetaData;
 
-		public Block(RomGba rom,BlockRenderer render,int blockID,int mainTsBlocks,int engine=-1) : this(blockID, render.getBehaviorByte(rom,blockID,mainTsBlocks,engine))
+		public Block(RomGba rom,BlockRenderer render,int blockID) : this(blockID, render.getBehaviorByte(rom,blockID))
 		{
 		}
 

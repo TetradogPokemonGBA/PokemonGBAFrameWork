@@ -15,12 +15,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			return cache.ContainsKey(offset);
 		}
 
-		/**
-		 * Pulls a tileset from the tileset cache. Create a new tileset if one is not cached.
-		 * @param offset Tileset data offset
-		 * @return
-		 */
-		public static Tileset Get(RomGba rom,int offset,int mainTSHeight, int localTSHeight)
+		public static Tileset Get(RomGba rom,int offset)
 		{
 			Tileset tile;
 			if (cache.ContainsKey(offset))
@@ -28,13 +23,13 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				tile = cache[offset];
 				if (tile.Modified)
 				{
-					tile = Tileset.Get(rom, tile.TilesetHeader, mainTSHeight, localTSHeight);
+					tile = Tileset.Get(rom, tile.TilesetHeader);
 				}
 			
 			}
 			else
 			{
-				 tile =  Tileset.Get(rom, offset,mainTSHeight,localTSHeight);
+				 tile =  Tileset.Get(rom, offset);
 				cache.Add(offset, tile);
 
 			}
@@ -46,17 +41,17 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			cache.Clear();
 		}
 
-		public static void switchTileset(RomGba rom,Map loadedMap,int mainTSPalCount, int mainTSHeight, int localTSHeight)
+		public static void switchTileset(RomGba rom,Map loadedMap)
 		{
-			Get(rom, loadedMap.getMapData().GlobalTileSetPtr,mainTSHeight,localTSHeight).RestaurarPaletas();
-			Get(rom, loadedMap.getMapData().LocalTileSetPtr, mainTSHeight, localTSHeight).RestaurarPaletas();
+			Get(rom, loadedMap.MapData.GlobalTileSetPtr).RestaurarPaletas();
+			Get(rom, loadedMap.MapData.LocalTileSetPtr).RestaurarPaletas();
 			for (int j = 1; j < 5; j++)
-				for (int i = mainTSPalCount - 1; i < 13; i++)
-					Get(rom, loadedMap.getMapData().GlobalTileSetPtr, mainTSHeight, localTSHeight).GetPaletas(j - 1)[i] = Get(rom, loadedMap.getMapData().LocalTileSetPtr, mainTSHeight, localTSHeight).GetTodasLasPaletas()[j - 1,i];
+				for (int i = TilesetHeader.GetPaletaCount(rom) - 1; i < 13; i++)
+					Get(rom, loadedMap.MapData.GlobalTileSetPtr).GetPaletas(j - 1)[i] = Get(rom, loadedMap.MapData.LocalTileSetPtr).GetTodasLasPaletas()[j - 1,i];
 			for (int j = 0; j < 4; j++)
-				Get(rom, loadedMap.getMapData().LocalTileSetPtr, mainTSHeight, localTSHeight).SetPaletas(j, Get(rom, loadedMap.getMapData().GlobalTileSetPtr, mainTSHeight, localTSHeight).GetPaletas(j));
-			Get(rom, loadedMap.getMapData().LocalTileSetPtr, mainTSHeight, localTSHeight).Refresh();
-			Get(rom, loadedMap.getMapData().GlobalTileSetPtr, mainTSHeight, localTSHeight).Refresh();
+				Get(rom, loadedMap.MapData.LocalTileSetPtr).SetPaletas(j, Get(rom, loadedMap.MapData.GlobalTileSetPtr).GetPaletas(j));
+			Get(rom, loadedMap.MapData.LocalTileSetPtr).Refresh();
+			Get(rom, loadedMap.MapData.GlobalTileSetPtr).Refresh();
 		}
 	}
 

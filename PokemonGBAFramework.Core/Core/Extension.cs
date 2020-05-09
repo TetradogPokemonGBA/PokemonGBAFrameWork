@@ -20,6 +20,21 @@ namespace PokemonGBAFramework.Core.Extension
         public const int R = A - 1;
         public const int G = R - 1;
         public const int B = G - 1;
+
+        public static Bitmap Flip(this Bitmap bmp,bool flipX,bool flipY)
+        {
+            Bitmap bmpFlip;
+
+            if (flipX && flipY)
+                bmpFlip = bmp.HorizontalAndVerticalFlip();
+            else if (flipY)
+                bmpFlip = bmp.VerticalFlip();
+            else if (flipX)
+                bmpFlip = bmp.HorizontalFlip();
+            else bmpFlip = bmp;
+
+            return bmpFlip;
+        }
         public static Bitmap HorizontalFlip(this Bitmap img)
         {
             Bitmap dimg = (Bitmap)img.Clone();
@@ -31,6 +46,12 @@ namespace PokemonGBAFramework.Core.Extension
         {
             Bitmap dimg = (Bitmap)img.Clone();
             dimg.RotateFlip(RotateFlipType.RotateNoneFlipY);//mirar que sea asi
+            return dimg;
+        }
+        public static Bitmap HorizontalAndVerticalFlip(this Bitmap img)
+        {
+            Bitmap dimg = (Bitmap)img.Clone();
+            dimg.RotateFlip(RotateFlipType.RotateNoneFlipXY);//mirar que sea asi
             return dimg;
         }
         public static T[] GetFila<T>(this T[,] matriz,int fila)
