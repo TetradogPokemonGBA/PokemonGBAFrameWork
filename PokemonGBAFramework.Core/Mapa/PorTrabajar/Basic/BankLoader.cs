@@ -13,29 +13,18 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public  bool banksLoaded = false;
 		public  SortedList<int, String> mapNames = new SortedList<int, String>();
 
-		public void reset(RomGba rom, int mapLabels, int numBanks)
+		public void reset(RomGba rom, OffsetRom offsetMapLabels, int numBanks)
 		{
 
-			OffsetMapNames = new OffsetRom(rom, mapLabels);
+			OffsetMapNames = new OffsetRom(rom, offsetMapLabels);
 			maps = new List<OffsetRom>[numBanks];
 			bankPointers.Clear();
 			banksLoaded = false;
 
 		}
 
-		//public BankLoader(int tableOffset, RomGba rom, JLabel label, JTree tree, DefaultMutableTreeNode node)
-		//{
 
-		//	tblOffs = (int)new OffsetRom(rom, tableOffset);
-
-		//	lbl = label;
-		//	this.tree = tree;
-		//	this.node = node;
-		//	reset(rom);
-		//}
-
-
-		public List<MapTreeNode> run(RomGba rom,int offset,int numBanks,int[] mapBankSize,OffsetRom offsetMapLabels)
+		public List<MapTreeNode> run(RomGba rom,int offsetTablaBankPointers,int numBanks,int[] mapBankSize,OffsetRom offsetMapLabels)
 		{
 
 			int mapNum = 0;
@@ -44,7 +33,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			int miniMapNum;
 			int mapName;
 			int mapNamePokePtr;
-			int tblOffs = offset;
+			int tblOffs = offsetTablaBankPointers;
 			string convMapName;
 			List<MapTreeNode> node = new List<MapTreeNode>();
 			List<OffsetRom> mapList = new List<OffsetRom>();
@@ -111,7 +100,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 							}
 						}
 
-						 node.Add(new MapTreeNode(convMapName + " (" + mapNum + "." + miniMapNum + ")", mapNum, miniMapNum)); //TODO: Pull PokeText from header
+						 node.Add(new MapTreeNode(convMapName, mapNum, miniMapNum)); //TODO: Pull PokeText from header
 						miniMapNum++;
 					}
 					catch (Exception e)
@@ -130,14 +119,18 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 		public class MapTreeNode
 		{
-			public int bank;
-			public int map;
+			public int Map;
+			public int MiniMap;
 			public string name;
-			public MapTreeNode(string name, int bank2, int map2)
+			public MapTreeNode(string name, int mapNum, int miniMapNum)
 			{
 				this.name = name;
-				bank = bank2;
-				map = map2;
+				Map = mapNum;
+				MiniMap = miniMapNum;
+			}
+			public override string ToString()
+			{
+				return name + " (" + Map + "." + MiniMap + ")";
 			}
 		}
 	}
