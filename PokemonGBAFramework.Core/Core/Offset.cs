@@ -262,6 +262,22 @@ namespace PokemonGBAFramework.Core
             while (offset >=0 && !Check(rom, offset));
             return offset;
         }
+        public static int GetTotalPointers(RomGba rom, OffsetRom offsetInicioTablaPointers)
+        {
+            OffsetRom offset;
+            int total = 0;
+            int offsetTabla = offsetInicioTablaPointers;
+            do
+            {
+                offset = new OffsetRom(rom, offsetTabla);
+                offsetTabla += LENGTH;
+                if (offset.IsAPointer)
+                    total++;
 
+            } while (offset.IsAPointer);
+            return total;
+
+
+        }
     }
 }

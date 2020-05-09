@@ -11,13 +11,15 @@
 
 		public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x29, 0x2D, 0x06, 0xD0, 0x33, 0x2D };
 		public static readonly int IndexRelativoRubiYZafiro = -MuestraAlgoritmoRubiYZafiro.Length - OffsetRom.LENGTH;
+
+
 		public const string CaracterEspecialRubiYZafiro = "\\c";
 
-		public BloqueString Nombre { get; set; }
+		public BloqueString Texto { get; set; }
 
 		public override string ToString()
 		{
-			return Nombre.ToString().Replace(CaracterEspecialRubiYZafiro,"");
+			return Texto.ToString().Replace(CaracterEspecialRubiYZafiro,"");
 		}
 		public static NombreMapa Get(RomGba rom, int index, OffsetRom offsetMapsLabels = default)
 		{
@@ -37,7 +39,7 @@
 			if (rom.Edicion.EsHoenn)
 				offset += DATALENGTHHOENN;
 
-			return new NombreMapa() { Nombre = BloqueString.Get(rom, new OffsetRom(rom, offset)) };
+			return new NombreMapa() { Texto = BloqueString.Get(rom, new OffsetRom(rom, offset)) };
 		}
 		public static NombreMapa[] Get(RomGba rom, OffsetRom offsetMapsLabels = default)
 		{

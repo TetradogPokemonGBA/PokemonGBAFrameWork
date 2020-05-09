@@ -7,7 +7,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 {
 	public class WildPokemon
 	{
-		public const int LENGTH = 4;
+		public const int LENGTH = 1+1+Word.LENGTH;
 
 
 		public WildPokemon():this(new Word(0)) { }

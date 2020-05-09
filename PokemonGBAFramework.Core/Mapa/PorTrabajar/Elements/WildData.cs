@@ -129,6 +129,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 				wildData.WildArea[3] = WildPokemonData.Get(rom, WildData.Type.Fishing, wildDataHeader.OffsetFishing);
 			return wildData;
 		}
-	}
+
+    }
 
 }

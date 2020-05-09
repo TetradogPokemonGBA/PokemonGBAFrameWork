@@ -12,6 +12,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 		public const int NUMBLOCKS = 1024;
 		public const int MAXTIME =4;
+		public const int MINTIME = 1;
 		public const int MAXFILA = 16;
 		public const int HEIGHT = Tile.LADO * MAXFILA;
 		public const int WIDTH = Tile.LADO * MAXTIME;
