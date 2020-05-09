@@ -10,7 +10,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 	public class Tileset
 	{
 
-		public const int NUMBLOCKS = 1024; //(tilesetHeader.isPrimary ? DataStore.MainTSBlocks : DataStore.LocalTSBlocks); //INI RSE=0x207 : 0x88, FR=0x280 : 0x56
+		public const int NUMBLOCKS = 1024;
 		public const int MAXTIME =4;
 		public const int MAXFILA = 16;
 		public const int HEIGHT = Tile.LADO * MAXFILA;
@@ -18,10 +18,16 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public static Tileset LastPrimary { get; set; }
 
 		BloqueImagen imagen;
-		private Bitmap[,] tileset;
-		private Paleta[,] paletas;
-		private Paleta[,] paletasOriginales;
-		SortedList<int, SortedList<int, Bitmap>> tilesHechas = new SortedList<int, SortedList<int, Bitmap>>();
+		Bitmap[,] tileset;
+		Paleta[,] paletas;
+		Paleta[,] paletasOriginales;
+		SortedList<int, SortedList<int, Bitmap>> tilesHechas;
+
+		public Tileset()
+		{
+			tileset = new Bitmap[MAXTIME,MAXFILA];
+			tilesHechas = new SortedList<int, SortedList<int, Bitmap>>();
+		}
 		public TilesetHeader TilesetHeader { get; private set; }
 
 		public bool Modified { get; set; } = false;
@@ -217,7 +223,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		{
 			int offset = offsetPaletas;
 			Paleta[,] paletas = new Paleta[MAXTIME, MAXFILA];
-
+			
 			for (int x = 0; x < MAXTIME; x++)
 			{
 				for (int y = 0; y < MAXFILA; y++)
