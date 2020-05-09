@@ -1,6 +1,6 @@
-﻿namespace PokemonGBAFramework.Core.Mapa.Basic
+﻿namespace PokemonGBAFramework.Core.Mapa
 {
-    public class MapLabel
+    public class NombreMapa
 	{
 
 		public static readonly byte[] MuestraAlgoritmoEsmeralda = { 0x44, 0xA1, 0x03, 0x02, 0x33 };
@@ -19,7 +19,7 @@
 		{
 			return Nombre.ToString().Replace(CaracterEspecialRubiYZafiro,"");
 		}
-		public static MapLabel Get(RomGba rom, int index, OffsetRom offsetMapsLabels = default)
+		public static NombreMapa Get(RomGba rom, int index, OffsetRom offsetMapsLabels = default)
 		{
 			const int DATALENGTHHOENN = 4;
 
@@ -37,14 +37,14 @@
 			if (rom.Edicion.EsHoenn)
 				offset += DATALENGTHHOENN;
 
-			return new MapLabel() { Nombre = BloqueString.Get(rom, new OffsetRom(rom, offset)) };
+			return new NombreMapa() { Nombre = BloqueString.Get(rom, new OffsetRom(rom, offset)) };
 		}
-		public static MapLabel[] Get(RomGba rom, OffsetRom offsetMapsLabels = default)
+		public static NombreMapa[] Get(RomGba rom, OffsetRom offsetMapsLabels = default)
 		{
 			if (Equals(offsetMapsLabels, default))
 				offsetMapsLabels = GetOffset(rom);
 
-			MapLabel[] mapLabels = new MapLabel[GetTotal(rom, offsetMapsLabels)];
+			NombreMapa[] mapLabels = new NombreMapa[GetTotal(rom, offsetMapsLabels)];
 
 			for (int i = 0; i < mapLabels.Length; i++)
 				mapLabels[i] = Get(rom, i, offsetMapsLabels);

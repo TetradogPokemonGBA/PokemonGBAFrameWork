@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.Mapa.Basic;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,16 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	public class WildPokemonData : ICloneable,IClonable<WildPokemonData>
 	{
 		public const int LENGTH = 8;
+		//no se donde va pero en el archivo pone WildPokemon
+		public static readonly byte[] MuestraAlgoritmoEsmeralda= {0x04, 0x0C, 0x20, 0x1C, 0x12, 0xE0};
+		public static readonly int IndexRelativoEsmeralda = 0;
 
+		public static readonly byte[] MuestraAlgoritmoKanto = { 0xD0, 0x20, 0x1C, 0x13, 0xE0, 0x00, 0x00 };
+		public static readonly int IndexRelativoKanto = 0;
+
+		public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x05, 0xD1, 0x18, 0x1C, 0x0E, 0xE0 };
+		public static readonly int IndexRelativoRubiYZafiro = 0;
+	
 		public static readonly int[] NumPokemon = new int[] { 12, 5, 5, 10 };
 		public WildPokemonData() { }
 
@@ -125,9 +135,9 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 					wildPokemonData.OffsetPokemonData = new OffsetRom(rom, offset);
 					offset += OffsetRom.LENGTH;
 					wildPokemonData.AreaWildPokemon = new WildPokemon[(wildPokemonData.DNEnabled > 0 ? 4 : 1), NumPokemon[(int)wildPokemonData.Type]];
-					wildPokemonData.ADNPokemon = new OffsetRom[4];
+					wildPokemonData.ADNPokemon = new OffsetRom[Tileset.MAXTIME];
 
-					for (int j = 0; j < 4; j++)
+					for (int j = 0; j < Tileset.MAXTIME; j++)
 					{
 						if (wildPokemonData.DNEnabled == 0x1)
 							wildPokemonData.ADNPokemon[j] = new OffsetRom(rom, (int)(wildPokemonData.OffsetPokemonData) + (j * OffsetRom.LENGTH));
@@ -158,6 +168,34 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 			}
 			return wildPokemonData;
+		}
+		public static OffsetRom GetOffset(RomGba rom)
+		{
+			return new OffsetRom(rom, GetZona(rom));
+		}
+
+		public static int GetZona(RomGba rom)
+		{
+			byte[] algoritmo;
+			int index;
+			if (rom.Edicion.EsEsmeralda)
+			{
+				algoritmo = MuestraAlgoritmoEsmeralda;
+				index = IndexRelativoEsmeralda;
+
+			}
+			else if (rom.Edicion.EsKanto)
+			{
+				algoritmo = MuestraAlgoritmoKanto;
+				index = IndexRelativoKanto;
+			}
+			else
+			{
+				algoritmo = MuestraAlgoritmoRubiYZafiro;
+				index = IndexRelativoRubiYZafiro;
+			}
+
+			return Zona.Search(rom, algoritmo, index);
 		}
 	}
 

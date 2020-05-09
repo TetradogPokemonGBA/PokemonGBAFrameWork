@@ -11,11 +11,11 @@ namespace PokemonGBAFramework.Core.Test.Mapa
     {
         public override void TestGetIndividual(byte[] romData)
         {
-            base.TestGetIndividual<Core.Mapa.Basic.MapLabel>(romData, (r, o) => Core.Mapa.Basic.MapLabel.Get(r, o));
+            base.TestGetIndividual<Core.Mapa.NombreMapa>(romData, (r, o) => Core.Mapa.NombreMapa.Get(r, o));
         }
         public override void TestGetTodos(byte[] romData)
         {
-            base.TestGetTodos<Core.Mapa.Basic.MapLabel>(romData, (r) => Core.Mapa.Basic.MapLabel.Get(r));
+            base.TestGetTodos<Core.Mapa.NombreMapa>(romData, (r) => Core.Mapa.NombreMapa.Get(r));
         }
     }
 }
