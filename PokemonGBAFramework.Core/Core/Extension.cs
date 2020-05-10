@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.Extension
             for (int i = 0; i < tFila.Length; i++)
                 matriz[i, fila] = tFila[i];
         }
-        public static Color[] GetPaleta(this Bitmap bmp)
+        public static Color[] GetColoresPaleta(this Bitmap bmp)
         {
             int[] paletaInt = GetPaletaInt(bmp);
             Color[] paleta = new Color[paletaInt.Length];
@@ -167,6 +167,14 @@ namespace PokemonGBAFramework.Core.Extension
             for (int i = 0; i < toFindAny.Length && !starts; i++)
                 starts = str.StartsWith(toFindAny[i]);
             return starts;
+        }
+        public static Color ToGBAColor(this Color color)
+        {
+            return BasePaleta.ToGBAColor(color.R, color.G, color.B);
+        }
+        public static Paleta GetPaleta(this Bitmap img)
+        {
+            return new Paleta(img.GetColoresPaleta());
         }
     }
 }

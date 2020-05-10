@@ -52,12 +52,12 @@ namespace PokemonGBAFramework.Core
 			if (widthF < 0)
 				widthF = (int)Medidas.MuyGrande;
 
-			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF), System.Drawing.Imaging.PixelFormat.Format32bppArgb);//, System.Drawing.Imaging.PixelFormat.Format16bppRgb555);
+			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 			Height = bmp.Height;
 			Width = bmp.Width;
-			//falta hacer que vaya bien
-			ImgData = BloqueImagen.GetDatosDescomprimidos(bmp, paleta);//mirar si va asi
+
+			ImgData = BloqueImagen.GetDatosDescomprimidos(bmp, paleta);
 		}
 
 

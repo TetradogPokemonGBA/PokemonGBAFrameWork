@@ -8,24 +8,27 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
-    public class Paleta : IComparable, IComparable<Paleta>
+    public class Paleta :BasePaleta, IComparable, IComparable<Paleta>
     {
-        public static System.Drawing.Color BackgroundColorDefault = System.Drawing.Color.Transparent;
+
         public const int LENGTHHEADER = 4;
         public const int LENGTHHEADERCOMPLETO = OffsetRom.LENGTH + LENGTHHEADER;
         public const int LENGTH = 16;
-        public static readonly Paleta Default = new Paleta();
+
+        public static Color BackgroundColorDefault = Color.Transparent;
+        public static Paleta Default { get; set; }= new Paleta();
+        
         static readonly byte[] DefaultHeader = { 0x0, 0x0 };
 
-        public Paleta()
+        public Paleta():base(LENGTH)
         {
-            Colores = new Color[LENGTH];
             Offset = -1;
         }
         public Paleta(params Color[] coloresPaleta) : this()
         {
-            if (coloresPaleta == null)
+            if (coloresPaleta == default)
                 throw new ArgumentNullException();
+
             for (int i = 0; i < LENGTH && i < coloresPaleta.Length; i++)
                 this.Colores[i] = coloresPaleta[i];
 
@@ -61,28 +64,17 @@ namespace PokemonGBAFramework.Core
             get { return GetHeaderCompleto(Offset); }
 
         }
-        public Color[] Colores { get; private set; }
-
-        public Color this[int index]
-        {
-            get { return Colores[index]; }
-            set { Colores[index] = value; }
-        }
-
         public byte[] GetHeaderCompleto(int pointerData)
         {
             return new OffsetRom(pointerData).BytesPointer.AddArray(Header);
         }
+        public GranPaleta ToGranPaleta() => new GranPaleta(Colores);
+        public override BasePaleta Clon()
+        {
+            return new Paleta(Colores);
+        }
 
         #region IComparable implementation
-
-
-        public void CambiarPosicion(int colorLeft, int colorRight)
-        {
-            Color aux = Colores[colorLeft];
-            Colores[colorLeft] = Colores[colorRight];
-            Colores[colorRight] = aux;
-        }
 
         int IComparable.CompareTo(object obj)
         {
@@ -131,28 +123,9 @@ namespace PokemonGBAFramework.Core
             paleta.Offset = offsetPointerPaleta;
             return paleta;
         }
-        public static Paleta Get(byte[] datosPaletaDescomprimida)
-        {   
-            
-            ushort tempValue;
-            byte r, g, b;
-            System.Drawing.Color colorPaleta;
-
-            Paleta paleta = new Paleta();
-
-   
-
-            for (int i = 0; i < LENGTH; i++)
-            {
-                tempValue = Serializar.ToUShort(datosPaletaDescomprimida.SubArray(i * 2, 2));
-                r = (byte)((tempValue & 0x1f) << 3);
-                g = (byte)(((tempValue >> 5) & 0x1f) << 3);
-                b = (byte)(((tempValue >> 10) & 0x1f) << 3);
-                colorPaleta = System.Drawing.Color.FromArgb(0xFF, r, g, b);
-                paleta[i] = colorPaleta;
-
-            }
-            return paleta;
+        public static Paleta Get(byte[] datosPaletaDescomprimida,int offset=0)
+        {
+            return new Paleta(BasePaleta.GetColors(datosPaletaDescomprimida,LENGTH,offset));
         }
         public static Paleta Get(RomGba rom, int offsetPointerPaleta, bool showBackgroundColor = true)
         {
@@ -161,55 +134,12 @@ namespace PokemonGBAFramework.Core
             paletaCargada.Header = header;
             return paletaCargada;
         }
-        public static Paleta GetPaleta(Bitmap img)
-        {//falta probar
-            return new Paleta(img.GetPaleta());
-        }
 
-
-
-
-
-        public static byte[] GetBytesGBA(Paleta paleta, bool comprimirLz77 = true)
-        {
-            const int BYTESCOLORGBA = 2;
-            System.Drawing.Color[] coloresPaleta = paleta.Colores;
-            byte[] bytesPaleta = new byte[LENGTH * BYTESCOLORGBA];
-            byte[] bytesAux = new byte[BYTESCOLORGBA];
-
-
-            for (int i = 0; i < LENGTH; i++)
-            {
-                bytesPaleta[i] = (byte)((byte)(coloresPaleta[i].R / 8) + ((byte)((coloresPaleta[i].G / 8) & 0x7) << 5));
-                bytesPaleta[i + 1] = (byte)((((byte)(coloresPaleta[i].B / 8)) << 2) + ((byte)(coloresPaleta[i].G / 8) >> 3));
-
-            }
-            //la comprimo
-            if (comprimirLz77)
-                bytesPaleta = LZ77.Comprimir(bytesPaleta);
-
-            return bytesPaleta;
-        }
-
-        public static Color ToGBAColor(Color color)
-        {
-            return ToGBAColor(color.R, color.G, color.B);
-        }
-        public static Color ToGBAColor(byte r, byte g, byte b)
-        {//estaria bien no tener que usar conversiones y ser lo más simple posible :)
-            byte parteA, parteB;
-            ushort colorGBA;
-            parteA = (byte)((byte)(r / 8) + ((byte)((g / 8) & 0x7) << 5));
-            parteB = (byte)((((byte)(b / 8)) << 2) + ((byte)(g / 8) >> 3));
-            colorGBA = Serializar.ToUShort(new byte[] { parteA, parteB });
-            return System.Drawing.Color.FromArgb(0xFF, (byte)((colorGBA & 0x1f) << 3), (byte)(((colorGBA >> 5) & 0x1f) << 3), (byte)(((colorGBA >> 10) & 0x1f) << 3));
-        }
 
         public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
         {
             return new OffsetRom(gbaRom, offsetToCheck).IsAPointer && gbaRom.Data.Bytes.ArrayEqual(DefaultHeader, offsetToCheck + OffsetRom.LENGTH + 2);
         }
-
 
 
     }

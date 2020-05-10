@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
-    public class PaletaNormal:BasePaleta 
+    public class PaletaNormal:BasePaletaSpritePokemon 
     {
 
         public static readonly byte[] MuestraAlgoritmo = { 0x25, 0x1C, 0xCE, 0x20, 0x40, 0x00 };

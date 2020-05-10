@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
-    public class PaletaShiny : BasePaleta
+    public class PaletaShiny : BasePaletaSpritePokemon
     {
 
         public static readonly byte[] MuestraAlgoritmo = { 0x03, 0x48, 0xE9, 0x00, 0x09, 0x18 };
