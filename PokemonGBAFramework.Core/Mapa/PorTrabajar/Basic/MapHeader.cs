@@ -92,15 +92,19 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public Destello Flash { get; set; }
         public Tiempo Weather { get; set; }
         public TipoMapa Tipo { get; set; }
-        public Lucha Fight { get; set; }//por logica
+        public Lucha Fight { get; set; }//por logica falta probarlo
         public byte SinUso2 { get; set; }
         public DisplayNameStyle DisplayName { get; set; }
         public byte SinUso3 { get; set; }
 
-        public static MapHeader Get(RomGba rom, OffsetRom offsetMapHeader)
+        public static MapHeader Get(RomGba rom, int index, OffsetRom offsetTablaMapHeader=default)
         {
+            if (Equals(offsetTablaMapHeader, default))
+                offsetTablaMapHeader = GetOffset(rom);
+            int offset = new OffsetRom(rom, offsetTablaMapHeader + index * OffsetRom.LENGTH);
             MapHeader mapHeader = new MapHeader();
-            int offset = offsetMapHeader & 0x1FFFFFF;
+            
+            offset &=0x1FFFFFF;
 
             mapHeader.OffsetMap = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
@@ -110,18 +114,18 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offset += OffsetRom.LENGTH;
             mapHeader.OffsetConnect = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
-            mapHeader.Song =new Word(rom, offset);
+            mapHeader.Song = new Word(rom, offset);
             offset += Word.LENGTH;
-            mapHeader.Map = new Word(rom,offset);
+            mapHeader.Map = new Word(rom, offset);
             offset += Word.LENGTH;
 
             mapHeader.LabelID = rom.Data[offset++];
-            mapHeader.Flash =(Destello) rom.Data[offset++];
-            mapHeader.Weather =(Tiempo) rom.Data[offset++];
-            mapHeader.Tipo =(TipoMapa) rom.Data[offset++];
-            mapHeader.Fight =(Lucha) rom.Data[offset++];
+            mapHeader.Flash = (Destello)rom.Data[offset++];
+            mapHeader.Weather = (Tiempo)rom.Data[offset++];
+            mapHeader.Tipo = (TipoMapa)rom.Data[offset++];
+            mapHeader.Fight = (Lucha)rom.Data[offset++];
             mapHeader.SinUso2 = rom.Data[offset++];
-            mapHeader.DisplayName =(DisplayNameStyle) rom.Data[offset++];
+            mapHeader.DisplayName = (DisplayNameStyle)rom.Data[offset++];
             mapHeader.SinUso3 = rom.Data[offset++];
 
             if (mapHeader.OffsetMap.IsEmpty)
@@ -146,30 +150,30 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             return mapHeader;
         }
-        public static MapHeader[] GetAll(RomGba rom, OffsetRom offsetTablaMapHeader = default)
+        public static MapHeader[] Get(RomGba rom,OffsetRom offsetTablaMapHeader = default)
+        {
+            if (Equals(offsetTablaMapHeader, default))
+                offsetTablaMapHeader = GetOffset(rom);
+            MapHeader[] mapHeaders = new MapHeader[GetTotal(rom, offsetTablaMapHeader)];
+            for (int i = 0; i < mapHeaders.Length; i++)
+                mapHeaders[i] = Get(rom, i, offsetTablaMapHeader);
+            return mapHeaders;
+        }
+        public static int GetTotal(RomGba rom, OffsetRom offsetTablaMapHeader = default)
         {
             int offset;
-            OffsetRom aux;
-            List<OffsetRom> lst = new List<OffsetRom>();
-            MapHeader[] mapHeaders;
+            int total = 0;
             if (Equals(offsetTablaMapHeader, default))
                 offsetTablaMapHeader = GetOffset(rom);
             offset = offsetTablaMapHeader;
 
-            do
+            while (OffsetRom.Check(rom, offset))
             {
-                aux = new OffsetRom(rom, offset);
-                if (aux.IsAPointer)
-                    lst.Add(aux);
+                total++;
                 offset += OffsetRom.LENGTH;
-
-            } while (aux.IsAPointer);
-            mapHeaders = new MapHeader[lst.Count];
-            for (int i = 0; i < mapHeaders.Length; i++)
-                mapHeaders[i] = Get(rom, lst[i]);
-            return mapHeaders;
+            }
+            return total;
         }
-
         public static OffsetRom GetOffset(RomGba rom)
         {
             return new OffsetRom(rom, GetZona(rom));

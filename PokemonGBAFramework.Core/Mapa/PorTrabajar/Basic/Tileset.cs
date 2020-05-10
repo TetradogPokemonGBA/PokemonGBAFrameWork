@@ -23,11 +23,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 		GranPaleta[] paletasOriginales;
 
-		public Tileset()
-		{
-			tileset = new Bitmap[MAXTIME,MAXFILA];
-			tilesHechas = new SortedList<int, SortedList<int, Bitmap>>();
-		}
+
 		public TilesetHeader TilesetHeader { get; private set; }
 
 		public bool Modified { get; set; } = false;
@@ -40,11 +36,17 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			}
 		}
 
-	
+	    public BloqueImagenGrande this[int x, int y]
+		{
+			get
+			{
+				return imagen.Get(x, y, Tile.LADO,Tile.LADO);
+			}
+		}
 
 		public GranPaleta[] GetTodasLasPaletas()
-		{
-			return GranPaleta.GetClone(paletasOriginales);//así se pueden modificar y no cambian las originales!
+		{//así se pueden modificar y no cambian las originales!
+			return GranPaleta.GetClone(paletasOriginales);
 		}
 
 		public void RestaurarPaletas()
@@ -54,19 +56,19 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 
 		}
-		public Bitmap Get(int index) => Get(index, Paletas.First());
-		public Bitmap Get(int index, GranPaleta paleta) => imagen.Get(index, Tile.LADO).Get(paleta);
+		public BloqueImagenGrande Get(int index) => imagen.Get(index, Tile.LADO);
+		public Bitmap Get(int index, int indexPaleta) => Get(index, Paletas[indexPaleta]);
+		public Bitmap Get(int index, GranPaleta paleta) =>Get(index).Get(paleta);
 
-		public Bitmap Get(int x,int y, GranPaleta paleta) => imagen.Get( x, y, Tile.LADO, Tile.LADO).Get(paleta);
+		public Bitmap Get(int x,int y, GranPaleta paleta) => this[x, y].Get(paleta);
 
 
-		public static Tileset Get(RomGba rom,int offset)
+		public static Tileset Get(RomGba rom,OffsetRom offsetTilesetHeader)
 		{
-			return Get(rom,TilesetHeader.Get(rom, offset));
+			return Get(rom,TilesetHeader.Get(rom, offsetTilesetHeader));
 		}
 		public static Tileset Get(RomGba rom,TilesetHeader tileSetHeader)
 		{
-
 			byte[] oldHeader;
 			byte[] uncompressedData;
 			int imageDataPtr;
@@ -80,12 +82,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				LastPrimary = tileset;
 
 			uncompressedData = LZ77.Descomprimir(rom.Data.Bytes, imageDataPtr, false);
-			if (uncompressedData == null) //Attempt to repair the LZ77 data
+			if (uncompressedData == default) //Attempt to repair the LZ77 data
 			{
 				oldHeader = rom.Data.SubArray(tileset.TilesetHeader.OffsetImagen, TilesetHeader.HeaderFix.Length);
-				rom.Data.SetArray(tileset.TilesetHeader.OffsetImagen, TilesetHeader.HeaderFix);
+				rom.Data.SetArray(tileset.TilesetHeader.OffsetImagen, TilesetHeader.HeaderFix);//mirar si se puede poner en la clase LZ77 así se arregla cualquier header o es un header para los Tileset...
 				uncompressedData = LZ77.Descomprimir(rom.Data.Bytes, imageDataPtr, false);
-				if (uncompressedData == null)//If repairs didn't go well, revert ROM and pull uncompressed data
+				if (uncompressedData == default)//If repairs didn't go well, revert ROM and pull uncompressed data
 				{
 					rom.Data.SetArray(tileset.TilesetHeader.OffsetImagen, oldHeader);//lo pongo como estaba
 					uncompressedData = rom.Data.SubArray(imageDataPtr, (tileset.TilesetHeader.IsPrimary ? Tileset.MAXFILA*Tile.LADO * TilesetHeader.GetMainHeight(rom) : Tileset.MAXFILA * Tile.LADO * TilesetHeader.GetLocalHeight(rom)) / 2); //TODO: Hardcoded to FR tileset sizes

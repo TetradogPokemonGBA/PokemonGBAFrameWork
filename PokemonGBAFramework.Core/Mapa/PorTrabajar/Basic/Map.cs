@@ -32,14 +32,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public OverworldSpritesManager OverworldSpritesManager { get; set; }
 		public OverworldSprites[] EventSprites { get; set; }
 
-		public static Map Get(RomGba rom, int bank, int map,BankLoader bankLoader) => Get(rom, (int)bankLoader.maps[bank][map]);
+		public static Map Get(RomGba rom, int bank, int map,BankLoader bankLoader, OffsetRom offsetMapHeader = default) => Get(rom, (int)bankLoader.maps[bank][map],offsetMapHeader);
 
 		public static Map Get(RomGba rom,int posMapa, OffsetRom offsetMapHeader=default)
 		{
-			if (Equals(offsetMapHeader,default))
-				offsetMapHeader = MapHeader.GetOffset(rom);
-			int offset=offsetMapHeader+ posMapa * OffsetRom.LENGTH;
-			return Get(rom, MapHeader.Get(rom, new OffsetRom(rom,offset)));
+			return Get(rom, MapHeader.Get(rom,posMapa,offsetMapHeader));
 		}
 		public static Map Get(RomGba rom, MapHeader mapHeader)
 		{
@@ -64,7 +61,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		}
 		public static Map[] Get(RomGba rom,OffsetRom offsetTablaMapaHeader = default)
 		{
-			MapHeader[] headers = MapHeader.GetAll(rom, offsetTablaMapaHeader);
+			MapHeader[] headers = MapHeader.Get(rom, offsetTablaMapaHeader);
 			Map[] mapas = new Map[headers.Length];
 			for (int i = 0; i < mapas.Length; i++)
 				mapas[i] = Get(rom, headers[i]);

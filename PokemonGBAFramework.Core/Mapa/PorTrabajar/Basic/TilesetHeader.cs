@@ -36,8 +36,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public OffsetRom PBehavior { get; set; }
         public OffsetRom PAnimation { get; set; }
 
-        public static TilesetHeader Get(RomGba rom, int offset)
+        public static TilesetHeader Get(RomGba rom, OffsetRom offsetTilesetHeader)
         {
+            int offset = offsetTilesetHeader;
             TilesetHeader tilesetHeader = new TilesetHeader();
             tilesetHeader.IsCompressed = rom.Data[offset++]==IsCompressedByte;
             tilesetHeader.IsPrimary = (rom.Data[offset++] == IsPrimaryByte);
@@ -63,7 +64,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 tilesetHeader.PAnimation = new OffsetRom(rom, offset);
             }
             return tilesetHeader;
-        } 
+        }
+
         public static int GetLocalHeight(RomGba rom)
         {
             return GetLocalHeight(rom.Edicion);

@@ -36,11 +36,15 @@ namespace PokemonGBAFramework.Core
         public BloqueImagen(Bitmap img, bool estaConvertidaAGba = false) : this()
         {
             DatosDescomprimidos = new BloqueBytes(GetDatosDescomprimidos(img, null, estaConvertidaAGba));
-            Paletas.Add(Paleta.GetPaleta(img));
+            Paletas.Add(img.GetPaleta());
+        }
+        public BloqueImagen(byte[] datosImg, Paleta[] paletas, bool estaComprimido=false):this(new BloqueBytes(estaComprimido?LZ77.Descomprimir(datosImg):datosImg),paletas)
+        {
+
         }
         public BloqueImagen(BloqueBytes datosDescomprimidosImg, params Paleta[] paletas) : this()
         {
-            if (datosDescomprimidosImg == null || paletas == null)
+            if (datosDescomprimidosImg == default || paletas == default)
                 throw new ArgumentNullException();
 
             DatosDescomprimidos = datosDescomprimidosImg;
@@ -230,14 +234,19 @@ namespace PokemonGBAFramework.Core
             byte[] bytesBmpGBADescomprimido;
             SortedList<Gabriel.Cat.S.Utilitats.V2.Color, int> dicPosColors;
             Gabriel.Cat.S.Utilitats.V2.Color aux;
+
             if (bmp == null)
                 throw new ArgumentNullException("bmp");
+
             if (!estaConvertidaAGba)
                 bmp = bmp.ToGbaBitmap();
+
             if (paleta == null)
-                paleta = Paleta.GetPaleta(bmp);
+                paleta = bmp.GetPaleta();
+
             bytesBmpGBADescomprimido = new byte[bmp.Width * bmp.Height / PIXELSPERBYTE];
             dicPosColors = new SortedList<Gabriel.Cat.S.Utilitats.V2.Color, int>();
+
             for (int i = 0; i < paleta.Colores.Length; i++)
             {
                 aux = new Gabriel.Cat.S.Utilitats.V2.Color(paleta.Colores[i].ToArgb());
@@ -286,7 +295,7 @@ namespace PokemonGBAFramework.Core
         public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
         {
             //PointerHeaderID
-            return new OffsetRom(gbaRom, offsetToCheck).IsAPointer && gbaRom.Data[offsetToCheck + 7] != 0x8;
+            return  OffsetRom.Check(gbaRom, offsetToCheck) && (gbaRom.Data[offsetToCheck + 7] != OffsetRom.BYTEIDENTIFICADOR16MB|| gbaRom.Data[offsetToCheck + 7] != OffsetRom.BYTEIDENTIFICADOR32MB);
         }
 
 
