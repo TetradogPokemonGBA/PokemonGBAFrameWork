@@ -29,6 +29,22 @@ namespace PokemonGBAFramework.Core
         }
 
         Row[] dataImg;
+
+
+        public BloqueImagenGrande(byte[] uncompressedData,int widthRow)
+        {
+            int restoFila = uncompressedData.Length % widthRow;
+            bool incompleteRow = restoFila!= 0;
+            dataImg = new Row[(uncompressedData.Length / widthRow)+(incompleteRow?1:0)];
+            for (int i = 0, f = incompleteRow ? dataImg.Length - 1 : dataImg.Length; i < f; i++)
+                dataImg[i] = new Row(uncompressedData.SubArray(widthRow * i, widthRow));
+            if(incompleteRow)
+                dataImg[dataImg.Length] = new Row(uncompressedData.SubArray(widthRow * (dataImg.Length-1), restoFila).AddArray(new byte[widthRow-restoFila]));
+        }
+
+        private BloqueImagenGrande() { }
+      
+
         public List<GranPaleta> Paletas { get; set; } = new List<GranPaleta>();
         public Bitmap this[int index]
         {
@@ -78,13 +94,16 @@ namespace PokemonGBAFramework.Core
         {
             BloqueImagenGrande bloqueImagenGrande = new BloqueImagenGrande();
             int startRow = x * width;
+            int indexRow = y * height;
             bloqueImagenGrande.dataImg = new Row[height];
             for (int i = 0; i < height; i++)
-                bloqueImagenGrande.dataImg[i] = dataImg[y + i].GetRow(startRow, width);
+                bloqueImagenGrande.dataImg[i] = dataImg[indexRow + i].GetRow(startRow, width);
             return bloqueImagenGrande;
         }
         private int GetY(int index, int height, int width)
         {
+            int oneRow = dataImg[0].Fila.Length / width;
+            int rows = dataImg.Length / height;
             throw new NotImplementedException();
         }
 
@@ -95,7 +114,7 @@ namespace PokemonGBAFramework.Core
 
         public int GetTotal(int height,int width)
         {
-            throw new NotImplementedException();
+            return (dataImg.Length / height) * (dataImg[0].Fila.Length / width);
         }
 
     }
