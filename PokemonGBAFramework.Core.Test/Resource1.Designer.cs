@@ -133,6 +133,16 @@ namespace PokemonGBAFramework.Core.Test {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        internal static byte[] VerdeHojaITA {
+            get {
+                object obj = ResourceManager.GetObject("VerdeHojaITA", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         internal static byte[] VerdeHojaUSA11 {
             get {
                 object obj = ResourceManager.GetObject("VerdeHojaUSA11", resourceCulture);

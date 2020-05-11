@@ -32,6 +32,8 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         public void TestGetIndividualVerdeHojaUSA11() => TestGetIndividual(Resource1.VerdeHojaUSA11);
         [TestMethod]
         public void TestGetIndividualRojoFuegoESP() => TestGetIndividual(Resource1.RojoFuegoESP);
+        [TestMethod]
+        public void TestGetIndividualVerdeHojaITA() => TestGetIndividual(Resource1.VerdeHojaITA);
 
         #endregion
 
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         public void TestGetTodosVerdeHojaUSA11() => TestGetTodos(Resource1.VerdeHojaUSA11);
         [TestMethod]
         public void TestGetTodosRojoFuegoESP() => TestGetTodos(Resource1.RojoFuegoESP);
-
+        [TestMethod]
+        public void TestGetTodosVerdeHojaITA() => TestGetTodos(Resource1.VerdeHojaITA);
         #endregion
         public abstract void TestGetTodos(byte[] romData);
 

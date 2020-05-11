@@ -139,6 +139,9 @@
   <data name="RubiESP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Pokémon Rubi.gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="VerdeHojaITA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\1686 - Pokemon Verde Foglia (I)(Independent).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="VerdeHojaUSA11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Pokemon Leaf Green (U) (1.1).gba;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
