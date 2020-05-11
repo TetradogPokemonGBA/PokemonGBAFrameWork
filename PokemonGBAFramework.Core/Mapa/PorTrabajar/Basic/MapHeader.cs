@@ -84,7 +84,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public MapData MapData { get; set; }
         public ConnectionData MapConnections { get; set; }
         public HeaderSprites MapSprites { get; set; }
-        public Script Script { get; set; }
+        public MapScript MapScript { get; set; }
 
         public Word Song { get; set; }
         public Word Map { get; set; }
@@ -150,7 +150,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             }
             if (!offsetScript.IsEmpty)
             {
-                //mapHeader.Script = new Script(rom, offsetScript);//creo que no es solo un script...sino una tabla o algo parecido
+
+                mapHeader.MapScript = MapScript.Get(rom, offsetScript);
             }
 
             if (!offsetConnect.IsEmpty)
