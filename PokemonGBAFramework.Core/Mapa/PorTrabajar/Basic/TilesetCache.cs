@@ -6,16 +6,18 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class TilesetCache
 	{
-		private  SortedList<int, Tileset> cache = new SortedList<int, Tileset>();
+		private  SortedList<int, Tileset> cache;
 
-		private TilesetCache() { }
+		public TilesetCache() {
+			cache = new SortedList<int, Tileset>();
+		}
 
 		public  bool Contains(int offset)
 		{
 			return cache.ContainsKey(offset);
 		}
 
-		public  Tileset Get(RomGba rom,OffsetRom offset)
+		public  Tileset Get(RomGba rom,int offset)
 		{
 			Tileset tile;
 			if (cache.ContainsKey(offset))

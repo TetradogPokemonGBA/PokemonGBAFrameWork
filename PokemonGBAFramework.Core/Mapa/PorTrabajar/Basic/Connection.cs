@@ -33,36 +33,40 @@ namespace PokemonGBAFramework.Core.Mapa
 			Filler = 0;
 		}
 		public Type ConnectionType { get; set; }
-		public OffsetRom Offset { get; set; }
+		public OffsetRom Offset { get; set; }//de momento
 		public byte Bank { get; set; }
 		public byte Map { get; set; }
 		public Word Filler { get; set; }
+
+		public override string ToString()
+		{
+			return $"{ConnectionType} {Bank}:{Map}";
+		}
+
+		public byte[] GetBytes()
+		{
+			DWord dType = (uint)ConnectionType;
+			return dType.Data.AddArray(!Equals(Offset, default) ? new OffsetRom(Offset).BytesPointer : new byte[OffsetRom.LENGTH], new byte[] { Bank, Map }, !Equals(Filler, default) ? Filler.Data : new byte[Word.LENGTH]);
+		}
+
+
 		public static Connection Get(RomGba rom,int offset)
 		{
 			Connection connection = new Connection();
 
-			connection.ConnectionType =(Type)(uint)new DWord(rom,offset);//no lo lee bien...aunque algunos parece que si...
-			offset += DWord.LENGTH;
+			connection.ConnectionType =(Type)new OffsetRom(rom,offset).Integer;
+			offset += OffsetRom.LENGTH;
 			connection.Offset = new OffsetRom(rom,offset);
 			offset += OffsetRom.LENGTH;
 			connection.Bank = rom.Data[offset++];
 			connection.Map = rom.Data[offset++];
 			connection.Filler = new Word(rom, offset);
 
-			if (!connection.Offset.IsEmpty)
-				connection.Offset.Fix();
-			else connection.Offset = default;
-
 			return connection;
 
 
 		}
 
-		public byte[] GetBytes()
-		{
-			DWord dType = (uint)ConnectionType;
-			return dType.Data.AddArray(!Equals(Offset, default) ? Offset.BytesPointer:new byte[OffsetRom.LENGTH], new byte[] { Bank, Map },!Equals(Filler,default) ?Filler.Data:new byte[Word.LENGTH]);
-		}
 	}
 
 }

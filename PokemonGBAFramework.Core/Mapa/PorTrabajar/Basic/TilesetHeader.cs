@@ -14,6 +14,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         const int MainSizeRubiYZafiro = 0x200;
         const int MainSizeGeneral = 0x280;
 
+        const int LocalSizeRubiYZafiro = 0x200;
+        const int LocalSizeGeneral = 0x140;
+
         const int MainBlocksKanto=0x280;
         const int MainBlocksHoenn = 0x200;
 
@@ -36,7 +39,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public OffsetRom PBehavior { get; set; }
         public OffsetRom PAnimation { get; set; }
 
-        public static TilesetHeader Get(RomGba rom, OffsetRom offsetTilesetHeader)
+        public static TilesetHeader Get(RomGba rom, int offsetTilesetHeader)
         {
             int offset = offsetTilesetHeader;
             TilesetHeader tilesetHeader = new TilesetHeader();
@@ -51,6 +54,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offset += OffsetRom.LENGTH;
             tilesetHeader.PBlocks = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
+
             if (!rom.Edicion.EsRubiOZafiro)
             {
                 tilesetHeader.PAnimation = new OffsetRom(rom, offset);
@@ -63,6 +67,22 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 offset += OffsetRom.LENGTH;
                 tilesetHeader.PAnimation = new OffsetRom(rom, offset);
             }
+
+            if (tilesetHeader.OffsetImagen.IsEmpty)
+                tilesetHeader.OffsetImagen = default;
+
+            if (tilesetHeader.OffsetPaletas.IsEmpty)
+                tilesetHeader.OffsetPaletas = default;
+
+            if (tilesetHeader.PAnimation.IsEmpty)
+                tilesetHeader.PAnimation = default;
+
+            if (tilesetHeader.PBlocks.IsEmpty)
+                tilesetHeader.PBlocks = default;
+
+            if (tilesetHeader.PBehavior.IsEmpty)
+                tilesetHeader.PBehavior = default;
+
             return tilesetHeader;
         }
 
@@ -111,6 +131,15 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public static int GetMainSize(Edicion edicion)
         {
             return edicion.EsRubiOZafiro ?  MainSizeRubiYZafiro : MainSizeGeneral;
+        }
+        public static int GetLocalSize(RomGba rom)
+        {
+            return GetLocalSize(rom.Edicion);
+        }
+
+        public static int GetLocalSize(Edicion edicion)
+        {
+            return edicion.EsRubiOZafiro ? LocalSizeRubiYZafiro : LocalSizeGeneral;
         }
     }
 }

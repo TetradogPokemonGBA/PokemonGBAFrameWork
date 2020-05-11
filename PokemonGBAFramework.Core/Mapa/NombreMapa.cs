@@ -29,16 +29,24 @@
 				offsetMapsLabels = GetOffset(rom);
 
 			int offset;
-			int lengthHeader =  OffsetRom.LENGTH;
+			int lengthHeader;
 
 			if (rom.Edicion.EsHoenn)
+			{
+				lengthHeader = OffsetRom.LENGTH;
+
+
 				lengthHeader += DATALENGTHHOENN;
 
-			offset = offsetMapsLabels + index * lengthHeader;
+				offset = offsetMapsLabels + index * lengthHeader;
 
-			if (rom.Edicion.EsHoenn)
+
 				offset += DATALENGTHHOENN;
-
+			}
+			else
+			{
+				offset = offsetMapsLabels + (((index & 0xFF) - 0x58) * 4);
+			}
 			return new NombreMapa() { Texto = BloqueString.Get(rom, new OffsetRom(rom, offset)) };
 		}
 		public static NombreMapa[] Get(RomGba rom, OffsetRom offsetMapsLabels = default)

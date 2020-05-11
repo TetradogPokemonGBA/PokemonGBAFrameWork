@@ -7,43 +7,50 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class BorderTileData
 	{
-		private MapData mData;
 		private MapTile[,] mapTiles;
 
+		int width;
+		int height;
+		byte[] data;
+		public int Size=> width * height * Word.LENGTH;
 
-		public int Size=> mData.BorderWidth * mData.BorderHeight * Word.LENGTH;
 
-		public MapTile Get(RomGba rom, OffsetRom offset,int x, int y)
+		public void EndLoad()
 		{
-			MapTile tile;
-			int raw;
 			int index;
+			int raw;
 
-			if (mapTiles[x,y] != default)
-				tile= mapTiles[x,y];
-			else
+			if (!Equals(data, default))
 			{
-				index = (y * mData.BorderWidth) + x;
-			    raw =new Word(rom, offset + index * Word.LENGTH);
-				tile= new MapTile(raw & 0x3FF, (raw & 0xFC00) >> 10);
-				mapTiles[x,y] = tile;
-				
+				for (int i = 0; i < this.width; i++)
+				{
+					for (int j = 0; j < this.height; j++)
+					{
+						index = (i * width) + j;
+						raw = new Word(data, index * Word.LENGTH);
+						mapTiles[i,j] = new MapTile(raw & 0x3FF, (raw & 0xFC00) >> 10);
+					}
+				}
+				data = default;
 			}
-			return tile;
 		}
 
-
-		public MapTile[,] Get(RomGba rom,OffsetRom offset,int x, int y, int width, int height)
+		public MapTile[,] Get(int x, int y, int width, int height)
 		{
-			MapTile[,] mapTiles = new MapTile[width,height];
-			for (int i = x; i < x + width; i++)
+	
+			MapTile[,] mapTilesClone = new MapTile[width,height];
+
+			EndLoad();
+
+			for (int i = x; i < this.width; i++)
 			{
-				for (int j = y; j < y + width; j++)
+				for (int j = y; j < this.height; j++)
 				{
-					mapTiles[i - x,j - y] = Get(rom,offset,i, j);
+
+					mapTilesClone[i - x, j - y] = this.mapTiles[i,j];
 				}
 			}
-			return mapTiles;
+			return mapTilesClone;
 		}
 
 		public byte[] GetBytes()
@@ -51,9 +58,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 			byte[] data = new byte[Size];
 			int dataLoc = 0;
-			for (int x = 0; x < mData.BorderWidth; x++)
+			EndLoad();
+			for (int x = 0; x < width; x++)
 			{
-				for (int y = 0; y < mData.BorderHeight; y++)
+				for (int y = 0; y < height; y++)
 				{
 					Word.SetData(data,dataLoc,(Word)(ushort)(mapTiles[y,x].ID + ((mapTiles[y,x].Meta & 0x3F) << 10)));
 					dataLoc += Word.LENGTH;
@@ -61,18 +69,13 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			}
 			return data;
 		}
-		public static BorderTileData Get(RomGba rom, OffsetRom offset, MapData mData)
+		public static BorderTileData Get(RomGba rom, int offset, MapData mData)
 		{
 			BorderTileData borderTileData = new BorderTileData();
-			borderTileData.mData = mData;
-			borderTileData.mapTiles = new MapTile[mData.BorderWidth, mData.BorderHeight];
-			for (int x = 0; x < mData.BorderWidth; x++)
-			{
-				for (int y = 0; y < mData.BorderHeight; y++)
-				{
-					borderTileData.mapTiles[x, y] = borderTileData.Get(rom, offset, x, y);
-				}
-			}
+			borderTileData.width = mData.BorderWidth;
+			borderTileData.height = mData.BorderHeight;
+			borderTileData.data = rom.Data.SubArray(offset, borderTileData.Size);
+
 			return borderTileData;
 		}
 		

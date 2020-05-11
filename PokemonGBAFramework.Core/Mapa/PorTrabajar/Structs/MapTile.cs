@@ -7,7 +7,9 @@ namespace PokemonGBAFramework.Core.Mapa.Structs
 {
 	public class MapTile : IClonable<MapTile>, ICloneable
 	{
-		public int ID { get; set; }
+        public const int LENGTH=2;
+
+        public int ID { get; set; }
 		public int Meta { get; set; }
 
 

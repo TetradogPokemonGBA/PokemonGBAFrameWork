@@ -20,16 +20,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			ConnectionsList.Add(new Connection(type, bank, map));
 		}
 
-		public static ConnectionData Get(RomGba rom, MapHeader mapHeader)
-		{
-			return Get(rom, mapHeader.OffsetConnect);
-		}
-		public static ConnectionData Get(RomGba rom, OffsetRom offsetMapHeaderConnect)
+		public static ConnectionData Get(RomGba rom, int offsetMapHeaderConnect)
 		{
 			int offsetData;
 			ConnectionData connectionData = new ConnectionData();
 			int offset = offsetMapHeaderConnect;
-			int numConnections = new Word(rom,new OffsetRom(rom, offset));
+			int numConnections = new OffsetRom(rom, offset).Integer;
 			offset += OffsetRom.LENGTH;
 			offsetData = new OffsetRom(rom, offset);
 

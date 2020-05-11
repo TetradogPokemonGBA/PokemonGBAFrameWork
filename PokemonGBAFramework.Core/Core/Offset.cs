@@ -97,9 +97,12 @@ namespace PokemonGBAFramework.Core
                 BytesPointer = new byte[] { BytesPointer[3], BytesPointer[2], BytesPointer[1], identificado };
             }
         }
-
-
-        
+        #region Por mirar
+        public int FullPointer => Offset;
+        public int Integer => Serializar.ToInt(new byte[] { BytesPointer[0], BytesPointer[1], BytesPointer[2], 0x0 }) & 0x1FFFFFF;
+        public int SignedLongTrue => (BytesPointer[3] > 0x7F ? ~FullPointer : FullPointer);
+        public int SignedLongFalse => (BytesPointer[3] > 0x7F ? ~Integer : Integer);
+        #endregion
 
         public void Fix(bool is08 = true)
         {

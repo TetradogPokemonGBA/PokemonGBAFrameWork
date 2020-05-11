@@ -42,7 +42,8 @@ namespace PokemonGBAFramework.Core
         #region Conversiones
         public static implicit operator ushort(Word word)
         {
-            return Serializar.ToUShort(word.Data);
+
+            return (ushort) ((((int)word.Data[1]) << 8) + ((int)word.Data[0]));//Serializar.ToUShort(word.Data);
         }
 
         public static implicit operator Word(ushort word)
