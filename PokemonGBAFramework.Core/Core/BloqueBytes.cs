@@ -117,12 +117,12 @@ namespace PokemonGBAFramework.Core
         public int SearchEmptyBytes(int length, byte byteEmpty, int inicio = 0x800000)
         {
             //tiene que acabar en 0,4,8,C
-            const int MINIMO = 150;//asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
+           /* const int MINIMO = 150;*///asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
             int offsetEncontrado = inicio;
             int lengthFinal = length;
             bool continuarBuscando;
-            if (length < MINIMO)
-                lengthFinal = MINIMO;
+            //if (length < MINIMO)
+            //    lengthFinal = MINIMO;
             do
             {
                 offsetEncontrado = datos.SearchBlock(offsetEncontrado, lengthFinal, byteEmpty);
@@ -148,23 +148,25 @@ namespace PokemonGBAFramework.Core
             return Bytes.SearchArray(inicio, fin, datos);
         }
 
-        public void Replace(OffsetRom offsetInicioOldData, byte[] oldData, byte[] newData)
-        {
+        public void Replace(byte[] oldData, byte[] newData)
+        {//por mirar...
             int offsetOffset;
             OffsetRom offsetNew;
-            if (offsetInicioOldData.IsAPointer)
-            {
-                Remove(offsetInicioOldData, oldData.Length);
-                offsetNew =new OffsetRom(SearchEmptySpaceAndSetArray(newData, offsetInicioOldData-10));
+            OffsetRom offsetOld;
+            int offset = SearchArray(oldData);
+            offsetOld = new OffsetRom(offset);
+
+                Remove(offset, oldData.Length);
+                offsetNew =new OffsetRom(SearchEmptySpaceAndSetArray(newData, offset));
                 do
                 {
-                    offsetOffset = SearchArray(offsetInicioOldData.BytesPointer);
+                    offsetOffset = SearchArray(offsetOld.BytesPointer);
                     if (offsetOffset > 0)
                         SetArray(offsetOffset, offsetNew.BytesPointer);
                 } while (offsetOffset > 0);
                 
 
-            }
+            
         }
 
         public void Remove(int inicio, int longitud, byte byteEmpty = 0xFF)

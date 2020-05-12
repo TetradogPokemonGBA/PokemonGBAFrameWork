@@ -16,9 +16,14 @@ namespace PokemonGBAFramework.Core
             public const int SALTOSESKANTO = 7;
             public const int SALTOSHOENN = 6;
             public const int MAXSALTOS = byte.MaxValue + 1;
-            public static readonly byte[] MuestraAlgoritmoTablaKanto = { 0x02, 0x33, 0x02, 0x34, 0x02, 0x53, 0x02, 0x54, 0x02 };
-            public static readonly byte[] MuestraAlgoritmoTablaRubiYZafiro = { 0x60, 0x7E, 0x02, 0x02, 0x0A, 0x00, 0x00, 0x00 };
-            public static readonly byte[] MuestraAlgoritmoTablaEsmeralda = { 0xF0, 0x01, 0x00, 0x00, 0xE1, 0x11, 0x00, 0x00 };
+
+            public static readonly  byte[] MuestraAlgoritmoKanto = { 0x00, 0x47, 0x00, 0x00, 0x07, 0x48, 0x81};
+            public static readonly int IndexRelativoKanto = -MuestraAlgoritmoKanto.Length - 16;
+            public static readonly byte[] MuestraAlgoritmoEsmeralda= { 0x47, 0x02, 0x02, 0x86, 0xBC, 0x03, 0x02};
+            public static readonly int IndexRelativoEsmeralda = 0;
+            public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x88, 0x02, 0x02, 0x02, 0x93, 0x03, 0x02};
+            public static readonly int IndexRelativoRubiYZafiro = 0;
+
             public const int MINSALTOS=3;
             public const byte MARCAFIN = 0xFF;
             public const int ErrorSaltoRepetido = -101;
@@ -40,6 +45,31 @@ namespace PokemonGBAFramework.Core
                         return index > MINSALTOS - 1||index==-1;
                     }
                 }
+                public void Sort()
+                {
+                    int pos = 1;
+                    SortedList<int, byte> dic = new SortedList<int, byte>();
+                    for (int i = 1; i < Rutas.Length; i++)
+                        if (!dic.ContainsKey(Rutas[i]))
+                            dic.Add(Rutas[i], Rutas[i]);
+                    
+                    foreach(byte b in dic.GetValues())
+                    {
+                        Rutas[pos++] = b;
+                    }
+                    for (int i = dic.Count+1;i<Rutas.Length; i++)
+                        Rutas[i] = byte.MaxValue;
+
+
+
+                }
+                public Salto GetNew()
+                {
+                    byte[] clon = new byte[Rutas.Length];
+                    for (int i = 0; i < clon.Length; i++)
+                        clon[i] = byte.MaxValue;
+                    return new Salto() { Rutas = clon };
+                }
                 public override string ToString()
                 {
                     return String.Join(" ",Rutas.Select((r)=>((Hex)r).ToString()));
@@ -57,6 +87,7 @@ namespace PokemonGBAFramework.Core
                     SortedList<int, int> dic = new SortedList<int, int>();
                     SortedList<int, int> dicRow = new SortedList<int, int>();
                     //SortedList<int, int> dicRows = new SortedList<int, int>();
+                    Sort();
                     for (int i = 0; i < Saltos.Count && correcto; i++)
                     {
                         correcto = Saltos[i].Check;//Numero de saltos correcto
@@ -111,16 +142,29 @@ namespace PokemonGBAFramework.Core
                 }
             }
             public int Length =>Saltos.Count>0? Saltos[0].Rutas.Length:-1;
+
+            public void Sort()
+            {
+                for (int i = 0; i < Saltos.Count; i++)
+                    Saltos[i].Sort();
+            }
             public byte[] GetBytes()
             {
                 byte[] data = new byte[Saltos.Count * Length];
+
+                Sort();
+
                 for (int i = 0; i < Saltos.Count; i++)
                     data.SetArray(i * Length, Saltos[i].Rutas);
                 return data;
             }
             public static void Set(RomGba rom, Mapa mapa)
             {
-                rom.Data.Replace(GetOffset(rom),Get(rom).GetBytes(), mapa.GetBytes());
+                int offset= GetOffset(rom);
+                rom.Data.Remove(offset, Get(rom).GetBytes().Length);
+                offset = rom.Data.SearchEmptySpaceAndSetArray(mapa.GetBytes(),offset);
+                OffsetRom.SetOffset(rom,GetOffset(rom),offset);
+
             }
 
             public static Mapa Get(RomGba rom,OffsetRom offsetMapaPokemonErrante = default)
@@ -156,24 +200,30 @@ namespace PokemonGBAFramework.Core
             {
                 return rom.Edicion.EsKanto ? SALTOSESKANTO : SALTOSHOENN;
             }
-
             public static OffsetRom GetOffset(RomGba rom)
             {
+                return new OffsetRom(rom, GetZona(rom));
+            }
+            public static Zona GetZona(RomGba rom)
+            {
                 byte[] algoritmo;
-
+                int index;
                 if (rom.Edicion.EsEsmeralda)
                 {
-                    algoritmo = MuestraAlgoritmoTablaEsmeralda;
+                    algoritmo = MuestraAlgoritmoEsmeralda;
+                    index = IndexRelativoEsmeralda;
                 }else if (rom.Edicion.EsKanto)
                 {
-                    algoritmo = MuestraAlgoritmoTablaKanto;
+                    algoritmo = MuestraAlgoritmoKanto;
+                    index = IndexRelativoKanto;
                 }
                 else
                 {
-                    algoritmo = MuestraAlgoritmoTablaRubiYZafiro;
+                    algoritmo = MuestraAlgoritmoRubiYZafiro;
+                    index = IndexRelativoRubiYZafiro;
                 }
 
-                return new OffsetRom(rom.Data.SearchArray(algoritmo)+algoritmo.Length);
+                return Zona.Search(rom,algoritmo,index);
             }
 
 
