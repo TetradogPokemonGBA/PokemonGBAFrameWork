@@ -110,7 +110,7 @@ namespace PokemonGBAFramework.Core
                     return toCheck;
                 }
             }
-            public int Length => Saltos[0].Rutas.Length;
+            public int Length =>Saltos.Count>0? Saltos[0].Rutas.Length:-1;
             public byte[] GetBytes()
             {
                 byte[] data = new byte[Saltos.Count * Length];
@@ -120,7 +120,7 @@ namespace PokemonGBAFramework.Core
             }
             public static void Set(RomGba rom, Mapa mapa)
             {
-                rom.Data.Replace(Get(rom).GetBytes(), mapa.GetBytes());
+                rom.Data.Replace(GetOffset(rom),Get(rom).GetBytes(), mapa.GetBytes());
             }
 
             public static Mapa Get(RomGba rom,OffsetRom offsetMapaPokemonErrante = default)
