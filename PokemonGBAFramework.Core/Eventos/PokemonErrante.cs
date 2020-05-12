@@ -27,7 +27,7 @@ namespace PokemonGBAFramework.Core
             public const int ErrorRutaIgualAlSaltoDeLaLinea = -404;
             public const int ErrorSaltoLineaNoEncontrado = -505;
             public const int ErrorRutaRepetidaEnLinea = -606;
-            public const int ErrorNoHayNingunaRutaQueApunteAUnSalto = -707;
+            //public const int ErrorNoHayNingunaRutaQueApunteAUnSalto = -707;
             public const int TodoCorrecto = 123;
             public class Salto
             {
