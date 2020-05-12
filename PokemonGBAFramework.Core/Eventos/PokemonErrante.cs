@@ -19,18 +19,109 @@ namespace PokemonGBAFramework.Core
             public static readonly byte[] MuestraAlgoritmoTablaKanto = { 0x02, 0x33, 0x02, 0x34, 0x02, 0x53, 0x02, 0x54, 0x02 };
             public static readonly byte[] MuestraAlgoritmoTablaRubiYZafiro = { 0x60, 0x7E, 0x02, 0x02, 0x0A, 0x00, 0x00, 0x00 };
             public static readonly byte[] MuestraAlgoritmoTablaEsmeralda = { 0xF0, 0x01, 0x00, 0x00, 0xE1, 0x11, 0x00, 0x00 };
-
+            public const int MINSALTOS=3;
+            public const byte MARCAFIN = 0xFF;
+            public const int ErrorSaltoRepetido = -101;
+            public const int ErrorNumeroDeSaltosInferior = -202;
+            public const int ErrorRutaSaltoRepetida = -303;
+            public const int ErrorRutaIgualAlSaltoDeLaLinea = -404;
+            public const int ErrorSaltoLineaNoEncontrado = -505;
+            public const int ErrorRutaRepetidaEnLinea = -606;
+            public const int ErrorNoHayNingunaRutaQueApunteAUnSalto = -707;
+            public const int TodoCorrecto = 123;
             public class Salto
             {
                 public byte[] Rutas { get; set; }
-                public bool Check() => Rutas.Select((r) => r != 0xFF).Count() >= 3;
+                public bool Check
+                {
+                    get
+                    {
+                        int index = Rutas.IndexByte(MARCAFIN);
+                        return index > MINSALTOS - 1||index==-1;
+                    }
+                }
                 public override string ToString()
                 {
                     return String.Join(" ",Rutas.Select((r)=>((Hex)r).ToString()));
                 }
             }
             public List<Salto> Saltos { get; set; } = new List<Salto>();
-            public bool CheckCount() => Saltos != default && Saltos.Count < MAXSALTOS;
+            public bool CheckCount => Saltos != default && Saltos.Count < MAXSALTOS;
+            public int Check
+            {
+                get
+                {
+                    
+                    int toCheck = TodoCorrecto;
+                    bool correcto = CheckCount;
+                    SortedList<int, int> dic = new SortedList<int, int>();
+                    SortedList<int, int> dicRow = new SortedList<int, int>();
+                    //SortedList<int, int> dicRows = new SortedList<int, int>();
+                    for (int i = 0; i < Saltos.Count && correcto; i++)
+                    {
+                        correcto = Saltos[i].Check;//Numero de saltos correcto
+                        if (correcto)
+                        {
+                            correcto = !dic.ContainsKey(Saltos[i].Rutas[0]);//no se repiten
+                            if (correcto)
+                                dic.Add(Saltos[i].Rutas[0], Saltos[i].Rutas[0]);
+                            else toCheck = ErrorSaltoRepetido;
+                        }
+                        else toCheck = ErrorNumeroDeSaltosInferior;
+                    }
+                    for (int i = 0; i < Saltos.Count && correcto; i++)
+                    {
+                        dicRow.Clear();
+                        for (int j = 1; j < Saltos[i].Rutas.Length && correcto && Saltos[i].Rutas[j] != MARCAFIN; j++)
+                        {
+                            correcto = dic.ContainsKey(Saltos[i].Rutas[j]);
+                            if (correcto)
+                            {
+                                correcto = Saltos[i].Rutas[0] != Saltos[i].Rutas[j];//todos los saltos tienen una linea de salto y no son a la misma ruta
+                                if (correcto)
+                                {
+                                    correcto = !dicRow.ContainsKey(Saltos[i].Rutas[j]);//no se repiten dentro del mismo salto
+                                    if (correcto)
+                                    {
+                                        dicRow.Add(Saltos[i].Rutas[j], Saltos[i].Rutas[j]);
+                                        //if(!dicRows.ContainsKey(Saltos[i].Rutas[j]))
+                                        //     dicRows.Add(Saltos[i].Rutas[j], Saltos[i].Rutas[j]);
+                                    }
+                                    else toCheck = ErrorRutaRepetidaEnLinea;
+                                }
+                                else toCheck = ErrorRutaIgualAlSaltoDeLaLinea;
+                            }
+                            else toCheck = ErrorSaltoLineaNoEncontrado;
+
+
+                        }
+                    }
+                    //al parecer no es un problema porque en las ediciones de Kanto no lo tienen en cuenta...
+
+                    //for (int i = 0; i < Saltos.Count && correcto; i++)
+                    //{
+                       
+                    //        correcto = dicRows.ContainsKey(Saltos[i].Rutas[0]);//alguna linea lo salta
+                    //        if (!correcto)
+                    //             toCheck = ErrorNoHayNingunaRutaQueApunteAUnSalto;
+                        
+                    //}
+
+                    return toCheck;
+                }
+            }
+            public int Length => Saltos[0].Rutas.Length;
+            public byte[] GetBytes()
+            {
+                byte[] data = new byte[Saltos.Count * Length];
+                for (int i = 0; i < Saltos.Count; i++)
+                    data.SetArray(i * Length, Saltos[i].Rutas);
+                return data;
+            }
+            public static void Set(RomGba rom, Mapa mapa)
+            {
+                rom.Data.Replace(Get(rom).GetBytes(), mapa.GetBytes());
+            }
 
             public static Mapa Get(RomGba rom,OffsetRom offsetMapaPokemonErrante = default)
             {
@@ -54,6 +145,11 @@ namespace PokemonGBAFramework.Core
                     offsetMapa += totalRutasSalto;
                 } while (!acabado);
                 return mapa;
+            }
+
+            public static int GetBank(RomGba rom)
+            {
+                return rom.Edicion.EsHoenn ? 0 : 3;
             }
 
             public static int GetTotalRutasParaSaltar(RomGba rom)
