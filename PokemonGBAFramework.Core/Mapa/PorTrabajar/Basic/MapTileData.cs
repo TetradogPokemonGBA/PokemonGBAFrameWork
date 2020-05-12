@@ -29,7 +29,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 			for (int y = 0, xF = Columnas, yF = Filas; y < yF; y++)
 				for (int x = 0; x < xF; x++)
-					collage.Add(tileset.Get(Get(x,y).ID) + paleta, x*Tile.LADO, y*Tile.LADO);
+					collage.Add(tileset.Get(Get(x,y).ID).Get(paleta), x*Tile.LADO, y * Tile.LADO);
 
 			return collage.CrearCollage();
 

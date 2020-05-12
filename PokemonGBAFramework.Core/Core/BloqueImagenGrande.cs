@@ -115,16 +115,17 @@ namespace PokemonGBAFramework.Core
         public BloqueImagenGrande Get(int x,int y, int height, int width)
         {
             BloqueImagenGrande bloqueImagenGrande = new BloqueImagenGrande();
-            int startRow = x * width;
-            int indexRow = y * height;
+
             bloqueImagenGrande.dataImg = new Row[height];
 
             EndLoad();
 
             for (int i = 0; i < height; i++)
-                bloqueImagenGrande.dataImg[i] = dataImg[indexRow + i].GetRow(startRow, width);
+                bloqueImagenGrande.dataImg[i] = dataImg[y + i].GetRow(x, width);
+
             if(!Equals(Paletas,default))
               bloqueImagenGrande.Paletas.AddRange(Paletas);
+
             return bloqueImagenGrande;
         }
         public int GetY(int index, int width)

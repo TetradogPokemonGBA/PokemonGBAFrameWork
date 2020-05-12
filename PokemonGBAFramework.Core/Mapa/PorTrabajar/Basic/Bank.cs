@@ -28,6 +28,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             if (Equals(offsetTablaNombreMapa, default))
                 offsetTablaNombreMapa = NombreMapa.GetOffset(rom);
+
             if (Equals(tilesetCache, default))
                 tilesetCache = new TilesetCache();
 
@@ -53,7 +54,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             for (int j = 0; j < bank.Maps.Length; j++)
             {
-                bank.Maps[j]=MapHeader.Get(rom,tilesetCache ,new OffsetRom(rom, offset),offsetTablaNombreMapa);
+                bank.Maps[j] = MapHeader.Get(rom, tilesetCache, new OffsetRom(rom, offset), offsetTablaNombreMapa);
 
                 offset += OffsetRom.LENGTH;
             }

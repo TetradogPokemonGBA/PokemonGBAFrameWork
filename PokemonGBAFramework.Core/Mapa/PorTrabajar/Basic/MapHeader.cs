@@ -92,7 +92,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public Destello Flash { get; set; }
         public Tiempo Weather { get; set; }
         public TipoMapa Tipo { get; set; }
-        public Lucha Fight { get; set; }//por logica falta probarlo
+        public Lucha Fight { get; set; }
         public byte SinUso2 { get; set; }
         public DisplayNameStyle DisplayName { get; set; }
         public byte SinUso3 { get; set; }
@@ -150,7 +150,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             }
             if (!offsetScript.IsEmpty)
             {
-
                 mapHeader.MapScript = MapScript.Get(rom, offsetScript);
             }
 
@@ -163,6 +162,15 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             return mapHeader;
         }
 
+
+        public static bool Check(RomGba rom,int offsetMapHeader)
+        {
+            bool isOK = MapData.Check(rom, offsetMapHeader);
+
+
+
+            return isOK;
+        }
 
 
     }
