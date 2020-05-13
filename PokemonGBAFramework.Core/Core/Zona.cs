@@ -4,65 +4,29 @@ using System.Text;
 using Gabriel.Cat.S.Extension;
 namespace PokemonGBAFramework.Core
 {
-    public class Zona
+    public class Zona:Variable
     {
-        public const int ErrorAlgoritmoNoEncontrado = -404;
+
         public const int ErrorIndexRelativoNoApuntaAPointer = -303;
-        public const int ErrorIndexNegativo = -202;
-
-        public const int LENGTH = OffsetRom.LENGTH;
-        public Zona(int offset)
+        public Zona() { }
+        public Zona(int offset) => Offset = offset;
+        public static new Zona Search(RomGba rom, byte[] muestraAlgoritmo, int indexRelativo, bool lanzarExcepcionOCodigo = false)
         {
-            Offset = offset;
+            return Search(rom.Data.Bytes, muestraAlgoritmo, indexRelativo, lanzarExcepcionOCodigo);
         }
-        public int Offset { get; set; }
-        public override string ToString()
+        public static new Zona Search(byte[] rom, byte[] muestraAlgoritmo, int indexRelativo, bool lanzarExcepcionOCodigo = false)
         {
-            return Offset.ToString();
-        }
-        public static Zona Search(RomGba rom, byte[] muestraAlgoritmo, int posicionPointer = 0, bool excepcionOCodigoError = true)
-        {
-            return Search(rom.Data.Bytes, muestraAlgoritmo, posicionPointer,excepcionOCodigoError);
-        }
-        public static Zona Search(byte[] rom, byte[] muestraAlgoritmo, int posicionPointer = 0,bool excepcionOCodigoError=true)
-        {
-            const int SINERROR = -1;
-            int codigoError=SINERROR;
-            int busqueda = rom.SearchArray(muestraAlgoritmo)+muestraAlgoritmo.Length;
-            int offset = busqueda;
-
-            if (busqueda == -1)
+            int zona = ISearch<Zona>(rom, muestraAlgoritmo, indexRelativo, lanzarExcepcionOCodigo);
+            if (zona > 0)
             {
-                if (excepcionOCodigoError)
-                    throw new Exception("La muestra no se ha encontrado en la rom!");
-                else codigoError = ErrorAlgoritmoNoEncontrado;
-            }
-            if (codigoError == SINERROR)
-            {
-                offset += posicionPointer;
-
-                if (offset < 0)
+                if (!OffsetRom.Check(rom, zona))
                 {
-                    if (excepcionOCodigoError)
-                        throw new Exception("No se ha encontrado ningun pointer, revisa el IndexRelativo para posicionar bien!");
-                    else codigoError = ErrorIndexNegativo;
-                }
-                if (codigoError == SINERROR && !OffsetRom.Check(rom, offset))
-                {
-                    if (excepcionOCodigoError)
+                    if (lanzarExcepcionOCodigo)
                         throw new Exception("el offset no apunta a un Pointer!!");
-                    else codigoError = ErrorIndexRelativoNoApuntaAPointer;
+                    else zona = ErrorIndexRelativoNoApuntaAPointer;
                 }
             }
-            return codigoError == SINERROR?offset:codigoError;
-        }
-        public static Zona SearchFirstOffset(RomGba rom, Zona zonaOffset)
-        {
-            return SearchFirstOffset(rom, zonaOffset);
-        }
-        public static Zona SearchFirstOffset(byte[] rom, Zona zonaOffset)
-        {
-            return Zona.Search(rom, rom.SubArray(zonaOffset, Zona.LENGTH));
+            return zona;
         }
 
         #region conversion

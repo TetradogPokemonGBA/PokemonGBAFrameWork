@@ -17,12 +17,53 @@ namespace PokemonGBAFramework.Core
             public const int SALTOSHOENN = 6;
             public const int MAXSALTOS = byte.MaxValue + 1;
 
+            #region Tabla
             public static readonly  byte[] MuestraAlgoritmoKanto = { 0x00, 0x47, 0x00, 0x00, 0x07, 0x48, 0x81};
             public static readonly int IndexRelativoKanto = -MuestraAlgoritmoKanto.Length - 16;
             public static readonly byte[] MuestraAlgoritmoEsmeralda= { 0x47, 0x02, 0x02, 0x86, 0xBC, 0x03, 0x02};
             public static readonly int IndexRelativoEsmeralda = 0;
             public static readonly byte[] MuestraAlgoritmoRubiYZafiro = { 0x88, 0x02, 0x02, 0x02, 0x93, 0x03, 0x02};
             public static readonly int IndexRelativoRubiYZafiro = 0;
+            #endregion
+
+            #region OffsetVariable1
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable1Esmeralda = { 0x0F, 0x4C, 0x40, 0x46, 0x20, 0x70, 0x0D, 0xF7 };
+            public static readonly int IndexRelativoOffsetVariable1Esmeralda = -MuestraAlgoritmoOffsetVariable1Esmeralda.Length + 16;
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable1Kanto = { 0x01, 0x35, 0x03, 0x2D, 0xF0, 0xDD, 0x31 };
+            public static readonly int IndexRelativoOffsetVariable1Kanto = -MuestraAlgoritmoOffsetVariable1Kanto.Length + 16;
+
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable1RubiYZafiro = { 0x0F, 0x4C, 0x40, 0x46, 0x20, 0x70, 0x0D, 0xF7 };
+            public static readonly int IndexRelativoOffsetVariable1RubiYZafiro = -MuestraAlgoritmoOffsetVariable1RubiYZafiro.Length + 16;
+            #endregion
+
+            #region OffsetVariable2
+
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable2Esmeralda = { 0x0E, 0x48, 0x01, 0x70, 0x0E, 0x4D, 0x04, 0x1C, 0x0D };
+            public static readonly int IndexRelativoOffsetVariable2Esmeralda = -MuestraAlgoritmoOffsetVariable2Esmeralda.Length + 16;
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable2Kanto = { 0x48, 0x84, 0x46, 0xC8, 0x00, 0x4D, 0x1C };
+            public static readonly int IndexRelativoOffsetVariable2Kanto = -MuestraAlgoritmoOffsetVariable2Kanto.Length + 32;
+
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable2RubiYZafiro = { 0x0F, 0x4C, 0x40, 0x46, 0x20, 0x70, 0x0D, 0xF7 };
+            public static readonly int IndexRelativoOffsetVariable2RubiYZafiro = -MuestraAlgoritmoOffsetVariable2RubiYZafiro.Length + 16;
+            #endregion
+
+            #region OffsetVariable3
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable3Esmeralda = { 0x79, 0x70, 0x0F, 0xE0, 0x00, 0x00, 0x8C };
+            public static readonly int IndexRelativoOffsetVariable3Esmeralda = -MuestraAlgoritmoOffsetVariable3Esmeralda.Length + 32;
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable3Kanto = { 0x02, 0x02, 0xF4, 0x26, 0x00, 0xE0, 0xF5 };
+            public static readonly int IndexRelativoOffsetVariable3Kanto = -MuestraAlgoritmoOffsetVariable3Kanto.Length + 32;
+
+
+            public static readonly byte[] MuestraAlgoritmoOffsetVariable3RubiYZafiro = { 0x0F, 0x4C, 0x40, 0x46, 0x20, 0x70, 0x0D, 0xF7 };
+            public static readonly int IndexRelativoOffsetVariable3RubiYZafiro = -MuestraAlgoritmoOffsetVariable3RubiYZafiro.Length + 16;
+            #endregion
 
             public const int MINSALTOS=3;
             public const byte MARCAFIN = 0xFF;
@@ -179,10 +220,15 @@ namespace PokemonGBAFramework.Core
 
             public static void Set(RomGba rom, Mapa mapa)
             {
-                int offset= GetOffset(rom);
+                int offset= GetOffsetTabla(rom);
+                int offsetVar1;
                 rom.Data.Remove(offset, Get(rom).GetBytes().Length);
                 offset = rom.Data.SearchEmptySpaceAndSetArray(mapa.GetBytes(),offset);
-                OffsetRom.SetOffset(rom,GetOffset(rom),offset);
+                OffsetRom.SetOffset(rom,GetOffsetTabla(rom),offset);
+                offsetVar1 = GetOffsetVariable1(rom);
+                rom.Data[offsetVar1]=(byte) mapa.Saltos.Count;
+                rom.Data[GetOffsetVariable2(rom)] = rom.Data[offsetVar1];
+                rom.Data[GetOffsetVariable3(rom)] = (byte)(rom.Data[offsetVar1]-1);
 
             }
 
@@ -191,7 +237,7 @@ namespace PokemonGBAFramework.Core
                 const byte FIN = 0xFF;
 
                 if (Equals(offsetMapaPokemonErrante, default))
-                    offsetMapaPokemonErrante = GetOffset(rom);
+                    offsetMapaPokemonErrante = GetOffsetTabla(rom);
 
                 Salto salto;
                 bool acabado;
@@ -219,11 +265,11 @@ namespace PokemonGBAFramework.Core
             {
                 return rom.Edicion.EsKanto ? SALTOSESKANTO : SALTOSHOENN;
             }
-            public static OffsetRom GetOffset(RomGba rom)
+            public static OffsetRom GetOffsetTabla(RomGba rom)
             {
-                return new OffsetRom(rom, GetZona(rom));
+                return new OffsetRom(rom, GetZonaTabla(rom));
             }
-            public static Zona GetZona(RomGba rom)
+            public static Zona GetZonaTabla(RomGba rom)
             {
                 byte[] algoritmo;
                 int index;
@@ -243,6 +289,72 @@ namespace PokemonGBAFramework.Core
                 }
 
                 return Zona.Search(rom,algoritmo,index);
+            }
+            public static Variable GetOffsetVariable3(RomGba rom)
+            {
+                byte[] algoritmo;
+                int index;
+                if (rom.Edicion.EsEsmeralda)
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable3Esmeralda;
+                    index = IndexRelativoOffsetVariable3Esmeralda;
+                }
+                else if (rom.Edicion.EsKanto)
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable3Kanto;
+                    index = IndexRelativoOffsetVariable3Kanto;
+                }
+                else
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable3RubiYZafiro;
+                    index = IndexRelativoOffsetVariable3RubiYZafiro;
+                }
+
+                return Variable.Search(rom, algoritmo, index);
+            }
+            public static Variable GetOffsetVariable2(RomGba rom)
+            {
+                byte[] algoritmo;
+                int index;
+                if (rom.Edicion.EsEsmeralda)
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable2Esmeralda;
+                    index = IndexRelativoOffsetVariable2Esmeralda;
+                }
+                else if (rom.Edicion.EsKanto)
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable2Kanto;
+                    index = IndexRelativoOffsetVariable2Kanto;
+                }
+                else
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable2RubiYZafiro;
+                    index = IndexRelativoOffsetVariable2RubiYZafiro;
+                }
+
+                return Variable.Search(rom, algoritmo, index);
+            }
+            public static Variable GetOffsetVariable1(RomGba rom)
+            {
+                byte[] algoritmo;
+                int index;
+                if (rom.Edicion.EsEsmeralda)
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable1Esmeralda;
+                    index = IndexRelativoOffsetVariable1Esmeralda;
+                }
+                else if (rom.Edicion.EsKanto)
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable1Kanto;
+                    index = IndexRelativoOffsetVariable1Kanto;
+                }
+                else
+                {
+                    algoritmo = MuestraAlgoritmoOffsetVariable1RubiYZafiro;
+                    index = IndexRelativoOffsetVariable1RubiYZafiro;
+                }
+
+                return Variable.Search(rom, algoritmo, index);
             }
 
 
@@ -375,26 +487,29 @@ namespace PokemonGBAFramework.Core
             Creditos = new Creditos();
             Creditos.Add(Creditos.Comunidades[Creditos.WAHACKFORO], "Ratzhier", "Investigación");
         }
-        public static Script GetScript(RomGba rom, Pokemon pokemonErrante) => GetScript(rom.Edicion, pokemonErrante);
-        public static Script GetScript(Edicion edicion, Pokemon pokemonErrante)
+
+        public static Script GetScript(RomGba rom, Pokemon pokemonErrante)
         {
             Hex nivelYEstado;
             string estado, nivel;
             ushort auxNivelYEstado;
             Script scriptPokemonErrante = new Script();
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(GetVariableSpecialPokemonErrante(edicion)));
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariablePokemonErranteVar(edicion), pokemonErrante.Errante.OrdenNacional.Orden));
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableVitalidadVar(edicion), pokemonErrante.Vida));
+            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(GetVariableSpecialPokemonErrante(rom)));
+            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariablePokemonErranteVar(rom), pokemonErrante.Errante.OrdenNacional.Orden));
+            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableVitalidadVar(rom), pokemonErrante.Vida));
             estado = ((Hex)pokemonErrante.Stats).ToString().PadLeft(2, '0');
             nivel = ((Hex)((byte)pokemonErrante.Nivel)).ToString();
             nivelYEstado = (Hex)(estado + nivel);
             auxNivelYEstado = (ushort)(uint)nivelYEstado;
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableNivelYEstadoVar(edicion), new Word(auxNivelYEstado)));
+            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableNivelYEstadoVar(rom), new Word(auxNivelYEstado)));
             
             return scriptPokemonErrante;
 
 
         }
+
+
+
         #region Variables
         #region SobreCarga
         public static Word GetVariableNivelYEstadoVar(RomGba rom)
