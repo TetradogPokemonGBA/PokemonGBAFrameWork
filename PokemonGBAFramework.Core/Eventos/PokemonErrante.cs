@@ -33,6 +33,7 @@ namespace PokemonGBAFramework.Core
             public const int ErrorSaltoLineaNoEncontrado = -505;
             public const int ErrorRutaRepetidaEnLinea = -606;
             //public const int ErrorNoHayNingunaRutaQueApunteAUnSalto = -707;
+            public const int ErrorSaltosInsuficientesMinimoTres = -808;
             public const int TodoCorrecto = 123;
             public class Salto
             {
@@ -88,6 +89,14 @@ namespace PokemonGBAFramework.Core
                     SortedList<int, int> dicRow = new SortedList<int, int>();
                     //SortedList<int, int> dicRows = new SortedList<int, int>();
                     Sort();
+                    RemoveEmpty();
+
+                    if (correcto && Saltos.Count < MINSALTOS)
+                    {
+                        correcto = false;
+                        toCheck = ErrorSaltosInsuficientesMinimoTres;
+                    }
+
                     for (int i = 0; i < Saltos.Count && correcto; i++)
                     {
                         correcto = Saltos[i].Check;//Numero de saltos correcto
@@ -152,12 +161,22 @@ namespace PokemonGBAFramework.Core
             {
                 byte[] data = new byte[Saltos.Count * Length];
 
-                Sort();
+
+                if (Check != TodoCorrecto)
+                    throw new Exception("Las rutas no están bien!");
 
                 for (int i = 0; i < Saltos.Count; i++)
                     data.SetArray(i * Length, Saltos[i].Rutas);
                 return data;
             }
+
+            public void RemoveEmpty()
+            {
+                for (int i = Saltos.Count - 1; i >= 0; i--)
+                    if (Saltos[i].Rutas[0] == byte.MaxValue)
+                        Saltos.RemoveAt(i);
+            }
+
             public static void Set(RomGba rom, Mapa mapa)
             {
                 int offset= GetOffset(rom);
