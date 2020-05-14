@@ -76,6 +76,7 @@ namespace PokemonGBAFramework.Core
             byte byteComandoActual;
             Comando comandoActual;
             IEndScript endScriptComando = null;
+            OffsetData = new OffsetRom(offsetScript);
             do
             {
                 comandoActual = null;
@@ -775,12 +776,13 @@ namespace PokemonGBAFramework.Core
                     offsetScript--;//resto el comando porque ya lo sumo antes
                 }
 
-            } while (byteComandoActual != END && byteComandoActual != RETURN && endScriptComando == null || !endScriptComando.IsEnd);
+            } while(! (byteComandoActual == END || byteComandoActual == RETURN || endScriptComando != null && !endScriptComando.IsEnd));
             //tiene que ser un campo calculado...que lea el script y luego devuelva el valor...
             IsEndFinished = endScriptComando == null ? (byteComandoActual == END) : new Nullable<bool>();//si acaba con un goto/call/comandoIEndScript será null si acaba en end será true y si es return pues false
         }
 
 
+        public OffsetRom OffsetData { get; private set; }
         public Llista<Comando> ComandosScript { get; private set; }
 
 
@@ -866,9 +868,6 @@ namespace PokemonGBAFramework.Core
         public string GetDeclaracionXSE(string etiqueta = "Start", bool? isEnd = false, bool addDynamicTag = true)
         {
 
-            if (etiqueta == null)
-                throw new ArgumentNullException("etiqueta");
-
             StringBuilder strSCript = new StringBuilder();
             if (addDynamicTag)
             {
@@ -876,8 +875,11 @@ namespace PokemonGBAFramework.Core
                 strSCript.Append(OffsetInicioDynamic.ByteString);
                 strSCript.Append(ENTER);
             }
-            strSCript.Append("#org @");
-            strSCript.Append(etiqueta);
+            if (!string.IsNullOrEmpty(etiqueta))
+            {
+                strSCript.Append("#org @");
+                strSCript.Append(etiqueta);
+            }
             for (int i = 0; i < ComandosScript.Count; i++)
             {
                 strSCript.Append(ENTER);
@@ -894,7 +896,50 @@ namespace PokemonGBAFramework.Core
             return strSCript.ToString();
 
         }
+        public string GetAllDeclaracionXSE(RomGba rom,string etiqueta = "Start", bool? isEnd = null, bool addDynamicTag = false)
+        {
+            IOffsetScript aux;
+            LoadPointer loadPointerStr;
+            OffsetRom offset;
+            string strScript = GetDeclaracionXSE(etiqueta, isEnd, addDynamicTag);
+            StringBuilder str=new StringBuilder();
+            if (string.IsNullOrEmpty(etiqueta)&&OffsetData!=default)
+                str.AppendLine($"#org {((Hex)(int)OffsetData).ByteString}");
 
+            str.AppendLine(strScript);
+            for (int i = 0; i < ComandosScript.Count; i++)
+            {
+                aux = ComandosScript[i] as IOffsetScript;
+                try
+                {
+                    if (aux != default)
+                    {
+                        str.AppendLine();
+                        str.AppendLine("----------");
+                        offset = aux.Offset;
+                        str.AppendLine(new Script(rom, offset).GetAllDeclaracionXSE(rom, null, null, false));
+
+                    }
+                }
+                catch
+                {
+                    loadPointerStr = aux as LoadPointer;
+                    if (loadPointerStr != default)
+                    {
+                        str.AppendLine($"#org {((Hex)(int)loadPointerStr.Offset).ByteString}");
+                        str.Append("= ");
+                        str.AppendLine(BloqueString.Get(rom, loadPointerStr.Offset).Texto.Replace("\n","\\n"));
+                    }
+                    else
+                    {
+                      
+                        str.AppendLine("-----Error-----");
+                    }
+                }
+            }
+            return str.ToString();
+            
+        }
         private bool EsUnaFuncionAcabadaEnEND(Comando comando)
         {
             IEndScript comandoEnd = comando as IEndScript;

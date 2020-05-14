@@ -13,7 +13,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of Call.
 	/// </summary>
-	public class Call:Comando,IEndScript//,IDeclaracion
+	public class Call:Comando,IEndScript, IOffsetScript//,IDeclaracion
 	{
 		public const byte ID=0x4;
 		public new const int SIZE=Comando.SIZE+OffsetRom.LENGTH;

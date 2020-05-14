@@ -79,6 +79,7 @@ namespace PokemonGBAFramework.Core
 				StringBuilder strLinea = new StringBuilder(Nombre.ToLower());
 				IList<object> parametros = GetParams();
 				IBloqueConNombre bloque;
+				byte auxByte;
 				Word auxWord;
 				DWord auxDWord;
 				OffsetRom auxOffsetRom;
@@ -93,16 +94,29 @@ namespace PokemonGBAFramework.Core
 						
 						strLinea.Append("0x");
 						try {
-							auxWord = (Word)parametros[i];
-							valor = (Hex)auxWord;
-						} catch {
-							try {
-								auxDWord = (DWord)parametros[i];
-								valor = (Hex)auxDWord;
-							} catch {
-								//si es un OffsetRom
-								auxOffsetRom = (OffsetRom)parametros[i];
-								valor = (Hex)auxOffsetRom.Offset;
+							auxByte = (byte)parametros[i];
+							valor = (Hex)auxByte;
+						}
+						catch
+						{
+							try
+							{
+								auxWord = (Word)parametros[i];
+								valor = (Hex)auxWord;
+							}
+							catch
+							{
+								try
+								{
+									auxDWord = (DWord)parametros[i];
+									valor = (Hex)auxDWord;
+								}
+								catch
+								{
+									//si es un OffsetRom
+									auxOffsetRom = (OffsetRom)parametros[i];
+									valor = (Hex)auxOffsetRom.Offset;
+								}
 							}
 						}
 						strLinea.Append(valor.ToString());

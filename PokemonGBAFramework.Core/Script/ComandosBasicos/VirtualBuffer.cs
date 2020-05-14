@@ -12,7 +12,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class VirtualBuffer:Comando
 	{
 		public const byte ID=0xBF;
-		public const int SIZE=6;
+		public new const int SIZE=6;
 		Byte buffer;
 		OffsetRom texto;
 		

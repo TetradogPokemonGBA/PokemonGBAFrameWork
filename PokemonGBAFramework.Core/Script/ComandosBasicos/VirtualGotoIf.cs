@@ -12,7 +12,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class VirtualGotoIf:Comando
 	{
 		public const byte ID = 0xBB;
-		public const int SIZE = 6;
+		public new const int SIZE = 6;
 		Byte condicion;
 		OffsetRom funcionPersonalizada;
  

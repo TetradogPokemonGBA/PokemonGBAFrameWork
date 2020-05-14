@@ -13,7 +13,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of If.
 	/// </summary>
-	public class If1:Comando,IDeclaracion
+	public class If1:Comando,IDeclaracion, IOffsetScript
 	{
 		public const byte ID=0x6;
 		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
@@ -24,7 +24,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public If1(byte condicion,OffsetRom offsetScript)
         {
             Condicion = condicion;
-            OffsetScript = offsetScript;
+            Offset = offsetScript;
         }
 
 		public If1(RomGba rom,int offset):base(rom,offset)
@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         }
         public byte Condicion { get; set; }
 
-        public OffsetRom OffsetScript {
+        public OffsetRom Offset {
 			get {
 				return offsetScript;
 			}
@@ -78,7 +78,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{Condicion,OffsetScript};
+			return new Object[]{Condicion,Offset};
 		}
 		#region implemented abstract members of Comando
 		
@@ -86,7 +86,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			//byte condicion ptr script
 			Condicion=ptrRom[offsetComando++];
-			OffsetScript=new OffsetRom(ptrRom,offsetComando);
+			Offset=new OffsetRom(ptrRom,offsetComando);
 			
 		}
 
@@ -97,7 +97,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			ptrRomPosicionado+=base.Size;
             *ptrRomPosicionado = Condicion;
             ptrRomPosicionado++;
-            OffsetRom.SetOffset(ptrRomPosicionado, OffsetScript);
+            OffsetRom.SetOffset(ptrRomPosicionado, Offset);
 		}
 
 		
@@ -108,7 +108,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
 		{
-			return new Script(rom,OffsetScript).GetDeclaracion(rom,parametrosExtra);
+			return new Script(rom,Offset).GetDeclaracion(rom,parametrosExtra);
 		}
 
 		#endregion

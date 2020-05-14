@@ -12,7 +12,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class VirtualGoto:Comando,IEndScript
 	{
 		public const byte ID = 0xB9;
-		public const int SIZE = 5;
+		public new const  int SIZE = 5;
 		OffsetRom funcionPersonalizada;
  
 		public VirtualGoto(OffsetRom funcionPersonalizada)
