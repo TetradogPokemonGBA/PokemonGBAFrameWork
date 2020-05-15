@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using Gabriel.Cat.S.Extension;
@@ -16,6 +17,7 @@ using PokemonGBAFramework.Core.ComandosScript;
 
 namespace PokemonGBAFramework.Core
 {
+  
     /// <summary>
     /// Description of Script.
     /// </summary>
@@ -846,17 +848,18 @@ namespace PokemonGBAFramework.Core
             }
         }
         #endregion
-        public void SetScript(RomGba rom, int offset = -1, bool lastComandIsEnd = true)
+        public int SetScript(RomGba rom, int offset = -1, bool lastComandIsEnd = true)
         {
             byte[] byteDeclaracion = GetDeclaracion(rom, lastComandIsEnd);
 
             if (offset < 0)
-                rom.Data.SearchEmptyBytes(byteDeclaracion.Length);
+             offset=   rom.Data.SearchEmptyBytes(byteDeclaracion.Length);
             if (offset < 0)
                 throw new RomSinEspacioException();
 
             rom.Data.SetArray(offset, byteDeclaracion);
 
+            return offset;
         }
         /// <summary>
         /// Obtiene el script en formato XSE
@@ -883,7 +886,7 @@ namespace PokemonGBAFramework.Core
             for (int i = 0; i < ComandosScript.Count; i++)
             {
                 strSCript.Append(ENTER);
-                strSCript.Append(ComandosScript[i].LineaEjecucionXSE);
+                strSCript.Append(ComandosScript[i].LineaEjecucionXSE());
             }
             strSCript.Append(ENTER);
             if (isEnd.GetValueOrDefault()||EsUnaFuncionAcabadaEnEND(ComandosScript[ComandosScript.Count - 1]))
@@ -896,46 +899,48 @@ namespace PokemonGBAFramework.Core
             return strSCript.ToString();
 
         }
-        public string GetAllDeclaracionXSE(RomGba rom,string etiqueta = "Start", bool? isEnd = null, bool addDynamicTag = false)
+        public string GetAllDeclaracionXSE(RomGba rom, string etiqueta = "Start", bool? isEnd = null, bool addDynamicTag = false) {
+
+            return GetAllDeclaracionXSE(rom.Data.Bytes,etiqueta,isEnd,addDynamicTag);
+        
+        }
+
+        public string GetAllDeclaracionXSE(byte[] rom,string etiqueta = "Start", bool? isEnd = null, bool addDynamicTag = false)
         {
             IOffsetScript aux;
             LoadPointer loadPointerStr;
             OffsetRom offset;
             string strScript = GetDeclaracionXSE(etiqueta, isEnd, addDynamicTag);
             StringBuilder str=new StringBuilder();
+
             if (string.IsNullOrEmpty(etiqueta)&&OffsetData!=default)
                 str.AppendLine($"#org {((Hex)(int)OffsetData).ByteString}");
 
             str.AppendLine(strScript);
             for (int i = 0; i < ComandosScript.Count; i++)
             {
-                aux = ComandosScript[i] as IOffsetScript;
-                try
-                {
-                    if (aux != default)
-                    {
-                        str.AppendLine();
-                        str.AppendLine("----------");
-                        offset = aux.Offset;
-                        str.AppendLine(new Script(rom, offset).GetAllDeclaracionXSE(rom, null, null, false));
 
-                    }
-                }
-                catch
+                aux = ComandosScript[i] as IOffsetScript;
+
+                if (aux != default)
                 {
                     loadPointerStr = aux as LoadPointer;
+
+                    str.AppendLine();
+                    str.AppendLine("----------");
+                    offset = aux.Offset;
                     if (loadPointerStr != default)
                     {
-                        str.AppendLine($"#org {((Hex)(int)loadPointerStr.Offset).ByteString}");
+                        str.AppendLine($"#org {((Hex)(int)offset).ByteString}");
                         str.Append("= ");
-                        str.AppendLine(BloqueString.Get(rom, loadPointerStr.Offset).Texto.Replace("\n","\\n"));
+                        str.AppendLine(BloqueString.Get(rom, offset).Texto.Replace("\n", "\\n"));
                     }
                     else
                     {
-                      
-                        str.AppendLine("-----Error-----");
+                        str.AppendLine(new Script(rom, offset).GetAllDeclaracionXSE(rom, null, null, false));
                     }
                 }
+
             }
             return str.ToString();
             
@@ -984,11 +989,11 @@ namespace PokemonGBAFramework.Core
             return bytesDeclaracion;
         }
 
-        public static IList<Script> FromXSE(string pathArchivoXSE)
+        public static IList<Script> FromXSE(FileInfo archivoXSE)
         {
-            if (!System.IO.File.Exists(pathArchivoXSE))
+            if (!archivoXSE.Exists)
                 throw new System.IO.FileNotFoundException("No se ha podido encontrar el archivo...");
-            return FromXSE(System.IO.File.ReadAllLines(pathArchivoXSE));
+            return FromXSE(System.IO.File.ReadAllLines(archivoXSE.FullName));
         }
         public static IList<Script> FromXSE(IList<string> scriptXSE)
         {//por probar
@@ -1026,39 +1031,40 @@ namespace PokemonGBAFramework.Core
                 {
 
                     scriptXSE[i] = Comando.NormalizaStringXSE(scriptXSE[i]);
-
-                    if (scriptXSE[i].Contains(" "))
-                        comandoActualCampos = scriptXSE[i].Split(' ');
-                    else comandoActualCampos = new string[] { scriptXSE[i] };
-
-                    if (comandoActualCampos[0] == "@org")
+                    if (!string.IsNullOrEmpty(scriptXSE[i]))
                     {
-                        //anidar scripts anidados
-                        if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
+                        if (scriptXSE[i].Contains(" "))
+                            comandoActualCampos = scriptXSE[i].Split(' ');
+                        else comandoActualCampos = new string[] { scriptXSE[i] };
+
+                        if (comandoActualCampos[0] == "@org" || comandoActualCampos[0] == "#org")
                         {
-                            scriptActual = new Script();
-                            dicScriptsCargados.Add(comandoActualCampos[1], scriptActual);
+                            //anidar scripts anidados
+                            if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
+                            {
+                                scriptActual = new Script();
+                                dicScriptsCargados.Add(comandoActualCampos[1], scriptActual);
+                            }
+                            else
+                            {
+                                scriptActual = dicScriptsCargados[comandoActualCampos[1]];
+                            }
                         }
-                        else
+
+                        else if (Comando.DicTypes.ContainsKey(comandoActualCampos[0]))
                         {
-                            scriptActual = dicScriptsCargados[comandoActualCampos[1]];
+                            scriptActual.ComandosScript.Add(Comando.LoadXSECommand(comandoActualCampos));
+                        }
+                        else if (comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end")
+                        {
+                            //si no esta hago una excepcion
+                            throw new Exception("falta return/end en el script");
                         }
                     }
-
-                    else if (Comando.DicTypes.ContainsKey(comandoActualCampos[0]))
-                    {
-                        scriptActual.ComandosScript.Add(Comando.LoadXSECommand(comandoActualCampos));
-                    }
-                    else if(comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end")
-                    {
-                        //si no esta hago una excepcion
-                        throw new Exception("falta return/end en el script");
-                    }
-
 
 
                 }
-                catch
+                catch(Exception ex)
                 {
                     // lanzo una excepción diciendo que la linea tal tiene un error
                     throw new ScriptMalFormadoException(i);

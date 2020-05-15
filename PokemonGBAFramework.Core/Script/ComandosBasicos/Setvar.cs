@@ -19,7 +19,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=0x5;
         public const string NOMBRE= "Setvar";
         public const string DESCRIPCION= "Asigna a la variable el valor especificado";
-
+		public SetVar() { }
         public SetVar(Word variable,Word valor)
 		{
 			Variable=variable;

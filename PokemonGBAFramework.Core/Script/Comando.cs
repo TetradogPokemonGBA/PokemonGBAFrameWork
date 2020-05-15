@@ -74,8 +74,8 @@ namespace PokemonGBAFramework.Core
                 return Size - Comando.SIZE;
             }
         }
-        public  string LineaEjecucionXSE {
-			get {
+        public  string LineaEjecucionXSE() {
+
 				StringBuilder strLinea = new StringBuilder(Nombre.ToLower());
 				IList<object> parametros = GetParams();
 				IBloqueConNombre bloque;
@@ -90,10 +90,13 @@ namespace PokemonGBAFramework.Core
 					if (bloque != null) {
 						strLinea.Append('@');
 						strLinea.Append(bloque.NombreBloque);
-					} else {
+					} else  {
 						
 						strLinea.Append("0x");
-						try {
+					if (parametros[i] != null)
+					{
+						try
+						{
 							auxByte = (byte)parametros[i];
 							valor = (Hex)auxByte;
 						}
@@ -119,14 +122,17 @@ namespace PokemonGBAFramework.Core
 								}
 							}
 						}
-						strLinea.Append(valor.ToString());
+					}
+					else valor = "0";
+
+			    	strLinea.Append(valor.ToString());
 						
 						
 					}
 					
 				}
 				return strLinea.ToString();
-			}
+			
 			
 		}
 
@@ -189,13 +195,13 @@ namespace PokemonGBAFramework.Core
             int inicioComentario;
 
             comando = comando.Trim();
-            if (comando.Length > 0 && !comando.StartsWith(ComentariosUnaLinea))
-            {
-                inicioComentario = comando.IndexOf("/*");
-                if (inicioComentario >= 0)
-                {
-                    comando = comando.Remove(inicioComentario, inicioComentario - comando.IndexOf("*/"));
-                }
+			if (comando.Length > 0 && !comando.StartsWith(ComentariosUnaLinea))
+			{
+				inicioComentario = comando.IndexOf("/*");
+				if (inicioComentario >= 0)
+				{
+					comando = comando.Remove(inicioComentario, inicioComentario - comando.IndexOf("*/"));
+				} 
                 for (int k = 0; k < ComentariosUnaLinea.Length; k++)
                 {
                     inicioComentario = comando.IndexOf(ComentariosUnaLinea[k]);
@@ -205,7 +211,6 @@ namespace PokemonGBAFramework.Core
                     }
                 }
             }
-            else throw new ComandoMalFormadoExcepcion();
             return comando;
         }
         public static Comando LoadXSECommand(params string[] camposComando)
@@ -215,7 +220,7 @@ namespace PokemonGBAFramework.Core
             List<Propiedad> propiedades;
             List<Object> parametros = new List<object>();
             Type commandType = DicTypes[camposComando[0].ToLower()];
-             propiedades = commandType.GetPropiedades();//mirar de poderlas ordenar con atributos
+             propiedades =Activator.CreateInstance(commandType).GetPropiedades();//mirar de poderlas ordenar con atributos
                 for (int j = 0; j < propiedades.Count; j++)
                     if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
                     {
