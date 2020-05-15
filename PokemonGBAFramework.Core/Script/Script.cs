@@ -850,16 +850,24 @@ namespace PokemonGBAFramework.Core
         #endregion
         public int SetScript(RomGba rom, int offset = -1, bool lastComandIsEnd = true)
         {
+            return SetScript(rom.Data.Bytes, offset, lastComandIsEnd);
+        }
+        public int SetScript(byte[] rom, int offset = -1, bool lastComandIsEnd = true)
+        {
             byte[] byteDeclaracion = GetDeclaracion(rom, lastComandIsEnd);
-
+            BloqueBytes data = new BloqueBytes(rom);
             if (offset < 0)
-             offset=   rom.Data.SearchEmptyBytes(byteDeclaracion.Length);
+             offset= data.SearchEmptyBytes(byteDeclaracion.Length);
             if (offset < 0)
                 throw new RomSinEspacioException();
 
-            rom.Data.SetArray(offset, byteDeclaracion);
+            data.SetArray(offset, byteDeclaracion);
 
             return offset;
+        }
+        public string GetDeclaracionXSE(string etiqueta, bool addDynamicTag = true)
+        {
+            return GetDeclaracionXSE(etiqueta, IsEndFinished, addDynamicTag);
         }
         /// <summary>
         /// Obtiene el script en formato XSE
@@ -868,7 +876,7 @@ namespace PokemonGBAFramework.Core
         /// <param name="etiqueta"></param>
         /// <param name="idEnd"></param>
         /// <returns></returns>
-        public string GetDeclaracionXSE(string etiqueta = "Start", bool? isEnd = false, bool addDynamicTag = true)
+        public string GetDeclaracionXSE(string etiqueta, bool? isEnd, bool addDynamicTag = true)
         {
 
             StringBuilder strSCript = new StringBuilder();
@@ -904,8 +912,11 @@ namespace PokemonGBAFramework.Core
             return GetAllDeclaracionXSE(rom.Data.Bytes,etiqueta,isEnd,addDynamicTag);
         
         }
-
-        public string GetAllDeclaracionXSE(byte[] rom,string etiqueta = "Start", bool? isEnd = null, bool addDynamicTag = false)
+        public string GetAllDeclaracionXSE(byte[] rom, string etiqueta="Start", bool addDynamicTag = false)
+        {
+            return GetAllDeclaracionXSE(rom, etiqueta, IsEndFinished, addDynamicTag);
+        }
+        public string GetAllDeclaracionXSE(byte[] rom,string etiqueta, bool? isEnd, bool addDynamicTag = false)
         {
             IOffsetScript aux;
             LoadPointer loadPointerStr;
@@ -937,7 +948,7 @@ namespace PokemonGBAFramework.Core
                     }
                     else
                     {
-                        str.AppendLine(new Script(rom, offset).GetAllDeclaracionXSE(rom, null, null, false));
+                        str.AppendLine(new Script(rom, offset).GetAllDeclaracionXSE(rom, null, false));
                     }
                 }
 
@@ -951,17 +962,20 @@ namespace PokemonGBAFramework.Core
             return comandoEnd != null && comandoEnd.IsEnd;
         }
 
-        public byte[] GetDeclaracion(RomGba rom, params object[] parametros)
+        public byte[] GetDeclaracion(byte[] rom, params object[] parametros)
         {
+            IDeclaracion comandoHaDeclarar;
+            byte[] bytesDeclaracion;
+            byte[] bytesDeclaracionAux;
             int sizeTotal = 1;//el utimo byte
             int offset = 0;
-            byte[] bytesDeclaracion;
             bool isEnd = parametros.Length == 0 ? false : (bool)parametros[0];
-            IDeclaracion comandoHaDeclarar;
             int offsetDeclaracion = 0;
-            byte[] bytesDeclaracionAux;
+            BloqueBytes data = new BloqueBytes(rom);
+
             for (int i = 0; i < ComandosScript.Count; i++)
                 sizeTotal += ComandosScript[i].Size;
+
             bytesDeclaracion = new byte[sizeTotal];
 
             for (int i = 0; i < ComandosScript.Count; i++)
@@ -970,9 +984,9 @@ namespace PokemonGBAFramework.Core
                 if (comandoHaDeclarar != null)
                 {//si se tiene que insertar los bytes en la rom para obtener el offset para la declaracion la inserto y listo
                     bytesDeclaracionAux = comandoHaDeclarar.GetDeclaracion(rom);
-                    offsetDeclaracion = rom.Data.SearchArray(bytesDeclaracionAux);
+                    offsetDeclaracion = data.SearchArray(bytesDeclaracionAux);
                     if (offsetDeclaracion < 0)
-                        offsetDeclaracion = rom.Data.SearchEmptySpaceAndSetArray(bytesDeclaracionAux);
+                        offsetDeclaracion = data.SearchEmptySpaceAndSetArray(bytesDeclaracionAux);
                 }
                 bytesDeclaracion.SetArray(offset, ComandosScript[i].GetComandoArray(offsetDeclaracion));
 

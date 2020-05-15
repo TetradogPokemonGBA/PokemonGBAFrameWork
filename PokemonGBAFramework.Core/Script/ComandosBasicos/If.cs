@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Utilitats;
 using System;
 
 namespace PokemonGBAFramework.Core.ComandosScript
@@ -106,12 +107,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		#region IDeclaracion implementation
 
-		public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
+		public byte[] GetDeclaracion(byte[] rom, params object[] parametrosExtra)
 		{
 			return new Script(rom,Offset).GetDeclaracion(rom,parametrosExtra);
 		}
 
 		#endregion
+		public override string LineaEjecucionXSE()
+		{
+			return $"if {((Hex)Condicion).ByteString} call {((Hex)(int) Offset).ByteString}";
+		}
 	}
 	public class If2:If1{
 		public new const byte ID=0x7;

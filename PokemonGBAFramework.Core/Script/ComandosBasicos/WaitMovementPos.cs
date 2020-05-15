@@ -12,11 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class WaitMovementPos:Comando
 	{
 		public const byte ID = 0x52;
-		public const int SIZE = 5;
+		public new const int SIZE = 5;
+		public const string NOMBRE= "WaitMovementPos";
+		public const string DESCRIPCION= "Espera a que acabe el ApplyMovement del personaje especificado y luego pone las coordenadas X/Y";
 		Word personajeAEsperar;
-		Byte coordenadaX;
-		Byte coordenadaY;
- 
+
 		public WaitMovementPos(Word personajeAEsperar, Byte coordenadaX, Byte coordenadaY)
 		{
 			PersonajeAEsperar = personajeAEsperar;
@@ -37,51 +37,32 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Espera a que acabe el ApplyMovement del personaje especificado y luego pone las coordenadas X/Y";
-			}
-		}
+		public override string Descripcion=> DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "WaitMovementPos";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+		public override byte IdComando=> ID;
+		public override string Nombre => NOMBRE;
+		public override int Size=> SIZE;
 		public Word PersonajeAEsperar {
-			get{ return personajeAEsperar; }
-			set{ personajeAEsperar = value; }
+			get=>personajeAEsperar;
+			set{
+				if (value == default)
+					value = new Word();
+				personajeAEsperar = value; }
 		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
+		public Byte CoordenadaX { get; set; }
+		public Byte CoordenadaY { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personajeAEsperar, coordenadaX, coordenadaY };
+			return new Object[]{ personajeAEsperar, CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			personajeAEsperar = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaX = ptrRom[offsetComando];
+			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = ptrRom[offsetComando];
+			CoordenadaY = ptrRom[offsetComando];
 		}
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
@@ -89,9 +70,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			ptrRomPosicionado++;
 			Word.SetData(ptrRomPosicionado, PersonajeAEsperar);
 			ptrRomPosicionado += Word.LENGTH;
-			*ptrRomPosicionado = coordenadaX;
+			*ptrRomPosicionado = CoordenadaX;
 			++ptrRomPosicionado; 
-			*ptrRomPosicionado = coordenadaY;
+			*ptrRomPosicionado = CoordenadaY;
 		}
 	}
 }

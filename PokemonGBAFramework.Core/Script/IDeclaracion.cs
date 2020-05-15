@@ -15,6 +15,13 @@ namespace PokemonGBAFramework.Core
 	/// </summary>
 	public interface IDeclaracion
 	{
-		byte[] GetDeclaracion(RomGba rom,params object[] parametrosExtra);
+		byte[] GetDeclaracion(byte[] data,params object[] parametrosExtra);
 	}
+    public static class ExtensionIDeclaracion
+    {
+        public static byte[] GetDeclaracion(this IDeclaracion objDeclaracion,RomGba rom,params object[] parametrosExtra)
+        {
+            return objDeclaracion.GetDeclaracion(rom.Data.Bytes, parametrosExtra);
+        }
+    }
 }

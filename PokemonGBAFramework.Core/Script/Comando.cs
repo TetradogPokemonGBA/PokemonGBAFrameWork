@@ -64,26 +64,19 @@ namespace PokemonGBAFramework.Core
 		public abstract string Nombre {
 			get;
 		}
-		public virtual int Size {
-			get{ return SIZE; }
-		}
-        public int ParamsSize
-        {
-            get
-            {
-                return Size - Comando.SIZE;
-            }
-        }
-        public  string LineaEjecucionXSE() {
+		public virtual int Size => SIZE;
+		public int ParamsSize=> Size - Comando.SIZE;
+		public  virtual string LineaEjecucionXSE() {
+			
+			IBloqueConNombre bloque;
+			byte auxByte;
+			Word auxWord;
+			DWord auxDWord;
+			OffsetRom auxOffsetRom;
+			Hex valor;
+			StringBuilder strLinea = new StringBuilder(Nombre.ToLower());
+		    IList<object> parametros = GetParams();
 
-				StringBuilder strLinea = new StringBuilder(Nombre.ToLower());
-				IList<object> parametros = GetParams();
-				IBloqueConNombre bloque;
-				byte auxByte;
-				Word auxWord;
-				DWord auxDWord;
-				OffsetRom auxOffsetRom;
-				Hex valor;
 				for (int i = 0; i < parametros.Count; i++) {
 					strLinea.Append(" ");
 					bloque = parametros[i] as IBloqueConNombre;
@@ -214,7 +207,7 @@ namespace PokemonGBAFramework.Core
             return comando;
         }
         public static Comando LoadXSECommand(params string[] camposComando)
-        {
+        {//falta testing
             Hex aux;
             Comando comando;
             List<Propiedad> propiedades;
