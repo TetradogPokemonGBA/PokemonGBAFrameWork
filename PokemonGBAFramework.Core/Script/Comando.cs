@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.ComandosScript;
 using PokemonGBAFramework.Core.Extension;
 
 namespace PokemonGBAFramework.Core
@@ -36,6 +37,8 @@ namespace PokemonGBAFramework.Core
 				if (types[i].FullName.Contains("ComandosScript"))
 					DicTypes.Add(types[i].Name.ToLower(), types[i]);
             }
+			DicTypes.Add("msgbox", typeof(LoadPointer));
+			DicTypes.Add("if", typeof(If1));
         }
         internal Comando()
 		{
@@ -172,22 +175,59 @@ namespace PokemonGBAFramework.Core
 			return compatibilidad;
 			
 		}
+		protected virtual void LoadFromXSE(string[] camposComando)
+		{
+			//falta testing			
+			Hex aux;
+			object obj;
+			int pos = 0;
+			List<Propiedad> propiedades=this.GetPropiedades();
+			for (int j = 0; j < propiedades.Count; j++)
+				if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
+				{
+					aux = camposComando[pos].Contains("x") ? (Hex)camposComando[pos].Split('x')[1] : (Hex)int.Parse(camposComando[pos]);
+					switch (propiedades[j].Info.Tipo.Name)
+					{
+						case "byte":
+						case nameof(Byte):
+							obj=(byte)aux;
+							break;
+						case nameof(OffsetRom):
+							obj=(int)aux;
+							break;
+						case nameof(Word):
+							obj= new Word((ushort)aux);
+							break;
+						case nameof(DWord):
+							obj= new DWord((uint)aux);
+							break;
+						default:
+							obj = default;
+							break;
+					}
+					this.SetProperty(propiedades[j].Info.Nombre, obj);
+					pos++;
+				}
+		}
 		
 		public override string ToString()
 		{
 			return Nombre;
 		}
 		
-        public static Comando LoadXSECommand(string comando)
-        {
-            comando = NormalizaStringXSE(comando);
-            return LoadXSECommand(comando.Contains(" ")?comando.Split(' '):new string[] { comando });
-        }
+
         public static string NormalizaStringXSE(string comando)
         {
             int inicioComentario;
 
-            comando = comando.Trim();
+			comando = comando.Trim();
+
+			while(comando.Contains("  "))
+				comando= comando.Replace("  "," ");
+
+			comando = comando.Trim('\r','\n','\t');
+			
+
 			if (comando.Length > 0 && !comando.StartsWith(ComentariosUnaLinea))
 			{
 				inicioComentario = comando.IndexOf("/*");
@@ -205,43 +245,18 @@ namespace PokemonGBAFramework.Core
                 }
             }
             return comando;
-        }
-        public static Comando LoadXSECommand(params string[] camposComando)
-        {//falta testing
-            Hex aux;
-            Comando comando;
-            List<Propiedad> propiedades;
-            List<Object> parametros = new List<object>();
-            Type commandType = DicTypes[camposComando[0].ToLower()];
-             propiedades =Activator.CreateInstance(commandType).GetPropiedades();//mirar de poderlas ordenar con atributos
-                for (int j = 0; j < propiedades.Count; j++)
-                    if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
-                    {
-                        aux = camposComando[parametros.Count].Contains("x") ? (Hex)camposComando[parametros.Count].Split('x')[1] : (Hex)int.Parse(camposComando[parametros.Count]);
-                        switch (propiedades[j].Info.Tipo.Name)
-                        {
-                            case "byte":
-                            case nameof(Byte):
-                                parametros.Add((byte)aux);
-                                break;
-                            case nameof(OffsetRom):
-                                parametros.Add(new OffsetRom((int)aux));
-                                break;
-                            case nameof(Word):
-                                parametros.Add(new Word((ushort)aux));
-                                break;
-                            case nameof(DWord):
-                                parametros.Add(new DWord((uint)aux));
-                                break;
-                        }
-                    }
-                //     los atributos se pueden ordenar en un momento dado:)
-                comando=(Comando)Activator.CreateInstance(commandType, parametros.ToArray());
+		}
 
+		public static Comando LoadXSECommand(params string[] camposComando)
+        {
+			Comando comando;
+			Type commandType=DicTypes[camposComando[0]];
+			
+			comando= (Comando)Activator.CreateInstance(commandType);
+			comando.LoadFromXSE(camposComando);
+			return comando;
 
-
-                return comando;
-        }
+		}
       
     }
 }

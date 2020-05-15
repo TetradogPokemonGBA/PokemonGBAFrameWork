@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Collections.Generic;
 
 namespace PokemonGBAFramework.Core.ComandosScript
 {
@@ -53,7 +54,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+		protected override IList<object> GetParams()
 		{
 			return new Object[]{Sonido};
 		}
@@ -150,6 +151,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override string Nombre => NOMBRE;
 		public override int Size => SIZE;
 		public byte Desconocido { get; set; }
+
+		protected override IList<object> GetParams()
+		{
+			return new object[] { Sonido, Desconocido };
+		}
 		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando);

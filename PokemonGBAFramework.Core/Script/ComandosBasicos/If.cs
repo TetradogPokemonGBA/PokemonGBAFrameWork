@@ -22,6 +22,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string DESCRIPCION = "Comprueba que la condicion sea true con el 'lastresult'";
 
         OffsetRom offsetScript;
+		public If1():this(0,new OffsetRom()) { }
 		public If1(byte condicion,OffsetRom offsetScript)
         {
             Condicion = condicion;
@@ -117,10 +118,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return $"if {((Hex)Condicion).ByteString} call {((Hex)(int) Offset).ByteString}";
 		}
+		protected override void LoadFromXSE(string[] camposComando)
+		{
+			//if 0xCONDICION call 0xOFFSET
+			Condicion = camposComando[1].Contains("x") ? (byte)(Hex)camposComando[1].Split('x')[1] : byte.Parse(camposComando[1]);
+			Offset = new OffsetRom(camposComando[3].Contains("x")?(int)(Hex)camposComando[3].Split('x')[1]:int.Parse(camposComando[3]));
+		}
 	}
 	public class If2:If1{
 		public new const byte ID=0x7;
         public new const string NOMBRE = "If2";
+		public If2() : this(0, new OffsetRom()) { }
 		public If2(byte condicion,OffsetRom offsetScript):base(condicion, offsetScript)
 		{}
 		public If2(RomGba rom,int offset):base(rom,offset)
@@ -129,15 +137,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public unsafe If2(byte* ptRom,int offset):base(ptRom,offset)
 		{}
-		public override string Nombre {
-			get {
-				return NOMBRE;
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
+		public override string Nombre => NOMBRE;
+		public override byte IdComando => ID;
 	}
 }

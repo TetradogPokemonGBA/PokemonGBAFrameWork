@@ -15,8 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "Goto";
         public new const string DESCRIPCION = "Continua con otro script";
 
-        /*public Goto(Script script):base(script)
-		{}*/
+		public Goto():this(new OffsetRom()) { }
         public Goto(OffsetRom script):base(script)
 		{}
 		public Goto(RomGba rom, int offset) : base(rom, offset)
@@ -31,28 +30,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 		}
 
-		public override string Nombre {
-			get {
-				return NOMBRE;
-			}
-		}
+		public override string Nombre => NOMBRE;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
+		public override byte IdComando => ID;
 
-		public override string Descripcion {
-			get {
-				return DESCRIPCION;
-			}
-		}
-		public override bool IsEnd {
-			get {
-				return true;
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
+
+		public override bool IsEnd => true;
 	}
 }
 

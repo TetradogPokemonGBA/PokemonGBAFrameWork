@@ -808,6 +808,8 @@ namespace PokemonGBAFramework.Core
         #region IEndScript implementation
 
 
+
+
         public bool IsEnd
         {
             get
@@ -823,6 +825,7 @@ namespace PokemonGBAFramework.Core
                 return iEnd != null;
             }
         }
+
         /// <summary>
         /// Es el valor que tiene al leerse de la rom si es null es porque acaba con un comando IEndScript
         /// </summary>

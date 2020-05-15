@@ -58,12 +58,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			get{ return funcionPersonalizada; }
 			set{ funcionPersonalizada = value; }
 		}
-		public bool IsEnd {
-			get {
-				return false;
-			}
-		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+
+        public bool IsEnd => false;
+        protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ funcionPersonalizada };
 		}

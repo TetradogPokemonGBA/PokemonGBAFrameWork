@@ -60,12 +60,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 
 		#region IEndScript implementation
-		public bool IsEnd {
-			get {
-				return true;
-			}
-		}
-		#endregion 
+		public bool IsEnd => true;
+		#endregion
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ funcionPersonalizada };

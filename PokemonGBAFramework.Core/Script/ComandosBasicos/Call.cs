@@ -22,7 +22,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";		
 	    
         OffsetRom offset;
-		
+		public Call():this(new OffsetRom()) { }
 		public Call(OffsetRom script)
 		{
 			Offset=script;
@@ -34,29 +34,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public unsafe Call(byte* ptRom,int offset):base(ptRom,offset)
 		{}
-		public override string Descripcion {
-			get {
-				return DESCRIPCION;
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
+		public override byte IdComando => ID;
 
-		public override string Nombre {
-			get {
-				return NOMBRE;
-			}
-		}
+		public override string Nombre => NOMBRE;
 
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+		public override int Size => SIZE;
 		public OffsetRom Offset
 		{
 			get{
@@ -68,11 +52,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				offset=value;
 				
 			}
-		}	
-		public virtual bool IsEnd
-		{
-			get{return false;}
 		}
+
+		public virtual bool IsEnd => false;
+
 		#region implemented abstract members of Comando
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{

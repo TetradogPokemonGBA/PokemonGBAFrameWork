@@ -15,10 +15,6 @@ namespace PokemonGBAFramework.Core
 	/// </summary>
 	public interface IEndScript
 	{
-		bool IsEnd
-		{
-			get;
-		}
-		
-	}
+        bool IsEnd { get; }
+    }
 }
