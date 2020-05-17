@@ -60,28 +60,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		#region implemented abstract members of Comando
 
-		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe  override void CargarCamando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
 		{
 			MemoryBankToUse=ptrRom[offsetComando];
-			base.CargarCamando(ptrRom,offsetComando+1);
+			base.CargarCamando(scriptManager,ptrRom,offsetComando+1);
 		}
 
 		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-			OffsetRom offset=Offset;
 			*ptrRomPosicionado=IdComando;
 			ptrRomPosicionado++;
 			*ptrRomPosicionado=MemoryBankToUse;
 			ptrRomPosicionado++;
-			OffsetRom.SetOffset(ptrRomPosicionado,offset);
+			OffsetRom.SetOffset(ptrRomPosicionado, Offset);
 		}
 
 
 
 		#endregion
-		public override string LineaEjecucionXSE()
-		{
-			return $"msgbox {((Hex)(int)Offset).ByteString} {((Hex)MemoryBankToUse).ByteString}";
-		}
+
 	}
 }

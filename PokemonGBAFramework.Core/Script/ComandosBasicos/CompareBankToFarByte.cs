@@ -84,7 +84,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			ptrRomPosicionado+=base.Size;
 			*ptrRomPosicionado=Bank;
 			ptrRomPosicionado++;
-			OffsetRom.SetOffset(ptrRomPosicionado,offsetToByteToCompare);
+			OffsetRom.Set(ptrRomPosicionado,offsetToByteToCompare);
 		}
 	}
 }

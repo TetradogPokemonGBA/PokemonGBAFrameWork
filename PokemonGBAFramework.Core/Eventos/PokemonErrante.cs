@@ -224,7 +224,7 @@ namespace PokemonGBAFramework.Core
                 int offsetVar1;
                 rom.Data.Remove(offset, Get(rom).GetBytes().Length);
                 offset = rom.Data.SearchEmptySpaceAndSetArray(mapa.GetBytes(),offset);
-                OffsetRom.SetOffset(rom,GetOffsetTabla(rom),offset);
+                OffsetRom.Set(rom,GetOffsetTabla(rom),offset);
                 offsetVar1 = GetOffsetVariable1(rom);
                 rom.Data[offsetVar1]=(byte) mapa.Saltos.Count;
                 rom.Data[GetOffsetVariable2(rom)] = rom.Data[offsetVar1];

@@ -144,11 +144,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 			ptrRomPosicionado += Word.LENGTH;
 
-			OffsetRom.SetOffset(ptrRomPosicionado, pointerToTheChallengeText);
+			OffsetRom.Set(ptrRomPosicionado, pointerToTheChallengeText);
 
 			ptrRomPosicionado += OffsetRom.LENGTH;
 
-			OffsetRom.SetOffset(ptrRomPosicionado, pointerToTheDefeatText);
+			OffsetRom.Set(ptrRomPosicionado, pointerToTheDefeatText);
 		}
 	}
 }

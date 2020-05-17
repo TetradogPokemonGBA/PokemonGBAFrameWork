@@ -71,7 +71,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
             ptrRomPosicionado += base.Size;
             Word.SetData(ptrRomPosicionado,PersonajeAUsar);
 			ptrRomPosicionado+=Word.LENGTH;
-			OffsetRom.SetOffset(ptrRomPosicionado,DatosMovimiento);
+			OffsetRom.Set(ptrRomPosicionado,DatosMovimiento);
 			
 		}
 	}

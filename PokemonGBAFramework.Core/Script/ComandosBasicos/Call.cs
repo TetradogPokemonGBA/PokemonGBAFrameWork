@@ -13,26 +13,25 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of Call.
 	/// </summary>
-	public class Call:Comando,IEndScript, IOffsetScript//,IDeclaracion
+	public class Call:Comando,IEndScript, IScript
 	{
 		public const byte ID=0x4;
 		public new const int SIZE=Comando.SIZE+OffsetRom.LENGTH;
 		
 		public const string NOMBRE="Call";
 		public const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";		
-	    
-        OffsetRom offset;
-		public Call():this(new OffsetRom()) { }
-		public Call(OffsetRom script)
+
+		public Call():this(new Script()) { }
+		public Call(Script script)
 		{
-			Offset=script;
+			Script=script;
 		}
-		public Call(RomGba rom,int offset):base(rom,offset)
+		public Call(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Call(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Call(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Call(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Call(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -41,60 +40,34 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override string Nombre => NOMBRE;
 
 		public override int Size => SIZE;
-		public OffsetRom Offset
-		{
-			get{
-				return offset;
-			}
-			set{
-				if(value==null)
-					value=new OffsetRom();
-				offset=value;
-				
-			}
-		}
+		public Script Script { get; set; }
 
 		public virtual bool IsEnd => false;
+
+
 
 		#region implemented abstract members of Comando
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new object[]{Offset};
+			return new object[]{Script};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom,int offsetActual)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager, byte* ptrRom,int offsetActual)
 		{
-			//podria ser que llamara a otra cosa que no fuese un script???
-			//Script=new Script(ptrRom,new OffsetRom(ptrRom,offsetActual).Offset);
-			 Offset=new OffsetRom(ptrRom,offsetActual);
+			 Script=scriptManager.Get(ptrRom,offsetActual);
 		}
 
-		protected unsafe override void SetComando(byte* ptrRom, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-	
-			base.SetComando(ptrRom,parametrosExtra);
-			ptrRom+=base.Size;
-			try{
-			//	offset=new OffsetRom(parametrosExtra[0]);
-			//	OffsetRom.SetOffset(ptrRom,offset);
-				OffsetRom.SetOffset(ptrRom,Offset);
-			}catch{
-				
-				throw new ArgumentException("Falta pasar como parametro el offset donde esta la declaracion del script");
-			}
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			OffsetRom.Set(data, 1, new OffsetRom(Script.IdUnicoTemp));
+			return data;
 		}
 
 
 
 		#endregion
 
-		#region IDeclaracion implementation
-
-		/*public byte[] GetDeclaracion(RomGba rom, params object[] parametrosExtra)
-		{
-			return script.GetDeclaracion(rom,parametrosExtra);
-		}
-*/
-		#endregion
 	}
 	
 }

@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using PokemonGBAFramework.Core.BuildScript;
 using System;
 
 namespace PokemonGBAFramework.Core
@@ -15,13 +16,7 @@ namespace PokemonGBAFramework.Core
 	/// </summary>
 	public interface IDeclaracion
 	{
-		byte[] GetDeclaracion(byte[] data,params object[] parametrosExtra);
+		
 	}
-    public static class ExtensionIDeclaracion
-    {
-        public static byte[] GetDeclaracion(this IDeclaracion objDeclaracion,RomGba rom,params object[] parametrosExtra)
-        {
-            return objDeclaracion.GetDeclaracion(rom.Data.Bytes, parametrosExtra);
-        }
-    }
+
 }

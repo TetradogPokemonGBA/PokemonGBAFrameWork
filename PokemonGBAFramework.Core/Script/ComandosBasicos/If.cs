@@ -14,26 +14,25 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of If.
 	/// </summary>
-	public class If1:Comando,IDeclaracion, IOffsetScript
+	public class If1:Comando,IDeclaracion
 	{
 		public const byte ID=0x6;
 		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
         public const string NOMBRE = "If1";
         public const string DESCRIPCION = "Comprueba que la condicion sea true con el 'lastresult'";
 
-        OffsetRom offsetScript;
-		public If1():this(0,new OffsetRom()) { }
-		public If1(byte condicion,OffsetRom offsetScript)
+		public If1():this(0,new Script()) { }
+		public If1(byte condicion,Script script)
         {
             Condicion = condicion;
-            Offset = offsetScript;
+            Script=script;
         }
 
-		public If1(RomGba rom,int offset):base(rom,offset)
+		public If1(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager, rom,offset)
 		{}
-		public If1(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public If1(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe If1(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe If1(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
         public override string Descripcion
         {
@@ -68,74 +67,43 @@ namespace PokemonGBAFramework.Core.ComandosScript
         }
         public byte Condicion { get; set; }
 
-        public OffsetRom Offset {
-			get {
-				return offsetScript;
-			}
-			set {
-				if(value==null)
-					value=new OffsetRom();
-				offsetScript = value;
-			}
-		}
+        public Script Script { get; set; }
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{Condicion,Offset};
+			return new Object[]{Condicion,Script};
 		}
-		#region implemented abstract members of Comando
+
 		
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
 		{
-			//byte condicion ptr script
 			Condicion=ptrRom[offsetComando++];
-			Offset=new OffsetRom(ptrRom,offsetComando);
+			Script=scriptManager.Get(ptrRom,new OffsetRom(ptrRom,offsetComando));
 			
 		}
-
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
-			ptrRomPosicionado+=base.Size;
-            *ptrRomPosicionado = Condicion;
-            ptrRomPosicionado++;
-            OffsetRom.SetOffset(ptrRomPosicionado, Offset);
+			byte[] declaracion = new byte[Size];
+			declaracion[0] = ID;
+			declaracion[1] = Condicion;
+			OffsetRom.Set(declaracion,2, new OffsetRom(Script.IdUnicoTemp));
+			return declaracion;
 		}
 
-		
 
-		#endregion
 
-		#region IDeclaracion implementation
 
-		public byte[] GetDeclaracion(byte[] rom, params object[] parametrosExtra)
-		{
-			return new Script(rom,Offset).GetDeclaracion(rom,parametrosExtra);
-		}
-
-		#endregion
-		public override string LineaEjecucionXSE()
-		{
-			return $"if {((Hex)Condicion).ByteString} call {((Hex)(int) Offset).ByteString}";
-		}
-		protected override void LoadFromXSE(string[] camposComando)
-		{
-			//if 0xCONDICION call 0xOFFSET
-			Condicion = camposComando[1].Contains("x") ? (byte)(Hex)camposComando[1].Split('x')[1] : byte.Parse(camposComando[1]);
-			Offset = new OffsetRom(camposComando[3].Contains("x")?(int)(Hex)camposComando[3].Split('x')[1]:int.Parse(camposComando[3]));
-		}
 	}
 	public class If2:If1{
 		public new const byte ID=0x7;
         public new const string NOMBRE = "If2";
-		public If2() : this(0, new OffsetRom()) { }
-		public If2(byte condicion,OffsetRom offsetScript):base(condicion, offsetScript)
+		public If2() : this(0, new Script()) { }
+		public If2(byte condicion,Script script):base(condicion, script)
 		{}
-		public If2(RomGba rom,int offset):base(rom,offset)
+		public If2(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager, rom,offset)
 		{}
-		public If2(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public If2(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe If2(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe If2(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
 		{}
 		public override string Nombre => NOMBRE;
 		public override byte IdComando => ID;

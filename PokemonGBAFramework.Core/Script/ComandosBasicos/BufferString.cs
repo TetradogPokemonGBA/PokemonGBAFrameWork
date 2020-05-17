@@ -70,7 +70,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			ptrRomPosicionado+=base.Size;
 			*ptrRomPosicionado=Buffer;
 			++ptrRomPosicionado;
-			OffsetRom.SetOffset(ptrRomPosicionado,String);		
+			OffsetRom.Set(ptrRomPosicionado,String);		
 		}
 	}
 }

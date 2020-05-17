@@ -176,5 +176,9 @@ namespace PokemonGBAFramework.Core.Extension
         {
             return new Paleta(img.GetColoresPaleta());
         }
+        public static int NextOffsetValido(this int offset)
+        {
+            return offset + (4 - offset % 4);//mirar que sea así
+        }
     }
 }

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
-    public interface IOffsetScript
+    public interface IScript
     {
-        OffsetRom Offset { get; set; }
+        Script Script { get; set; }
     }
 }

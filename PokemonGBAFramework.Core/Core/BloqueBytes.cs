@@ -1,5 +1,6 @@
 ﻿using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.Extension;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -128,7 +129,7 @@ namespace PokemonGBAFramework.Core
                 offsetEncontrado = datos.SearchBlock(offsetEncontrado, lengthFinal, byteEmpty);
                 continuarBuscando = offsetEncontrado % 4 != 0;
                 if (continuarBuscando)
-                    offsetEncontrado += (4 - offsetEncontrado % 4);
+                    offsetEncontrado = offsetEncontrado.NextOffsetValido();
             }
             while (continuarBuscando && offsetEncontrado > -1);
 

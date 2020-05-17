@@ -181,42 +181,46 @@ namespace PokemonGBAFramework.Core
             offset += POSICIONIDENTIFICADOR;
             return bytes[offset]==BYTEIDENTIFICADOR16MB||bytes[offset] == BYTEIDENTIFICADOR32MB;
         }
-        public static void SetOffset(RomGba rom, OffsetRom offsetAReemplazar, int offsetAPoner)
+        public static void Set(RomGba rom, OffsetRom offsetAReemplazar, int offsetAPoner)
+        {
+            Set(rom.Data, offsetAReemplazar, offsetAPoner);
+        }
+        public static void Set(BloqueBytes rom, OffsetRom offsetAReemplazar, int offsetAPoner)
         {
             OffsetRom ptrAPoner = new OffsetRom(offsetAPoner);
             int posicion = 0;
             do
             {
-                posicion = rom.Data.SearchArray(posicion + 1, offsetAReemplazar.BytesPointer);
+                posicion = rom.SearchArray(posicion + 1, offsetAReemplazar.BytesPointer);
                 if (posicion > 0)
-                    rom.Data.SetArray(posicion, ptrAPoner.BytesPointer);
+                    rom.SetArray(posicion, ptrAPoner.BytesPointer);
             } while (posicion > 0);
         }
-        public static void SetOffset(RomGba rom, int offsetDatos, OffsetRom offset)
+        public static void Set(RomGba rom, int offsetDatos, OffsetRom offset)
         {
-            SetOffset(rom.Data, offsetDatos, offset);
+            Set(rom.Data, offsetDatos, offset);
         }
-        public static void SetOffset(BloqueBytes data, int offsetDatos, OffsetRom offset)
+        public static void Set(BloqueBytes data, int offsetDatos, OffsetRom offset)
         {
-            SetOffset(data.Bytes, offsetDatos, offset);
+            Set(data.Bytes, offsetDatos, offset);
         }
-        public static void SetOffset(byte[] rom, OffsetRom offsetDatos, OffsetRom offset)
+        public static void Set(byte[] rom, OffsetRom offsetDatos, OffsetRom offset)
         {
-            SetOffset(rom, offsetDatos.Offset, offset);
+            Set(rom, offsetDatos.Offset, offset);
         }
-        public static void SetOffset(byte[] rom, int offsetDatos, OffsetRom offset)
+        public static void Set(byte[] rom, int offsetDatos, OffsetRom offset)
         {
             unsafe
             {
                 fixed (byte* ptrRom = rom)
-                    SetOffset(ptrRom, offsetDatos, offset);
+                    Set(ptrRom, offsetDatos, offset);
             }
         }
-        public unsafe static void SetOffset(byte* ptrRom, int offsetDatos, OffsetRom offset)
+        public unsafe static void Set(byte* ptrRom, int offsetDatos, OffsetRom offset)
         {
-            SetOffset(ptrRom + offsetDatos, offset);
+            Set(ptrRom + offsetDatos, offset);
         }
-        public unsafe static void SetOffset(byte* ptrDatos, OffsetRom offset)
+        public unsafe static void Set(byte* ptrDatos, OffsetRom offset)
         {
             const byte ZERO = 0x0;
             const int BYTESOFFSETSINELFIN = 3;

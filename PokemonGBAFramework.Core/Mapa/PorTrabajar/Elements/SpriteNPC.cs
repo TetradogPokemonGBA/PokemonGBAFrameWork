@@ -65,7 +65,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             data[13] = B14;
             data[14] = TrainerLOS;
             data[15] = B16;
-            OffsetRom.SetOffset(data, 16,new OffsetRom(OffsetScript + (OffsetScript == 0 ? 0 : 0x08000000)));
+            OffsetRom.Set(data, 16,new OffsetRom(OffsetScript + (OffsetScript == 0 ? 0 : 0x08000000)));
             Word.SetData(data, 20, Flag);
             data[22] = B23;
             data[23] = B24;

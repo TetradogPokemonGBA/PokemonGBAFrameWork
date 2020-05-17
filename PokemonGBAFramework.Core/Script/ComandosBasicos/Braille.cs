@@ -71,7 +71,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			base.SetComando(ptrRomPosicionado, parametrosExtra);
 			ptrRomPosicionado+=base.Size;
-			OffsetRom.SetOffset(ptrRomPosicionado, BrailleData);
+			OffsetRom.Set(ptrRomPosicionado, BrailleData);
 			
 		}
 	}
