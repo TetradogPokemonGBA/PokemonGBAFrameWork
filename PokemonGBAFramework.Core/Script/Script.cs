@@ -57,8 +57,10 @@ namespace PokemonGBAFramework.Core
         public Script()
         {
             ComandosScript = new Llista<Comando>();
-            IdUnicoTemp = GenId.Siguiente(GenId.Actual().NextOffsetValido()+1);//así siempre no será valido y no tendré problemas
+            IdUnicoTemp = GetIdUnicoTemp();
         }
+
+
 
         #region Leer Compilado
         public Script(RomGba rom, OffsetRom offsetScript):this(new ScriptManager(), rom, offsetScript) { }
@@ -931,7 +933,10 @@ namespace PokemonGBAFramework.Core
         public IEnumerable<Script> GetScritps() => ComandosScript.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
 
         #endregion
-
+        public static int GetIdUnicoTemp()
+        {
+            return GenId.Siguiente(GenId.Actual().NextOffsetValido() + 1);//así siempre no será valido y no tendré problemas
+        }
     }
 
 

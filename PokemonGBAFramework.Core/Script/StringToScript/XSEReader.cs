@@ -1,9 +1,11 @@
 ﻿using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.ComandosScript;
 using PokemonGBAFramework.Core.Extension;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFramework.Core.StringToScript
@@ -12,18 +14,55 @@ namespace PokemonGBAFramework.Core.StringToScript
     {
         public static readonly string[] ComentariosUnaLinea = { "//", "#" };
 
-
-        public static Comando GetCommand(params string[] camposComando)
+ 
+        class Org
+        {
+            public enum TipoOrg
+            {
+                String, Movement, Shop, Script
+            }
+            public TipoOrg Tipo { get; set; }
+            public string Id { get; set; }
+            public Script Script { get; set; }
+            public BloqueString Texto { get; set; }
+            public BloqueMovimiento Movimiento { get; set; }
+        }
+        static Comando GetCommand(TwoKeysList<string, int, Org> dicScripts,params string[] camposComando)
         {
             Comando comando;
-            Type commandType =Comando.DicTypes[camposComando[0]];
+            If1 if1;
+            MsgBox msgbox;
+            Type commandType;
+            switch (camposComando[0])
+            {
+                case "if":
+                    //if 0xCondicion call/goto 0xOffset/etiqueta
+                    if1 = new If1();
+                    if1.Condicion=byte.Parse(camposComando[1].Contains('x') ?camposComando[1].Split('x')[1]:camposComando[1]);
+                    if1.Script = dicScripts[camposComando[3]].Script;
+                    comando = if1;
 
-            comando = (Comando)Activator.CreateInstance(commandType);
-            Load(comando,camposComando);
+                    break;
+                case "msgbox":
+                    //msgbox etiqueta/offset 0xTipo
+                    msgbox = new MsgBox();
+                    msgbox.Texto = dicScripts[camposComando[1]].Texto;
+                    msgbox.Tipo=(MsgBox.MsgBoxTipo) byte.Parse(camposComando[1].Contains('x') ? ((int)(Hex)camposComando[1].Split('x')[1]).ToString() : camposComando[1]);
+                    comando = msgbox;
+                    break;
+                default:
+
+                    commandType = Comando.DicTypes[camposComando[0]];
+                    comando = (Comando)Activator.CreateInstance(commandType);
+                    EndLoadCommand(comando, dicScripts, camposComando);
+                    break;
+
+            }
+            
             return comando;
 
         }
-        public static void Load(Comando comando,string[] camposComandoConId)
+         static void EndLoadCommand(Comando comando, TwoKeysList<string, int, Org> dicScripts,string[] camposComandoConId)
         {
             //falta testing			
             string aux;
@@ -33,7 +72,7 @@ namespace PokemonGBAFramework.Core.StringToScript
             for (int j = 0; j < propiedades.Count; j++)
                 if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
                 {
-                    aux = camposComandoConId[pos].Contains("x") ? ((int)(Hex)camposComandoConId[pos].Split('x')[1]).ToString() : !camposComandoConId[pos].Contains("@") ? camposComandoConId[pos]:camposComandoConId[pos].Substring(1);
+                    aux = camposComandoConId[pos].Contains("x") ? ((int)(Hex)camposComandoConId[pos].Split('x')[1]).ToString() : camposComandoConId[pos];
                     switch (propiedades[j].Info.Tipo.Name)
                     {
                         case "byte":
@@ -41,9 +80,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                             obj = byte.Parse(aux);
                             break;
                         case nameof(Script):
-                            if (camposComandoConId[pos].Contains("x"))
-                                obj = int.Parse(aux);//offset script
-                            else obj = aux;//es una etiquetaDinamica
+                             obj = dicScripts[aux];
                             break;
                         case nameof(Word):
                             obj = new Word(ushort.Parse(aux));
@@ -97,214 +134,100 @@ namespace PokemonGBAFramework.Core.StringToScript
         }
         public static IList<Script> GetFromXSE(this string[] comandos)
         {
-            SortedList<int,Script> scripts = new SortedList<int,Script>();
+            string[] camposComando;
             string comandoActual;
+            TwoKeysList<string,int,Org> scripts = new TwoKeysList<string, int, Org>();
+            Org org=default;
+            SortedList<string, Org> dicBloques = new SortedList<string, Org>();
+
+            //cargo todas las etiquetas de los scripts
             for(int i = 0; i < comandos.Length; i++)
             {
                 comandoActual = Normalitze(comandos[i]);
                 if (!string.IsNullOrEmpty(comandoActual))
                 {
+                    if (comandoActual.Contains(' '))
+                        camposComando = comandoActual.Split(' ');
+                    else camposComando = new string[] { comandoActual };
 
+                    if (camposComando[0] == "#org")
+                    {
+                        if(!dicBloques.ContainsKey(camposComando[1]))
+                        {//script,texto,movimientos,tienda?,
+                            org = new Org() { Id = camposComando[1] };
+                            dicBloques.Add(camposComando[1], org);
+                        }
+                    }else if (!Equals(org, default))
+                    {
+                        //determino el tipo
+                        if (comandoActual[0] == '=')
+                            org.Tipo = Org.TipoOrg.String;
+                        else if (comandoActual.Contains("#raw"))
+                            org.Tipo = Org.TipoOrg.Movement;
+                        else org.Tipo = Org.TipoOrg.Script;
+
+                        org = default;//para saltar las proximas lineas
+                    }
 
                 }
 
             }
-            return scripts.Values;
-        }
-        public string GetDeclaracionXSE(string etiqueta, bool addDynamicTag = true)
-        {
-            return GetDeclaracionXSE(etiqueta, IsEndFinished, addDynamicTag);
-        }
-        /// <summary>
-        /// Obtiene el script en formato XSE
-        /// </summary>
-        /// <param name="rom"></param>
-        /// <param name="etiqueta"></param>
-        /// <param name="idEnd"></param>
-        /// <returns></returns>
-        public static string GetDeclaracion(Script script,string etiqueta, bool? isEnd, bool addDynamicTag = true)
-        {
-
-            StringBuilder strSCript = new StringBuilder();
-            if (addDynamicTag)
+            for (int i = 0; i < comandos.Length; i++)
             {
-                strSCript.Append("#dynamic ");
-                strSCript.AppendLine(Script.OffsetInicioDynamic.ByteString);
-            }
-            if (!string.IsNullOrEmpty(etiqueta))
-            {
-                strSCript.Append("#org @");
-                strSCript.AppendLine(etiqueta);
-            }
-            for (int i = 0; i < script.ComandosScript.Count; i++)
-            {
-                strSCript.AppendLine(script.ComandosScript[i].LineaEjecucionXSE());
-            }
-
-            if (isEnd.GetValueOrDefault() || Script.EsUnaFuncionAcabadaEnEndOReturn(script.ComandosScript[script.ComandosScript.Count - 1]).GetValueOrDefault())
-            {
-                strSCript.Append("end");
-            }
-            else if (isEnd.HasValue)//si tiene y no ha entrado antes es que es false osea es un return :)
-                strSCript.Append("return");
-
-            return strSCript.ToString();
-
-        }
-        public string GetAllDeclaracionXSE(RomGba rom, string etiqueta = "Start", bool? isEnd = null, bool addDynamicTag = false)
-        {
-
-            return GetAllDeclaracionXSE(rom.Data.Bytes, etiqueta, isEnd, addDynamicTag);
-
-        }
-        public string GetAllDeclaracionXSE(byte[] rom, string etiqueta = "Start", bool addDynamicTag = false)
-        {
-            return GetAllDeclaracionXSE(rom, etiqueta, IsEndFinished, addDynamicTag);
-        }
-        public string GetAllDeclaracionXSE(byte[] rom, string etiqueta, bool? isEnd, bool addDynamicTag = false)
-        {
-            IOffsetScript aux;
-            LoadPointer loadPointerStr;
-            OffsetRom offset;
-            string strScript = GetDeclaracionXSE(etiqueta, isEnd, addDynamicTag);
-            StringBuilder str = new StringBuilder();
-
-            if (string.IsNullOrEmpty(etiqueta) && OffsetData != default)
-                str.AppendLine($"#org {((Hex)(int)OffsetData).ByteString}");
-
-            str.AppendLine(strScript);
-            for (int i = 0; i < ComandosScript.Count; i++)
-            {
-
-                aux = ComandosScript[i] as IOffsetScript;
-
-                if (aux != default)
+                comandoActual = Normalitze(comandos[i]);
+                if (!string.IsNullOrEmpty(comandoActual))
                 {
-                    loadPointerStr = aux as LoadPointer;
+                    if (comandoActual.Contains(' '))
+                        camposComando = comandoActual.Split(' ');
+                    else camposComando = new string[] { comandoActual };
 
-                    str.AppendLine();
-                    str.AppendLine("----------");
-                    offset = aux.Offset;
-                    if (loadPointerStr != default)
+                    if (camposComando[0] != "#org")
                     {
-                        str.AppendLine($"#org {((Hex)(int)offset).ByteString}");
-                        str.Append("= ");
-                        str.AppendLine(BloqueString.Get(rom, offset).Texto.Replace("\n", "\\n"));
-                    }
-                    else
-                    {
-                        str.AppendLine(new Script(rom, offset).GetAllDeclaracionXSE(rom, null, false));
-                    }
-                }
-
-            }
-            return str.ToString();
-
-        }
-        public static IList<Script> FromXSE(FileInfo archivoXSE)
-        {
-            if (!archivoXSE.Exists)
-                throw new System.IO.FileNotFoundException("No se ha podido encontrar el archivo...");
-            return FromXSE(System.IO.File.ReadAllLines(archivoXSE.FullName));
-        }
-        public static IList<Script> FromXSE(IList<string> scriptXSE)
-        {//por probar
-            if (scriptXSE == null)
-                throw new ArgumentNullException("scriptXSE");
-
-            string[] comandoActualCampos;
-            string[] defineCampos;
-            string lineaLower;
-            string auxLinea;
-            IScript offsetScript;
-            string strOffset;
-
-            Script scriptActual = default;
-            SortedList<string, Script> dicScriptsCargados = new SortedList<string, Script>();
-
-
-
-
-            for (int i = scriptXSE.Count - 1; i >= 0; i--)
-            {
-                //tener en cuenta los define
-                lineaLower = scriptXSE[i].ToLower();
-                if (lineaLower.Contains("define"))
-                {
-                    defineCampos = lineaLower.Split(' ');
-                    for (int j = i; j >= 0; j--)
-                    {
-                        if (scriptXSE[j].ToLower().Contains(defineCampos[1]))
-                            scriptXSE[j] = scriptXSE[j].ToLower().Replace(defineCampos[1], defineCampos[2]);
-                    }
-                    scriptXSE.RemoveAt(i);
-                }
-                else if (lineaLower.Contains("dynamic")) scriptXSE.RemoveAt(i);  //quitar el dinamic
-            }
-
-
-            for (int i = 0; i < scriptXSE.Count; i++)
-            {
-                try
-                {
-
-                    auxLinea =scriptXSE[i].Normalitze();
-                    if (!string.IsNullOrEmpty(auxLinea))
-                    {
-                        if (auxLinea.Contains(" "))
-                            comandoActualCampos = auxLinea.Split(' ');
-                        else comandoActualCampos = new string[] { auxLinea };
-
-                        if (comandoActualCampos[0] == "#org")
+                        if (Equals(org, default))
                         {
-                            //anidar scripts anidados
-                            if (!dicScriptsCargados.ContainsKey(comandoActualCampos[1]))
-                            {
-                                scriptActual = new Script();
-                                dicScriptsCargados.Add(comandoActualCampos[1], scriptActual);
-                            }
-                            else
-                            {
-                                scriptActual = dicScriptsCargados[comandoActualCampos[1]];
-                            }
+                            throw new ScriptXSEMalFormadoException(comandos[i]);
                         }
 
-                        else if (Comando.DicTypes.ContainsKey(comandoActualCampos[0]))
+                        switch (org.Tipo)
                         {
-                            scriptActual.ComandosScript.Add(GetCommand(comandoActualCampos));
+                            case Org.TipoOrg.Script:
+                                if (Comando.DicTypes.ContainsKey(camposComando[0]))
+                                {
+                                    org.Script.ComandosScript.Add(GetCommand(scripts, camposComando));
+
+                                }
+                                else if (camposComando[0] != "return" && camposComando[0] != "end")
+                                {
+                                    throw new ScriptXSEMalFormadoException(comandos[i]);
+                                }
+                                break;
+                            case Org.TipoOrg.Movement://#raw 0xMOVE
+                                org.Movimiento.List.Add(byte.Parse(camposComando[1].Contains('x') ? camposComando[1].Split('x')[1] : camposComando[1]));
+
+                                break;
+                            case Org.TipoOrg.String://= Texto
+                                org.Texto.Texto +=comandoActual.StartsWith("=")? comandoActual.Substring(1).Trim():comandoActual;
+                                break;
+                                //falta la tienda y otros
                         }
-                        else if (comandoActualCampos[0] != "return" && comandoActualCampos[0] != "end")
+
+                    }
+                    else { 
+                        org = scripts[camposComando[1]];
+                        switch(org.Tipo)
                         {
-                            //si no esta hago una excepcion
-                            throw new Exception("falta return/end en el script");
+                            case Org.TipoOrg.Script:org.Script = new Script();break;
+                            case Org.TipoOrg.Movement:org.Movimiento = new BloqueMovimiento();break;
+                            case Org.TipoOrg.String: org.Texto = new BloqueString();break;
                         }
                     }
-
-
+                    
                 }
-                catch
-                {
-                    throw new ScriptXSEMalFormadoException(scriptXSE[i]);
-                }
+
             }
-            //ahora vinculo los scripts anidados
-            //foreach(var script in dicScriptsCargados)
-            //{
-            //    for(int i = 0; i < script.Value.ComandosScript.Count; i++)
-            //    {
-            //        offsetScript = script.Value.ComandosScript[i] as IOffsetScript;
-            //        if (offsetScript != null)
-            //        {
-            //            strOffset = ((Hex)(int)offsetScript.Offset).ByteString.ToLower();
-            //            if(dicScriptsCargados.ContainsKey(strOffset))
-            //                 offsetScript.Script = dicScriptsCargados[strOffset];
-            //        }
-            //    }
-            //}
-
-            return dicScriptsCargados.Values;
+            return scripts.Values.Filtra((o)=>o.Tipo== Org.TipoOrg.Script).Select((o)=>o.Script).ToArray();
         }
-
+  
 
 
     }

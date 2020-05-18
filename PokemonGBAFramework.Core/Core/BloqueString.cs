@@ -74,7 +74,7 @@ namespace PokemonGBAFramework.Core
          int maxCaracteres;
         string texto;
         string idUnico;
-
+        
         public BloqueString(int maxCaracteres)
             : this("", maxCaracteres, true)
         {
@@ -112,6 +112,7 @@ namespace PokemonGBAFramework.Core
                 texto = texto.Substring(0, texto.IndexOf(MARCAFIN));
             Texto = texto;
             this.OffsetInicio = offsetInicio;
+            IdUnicoTemp = Script.GetIdUnicoTemp();
         }
 
         public BloqueString()
@@ -149,7 +150,7 @@ namespace PokemonGBAFramework.Core
                 texto = value;
             }
         }
-
+        public int IdUnicoTemp { get; private set; }
         public int OffsetInicio { get; private set; }
         public bool AcabaEnFFByte { get; set; }
 
@@ -206,6 +207,18 @@ namespace PokemonGBAFramework.Core
             return offsetEmpty;
         }
 
+        public static unsafe BloqueString Get(byte* ptrRom,int offsetString)
+        {
+            int offsetInicio = offsetString;
+            int length = 0;
+            byte[] data;
+            while (ptrRom[offsetString++] != 0xFF) length++;
+            data = new byte[length];
+            offsetString = offsetInicio;
+            for (int i = 0; i < data.Length; i++)
+                data[i] = ptrRom[offsetString++];
+            return new BloqueString(ToString(data));
+        }
         public static BloqueString Get(RomGba rom, int offsetInicio, int longitud, bool acabaEnFFByte = true)
         {
 
