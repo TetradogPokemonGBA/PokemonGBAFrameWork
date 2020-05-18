@@ -19,7 +19,7 @@ namespace PokemonGBAFramework.Core.StringToScript
         {
             public enum TipoOrg
             {
-                String, Movement, Shop, Script
+                String, Movement, Script// ,Shop
             }
             public TipoOrg Tipo { get; set; }
             public string Id { get; set; }
@@ -65,36 +65,50 @@ namespace PokemonGBAFramework.Core.StringToScript
          static void EndLoadCommand(Comando comando, TwoKeysList<string, int, Org> dicScripts,string[] camposComandoConId)
         {
             //falta testing			
-            string aux;
+            
             object obj;
+            string aux = "";
             int pos = 1;
             List<Propiedad> propiedades = comando.GetPropiedades();
-            for (int j = 0; j < propiedades.Count; j++)
-                if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
-                {
-                    aux = camposComandoConId[pos].Contains("x") ? ((int)(Hex)camposComandoConId[pos].Split('x')[1]).ToString() : camposComandoConId[pos];
-                    switch (propiedades[j].Info.Tipo.Name)
+            try
+            {
+                for (int j = 0; j < propiedades.Count; j++)
+                    if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
                     {
-                        case "byte":
-                        case nameof(Byte):
-                            obj = byte.Parse(aux);
-                            break;
-                        case nameof(Script):
-                             obj = dicScripts[aux];
-                            break;
-                        case nameof(Word):
-                            obj = new Word(ushort.Parse(aux));
-                            break;
-                        case nameof(DWord):
-                            obj = new DWord(uint.Parse(aux));
-                            break;
-                        default:
-                            obj = default;
-                            break;
+                        aux = camposComandoConId[pos].Contains("x") ? ((int)(Hex)camposComandoConId[pos].Split('x')[1]).ToString() : camposComandoConId[pos];
+                        switch (propiedades[j].Info.Tipo.Name)
+                        {
+                            case "byte":
+                            case nameof(Byte):
+                                obj = byte.Parse(aux);
+                                break;
+                            case nameof(Script):
+                                obj = dicScripts[aux].Script;
+                                break;
+                            case nameof(BloqueMovimiento):
+                                obj = dicScripts[aux].Movimiento;
+                                break;
+                            case nameof(BloqueString):
+                                obj = dicScripts[aux].Texto;
+                                break;
+                            case nameof(Word):
+                                obj = new Word(ushort.Parse(aux));
+                                break;
+                            case nameof(DWord):
+                                obj = new DWord(uint.Parse(aux));
+                                break;
+                            default:
+                                obj = default;
+                                break;
+                        }
+                        comando.SetProperty(propiedades[j].Info.Nombre, obj);
+                        pos++;
                     }
-                    comando.SetProperty(propiedades[j].Info.Nombre, obj);
-                    pos++;
-                }
+            }
+            catch
+            {
+                throw new Exception($"No se ha encontrado '{aux}'");
+            }
         }
 
         public static string Normalitze(this string comando)
@@ -132,7 +146,7 @@ namespace PokemonGBAFramework.Core.StringToScript
         {
             return GetFromXSE(comandosConEnter.Split('\n'));
         }
-        public static IList<Script> GetFromXSE(this string[] comandos)
+        public static IList<Script> GetFromXSE(this IList<string> comandos)
         {
             string[] camposComando;
             string comandoActual;
@@ -141,7 +155,7 @@ namespace PokemonGBAFramework.Core.StringToScript
             SortedList<string, Org> dicBloques = new SortedList<string, Org>();
 
             //cargo todas las etiquetas de los scripts
-            for(int i = 0; i < comandos.Length; i++)
+            for(int i = 0; i < comandos.Count; i++)
             {
                 comandoActual = Normalitze(comandos[i]);
                 if (!string.IsNullOrEmpty(comandoActual))
@@ -172,7 +186,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                 }
 
             }
-            for (int i = 0; i < comandos.Length; i++)
+            for (int i = 0; i < comandos.Count; i++)
             {
                 comandoActual = Normalitze(comandos[i]);
                 if (!string.IsNullOrEmpty(comandoActual))
