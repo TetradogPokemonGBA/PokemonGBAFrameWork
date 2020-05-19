@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="CheckMoney";
 		public const string DESCRIPCION="Comprueba si el jugador tiene el dinero especificado.";
 
+		public CheckMoney() { }
         public CheckMoney(DWord dineroAComprobar,Byte comprobarEjecucionComando)
 		{
 			DineroAComprobar=dineroAComprobar;
@@ -23,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public CheckMoney(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CheckMoney(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CheckMoney(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CheckMoney(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CheckMoney(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CheckMoney(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -58,7 +59,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{DineroAComprobar,ComprobarEjecucionComando};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			DineroAComprobar=new DWord(ptrRom,offsetComando);
 			offsetComando+=DWord.LENGTH;
@@ -68,10 +69,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			DWord.SetData(data, ,DineroAComprobar);
-		    ptrRomPosicionado+=DWord.LENGTH;
-			*ptrRomPosicionado=ComprobarEjecucionComando;
+			data[0]=IdComando;
+			DWord.SetData(data,1,DineroAComprobar);
+			data[5]=ComprobarEjecucionComando;
+			return data;
 			
 		}
 	}

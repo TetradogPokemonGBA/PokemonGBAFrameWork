@@ -18,15 +18,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Goto():this(new OffsetRom()) { }
         public Goto(OffsetRom script):base(script)
 		{}
-		public Goto(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public Goto(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Goto(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public Goto(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Goto(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe Goto(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

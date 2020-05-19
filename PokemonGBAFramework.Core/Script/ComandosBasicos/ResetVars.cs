@@ -17,12 +17,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	{
 		public const byte ID=0x2E;
 
-		public ResetVars(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public ResetVars(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public ResetVars(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public ResetVars(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe ResetVars(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe ResetVars(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

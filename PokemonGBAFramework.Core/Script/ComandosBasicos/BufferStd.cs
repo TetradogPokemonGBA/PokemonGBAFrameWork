@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferStd";
 		public const string DESCRIPCION="Guarda una string estandar en el buffer especificado.";
 
+		public BufferStd() { }
         public BufferStd(Byte buffer, Word standarString)
 		{
 			Buffer = buffer;
@@ -23,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public BufferStd(ScriptManager scriptManager,RomGba rom, int offset)
+		public BufferStd(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public BufferStd(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public BufferStd(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe BufferStd(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe BufferStd(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +64,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Buffer, StandarString };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer = ptrRom[offsetComando];
 			offsetComando++;
@@ -72,10 +73,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado = Buffer;
-			++ptrRomPosicionado; 
-			Word.SetData(data, , StandarString);
+			data[0] = IdComando;
+			data[1] = Buffer;
+			Word.SetData(data,2, StandarString);
+			return data;
  
 		}
 	}

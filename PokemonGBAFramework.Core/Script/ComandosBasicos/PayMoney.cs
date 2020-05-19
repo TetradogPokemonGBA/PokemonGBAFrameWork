@@ -22,12 +22,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public PayMoney(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public PayMoney(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public PayMoney(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public PayMoney(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe PayMoney(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe PayMoney(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -57,7 +57,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{DineroACoger,ComprobarEjecucionComando};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			DineroACoger=new DWord(ptrRom,offsetComando);
 			offsetComando+=DWord.LENGTH;
@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			DWord.SetData(data, ,DineroACoger);
 			ptrRomPosicionado+=DWord.LENGTH;
 			*ptrRomPosicionado=ComprobarEjecucionComando;

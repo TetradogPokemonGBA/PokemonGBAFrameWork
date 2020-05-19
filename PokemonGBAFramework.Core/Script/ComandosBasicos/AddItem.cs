@@ -26,12 +26,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public AddItem(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
+		public AddItem(ScriptAndASMManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public AddItem(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public AddItem(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe AddItem(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe AddItem(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ObjetoAAñadir,Cantidad};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			ObjetoAAñadir=new Word(ptrRom,offsetComando);
 

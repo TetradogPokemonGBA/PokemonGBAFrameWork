@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SetWorldMapFlag(ScriptManager scriptManager,RomGba rom, int offset)
+		public SetWorldMapFlag(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetWorldMapFlag(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public SetWorldMapFlag(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetWorldMapFlag(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe SetWorldMapFlag(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ flag };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			flag = new Word(ptrRom, offsetComando);
 		}

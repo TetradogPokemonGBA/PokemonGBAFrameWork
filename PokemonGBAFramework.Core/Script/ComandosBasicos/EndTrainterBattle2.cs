@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public EndTrainerBattle2(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public EndTrainerBattle2(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public EndTrainerBattle2(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public EndTrainerBattle2(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe EndTrainerBattle2(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe EndTrainerBattle2(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

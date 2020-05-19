@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public TextColor(ScriptManager scriptManager,RomGba rom, int offset)
+		public TextColor(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public TextColor(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public TextColor(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe TextColor(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe TextColor(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ color };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			color = ptrRom[offsetComando];
 		}

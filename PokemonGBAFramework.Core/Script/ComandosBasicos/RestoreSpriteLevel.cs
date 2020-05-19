@@ -25,15 +25,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public RestoreSpriteLevel(ScriptManager scriptManager,RomGba rom, int offset)
+		public RestoreSpriteLevel(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public RestoreSpriteLevel(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public RestoreSpriteLevel(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe RestoreSpriteLevel(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe RestoreSpriteLevel(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -75,7 +75,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ personaje, banco, mapa };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -88,7 +88,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			Word.SetData(data, , Personaje);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			*ptrRomPosicionado = banco;
 			++ptrRomPosicionado; 
 			*ptrRomPosicionado = mapa;

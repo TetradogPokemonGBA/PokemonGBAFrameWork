@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "ClearBox";
         public const string DESCRIPCION= "Vacia una parte de una caja personalizada";
 
+		public ClearBox() { }
         public ClearBox(Byte posicionX, Byte posicionY, Byte ancho, Byte alto)
 		{
 			PosicionX = posicionX;
@@ -25,15 +26,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public ClearBox(ScriptManager scriptManager,RomGba rom, int offset)
+		public ClearBox(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public ClearBox(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public ClearBox(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe ClearBox(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe ClearBox(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -67,7 +68,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ PosicionX, PosicionY, Ancho, Alto };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			PosicionX = ptrRom[offsetComando];
 			offsetComando++;
@@ -81,15 +82,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado = PosicionX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = PosicionY;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = Ancho;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = Alto;
+			return new byte[] { IdComando, PosicionX, PosicionY, Ancho, Alto };
 
 		}
 	}

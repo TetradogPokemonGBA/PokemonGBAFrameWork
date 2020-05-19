@@ -15,19 +15,20 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "CompareFarByteToByte";
         public new const string DESCRIPCION= "Compara el byte que apunte el offset con el byte pasado como parametro";
 
+		public CompareFarByteToByte() { }
         public CompareFarByteToByte(byte bank,int offsetToByte):base(bank,offsetToByte)
 		{}
 		public CompareFarByteToByte(byte bank,OffsetRom offsetToByte):base(bank,offsetToByte)
 		{}
-		public CompareFarByteToByte(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public CompareFarByteToByte(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public CompareFarByteToByte(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public CompareFarByteToByte(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe CompareFarByteToByte(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe CompareFarByteToByte(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

@@ -19,15 +19,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public LoadByteFromPointer(OffsetRom offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
 		{}
-		public LoadByteFromPointer(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public LoadByteFromPointer(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public LoadByteFromPointer(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public LoadByteFromPointer(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe LoadByteFromPointer(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe LoadByteFromPointer(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

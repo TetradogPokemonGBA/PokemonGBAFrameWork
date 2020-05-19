@@ -20,15 +20,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
 		}
    
-		public CheckGender(ScriptManager scriptManager,RomGba rom, int offset)
+		public CheckGender(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CheckGender(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CheckGender(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CheckGender(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CheckGender(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

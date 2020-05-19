@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public CheckSound()
 		{}
-		public CheckSound(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CheckSound(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CheckSound(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CheckSound(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CheckSound(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CheckSound(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

@@ -23,12 +23,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		}
 			
-		public Cmd2C(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public Cmd2C(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Cmd2C(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public Cmd2C(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Cmd2C(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe Cmd2C(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

@@ -63,13 +63,13 @@ namespace PokemonGBAFramework.Core
 
 
         #region Leer Compilado
-        public Script(RomGba rom, OffsetRom offsetScript):this(new ScriptManager(), rom, offsetScript) { }
-        public Script(ScriptManager scriptManager, RomGba rom, OffsetRom offsetScript) : this(scriptManager,rom, offsetScript.Offset) { }
-        public Script(RomGba rom, int offsetScript):this(new ScriptManager(),rom,offsetScript) { }
-        public Script(ScriptManager scriptManager, RomGba rom, int offsetScript)
+        public Script(RomGba rom, OffsetRom offsetScript):this(new ScriptAndASMManager(), rom, offsetScript) { }
+        public Script(ScriptAndASMManager scriptManager, RomGba rom, OffsetRom offsetScript) : this(scriptManager,rom, offsetScript.Offset) { }
+        public Script(RomGba rom, int offsetScript):this(new ScriptAndASMManager(),rom,offsetScript) { }
+        public Script(ScriptAndASMManager scriptManager, RomGba rom, int offsetScript)
             : this(scriptManager,rom.Data.Bytes, offsetScript) { }
-        public Script(byte[] bytesScript, int offset = 0) : this(new ScriptManager(),bytesScript, offset) { }
-        public Script(ScriptManager scriptManager, byte[] bytesScript, int offset = 0)
+        public Script(byte[] bytesScript, int offset = 0) : this(new ScriptAndASMManager(),bytesScript, offset) { }
+        public Script(ScriptAndASMManager scriptManager, byte[] bytesScript, int offset = 0)
             : this()
         {
             unsafe
@@ -80,13 +80,13 @@ namespace PokemonGBAFramework.Core
             }
 
         }
-        public unsafe Script( byte* ptRom, int offsetScript):this(new ScriptManager(),ptRom,offsetScript) { }
-        public unsafe Script(ScriptManager scriptManager, byte* ptRom, int offsetScript)
+        public unsafe Script( byte* ptRom, int offsetScript):this(new ScriptAndASMManager(),ptRom,offsetScript) { }
+        public unsafe Script(ScriptAndASMManager scriptManager, byte* ptRom, int offsetScript)
             : this()
         {
             Cargar(scriptManager,ptRom, offsetScript);
         }
-        unsafe int Cargar(ScriptManager scriptManager,byte* ptrRom, int offsetScript,bool excepcionOCodigoError=true)
+        unsafe int Cargar(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetScript,bool excepcionOCodigoError=true)
         {
             //quizas no siempre acaba en end o return y acaba por ejemplo llamando a otra funcion...por testear la solución...
             //obtengo los comandos hasta encontrar return , end o un comando que acabe la función

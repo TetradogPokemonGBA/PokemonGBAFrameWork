@@ -15,18 +15,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string NOMBRE="Callstdif";
 		public new const string DESCRIPCION="llama a la función si se cumple la condición";
 		
+		public Callstdif() { }
 		public Callstdif(byte funcionAsm,byte condicion):base(funcionAsm,condicion)
 		{}
 
-		public Callstdif(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public Callstdif(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Callstdif(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public Callstdif(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Callstdif(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe Callstdif(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

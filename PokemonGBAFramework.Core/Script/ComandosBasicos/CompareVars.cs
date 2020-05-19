@@ -27,11 +27,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			VariableB=variableB;
 		}
 		
-		public CompareVars(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CompareVars(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public CompareVars(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CompareVars(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CompareVars(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CompareVars(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 
 
@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{VariableA,VariableB};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			VariableA=new Word(ptrRom,offsetComando);
 			VariableB=new Word(ptrRom,offsetComando+Word.LENGTH);
@@ -74,7 +74,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			Word.SetData(data, ,VariableA);
 			Word.SetData(ptrRomPosicionado+Word.LENGTH,VariableB);
 		}

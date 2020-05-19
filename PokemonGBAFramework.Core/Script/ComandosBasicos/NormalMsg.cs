@@ -19,15 +19,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
 		}
    
-		public NormalMsg(ScriptManager scriptManager,RomGba rom, int offset)
+		public NormalMsg(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public NormalMsg(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public NormalMsg(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe NormalMsg(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe NormalMsg(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

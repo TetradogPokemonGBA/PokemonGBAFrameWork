@@ -23,7 +23,7 @@ namespace PokemonGBAFramework.Core
         {
         }
 
-        public Word(ScriptManager scriptManager,RomGba rom, int offset) : base(rom, offset, LENGTH)
+        public Word(ScriptAndASMManager scriptManager,RomGba rom, int offset) : base(rom, offset, LENGTH)
         {
         }
 

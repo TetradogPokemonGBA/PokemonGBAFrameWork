@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public CompareHiddenVar(ScriptManager scriptManager,RomGba rom, int offset)
+		public CompareHiddenVar(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CompareHiddenVar(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CompareHiddenVar(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CompareHiddenVar(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CompareHiddenVar(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Variable, ValorAComparar };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Variable = ptrRom[offsetComando];
 			offsetComando++;
@@ -72,7 +72,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			*ptrRomPosicionado = Variable;
 			++ptrRomPosicionado;
             DWord.SetData(data, , ValorAComparar);

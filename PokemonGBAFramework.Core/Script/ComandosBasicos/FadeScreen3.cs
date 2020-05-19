@@ -22,15 +22,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public FadeScreen3(ScriptManager scriptManager,RomGba rom, int offset)
+		public FadeScreen3(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public FadeScreen3(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public FadeScreen3(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe FadeScreen3(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe FadeScreen3(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -64,14 +64,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Unknown };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Unknown = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			*ptrRomPosicionado = Unknown;
 		}
 	}

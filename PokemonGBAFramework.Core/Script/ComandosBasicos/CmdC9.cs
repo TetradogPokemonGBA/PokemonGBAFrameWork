@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public CmdC9(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public CmdC9(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public CmdC9(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public CmdC9(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe CmdC9(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe CmdC9(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="CheckItemRoom";
 		public const string DESCRIPCION="Comprueba si el player tiene espacio para los objetos en la mochila";
 
+		public CheckItemRoom() { }
         public CheckItemRoom(Word objeto, Word cantidad)
 		{
 			Objeto = objeto;
@@ -23,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public CheckItemRoom(ScriptManager scriptManager,RomGba rom, int offset)
+		public CheckItemRoom(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CheckItemRoom(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CheckItemRoom(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CheckItemRoom(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CheckItemRoom(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +64,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Objeto, Cantidad };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Objeto = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -72,10 +73,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			Word.SetData(data, , Objeto);
-			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(data, , Cantidad);
+			data[0]=IdComando;
+			Word.SetData(data,1, Objeto);
+			Word.SetData(data,3, Cantidad);
+			return data;
 		}
 	}
 }

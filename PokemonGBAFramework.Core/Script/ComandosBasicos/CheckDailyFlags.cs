@@ -22,12 +22,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public CheckDailyFlags()
 		{}
 
-		public CheckDailyFlags(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CheckDailyFlags(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CheckDailyFlags(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CheckDailyFlags(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CheckDailyFlags(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CheckDailyFlags(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

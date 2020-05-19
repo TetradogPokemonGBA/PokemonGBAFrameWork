@@ -20,15 +20,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public WaitFanFare()
 		{
 		}
-		public WaitFanFare(ScriptManager scriptManager,RomGba rom, int offset)
+		public WaitFanFare(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WaitFanFare(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public WaitFanFare(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WaitFanFare(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe WaitFanFare(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

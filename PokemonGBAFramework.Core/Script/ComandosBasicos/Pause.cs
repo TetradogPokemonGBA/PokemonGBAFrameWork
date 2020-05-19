@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Delay=delay;
 		}
-		public Pause(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public Pause(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Pause(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public Pause(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Pause(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe Pause(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -60,14 +60,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Delay};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Delay=new Word(ptrRom,offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			Word.SetData(data, ,Delay);
 		}
 	}

@@ -16,21 +16,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="CheckObedience";
 		public const string DESCRIPCION="Comprueba si el pokemon del equipo especificado obedece o no y guarda el valor en LASTRESULT.";
 
+		public CheckObedience() { }
         public CheckObedience(Word pokemon)
 		{
 			Pokemon = pokemon;
  
 		}
    
-		public CheckObedience(ScriptManager scriptManager,RomGba rom, int offset)
+		public CheckObedience(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CheckObedience(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CheckObedience(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CheckObedience(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CheckObedience(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -61,15 +62,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Pokemon };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Pokemon = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			Word.SetData(data, , Pokemon); 
+			data[0]=IdComando;
+			Word.SetData(data,1, Pokemon);
+			return data;
 		}
 	}
 }

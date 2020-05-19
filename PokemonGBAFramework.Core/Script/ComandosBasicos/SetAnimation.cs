@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SetAnimation(ScriptManager scriptManager,RomGba rom, int offset)
+		public SetAnimation(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetAnimation(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public SetAnimation(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetAnimation(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe SetAnimation(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -69,7 +69,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ animacion, variableAUsar };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			animacion = ptrRom[offsetComando];
 			offsetComando++;

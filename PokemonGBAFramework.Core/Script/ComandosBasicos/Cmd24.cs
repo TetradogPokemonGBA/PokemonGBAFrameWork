@@ -22,18 +22,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
         OffsetRom offsetDesconocido;
         
 
+		public Cmd24() { }
         public Cmd24(int offset):this(new OffsetRom(offset))
 		{}
 		public Cmd24(OffsetRom offsetDesconocido)
 		{
 			OffsetDesconocido=offsetDesconocido;
 		}
-		public Cmd24(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public Cmd24(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Cmd24(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public Cmd24(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Cmd24(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe Cmd24(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -74,15 +75,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			return new Object[]{offsetDesconocido};
 		}
 
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 		  offsetDesconocido=new OffsetRom(ptrRom,offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			OffsetRom.Set(ptrRomPosicionado,offsetDesconocido);
+			data[0]=IdComando;
+			OffsetRom.Set(data,1,offsetDesconocido);//como no se que es de momento lo dejo así
+			return data;
 		}
 	}
 }

@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
   }
    
-  public ResetWeather(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+  public ResetWeather(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
   {
   }
-  public ResetWeather(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+  public ResetWeather(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
   {}
-  public unsafe ResetWeather(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+  public unsafe ResetWeather(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
   {}
   public override string Descripcion {
    get {

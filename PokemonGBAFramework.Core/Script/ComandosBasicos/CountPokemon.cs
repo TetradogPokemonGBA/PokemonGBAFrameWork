@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         public CountPokemon()
 		{}
-		public CountPokemon(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public CountPokemon(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public CountPokemon(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public CountPokemon(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe CountPokemon(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe CountPokemon(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

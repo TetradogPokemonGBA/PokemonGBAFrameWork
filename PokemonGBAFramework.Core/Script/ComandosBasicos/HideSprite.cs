@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public HideSprite(ScriptManager scriptManager,RomGba rom, int offset)
+		public HideSprite(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public HideSprite(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public HideSprite(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe HideSprite(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe HideSprite(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -60,14 +60,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ PersonajeAOcultar };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			PersonajeAOcultar = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			Word.SetData(data, , PersonajeAOcultar);
 		}
 	}

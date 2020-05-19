@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
   }
    
-  public PokeCasino(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+  public PokeCasino(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
   {
   }
-  public PokeCasino(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+  public PokeCasino(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
   {}
-  public unsafe PokeCasino(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+  public unsafe PokeCasino(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
   {}
   public override string Descripcion {
    get {

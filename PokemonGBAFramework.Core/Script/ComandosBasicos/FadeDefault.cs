@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         public FadeDefault()
 		{}
-		public FadeDefault(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
+		public FadeDefault(ScriptAndASMManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public FadeDefault(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public FadeDefault(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe FadeDefault(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe FadeDefault(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFramework.Core.ComandosScript
@@ -13,41 +14,41 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of CallAsm.
 	/// </summary>
-	public class CallAsm:Call
+	public class CallAsm:Comando
 	{
-		public new const byte ID=0x23;
-		public new const string NOMBRE="CallAsm";
-		public new const string DESCRIPCION="Continua con la ejecución de otro script que tiene que tener return";
-		public CallAsm(int offset):this(new OffsetRom(offset))
-		{}
-		public CallAsm(OffsetRom offsetAsm):base(offsetAsm)
-		{}
-		public CallAsm(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public  const byte ID=0x23;
+		public  new const int SIZE = Comando.SIZE + OffsetRom.LENGTH;
+		public  const string NOMBRE="CallAsm";
+		public  const string DESCRIPCION= "Ejecuta codigo ASM en el offset thumb-sub+1";
+
+		public CallAsm() { }
+		public CallAsm(BloqueASM bloqueASM)
+		{ ASM = bloqueASM; }
+		public CallAsm(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CallAsm(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CallAsm(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CallAsm(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CallAsm(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
-		public override string Descripcion {
-			get {
-				return DESCRIPCION;
-			}
+		public override string Descripcion => DESCRIPCION;
+
+		public override byte IdComando => ID;
+
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public BloqueASM ASM{get;set;}
+
+		protected override unsafe void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom, int offsetComando)
+		{
+			ASM = scriptManager.GetASM(ptrRom, new OffsetRom(ptrRom, offsetComando));
 		}
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
+		public override byte[] GetBytesTemp()
+		{
+			return new byte[] { IdComando }.AddArray(new OffsetRom(ASM.IdUnicoTemp).BytesPointer);
 		}
-
-		public override string Nombre {
-			get {
-				return NOMBRE;
-			}
-		}
-
-	
+		
 
 	}
 }

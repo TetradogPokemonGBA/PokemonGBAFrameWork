@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public VirtualMsgBox(ScriptManager scriptManager,RomGba rom, int offset)
+		public VirtualMsgBox(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public VirtualMsgBox(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public VirtualMsgBox(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe VirtualMsgBox(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe VirtualMsgBox(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ text };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			text = new OffsetRom(ptrRom, offsetComando);
 		}

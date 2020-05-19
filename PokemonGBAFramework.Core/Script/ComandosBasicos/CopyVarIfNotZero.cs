@@ -18,15 +18,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public CopyVarIfNotZero(Word variableDestino,Word variableOrigen):base(variableDestino,variableOrigen)
 		{}
 
-		public CopyVarIfNotZero(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public CopyVarIfNotZero(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public CopyVarIfNotZero(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public CopyVarIfNotZero(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe CopyVarIfNotZero(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe CopyVarIfNotZero(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

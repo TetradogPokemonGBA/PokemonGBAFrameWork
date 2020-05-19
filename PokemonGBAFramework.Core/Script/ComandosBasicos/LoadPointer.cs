@@ -28,11 +28,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			MemoryBankToUse=memoryBankToUse;
 			Script = scriptToLoad;
 		}
-		public LoadPointer(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public LoadPointer(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public LoadPointer(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
+		public LoadPointer(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe LoadPointer(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
+		public unsafe LoadPointer(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
 		{}
 		public override string Nombre {
 			get {
@@ -63,10 +63,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		#region implemented abstract members of Comando
 
-		protected unsafe  override void CargarCamando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
+		protected unsafe  override void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom, int offsetComando)
 		{
 			MemoryBankToUse=ptrRom[offsetComando++];
-			Script = scriptManager.Get(ptrRom, new OffsetRom(ptrRom, offsetComando));
+			Script = scriptManager.GetScript(ptrRom, new OffsetRom(ptrRom, offsetComando));
 		}
 
 		public override byte[] GetBytesTemp()
@@ -118,11 +118,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Tipo = tipo;
 			Texto = texto;
 		}
-		public MsgBox(ScriptManager scriptManager, RomGba rom, int offset) : base(scriptManager, rom, offset)
+		public MsgBox(ScriptAndASMManager scriptManager, RomGba rom, int offset) : base(scriptManager, rom, offset)
 		{ }
-		public MsgBox(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager, bytesScript, offset)
+		public MsgBox(ScriptAndASMManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager, bytesScript, offset)
 		{ }
-		public unsafe MsgBox(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager, ptRom, offset)
+		public unsafe MsgBox(ScriptAndASMManager scriptManager, byte* ptRom, int offset) : base(scriptManager, ptRom, offset)
 		{ }
 		public override string Nombre
 		{
@@ -161,7 +161,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		#region implemented abstract members of Comando
 
-		protected unsafe override void CargarCamando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom, int offsetComando)
 		{
 			Tipo = (MsgBoxTipo)ptrRom[offsetComando++];
 			Texto = BloqueString.Get(ptrRom, new OffsetRom(ptrRom, offsetComando));

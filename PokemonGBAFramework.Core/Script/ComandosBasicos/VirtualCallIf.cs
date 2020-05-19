@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public VirtualCallIf(ScriptManager scriptManager,RomGba rom, int offset)
+		public VirtualCallIf(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public VirtualCallIf(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public VirtualCallIf(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe VirtualCallIf(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe VirtualCallIf(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -69,7 +69,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ condicion, funcionPersonalizada };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			condicion = ptrRom[offsetComando];
 			offsetComando++;

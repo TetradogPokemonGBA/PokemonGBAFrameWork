@@ -24,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public Multichoice(ScriptManager scriptManager,RomGba rom, int offset)
+		public Multichoice(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public Multichoice(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public Multichoice(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe Multichoice(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe Multichoice(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ CoordenadaX, CoordenadaY, IdLista, BotonBCancela };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
@@ -79,7 +79,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			*ptrRomPosicionado = CoordenadaX;
 			++ptrRomPosicionado; 
 			*ptrRomPosicionado = CoordenadaY;

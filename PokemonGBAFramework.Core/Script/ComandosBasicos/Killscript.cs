@@ -18,15 +18,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Killscript()
 		{}
 
-		public Killscript(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public Killscript(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Killscript(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public Killscript(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Killscript(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe Killscript(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

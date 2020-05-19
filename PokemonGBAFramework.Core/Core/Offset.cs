@@ -174,7 +174,7 @@ namespace PokemonGBAFramework.Core
         }
         #endregion
 
-        public static bool Check(ScriptManager scriptManager,RomGba rom, int offset) => Check(rom.Data, offset);
+        public static bool Check(ScriptAndASMManager scriptManager,RomGba rom, int offset) => Check(rom.Data, offset);
         public static bool Check(BloqueBytes bloque, int offset) => Check(bloque.Bytes, offset);
         public static bool Check(byte[] bytes, int offset)
         {

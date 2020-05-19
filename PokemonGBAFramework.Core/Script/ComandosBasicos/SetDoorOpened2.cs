@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SetDoorOpened2(ScriptManager scriptManager,RomGba rom, int offset)
+		public SetDoorOpened2(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetDoorOpened2(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public SetDoorOpened2(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetDoorOpened2(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe SetDoorOpened2(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -69,7 +69,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ coordenadaX, coordenadaY };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			coordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -80,7 +80,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			Word.SetData(data, , CoordenadaX);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			Word.SetData(data, , CoordenadaY);
 		}
 	}

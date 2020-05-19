@@ -23,12 +23,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			VelocidadDesvanecimiento=velocidadDesvanecimiento;
 		}
-		public FadeOut(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public FadeOut(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public FadeOut(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public FadeOut(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe FadeOut(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe FadeOut(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -56,14 +56,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{VelocidadDesvanecimiento};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			VelocidadDesvanecimiento=ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			*ptrRomPosicionado=VelocidadDesvanecimiento;
 		}
 		

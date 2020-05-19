@@ -23,12 +23,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public AddPcItem(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
+		public AddPcItem(ScriptAndASMManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public AddPcItem(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
+		public AddPcItem(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe AddPcItem(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
+		public unsafe AddPcItem(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -58,7 +58,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Objeto,Cantidad};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Objeto=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;

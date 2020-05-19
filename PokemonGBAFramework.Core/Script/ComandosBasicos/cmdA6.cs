@@ -16,21 +16,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "CmdA6";
         public const string DESCRIPCION= "Bajo investigación...";
 
+		public CmdA6() { }
         public CmdA6(Byte unknow)
 		{
 			Unknow = unknow;
  
 		}
    
-		public CmdA6(ScriptManager scriptManager,RomGba rom, int offset)
+		public CmdA6(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CmdA6(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CmdA6(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CmdA6(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CmdA6(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -61,15 +62,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Unknow };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Unknow = ptrRom[offsetComando];	
         }
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado = Unknow; 
+			data[0]=IdComando;
+			data[1] = Unknow;
+			return data;
 		}
 	}
 }

@@ -21,6 +21,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string DESCRIPCION= "Compara la variable guardada en el bank (buffer) con el byte que apunte el offset";
         OffsetRom offsetToByteToCompare;
 		
+		public CompareBankToFarByte() { }
 		public CompareBankToFarByte(byte bank,int offsetToByteToCompare):this(bank,new OffsetRom(offsetToByteToCompare))
 		{
 
@@ -30,11 +31,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Bank=bank;
 			OffsetToByteToCompare=offsetToByteToCompare;
 		}
-		public CompareBankToFarByte(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CompareBankToFarByte(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public CompareBankToFarByte(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CompareBankToFarByte(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CompareBankToFarByte(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CompareBankToFarByte(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {
@@ -73,7 +74,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Bank,OffsetToByteToCompare};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Bank=ptrRom[offsetComando++];
 			offsetToByteToCompare=new OffsetRom(ptrRom,offsetComando);
@@ -81,10 +82,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado=Bank;
-			ptrRomPosicionado++;
-			OffsetRom.Set(ptrRomPosicionado,offsetToByteToCompare);
+			data[0]=IdComando;
+			data[1]=Bank;
+			OffsetRom.Set(data,2,offsetToByteToCompare);
+			return data;
 		}
 	}
 }

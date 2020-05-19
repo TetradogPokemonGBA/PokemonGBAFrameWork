@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SetTrainerFlag(ScriptManager scriptManager,RomGba rom, int offset)
+		public SetTrainerFlag(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetTrainerFlag(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public SetTrainerFlag(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetTrainerFlag(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe SetTrainerFlag(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ entrenador };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			entrenador = new Word(ptrRom, offsetComando);
 		}

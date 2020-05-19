@@ -24,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public BufferContestType(ScriptManager scriptManager,RomGba rom, int offset)
+		public BufferContestType(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public BufferContestType(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public BufferContestType(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe BufferContestType(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe BufferContestType(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -67,7 +67,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Buffer, TipoConcurso };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer = ptrRom[offsetComando];
 			offsetComando++;

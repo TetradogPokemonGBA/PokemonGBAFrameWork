@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		}
 		public WaitMovement(Word persona) => Persona = persona;
-		public WaitMovement(ScriptManager scriptManager,RomGba rom, int offset)
+		public WaitMovement(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WaitMovement(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public WaitMovement(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WaitMovement(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe WaitMovement(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

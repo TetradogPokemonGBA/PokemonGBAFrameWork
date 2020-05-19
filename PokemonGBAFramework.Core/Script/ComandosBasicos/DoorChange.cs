@@ -20,12 +20,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public DoorChange(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public DoorChange(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public DoorChange(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public DoorChange(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe DoorChange(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe DoorChange(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

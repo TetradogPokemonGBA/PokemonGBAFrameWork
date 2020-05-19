@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public BufferAttack(ScriptManager scriptManager, RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public BufferAttack(ScriptAndASMManager scriptManager, RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public BufferAttack(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public BufferAttack(ScriptAndASMManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe BufferAttack(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe BufferAttack(ScriptAndASMManager scriptManager, byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {
@@ -67,7 +67,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         {
             return new Object[] { Buffer, Ataque };
         }
-        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
         {
             Buffer = ptrRom[offsetComando];
             offsetComando++;

@@ -25,15 +25,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SpriteVisible(ScriptManager scriptManager,RomGba rom, int offset)
+		public SpriteVisible(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SpriteVisible(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public SpriteVisible(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SpriteVisible(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe SpriteVisible(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -75,7 +75,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ personaje, bank, mapa };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -88,9 +88,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			Word.SetData(data, , Personaje);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			Word.SetData(data, , Bank);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			Word.SetData(data, , Mapa);
 		}
 	}

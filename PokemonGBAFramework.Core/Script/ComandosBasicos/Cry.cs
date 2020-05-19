@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public Cry(ScriptManager scriptManager,RomGba rom, int offset)
+		public Cry(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public Cry(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public Cry(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe Cry(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe Cry(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Pokemon, Efecto };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -72,9 +72,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
+			data[0]=IdComando;
 			Word.SetData(data, , Pokemon);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			Word.SetData(data, , Efecto);
 		}
 	}

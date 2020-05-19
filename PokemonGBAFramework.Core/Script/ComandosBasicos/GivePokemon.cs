@@ -25,12 +25,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public GivePokemon(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public GivePokemon(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public GivePokemon(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public GivePokemon(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe GivePokemon(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe GivePokemon(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -61,7 +61,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Pokemon,Nivel,ObjetoEquipado};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Pokemon=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;

@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public BufferDecoration(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public BufferDecoration(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public BufferDecoration(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public BufferDecoration(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe BufferDecoration(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe BufferDecoration(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -59,7 +59,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Buffer,Decoracion};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer=*(ptrRom+offsetComando);
 			offsetComando++;

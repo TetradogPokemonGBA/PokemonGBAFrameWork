@@ -29,11 +29,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
             OffsetDestination = offsetDestination;
             OffsetSource = offsetSource;
         }
-        public CopyByte(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public CopyByte(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         { }
-        public CopyByte(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public CopyByte(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe CopyByte(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe CopyByte(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
 
         #region implemented abstract members of Comando
@@ -91,7 +91,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         {
             return new Object[] { OffsetDestination.Offset, OffsetSource.Offset };
         }
-        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
         {
             OffsetDestination = new OffsetRom(ptrRom,offsetComando);
             OffsetSource = new OffsetRom(ptrRom,offsetComando+OffsetRom.LENGTH);
@@ -99,7 +99,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public override byte[] GetBytesTemp()
         {
             byte[] data=new byte[Size];
-            ptrRomPosicionado+=base.Size;
+            data[0]=IdComando;
             OffsetRom.Set(ptrRomPosicionado, OffsetDestination);
             ptrRomPosicionado += OffsetRom.LENGTH;
             OffsetRom.Set(ptrRomPosicionado, OffsetSource);

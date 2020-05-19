@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public SetVirtualAddress(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public SetVirtualAddress(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public SetVirtualAddress(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public SetVirtualAddress(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe SetVirtualAddress(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe SetVirtualAddress(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -59,7 +59,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{valor};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			valor=new DWord(ptrRom,offsetComando);
 		}

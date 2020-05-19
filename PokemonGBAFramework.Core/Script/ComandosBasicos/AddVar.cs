@@ -18,15 +18,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public AddVar(Word variable,Word valorAAñadir):base(variable,valorAAñadir)
 		{}
 			
-		public AddVar(ScriptManager scriptManager,RomGba rom, int offset) : base(scriptManager,rom, offset)
+		public AddVar(ScriptAndASMManager scriptManager,RomGba rom, int offset) : base(scriptManager,rom, offset)
 		{
 		}
 
-		public AddVar(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public AddVar(ScriptAndASMManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe AddVar(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe AddVar(ScriptAndASMManager scriptManager, byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

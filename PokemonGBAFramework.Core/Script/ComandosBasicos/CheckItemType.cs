@@ -16,21 +16,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="CheckItemType";
 		public const string DESCRIPCION="Comprueba el tipo del objeto, el resultado se guarda en LASTRESULT";
 
+		public CheckItemType() { }
         public CheckItemType(Word objeto)
 		{
 			Objeto = objeto;
  
 		}
    
-		public CheckItemType(ScriptManager scriptManager,RomGba rom, int offset)
+		public CheckItemType(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CheckItemType(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CheckItemType(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CheckItemType(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CheckItemType(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -61,15 +62,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Objeto };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Objeto = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			Word.SetData(data, , Objeto);
+			data[0]=IdComando;
+			Word.SetData(data,1, Objeto);
+			return data;
 		}
 	}
 }

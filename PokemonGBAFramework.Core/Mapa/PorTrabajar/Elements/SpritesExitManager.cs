@@ -14,7 +14,7 @@ namespace PokemonGBAFramework.Core.Mapa
 
 		protected override int LengthSingelItem => SpriteExit.LENGTH;
 		
-		protected override SpriteExit IGet(ScriptManager scriptManager,RomGba rom, int offset)
+		protected override SpriteExit IGet(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 		{
 			return SpriteExit.Get(rom, offset);
 		}

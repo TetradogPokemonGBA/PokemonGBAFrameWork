@@ -24,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		}
    
-		public BufferItems(ScriptManager scriptManager,RomGba rom, int offset)
+		public BufferItems(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public BufferItems(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public BufferItems(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe BufferItems(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe BufferItems(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -67,7 +67,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return base.GetParams().AfegirValor(Cantidad) ;
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
             base.CargarCamando(scriptManager,ptrRom, offsetComando);
 			offsetComando += base.ParamsSize;

@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public ApplyMovement(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager, rom,offset)
+		public ApplyMovement(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager, rom,offset)
 		{
 		}
-		public ApplyMovement(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
+		public ApplyMovement(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe ApplyMovement(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe ApplyMovement(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -59,7 +59,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{PersonajeAUsar,Movimiento};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			PersonajeAUsar=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;

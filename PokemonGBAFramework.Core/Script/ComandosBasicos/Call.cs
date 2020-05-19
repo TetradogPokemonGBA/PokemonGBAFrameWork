@@ -26,12 +26,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Script=script;
 		}
-		public Call(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
+		public Call(ScriptAndASMManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Call(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public Call(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Call(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe Call(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -51,9 +51,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new object[]{Script};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager, byte* ptrRom,int offsetActual)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom,int offsetActual)
 		{
-			 Script=scriptManager.Get(ptrRom,offsetActual);
+			 Script=scriptManager.GetScript(ptrRom,offsetActual);
 		}
 
 		public override byte[] GetBytesTemp()

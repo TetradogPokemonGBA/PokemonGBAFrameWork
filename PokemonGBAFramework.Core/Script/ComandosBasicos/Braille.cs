@@ -22,15 +22,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public Braille(ScriptManager scriptManager,RomGba rom, int offset)
+		public Braille(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			: base(scriptManager, rom, offset)
 		{
 		}
-		public Braille(ScriptManager scriptManager, byte[] bytesScript, int offset)
+		public Braille(ScriptAndASMManager scriptManager, byte[] bytesScript, int offset)
 			: base(scriptManager, bytesScript, offset)
 		{
 		}
-		public unsafe Braille(ScriptManager scriptManager, byte* ptRom, int offset)
+		public unsafe Braille(ScriptAndASMManager scriptManager, byte* ptRom, int offset)
 			: base(scriptManager, ptRom, offset)
 		{
 		}
@@ -61,7 +61,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ BrailleData };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			BrailleData =new BloqueBraille(ptrRom, new OffsetRom(ptrRom, offsetComando));
 		}

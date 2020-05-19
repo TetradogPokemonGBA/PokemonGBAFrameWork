@@ -12,20 +12,21 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class CheckFlag : SetFlag
 	{
 		public new const byte ID = 0x2B;
-		public const string NOMBRE="CheckFlag";
-		public const string DESCRIPCION="Comprueba el estado del flag y lo guarda en 'lastresult'";
+		public new const string NOMBRE="CheckFlag";
+		public new const string DESCRIPCION="Comprueba el estado del flag y lo guarda en 'lastresult'";
 
+		public CheckFlag() { }
 		public CheckFlag(Word flag):base(flag)
 		{}
-		public CheckFlag(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public CheckFlag(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public CheckFlag(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public CheckFlag(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe CheckFlag(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe CheckFlag(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

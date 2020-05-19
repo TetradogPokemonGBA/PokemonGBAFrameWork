@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public CloseOnKeyPress(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public CloseOnKeyPress(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public CloseOnKeyPress(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public CloseOnKeyPress(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe CloseOnKeyPress(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe CloseOnKeyPress(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

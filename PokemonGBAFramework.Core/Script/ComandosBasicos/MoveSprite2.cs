@@ -22,15 +22,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public MoveSprite2(ScriptManager scriptManager,RomGba rom, int offset)
+		public MoveSprite2(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public MoveSprite2(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public MoveSprite2(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe MoveSprite2(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe MoveSprite2(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

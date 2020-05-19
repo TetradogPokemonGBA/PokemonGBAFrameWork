@@ -24,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public BufferBoxName(ScriptManager scriptManager,RomGba rom, int offset)
+        public BufferBoxName(ScriptAndASMManager scriptManager,RomGba rom, int offset)
              : base(scriptManager,rom, offset)
         {
         }
-        public BufferBoxName(ScriptManager scriptManager,byte[] bytesScript, int offset)
+        public BufferBoxName(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
             : base(scriptManager,bytesScript, offset)
         {
         }
-        public unsafe BufferBoxName(ScriptManager scriptManager,byte* ptRom, int offset)
+        public unsafe BufferBoxName(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
             : base(scriptManager,ptRom, offset)
         {
         }
@@ -72,7 +72,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         {
             return new Object[] { Buffer, CajaPcAGuardar };
         }
-        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
         {
             Buffer = ptrRom[offsetComando];
             offsetComando++;

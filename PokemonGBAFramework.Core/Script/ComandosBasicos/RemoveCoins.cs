@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public RemoveCoins(ScriptManager scriptManager,RomGba rom, int offset)
+		public RemoveCoins(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public RemoveCoins(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public RemoveCoins(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe RemoveCoins(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe RemoveCoins(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -63,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ numeroDeFichasACoger };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			numeroDeFichasACoger = new Word(ptrRom, offsetComando);
 		}

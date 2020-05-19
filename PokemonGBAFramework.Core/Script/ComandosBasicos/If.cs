@@ -28,11 +28,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
             Script=script;
         }
 
-		public If1(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager, rom,offset)
+		public If1(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager, rom,offset)
 		{}
-		public If1(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
+		public If1(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe If1(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe If1(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
         public override string Descripcion
         {
@@ -74,10 +74,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 
 		
-		protected unsafe override void CargarCamando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom, int offsetComando)
 		{
 			Condicion=ptrRom[offsetComando++];
-			Script=scriptManager.Get(ptrRom,new OffsetRom(ptrRom,offsetComando));
+			Script=scriptManager.GetScript(ptrRom,new OffsetRom(ptrRom,offsetComando));
 			
 		}
 		public override byte[] GetBytesTemp()
@@ -99,11 +99,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public If2() : this(0, new Script()) { }
 		public If2(byte condicion,Script script):base(condicion, script)
 		{}
-		public If2(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager, rom,offset)
+		public If2(ScriptAndASMManager scriptManager, RomGba rom,int offset):base(scriptManager, rom,offset)
 		{}
-		public If2(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
+		public If2(ScriptAndASMManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe If2(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
+		public unsafe If2(ScriptAndASMManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
 		{}
 		public override string Nombre => NOMBRE;
 		public override byte IdComando => ID;

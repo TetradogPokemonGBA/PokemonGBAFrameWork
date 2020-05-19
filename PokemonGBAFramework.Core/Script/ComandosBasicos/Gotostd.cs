@@ -20,15 +20,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "Gotostd";
         public const string DESCRIPCION = "Salta a la función compilada";
 
+		public Gotostd() { }
         public Gotostd(byte funcion)
 		{
 			Funcion=funcion;
 		}
-		public Gotostd(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public Gotostd(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Gotostd(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public Gotostd(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Gotostd(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe Gotostd(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -61,16 +62,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new object[]{Funcion};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Funcion=ptrRom[offsetComando];
 		}
 
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado=Funcion;
+			return new byte[] { IdComando, Funcion };
 		}
 
 
@@ -81,12 +80,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID=0x9;
         public new const string NOMBRE= "CallStd";
         public new const string DESCRIPCION= "Llama a la función compilada";
+		public Callstd() { }
         public Callstd(byte function) : base(function) { }
-        public Callstd(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+        public Callstd(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Callstd(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public Callstd(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Callstd(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe Callstd(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {

@@ -17,15 +17,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         public Jumpram()
 		{}
-		public Jumpram(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public Jumpram(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Jumpram(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public Jumpram(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Jumpram(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe Jumpram(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

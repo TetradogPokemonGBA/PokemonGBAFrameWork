@@ -35,7 +35,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			return data.AddArray(H3.Data, FlagCheck.Data, H6.Data,Equals(OffsetScript,default)?OffsetScript.BytesPointer:new byte[OffsetRom.LENGTH]);
 
 		}
-		public static Trigger Get(ScriptManager scriptManager,RomGba rom, int offset)
+		public static Trigger Get(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 		{
 			Trigger trigger = new Trigger();
 			trigger.X = rom.Data[offset++];

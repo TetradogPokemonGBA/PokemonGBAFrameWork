@@ -23,11 +23,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 		   ByteAPoner=byteAPoner;
 		}
-		public SetByte(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public SetByte(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public SetByte(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public SetByte(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe SetByte(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe SetByte(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {
@@ -82,11 +82,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE= "SetByte2";
         public new const string DESCRIPCION= "Inserta el byte en el memory bank";
 
-        public SetByte2(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+        public SetByte2(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public SetByte2(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public SetByte2(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe SetByte2(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe SetByte2(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {
@@ -110,7 +110,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			MemoryBankToUse=ptrRom[offsetComando++];
 			base.CargarCamando(ptrRom, offsetComando);

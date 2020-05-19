@@ -25,15 +25,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public WaitMovementPos(ScriptManager scriptManager,RomGba rom, int offset)
+		public WaitMovementPos(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WaitMovementPos(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public WaitMovementPos(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WaitMovementPos(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe WaitMovementPos(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -56,7 +56,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ personajeAEsperar, CoordenadaX, CoordenadaY };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			personajeAEsperar = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -69,7 +69,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			Word.SetData(data, , PersonajeAEsperar);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			*ptrRomPosicionado = CoordenadaX;
 			++ptrRomPosicionado; 
 			*ptrRomPosicionado = CoordenadaY;

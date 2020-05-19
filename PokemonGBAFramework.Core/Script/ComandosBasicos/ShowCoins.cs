@@ -23,15 +23,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public ShowCoins(ScriptManager scriptManager,RomGba rom, int offset)
+		public ShowCoins(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public ShowCoins(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public ShowCoins(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe ShowCoins(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe ShowCoins(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -69,7 +69,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ coordenadaX, coordenadaY };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			coordenadaX = ptrRom[offsetComando];
 			offsetComando++;

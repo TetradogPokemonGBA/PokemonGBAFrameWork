@@ -27,7 +27,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 		{
 			return new byte[] { NivelMinimo, NivelMaximo }.AddArray(!Equals(Especie,default)?Especie.Data:new byte[Word.LENGTH]);
 		}
-		public static WildPokemon Get(ScriptManager scriptManager,RomGba rom, int offset)
+		public static WildPokemon Get(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 		{
 			WildPokemon wildPokemon = new WildPokemon();
 			wildPokemon.NivelMinimo = rom.Data[offset++];

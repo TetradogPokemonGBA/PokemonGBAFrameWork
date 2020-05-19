@@ -22,6 +22,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         OffsetRom offsetA;
 		OffsetRom offsetB;
 		
+		public CompareFarBytes() { }
 		public CompareFarBytes(int offsetA,int offsetB):this(new OffsetRom(offsetA),new OffsetRom(offsetB))
 		{}
 		public CompareFarBytes(OffsetRom offsetA,OffsetRom offsetB)
@@ -29,11 +30,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			OffsetA=offsetA;
 			OffsetB=offsetB;
 		}
-		public CompareFarBytes(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CompareFarBytes(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public CompareFarBytes(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CompareFarBytes(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CompareFarBytes(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CompareFarBytes(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {
@@ -83,7 +84,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{OffsetA,OffsetB};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			offsetA=new OffsetRom(ptrRom,offsetComando);
 			offsetB=new OffsetRom(ptrRom,offsetComando+OffsetRom.LENGTH);
@@ -91,9 +92,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			OffsetRom.Set(ptrRomPosicionado,offsetA);
-			OffsetRom.Set(ptrRomPosicionado+OffsetRom.LENGTH,offsetB);
+			data[0]=IdComando;
+			OffsetRom.Set(data,1,offsetA);
+			OffsetRom.Set(data,5,offsetB);
+			return data;
 		}
 	}
 }

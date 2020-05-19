@@ -25,15 +25,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SetWildBattle(ScriptManager scriptManager,RomGba rom, int offset)
+		public SetWildBattle(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetWildBattle(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public SetWildBattle(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetWildBattle(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe SetWildBattle(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -75,7 +75,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ pokemon, nivel, objeto };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -88,7 +88,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			Word.SetData(data, , Pokemon);
-			ptrRomPosicionado += Word.LENGTH;
+ 
 			*ptrRomPosicionado = nivel;
 			++ptrRomPosicionado; 
 			Word.SetData(data, , Objeto);

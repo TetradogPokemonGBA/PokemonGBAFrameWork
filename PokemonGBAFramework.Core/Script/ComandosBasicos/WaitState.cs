@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public WaitState()
 		{
 		}
-		public WaitState(ScriptManager scriptManager,RomGba rom, int offset)
+		public WaitState(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WaitState(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public WaitState(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WaitState(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe WaitState(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

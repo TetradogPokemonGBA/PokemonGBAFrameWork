@@ -18,18 +18,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Gotostd.SIZE+1;
         public new const string NOMBRE= "Gotostdif";
         public new const string DESCRIPCION= Gotostd.DESCRIPCION + " si se cumple la condición";
-
+		public Gotostdif() { }
         public Gotostdif(byte funcion,byte condicion):base(funcion)
 		{Condicion=condicion;}
-		public Gotostdif(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+		public Gotostdif(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Gotostdif(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+		public Gotostdif(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Gotostdif(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+		public unsafe Gotostdif(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -62,18 +62,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return base.GetParams().AfegirValor(Condicion);
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			base.CargarCamando(ptrRom, offsetComando);
+			base.CargarCamando(scriptManager,ptrRom, offsetComando);
             offsetComando += base.ParamsSize;
 			Condicion = ptrRom[offsetComando];
 		}
 
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado+=Gotostd.SIZE;
-			*ptrRomPosicionado = Condicion;
+			return base.GetBytesTemp().AddArray(new byte[] { Condicion });
 		}
 	}
 }

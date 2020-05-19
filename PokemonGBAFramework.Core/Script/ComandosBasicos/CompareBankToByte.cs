@@ -20,16 +20,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "CompareBankToByte";
         public const string DESCRIPCION= "Compara la variable guardada en el bank (buffer) con la variable";
 
+		public CompareBankToByte() { }
         public CompareBankToByte(byte bank,byte valorAComparar)
 		{
 			Bank=bank;
 			ValueToCompare=valorAComparar;
 		}
-		public CompareBankToByte(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CompareBankToByte(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public CompareBankToByte(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CompareBankToByte(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CompareBankToByte(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CompareBankToByte(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {
@@ -59,7 +60,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Bank,ValueToCompare};
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{		
 			Bank=ptrRom[offsetComando++];
 			ValueToCompare=ptrRom[offsetComando];
@@ -67,10 +68,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado=Bank;
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=ValueToCompare;
+			data[0]=IdComando;
+			data[1]=Bank;
+			data[2]=ValueToCompare;
+			return data;
 		}
 	}
 }

@@ -24,15 +24,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public BufferPartyPokemon(ScriptManager scriptManager,RomGba rom, int offset)
+		public BufferPartyPokemon(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public BufferPartyPokemon(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public BufferPartyPokemon(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe BufferPartyPokemon(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe BufferPartyPokemon(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -64,7 +64,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new object[]{ Buffer, Pokemon };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer = ptrRom[offsetComando];
 			offsetComando++;

@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public ChooseContestPkmn(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public ChooseContestPkmn(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public ChooseContestPkmn(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public ChooseContestPkmn(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe ChooseContestPkmn(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe ChooseContestPkmn(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

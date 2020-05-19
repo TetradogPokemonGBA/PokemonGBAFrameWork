@@ -20,15 +20,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
 		}
    
-		public HideBox2(ScriptManager scriptManager,RomGba rom, int offset)
+		public HideBox2(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public HideBox2(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public HideBox2(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe HideBox2(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe HideBox2(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}

@@ -16,21 +16,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const int SIZE = Comando.SIZE+Word.LENGTH;
         public const string DESCRIPCION= "Comprueba si el flag del entrenador esta activado y guarda el resultado en LASTRESULT";
 
+		public CheckTrainerFlag() { }
         public CheckTrainerFlag(Word entrenador)
 		{
 			Entrenador = entrenador;
  
 		}
    
-		public CheckTrainerFlag(ScriptManager scriptManager,RomGba rom, int offset)
+		public CheckTrainerFlag(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CheckTrainerFlag(ScriptManager scriptManager,byte[] bytesScript, int offset)
+		public CheckTrainerFlag(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CheckTrainerFlag(ScriptManager scriptManager,byte* ptRom, int offset)
+		public unsafe CheckTrainerFlag(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
@@ -61,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Entrenador };
 		}
-		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Entrenador = new Word(ptrRom, offsetComando);
 
@@ -69,8 +70,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			Word.SetData(data, , Entrenador);
+			data[0]=IdComando;
+			Word.SetData(data,1 , Entrenador);
+			return data;
 		}
 	}
 }

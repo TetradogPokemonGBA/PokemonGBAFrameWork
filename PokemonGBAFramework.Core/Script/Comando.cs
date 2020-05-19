@@ -43,18 +43,18 @@ namespace PokemonGBAFramework.Core
         internal Comando()
 		{
 		}
-		internal Comando(ScriptManager scriptManager, RomGba rom, int offsetComando)
+		internal Comando(ScriptAndASMManager scriptManager, RomGba rom, int offsetComando)
 			: this(scriptManager,rom.Data.Bytes, offsetComando)
 		{
 		}
-		internal Comando(ScriptManager scriptManager,byte[] bytesComando, int offset)
+		internal Comando(ScriptAndASMManager scriptManager,byte[] bytesComando, int offset)
 		{
 			unsafe {
 				fixed(byte* ptRom=bytesComando)
 					CargarCamando(scriptManager,ptRom, offset);
 			}
 		}
-		internal unsafe Comando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
+		internal unsafe Comando(ScriptAndASMManager scriptManager, byte* ptrRom, int offsetComando)
 		{
 			CargarCamando(scriptManager,ptrRom, offsetComando);
 		}
@@ -75,7 +75,7 @@ namespace PokemonGBAFramework.Core
 			return new object[]{ };
 		}
 
-		protected virtual unsafe  void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+		protected virtual unsafe  void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 		}
 		public virtual byte[] GetBytesTemp()

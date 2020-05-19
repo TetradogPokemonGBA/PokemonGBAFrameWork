@@ -16,17 +16,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "CmdC8";
         public const string DESCRIPCION= "Bajo Investigación";
 
+        public CmdC8() { }
         public CmdC8(DWord unknow)
         {
             Unknow = unknow;
         }
 
-        public CmdC8(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
+        public CmdC8(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public CmdC8(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
+        public CmdC8(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe CmdC8(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
+        public unsafe CmdC8(ScriptAndASMManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {
@@ -65,15 +66,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
         {
             return new Object[] { Unknow };
         }
-        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
         {
             Unknow = new DWord(ptrRom,offsetComando);
         }
         public override byte[] GetBytesTemp()
         {
             byte[] data=new byte[Size];
-            ptrRomPosicionado+=base.Size;
-            DWord.SetData(data, , Unknow);
+            data[0]=IdComando;
+            DWord.SetData(data,1, Unknow);
+            return data;
         }
     }
 }
