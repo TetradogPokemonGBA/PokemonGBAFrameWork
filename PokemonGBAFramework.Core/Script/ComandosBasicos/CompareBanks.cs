@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Bank1=bank1;
 			Bank2=bank2;
 		}
-		public CompareBanks(RomGba rom,int offset):base(rom,offset)
+		public CompareBanks(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CompareBanks(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public CompareBanks(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CompareBanks(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe CompareBanks(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -62,16 +62,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Bank1,Bank2};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Bank1=new Word(ptrRom,offsetComando);
 			Bank2=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,Bank1);
+			Word.SetData(data, ,Bank1);
 			Word.SetData(ptrRomPosicionado+Word.LENGTH,Bank2);
 		}
 	}

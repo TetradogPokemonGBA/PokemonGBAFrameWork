@@ -23,12 +23,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Flag=flag;
 		}
-		public SetFlag(RomGba rom,int offset):base(rom,offset)
+		public SetFlag(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public SetFlag(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public SetFlag(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe SetFlag(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe SetFlag(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -60,15 +60,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Flag};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Flag=new Word(ptrRom,offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,Flag);
+			Word.SetData(data, ,Flag);
 		}
 	}
 	public class ClearFlag:SetFlag
@@ -77,12 +77,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "ClearFlag";
         public new const string DESCRIPCION = "Desactiva el flag";
 
-        public ClearFlag(RomGba rom,int offset):base(rom,offset)
+        public ClearFlag(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public ClearFlag(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public ClearFlag(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe ClearFlag(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe ClearFlag(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

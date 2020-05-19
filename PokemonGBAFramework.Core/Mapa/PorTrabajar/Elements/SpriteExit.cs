@@ -31,7 +31,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             return new byte[] {X,B2,Y,B4,B5,B6,Map,Bank };
         }
 
-        public static SpriteExit Get(RomGba rom, int offset)
+        public static SpriteExit Get(ScriptManager scriptManager,RomGba rom, int offset)
         {
             SpriteExit spriteExit = new SpriteExit();
             spriteExit.X = rom.Data[offset++];

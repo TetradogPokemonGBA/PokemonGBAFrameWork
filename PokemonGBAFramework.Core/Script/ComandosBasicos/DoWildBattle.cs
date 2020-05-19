@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public DoWildBattle(RomGba rom, int offset) : base(rom, offset)
+        public DoWildBattle(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public DoWildBattle(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public DoWildBattle(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe DoWildBattle(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe DoWildBattle(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

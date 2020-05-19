@@ -17,15 +17,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         public FadeIn(byte velocidadDesvanecimiento):base(velocidadDesvanecimiento)
 		{}
-		public FadeIn(RomGba rom, int offset) : base(rom, offset)
+		public FadeIn(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public FadeIn(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public FadeIn(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe FadeIn(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe FadeIn(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

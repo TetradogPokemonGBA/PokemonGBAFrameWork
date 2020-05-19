@@ -26,11 +26,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			VariableOrigen=variableOrigen;
 		}
 		
-		public CopyVar(RomGba rom,int offset):base(rom,offset)
+		public CopyVar(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public CopyVar(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public CopyVar(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CopyVar(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe CopyVar(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -60,18 +60,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{VariableDestino,VariableOrigen};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			VariableDestino=new Word(ptrRom,offsetComando);
 			VariableOrigen=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,VariableDestino);
-			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,VariableOrigen);
+			Word.SetData(data, ,VariableDestino);
+ 
+			Word.SetData(data, ,VariableOrigen);
 		}
 	}
 	

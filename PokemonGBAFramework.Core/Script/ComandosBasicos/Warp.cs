@@ -32,18 +32,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			CoordenadaX = coordenadaX;
 			CoordenadaY = coordenadaY;
 		}
-		public Warp(RomGba rom, int offset)
-			: base(rom, offset)
+		public Warp(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Warp(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public Warp(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe Warp(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -119,7 +119,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Bank, Map, Exit, CoordenadaX, CoordenadaY };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			bank = ptrRom[offsetComando++];
 			map = ptrRom[offsetComando++];
@@ -128,9 +128,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			offsetComando += Word.LENGTH;
 			coordenadaY = new Word(ptrRom, offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = bank;
 			ptrRomPosicionado++;
@@ -138,9 +138,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = exit;
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado, coordenadaX);
+			Word.SetData(data, , coordenadaX);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, coordenadaY);
+			Word.SetData(data, , coordenadaY);
 		}
 	}
 	public class WarpWalk:Warp
@@ -152,18 +152,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public WarpWalk(RomGba rom, int offset)
-			: base(rom, offset)
+		public WarpWalk(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public WarpWalk(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WarpWalk(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpWalk(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WarpWalk(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -194,18 +194,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public WarpTeleport(RomGba rom, int offset)
-			: base(rom, offset)
+		public WarpTeleport(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public WarpTeleport(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WarpTeleport(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpTeleport(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WarpTeleport(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -236,18 +236,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public Warp3(RomGba rom, int offset)
-			: base(rom, offset)
+		public Warp3(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Warp3(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public Warp3(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp3(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe Warp3(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -278,18 +278,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public Warp4(RomGba rom, int offset)
-			: base(rom, offset)
+		public Warp4(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Warp4(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public Warp4(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp4(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe Warp4(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -319,18 +319,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public Warp5(RomGba rom, int offset)
-			: base(rom, offset)
+		public Warp5(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Warp5(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public Warp5(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Warp5(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe Warp5(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -361,18 +361,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public WarpMuted(RomGba rom, int offset)
-			: base(rom, offset)
+		public WarpMuted(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public WarpMuted(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WarpMuted(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpMuted(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WarpMuted(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -403,18 +403,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 
 		}
-		public SetWarpplace(RomGba rom, int offset)
-			: base(rom, offset)
+		public SetWarpplace(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public SetWarpplace(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public SetWarpplace(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe SetWarpplace(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe SetWarpplace(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 

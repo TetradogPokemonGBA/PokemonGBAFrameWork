@@ -16,18 +16,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="AddDecoration";
 		public const string DESCRIPCION="Añade un objeto decorativo en el pc del player";
 
+		public AddDecoration() { }
         public AddDecoration(Word decoracion)
 		{
 			Decoracion=decoracion;
 			
 		}
 		
-		public AddDecoration(RomGba rom,int offset):base(rom,offset)
+		public AddDecoration(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public AddDecoration(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public AddDecoration(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe AddDecoration(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe AddDecoration(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -56,17 +57,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Decoracion};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager, byte* ptrRom, int offsetComando)
 		{
 			Decoracion=new Word(ptrRom,offsetComando);
 			
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
-            ptrRomPosicionado += base.Size;
-            Word.SetData(ptrRomPosicionado,Decoracion);
-			
+			byte[] data = new byte[Size];
+			data[0]=IdComando;
+			Word.SetData(data, 1, Decoracion);
+			return data;
 		}
 	}
 }

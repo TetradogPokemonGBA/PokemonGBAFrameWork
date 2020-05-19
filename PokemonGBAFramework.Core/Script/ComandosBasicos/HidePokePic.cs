@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public HidePokePic(RomGba rom, int offset) : base(rom, offset)
+        public HidePokePic(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public HidePokePic(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public HidePokePic(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe HidePokePic(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe HidePokePic(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

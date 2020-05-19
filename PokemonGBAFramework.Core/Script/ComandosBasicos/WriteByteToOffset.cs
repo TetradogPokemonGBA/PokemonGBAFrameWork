@@ -31,16 +31,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			OffsetToWrite = offset;
 		}
 		
-		public WriteByteToOffset(RomGba rom, int offset)
-			: base(rom, offset)
+		public WriteByteToOffset(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WriteByteToOffset(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WriteByteToOffset(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WriteByteToOffset(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WriteByteToOffset(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -69,15 +69,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return base.GetParams().AfegirValor(OffsetToWrite);
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando);
             offsetComando += base.Size;
 			OffsetToWrite = new OffsetRom(ptrRom, offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
 			OffsetRom.Set(ptrRomPosicionado, OffsetToWrite);
 		}
@@ -88,16 +88,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID = 0x13;
         public new const string NOMBRE= "Setfarbyte";
         public new const string DESCRIPCION= "Inserta el byte en la dirección especificada";
-        public SetFarByte(RomGba rom, int offset)
-			: base(rom, offset)
+        public SetFarByte(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetFarByte(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public SetFarByte(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetFarByte(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe SetFarByte(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override byte IdComando {

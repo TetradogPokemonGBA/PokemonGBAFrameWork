@@ -22,12 +22,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public CheckCoins(RomGba rom,int offset):base(rom,offset)
+		public CheckCoins(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CheckCoins(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public CheckCoins(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CheckCoins(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe CheckCoins(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -56,15 +56,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{VariableAUsar};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			VariableAUsar=new Word(ptrRom,offsetComando);			
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,VariableAUsar);			
+			Word.SetData(data, ,VariableAUsar);			
 		}
 	}
 }

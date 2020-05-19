@@ -19,16 +19,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
 		}
    
-		public WaitMsg(RomGba rom, int offset)
-			: base(rom, offset)
+		public WaitMsg(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WaitMsg(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WaitMsg(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WaitMsg(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WaitMsg(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {

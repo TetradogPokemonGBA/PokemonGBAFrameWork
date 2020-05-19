@@ -20,7 +20,7 @@ using PokemonGBAFramework.Core.Extension;
 
 namespace PokemonGBAFramework.Core
 {
-  
+
     /// <summary>
     /// Description of Script.
     /// </summary>
@@ -829,6 +829,10 @@ namespace PokemonGBAFramework.Core
                 return total+aSumar;//le sumo el End/Return
             }
         }
+        public IEnumerable<Script> GetScritps() => ComandosScript.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
+        public IEnumerable<BloqueString> GetStrings() => ComandosScript.Filtra((c) => c is IString).Select((c) => (c as IString).Texto);
+        public IEnumerable<BloqueMovimiento> GetMovimientos() => ComandosScript.Filtra((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
+        public IEnumerable<BloqueBraille> GetBrailles() => ComandosScript.Filtra((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
         #region Interficies
         #region ILastResult implementation
         public IList<object> LastResult
@@ -893,6 +897,7 @@ namespace PokemonGBAFramework.Core
             }
         }
         #endregion
+
         int IComparable<Script>.CompareTo(Script other)
         {
             int compareTo;
@@ -925,19 +930,17 @@ namespace PokemonGBAFramework.Core
 
             return data;
         }
-        public static bool? EsUnaFuncionAcabadaEnEndOReturn(Comando comando)
-        {
-            IEndScript comandoEnd = comando as IEndScript;
-            return comandoEnd != null? comandoEnd.IsEnd:new bool?();
-        }
-        public IEnumerable<Script> GetScritps() => ComandosScript.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
+   
 
         #endregion
         public static int GetIdUnicoTemp()
         {
             return GenId.Siguiente(GenId.Actual().NextOffsetValido() + 1);//así siempre no será valido y no tendré problemas
+        } 
+        public static bool? EsUnaFuncionAcabadaEnEndOReturn(Comando comando)
+        {
+            IEndScript comandoEnd = comando as IEndScript;
+            return comandoEnd != null? comandoEnd.IsEnd:new bool?();
         }
     }
-
-
 }

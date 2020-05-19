@@ -24,11 +24,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Funcion=funcion;
 		}
-		public Gotostd(RomGba rom,int offset):base(rom,offset)
+		public Gotostd(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Gotostd(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Gotostd(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Gotostd(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Gotostd(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -61,14 +61,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new object[]{Funcion};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Funcion=ptrRom[offsetComando];
 		}
 
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
 			*ptrRomPosicionado=Funcion;
 		}
@@ -82,11 +82,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE= "CallStd";
         public new const string DESCRIPCION= "Llama a la función compilada";
         public Callstd(byte function) : base(function) { }
-        public Callstd(RomGba rom,int offset):base(rom,offset)
+        public Callstd(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Callstd(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Callstd(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Callstd(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Callstd(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {

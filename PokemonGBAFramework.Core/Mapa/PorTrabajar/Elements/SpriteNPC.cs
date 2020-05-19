@@ -72,7 +72,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
             return data;
         }
-        public static SpriteNPC Get(RomGba rom, int offset)
+        public static SpriteNPC Get(ScriptManager scriptManager,RomGba rom, int offset)
         {
             SpriteNPC spriteNPC = new SpriteNPC();
             spriteNPC.B1 = rom.Data[offset++];

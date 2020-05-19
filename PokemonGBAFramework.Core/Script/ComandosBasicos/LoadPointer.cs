@@ -82,15 +82,35 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		#endregion
 
 	}
-	public class MsgBox : Comando
+	public class MsgBox : Comando,IString
 	{
 		public const byte ID = 0xF;
 		public new const int SIZE = Comando.SIZE + 1 + OffsetRom.LENGTH;
 		public const string NOMBRE = "MsgBox";
-		public const string DESCRIPCION = "Carga el puntero de un script para poderlo llamar en otros métodos";
+		public const string DESCRIPCION = "Carga el puntero de un string para poderlo llamar en otros métodos";
+		//source:https://www.pokecommunity.com/showthread.php?t=164276 //creditos: HackMew
 		public enum MsgBoxTipo
 		{
-
+			/// <summary>
+			/// This is the msgbox used for normal people. Using this type means that you don't need to use the lock, faceplayer or release commands.
+			/// </summary>
+			Gente = 0x2,
+			/// <summary>
+			/// Used for signs etc. No lock or faceplayer effect. Only shows the sign textbox when used on an actual sign.
+			/// </summary>
+			Poste = 0x3,
+			/// <summary>
+			/// A normal msgbox except for the fact that it does not close. Command closeonkeypress must be used to close it. No lock or faceplayer effect.
+			/// </summary>
+			CierrePorComando = 0x4,
+			/// <summary>
+			/// Used for Yes/No questions. No lock or faceplayer effect.
+			/// </summary>
+			Pregunta = 0x5,
+			/// <summary>
+			/// Normal textbox. Has no lock or faceplayer effect.
+			/// </summary>
+			Normal = 0x6
 		}
 		public MsgBox() { }
 		public MsgBox(MsgBoxTipo tipo, BloqueString texto)
@@ -152,7 +172,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			byte[] data = new byte[Size];
 			data[0] = IdComando;
 			data[1] = (byte)Tipo;
-			OffsetRom.Set(data, 2, new OffsetRom(Script.IdUnicoTemp));
+			OffsetRom.Set(data, 2, new OffsetRom(Texto.IdUnicoTemp));
 			return data;
 		}
 

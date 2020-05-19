@@ -20,12 +20,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			this.Pokemon=pokemon;
 		}
 		
-		public GiveEgg(RomGba rom,int offset):base(rom,offset)
+		public GiveEgg(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public GiveEgg(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public GiveEgg(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe GiveEgg(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe GiveEgg(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 
         public Word Pokemon { get; set; }
@@ -56,15 +56,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Pokemon};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Pokemon=new Word(ptrRom,offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,Pokemon);
+			Word.SetData(data, ,Pokemon);
 			
 		}
 	}

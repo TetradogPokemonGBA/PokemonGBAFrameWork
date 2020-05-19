@@ -22,12 +22,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public CallAsm(OffsetRom offsetAsm):base(offsetAsm)
 		{}
-		public CallAsm(RomGba rom,int offset):base(rom,offset)
+		public CallAsm(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public CallAsm(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public CallAsm(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe CallAsm(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe CallAsm(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {

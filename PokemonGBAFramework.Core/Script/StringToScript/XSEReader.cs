@@ -15,7 +15,7 @@ namespace PokemonGBAFramework.Core.StringToScript
         public static readonly string[] ComentariosUnaLinea = { "//", "#" };
 
  
-        class Org
+        class BloqueOrg
         {
             public enum TipoOrg
             {
@@ -27,7 +27,7 @@ namespace PokemonGBAFramework.Core.StringToScript
             public BloqueString Texto { get; set; }
             public BloqueMovimiento Movimiento { get; set; }
         }
-        static Comando GetCommand(TwoKeysList<string, int, Org> dicScripts,params string[] camposComando)
+        static Comando GetCommand(TwoKeysList<string, int, BloqueOrg> dicScripts,params string[] camposComando)
         {
             Comando comando;
             If1 if1;
@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.StringToScript
             return comando;
 
         }
-         static void EndLoadCommand(Comando comando, TwoKeysList<string, int, Org> dicScripts,string[] camposComandoConId)
+         static void EndLoadCommand(Comando comando, TwoKeysList<string, int, BloqueOrg> dicScripts,string[] camposComandoConId)
         {
             //falta testing			
             
@@ -150,9 +150,9 @@ namespace PokemonGBAFramework.Core.StringToScript
         {
             string[] camposComando;
             string comandoActual;
-            TwoKeysList<string,int,Org> scripts = new TwoKeysList<string, int, Org>();
-            Org org=default;
-            SortedList<string, Org> dicBloques = new SortedList<string, Org>();
+            TwoKeysList<string,int,BloqueOrg> scripts = new TwoKeysList<string, int, BloqueOrg>();
+            BloqueOrg org=default;
+            SortedList<string, BloqueOrg> dicBloques = new SortedList<string, BloqueOrg>();
 
             //cargo todas las etiquetas de los scripts
             for(int i = 0; i < comandos.Count; i++)
@@ -168,17 +168,17 @@ namespace PokemonGBAFramework.Core.StringToScript
                     {
                         if(!dicBloques.ContainsKey(camposComando[1]))
                         {//script,texto,movimientos,tienda?,
-                            org = new Org() { Id = camposComando[1] };
+                            org = new BloqueOrg() { Id = camposComando[1] };
                             dicBloques.Add(camposComando[1], org);
                         }
                     }else if (!Equals(org, default))
                     {
                         //determino el tipo
                         if (comandoActual[0] == '=')
-                            org.Tipo = Org.TipoOrg.String;
+                            org.Tipo = BloqueOrg.TipoOrg.String;
                         else if (comandoActual.Contains("#raw"))
-                            org.Tipo = Org.TipoOrg.Movement;
-                        else org.Tipo = Org.TipoOrg.Script;
+                            org.Tipo = BloqueOrg.TipoOrg.Movement;
+                        else org.Tipo = BloqueOrg.TipoOrg.Script;
 
                         org = default;//para saltar las proximas lineas
                     }
@@ -204,7 +204,7 @@ namespace PokemonGBAFramework.Core.StringToScript
 
                         switch (org.Tipo)
                         {
-                            case Org.TipoOrg.Script:
+                            case BloqueOrg.TipoOrg.Script:
                                 if (Comando.DicTypes.ContainsKey(camposComando[0]))
                                 {
                                     org.Script.ComandosScript.Add(GetCommand(scripts, camposComando));
@@ -215,11 +215,11 @@ namespace PokemonGBAFramework.Core.StringToScript
                                     throw new ScriptXSEMalFormadoException(comandos[i]);
                                 }
                                 break;
-                            case Org.TipoOrg.Movement://#raw 0xMOVE
+                            case BloqueOrg.TipoOrg.Movement://#raw 0xMOVE
                                 org.Movimiento.List.Add(byte.Parse(camposComando[1].Contains('x') ? camposComando[1].Split('x')[1] : camposComando[1]));
 
                                 break;
-                            case Org.TipoOrg.String://= Texto
+                            case BloqueOrg.TipoOrg.String://= Texto
                                 org.Texto.Texto +=comandoActual.StartsWith("=")? comandoActual.Substring(1).Trim():comandoActual;
                                 break;
                                 //falta la tienda y otros
@@ -230,16 +230,16 @@ namespace PokemonGBAFramework.Core.StringToScript
                         org = scripts[camposComando[1]];
                         switch(org.Tipo)
                         {
-                            case Org.TipoOrg.Script:org.Script = new Script();break;
-                            case Org.TipoOrg.Movement:org.Movimiento = new BloqueMovimiento();break;
-                            case Org.TipoOrg.String: org.Texto = new BloqueString();break;
+                            case BloqueOrg.TipoOrg.Script:org.Script = new Script();break;
+                            case BloqueOrg.TipoOrg.Movement:org.Movimiento = new BloqueMovimiento();break;
+                            case BloqueOrg.TipoOrg.String: org.Texto = new BloqueString();break;
                         }
                     }
                     
                 }
 
             }
-            return scripts.Values.Filtra((o)=>o.Tipo== Org.TipoOrg.Script).Select((o)=>o.Script).ToArray();
+            return scripts.Values.Filtra((o)=>o.Tipo== BloqueOrg.TipoOrg.Script).Select((o)=>o.Script).ToArray();
         }
   
 

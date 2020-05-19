@@ -37,15 +37,33 @@ namespace PokemonGBAFramework.Core.BuildScript
         {//pongo en los bytes los offsets temporales
          //luego sustituye esos Offsets temporales por los que tendrán en el bloque teniendo en cuenta que los scripts empiezan en una posicion especial
             List<KeyValuePair<int, Script>> offsetsScript = new List<KeyValuePair<int, Script>>();
+            List<KeyValuePair<int, int>> lstOffsets = new List<KeyValuePair<int, int>>();
+            //faltan los bloques string,movement,shop?
             foreach(var script in DicScripts)
             {
                 offsetsScript.Add(new KeyValuePair<int, Script>(data.SearchEmptySpaceAndSetArray(script.Value.GetBytesTemp()),script.Value));
+                lstOffsets.Add(new KeyValuePair<int, int>(offsetsScript[offsetsScript.Count-1].Key, offsetsScript[offsetsScript.Count - 1].Value.IdUnicoTemp));
+                foreach(var texto in script.Value.GetStrings())
+                {
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(BloqueString.ToByteArray(texto.Texto)), texto.IdUnicoTemp));
+                }
+                foreach (var move in script.Value.GetMovimientos())
+                {
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(move.GetBytes()), move.IdUnicoTemp));
+                }
+                foreach (var braille in script.Value.GetBrailles())
+                {
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(braille.GetBytes()), braille.IdUnicoTemp));
+                }
+                //falta la tienda y otros
             }
+          
             //ahora sustituyo los OffsetsTemporales por los reales
-            for(int i = 0; i < offsetsScript.Count; i++)
+            for(int i = 0; i < lstOffsets.Count; i++)
             {
-                OffsetRom.Set(data, new OffsetRom(offsetsScript[i].Value.IdUnicoTemp), offsetsScript[i].Key);
+                OffsetRom.Set(data, new OffsetRom(lstOffsets[i].Value), lstOffsets[i].Key);
             }
+         
 
             return offsetsScript;
 
@@ -64,6 +82,23 @@ namespace PokemonGBAFramework.Core.BuildScript
             {
                 total += script.Value.Size;
                 total =total.NextOffsetValido();
+                foreach (var texto in script.Value.GetStrings())
+                {
+                    total += BloqueString.ToByteArray(texto.Texto).Length;
+                    total = total.NextOffsetValido();
+
+                }
+                foreach (var move in script.Value.GetMovimientos())
+                {
+                    total += move.GetBytes().Length;
+                    total = total.NextOffsetValido();
+                }
+                foreach (var braille in script.Value.GetBrailles())
+                {
+                    total += braille.GetBytes().Length;
+                    total = total.NextOffsetValido();
+                }
+                //falta la tienda y otros
             }
             return total;
         }

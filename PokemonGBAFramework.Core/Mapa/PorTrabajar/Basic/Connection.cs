@@ -50,7 +50,7 @@ namespace PokemonGBAFramework.Core.Mapa
 		}
 
 
-		public static Connection Get(RomGba rom,int offset)
+		public static Connection Get(ScriptManager scriptManager,RomGba rom,int offset)
 		{
 			Connection connection = new Connection();
 

@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="AddItem";
 		public const string DESCRIPCION="Añade la cantidad del objeto especificado";
 
+		public AddItem() { }
         public AddItem(Word objetoAAñadir,Word cantidad)
 		{
 			ObjetoAAñadir=objetoAAñadir;
@@ -25,12 +26,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public AddItem(RomGba rom,int offset):base(rom,offset)
+		public AddItem(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public AddItem(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public AddItem(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe AddItem(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe AddItem(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -62,7 +63,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ObjetoAAñadir,Cantidad};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			ObjetoAAñadir=new Word(ptrRom,offsetComando);
 
@@ -71,18 +72,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Cantidad=new Word(ptrRom,offsetComando);
 		
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
-            ptrRomPosicionado += base.Size;
-            Word.SetData(ptrRomPosicionado,ObjetoAAñadir);
-			
-
-			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,Cantidad);
-
-
-			
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			Word.SetData(data, 1, ObjetoAAñadir);
+			Word.SetData(data, 3, Cantidad);
+			return data;
 		}
 	}
 }

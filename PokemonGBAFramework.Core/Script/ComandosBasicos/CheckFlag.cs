@@ -17,15 +17,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public CheckFlag(Word flag):base(flag)
 		{}
-		public CheckFlag(RomGba rom, int offset) : base(rom, offset)
+		public CheckFlag(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public CheckFlag(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public CheckFlag(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe CheckFlag(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe CheckFlag(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

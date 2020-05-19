@@ -25,11 +25,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Variable=variable;
 			Valor=valor;
 		}
-		public SetVar(RomGba rom,int offset):base(rom,offset)
+		public SetVar(ScriptManager scriptManager, RomGba rom,int offset):base(scriptManager, rom,offset)
 		{}
-		public SetVar(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public SetVar(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe SetVar(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe SetVar(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		
 		#region implemented abstract members of Comando
@@ -64,20 +64,20 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			return new object[]{Variable,Valor};
 		}
 
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Variable=new Word(ptrRom,offsetComando);
 			Valor=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,Variable);
-			ptrRomPosicionado+=Word.LENGTH;
-			
-			Word.SetData(ptrRomPosicionado,Valor);
+			byte[] data = new byte[Size];
+
+			data[0] = IdComando;
+			Word.SetData(data,1 ,Variable);		
+			Word.SetData(data, 3,Valor);
+
+			return data;
 		
 		}
 	}
@@ -87,14 +87,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID=0x18;
         public new const string DESCRIPCION= "Resta cualquier valor a la variable";
         public new const string NOMBRE= "SubVar";
-
+		public SubVar() { }
         public SubVar(Word variable,Word valorARestar):base(variable,valorARestar)
 		{}
-		public SubVar(RomGba rom,int offset):base(rom,offset)
+		public SubVar(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager, rom,offset)
 		{}
-		public SubVar(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public SubVar(ScriptManager scriptManager, byte[] bytesScript,int offset):base(scriptManager, bytesScript,offset)
 		{}
-		public unsafe SubVar(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe SubVar(ScriptManager scriptManager, byte* ptRom,int offset):base(scriptManager, ptRom,offset)
 		{}
 		
 		#region implemented abstract members of Comando

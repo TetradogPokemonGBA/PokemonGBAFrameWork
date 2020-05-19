@@ -21,11 +21,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		
 		public Nop()
 		{}
-		public Nop(RomGba rom,int offset):base(rom,offset)
+		public Nop(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Nop(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Nop(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Nop(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Nop(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -51,11 +51,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID=0x1;
         public new const string NOMBRE = "Nop1";
         public Nop1() { }
-		public Nop1(RomGba rom,int offset):base(rom,offset)
+		public Nop1(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Nop1(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Nop1(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Nop1(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Nop1(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Nombre {
 			get {

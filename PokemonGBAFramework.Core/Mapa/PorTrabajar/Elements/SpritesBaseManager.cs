@@ -24,7 +24,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			Items.Add(IGetNew(x,y));
 		}
 		protected abstract T IGetNew(int x, int y);
-		protected abstract T IGet(RomGba rom, int offset);
+		protected abstract T IGet(ScriptManager scriptManager,RomGba rom, int offset);
 		public void RemoveAt(int x, int y)
 		{
 			Items.RemoveAt(IndexOf(x, y));

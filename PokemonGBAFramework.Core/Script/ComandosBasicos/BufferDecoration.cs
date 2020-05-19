@@ -16,19 +16,20 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferDecoration";
 		public const string DESCRIPCION="Guarda el nombre del item decorativo en el Buffer especificado.";
 
-        public BufferDecoration(Byte buffer,Word decoracion)
+		public BufferDecoration() { }
+        public BufferDecoration(byte buffer,Word decoracion)
 		{
 			Buffer=buffer;
 			Decoracion=decoracion;
 			
 		}
 		
-		public BufferDecoration(RomGba rom,int offset):base(rom,offset)
+		public BufferDecoration(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public BufferDecoration(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public BufferDecoration(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe BufferDecoration(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe BufferDecoration(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -58,20 +59,20 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Buffer,Decoracion};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer=*(ptrRom+offsetComando);
 			offsetComando++;
 			Decoracion=new Word(ptrRom,offsetComando);
 		
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
-            ptrRomPosicionado += base.Size;
-            *ptrRomPosicionado=Buffer;
-			++ptrRomPosicionado;
-			Word.SetData(ptrRomPosicionado,Decoracion);
+			byte[] data=new byte[Size];
+           data[0]=IdComando;
+            data[1]=Buffer;
+			Word.SetData(data,2,Decoracion);
+			return data;
 		
 		}
 	}

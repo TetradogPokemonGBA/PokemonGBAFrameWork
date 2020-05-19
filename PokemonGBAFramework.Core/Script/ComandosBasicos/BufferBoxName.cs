@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "BufferBoxName";
         public const string DESCRIPCION = "Guarda el nombre de la caja especificada en el buffer especificado";
 
+        public BufferBoxName() { }
         public BufferBoxName(Byte buffer, Word cajaPcAGuardar)
         {
             Buffer = buffer;
@@ -23,16 +24,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public BufferBoxName(RomGba rom, int offset)
-            : base(rom, offset)
+        public BufferBoxName(ScriptManager scriptManager,RomGba rom, int offset)
+             : base(scriptManager,rom, offset)
         {
         }
-        public BufferBoxName(byte[] bytesScript, int offset)
-            : base(bytesScript, offset)
+        public BufferBoxName(ScriptManager scriptManager,byte[] bytesScript, int offset)
+            : base(scriptManager,bytesScript, offset)
         {
         }
-        public unsafe BufferBoxName(byte* ptRom, int offset)
-            : base(ptRom, offset)
+        public unsafe BufferBoxName(ScriptManager scriptManager,byte* ptRom, int offset)
+            : base(scriptManager,ptRom, offset)
         {
         }
         public override string Descripcion
@@ -64,27 +65,27 @@ namespace PokemonGBAFramework.Core.ComandosScript
                 return SIZE;
             }
         }
-        public Byte Buffer { get; set; }
+        public byte Buffer { get; set; }
         public Word CajaPcAGuardar { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
         {
             return new Object[] { Buffer, CajaPcAGuardar };
         }
-        protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
         {
             Buffer = ptrRom[offsetComando];
             offsetComando++;
             CajaPcAGuardar = new Word(ptrRom, offsetComando);
 
         }
-        protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+        public override byte[] GetBytesTemp()
         {
-            base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado += base.Size;
-            *ptrRomPosicionado = Buffer;
-            ++ptrRomPosicionado;
-            Word.SetData(ptrRomPosicionado, CajaPcAGuardar);
+            byte[] data = new byte[Size];
+            data[0] = IdComando;
+            data[1] = Buffer;
+            Word.SetData(data, 2, CajaPcAGuardar);
+            return data;
 
         }
     }

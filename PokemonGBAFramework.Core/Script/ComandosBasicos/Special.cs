@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			EventoALlamar=eventoALlamar;
 		}
-		public Special(RomGba rom,int offset):base(rom,offset)
+		public Special(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Special(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Special(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Special(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Special(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -60,15 +60,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{EventoALlamar};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			EventoALlamar=new Word(ptrRom,offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,EventoALlamar);
+			Word.SetData(data, ,EventoALlamar);
 		}
 	}
 

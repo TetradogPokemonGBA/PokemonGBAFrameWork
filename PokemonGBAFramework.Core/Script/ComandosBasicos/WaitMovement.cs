@@ -23,16 +23,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		}
 		public WaitMovement(Word persona) => Persona = persona;
-		public WaitMovement(RomGba rom, int offset)
-			: base(rom, offset)
+		public WaitMovement(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public WaitMovement(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WaitMovement(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe WaitMovement(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WaitMovement(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion
@@ -85,9 +85,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		protected override unsafe void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado, Persona);
+			Word.SetData(data, , Persona);
 		}
 
 	}

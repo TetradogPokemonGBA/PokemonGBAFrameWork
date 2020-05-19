@@ -28,18 +28,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Map = map;
 		}
 
-		public WarpHole(RomGba rom, int offset)
-			: base(rom, offset)
+		public WarpHole(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public WarpHole(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public WarpHole(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe WarpHole(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe WarpHole(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -87,14 +87,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Bank, Map };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			bank = ptrRom[offsetComando++];
 			map = ptrRom[offsetComando];
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = bank;
 			ptrRomPosicionado++;

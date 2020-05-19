@@ -27,16 +27,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public SetMapTile(RomGba rom, int offset)
-			: base(rom, offset)
+		public SetMapTile(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public SetMapTile(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public SetMapTile(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe SetMapTile(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe SetMapTile(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -81,7 +81,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ coordenadaX, coordenadaY, tile, atributoTile };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			coordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
@@ -91,17 +91,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			offsetComando += Word.LENGTH;
 			atributoTile = new Word(ptrRom, offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado, CoordenadaX);
+			Word.SetData(data, , CoordenadaX);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, CoordenadaY);
+			Word.SetData(data, , CoordenadaY);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, Tile);
+			Word.SetData(data, , Tile);
 			ptrRomPosicionado += Word.LENGTH;
-			Word.SetData(ptrRomPosicionado, AtributoTile);
+			Word.SetData(data, , AtributoTile);
 		}
 	}
 }

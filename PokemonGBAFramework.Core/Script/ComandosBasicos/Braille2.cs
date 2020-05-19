@@ -15,19 +15,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "Braille2";
         public new const string DESCRIPCION = "Establece la variable 0x8004 en un valor basado en el ancho de la cadena en braille en el texto.";
 
-
-        public Braille2(OffsetRom brailleData):base(brailleData)
+        public Braille2() { }
+        public Braille2(BloqueBraille brailleData):base(brailleData)
         {
          
 
         }
 
-        public Braille2(RomGba rom, int offset) : base(rom, offset)
+        public Braille2(ScriptManager scriptManager,RomGba rom, int offset) : base(scriptManager,rom, offset)
         {
         }
-        public Braille2(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public Braille2(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager, bytesScript, offset)
         { }
-        public unsafe Braille2(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe Braille2(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager, ptRom, offset)
         { }
         public override string Descripcion
         {

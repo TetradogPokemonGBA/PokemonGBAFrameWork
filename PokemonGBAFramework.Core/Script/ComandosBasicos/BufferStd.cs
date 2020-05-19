@@ -23,16 +23,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public BufferStd(RomGba rom, int offset)
-			: base(rom, offset)
+		public BufferStd(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public BufferStd(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public BufferStd(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe BufferStd(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe BufferStd(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -63,19 +63,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Buffer, StandarString };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer = ptrRom[offsetComando];
 			offsetComando++;
 			StandarString = new Word(ptrRom, offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
 			*ptrRomPosicionado = Buffer;
 			++ptrRomPosicionado; 
-			Word.SetData(ptrRomPosicionado, StandarString);
+			Word.SetData(data, , StandarString);
  
 		}
 	}

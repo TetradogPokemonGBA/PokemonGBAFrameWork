@@ -17,7 +17,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			return cache.ContainsKey(offset);
 		}
 
-		public  Tileset Get(RomGba rom,int offset)
+		public  Tileset Get(ScriptManager scriptManager,RomGba rom,int offset)
 		{
 			Tileset tile;
 			if (cache.ContainsKey(offset))

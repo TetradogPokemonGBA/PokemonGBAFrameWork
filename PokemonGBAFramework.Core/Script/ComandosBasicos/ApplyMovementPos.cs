@@ -16,8 +16,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const int SIZE = ApplyMovement.SIZE+1+1;
         public new const string NOMBRE = "ApplyMovementPos";
         public new const string DESCRIPCION = "Mueve el personaje y luego establece las coordenadas X/Y";
-
-        public ApplyMovementPos(Word personajeAUsar, OffsetRom datosMovimiento, Byte coordenadaX, Byte coordenadaY):base(personajeAUsar,datosMovimiento)
+        public ApplyMovementPos() { }
+        public ApplyMovementPos(Word personajeAUsar, BloqueMovimiento datosMovimiento, Byte coordenadaX, Byte coordenadaY):base(personajeAUsar,datosMovimiento)
         {
 
             CoordenadaX = coordenadaX;
@@ -25,12 +25,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public ApplyMovementPos(RomGba rom, int offset) : base(rom, offset)
+        public ApplyMovementPos(ScriptManager scriptManager,RomGba rom, int offset) : base(scriptManager,rom, offset)
         {
         }
-        public ApplyMovementPos(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public ApplyMovementPos(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager, bytesScript, offset)
         { }
-        public unsafe ApplyMovementPos(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe ApplyMovementPos(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager, ptRom, offset)
         { }
         public override string Descripcion
         {
@@ -69,22 +69,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
         {
             return base.GetParams().AfegirValors( new object[]{ CoordenadaX, CoordenadaY });
         }
-        protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
         {
-            base.CargarCamando(ptrRom, offsetComando);
+            base.CargarCamando(scriptManager,ptrRom, offsetComando);
             offsetComando += base.ParamsSize;
             CoordenadaX = ptrRom[offsetComando];
             offsetComando++;
             CoordenadaY = ptrRom[offsetComando];
 
         }
-        protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+        public override byte[] GetBytesTemp()
         {
-            base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado+=base.Size;
-            *ptrRomPosicionado = CoordenadaX;
-            ++ptrRomPosicionado;
-            *ptrRomPosicionado = CoordenadaY;
+            return base.GetBytesTemp().AddArray(new byte[] { CoordenadaX, CoordenadaY });
 
         }
     }

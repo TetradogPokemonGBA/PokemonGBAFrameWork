@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "BufferAttack";
         public const string DESCRIPCION = "Guarda el nombre del ataque en el buffer especificado.";
 
+        public BufferAttack() { }
         public BufferAttack(Byte buffer, Word ataque)
         {
             Buffer = buffer;
@@ -23,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public BufferAttack(RomGba rom, int offset) : base(rom, offset)
+        public BufferAttack(ScriptManager scriptManager, RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public BufferAttack(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public BufferAttack(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe BufferAttack(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe BufferAttack(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {
@@ -59,27 +60,27 @@ namespace PokemonGBAFramework.Core.ComandosScript
                 return SIZE;
             }
         }
-        public Byte Buffer { get; set; }
+        public byte Buffer { get; set; }
         public Word Ataque { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
         {
             return new Object[] { Buffer, Ataque };
         }
-        protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+        protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
         {
             Buffer = ptrRom[offsetComando];
             offsetComando++;
             Ataque = new Word(ptrRom, offsetComando);
 
         }
-        protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+        public override byte[] GetBytesTemp()
         {
-            base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado += base.Size;
-            *ptrRomPosicionado = Buffer;
-            ++ptrRomPosicionado;
-            Word.SetData(ptrRomPosicionado, Ataque);
+            byte[] data = new byte[Size];
+            data[0] = IdComando;
+            data[1] = Buffer;
+            Word.SetData(data, 2, Ataque);
+            return data;
 
         }
     }

@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE = "BufferContestType";
 		public const string DESCRIPCION = "Guarda el nombre del concurso seleccionado en el buffer especificado.";
 
+		public BufferContestType() { }
         public BufferContestType(Byte buffer, Word tipoConcurso)
 		{
 			Buffer = buffer;
@@ -23,16 +24,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public BufferContestType(RomGba rom, int offset)
-			: base(rom, offset)
+		public BufferContestType(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public BufferContestType(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public BufferContestType(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe BufferContestType(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe BufferContestType(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -56,7 +57,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-        public Byte Buffer { get; set; }
+        public byte Buffer { get; set; }
         public Word TipoConcurso { get; set; }
         protected override Edicion.Pokemon GetCompatibilidad()
 		{
@@ -66,20 +67,20 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Buffer, TipoConcurso };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Buffer = ptrRom[offsetComando];
 			offsetComando++;
 			TipoConcurso = new Word(ptrRom, offsetComando);
 
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-            ptrRomPosicionado += base.Size;
-            *ptrRomPosicionado = Buffer;
-			++ptrRomPosicionado; 
-			Word.SetData(ptrRomPosicionado, TipoConcurso);
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			data[1] = Buffer;
+			Word.SetData(data, 2, TipoConcurso);
+			return data;
 		}
 	}
 }

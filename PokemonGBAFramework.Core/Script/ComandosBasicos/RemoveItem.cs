@@ -27,12 +27,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public RemoveItem(RomGba rom,int offset):base(rom,offset)
+		public RemoveItem(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public RemoveItem(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public RemoveItem(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe RemoveItem(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe RemoveItem(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -72,7 +72,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{objetoAQuitar,cantidad};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			objetoAQuitar=new Word(ptrRom,offsetComando);
 
@@ -81,15 +81,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			cantidad=new Word(ptrRom,offsetComando);
 			
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,ObjetoAQuitar);
+			Word.SetData(data, ,ObjetoAQuitar);
 
-			ptrRomPosicionado+=Word.LENGTH;
+ 
 
-			Word.SetData(ptrRomPosicionado,Cantidad);
+			Word.SetData(data, ,Cantidad);
 			
 		}
 	}

@@ -9,29 +9,29 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of Braille.
 	/// </summary>
-	public class Braille:Comando
+	public class Braille:Comando,IBraille
 	{
 		public const byte ID = 0x78;
 		public new const int SIZE = Comando.SIZE+OffsetRom.LENGTH;
 		public const string NOMBRE = "Braille";
 		public const string DESCRIPCION = "Muestra una caja con texto en braille( no soporta '\\l','\\p','\\n')";
-
-        public Braille(OffsetRom brailleData)
+		public Braille() { }
+        public Braille(BloqueBraille brailleData)
 		{
 			BrailleData = brailleData;
 			
 		}
 		
-		public Braille(RomGba rom, int offset)
-			: base(rom, offset)
+		public Braille(ScriptManager scriptManager,RomGba rom, int offset)
+			: base(scriptManager, rom, offset)
 		{
 		}
-		public Braille(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public Braille(ScriptManager scriptManager, byte[] bytesScript, int offset)
+			: base(scriptManager, bytesScript, offset)
 		{
 		}
-		public unsafe Braille(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe Braille(ScriptManager scriptManager, byte* ptRom, int offset)
+			: base(scriptManager, ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -55,24 +55,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-        public OffsetRom BrailleData { get; set; }
+        public BloqueBraille BrailleData { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ BrailleData };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			BrailleData = new OffsetRom(ptrRom, offsetComando);
-
-			
+			BrailleData =new BloqueBraille(ptrRom, new OffsetRom(ptrRom, offsetComando));
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
-			ptrRomPosicionado+=base.Size;
-			OffsetRom.Set(ptrRomPosicionado, BrailleData);
-			
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			OffsetRom.Set(data,1,new OffsetRom(BrailleData.IdUnicoTemp));
+			return data;
 		}
 	}
 }

@@ -23,16 +23,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public YesNoBox(RomGba rom, int offset)
-			: base(rom, offset)
+		public YesNoBox(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public YesNoBox(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public YesNoBox(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe YesNoBox(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe YesNoBox(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -69,15 +69,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ coordenadaX, coordenadaY };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			coordenadaX = ptrRom[offsetComando];
 			offsetComando++;
 			coordenadaY = ptrRom[offsetComando];
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			*ptrRomPosicionado = coordenadaX;
 			++ptrRomPosicionado;

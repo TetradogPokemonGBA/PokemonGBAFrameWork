@@ -14,18 +14,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID = 0x17;
 		public new const string NOMBRE="Addvar";
 		public new const string DESCRIPCION="Añade cualquier valor a la variable";
+		public AddVar() { }
 		public AddVar(Word variable,Word valorAAñadir):base(variable,valorAAñadir)
 		{}
 			
-		public AddVar(RomGba rom, int offset) : base(rom, offset)
+		public AddVar(ScriptManager scriptManager,RomGba rom, int offset) : base(scriptManager,rom, offset)
 		{
 		}
 
-		public AddVar(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public AddVar(ScriptManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe AddVar(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe AddVar(ScriptManager scriptManager, byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

@@ -22,16 +22,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public CheckTrainerFlag(RomGba rom, int offset)
-			: base(rom, offset)
+		public CheckTrainerFlag(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public CheckTrainerFlag(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public CheckTrainerFlag(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe CheckTrainerFlag(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe CheckTrainerFlag(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -61,16 +61,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ Entrenador };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Entrenador = new Word(ptrRom, offsetComando);
 
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado, Entrenador);
+			Word.SetData(data, , Entrenador);
 		}
 	}
 }

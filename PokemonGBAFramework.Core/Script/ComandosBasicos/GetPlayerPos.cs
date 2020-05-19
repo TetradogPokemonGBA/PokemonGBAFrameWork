@@ -27,15 +27,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 
-		public GetPlayerPos(RomGba rom, int offset) : base(rom, offset)
+		public GetPlayerPos(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public GetPlayerPos(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public GetPlayerPos(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe GetPlayerPos(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe GetPlayerPos(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -69,19 +69,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{CoordenadaX,CoordenadaY};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			CoordenadaX=new Word(ptrRom,offsetComando);
 			offsetComando+=Word.LENGTH;
 			CoordenadaY=new Word(ptrRom,offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,CoordenadaX);
-			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,CoordenadaY);
+			Word.SetData(data, ,CoordenadaX);
+ 
+			Word.SetData(data, ,CoordenadaY);
 		}
 	}
 }

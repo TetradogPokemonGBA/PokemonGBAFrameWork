@@ -19,15 +19,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public CompareFarByteToByte(byte bank,OffsetRom offsetToByte):base(bank,offsetToByte)
 		{}
-		public CompareFarByteToByte(RomGba rom, int offset) : base(rom, offset)
+		public CompareFarByteToByte(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public CompareFarByteToByte(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public CompareFarByteToByte(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe CompareFarByteToByte(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe CompareFarByteToByte(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 

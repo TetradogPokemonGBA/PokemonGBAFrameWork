@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public Faceplayer(RomGba rom, int offset) : base(rom, offset)
+        public Faceplayer(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public Faceplayer(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public Faceplayer(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe Faceplayer(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe Faceplayer(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

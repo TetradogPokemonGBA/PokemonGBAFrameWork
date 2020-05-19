@@ -52,7 +52,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 		{
 			return  Get(GetBytes());
 		}
-		public static WildDataHeader Get(RomGba rom, int offset) => Get(rom.Data.Bytes, offset);
+		public static WildDataHeader Get(ScriptManager scriptManager,RomGba rom, int offset) => Get(rom.Data.Bytes, offset);
 
 		public static WildDataHeader Get(byte[] rom, int offset = 0)
 		{

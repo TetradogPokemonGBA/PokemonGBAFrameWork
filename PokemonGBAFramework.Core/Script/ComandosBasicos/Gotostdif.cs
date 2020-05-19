@@ -21,15 +21,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         public Gotostdif(byte funcion,byte condicion):base(funcion)
 		{Condicion=condicion;}
-		public Gotostdif(RomGba rom, int offset) : base(rom, offset)
+		public Gotostdif(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{
 		}
 
-		public Gotostdif(byte[] bytesScript, int offset) : base(bytesScript, offset)
+		public Gotostdif(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe Gotostdif(byte* ptRom, int offset) : base(ptRom, offset)
+		public unsafe Gotostdif(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
 		{
 		}
 
@@ -62,16 +62,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return base.GetParams().AfegirValor(Condicion);
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			base.CargarCamando(ptrRom, offsetComando);
             offsetComando += base.ParamsSize;
 			Condicion = ptrRom[offsetComando];
 		}
 
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=Gotostd.SIZE;
 			*ptrRomPosicionado = Condicion;
 		}

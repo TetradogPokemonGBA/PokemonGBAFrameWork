@@ -24,6 +24,14 @@ namespace PokemonGBAFramework.Core
         }
         public int IdUnicoTemp { get; set; }
         public List<byte> List { get; private set; }
+        public bool EstaCorrecto
+        {
+            get
+            {
+                int index = List.IndexOf(MARCAFIN);
+                return index < 0 ? true : index == List.Count - 1;
+            }
+        }
         public bool TieneMarcaFinPuesta => List.Count > 0 ? List[List.Count - 1] == MARCAFIN : false;
         public void QuitaMarcaFin()
         {
@@ -34,6 +42,15 @@ namespace PokemonGBAFramework.Core
         {
             if (!TieneMarcaFinPuesta)
                 List.Add(MARCAFIN);
+        }
+        public byte[] GetBytes()
+        {
+            if(!EstaCorrecto)
+            {
+                while (List.Contains(MARCAFIN)) List.Remove(MARCAFIN);
+            }
+            PonMarcaFin();
+            return List.ToArray();
         }
     }
 }

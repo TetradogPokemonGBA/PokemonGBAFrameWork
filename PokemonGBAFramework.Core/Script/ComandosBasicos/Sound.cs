@@ -26,12 +26,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Sonido=sonido;
 		}
-		public Sound(RomGba rom,int offset):base(rom,offset)
+		public Sound(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public Sound(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Sound(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Sound(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Sound(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -58,15 +58,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Sonido};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			sonido=new Word(ptrRom,offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,sonido);
+			Word.SetData(data, ,sonido);
 		}
 	}
 	public class FanFare:Sound
@@ -76,12 +76,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string NOMBRE= "Fanfare";
 		public FanFare(Word sonido):base(sonido)
 		{}
-		public FanFare(RomGba rom,int offset):base(rom,offset)
+		public FanFare(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public FanFare(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public FanFare(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe FanFare(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe FanFare(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -96,12 +96,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public PlaySong2(Word sonido):base(sonido)
 		{}
-		public PlaySong2(RomGba rom,int offset):base(rom,offset)
+		public PlaySong2(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public PlaySong2(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public PlaySong2(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe PlaySong2(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe PlaySong2(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -115,12 +115,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string NOMBRE = "FadeSong";
 		public FadeSong(Word sonido):base(sonido)
 		{}
-		public FadeSong(RomGba rom,int offset):base(rom,offset)
+		public FadeSong(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public FadeSong(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public FadeSong(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe FadeSong(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe FadeSong(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -138,12 +138,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Desconocido=desconocido;
 		}
-		public PlaySong(RomGba rom,int offset):base(rom,offset)
+		public PlaySong(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public PlaySong(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public PlaySong(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe PlaySong(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe PlaySong(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion => DESCRIPCION;
 
@@ -161,9 +161,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			base.CargarCamando(ptrRom, offsetComando);
 			Desconocido=ptrRom[offsetComando+Sound.SIZE];
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=Sound.SIZE;
 			*ptrRomPosicionado=Desconocido;
 		}

@@ -21,12 +21,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
         }
 
-        public DoWeather(RomGba rom, int offset) : base(rom, offset)
+        public DoWeather(ScriptManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
         {
         }
-        public DoWeather(byte[] bytesScript, int offset) : base(bytesScript, offset)
+        public DoWeather(ScriptManager scriptManager,byte[] bytesScript, int offset) : base(scriptManager,bytesScript, offset)
         { }
-        public unsafe DoWeather(byte* ptRom, int offset) : base(ptRom, offset)
+        public unsafe DoWeather(ScriptManager scriptManager,byte* ptRom, int offset) : base(scriptManager,ptRom, offset)
         { }
         public override string Descripcion
         {

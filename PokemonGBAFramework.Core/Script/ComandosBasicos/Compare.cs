@@ -25,11 +25,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Variable=variable;
 			ValorAComparar=valorAComparar;
 		}
-		public Compare(RomGba rom,int offset):base(rom,offset)
+		public Compare(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Compare(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Compare(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Compare(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Compare(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 
 		#region implemented abstract members of Comando
@@ -65,18 +65,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{Variable,ValorAComparar};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			Variable=new Word(ptrRom,offsetComando);
 			ValorAComparar=new Word(ptrRom,offsetComando+Word.LENGTH);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
-			Word.SetData(ptrRomPosicionado,Variable);
-			ptrRomPosicionado+=Word.LENGTH;
-			Word.SetData(ptrRomPosicionado,ValorAComparar);
+			Word.SetData(data, ,Variable);
+ 
+			Word.SetData(data, ,ValorAComparar);
 		}
 	}
 }

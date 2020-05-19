@@ -21,16 +21,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
  
 		}
    
-		public VirtualGoto(RomGba rom, int offset)
-			: base(rom, offset)
+		public VirtualGoto(ScriptManager scriptManager,RomGba rom, int offset)
+			 : base(scriptManager,rom, offset)
 		{
 		}
-		public VirtualGoto(byte[] bytesScript, int offset)
-			: base(bytesScript, offset)
+		public VirtualGoto(ScriptManager scriptManager,byte[] bytesScript, int offset)
+			: base(scriptManager,bytesScript, offset)
 		{
 		}
-		public unsafe VirtualGoto(byte* ptRom, int offset)
-			: base(ptRom, offset)
+		public unsafe VirtualGoto(ScriptManager scriptManager,byte* ptRom, int offset)
+			: base(scriptManager,ptRom, offset)
 		{
 		}
 		public override string Descripcion {
@@ -66,13 +66,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{ funcionPersonalizada };
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			funcionPersonalizada =new OffsetRom(ptrRom, offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
 			OffsetRom.Set(ptrRomPosicionado, funcionPersonalizada);
 		}

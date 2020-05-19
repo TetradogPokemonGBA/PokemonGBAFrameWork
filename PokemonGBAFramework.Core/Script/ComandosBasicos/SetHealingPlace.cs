@@ -24,12 +24,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			
 		}
 		
-		public SetHealingPlace(RomGba rom,int offset):base(rom,offset)
+		public SetHealingPlace(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}
-		public SetHealingPlace(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public SetHealingPlace(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe SetHealingPlace(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe SetHealingPlace(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		public override string Descripcion {
 			get {
@@ -62,15 +62,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{lugar};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			lugar=new Word(ptrRom,offsetComando);
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado,parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado++;
-			Word.SetData(ptrRomPosicionado,Lugar);
+			Word.SetData(data, ,Lugar);
 		}
 	}
 }

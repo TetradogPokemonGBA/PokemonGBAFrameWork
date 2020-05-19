@@ -25,11 +25,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			BankDestination=bankDestination;
 			BankSource=bankSource;
 		}
-		public Copyscriptbanks(RomGba rom,int offset):base(rom,offset)
+		public Copyscriptbanks(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Copyscriptbanks(byte[] bytesScript,int offset):base(bytesScript,offset)
+		public Copyscriptbanks(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Copyscriptbanks(byte* ptRom,int offset):base(ptRom,offset)
+		public unsafe Copyscriptbanks(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		
 		#region implemented abstract members of Comando
@@ -62,14 +62,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new Object[]{BankDestination,BankSource};
 		}
-		protected unsafe override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			BankDestination=ptrRom[offsetComando];
 			BankSource=ptrRom[offsetComando+1];
 		}
-		protected unsafe override void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp()
 		{
-			base.SetComando(ptrRomPosicionado, parametrosExtra);
+			byte[] data=new byte[Size];
 			ptrRomPosicionado+=base.Size;
 			*ptrRomPosicionado=BankDestination;
 			ptrRomPosicionado++;

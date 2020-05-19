@@ -19,12 +19,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
    
   }
    
-  public ReleaseAll(RomGba rom,int offset):base(rom,offset)
+  public ReleaseAll(ScriptManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
   {
   }
-  public ReleaseAll(byte[] bytesScript,int offset):base(bytesScript,offset)
+  public ReleaseAll(ScriptManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
   {}
-  public unsafe ReleaseAll(byte* ptRom,int offset):base(ptRom,offset)
+  public unsafe ReleaseAll(ScriptManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
   {}
   public override string Descripcion {
    get {
