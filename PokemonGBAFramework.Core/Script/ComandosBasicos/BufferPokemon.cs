@@ -15,6 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string NOMBRE="BufferPokemon";
 		public new const string DESCRIPCION="Guarda el nombre de un pokemon en el Buffer especificado";
 
+		public BufferPokemon() { }
         public BufferPokemon(Byte buffer, Word pokemon):base(buffer,pokemon)
 		{
 			

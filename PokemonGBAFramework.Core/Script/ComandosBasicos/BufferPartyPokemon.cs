@@ -16,7 +16,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferPartyPokemon";
 		public const string DESCRIPCION="Guarda el nombre del pokemon seleccionado del equipo en el Buffer especificado";
 
-        public BufferPartyPokemon(Byte buffer, Word pokemon)
+		public BufferPartyPokemon() { }
+        public BufferPartyPokemon(byte buffer, Word pokemon)
 		{
 			Buffer = buffer;
 			Pokemon = pokemon;
@@ -56,12 +57,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-        public Byte Buffer { get; set; }
+        public byte Buffer { get; set; }
         public Word Pokemon { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ Buffer, Pokemon };
+			return new object[]{ Buffer, Pokemon };
 		}
 		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
@@ -72,10 +73,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado = Buffer;
-			++ptrRomPosicionado; 
-			Word.SetData(data, , Pokemon);
+			data[0] = IdComando;
+			data[1]= Buffer;
+			Word.SetData(data,2, Pokemon);
+			return data;
 		}
 	}
 }

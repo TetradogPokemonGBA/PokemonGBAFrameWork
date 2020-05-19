@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferFirstPokemon";
 		public const string DESCRIPCION="Guarda en el Buffer  especificado el nombre del primer pokemon del equipo";
 
+		public BufferFirstPokemon() { }
         public BufferFirstPokemon(Byte buffer)
 		{
 			Buffer = buffer;
@@ -68,10 +69,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-           data[0]=IdComando;
-            *ptrRomPosicionado = Buffer;
-
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			data[1] = Buffer;
+			return data;
 		}
 	}
 }

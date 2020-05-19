@@ -68,10 +68,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado+=base.Size;
-			*ptrRomPosicionado=Buffer;
-			++ptrRomPosicionado;
-			Word.SetData(data, ,VariableToStore);
+			data[0] = IdComando;
+			data[1]=Buffer;
+			Word.SetData(data,2,VariableToStore);
+			return data;
 		}
 	}
 }

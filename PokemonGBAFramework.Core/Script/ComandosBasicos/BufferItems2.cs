@@ -15,6 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string NOMBRE="BufferItems2";
 		public new const string DESCRIPCION="Guarda el nombre en plural del objeto en el buffer especificado";
 
+		public BufferItems2() { }
         public BufferItems2(Byte buffer, Word objetoAGuardar, Word cantidad):base(buffer,objetoAGuardar,cantidad)
 		{
 			

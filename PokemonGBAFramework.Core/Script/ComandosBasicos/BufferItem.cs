@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferItem";
 		public const string DESCRIPCION="Guarda el nombre del objeto en el Buffer";
 
+		public BufferItem() { }
         public BufferItem(Byte buffer,Word itemToStore)
 		{
 			Buffer=buffer;
@@ -51,7 +52,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-        public Byte Buffer { get; set; }
+        public byte Buffer { get; set; }
         public Word ItemToStore { get; set; }
 
         protected override System.Collections.Generic.IList<object> GetParams()
@@ -67,12 +68,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-           data[0]=IdComando;
-            *ptrRomPosicionado=Buffer;
-			++ptrRomPosicionado;
-			Word.SetData(data, ,ItemToStore);
-		
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			data[1] = Buffer;
+			Word.SetData(data, 2, ItemToStore);
+			return data;
 		}
 	}
 }

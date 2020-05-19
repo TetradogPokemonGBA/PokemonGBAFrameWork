@@ -17,6 +17,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string NOMBRE="BufferItems";
 		public new const string DESCRIPCION="Stores a plural item name within a specified buffer.";
 
+		public BufferItems() { }
         public BufferItems(Byte buffer, Word objetoAGuardar, Word cantidad):base(buffer,objetoAGuardar)
 		{
 			Cantidad = cantidad;
@@ -68,16 +69,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		protected unsafe override void CargarCamando(ScriptManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-            base.CargarCamando(ptrRom, offsetComando);
+            base.CargarCamando(scriptManager,ptrRom, offsetComando);
 			offsetComando += base.ParamsSize;
 			Cantidad = new Word(ptrRom, offsetComando);
 	}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-        
-			ptrRomPosicionado += BufferItem.SIZE;
-			Word.SetData(data, , Cantidad);
+			return base.GetBytesTemp().AddArray(Cantidad.Data);
 
 		}
 	}
