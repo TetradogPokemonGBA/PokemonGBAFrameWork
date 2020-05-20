@@ -21,6 +21,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE= "Writebytetooffset";
         public new const string DESCRIPCION= "Inserta el byte en el offset especificado";
 
+		public WriteByteToOffset() { }
         public WriteByteToOffset(int offset, byte valor)
 			: this(new OffsetRom(offset), valor)
 		{
@@ -79,7 +80,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			OffsetRom.Set(ptrRomPosicionado, OffsetToWrite);
+			OffsetRom.Set(data,1, OffsetToWrite);
+			return data;
 		}
 	}
 	

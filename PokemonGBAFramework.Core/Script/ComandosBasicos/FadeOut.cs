@@ -19,6 +19,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=Comando.SIZE+1;
         public const string NOMBRE = "FadeOut";
         public const string DESCRIPCION = "Se desvanece la canción actual del Sappy";
+		public FadeOut() { }
         public FadeOut(byte velocidadDesvanecimiento)
 		{
 			VelocidadDesvanecimiento=velocidadDesvanecimiento;
@@ -64,7 +65,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado=VelocidadDesvanecimiento;
+			data[1]=VelocidadDesvanecimiento;
+			return data;
 		}
 		
 	}

@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH;
         public const string NOMBRE = "DoAnimation";
         public const string DESCRIPCION = "Ejecuta la animación de movimiento especificada.";
+
+		public DoAnimation() { }
         public DoAnimation(Word animacion)
 		{
 			Animacion = animacion;
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , Animacion);
+			Word.SetData(data,1, Animacion);
+			return data;
 		}
 	}
 }

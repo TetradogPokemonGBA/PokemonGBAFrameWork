@@ -15,6 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "FadeIn";
         public new const string DESCRIPCION = "Se desvanece la canción actual del Sappy";
 
+		public FadeIn() { }
         public FadeIn(byte velocidadDesvanecimiento):base(velocidadDesvanecimiento)
 		{}
 		public FadeIn(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)

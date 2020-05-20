@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH;
         public const string NOMBRE = "HideSprite";
         public const string DESCRIPCION = "Oculta un Sprite";
+
+		public HideSprite() { }
         public HideSprite(Word personajeAOcultar)
 		{
 			PersonajeAOcultar = personajeAOcultar;
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , PersonajeAOcultar);
+			Word.SetData(data,1, PersonajeAOcultar);
+			return data;
 		}
 	}
 }

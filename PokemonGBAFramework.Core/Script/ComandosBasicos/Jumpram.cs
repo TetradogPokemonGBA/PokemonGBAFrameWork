@@ -47,9 +47,6 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			}
 		}
 
-		#region implemented abstract members of Comando
-
-	#endregion
 	}
 }
 

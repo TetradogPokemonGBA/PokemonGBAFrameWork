@@ -22,6 +22,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         private OffsetRom offsetDestination;
         private OffsetRom offsetSource;
 
+        public CopyByte() { }
         public CopyByte(int offsetDestination, int offsetSource) : this(new OffsetRom(offsetDestination), new OffsetRom(offsetSource))
         { }
         public CopyByte(OffsetRom offsetDestination, OffsetRom offsetSource)
@@ -100,9 +101,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         {
             byte[] data=new byte[Size];
             data[0]=IdComando;
-            OffsetRom.Set(ptrRomPosicionado, OffsetDestination);
-            ptrRomPosicionado += OffsetRom.LENGTH;
-            OffsetRom.Set(ptrRomPosicionado, OffsetSource);
+            OffsetRom.Set(data,1, OffsetDestination);
+            OffsetRom.Set(data,5, OffsetSource);
+            return data;
         }
     }
 }

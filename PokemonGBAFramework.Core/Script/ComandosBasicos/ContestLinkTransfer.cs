@@ -26,22 +26,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public unsafe ContestLinkTransfer(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
-		public override string Descripcion {
-			get {
-                return DESCRIPCION;
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return NOMBRE;
-			}
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
 		protected override Edicion.Pokemon GetCompatibilidad()
 		{
 			return Edicion.Pokemon.Esmeralda;

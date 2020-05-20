@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH+1+1;
         public const string NOMBRE = "HideSpritePos";
         public const string DESCRIPCION = "Oculta un sprite y luego aplica la posición X/Y";
+
+		public HideSpritePos() { }
         public HideSpritePos(Word personajeAOcultar, Byte coordenadaX, Byte coordenadaY)
 		{
 			PersonajeAOcultar = personajeAOcultar;
@@ -78,11 +80,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , PersonajeAOcultar);
+			Word.SetData(data,1, PersonajeAOcultar);
  
-			*ptrRomPosicionado = CoordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = CoordenadaY;
+			data[1] = CoordenadaX;
+			data[2] = CoordenadaY;
+			return data;
 		}
 	}
 }

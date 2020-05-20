@@ -20,6 +20,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE = "GetPlayerPos";
         public const string DESCRIPCION = "Obtiene las coordenadas X,Y del jugador";
+		public GetPlayerPos() { }
         public GetPlayerPos(Word coordenadaX,Word coordenadaY)
 		{
 			CoordenadaX=coordenadaX;
@@ -79,9 +80,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, ,CoordenadaX);
+			Word.SetData(data,1,CoordenadaX);
  
-			Word.SetData(data, ,CoordenadaY);
+			Word.SetData(data,3,CoordenadaY);
+			return data;
 		}
 	}
 }

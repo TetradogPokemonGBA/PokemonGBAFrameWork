@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=Comando.SIZE+1+1;
         public const string NOMBRE = "FadeScreenDelay";
         public const string DESCRIPCION = "Desvanece la pantalla entrando o saliendo, después de un rato";
+
+		public FadeScreenDelay() { }
         public FadeScreenDelay(Byte efectoDeDesvanecimiento,Byte retardo)
 		{
 			EfectoDeDesvanecimiento=efectoDeDesvanecimiento;
@@ -72,11 +74,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-           data[0]=IdComando;
-			*ptrRomPosicionado=EfectoDeDesvanecimiento;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado=Retardo;
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			data[1] = EfectoDeDesvanecimiento;
+			data[2] = Retardo;
+			return data;
 		}
 	}
 }

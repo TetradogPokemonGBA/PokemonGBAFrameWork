@@ -20,6 +20,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=Comando.SIZE+1;
         public const string NOMBRE = "FedeScreen";
         public const string DESCRIPCION = "Desavanece la pantalla entrando o saliendo";
+
+		public FadeScreen() { }
         public FadeScreen(Byte efectoDeDesvanecimiento)
 		{
 			EfectoDeDesvanecimiento=efectoDeDesvanecimiento;
@@ -73,7 +75,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado=EfectoDeDesvanecimiento;
+			data[1]=EfectoDeDesvanecimiento;
+			return data;
 		}
 	}
 }

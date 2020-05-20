@@ -21,6 +21,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "CompareVars";
         public const string DESCRIPCION= "Compara el valor de las variables";
 
+		public CompareVars() { }
         public CompareVars(Word variableA,Word variableB)
 		{
 			VariableA=variableA;
@@ -35,31 +36,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 
 
-		public override string Descripcion {
-			get {
-                return DESCRIPCION;
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
+		public override byte IdComando => ID;
 
-		public override string Nombre {
-			get {
-				return NOMBRE;
-			}
-		}
+		public override string Nombre => NOMBRE;
 
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+		public override int Size => SIZE;
 
-        public Word VariableA { get; set; }
+		public Word VariableA { get; set; }
 
         public Word VariableB { get; set; }
         protected override System.Collections.Generic.IList<object> GetParams()
@@ -75,8 +60,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, ,VariableA);
-			Word.SetData(ptrRomPosicionado+Word.LENGTH,VariableB);
+			Word.SetData(data,1,VariableA);
+			Word.SetData(data,3,VariableB);
+			return data;
 		}
 	}
 }

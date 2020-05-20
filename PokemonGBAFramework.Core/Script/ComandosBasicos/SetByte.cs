@@ -19,6 +19,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=0x2;
         public const string NOMBRE= "SetByte";
         public const string DESCRIPCION= "Inserta el byte en la dirección predefinida";
+		public SetByte() { }
         public SetByte(byte byteAPoner)
 		{
 		   ByteAPoner=byteAPoner;
@@ -61,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		#region implemented abstract members of Comando
 
-		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe  override void CargarCamando(ScriptAndASMManager scriptAndASMManager, byte* ptrRom, int offsetComando)
 		{
 			ByteAPoner=ptrRom[offsetComando];
 		}
@@ -69,8 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=ByteAPoner;
+			data[1]=ByteAPoner;
+			return data;
 		}
 
 		#endregion
@@ -81,6 +82,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=0x3;
         public new const string NOMBRE= "SetByte2";
         public new const string DESCRIPCION= "Inserta el byte en el memory bank";
+
+		public SetByte2() { }
 
         public SetByte2(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
@@ -113,15 +116,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
 			MemoryBankToUse=ptrRom[offsetComando++];
-			base.CargarCamando(ptrRom, offsetComando);
+			ByteAPoner= ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
-			*ptrRomPosicionado=IdComando;
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=MemoryBankToUse;
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=ByteAPoner;
+			return new byte[] { IdComando, MemoryBankToUse, ByteAPoner };
 		}
 	}
 }

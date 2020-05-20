@@ -15,6 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE= "Loadbytefrompointer";
         public new const string DESCRIPCION= "Carga el byte de la posición para poder ser usada en otros comandos";
 
+		public LoadByteFromPointer() { }
         public LoadByteFromPointer(int offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)
 		{}
 		public LoadByteFromPointer(OffsetRom offsetToLoadByte,byte valor):base(offsetToLoadByte,valor)

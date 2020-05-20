@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "CreateSprite";
         public const string DESCRIPCION = "Crea un sprite virtual en el mapa actual.";
 
+		public CreateSprite() { }
         public CreateSprite(Byte spriteAUsar, Byte personajeVirtual, Word coordenadaX, Word coordenadaY, Byte comportamiento, Byte orientacion)
 		{
 			SpriteAUsar = spriteAUsar;
@@ -96,17 +97,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado = SpriteAUsar;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = PersonajeVirtual;
-			++ptrRomPosicionado; 
-			Word.SetData(data, , CoordenadaX);
+			data[1] = SpriteAUsar;
+			data[2]= PersonajeVirtual; 
+			Word.SetData(data,3, CoordenadaX);
  
-			Word.SetData(data, , CoordenadaY);
+			Word.SetData(data,5, CoordenadaY);
  
-			*ptrRomPosicionado = Comportamiento;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = Orientacion;
+			data[7] = Comportamiento;
+			data[8]= Orientacion;
+
+			return data;
 		}
 	}
 }

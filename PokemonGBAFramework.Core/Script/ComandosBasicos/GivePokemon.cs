@@ -17,6 +17,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
         const byte FILL = 0x0;
         public const string NOMBRE = "GivePokemon";
         public const string DESCRIPCION = "Regala un pokemon al jugador";
+
+		public GivePokemon() { }
         public GivePokemon(Word pokemon,Byte nivel,Word objetoEquipado)
 		{
 			Pokemon=pokemon;
@@ -72,22 +74,21 @@ namespace PokemonGBAFramework.Core.ComandosScript
         }
 		public override byte[] GetBytesTemp()
 		{
-			
-			byte[] data=new byte[Size];
-           data[0]=IdComando;
-			Word.SetData(data, ,Pokemon);
- 
-			*ptrRomPosicionado=Nivel;
-			++ptrRomPosicionado;
-			Word.SetData(data, ,ObjetoEquipado);
- 
 
-			for(int i=0;i<BYTESFILL;i++)
+			byte[] data = new byte[Size];
+			data[0] = IdComando;
+			Word.SetData(data, 1, Pokemon);
+
+			data[3] = Nivel;
+			Word.SetData(data, 4, ObjetoEquipado);
+
+
+			for (int i = 0; i < BYTESFILL; i++)
 			{
-				*ptrRomPosicionado=FILL;
-				ptrRomPosicionado++;
+				data[5 + i] = FILL;
 			}
-			
+			return data;
+
 		}
 	}
 }

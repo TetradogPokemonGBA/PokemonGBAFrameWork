@@ -15,6 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE= "CopyVarIfNotZero";
         public new const string DESCRIPCION= "Copia el valor de la variable origen en la variable destino si es mas grande que 0";
 
+		public CopyVarIfNotZero() { }
         public CopyVarIfNotZero(Word variableDestino,Word variableOrigen):base(variableDestino,variableOrigen)
 		{}
 
@@ -30,23 +31,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 		}
 
-		public override string Descripcion {
-			get {
-                return DESCRIPCION;
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override string Nombre {
-			get {
-                return NOMBRE;
-			}
-		}
+		public override string Nombre => NOMBRE;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
+		public override byte IdComando => ID;
 	}
 }
 

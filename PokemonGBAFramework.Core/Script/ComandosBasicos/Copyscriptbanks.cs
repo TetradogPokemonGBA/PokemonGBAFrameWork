@@ -13,23 +13,25 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of Copyscriptbanks.
 	/// </summary>
-	public class Copyscriptbanks:Comando
+	public class CopyScriptBanks:Comando
 	{
 		public const byte ID=0x14;
 		public new const int SIZE=Comando.SIZE+1+1;
         public const string NOMBRE = "Copyscriptbanks";
         public const string DESCRIPCION= "Copia un bank script a otro";
 
-        public Copyscriptbanks(byte bankDestination,byte bankSource)
+		public CopyScriptBanks() { }
+
+        public CopyScriptBanks(byte bankDestination,byte bankSource)
 		{
 			BankDestination=bankDestination;
 			BankSource=bankSource;
 		}
-		public Copyscriptbanks(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
+		public CopyScriptBanks(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{}
-		public Copyscriptbanks(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
+		public CopyScriptBanks(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
 		{}
-		public unsafe Copyscriptbanks(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
+		public unsafe CopyScriptBanks(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
 		
 		#region implemented abstract members of Comando
@@ -71,9 +73,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado=BankDestination;
-			ptrRomPosicionado++;
-			*ptrRomPosicionado=BankSource;
+			data[1]=BankDestination;
+			data[2]=BankSource;
+			return data;
 		}
 	}
 }

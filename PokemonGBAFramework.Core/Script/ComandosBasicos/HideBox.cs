@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=Comando.SIZE+1+1+1+1;
         public const string NOMBRE = "HideBox";
         public const string DESCRIPCION = "Oculta una caja abierta";
+
+		public HideBox() { }
         public HideBox(Byte posicionX,Byte posicionY,Byte ancho,Byte alto)
 		{
 			PosicionX=posicionX;
@@ -78,13 +80,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado=PosicionX;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado=PosicionY;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado=Ancho;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado=Alto;
+			data[1]=PosicionX;
+			data[2]=PosicionY;
+			data[3]=Ancho;
+			data[4]=Alto;
+			return data;
 		}
 	}
 }

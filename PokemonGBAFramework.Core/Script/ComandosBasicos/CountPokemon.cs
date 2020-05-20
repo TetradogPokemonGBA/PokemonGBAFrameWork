@@ -33,23 +33,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 		}
 
-		public override string Nombre {
-			get {
-                return NOMBRE;
-			}
-		}
+		public override string Nombre => NOMBRE;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
+		public override byte IdComando => ID;
 
-		public override string Descripcion {
-			get {
-                return DESCRIPCION;
-			}
-		}
-		
+		public override string Descripcion => DESCRIPCION;
+
 	}
 }

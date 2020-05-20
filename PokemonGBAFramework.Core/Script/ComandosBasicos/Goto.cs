@@ -15,8 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "Goto";
         public new const string DESCRIPCION = "Continua con otro script";
 
-		public Goto():this(new OffsetRom()) { }
-        public Goto(OffsetRom script):base(script)
+		public Goto(){ }
+        public Goto(Script script):base(script)
 		{}
 		public Goto(ScriptAndASMManager scriptManager,RomGba rom, int offset)  : base(scriptManager,rom, offset)
 		{

@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH;
         public const string NOMBRE = "GiveCoins";
         public const string DESCRIPCION = "Da al jugador el numero especificado de fichas.";
+
+		public GiveCoins() { }
         public GiveCoins(Word numeroDeFichasADar)
 		{
 			NumeroDeFichasADar = numeroDeFichasADar;
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , NumeroDeFichasADar);
+			Word.SetData(data,1, NumeroDeFichasADar);
+			return data;
 		}
 	}
 }

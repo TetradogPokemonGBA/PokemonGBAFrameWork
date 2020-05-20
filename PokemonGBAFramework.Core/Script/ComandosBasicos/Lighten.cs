@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+1;
         public const string NOMBRE = "Lighten";
         public const string DESCRIPCION = "Llama a la animación destello para alumbrar el área";
+
+		public Lighten() { }
         public Lighten(Byte tamañoDestello)
 		{
 			TamañoDestello = tamañoDestello;
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado = TamañoDestello;
+			data[1]= TamañoDestello;
+			return data;
 		}
 	}
 }

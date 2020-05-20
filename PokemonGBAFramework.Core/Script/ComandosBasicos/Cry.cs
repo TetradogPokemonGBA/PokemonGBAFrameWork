@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "Cry";
         public const string DESCRIPCION = "Reproduce el grito del pokemon.";
 
+		public Cry() { }
         public Cry(Word pokemon, Word efecto)
 		{
 			Pokemon = pokemon;
@@ -73,9 +74,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , Pokemon);
+			Word.SetData(data,1, Pokemon);
  
-			Word.SetData(data, , Efecto);
+			Word.SetData(data,3, Efecto);
+			return data;
 		}
 	}
 }

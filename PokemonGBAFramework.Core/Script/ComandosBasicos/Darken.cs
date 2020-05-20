@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH;
         public const string NOMBRE= "Darken";
         public const string DESCRIPCION= "Llama a la animación destello que oscurece el área, deberia ser llamado desde un script de nivel.";
+
+		public Darken() { }
         public Darken(Word tamañoDestello)
 		{
 			TamañoDestello = tamañoDestello;
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , TamañoDestello);
+			Word.SetData(data,1, TamañoDestello);
+			return data;
 		}
 	}
 }

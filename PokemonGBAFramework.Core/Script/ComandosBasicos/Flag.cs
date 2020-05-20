@@ -80,6 +80,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "ClearFlag";
         public new const string DESCRIPCION = "Desactiva el flag";
 
+		public ClearFlag() { }
+
         public ClearFlag(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
 		{
 		}

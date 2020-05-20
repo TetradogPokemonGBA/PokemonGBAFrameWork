@@ -20,6 +20,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE= "CopyVar";
         public const string DESCRIPCION= "Copia el valor de la variable origen en la variable destino";
 
+		public CopyVar() { }
         public CopyVar(Word variableDestino,Word variableOrigen)
 		{
 			VariableDestino=variableDestino;
@@ -32,28 +33,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public unsafe CopyVar(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
-		public override string Descripcion {
-			get {
-                return DESCRIPCION;
-			}
-		}
-		public override string Nombre {
-			get {
-                return NOMBRE;
-			}
-		}
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
+		public override string Nombre => NOMBRE;
+		public override byte IdComando => ID;
+		public override int Size => SIZE;
 
-        public Word VariableDestino { get; set; }
+		public Word VariableDestino { get; set; }
 
         public Word VariableOrigen { get; set; }
         protected override System.Collections.Generic.IList<object> GetParams()
@@ -69,9 +54,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, ,VariableDestino);
+			Word.SetData(data,1,VariableDestino);
  
-			Word.SetData(data, ,VariableOrigen);
+			Word.SetData(data,3,VariableOrigen);
+			return data;
 		}
 	}
 	

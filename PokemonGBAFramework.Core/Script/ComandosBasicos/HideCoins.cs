@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+1+1;
         public const string NOMBRE = "HideCoins";
         public const string DESCRIPCION = "Oculta el contador de fichas.";
+
+		public HideCoins() { }
         public HideCoins(Byte coordenadaX, Byte coordenadaY)
 		{
 			CoordenadaX = coordenadaX;
@@ -72,9 +74,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado = CoordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = CoordenadaY;
+			data[1]= CoordenadaX;
+			data[2]= CoordenadaY;
+			return data;
 		}
 	}
 }

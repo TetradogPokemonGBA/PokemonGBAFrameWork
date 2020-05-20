@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=Comando.SIZE+Word.LENGTH;
         public const string NOMBRE = "GiveEgg";
         public const string DESCRIPCION = "Entrega un huevo al entrenador.";
+
+		public GiveEgg() { }
         public GiveEgg(Word pokemon)
 		{
 			this.Pokemon=pokemon;
@@ -64,7 +66,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, ,Pokemon);
+			Word.SetData(data,1,Pokemon);
+			return data;
 			
 		}
 	}

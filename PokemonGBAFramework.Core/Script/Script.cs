@@ -159,8 +159,8 @@ namespace PokemonGBAFramework.Core
                     case SetFarByte.ID:
                         comandoActual = new SetFarByte(scriptManager,ptrRom, offsetScript);
                         break;
-                    case Copyscriptbanks.ID:
-                        comandoActual = new Copyscriptbanks(scriptManager,ptrRom, offsetScript);
+                    case CopyScriptBanks.ID:
+                        comandoActual = new CopyScriptBanks(scriptManager,ptrRom, offsetScript);
                         break;
                     case CopyByte.ID:
                         comandoActual = new CopyByte(scriptManager,ptrRom, offsetScript);
