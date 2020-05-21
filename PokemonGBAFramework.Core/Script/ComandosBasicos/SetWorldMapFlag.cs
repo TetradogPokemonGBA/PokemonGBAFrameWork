@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetWorldMapFlag:Comando
 	{
 		public const byte ID = 0xD0;
-		public const int SIZE = 3;
-		Word flag;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "SetWorldMapFlag";
+		public const string DESCRIPCION = "Activa el flag que permite hacer vuelo.";
+
+		public SetWorldMapFlag() { }
 		public SetWorldMapFlag(Word flag)
 		{
 			Flag = flag;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Activa el flag que permite hacer vuelo.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetWorldMapFlag";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Flag {
-			get{ return flag; }
-			set{ flag = value; }
-		}
- 
+		public Word Flag { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ flag };
+			return new Object[]{ Flag };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			flag = new Word(ptrRom, offsetComando);
+			Flag = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Flag);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1, Flag);
+			
+			return data;
 		}
 	}
 }

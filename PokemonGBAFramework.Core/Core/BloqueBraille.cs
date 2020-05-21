@@ -6,14 +6,30 @@ namespace PokemonGBAFramework.Core
 {
     public class BloqueBraille
     {
+        public static readonly string[] CaracteresNoPermitidos = { "\\l", "\\p", "\\n" };
+        public BloqueBraille()
+        {
+            Texto = new BloqueString();
+            IdUnicoTemp = Texto.IdUnicoTemp;
+        }
         public unsafe BloqueBraille(byte* ptrRom,int offset)
         {
-            IdUnicoTemp = Script.GetIdUnicoTemp();
+            Texto = BloqueString.Get(ptrRom, offset);
+            IdUnicoTemp = Texto.IdUnicoTemp;
         }
         public int IdUnicoTemp { get; set; }
+        public BloqueString Texto { get; set; }
         public byte[] GetBytes()
         {
-            throw new NotImplementedException();
+            StringBuilder str = new StringBuilder(Texto.Texto);
+
+            for (int i = 0; i < CaracteresNoPermitidos.Length; i++)
+                str.Replace(CaracteresNoPermitidos[i], "");
+
+            Texto.Texto = str.ToString();
+
+            return BloqueString.ToByteArray(Texto.Texto);
+
         }
     }
 }

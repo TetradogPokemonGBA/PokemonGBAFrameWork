@@ -12,12 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class ShowBox:Comando
 	{
 		public const byte ID = 0x72;
-		public const int SIZE = 5;
-		Byte posicionX;
-		Byte posicionY;
-		Byte ancho;
-		Byte alto;
- 
+		public new const int SIZE = Comando.SIZE+1+1+1+1;
+		public const string NOMBRE = "ShowBox";
+		public const string DESCRIPCION = "Muestra una caja en la posición y con las medidas especificadas";
+
+		public ShowBox() { }
 		public ShowBox(Byte posicionX, Byte posicionY, Byte ancho, Byte alto)
 		{
 			PosicionX = posicionX;
@@ -41,7 +40,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Muestra una caja en la posición y con las medidas especificadas";
+				return DESCRIPCION;
 			}
 		}
 
@@ -52,7 +51,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ShowBox";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -60,48 +59,28 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte PosicionX {
-			get{ return posicionX; }
-			set{ posicionX = value; }
-		}
-		public Byte PosicionY {
-			get{ return posicionY; }
-			set{ posicionY = value; }
-		}
-		public Byte Ancho {
-			get{ return ancho; }
-			set{ ancho = value; }
-		}
-		public Byte Alto {
-			get{ return alto; }
-			set{ alto = value; }
-		}
- 
+		public Byte PosicionX { get; set; }
+		public Byte PosicionY { get; set; }
+		public Byte Ancho { get; set; }
+		public Byte Alto { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ posicionX, posicionY, ancho, alto };
+			return new Object[]{ PosicionX, PosicionY, Ancho, Alto };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			posicionX = ptrRom[offsetComando];
+			PosicionX = ptrRom[offsetComando];
 			offsetComando++;
-			posicionY = ptrRom[offsetComando];
+			PosicionY = ptrRom[offsetComando];
 			offsetComando++;
-			ancho = ptrRom[offsetComando];
+			Ancho = ptrRom[offsetComando];
 			offsetComando++;
-			alto = ptrRom[offsetComando];
+			Alto = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = posicionX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = posicionY;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = ancho;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = alto;
+			return new byte[] { IdComando, PosicionX, PosicionY, Ancho, Alto };
 		}
 	}
 }

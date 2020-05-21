@@ -12,10 +12,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetDoorClosed:Comando
 	{
 		public const byte ID = 0xAD;
-		public const int SIZE = 5;
-		Word coordenadaX;
-		Word coordenadaY;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
+		public const string NOMBRE = "SetDoorClosed";
+		public const string DESCRIPCION= "Prepara la puerta para ser cerrada";
+		public SetDoorClosed() { }
 		public SetDoorClosed(Word coordenadaX, Word coordenadaY)
 		{
 			CoordenadaX = coordenadaX;
@@ -35,53 +35,33 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Prepara la puerta para ser cerrada";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "SetDoorClosed";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Word CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public Word CoordenadaX { get; set; }
+		public Word CoordenadaY { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ coordenadaX, coordenadaY };
+			return new Object[]{ CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			coordenadaX = new Word(ptrRom, offsetComando);
+			CoordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
+			CoordenadaY = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , CoordenadaX);
- 
-			Word.SetData(data, , CoordenadaY);
+
+			data[0]=IdComando;
+			Word.SetData(data,1, CoordenadaX);
+			Word.SetData(data,3, CoordenadaY);
+
+			return data;
 		}
 	}
 }

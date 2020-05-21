@@ -12,9 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetOvedience:Comando
 	{
 		public const byte ID = 0xCD;
-		public const int SIZE = 3;
-		Word pokemon;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "SetOvedience";
+		public const string DESCRIPCION = "Hace que el pokemon seleccionado del equipo obedezca.";
+
+		public SetOvedience() { }
+
 		public SetOvedience(Word pokemon)
 		{
 			Pokemon = pokemon;
@@ -35,7 +38,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Hace que el pokemon seleccionado del equipo obedezca.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +49,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetOvedience";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +57,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Pokemon {
-			get{ return pokemon; }
-			set{ pokemon = value; }
-		}
- 
+		public Word Pokemon { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ pokemon };
+			return new Object[]{ Pokemon };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			pokemon = new Word(ptrRom, offsetComando);
+			Pokemon = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Pokemon);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1, Pokemon);
+
+			return data;
 		}
 	}
 }

@@ -86,7 +86,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		protected override unsafe void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
+			 data[0]=IdComando;
 			Word.SetData(data, , Persona);
 		}
 

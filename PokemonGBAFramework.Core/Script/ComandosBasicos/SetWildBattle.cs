@@ -12,11 +12,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetWildBattle:Comando
 	{
 		public const byte ID = 0xB6;
-		public const int SIZE = 6;
-		Word pokemon;
-		Byte nivel;
-		Word objeto;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+1+Word.LENGTH;
+		public const string NOMBRE = "SetWildBattle";
+		public const string DESCRIPCION = "Prepara la batalla contra un pokemon salvaje.";
+		public SetWildBattle() { }
 		public SetWildBattle(Word pokemon, Byte nivel, Word objeto)
 		{
 			Pokemon = pokemon;
@@ -39,7 +38,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Prepara la batalla contra un pokemon salvaje.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +49,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetWildBattle";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -58,40 +57,32 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Pokemon {
-			get{ return pokemon; }
-			set{ pokemon = value; }
-		}
-		public Byte Nivel {
-			get{ return nivel; }
-			set{ nivel = value; }
-		}
-		public Word Objeto {
-			get{ return objeto; }
-			set{ objeto = value; }
-		}
- 
+		public Word Pokemon { get; set; }
+		public Byte Nivel { get; set; }
+		public Word Objeto { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ pokemon, nivel, objeto };
+			return new Object[]{ Pokemon, Nivel, Objeto };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			pokemon = new Word(ptrRom, offsetComando);
+			Pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			nivel = ptrRom[offsetComando];
+			Nivel = ptrRom[offsetComando];
 			offsetComando++;
-			objeto = new Word(ptrRom, offsetComando);
+			Objeto = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Pokemon);
- 
-			*ptrRomPosicionado = nivel;
-			++ptrRomPosicionado; 
-			Word.SetData(data, , Objeto);
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1, Pokemon);
+			data[3] = Nivel;
+			Word.SetData(data,4, Objeto);
+			
+			return data;
 		}
 	}
 }

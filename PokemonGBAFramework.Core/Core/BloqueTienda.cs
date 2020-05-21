@@ -22,6 +22,7 @@ namespace PokemonGBAFramework.Core
                 aux = new Word(ptrRom, offset);
                 offset += Word.LENGTH;
                 Objetos.Add(aux);
+
             } while (aux > MARCAFIN);
 
             IdUnicoTemp = Script.GetIdUnicoTemp();

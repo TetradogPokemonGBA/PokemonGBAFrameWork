@@ -12,10 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetAnimation:Comando
 	{
 		public const byte ID = 0x9D;
-		public const int SIZE = 4;
-		Byte animacion;
-		Word variableAUsar;
- 
+		public new const int SIZE = Comando.SIZE+1+Word.LENGTH;
+		public const string NOMBRE= "SetAnimation";
+		public const string DESCRIPCION= "Asigna la animación de movimiento.";
+
+		public SetAnimation() { }
 		public SetAnimation(Byte animacion, Word variableAUsar)
 		{
 			Animacion = animacion;
@@ -35,53 +36,33 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Asigna la animación de movimiento.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "SetAnimation";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Byte Animacion {
-			get{ return animacion; }
-			set{ animacion = value; }
-		}
-		public Word VariableAUsar {
-			get{ return variableAUsar; }
-			set{ variableAUsar = value; }
-		}
- 
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public Byte Animacion { get; set; }
+		public Word VariableAUsar { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ animacion, variableAUsar };
+			return new Object[]{ Animacion, VariableAUsar };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			animacion = ptrRom[offsetComando];
+			Animacion = ptrRom[offsetComando];
 			offsetComando++;
-			variableAUsar = new Word(ptrRom, offsetComando);
+			VariableAUsar = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = animacion;
-			++ptrRomPosicionado; 
-			Word.SetData(data, , VariableAUsar);
+			byte[] data = new byte[Size];
+
+			data[0] = IdComando;
+			data[1] = Animacion;
+			Word.SetData(data, 2, VariableAUsar);
+
+			return data;
 		}
 	}
 }

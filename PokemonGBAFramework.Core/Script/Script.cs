@@ -468,8 +468,8 @@ namespace PokemonGBAFramework.Core
                     case GiveEgg.ID:
                         comandoActual = new GiveEgg(scriptManager,ptrRom, offsetScript);
                         break;
-                    case SetPkmnPP.ID:
-                        comandoActual = new SetPkmnPP(scriptManager,ptrRom, offsetScript);
+                    case SetPokemonPP.ID:
+                        comandoActual = new SetPokemonPP(scriptManager,ptrRom, offsetScript);
                         break;
                     case CheckAttack.ID:
                         comandoActual = new CheckAttack(scriptManager,ptrRom, offsetScript);

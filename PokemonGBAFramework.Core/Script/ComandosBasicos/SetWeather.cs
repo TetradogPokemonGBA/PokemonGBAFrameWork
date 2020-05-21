@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetWeather:Comando
 	{
 		public const byte ID = 0xA4;
-		public const int SIZE = 3;
-		Word tiempoNuevo;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "SetWeather";
+		public const string DESCRIPCION = "Prepara la transición al tiempo especificado.";
+
+		public SetWeather() { }
 		public SetWeather(Word tiempoNuevo)
 		{
 			TiempoNuevo = tiempoNuevo;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Prepara la transición al tiempo especificado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetWeather";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word TiempoNuevo {
-			get{ return tiempoNuevo; }
-			set{ tiempoNuevo = value; }
-		}
- 
+		public Word TiempoNuevo { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ tiempoNuevo };
+			return new Object[]{ TiempoNuevo };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			tiempoNuevo = new Word(ptrRom, offsetComando);
+			TiempoNuevo = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , TiempoNuevo);
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1, TiempoNuevo);
+
+			return data;
 		}
 	}
 }

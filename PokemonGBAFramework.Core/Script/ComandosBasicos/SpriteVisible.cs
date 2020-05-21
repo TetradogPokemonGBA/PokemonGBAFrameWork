@@ -86,7 +86,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
+			 data[0]=IdComando;
 			Word.SetData(data, , Personaje);
  
 			Word.SetData(data, , Bank);

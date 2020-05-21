@@ -15,9 +15,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		//Script de nivel de tipo 3 
 		//https://www.pokecommunity.com/showthread.php?t=189304 para los lugares mmm mirar si se pueden sacar porque si los obtengo y luego obtengo los mapas obtendré información personalizada de cada rom que es lo ideal :)
 		public const byte ID=0x9F;
-		public const int SIZE=3;
-		Word lugar;
-		
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
+		public const string DESCRIPCION= "Establece el lugar donde el jugador va una vez que está sin pokemon con vida.";
+		public const string NOMBRE= "SetHealingPlace";
+		public SetHealingPlace() { }
 		public SetHealingPlace(Word lugar)
 		{
 			Lugar=lugar;
@@ -33,7 +34,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Establece el lugar donde el jugador va una vez que está sin pokemon con vida.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -44,7 +45,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetHealingPlace";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -52,25 +53,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Lugar
-		{
-			get{ return lugar;}
-			set{lugar=value;}
-		}
-		
+		public Word Lugar { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{lugar};
+			return new Object[]{Lugar};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			lugar=new Word(ptrRom,offsetComando);
+			Lugar=new Word(ptrRom,offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, ,Lugar);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1,Lugar);
+			
+			return data;
 		}
 	}
 }

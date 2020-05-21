@@ -70,6 +70,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
+			data[0] = IdComando;
 			data[1]=ByteAPoner;
 			return data;
 		}

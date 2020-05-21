@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetTrainerFlag:Comando
 	{
 		public const byte ID = 0x62;
-		public const int SIZE = 3;
-		Word entrenador;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "SetTrainerFlag";
+		public const string DESCRIPCION = "Activa el falg del entrenador";
+
+		public SetTrainerFlag() { }
 		public SetTrainerFlag(Word entrenador)
 		{
 			Entrenador = entrenador;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Activa el falg del entrenador";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetTrainerFlag";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Entrenador {
-			get{ return entrenador; }
-			set{ entrenador = value; }
-		}
- 
+		public Word Entrenador { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ entrenador };
+			return new Object[]{ Entrenador };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			entrenador = new Word(ptrRom, offsetComando);
+			Entrenador = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Entrenador);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1, Entrenador);
+			
+			return data;
 		}
 	}
 }

@@ -12,10 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetCatchLocation:Comando
 	{
 		public const byte ID = 0xD2;
-		public const int SIZE = 4;
-		Word pokemon;
-		Word catchLocation;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
+		public const string NOMBRE= "SetCatchLocation";
+		public const string DESCRIPCION = "Cambia el lugar donde se ha capturado un pokemon del equipo.";
+		public SetCatchLocation() { }
+
 		public SetCatchLocation(Word pokemon, Word catchLocation)
 		{
 			Pokemon = pokemon;
@@ -35,53 +36,33 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Cambia el lugar donde se ha capturado un pokemon del equipo.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "SetCatchLocation";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word Pokemon {
-			get{ return pokemon; }
-			set{ pokemon = value; }
-		}
-		public Word CatchLocation {
-			get{ return catchLocation; }
-			set{ catchLocation = value; }
-		}
- 
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public Word Pokemon { get; set; }
+		public Word CatchLocation { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ pokemon, catchLocation };
+			return new Object[]{ Pokemon, CatchLocation };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			pokemon = new Word(ptrRom, offsetComando);
+			Pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			catchLocation = new Word(ptrRom, offsetComando);
+			CatchLocation = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Pokemon);
- 
-			Word.SetData(data, , CatchLocation);
+
+			data[0]=IdComando;
+			Word.SetData(data,1, Pokemon);
+			Word.SetData(data,3, CatchLocation);
+
+			return data;
 		}
 	}
 }

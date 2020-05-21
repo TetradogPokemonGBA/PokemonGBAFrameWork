@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetMapFooter:Comando
 	{
 		public const byte ID = 0xA7;
-		public const int SIZE = 3;
-		Word footer;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "SetMapFooter";
+		public const string DESCRIPCION = "Cambia el map footer actual del mapa cargando el nuevo. El mapa debe actualizarse luego para funcionar bien.";
+
+		public SetMapFooter() { }
 		public SetMapFooter(Word footer)
 		{
 			Footer = footer;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Cambia el map footer actual del mapa cargando el nuevo. El mapa debe actualizarse luego para funcionar bien.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetMapFooter";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Footer {
-			get{ return footer; }
-			set{ footer = value; }
-		}
- 
+		public Word Footer { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ footer };
+			return new Object[]{ Footer };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			footer = new Word(ptrRom, offsetComando);
+			Footer = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Footer);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1, Footer);
+			
+			return data;
 		}
 	}
 }

@@ -12,11 +12,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class ShowMoney:Comando
 	{
 		public const byte ID = 0x93;
-		public const int SIZE = 4;
-		Byte coordenadaX;
-		Byte coordenadaY;
-		Byte comprobarEjecucionComando;
-		
+		public new const int SIZE = Comando.SIZE+1+1+1;
+		public const string NOMBRE = "ShowMoney";
+		public const string DESCRIPCION = "Muestra en las coordenadas especificadas el dinero que tiene el jugador";
+		public ShowMoney() { }
 		public ShowMoney(Byte coordenadaX, Byte coordenadaY, Byte comprobarEjecucionComando)
 		{
 			CoordenadaX = coordenadaX;
@@ -39,7 +38,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Muestra en las coordenadas especificadas el dinero que tiene el jugador";
+				return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +49,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ShowMoney";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -58,40 +57,25 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
-		public Byte ComprobarEjecucionComando {
-			get{ return comprobarEjecucionComando; }
-			set{ comprobarEjecucionComando = value; }
-		}
-		
+		public Byte CoordenadaX { get; set; }
+		public Byte CoordenadaY { get; set; }
+		public Byte ComprobarEjecucionComando { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ coordenadaX, coordenadaY, comprobarEjecucionComando };
+			return new Object[]{ CoordenadaX, CoordenadaY, ComprobarEjecucionComando };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			coordenadaX = ptrRom[offsetComando];
+			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = ptrRom[offsetComando];
+			CoordenadaY = ptrRom[offsetComando];
 			offsetComando++;
-			comprobarEjecucionComando = ptrRom[offsetComando];
+			ComprobarEjecucionComando = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			*ptrRomPosicionado = coordenadaX;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado = coordenadaY;
-			++ptrRomPosicionado;
-			*ptrRomPosicionado = comprobarEjecucionComando;
+			return new byte[] { IdComando, CoordenadaX, CoordenadaY, ComprobarEjecucionComando };
 		}
 	}
 }

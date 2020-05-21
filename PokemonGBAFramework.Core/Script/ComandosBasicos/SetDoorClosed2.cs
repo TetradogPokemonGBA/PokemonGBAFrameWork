@@ -9,17 +9,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of SetDoorClosed2.
 	/// </summary>
-	public class SetDoorClosed2:Comando
+	public class SetDoorClosed2:SetDoorClosed
 	{
-		public const byte ID = 0xB0;
-		public const int SIZE = 5;
-		Word coordenadaX;
-		Word coordenadaY;
- 
-		public SetDoorClosed2(Word coordenadaX, Word coordenadaY)
+		public new const byte ID = 0xB0;
+		public new const string NOMBRE = "SetDoorClosed2";
+		public new const string DESCRIPCION = "Prepara la puerta para ser cerrada. Sin animación.";
+
+
+		public SetDoorClosed2() { }
+		public SetDoorClosed2(Word coordenadaX, Word coordenadaY):base(coordenadaX,coordenadaY)
 		{
-			CoordenadaX = coordenadaX;
-			CoordenadaY = coordenadaY;
  
 		}
    
@@ -37,7 +36,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Prepara la puerta para ser cerrada. Sin animación.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,41 +47,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetDoorClosed2";
+				return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Word CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ coordenadaX, coordenadaY };
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			coordenadaX = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , CoordenadaX);
- 
-			Word.SetData(data, , CoordenadaY);
- 
-		}
+	
 	}
 }

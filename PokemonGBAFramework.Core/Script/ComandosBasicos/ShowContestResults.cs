@@ -12,8 +12,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class ShowContestResults:Comando
 	{
 		public const byte ID=0x8D;
-		public const int SIZE=1;
-		
+		public const string NOMBRE = "ShowContestResults";
+		public const string DESCRIPCION = "Shows pokémon contest results.";
+
 		public ShowContestResults()
 		{
 			
@@ -28,7 +29,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Shows pokémon contest results.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -39,7 +40,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ShowContestResults";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

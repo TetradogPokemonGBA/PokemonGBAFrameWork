@@ -9,17 +9,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of SetDoorOpened.
 	/// </summary>
-	public class SetDoorOpened:Comando
+	public class SetDoorOpened:SetDoorClosed
 	{
-		public const byte ID = 0xAC;
-		public const int SIZE = 5;
-		Word coordenadaX;
-		Word coordenadaY;
+		public new const byte ID = 0xAC;
+		public new const string NOMBRE = "SetDoorOpened";
+		public new const string DESCRIPCION = "Prepara la puerta para ser abierta";
+
+		public SetDoorOpened() { }
  
-		public SetDoorOpened(Word coordenadaX, Word coordenadaY)
+		public SetDoorOpened(Word coordenadaX, Word coordenadaY):base(coordenadaX,coordenadaY)
 		{
-			CoordenadaX = coordenadaX;
-			CoordenadaY = coordenadaY;
+
  
 		}
    
@@ -37,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Prepara la puerta para ser abierta";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,40 +48,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SetDoorOpened";
+				return NOMBRE;
 			}
 		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Word CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Word CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ coordenadaX, coordenadaY };
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			coordenadaX = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , CoordenadaX);
- 
-			Word.SetData(data, , CoordenadaY);
-		}
+	
 	}
 }

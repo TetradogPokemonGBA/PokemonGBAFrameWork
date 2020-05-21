@@ -131,13 +131,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
+			 data[0]=IdComando;
 			*ptrRomPosicionado = bank;
-			ptrRomPosicionado++;
+			 data[0]=IdComando;
 			*ptrRomPosicionado = map;
-			ptrRomPosicionado++;
+			 data[0]=IdComando;
 			*ptrRomPosicionado = exit;
-			ptrRomPosicionado++;
+			 data[0]=IdComando;
 			Word.SetData(data, , coordenadaX);
  
 			Word.SetData(data, , coordenadaY);
