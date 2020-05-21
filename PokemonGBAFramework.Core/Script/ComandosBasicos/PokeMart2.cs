@@ -9,15 +9,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of PokeMart2.
 	/// </summary>
-	public class PokeMart2:Comando
+	public class PokeMart2:PokeMart
 	{
-		public const byte ID=0x87;
-		public const int SIZE=5;
-		OffsetRom listaObjetos;
-		
-		public PokeMart2(OffsetRom listaObjetos)
+		public new const byte ID=0x87;
+		public new const string NOMBRE= "PokeMart2";
+		public new const string DESCRIPCION= "Abre una tienda pokemon con la lista de objetos/precios especificada.";
+		public PokeMart2() { }
+		public PokeMart2(BloqueTienda listaObjetos):base(listaObjetos)
 		{
-			ListaObjetos=listaObjetos;
 			
 		}
 		
@@ -28,46 +27,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public unsafe PokeMart2(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
-		public override string Descripcion {
-			get {
-				return "Abre una tienda pokemon con la lista de objetos/precios especificada.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "PokeMart2";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom ListaObjetos
-		{
-			get{ return listaObjetos;}
-			set{listaObjetos=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{listaObjetos};
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			listaObjetos=new OffsetRom(ptrRom,offsetComando);
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			OffsetRom.Set(ptrRomPosicionado,listaObjetos);
-		}
+
 	}
 }

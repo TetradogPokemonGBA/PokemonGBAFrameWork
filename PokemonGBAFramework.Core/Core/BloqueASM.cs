@@ -8,7 +8,7 @@ namespace PokemonGBAFramework.Core
     {
         public unsafe BloqueASM(byte* ptrRom,int offset)
         {
-
+            IdUnicoTemp = offset;//de momento
         }
         public int IdUnicoTemp { get; set; }
     }

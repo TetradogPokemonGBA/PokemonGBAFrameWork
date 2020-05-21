@@ -833,6 +833,7 @@ namespace PokemonGBAFramework.Core
         public IEnumerable<BloqueString> GetStrings() => ComandosScript.Filtra((c) => c is IString).Select((c) => (c as IString).Texto);
         public IEnumerable<BloqueMovimiento> GetMovimientos() => ComandosScript.Filtra((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
         public IEnumerable<BloqueBraille> GetBrailles() => ComandosScript.Filtra((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
+        public IEnumerable<BloqueTienda> GetTiendas() => ComandosScript.Filtra((c) => c is ITienda).Select((c) => (c as ITienda).ListaObjetos);
         #region Interficies
         #region ILastResult implementation
         public IList<object> LastResult

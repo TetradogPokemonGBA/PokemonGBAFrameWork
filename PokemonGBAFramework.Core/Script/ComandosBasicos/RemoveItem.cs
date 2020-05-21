@@ -12,12 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class RemoveItem:Comando
 	{
 		public const byte ID=0x45;
-		public const int SIZE=5;
-		Word objetoAQuitar;
+		public new const int SIZE=5;
+		public const string DESCRIPCION = "Quita la cantidad del objeto especificado";
+		public const string NOMBRE = "RemoveItem";
 
-		Word cantidad;
+		public RemoveItem() { }
 
-		
 		public RemoveItem(Word objetoAQuitar,Word cantidad)
 		{
 			ObjetoAQuitar=objetoAQuitar;
@@ -36,7 +36,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public override string Descripcion {
 			get {
-				return "Quita la cantidad del objeto especificado";
+				return DESCRIPCION;
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "RemoveItem";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -55,41 +55,31 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		
 
-		public Word ObjetoAQuitar
-		{
-			get{ return objetoAQuitar;}
-			set{objetoAQuitar=value;}
-		}
 
-		public Word Cantidad
-		{
-			get{ return cantidad;}
-			set{cantidad=value;}
-		}
+		public Word ObjetoAQuitar { get; set; }
+
+		public Word Cantidad { get; set; }
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{objetoAQuitar,cantidad};
+			return new Object[]{ObjetoAQuitar,Cantidad};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			objetoAQuitar=new Word(ptrRom,offsetComando);
+			ObjetoAQuitar=new Word(ptrRom,offsetComando);
 
 			offsetComando+=Word.LENGTH;
 
-			cantidad=new Word(ptrRom,offsetComando);
+			Cantidad=new Word(ptrRom,offsetComando);
 			
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, ,ObjetoAQuitar);
-
- 
-
-			Word.SetData(data, ,Cantidad);
+			data[0] = IdComando;
+			Word.SetData(data,1,ObjetoAQuitar);
+			Word.SetData(data,3,Cantidad);
+			return data;
 			
 		}
 	}

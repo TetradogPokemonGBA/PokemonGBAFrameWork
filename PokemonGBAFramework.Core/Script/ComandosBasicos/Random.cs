@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE = "Random";
         public const string DESCRIPCION = "Genera un numero random entre 0 y NumeroFin";
 
+		public Random() { }
         public Random(Word numeroFin)
 		{
 			NumeroFin = numeroFin;
@@ -68,8 +69,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , NumeroFin);
+			data[0] = IdComando;
+			Word.SetData(data,1, NumeroFin);
+			return data;
 		}
 	}
 }

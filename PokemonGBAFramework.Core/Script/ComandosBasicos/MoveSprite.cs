@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH+Word.LENGTH;
         public const string NOMBRE = "MoveSprite";
         public const string DESCRIPCION = "Mueve un sprite a una localización especifica";
+
+		public MoveSprite() { }
         public MoveSprite(Word personajeAMover, Word coordenadaX, Word coordenadaY)
 		{
 			PersonajeAMover = personajeAMover;
@@ -76,11 +78,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , PersonajeAMover);
+			Word.SetData(data,1, PersonajeAMover);
  
-			Word.SetData(data, , CoordenadaX);
+			Word.SetData(data,3, CoordenadaX);
  
-			Word.SetData(data, , CoordenadaY);
+			Word.SetData(data,5, CoordenadaY);
+			return data;
 		}
 	}
 }

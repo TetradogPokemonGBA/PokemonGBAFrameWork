@@ -9,13 +9,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of PokeMart.
 	/// </summary>
-	public class PokeMart:Comando
+	public class PokeMart:Comando,ITienda
 	{
 		public const byte ID = 0x86;
-		public const int SIZE = 5;
-		OffsetRom listaObjetos;
- 
-		public PokeMart(OffsetRom listaObjetos)
+		public new const int SIZE = 5;
+		public const string NOMBRE= "PokeMart";
+		public const string DESCRIPCION= "Abre la tienda pokemon con la lista de objetos/precios especificada.";
+
+		public PokeMart() { }
+		public PokeMart(BloqueTienda listaObjetos)
 		{
 			ListaObjetos = listaObjetos;
  
@@ -33,45 +35,27 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Abre la tienda pokemon con la lista de objetos/precios especificada.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "PokeMart";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom ListaObjetos {
-			get{ return listaObjetos; }
-			set{ listaObjetos = value; }
-		}
- 
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public BloqueTienda ListaObjetos { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ listaObjetos };
+			return new Object[]{ ListaObjetos };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			listaObjetos = new OffsetRom(ptrRom, offsetComando); 
+			ListaObjetos =new BloqueTienda(ptrRom, new OffsetRom(ptrRom, offsetComando)); 
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			OffsetRom.Set(ptrRomPosicionado, listaObjetos);
+			data[0] = IdComando;
+			OffsetRom.Set(data,1, new OffsetRom(ListaObjetos.IdUnicoTemp));
+			return data;
  
 		}
 	}

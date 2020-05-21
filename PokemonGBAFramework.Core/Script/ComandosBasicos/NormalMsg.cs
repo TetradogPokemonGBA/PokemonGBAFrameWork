@@ -12,8 +12,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class NormalMsg:Comando
 	{
 		public const byte ID = 0xCB;
-
-  
+		public const string DESCRIPCION= "Quita el efecto de SignMsg.";
+		public const string NOMBRE= "NormalMsg";
 		public NormalMsg()
 		{
    
@@ -31,22 +31,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Quita el efecto de SignMsg.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "NormalMsg";
-			}
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
 
 		protected override Edicion.Pokemon GetCompatibilidad()
 		{

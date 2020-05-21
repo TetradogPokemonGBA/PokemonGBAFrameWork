@@ -9,15 +9,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of PrepareMsg3.
 	/// </summary>
-	public class PrepareMsg3:Comando
+	public class PrepareMsg3:PrepareMsg
 	{
-		public const byte ID = 0xDB;
-		public const int SIZE = 5;
-		OffsetRom texto;
- 
-		public PrepareMsg3(OffsetRom texto)
+		public new const byte ID = 0xDB;
+		public new const string NOMBRE = "PrepareMsg3";
+		public new const string DESCRIPCION = "Bajo investigación...";
+
+		public PrepareMsg3() { }
+		public PrepareMsg3(BloqueString texto):base(texto)
 		{
-			Texto = texto;
+		
  
 		}
    
@@ -33,45 +34,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "bajo investigación";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "PrepareMsg3";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom Texto {
-			get{ return texto; }
-			set{ texto = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ texto };
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			texto =new OffsetRom(ptrRom, offsetComando);
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			OffsetRom.Set(ptrRomPosicionado, texto);
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+
 	}
 }

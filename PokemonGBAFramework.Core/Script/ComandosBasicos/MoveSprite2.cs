@@ -15,7 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public new const string NOMBRE = "MoveSprite2";
         public new const string DESCRIPCION = MoveSprite.DESCRIPCION+" (de forma permanente)";
 
-
+		public MoveSprite2() { }
         public MoveSprite2(Word personaje, Word coordenadaX, Word coordenadaY):base(personaje,coordenadaX,coordenadaY)
 		{
 	

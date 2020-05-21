@@ -6,70 +6,55 @@ using System;
 
 namespace PokemonGBAFramework.Core.ComandosScript
 {
-	/// <summary>
-	/// Description of PrepareMsg.
-	/// </summary>
-	public class PrepareMsg:Comando
-	{
-		public const byte ID=0x67;
-		public const int SIZE=5;
-		OffsetRom texto;
-		
-		public PrepareMsg(OffsetRom texto)
-		{
-			Texto=texto;
-			
-		}
-		
-		public PrepareMsg(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
-		{
-		}
-		public PrepareMsg(ScriptAndASMManager scriptManager,byte[] bytesScript,int offset):base(scriptManager,bytesScript,offset)
-		{}
-		public unsafe PrepareMsg(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
-		{}
-		public override string Descripcion {
-			get {
-				return "Prepara el texto para mostrarlo enseguida";
-			}
-		}
+    /// <summary>
+    /// Description of PrepareMsg.
+    /// </summary>
+    public class PrepareMsg : Comando
+    {
+        public const byte ID = 0x67;
+        public new const int SIZE = 5;
+        public const string DESCRIPCION = "Prepara el texto para mostrarlo enseguida";
+        public const string NOMBRE = "PrepareMsg";
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "PrepareMsg";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom Texto
-		{
-			get{ return texto;}
-			set{texto=value;}
-		}
-		
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{texto};
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			texto=new OffsetRom(ptrRom,offsetComando);
-			
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			OffsetRom.Set(ptrRomPosicionado,texto);
-			
-		}
-	}
+        public PrepareMsg() { }
+
+        public PrepareMsg(BloqueString texto)
+        {
+            Texto = texto;
+
+        }
+
+        public PrepareMsg(ScriptAndASMManager scriptManager, RomGba rom, int offset) : base(scriptManager, rom, offset)
+        {
+        }
+        public PrepareMsg(ScriptAndASMManager scriptManager, byte[] bytesScript, int offset) : base(scriptManager, bytesScript, offset)
+        { }
+        public unsafe PrepareMsg(ScriptAndASMManager scriptManager, byte* ptRom, int offset) : base(scriptManager, ptRom, offset)
+        { }
+        public override string Descripcion => DESCRIPCION;
+
+        public override byte IdComando => ID;
+        public override string Nombre => NOMBRE;
+        public override int Size => SIZE;
+        public BloqueString Texto { get; set; }
+
+
+        protected override System.Collections.Generic.IList<object> GetParams()
+        {
+            return new Object[] { Texto };
+        }
+        protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom, int offsetComando)
+        {
+            Texto = BloqueString.Get(ptrRom, new OffsetRom(ptrRom, offsetComando));
+
+        }
+        public override byte[] GetBytesTemp()
+        {
+            byte[] data = new byte[Size];
+            data[0] = IdComando;
+            OffsetRom.Set(data, 1, new OffsetRom(Texto.IdUnicoTemp));
+            return data;
+
+        }
+    }
 }

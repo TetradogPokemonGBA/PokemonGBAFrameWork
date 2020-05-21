@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Multichoice.SIZE+1;
         public const string NOMBRE = "Multichoice2";
         public const string DESCRIPCION = "Pone una lista de opciones para que el jugador haga, con opción por defecto";
+
+		public Multichoice2() { }
         public Multichoice2(Byte coordenadaX, Byte coordenadaY, Byte idLista, Byte opcionPorDefecto, Byte botonBCancela)
 		{
 			CoordenadaX = coordenadaX;
@@ -90,15 +92,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado = CoordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = CoordenadaY;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = IdLista;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = OpcionPorDefecto;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = BotonBCancela;
+			data[1]= CoordenadaX;
+			data[2] = CoordenadaY;
+			data[3] = IdLista;
+			data[4] = OpcionPorDefecto;
+			data[5] = BotonBCancela;
+			return data;
 		}
 	}
 }

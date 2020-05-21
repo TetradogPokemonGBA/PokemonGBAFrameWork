@@ -15,6 +15,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE=Comando.SIZE+DWord.LENGTH+1;
         public const string NOMBRE = "PayMoney";
         public const string DESCRIPCION = "Coge algo de dinero del jugador";
+		public PayMoney() { }
         public PayMoney(DWord dineroACoger,Byte comprobarEjecucionComando)
 		{
 			DineroACoger=dineroACoger;
@@ -67,9 +68,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			DWord.SetData(data, ,DineroACoger);
-			ptrRomPosicionado+=DWord.LENGTH;
-			*ptrRomPosicionado=ComprobarEjecucionComando;
+			DWord.SetData(data,1,DineroACoger);
+			data[5]=ComprobarEjecucionComando;
+			return data;
 			
 		}
 	}

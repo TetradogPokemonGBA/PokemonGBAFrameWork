@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class RemoveCoins:Comando
 	{
 		public const byte ID = 0xB5;
-		public const int SIZE = 3;
-		Word numeroDeFichasACoger;
- 
+		public new const int SIZE = 3;
+		public const string NOMBRE= "RemoveCoins";
+		public const string DESCRIPCION= "Coge el numero especificado de fichas del jugador.";
+
+		public RemoveCoins() { }
 		public RemoveCoins(Word numeroDeFichasACoger)
 		{
 			NumeroDeFichasACoger = numeroDeFichasACoger;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Coge el numero especificado de fichas del jugador.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "RemoveCoins";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word NumeroDeFichasACoger {
-			get{ return numeroDeFichasACoger; }
-			set{ numeroDeFichasACoger = value; }
-		}
- 
+		public Word NumeroDeFichasACoger { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ numeroDeFichasACoger };
+			return new Object[]{ NumeroDeFichasACoger };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			numeroDeFichasACoger = new Word(ptrRom, offsetComando);
+			NumeroDeFichasACoger = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , NumeroDeFichasACoger);
+			data[0] = IdComando;
+			Word.SetData(data,1, NumeroDeFichasACoger);
+			return data;
 		}
 	}
 }

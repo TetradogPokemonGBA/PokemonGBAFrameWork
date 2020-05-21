@@ -15,6 +15,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+1+1+1+1;
         public const string NOMBRE = "Multichoice";
         public const string DESCRIPCION = "Pone una lista de opciones que el Jugador haga";
+
+		public Multichoice() { }
         public Multichoice(Byte coordenadaX, Byte coordenadaY, Byte idLista, Byte botonBCancela)
 		{
 			CoordenadaX = coordenadaX;
@@ -80,13 +82,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			*ptrRomPosicionado = CoordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = CoordenadaY;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = IdLista;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = BotonBCancela;
+			data[1]= CoordenadaX;
+			data[2]= CoordenadaY;
+			data[3]= IdLista;
+			data[4] = BotonBCancela;
+			return data;
 		}
 	}
 }

@@ -55,7 +55,11 @@ namespace PokemonGBAFramework.Core.BuildScript
                 {
                     lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(braille.GetBytes()), braille.IdUnicoTemp));
                 }
-                //falta la tienda y otros
+                foreach (var tienda in script.Value.GetTiendas())
+                {
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(tienda.GetBytes()), tienda.IdUnicoTemp));
+                }
+                //falta  otros
             }
           
             //ahora sustituyo los OffsetsTemporales por los reales
@@ -98,7 +102,12 @@ namespace PokemonGBAFramework.Core.BuildScript
                     total += braille.GetBytes().Length;
                     total = total.NextOffsetValido();
                 }
-                //falta la tienda y otros
+                foreach (var tienda in script.Value.GetTiendas())
+                {
+                    total += tienda.GetBytes().Length;
+                    total = total.NextOffsetValido();
+                }
+                //falta  otros
             }
             return total;
         }

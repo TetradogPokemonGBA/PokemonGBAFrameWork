@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class RemoveDecoration:Comando
 	{
 		public const byte ID = 0x4C;
-		public const int SIZE = 3;
-		Word decoracion;
- 
+		public new const int SIZE = 3;
+		public const string NOMBRE= "RemoveDecoration";
+		public const string DESCRIPCION= "Quita del pc del player la cantidad del objetodo decorativo";
+
+		public RemoveDecoration() { }
 		public RemoveDecoration(Word decoracion)
 		{
 			Decoracion = decoracion;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Quita del pc del player la cantidad del objetodo decorativo";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "RemoveDecoration";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Decoracion {
-			get{ return decoracion; }
-			set{ decoracion = value; }
-		}
- 
+		public Word Decoracion { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ decoracion };
+			return new Object[]{ Decoracion };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			decoracion = new Word(ptrRom, offsetComando);
+			Decoracion = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			ptrRomPosicionado++;
-			Word.SetData(data, , Decoracion);
+			data[0] = IdComando;
+			Word.SetData(data,1, Decoracion);
+			return data;
 		}
 	}
 }

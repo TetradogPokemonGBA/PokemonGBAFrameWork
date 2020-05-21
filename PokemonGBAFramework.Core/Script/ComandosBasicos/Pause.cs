@@ -20,6 +20,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE= "Pause";
         public const string DESCRIPCION= "Pausa el script el tiempo estimado";
 
+		public Pause() { }
+
         public Pause(Word delay)
 		{
 			Delay=delay;
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, ,Delay);
+			Word.SetData(data,1,Delay);
+			return data;
 		}
 	}
 }

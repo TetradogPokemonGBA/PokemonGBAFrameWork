@@ -15,7 +15,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const int SIZE = Comando.SIZE+Word.LENGTH;
         public const string NOMBRE = "MoveOffScreen";
         public const string DESCRIPCION = "Changes the location of the specified sprite to a value which is exactly one tile above the top legt corner of the screen";
-        public MoveOffScreen(Word personaje)
+        
+		public MoveOffScreen() { }
+		public MoveOffScreen(Word personaje)
 		{
 			Personaje = personaje;
  
@@ -68,7 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			byte[] data=new byte[Size];
 			data[0]=IdComando;
-			Word.SetData(data, , Personaje);
+			Word.SetData(data,1, Personaje);
+			return data;
 		}
 	}
 }
