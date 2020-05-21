@@ -12,9 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class ShowSprite:Comando
 	{
 		public const byte ID = 0x55;
-		public const int SIZE = 3;
-		Word personajeAMostrar;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "ShowSprite";
+		public const string DESCRIPCION = "Muestra un sprite previamente ocultado";
+
+		public ShowSprite() { }
 		public ShowSprite(Word personajeAMostrar)
 		{
 			PersonajeAMostrar = personajeAMostrar;
@@ -35,7 +37,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Muestra un sprite previamente ocultado";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ShowSprite";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,24 +56,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word PersonajeAMostrar {
-			get{ return personajeAMostrar; }
-			set{ personajeAMostrar = value; }
-		}
- 
+		public Word PersonajeAMostrar { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personajeAMostrar };
+			return new Object[]{ PersonajeAMostrar };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			personajeAMostrar = new Word(ptrRom, offsetComando);
+			PersonajeAMostrar = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, , PersonajeAMostrar);
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1, PersonajeAMostrar);
+
+			return data;
 		}
 	}
 }

@@ -12,10 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SpriteFace:Comando
 	{
 		public const byte ID = 0x5B;
-		public const int SIZE = 4;
-		Word personaje;
-		Word mirandoA;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
+		public const string NOMBRE = "SpriteFace";
+		public const string DESCRIPCION = "Cambia donde mira el sprite";
+
+
+		public SpriteFace() { }
 		public SpriteFace(Word personaje, Word mirandoA)
 		{
 			Personaje = personaje;
@@ -37,7 +39,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Cambia donde mira el sprite";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +50,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SpriteFace";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -56,32 +58,28 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Personaje {
-			get{ return personaje; }
-			set{ personaje = value; }
-		}
-		public Word MirandoA {
-			get{ return mirandoA; }
-			set{ mirandoA = value; }
-		}
- 
+		public Word Personaje { get; set; }
+		public Word MirandoA { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personaje, mirandoA };
+			return new Object[]{ Personaje, MirandoA };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			personaje = new Word(ptrRom, offsetComando);
+			Personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			mirandoA = new Word(ptrRom, offsetComando);
+			MirandoA = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, , Personaje);
- 
-			Word.SetData(data, , MirandoA);
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1, Personaje);
+			Word.SetData(data,3, MirandoA);
+
+			return data;
 		}
 	}
 }

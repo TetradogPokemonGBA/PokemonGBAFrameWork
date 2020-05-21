@@ -163,7 +163,7 @@ namespace PokemonGBAFramework.Core
         }
 
 
-
+        public byte[] GetBytes() => ToByteArray(Texto);
         #region IComparable implementation
         public int CompareTo(object obj)
         {

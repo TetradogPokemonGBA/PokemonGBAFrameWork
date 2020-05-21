@@ -20,6 +20,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE= "Special";
         public const string DESCRIPCION= "Llama al evento especial";
 
+		public Special() { }
         public Special(Word eventoALlamar)
 		{
 			EventoALlamar=eventoALlamar;
@@ -67,8 +68,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, ,EventoALlamar);
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1,EventoALlamar);
+			
+			return data;
 		}
 	}
 

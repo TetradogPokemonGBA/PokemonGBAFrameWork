@@ -59,6 +59,11 @@ namespace PokemonGBAFramework.Core.BuildScript
                 {
                     lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(tienda.GetBytes()), tienda.IdUnicoTemp));
                 }
+                foreach (var trainerbattle in script.Value.GetTrainerBattles())
+                {
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(trainerbattle.ChallengeText.GetBytes()), trainerbattle.ChallengeText.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(trainerbattle.DefeatText.GetBytes()), trainerbattle.DefeatText.IdUnicoTemp));
+                }
                 //falta  otros
             }
           
@@ -105,6 +110,13 @@ namespace PokemonGBAFramework.Core.BuildScript
                 foreach (var tienda in script.Value.GetTiendas())
                 {
                     total += tienda.GetBytes().Length;
+                    total = total.NextOffsetValido();
+                }
+                foreach (var trainerbattle in script.Value.GetTrainerBattles())
+                {
+                    total += trainerbattle.ChallengeText.GetBytes().Length;
+                    total = total.NextOffsetValido();
+                    total += trainerbattle.DefeatText.GetBytes().Length;
                     total = total.NextOffsetValido();
                 }
                 //falta  otros

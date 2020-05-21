@@ -2,6 +2,7 @@
  * Usuario: Pikachu240
  * Licencia GNU GPL V3
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFramework.Core.ComandosScript
@@ -9,18 +10,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of UpdateMoney.
 	/// </summary>
-	public class UpdateMoney:Comando
+	public class UpdateMoney:UpdateCoins
 	{
-		public const byte ID = 0x95;
-		public const int SIZE = 4;
-		Byte coordenadaX;
-		Byte coordenadaY;
-		Byte comprobarEjecucionComando;
- 
-		public UpdateMoney(Byte coordenadaX, Byte coordenadaY, Byte comprobarEjecucionComando)
+		public new const byte ID = 0x95;
+		public new const int SIZE = UpdateCoins.SIZE+1;
+		public new const string NOMBRE = "UpdateMoney";
+		public new const string DESCRIPCION = "Actualiza el dinero mostrado.";
+
+		public UpdateMoney() { }
+		public UpdateMoney(Byte coordenadaX, Byte coordenadaY, Byte comprobarEjecucionComando):base(coordenadaX,coordenadaY)
 		{
-			CoordenadaX = coordenadaX;
-			CoordenadaY = coordenadaY;
+
 			ComprobarEjecucionComando = comprobarEjecucionComando;
  
 		}
@@ -39,7 +39,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Actualiza el dinero mostrado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "UpdateMoney";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -58,40 +58,22 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
-		public Byte ComprobarEjecucionComando {
-			get{ return comprobarEjecucionComando; }
-			set{ comprobarEjecucionComando = value; }
-		}
- 
+
+		
+		public Byte ComprobarEjecucionComando { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ coordenadaX, coordenadaY, comprobarEjecucionComando };
+			return new Object[]{ CoordenadaX, CoordenadaY, ComprobarEjecucionComando };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			coordenadaX = ptrRom[offsetComando];
-			offsetComando++;
-			coordenadaY = ptrRom[offsetComando];
-			offsetComando++;
-			comprobarEjecucionComando = ptrRom[offsetComando];
+			base.CargarCamando(scriptManager, ptrRom, offsetComando);
+			ComprobarEjecucionComando = ptrRom[offsetComando+base.ParamsSize];
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = coordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = coordenadaY;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = comprobarEjecucionComando;
+			return base.GetBytesTemp().AddArray(new byte[] { ComprobarEjecucionComando });
 		}
 	}
 }

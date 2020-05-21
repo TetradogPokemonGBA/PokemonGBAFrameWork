@@ -6,6 +6,7 @@
  * Licencia GNU GPL V3
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
+using Gabriel.Cat.S.Extension;
 using System;
 using System.Collections.Generic;
 
@@ -17,11 +18,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class Sound:Comando
 	{
 		public const byte ID=0x2F;
-		public new const int SIZE=0x3;
+		public new const int SIZE=Comando.SIZE+Word.LENGTH;
 		public const string DESCRIPCION= "Reproduce el sonido";
 		public const string NOMBRE= "Sound";
 
-		Word sonido;
+		public Sound() { }
 		public Sound(Word sonido)
 		{
 			Sonido=sonido;
@@ -38,35 +39,24 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte IdComando=> ID;
 		public override string Nombre => NOMBRE;
 
-		public Word Sonido {
-			get {
-				return sonido;
-			}
-			set {
-				if (value == default)
-					value = new Word();
-
-				sonido = value;
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
+		public Word Sonido { get; set; }
+		public override int Size => SIZE;
 		protected override IList<object> GetParams()
 		{
 			return new Object[]{Sonido};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			sonido=new Word(ptrRom,offsetComando);
+			Sonido=new Word(ptrRom,offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, ,sonido);
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1,Sonido);
+			
+			return data;
 		}
 	}
 	public class FanFare:Sound
@@ -74,6 +64,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID=0x31;
 		public new const string DESCRIPCION= "Reproduce una cancion Sappy como un fanfare";
 		public new const string NOMBRE= "Fanfare";
+
+		public FanFare() { }
 		public FanFare(Word sonido):base(sonido)
 		{}
 		public FanFare(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
@@ -94,6 +86,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string DESCRIPCION= "Cambia a otra cancion Sappy";
 		public new const string NOMBRE= "PlaySong2";
 
+		public PlaySong2() { }
 		public PlaySong2(Word sonido):base(sonido)
 		{}
 		public PlaySong2(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
@@ -113,6 +106,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID=0x36;
 		public new const string DESCRIPCION = "Suavemente cambia a otra cancion Sappy";
 		public new const string NOMBRE = "FadeSong";
+
+		public FadeSong() { }
 		public FadeSong(Word sonido):base(sonido)
 		{}
 		public FadeSong(ScriptAndASMManager scriptManager,RomGba rom,int offset):base(scriptManager,rom,offset)
@@ -134,6 +129,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const string DESCRIPCION = "Cambia a otra cancion Sappy";
 		public new const string NOMBRE = "PlaySong";
 
+		public PlaySong() { }
 		public PlaySong(Word sonido,byte desconocido):base(sonido)
 		{
 			Desconocido=desconocido;
@@ -156,16 +152,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new object[] { Sonido, Desconocido };
 		}
-		protected unsafe  override void CargarCamando(byte* ptrRom, int offsetComando)
+		protected unsafe  override void CargarCamando(ScriptAndASMManager scriptAndASM,byte* ptrRom, int offsetComando)
 		{
-			base.CargarCamando(ptrRom, offsetComando);
+			base.CargarCamando(scriptAndASM,ptrRom, offsetComando);
 			Desconocido=ptrRom[offsetComando+Sound.SIZE];
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			ptrRomPosicionado+=Sound.SIZE;
-			*ptrRomPosicionado=Desconocido;
+			return base.GetBytesTemp().AddArray(new byte[] { Desconocido });
 		}
 	}
 }

@@ -2,6 +2,7 @@
  * Usuario: Pikachu240
  * Licencia GNU GPL V3
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFramework.Core.ComandosScript
@@ -9,17 +10,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of ShowSpritePos.
 	/// </summary>
-	public class ShowSpritePos:Comando
+	public class ShowSpritePos:ShowSprite
 	{
-		public const byte ID = 0x56;
-		public const int SIZE = 5;
-		Word personajeAMostrar;
-		Byte coordenadaX;
-		Byte coordenadaY;
- 
-		public ShowSpritePos(Word personajeAMostrar, Byte coordenadaX, Byte coordenadaY)
+		public new const byte ID = 0x56;
+		public new const int SIZE =ShowSprite.SIZE+1+1;
+		public new const string NOMBRE = "ShowSpritePos";
+		public new const string DESCRIPCION = "Muestra un sprite previamente ocultado. Luego aplica la posición X/Y";
+
+		public ShowSpritePos() { }
+		public ShowSpritePos(Word personajeAMostrar, Byte coordenadaX, Byte coordenadaY):base(personajeAMostrar)
 		{
-			PersonajeAMostrar = personajeAMostrar;
 			CoordenadaX = coordenadaX;
 			CoordenadaY = coordenadaY;
  
@@ -39,7 +39,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Muestra un sprite previamente ocultado. Luego aplica la posición X/Y";
+				return DESCRIPCION;
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "ShowSpritePos";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -58,40 +58,25 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word PersonajeAMostrar {
-			get{ return personajeAMostrar; }
-			set{ personajeAMostrar = value; }
-		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
+
+		public Byte CoordenadaX { get; set; }
+		public Byte CoordenadaY { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personajeAMostrar, coordenadaX, coordenadaY };
+			return new Object[]{ PersonajeAMostrar, CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			personajeAMostrar = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			coordenadaX = ptrRom[offsetComando];
+			base.CargarCamando(scriptManager, ptrRom, offsetComando);
+			offsetComando += base.ParamsSize;
+			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = ptrRom[offsetComando];
+			CoordenadaY = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
-			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, , PersonajeAMostrar);
- 
-			*ptrRomPosicionado = coordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = coordenadaY;
+			return base.GetBytesTemp().AddArray(new byte[] { CoordenadaX, CoordenadaY });
 		}
 	}
 }

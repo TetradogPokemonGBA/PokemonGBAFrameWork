@@ -12,10 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SpriteFace2:Comando
 	{
 		public const byte ID = 0xAB;
-		public const int SIZE = 3;
-		Byte personajeVirtual;
-		Byte orientacion;
- 
+		public new const int SIZE = Comando.SIZE+1+1;
+		public const string NOMBRE = "SpriteFace2";
+		public const string DESCRIPCION = "Cambia la orientacion del sprite virtual";
+
+		public SpriteFace2() { }
 		public SpriteFace2(Byte personajeVirtual, Byte orientacion)
 		{
 			PersonajeVirtual = personajeVirtual;
@@ -37,7 +38,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Cambia la orientacion del sprite virtual";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +49,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SpriteFace2";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -56,32 +57,28 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte PersonajeVirtual {
-			get{ return personajeVirtual; }
-			set{ personajeVirtual = value; }
-		}
-		public Byte Orientacion {
-			get{ return orientacion; }
-			set{ orientacion = value; }
-		}
- 
+		public Byte PersonajeVirtual { get; set; }
+		public Byte Orientacion { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personajeVirtual, orientacion };
+			return new Object[]{ PersonajeVirtual, Orientacion };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			personajeVirtual = ptrRom[offsetComando];
+			PersonajeVirtual = ptrRom[offsetComando];
 			offsetComando++;
-			orientacion = ptrRom[offsetComando];
+			Orientacion = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = personajeVirtual;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = orientacion;
+			 
+			data[0]=IdComando;
+			data[1] = PersonajeVirtual;
+			data[2] = Orientacion;
+
+			return data;
 		}
 	}
 }

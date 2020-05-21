@@ -12,8 +12,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SignMsg:Comando
 	{
 		public const byte ID = 0xCA;
-		public const int SIZE = 1;
-  
+
+		public const string NOMBRE = "SignMsg";
+		public const string DESCRIPCION = "Cambia la presentación de la caja de dialogo para que parezca un post";
+
 		public SignMsg()
 		{
    
@@ -33,7 +35,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Cambia la presentación de la caja de dialogo para que parezca un post";
+				return DESCRIPCION;
 			}
 		}
 
@@ -44,7 +46,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SignMsg";
+				return NOMBRE;
 			}
 		}
 		public override int Size {

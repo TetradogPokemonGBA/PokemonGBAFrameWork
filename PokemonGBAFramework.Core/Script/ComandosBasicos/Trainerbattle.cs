@@ -12,19 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class Trainerbattle:Comando
 	{
 		public const byte ID = 0x5C;
-		public const int SIZE = 14;
-		Byte kindOfBattle;
+		public new const int SIZE = Comando.SIZE+1+Word.LENGTH+Word.LENGTH+OffsetRom.LENGTH+OffsetRom.LENGTH;
+		public const string NOMBRE = "Trainerbattle";
+		public const string DESCRIPCION = "Empieza una batalla contra un entrenador";
 
-		Word battleToStart;
-
-		Word reserved;
-
-		OffsetRom pointerToTheChallengeText;
-
-		OffsetRom pointerToTheDefeatText;
-
- 
-		public Trainerbattle(Byte kindOfBattle, Word battleToStart, Word reserved, OffsetRom pointerToTheChallengeText, OffsetRom pointerToTheDefeatText)
+		public Trainerbattle() { }
+		public Trainerbattle(Byte kindOfBattle, Word battleToStart, Word reserved, BloqueString challengeText, BloqueString defeatText)
 		{
 			KindOfBattle = kindOfBattle;
 
@@ -32,9 +25,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 			Reserved = reserved;
 
-			PointerToTheChallengeText = pointerToTheChallengeText;
+			ChallengeText = challengeText;
 
-			PointerToTheDefeatText = pointerToTheDefeatText;
+			DefeatText = defeatText;
 
  
 		}
@@ -53,7 +46,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Empieza una batalla contra un entrenador";
+				return DESCRIPCION;
 			}
 		}
 
@@ -64,7 +57,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "Trainerbattle";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -72,83 +65,62 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-                         
 
-		public Byte KindOfBattle {
-			get{ return kindOfBattle; }
-			set{ kindOfBattle = value; }
-		}
 
-		public Word BattleToStart {
-			get{ return battleToStart; }
-			set{ battleToStart = value; }
-		}
+		public Byte KindOfBattle { get; set; }
 
-		public Word Reserved {
-			get{ return reserved; }
-			set{ reserved = value; }
-		}
+		public Word BattleToStart { get; set; }
 
-		public OffsetRom PointerToTheChallengeText {
-			get{ return pointerToTheChallengeText; }
-			set{ pointerToTheChallengeText = value; }
-		}
+		public Word Reserved { get; set; }
 
-		public OffsetRom PointerToTheDefeatText {
-			get{ return pointerToTheDefeatText; }
-			set{ pointerToTheDefeatText = value; }
-		}
+		public BloqueString ChallengeText { get; set; }
+
+		public BloqueString DefeatText { get; set; }
+
+		
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[] {
-				kindOfBattle,
-				battleToStart,
-				reserved,
-				pointerToTheChallengeText,
-				pointerToTheDefeatText
+				KindOfBattle,
+				BattleToStart,
+				Reserved,
+				ChallengeText,
+				DefeatText
 			};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			kindOfBattle = ptrRom[offsetComando];
+			KindOfBattle = ptrRom[offsetComando];
 
 			offsetComando++;
 
-			battleToStart = new Word(ptrRom, offsetComando);
+			BattleToStart = new Word(ptrRom, offsetComando);
 
 			offsetComando += Word.LENGTH;
 
-			reserved = new Word(ptrRom, offsetComando);
+			Reserved = new Word(ptrRom, offsetComando);
 
 			offsetComando += Word.LENGTH;
 
-			pointerToTheChallengeText = new OffsetRom(ptrRom, offsetComando);
+			ChallengeText =BloqueString.Get(ptrRom, new OffsetRom(ptrRom, offsetComando));
 
 			offsetComando += OffsetRom.LENGTH;
 
-			pointerToTheDefeatText =new OffsetRom(ptrRom, offsetComando);
+			DefeatText =BloqueString.Get(ptrRom ,new OffsetRom(ptrRom, offsetComando));
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = kindOfBattle;
+			
+			data[0]=IdComando;
+			data[1] = KindOfBattle;
+			Word.SetData(data,2, BattleToStart);
+			Word.SetData(data,5, Reserved);
+			OffsetRom.Set(data,7, new OffsetRom(ChallengeText.IdUnicoTemp));
+			OffsetRom.Set(data,11, new OffsetRom(DefeatText.IdUnicoTemp));
 
-			++ptrRomPosicionado;
-
-			Word.SetData(data, , battleToStart);
-
- 
-
-			Word.SetData(data, , reserved);
-
- 
-
-			OffsetRom.Set(ptrRomPosicionado, pointerToTheChallengeText);
-
-			ptrRomPosicionado += OffsetRom.LENGTH;
-
-			OffsetRom.Set(ptrRomPosicionado, pointerToTheDefeatText);
+			return data;
 		}
 	}
 }

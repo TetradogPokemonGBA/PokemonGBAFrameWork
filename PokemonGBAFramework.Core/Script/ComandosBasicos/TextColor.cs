@@ -12,9 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class TextColor:Comando
 	{
 		public const byte ID = 0xC7;
-		public const int SIZE = 2;
-		Byte color;
- 
+		public new const int SIZE = Comando.SIZE+1;
+		public const string NOMBRE = "TextColor";
+		public const string DESCRIPCION = "Cambia el color del texto usado.";
+
+
+		public TextColor() { }
 		public TextColor(Byte color)
 		{
 			Color = color;
@@ -35,7 +38,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Cambia el color del texto usado.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -46,7 +49,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "TextColor";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -54,27 +57,27 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte Color {
-			get{ return color; }
-			set{ color = value; }
-		}
+		public Byte Color { get; set; }
 		protected override Edicion.Pokemon GetCompatibilidad()
 		{
 			return Edicion.Pokemon.VerdeHoja|Edicion.Pokemon.RojoFuego;
 		}
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ color };
+			return new Object[]{ Color };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			color = ptrRom[offsetComando];
+			Color = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = color;
+			 
+			data[0]=IdComando;
+			data[1] = Color;
+
+			return data;
 		}
 	}
 }

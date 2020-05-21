@@ -12,12 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SpriteLevelUp:Comando
 	{
 		public const byte ID = 0xA8;
-		public const int SIZE = 6;
-		Word personaje;
-		Byte banco;
-		Byte mapa;
-		Byte unknow;
- 
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+1+1+1;
+
+		public const string NOMBRE = "SpriteLevelUp";
+		public const string DESCRIPCION = "Hace que el sprite especificado suba un nivel en el banco y el mapa seleccionados";
+
+		public SpriteLevelUp() { }
 		public SpriteLevelUp(Word personaje, Byte banco, Byte mapa, Byte unknow)
 		{
 			Personaje = personaje;
@@ -41,7 +41,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Hace que el sprite especificado suba un nivel en el banco y el mapa seleccionados";
+				return DESCRIPCION;
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "SpriteLevelUp";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -60,48 +60,36 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Word Personaje {
-			get{ return personaje; }
-			set{ personaje = value; }
-		}
-		public Byte Banco {
-			get{ return banco; }
-			set{ banco = value; }
-		}
-		public Byte Mapa {
-			get{ return mapa; }
-			set{ mapa = value; }
-		}
-		public Byte Unknow {
-			get{ return unknow; }
-			set{ unknow = value; }
-		}
- 
+		public Word Personaje { get; set; }
+		public Byte Banco { get; set; }
+		public Byte Mapa { get; set; }
+		public Byte Unknow { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ personaje, banco, mapa, unknow };
+			return new Object[]{ Personaje, Banco, Mapa, Unknow };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			personaje = new Word(ptrRom, offsetComando);
+			Personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			banco = ptrRom[offsetComando];
+			Banco = ptrRom[offsetComando];
 			offsetComando++;
-			mapa = ptrRom[offsetComando];
+			Mapa = ptrRom[offsetComando];
 			offsetComando++;
-			unknow = ptrRom[offsetComando];
+			Unknow = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, , Personaje);
- 
-			*ptrRomPosicionado = banco;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = mapa;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = unknow;
+			 
+			data[0]=IdComando;
+			Word.SetData(data,1, Personaje);
+			data[3] = Banco;
+			data[4] = Mapa;
+			data[5]= Unknow;
+
+			return data;
 		}
 	}
 }

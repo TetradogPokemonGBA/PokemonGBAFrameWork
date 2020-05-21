@@ -20,6 +20,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public const string NOMBRE= "Special2";
         public const string DESCRIPCION= "Como Special pero guardando el valor devuelto";
 
+		public Special2() { }
         public Special2(Word eventoALlamar,Word variable)
 		{
 			EventoALlamar=eventoALlamar;
@@ -73,10 +74,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, ,Variable);
- 
-			Word.SetData(data, ,EventoALlamar);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1,Variable);
+			Word.SetData(data,3,EventoALlamar);
+
+			return data;
 		}
 	}
 }

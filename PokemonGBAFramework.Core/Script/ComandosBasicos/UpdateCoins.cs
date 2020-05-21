@@ -12,10 +12,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class UpdateCoins:Comando
 	{
 		public const byte ID = 0xC2;
-		public const int SIZE = 3;
-		Byte coordenadaX;
-		Byte coordenadaY;
- 
+		public new const int SIZE = Comando.SIZE+1+1;
+		public const string NOMBRE = "UpdateCoins";
+		public const string DESCRIPCION = "Actualiza el numero de fichas de la pantalla.";
+
+		public UpdateCoins() { }
 		public UpdateCoins(Byte coordenadaX, Byte coordenadaY)
 		{
 			CoordenadaX = coordenadaX;
@@ -37,7 +38,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Descripcion {
 			get {
-				return "Actualiza el numero de fichas de la pantalla.";
+				return DESCRIPCION;
 			}
 		}
 
@@ -48,7 +49,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		public override string Nombre {
 			get {
-				return "UpdateCoins";
+				return NOMBRE;
 			}
 		}
 		public override int Size {
@@ -56,32 +57,28 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public Byte CoordenadaX {
-			get{ return coordenadaX; }
-			set{ coordenadaX = value; }
-		}
-		public Byte CoordenadaY {
-			get{ return coordenadaY; }
-			set{ coordenadaY = value; }
-		}
- 
+		public Byte CoordenadaX { get; set; }
+		public Byte CoordenadaY { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ coordenadaX, coordenadaY };
+			return new Object[]{ CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			coordenadaX = ptrRom[offsetComando];
+			CoordenadaX = ptrRom[offsetComando];
 			offsetComando++;
-			coordenadaY = ptrRom[offsetComando];
+			CoordenadaY = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = coordenadaX;
-			++ptrRomPosicionado; 
-			*ptrRomPosicionado = coordenadaY;
+			
+			data[0]=IdComando;
+			data[1] = CoordenadaX;
+			data[2] = CoordenadaY;
+
+			return data;
 		}
 	}
 }
