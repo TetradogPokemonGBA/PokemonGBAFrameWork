@@ -494,14 +494,14 @@ namespace PokemonGBAFramework.Core
             string estado, nivel;
             ushort auxNivelYEstado;
             Script scriptPokemonErrante = new Script();
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.Special(GetVariableSpecialPokemonErrante(rom)));
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariablePokemonErranteVar(rom), pokemonErrante.Errante.OrdenNacional.Orden));
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableVitalidadVar(rom), pokemonErrante.Vida));
+            scriptPokemonErrante.Comandos.Add(new ComandosScript.Special(GetVariableSpecialPokemonErrante(rom)));
+            scriptPokemonErrante.Comandos.Add(new ComandosScript.SetVar(GetVariablePokemonErranteVar(rom), pokemonErrante.Errante.OrdenNacional.Orden));
+            scriptPokemonErrante.Comandos.Add(new ComandosScript.SetVar(GetVariableVitalidadVar(rom), pokemonErrante.Vida));
             estado = ((Hex)pokemonErrante.Stats).ToString().PadLeft(2, '0');
             nivel = ((Hex)((byte)pokemonErrante.Nivel)).ToString();
             nivelYEstado = (Hex)(estado + nivel);
             auxNivelYEstado = (ushort)(uint)nivelYEstado;
-            scriptPokemonErrante.ComandosScript.Add(new ComandosScript.SetVar(GetVariableNivelYEstadoVar(rom), new Word(auxNivelYEstado)));
+            scriptPokemonErrante.Comandos.Add(new ComandosScript.SetVar(GetVariableNivelYEstadoVar(rom), new Word(auxNivelYEstado)));
             
             return scriptPokemonErrante;
 

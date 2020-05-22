@@ -70,7 +70,7 @@ namespace PokemonGBAFramework.Core
 		public virtual int Size => SIZE;
 		public int ParamsSize=> Size - Comando.SIZE;
 
-		protected virtual IList<object> GetParams()
+		public virtual IList<object> GetParams()
 		{
 			return new object[]{ };
 		}

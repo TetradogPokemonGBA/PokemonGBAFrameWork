@@ -64,7 +64,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word Tile { get; set; }
 		public Word AtributoTile { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ CoordenadaX, CoordenadaY, Tile, AtributoTile };
 		}

@@ -70,7 +70,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				offsetDesconocido = value;
 			}
 		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{offsetDesconocido};
 		}

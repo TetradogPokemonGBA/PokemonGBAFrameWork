@@ -43,7 +43,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Script Script { get; set; }
 
 		public virtual bool IsEnd => false;
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Script };
 		}

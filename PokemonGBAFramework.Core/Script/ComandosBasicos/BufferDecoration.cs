@@ -55,7 +55,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Byte Buffer { get; set; }
         public Word Decoracion { get; set; }
 
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Buffer,Decoracion};
 		}

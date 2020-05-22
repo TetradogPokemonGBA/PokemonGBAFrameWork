@@ -41,7 +41,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public Word Sonido { get; set; }
 		public override int Size => SIZE;
-		protected override IList<object> GetParams()
+		public override IList<object> GetParams()
 		{
 			return new Object[]{Sonido};
 		}
@@ -148,7 +148,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override int Size => SIZE;
 		public byte Desconocido { get; set; }
 
-		protected override IList<object> GetParams()
+		public override IList<object> GetParams()
 		{
 			return new object[] { Sonido, Desconocido };
 		}

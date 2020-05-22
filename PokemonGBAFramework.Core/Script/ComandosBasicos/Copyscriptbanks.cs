@@ -60,7 +60,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte BankDestination { get; set; }
 
         public byte BankSource { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{BankDestination,BankSource};
 		}

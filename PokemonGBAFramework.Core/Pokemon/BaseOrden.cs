@@ -25,7 +25,7 @@ namespace PokemonGBAFramework.Core
                 inicioOrdenLocal = GetOffset(rom,muestraAlgoritmo,inicioRelativo);
             try
             {
-                ordenLocal.Orden = new Word(rom, inicioOrdenLocal + (posicion - 1) * Word.LENGTH);
+                ordenLocal.Orden = new Word(rom,inicioOrdenLocal + (posicion - 1) * Word.LENGTH);
             }
             catch
             {

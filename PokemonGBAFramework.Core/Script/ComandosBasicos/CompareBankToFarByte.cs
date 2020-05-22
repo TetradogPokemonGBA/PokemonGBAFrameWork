@@ -70,7 +70,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				offsetToByteToCompare = value;
 			}
 		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Bank,OffsetToByteToCompare};
 		}

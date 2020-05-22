@@ -46,7 +46,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Byte Banco { get; set; }
 		public Byte Mapa { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Personaje, Banco, Mapa };
 		}

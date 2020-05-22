@@ -103,7 +103,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 					{
 
 						index = (int)((y * mData.Width) + x);
-						raw = new Word(rom, offsetMapTiles + index * 2);
+						raw = new Word(rom,offsetMapTiles + index * 2);
 						m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
 						mapTileData.mapTiles[x, y] = m;
 

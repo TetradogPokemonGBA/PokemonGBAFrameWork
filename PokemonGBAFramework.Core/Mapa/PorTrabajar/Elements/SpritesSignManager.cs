@@ -14,7 +14,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 		{
 			return new SpriteSign((byte)x,(byte) y);
 		}
-		protected override SpriteSign IGet(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+		protected override SpriteSign IGet(RomGba rom, int offset)
 		{
 			return SpriteSign.Get(rom, offset);
 		}

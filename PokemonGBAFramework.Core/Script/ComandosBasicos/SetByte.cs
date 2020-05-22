@@ -56,7 +56,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 
         public byte ByteAPoner { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ByteAPoner};
 		}

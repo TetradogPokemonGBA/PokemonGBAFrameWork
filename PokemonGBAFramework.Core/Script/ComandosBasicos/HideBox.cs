@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return Edicion.Pokemon.Zafiro|Edicion.Pokemon.Rubi;
 		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{PosicionX,PosicionY,Ancho,Alto};
 		}

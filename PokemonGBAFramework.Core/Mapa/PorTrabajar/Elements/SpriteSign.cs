@@ -34,7 +34,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			byte[] data = new byte[] { X, B2, Y, B4, B5, B6, B7, B8 };
 			return data.AddArray(Equals(OffsetScript,default)?new byte[OffsetRom.LENGTH]:OffsetScript.BytesPointer);
 		}
-		public static SpriteSign Get(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+		public static SpriteSign Get(RomGba rom, int offset)
 		{
 			SpriteSign spriteSign = new SpriteSign();
 			spriteSign.X = rom.Data[offset++];

@@ -13,7 +13,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
         protected override int LengthSingelItem => Trigger.LENGTH;
 
-        protected override Trigger IGet(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+        protected override Trigger IGet(RomGba rom, int offset)
         {
             return Trigger.Get(rom, offset);
         }

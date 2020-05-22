@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Byte CoordenadaX { get; set; }
 		public Byte CoordenadaY { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ PersonajeAMostrar, CoordenadaX, CoordenadaY };
 		}

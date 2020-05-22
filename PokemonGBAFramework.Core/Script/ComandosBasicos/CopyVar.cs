@@ -41,7 +41,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word VariableDestino { get; set; }
 
         public Word VariableOrigen { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{VariableDestino,VariableOrigen};
 		}

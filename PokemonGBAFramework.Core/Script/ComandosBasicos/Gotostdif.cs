@@ -58,7 +58,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		protected override IList<object> GetParams()
+		public override IList<object> GetParams()
 		{
 			return base.GetParams().AfegirValor(Condicion);
 		}

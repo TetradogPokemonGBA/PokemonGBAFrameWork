@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word Bank { get; set; }
 		public Word Mapa { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Personaje, Bank, Mapa };
 		}

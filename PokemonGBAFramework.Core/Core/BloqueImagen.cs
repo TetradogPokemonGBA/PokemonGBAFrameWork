@@ -295,7 +295,7 @@ namespace PokemonGBAFramework.Core
         public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
         {
             //PointerHeaderID
-            return  OffsetRom.Check(gbaRom, offsetToCheck) && (gbaRom.Data[offsetToCheck + 7] != OffsetRom.BYTEIDENTIFICADOR16MB|| gbaRom.Data[offsetToCheck + 7] != OffsetRom.BYTEIDENTIFICADOR32MB);
+            return  OffsetRom.Check(gbaRom,offsetToCheck) && (gbaRom.Data[offsetToCheck + 7] != OffsetRom.BYTEIDENTIFICADOR16MB|| gbaRom.Data[offsetToCheck + 7] != OffsetRom.BYTEIDENTIFICADOR32MB);
         }
 
 

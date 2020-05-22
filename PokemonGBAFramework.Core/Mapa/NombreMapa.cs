@@ -86,7 +86,7 @@
 
 				total++;
 
-			} while (OffsetRom.Check(rom, offset));
+			} while (OffsetRom.Check(rom,offset));
 
 			return total-1;
 		}

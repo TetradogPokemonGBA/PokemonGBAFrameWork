@@ -72,11 +72,11 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
             return data;
         }
-        public static SpriteNPC Get(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+        public static SpriteNPC Get(RomGba rom, int offset)
         {
             SpriteNPC spriteNPC = new SpriteNPC();
             spriteNPC.B1 = rom.Data[offset++];
-            spriteNPC.SpriteSet = new Word(rom, offset);
+            spriteNPC.SpriteSet = new Word(rom,offset);
             offset += Word.LENGTH;
             spriteNPC.B4 = rom.Data[offset++];
             spriteNPC.X = rom.Data[offset++];
@@ -93,7 +93,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             spriteNPC.B16 = rom.Data[offset++];
             spriteNPC.OffsetScript = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
-            spriteNPC.Flag = new Word(rom, offset);
+            spriteNPC.Flag = new Word(rom,offset);
             offset += Word.LENGTH;
             spriteNPC.B23 = rom.Data[offset++];
             spriteNPC.B24 = rom.Data[offset++];

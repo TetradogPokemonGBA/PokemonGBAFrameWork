@@ -22,8 +22,10 @@ namespace PokemonGBAFramework.Core
         public Word(byte[] data) : base(data)
         {
         }
-
-        public Word(ScriptAndASMManager scriptManager,RomGba rom, int offset) : base(rom, offset, LENGTH)
+        public Word(RomGba data) : base(data.Data.Bytes)
+        {
+        }
+        public Word(RomGba rom, int offset) : base(rom, offset, LENGTH)
         {
         }
 

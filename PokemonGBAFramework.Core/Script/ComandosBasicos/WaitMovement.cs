@@ -45,7 +45,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Persona = new Word(ptrRom, offsetComando);
 		}
-		protected override IList<object> GetParams()
+		public override IList<object> GetParams()
 		{
 			return new object[] { Persona };
 		}

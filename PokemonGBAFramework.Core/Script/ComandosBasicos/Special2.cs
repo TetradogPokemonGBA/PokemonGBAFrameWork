@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         /// Es la variable donde se guardará el resultado del evento
         /// </summary>
         public Word Variable { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Variable,EventoALlamar};
 		}

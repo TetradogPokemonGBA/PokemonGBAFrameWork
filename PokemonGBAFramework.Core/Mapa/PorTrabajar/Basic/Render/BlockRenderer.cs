@@ -118,7 +118,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                     blockPointer = (int)((second ? local.TilesetHeader.PBlocks : global.TilesetHeader.PBlocks) + (tripNum * 16)) + 8;
                     blockPointer -= i;
                 }
-                 orig = new Word(rom, blockPointer + i);
+                 orig = new Word(rom,blockPointer + i);
                  tileNum = orig & 0x3FF;
                  palette = (orig & 0xF000) >> 12;
                  xFlip = (orig & 0x400) > 0;

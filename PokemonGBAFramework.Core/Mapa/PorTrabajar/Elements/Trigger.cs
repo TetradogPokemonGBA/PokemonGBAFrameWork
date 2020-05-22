@@ -35,20 +35,20 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			return data.AddArray(H3.Data, FlagCheck.Data, H6.Data,Equals(OffsetScript,default)?OffsetScript.BytesPointer:new byte[OffsetRom.LENGTH]);
 
 		}
-		public static Trigger Get(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+		public static Trigger Get(RomGba rom, int offset)
 		{
 			Trigger trigger = new Trigger();
 			trigger.X = rom.Data[offset++];
 			trigger.B2 = rom.Data[offset++];
 			trigger.Y = rom.Data[offset++];
 			trigger.B4 = rom.Data[offset++];
-			trigger.H3 = new Word(rom, offset);
+			trigger.H3 = new Word(rom,offset);
 			offset += Word.LENGTH;
-			trigger.FlagCheck = new Word(rom, offset);
+			trigger.FlagCheck = new Word(rom,offset);
 			offset += Word.LENGTH;
-			trigger.FlagValue = new Word(rom, offset);
+			trigger.FlagValue = new Word(rom,offset);
 			offset += Word.LENGTH;
-			trigger.H6 = new Word(rom, offset);
+			trigger.H6 = new Word(rom,offset);
 			offset += Word.LENGTH;
 			trigger.OffsetScript = new OffsetRom(rom, offset);
 

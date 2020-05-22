@@ -66,7 +66,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 
         public OffsetRom OffsetToWrite { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return base.GetParams().AfegirValor(OffsetToWrite);
 		}

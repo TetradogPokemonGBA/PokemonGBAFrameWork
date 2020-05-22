@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Word Variable { get; set; }
         public Word ValorAComparar { get; set; }
         #endregion
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Variable,ValorAComparar};
 		}

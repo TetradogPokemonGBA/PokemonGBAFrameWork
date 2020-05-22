@@ -46,9 +46,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offsetMap += OffsetRom.LENGTH;
             offsetLocalTileset = new OffsetRom(rom, offsetMap);
             offsetMap += OffsetRom.LENGTH;
-            mapData.BorderWidth = new Word(rom, offsetMap);
+            mapData.BorderWidth = new Word(rom,offsetMap);
             offsetMap += Word.LENGTH;
-            mapData.BorderHeight = new Word(rom, offsetMap);
+            mapData.BorderHeight = new Word(rom,offsetMap);
 
             if (!offsetBorderTile.IsEmpty)
             {
@@ -105,7 +105,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             bool isOK;
             offsetMapData += OffsetRom.LENGTH;
             offsetMapData += OffsetRom.LENGTH;
-            isOK =  OffsetRom.Check(rom, offsetMapData);
+            isOK =  OffsetRom.Check(rom,offsetMapData);
             if (isOK)
             {
                 offsetMapData += OffsetRom.LENGTH;

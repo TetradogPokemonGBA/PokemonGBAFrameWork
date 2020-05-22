@@ -56,7 +56,7 @@ namespace PokemonGBAFramework.Core
         #region Constructores y Cargar
         public Script()
         {
-            ComandosScript = new Llista<Comando>();
+            Comandos = new Llista<Comando>();
             IdUnicoTemp = GetIdUnicoTemp();
         }
 
@@ -794,7 +794,7 @@ namespace PokemonGBAFramework.Core
                 if (comandoActual != null)
                 {
                     endScriptComando = comandoActual as IEndScript;
-                    ComandosScript.Add(comandoActual);
+                    Comandos.Add(comandoActual);
                     offsetScript += comandoActual.ParamsSize;
                 }
 
@@ -808,7 +808,7 @@ namespace PokemonGBAFramework.Core
         #endregion
 
         public int IdUnicoTemp { get; private set; }
-        public Llista<Comando> ComandosScript { get; private set; }
+        public Llista<Comando> Comandos { get; private set; }
         public int Size
         {
             get
@@ -816,11 +816,11 @@ namespace PokemonGBAFramework.Core
                 int aSumar = 0;
                 int total = 0;
                 bool? isEndOrReturn;
-                for (int i = 0; i < ComandosScript.Count; i++)
-                    total += ComandosScript[i].Size;
-                if (ComandosScript.Count > 0)
+                for (int i = 0; i < Comandos.Count; i++)
+                    total += Comandos[i].Size;
+                if (Comandos.Count > 0)
                 {
-                    isEndOrReturn = EsUnaFuncionAcabadaEnEndOReturn(ComandosScript[ComandosScript.Count - 1]);
+                    isEndOrReturn = EsUnaFuncionAcabadaEnEndOReturn(Comandos[Comandos.Count - 1]);
                     if (isEndOrReturn.HasValue)
                     {
                         aSumar = 1;
@@ -829,12 +829,12 @@ namespace PokemonGBAFramework.Core
                 return total+aSumar;//le sumo el End/Return
             }
         }
-        public IEnumerable<Script> GetScritps() => ComandosScript.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
-        public IEnumerable<BloqueString> GetStrings() => ComandosScript.Filtra((c) => c is IString).Select((c) => (c as IString).Texto);
-        public IEnumerable<BloqueMovimiento> GetMovimientos() => ComandosScript.Filtra((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
-        public IEnumerable<BloqueBraille> GetBrailles() => ComandosScript.Filtra((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
-        public IEnumerable<BloqueTienda> GetTiendas() => ComandosScript.Filtra((c) => c is ITienda).Select((c) => (c as ITienda).ListaObjetos);
-        public IEnumerable<Trainerbattle> GetTrainerBattles() => ComandosScript.Filtra((c) => c is Trainerbattle).Select((c) => (c as Trainerbattle));
+        public IEnumerable<Script> GetScritps() => Comandos.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
+        public IEnumerable<BloqueString> GetStrings() => Comandos.Filtra((c) => c is IString).Select((c) => (c as IString).Texto);
+        public IEnumerable<BloqueMovimiento> GetMovimientos() => Comandos.Filtra((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
+        public IEnumerable<BloqueBraille> GetBrailles() => Comandos.Filtra((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
+        public IEnumerable<BloqueTienda> GetTiendas() => Comandos.Filtra((c) => c is ITienda).Select((c) => (c as ITienda).ListaObjetos);
+        public IEnumerable<Trainerbattle> GetTrainerBattles() => Comandos.Filtra((c) => c is Trainerbattle).Select((c) => (c as Trainerbattle));
 
         #region Interficies
         #region ILastResult implementation
@@ -844,9 +844,9 @@ namespace PokemonGBAFramework.Core
             {
                 ILastResult lastResult = null;
                 ILastResult aux;
-                for (int i = 0; i < ComandosScript.Count; i++)
+                for (int i = 0; i < Comandos.Count; i++)
                 {
-                    aux = ComandosScript[i] as ILastResult;
+                    aux = Comandos[i] as ILastResult;
                     if (aux != null)
                         lastResult = aux;
                 }
@@ -865,9 +865,9 @@ namespace PokemonGBAFramework.Core
             {
                 IEndScript iEnd = null;
                 IEndScript aux;
-                for (int i = 0; i < ComandosScript.Count && iEnd == null; i++)
+                for (int i = 0; i < Comandos.Count && iEnd == null; i++)
                 {
-                    aux = ComandosScript[i] as IEndScript;
+                    aux = Comandos[i] as IEndScript;
                     if (aux != null && aux.IsEnd)
                         iEnd = aux;
                 }
@@ -922,10 +922,10 @@ namespace PokemonGBAFramework.Core
             byte[] data = new byte[Size];
             int offset = 0;
             
-            for(int i = 0;i< ComandosScript.Count; i++)
+            for(int i = 0;i< Comandos.Count; i++)
             {
-                data.SetArray(offset, ComandosScript[i].GetBytesTemp());
-                offset += ComandosScript[i].Size;
+                data.SetArray(offset, Comandos[i].GetBytesTemp());
+                offset += Comandos[i].Size;
             }
             
             if (offset < data.Length - 1)

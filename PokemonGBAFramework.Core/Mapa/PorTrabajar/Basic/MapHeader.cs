@@ -124,9 +124,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offsetConnect = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
 
-            mapHeader.Song = new Word(rom, offset);
+            mapHeader.Song = new Word(rom,offset);
             offset += Word.LENGTH;
-            mapHeader.Map = new Word(rom, offset);
+            mapHeader.Map = new Word(rom,offset);
             offset += Word.LENGTH;
 
             labelID = rom.Data[offset++];

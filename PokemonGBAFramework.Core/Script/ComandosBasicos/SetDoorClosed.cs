@@ -43,7 +43,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word CoordenadaX { get; set; }
 		public Word CoordenadaY { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ CoordenadaX, CoordenadaY };
 		}

@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         /// Pointer or Bank
         /// </summary>
         public DWord Unknow { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
         {
             return new Object[] { Unknow };
         }

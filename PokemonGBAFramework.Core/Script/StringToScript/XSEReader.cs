@@ -216,7 +216,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                             case BloqueOrg.TipoOrg.Script:
                                 if (Comando.DicTypes.ContainsKey(camposComando[0]))
                                 {
-                                    org.Script.ComandosScript.Add(GetCommand(scripts, camposComando));
+                                    org.Script.Comandos.Add(GetCommand(scripts, camposComando));
 
                                 }
                                 else if (camposComando[0] != "return" && camposComando[0] != "end")
@@ -255,6 +255,65 @@ namespace PokemonGBAFramework.Core.StringToScript
         }
   
 
+
+    }
+
+    public static class XSEWriter
+    {
+        public static string ToXSE(this Script script,bool addFinishEndOrReturn=true)
+        {
+            StringBuilder str = new StringBuilder();
+            str.AppendLine($"org @Scritp{(Hex)script.IdUnicoTemp}");
+            for (int i = 0; i < script.Comandos.Count; i++)
+                str.AppendLine(script.Comandos[i].ToXSE());
+
+            if(addFinishEndOrReturn)
+            {
+                if (script.IsEnd)
+                    str.AppendLine("End");
+                else str.AppendLine("Return");
+            }
+
+            return str.ToString();
+
+        }
+        public static string ToXSE(this Comando comando)
+        {
+            MsgBox msgBox;
+            If1 if1;
+            StringBuilder str = new StringBuilder();
+
+            switch (comando.IdComando)
+            {
+                case If1.ID:
+                case If2.ID:
+                    if1 = comando as If1;
+                    str.Append($"if {((Hex)if1.Condicion).ByteString} ");
+                    if (if1.Script.IsEnd)
+                    {
+                        str.Append("goto");
+                    }
+                    else str.Append("call");
+                    str.Append($" @Script{(Hex)if1.Script.IdUnicoTemp}");
+
+                break;
+                case MsgBox.ID:
+                    msgBox = comando as MsgBox;
+                    str.Append($"{msgBox.Nombre} @Texto{((Hex)msgBox.Texto.IdUnicoTemp) } {((Hex) (byte)msgBox.Tipo).ByteString}");
+
+                    break;
+                default:
+                    str.Append(comando.Nombre);
+                    foreach(object obj in comando.GetParams())
+                    {
+
+                    }
+                    break;
+            }
+            return str.ToString();
+
+        
+        }
 
     }
 }

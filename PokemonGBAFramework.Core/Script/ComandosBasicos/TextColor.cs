@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return Edicion.Pokemon.VerdeHoja|Edicion.Pokemon.RojoFuego;
 		}
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Color };
 		}

@@ -56,7 +56,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte Bank { get; set; }
 
         public byte ValueToCompare { get; set; }
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{Bank,ValueToCompare};
 		}

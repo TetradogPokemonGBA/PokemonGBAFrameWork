@@ -60,7 +60,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Byte PersonajeVirtual { get; set; }
 		public Byte Orientacion { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ PersonajeVirtual, Orientacion };
 		}

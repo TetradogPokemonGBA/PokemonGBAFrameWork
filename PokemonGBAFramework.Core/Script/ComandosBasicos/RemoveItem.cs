@@ -60,7 +60,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word ObjetoAQuitar { get; set; }
 
 		public Word Cantidad { get; set; }
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ObjetoAQuitar,Cantidad};
 		}

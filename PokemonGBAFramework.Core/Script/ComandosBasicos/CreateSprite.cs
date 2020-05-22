@@ -68,7 +68,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Byte Comportamiento { get; set; }
         public Byte Orientacion { get; set; }
 
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[] {
 				SpriteAUsar,

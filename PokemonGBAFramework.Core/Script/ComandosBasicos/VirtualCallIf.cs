@@ -45,7 +45,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Byte Condicion { get; set; }
 		public Script Script { get; set; }
 
-		protected override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Condicion, Script };
 		}

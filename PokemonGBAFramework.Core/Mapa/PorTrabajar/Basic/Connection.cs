@@ -50,7 +50,7 @@ namespace PokemonGBAFramework.Core.Mapa
 		}
 
 
-		public static Connection Get(ScriptAndASMManager scriptManager,RomGba rom,int offset)
+		public static Connection Get(RomGba rom,int offset)
 		{
 			Connection connection = new Connection();
 
@@ -60,7 +60,7 @@ namespace PokemonGBAFramework.Core.Mapa
 			offset += OffsetRom.LENGTH;
 			connection.Bank = rom.Data[offset++];
 			connection.Map = rom.Data[offset++];
-			connection.Filler = new Word(rom, offset);
+			connection.Filler = new Word(rom,offset);
 
 			return connection;
 

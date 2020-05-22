@@ -25,7 +25,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             return indices;
         }
 
-        protected override SpriteNPC IGet(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+        protected override SpriteNPC IGet(RomGba rom, int offset)
         {
             return Get(rom, offset);
         }
@@ -34,7 +34,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
         {
             return GetNew((byte)x,(byte) y);
         }
-        public static SpriteNPC Get(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+        public static SpriteNPC Get(RomGba rom, int offset)
         {
             return SpriteNPC.Get(rom, offset);
         }

@@ -23,19 +23,19 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public byte sprVald1;
 		public byte sprVald2;
 		public byte sprVald3;
-		public int FrameSize;
-		public int width;
-		public int height;
-		public int oam1;
-		public int oam2;
-		public long ptr2anim;
-		public long ptrSize; //Pointer to unknown data. Determines sprite size.
-		public long ptrAnim; //Pointer to unknown data. Determines sprite mobility: just one sprite, can only turn (gym leaders) or fully mobile.
-		public long ptrGraphic; //Pointer to pointer to graphics <- not a typo ;)
-		public long LoadCode; //Another unknown pointer.
-		Point pntSz;
+		public Word FrameSize;
+		public Word width;
+		public Word height;
+		public Word oam1;
+		public Word oam2;
+		public OffsetRom ptr2anim;
+		public OffsetRom ptrSize; //Pointer to unknown data. Determines sprite size.
+		public OffsetRom ptrAnim; //Pointer to unknown data. Determines sprite mobility: just one sprite, can only turn (gym leaders) or fully mobile.
+		public OffsetRom ptrGraphic; //Pointer to pointer to graphics <- not a typo ;)
+		public OffsetRom LoadCode; //Another unknown pointer.
+		OffsetRom pntSz;
 		//Class vars
-		public long trueGraphicsPointer;
+		public OffsetRom trueGraphicsPointer;
 		public Collage collage;
 		public Bitmap imgBuffer;
 		public BloqueImagen rawImage;
@@ -190,21 +190,21 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		void Load(RomGba rom,int offset,int spriteColors, int sizeSmall, int sizeNormal, int sizeLarge)
 		{
 
-			StarterWord = new Word(rom, offset);
+			StarterWord = new Word(rom,offset);
 			offset += Word.LENGTH;
 			iPal = rom.Data[offset++];
 			sprVald1 = rom.Data[offset++];
 			sprVald2 = rom.Data[offset++];
 			sprVald3 = rom.Data[offset++];
-			FrameSize = new Word(rom, offset);
+			FrameSize = new Word(rom,offset);
 			offset += Word.LENGTH;
-			width = new Word(rom, offset);
+			width = new Word(rom,offset);
 			offset += Word.LENGTH;
-			height = new Word(rom, offset);
+			height = new Word(rom,offset);
 			offset += Word.LENGTH;
-			oam1 = new Word(rom, offset);
+			oam1 = new Word(rom,offset);
 			offset += Word.LENGTH;
-			oam2 = new Word(rom, offset);
+			oam2 = new Word(rom,offset);
 			offset += Word.LENGTH;
 			
 			ptr2anim = new OffsetRom(rom, offset);

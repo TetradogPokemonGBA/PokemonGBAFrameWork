@@ -103,7 +103,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 offsetTablaMapHeader = GetOffset(rom);
             offset = offsetTablaMapHeader;
 
-            while (OffsetRom.Check(rom, offset))
+            while (OffsetRom.Check(rom,offset))
             {
                 total++;
                 offset += OffsetRom.LENGTH;

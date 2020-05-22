@@ -60,7 +60,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Word Pokemon { get; set; }
         public Word Efecto { get; set; }
 
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Pokemon, Efecto };
 		}

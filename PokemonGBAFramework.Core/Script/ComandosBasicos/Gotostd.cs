@@ -58,7 +58,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte Funcion { get; set; }
         #region implemented abstract members of Comando
 
-        protected override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new object[]{Funcion};
 		}
