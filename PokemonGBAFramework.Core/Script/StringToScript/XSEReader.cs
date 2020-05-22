@@ -285,7 +285,7 @@ namespace PokemonGBAFramework.Core.StringToScript
             bloques.Add(new KeyValuePair<BloqueOrg.TipoOrg, string>(BloqueOrg.TipoOrg.Script, str.ToString()));
             if (todosLosBloquesAnidados)
             {
-                foreach (Script scriptAnidado in script.GetScritps())
+                foreach (Script scriptAnidado in script.GetScripts())
                 {
                     bloques.AddRange(scriptAnidado.ToXSE(todosLosBloquesAnidados, addFinishEndOrReturn));
                 }
@@ -319,6 +319,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                     if (listaBloques[i].Key.Equals(org))
                         lst.Add(listaBloques[i]);
             }
+            lst.Invertir();
             return lst;
         }
         public static string ToXSE(this BloqueString texto)
@@ -351,7 +352,7 @@ namespace PokemonGBAFramework.Core.StringToScript
             StringBuilder str = new StringBuilder();
 
             move.PonMarcaFin();
-            str.AppendLine($"#org @Shop{(Hex)move.IdUnicoTemp}");
+            str.AppendLine($"#org @Move{(Hex)move.IdUnicoTemp}");
             for (int i = 0; i < move.List.Count; i++)
                 str.AppendLine($"#raw 0x{(Hex)move.List[i]}");
 

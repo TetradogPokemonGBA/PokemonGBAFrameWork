@@ -178,7 +178,7 @@ namespace PokemonGBAFramework.Core.Extension
         }
         public static int NextOffsetValido(this int offset)
         {
-            return offset + (4 - offset % 4);//mirar que sea así
+            return offset + (4 - (offset % 4));//mirar que sea así
         }
     }
 }

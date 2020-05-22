@@ -35,7 +35,7 @@ namespace PokemonGBAFramework.Core
         public const byte END = 0x2;
 
         public static readonly Creditos Creditos;
-        static GenIdInt GenId { get; set; }
+        static int GenId { get; set; }
 
 
         
@@ -46,7 +46,7 @@ namespace PokemonGBAFramework.Core
 
         static Script()
         {
-            GenId = new GenIdInt(1);
+            GenId =1;
             Creditos = new Creditos();
             Creditos.Add("XSE", "HackMew", "Hacer la aplicacion y sus explicaciones");
 
@@ -144,8 +144,8 @@ namespace PokemonGBAFramework.Core
                     case SetByte.ID:
                         comandoActual = new SetByte(scriptManager,ptrRom, offsetScript);
                         break;
-                    case LoadPointer.ID:
-                        comandoActual = new LoadPointer(scriptManager,ptrRom, offsetScript);
+                    case MsgBox.ID://LoadPointer
+                        comandoActual = new MsgBox(scriptManager,ptrRom, offsetScript);
                         break;
                     case SetByte2.ID:
                         comandoActual = new SetByte2(scriptManager,ptrRom, offsetScript);
@@ -829,7 +829,7 @@ namespace PokemonGBAFramework.Core
                 return total+aSumar;//le sumo el End/Return
             }
         }
-        public IEnumerable<Script> GetScritps() => Comandos.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
+        public IEnumerable<Script> GetScripts() => Comandos.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
         public IEnumerable<BloqueString> GetStrings() => Comandos.Filtra((c) => c is IString).Select((c) => (c as IString).Texto);
         public IEnumerable<BloqueMovimiento> GetMovimientos() => Comandos.Filtra((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
         public IEnumerable<BloqueBraille> GetBrailles() => Comandos.Filtra((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
@@ -933,12 +933,16 @@ namespace PokemonGBAFramework.Core
 
             return data;
         }
-   
+
 
         #endregion
+
+        static int contador = 0;
         public static int GetIdUnicoTemp()
         {
-            return GenId.Siguiente(GenId.Actual().NextOffsetValido() + 1);//así siempre no será valido y no tendré problemas
+            contador++;
+            GenId=(GenId.NextOffsetValido() + 1);//así siempre no será valido y no tendré problemas
+            return GenId;
         } 
         public static bool? EsUnaFuncionAcabadaEnEndOReturn(Comando comando)
         {

@@ -45,7 +45,7 @@ namespace PokemonGBAFramework.Core
         public static implicit operator ushort(Word word)
         {
 
-            return Serializar.ToUShort(word.Data.InvertirClone());
+            return Serializar.ToUShort(word.Data);
         }
 
         public static implicit operator Word(ushort word)

@@ -56,7 +56,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			Condicion = ptrRom[offsetComando];
 			offsetComando++;
 			offset = new OffsetRom(ptrRom, offsetComando);
-			offset.BytesPointer.Invertir();//podria ser que por optimizar en la GBA se lean así los pointers desde los comandos...
+			//offset.BytesPointer.Invertir();//podria ser que por optimizar en la GBA se lean así los pointers desde los comandos...
 			Script = scriptManager.GetScript(ptrRom,offset);
  
 		}

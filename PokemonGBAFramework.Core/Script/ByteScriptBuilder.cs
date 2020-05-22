@@ -18,7 +18,7 @@ namespace PokemonGBAFramework.Core.BuildScript
         {
             if (!DicScripts.ContainsKey(script.IdUnicoTemp))
                 DicScripts.Add(script.IdUnicoTemp, script);
-            AddRange(script.GetScritps().ToArray());
+            AddRange(script.GetScripts().ToArray());
         }
         public void AddRange(IList<Script> scripts)
         {

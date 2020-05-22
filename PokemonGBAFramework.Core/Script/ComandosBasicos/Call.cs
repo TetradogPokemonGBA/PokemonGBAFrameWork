@@ -53,7 +53,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager, byte* ptrRom,int offsetActual)
 		{
-			 Script=scriptManager.GetScript(ptrRom,offsetActual);
+			 Script=scriptManager.GetScript(ptrRom,new OffsetRom(ptrRom, offsetActual));
 		}
 
 		public override byte[] GetBytesTemp()
