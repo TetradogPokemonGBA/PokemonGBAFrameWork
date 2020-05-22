@@ -9,15 +9,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of VirtualMsgBox.
 	/// </summary>
-	public class VirtualMsgBox:Comando
+	public class VirtualMsgBox:VirtualLoadPointer
 	{
-		public const byte ID = 0xBD;
-		public const int SIZE = 5;
-		OffsetRom text;
- 
-		public VirtualMsgBox(OffsetRom text)
+		public new const byte ID = 0xBD;
+		public new const string NOMBRE = "VirtualMsgBox";
+		public new const string DESCRIPCION = "Prepara un puntero para ser usado en una caja de texto.";
+
+
+		public VirtualMsgBox() { }
+		public VirtualMsgBox(BloqueString text):base(text)
 		{
-			Text = text;
  
 		}
    
@@ -33,45 +34,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Prepara un puntero para ser usado en una caja de texto.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "VirtualMsgBox";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom Text {
-			get{ return text; }
-			set{ text = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ text };
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			text = new OffsetRom(ptrRom, offsetComando);
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			OffsetRom.Set(ptrRomPosicionado, text);
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+
 	}
 }

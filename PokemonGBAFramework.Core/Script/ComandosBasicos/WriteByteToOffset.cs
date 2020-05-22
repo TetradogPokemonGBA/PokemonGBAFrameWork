@@ -17,8 +17,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class WriteByteToOffset:SetByte
 	{
 		public new const byte ID = 0x11;
-		public new const int SIZE = 0x6;
-        public new const string NOMBRE= "Writebytetooffset";
+		public new const int SIZE = SetByte.SIZE+OffsetRom.LENGTH;
+        public new const string NOMBRE= "WriteByteToOffset";
         public new const string DESCRIPCION= "Inserta el byte en el offset especificado";
 
 		public WriteByteToOffset() { }
@@ -72,15 +72,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			base.CargarCamando(ptrRom, offsetComando);
-            offsetComando += base.Size;
+			base.CargarCamando(scriptManager,ptrRom, offsetComando);
+            offsetComando += base.ParamsSize;
 			OffsetToWrite = new OffsetRom(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
+
 			data[0]=IdComando;
-			OffsetRom.Set(data,1, OffsetToWrite);
+			data[1] = base.ByteAPoner;
+			OffsetRom.Set(data,2, OffsetToWrite);
+
 			return data;
 		}
 	}
@@ -90,6 +93,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public new const byte ID = 0x13;
         public new const string NOMBRE= "Setfarbyte";
         public new const string DESCRIPCION= "Inserta el byte en la dirección especificada";
+
+		public SetFarByte() { }
         public SetFarByte(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{

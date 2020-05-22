@@ -9,15 +9,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of VirtualLoadPointer.
 	/// </summary>
-	public class VirtualLoadPointer:Comando
+	public class VirtualLoadPointer:Comando,IString
 	{
 		public const byte ID = 0xBE;
-		public const int SIZE = 5;
-		OffsetRom text;
- 
-		public VirtualLoadPointer(OffsetRom text)
+		public new const int SIZE = Comando.SIZE+OffsetRom.LENGTH;
+		public const string NOMBRE = "VirtualLoadPointer";
+		public const string DESCRIPCION = "Prepara un pointer para un dialogo de texto.";
+
+
+
+		public VirtualLoadPointer() { }
+		public VirtualLoadPointer(BloqueString text)
 		{
-			Text = text;
+			Texto = text;
  
 		}
    
@@ -33,45 +37,29 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Prepara un pointer para un dialogo de texto.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "VirtualLoadPointer";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom Text {
-			get{ return text; }
-			set{ text = value; }
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public BloqueString Texto { get; set; }
 
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ text };
+			return new Object[]{ Texto };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			text = new OffsetRom(ptrRom, offsetComando);
+			Texto =BloqueString.Get(ptrRom, new OffsetRom(ptrRom, offsetComando));
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			OffsetRom.Set(ptrRomPosicionado, text);
+			
+			data[0]=IdComando;
+			OffsetRom.Set(data,1,new OffsetRom(Texto.IdUnicoTemp));
+
+			return data;
 		}
 	}
 }

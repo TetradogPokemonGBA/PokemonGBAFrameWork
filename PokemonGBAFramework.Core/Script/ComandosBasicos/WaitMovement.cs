@@ -14,9 +14,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	{
 		public const byte JUGADOR = 0xFF;
 		public const byte ID = 0x51;
-		public new const int SIZE = 3;
-
-		private Word persona;
+		public new const int SIZE = Comando.SIZE+Word.LENGTH;
+		public const string NOMBRE = "WaitMovement";
+		public const string DESCRIPCION = "Espera a que el ApplyMovement acabe";
 
 		public WaitMovement():this(JUGADOR)
 		{
@@ -35,47 +35,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion
-		{
-			get
-			{
-				return "Espera a que el ApplyMovement acabe";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando
-		{
-			get
-			{
-				return ID;
-			}
-		}
-		public override string Nombre
-		{
-			get
-			{
-				return "WaitMovement";
-			}
-		}
-		public override int Size
-		{
-			get
-			{
-				return SIZE;
-			}
-		}
-		public Word Persona
-		{
-			get => persona; 
-			set {
-
-				if (value == default)
-					value = new Word();
-
-				persona = value;
-			}
-		}
-		protected override unsafe void CargarCamando(byte* ptrRom, int offsetComando)
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public Word Persona { get; set; }
+		protected override unsafe void CargarCamando(ScriptAndASMManager scriptAndASMManager,byte* ptrRom, int offsetComando)
 		{
 			Persona = new Word(ptrRom, offsetComando);
 		}
@@ -83,11 +49,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return new object[] { Persona };
 		}
-		protected override unsafe void SetComando(byte* ptrRomPosicionado, params int[] parametrosExtra)
+		public override byte[] GetBytesTemp() 
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			Word.SetData(data, , Persona);
+			
+			data[0]=IdComando;
+			Word.SetData(data,1, Persona);
+
+			return data;
 		}
 
 	}

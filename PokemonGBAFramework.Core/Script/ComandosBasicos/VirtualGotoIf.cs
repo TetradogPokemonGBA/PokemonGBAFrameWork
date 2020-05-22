@@ -9,17 +9,18 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of VirtualGotoIf.
 	/// </summary>
-	public class VirtualGotoIf:Comando
+	public class VirtualGotoIf:VirtualCallIf
 	{
-		public const byte ID = 0xBB;
-		public new const int SIZE = 6;
-		Byte condicion;
-		OffsetRom funcionPersonalizada;
- 
-		public VirtualGotoIf(Byte condicion, OffsetRom funcionPersonalizada)
+		public new const byte ID = 0xBB;
+		public new const string NOMBRE = "VirtualGotoIf";
+		public new const string DESCRIPCION = "Salta asta la función si cumple con la condición.";
+
+
+
+		public VirtualGotoIf() { }
+		public VirtualGotoIf(Byte condicion, Script funcionPersonalizada):base(condicion,funcionPersonalizada)
 		{
-			Condicion = condicion;
-			FuncionPersonalizada = funcionPersonalizada;
+
  
 		}
    
@@ -35,54 +36,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Salta asta la función si cumple con la condición.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "VirtualGotoIf";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Byte Condicion {
-			get{ return condicion; }
-			set{ condicion = value; }
-		}
-		//si es un script poner el script directamente :) e implementar la interficie IDeclaracion
-		public OffsetRom FuncionPersonalizada {
-			get{ return funcionPersonalizada; }
-			set{ funcionPersonalizada = value; }
-		}
- 
-		protected override System.Collections.Generic.IList<object> GetParams()
-		{
-			return new Object[]{ condicion, funcionPersonalizada };
-		}
-		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
-		{
-			condicion = ptrRom[offsetComando];
-			offsetComando++;
-			funcionPersonalizada = new OffsetRom(ptrRom, offsetComando);
-		}
-		public override byte[] GetBytesTemp()
-		{
-			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = condicion;
-			++ptrRomPosicionado; 
-			OffsetRom.Set(ptrRomPosicionado, funcionPersonalizada);
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+
+
 	}
 }

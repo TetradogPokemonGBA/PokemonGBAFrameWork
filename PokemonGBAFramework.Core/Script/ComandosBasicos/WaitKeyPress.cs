@@ -12,8 +12,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class WaitKeyPress:Comando
 	{
 		public const byte ID = 0x6D;
-		public const int SIZE = 1;
-  
+		public const string NOMBRE = "WaitKeyPress";
+		public const string DESCRIPCION = "Espera hasta que se pulsa una tecla";
+
+
 		public WaitKeyPress()
 		{
    
@@ -31,28 +33,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Espera hasta que se pulsa una tecla";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "WaitKeyPress";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-                         
-		
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+
+
+
 	}
 }

@@ -16,6 +16,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class WaitFanFare:Comando
 	{
 		public const byte ID = 0x32;
+		public const string NOMBRE = "WaitFanFare";
+		public const string DESCRIPCION = "Espera a que acabe la reproduccion de un fanfare";
 
 		public WaitFanFare()
 		{
@@ -32,21 +34,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Espera a que acabe la reproduccion de un fanfare";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "WaitFanFare";
-			}
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
 	}
 }

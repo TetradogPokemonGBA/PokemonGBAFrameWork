@@ -9,15 +9,17 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of VirtualCall.
 	/// </summary>
-	public class VirtualCall:Comando,IEndScript
+	public class VirtualCall:Comando,IEndScript,IScript
 	{
 		public const byte ID = 0xBA;
-		public const int SIZE = 5;
-		OffsetRom funcionPersonalizada;
- 
-		public VirtualCall(OffsetRom funcionPersonalizada)
+		public new const int SIZE = Comando.SIZE+OffsetRom.LENGTH;
+		public const string NOMBRE = "VirtualCall";
+		public const string DESCRIPCION = "Llama a la función.";
+
+		public VirtualCall() { }
+		public VirtualCall(Script funcionPersonalizada)
 		{
-			FuncionPersonalizada = funcionPersonalizada;
+			Script = funcionPersonalizada;
  
 		}
    
@@ -33,46 +35,30 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			: base(scriptManager,ptRom, offset)
 		{
 		}
-		public override string Descripcion {
-			get {
-				return "Llama a la función.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "VirtualCall";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public OffsetRom FuncionPersonalizada {
-			get{ return funcionPersonalizada; }
-			set{ funcionPersonalizada = value; }
-		}
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public Script Script { get; set; }
 
-        public bool IsEnd => false;
+		public virtual bool IsEnd => false;
         protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{ funcionPersonalizada };
+			return new Object[]{ Script };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			funcionPersonalizada = new OffsetRom(ptrRom, offsetComando);
+			Script =scriptManager.GetScript(ptrRom, new OffsetRom(ptrRom, offsetComando));
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			OffsetRom.Set(ptrRomPosicionado, funcionPersonalizada);
+			
+			data[0]=IdComando;
+			OffsetRom.Set(data,1,new OffsetRom(Script.IdUnicoTemp));
+			
+			return data;
 		}
 	}
 }

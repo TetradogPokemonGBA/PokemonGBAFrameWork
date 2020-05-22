@@ -17,11 +17,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	{
 		public const byte ID = 0x3C;
 
-		public const int SIZE = 3;
-		
-		byte bank;
-		byte map;
-		
+		public new const int SIZE = Comando.SIZE+1+1;
+
+		public  const string NOMBRE = "WarpHole";
+		public  const string DESCRIPCION = "Cambia al jugador a otro mapa con el efecto agujero";
+		public WarpHole() { }
 		public WarpHole(byte bank, byte map)
 		{
 			Bank = bank;
@@ -45,7 +45,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "WarpHole";
+				return NOMBRE;
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Cambia al jugador a otro mapa con el efecto agujero";
+				return DESCRIPCION;
 			}
 		}
 		public override int Size {
@@ -66,39 +66,27 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			}
 		}
 
-		public byte Bank {
-			get {
-				return bank;
-			}
-			set {
-				bank = value;
-			}
-		}
+		public byte Bank { get; set; }
 
-		public byte Map {
-			get {
-				return map;
-			}
-			set {
-				map = value;
-			}
-		}
+		public byte Map { get; set; }
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Bank, Map };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			bank = ptrRom[offsetComando++];
-			map = ptrRom[offsetComando];
+			Bank = ptrRom[offsetComando++];
+			Map = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = bank;
-			 data[0]=IdComando;
-			*ptrRomPosicionado = map;
+			 
+			data[0]=IdComando;
+			data[1]= Bank;
+			data[2] = Map;
+
+			return data;
 		}
 
 	}

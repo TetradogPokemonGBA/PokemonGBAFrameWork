@@ -288,8 +288,8 @@ namespace PokemonGBAFramework.Core
                     case Warp3.ID:
                         comandoActual = new Warp3(scriptManager,ptrRom, offsetScript);
                         break;
-                    case SetWarpplace.ID:
-                        comandoActual = new SetWarpplace(scriptManager,ptrRom, offsetScript);
+                    case SetWarpPlace.ID:
+                        comandoActual = new SetWarpPlace(scriptManager,ptrRom, offsetScript);
                         break;
                     case Warp4.ID:
                         comandoActual = new Warp4(scriptManager,ptrRom, offsetScript);

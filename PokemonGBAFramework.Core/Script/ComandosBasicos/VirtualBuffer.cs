@@ -9,17 +9,19 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of VirtualBuffer.
 	/// </summary>
-	public class VirtualBuffer:Comando
+	public class VirtualBuffer:Comando,IString
 	{
 		public const byte ID=0xBF;
-		public new const int SIZE=6;
-		Byte buffer;
-		OffsetRom texto;
-		
-		public VirtualBuffer(Byte buffer,OffsetRom texto)
+		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
+		public const string NOMBRE = "VirtualBuffer";
+		public const string DESCRIPCION = "Almacena el texto en el buffer especificado.";
+
+
+		public VirtualBuffer() { }
+		public VirtualBuffer(Byte buffer,BloqueString texto)
 		{
 			Buffer=buffer;
-			String=texto;
+			Texto=texto;
 			
 		}
 		
@@ -30,55 +32,33 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{}
 		public unsafe VirtualBuffer(ScriptAndASMManager scriptManager,byte* ptRom,int offset):base(scriptManager,ptRom,offset)
 		{}
-		public override string Descripcion {
-			get {
-				return "Almacena el texto en el buffer especificado.";
-			}
-		}
+		public override string Descripcion => DESCRIPCION;
 
-		public override byte IdComando {
-			get {
-				return ID;
-			}
-		}
-		public override string Nombre {
-			get {
-				return "VirtualBuffer";
-			}
-		}
-		public override int Size {
-			get {
-				return SIZE;
-			}
-		}
-		public Byte Buffer
-		{
-			get{ return buffer;}
-			set{buffer=value;}
-		}
-		public OffsetRom String
-		{
-			get{ return texto;}
-			set{texto=value;}
-		}
-		
+		public override byte IdComando => ID;
+		public override string Nombre => NOMBRE;
+		public override int Size => SIZE;
+		public Byte Buffer { get; set; }
+		public BloqueString Texto { get; set; }
+
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
-			return new Object[]{buffer,texto};
+			return new Object[]{Buffer,Texto};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			buffer=*(ptrRom+offsetComando);
+			Buffer=*(ptrRom+offsetComando);
 			offsetComando++;
-			texto=new OffsetRom(ptrRom,offsetComando);
+			Texto=BloqueString.Get(ptrRom, new OffsetRom(ptrRom,offsetComando));
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado=buffer;
-			++ptrRomPosicionado;
-			OffsetRom.Set(ptrRomPosicionado,texto);
+			 
+			data[0]=IdComando;
+			data[1]=Buffer;
+			OffsetRom.Set(data,2,new OffsetRom(Texto.IdUnicoTemp));
+
+			return data;
 		}
 	}
 }

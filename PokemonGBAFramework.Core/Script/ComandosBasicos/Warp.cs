@@ -16,14 +16,11 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class Warp:Comando
 	{
 		public const byte ID = 0x39;
-		public const int SIZE = 8;
+		public new const int SIZE = Comando.SIZE+1+1+1+Word.LENGTH+Word.LENGTH;
+		public const string NOMBRE = "Warp";
+		public const string DESCRIPCION = "Mueve al player a otro mapa";
 
-		byte bank;
-		byte map;
-		byte exit;
-		Word coordenadaX;
-		Word coordenadaY;
-		
+		public Warp() { }
 		public Warp(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 		{
 			Bank = bank;
@@ -49,7 +46,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Warp";
+				return NOMBRE;
 			}
 		}
 
@@ -61,7 +58,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa";
+				return DESCRIPCION;
 			}
 		}
 
@@ -70,83 +67,50 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		
-		public byte Bank {
-			get {
-				return bank;
-			}
-			set {
-				bank = value;
-			}
-		}
 
-		public byte Map {
-			get {
-				return map;
-			}
-			set {
-				map = value;
-			}
-		}
+		public byte Bank { get; set; }
 
-		public byte Exit {
-			get {
-				return exit;
-			}
-			set {
-				exit = value;
-			}
-		}
+		public byte Map { get; set; }
 
-		public Word CoordenadaX {
-			get {
-				return coordenadaX;
-			}
-			set {
-				coordenadaX = value;
-			}
-		}
+		public byte Exit { get; set; }
 
-		public Word CoordenadaY {
-			get {
-				return coordenadaY;
-			}
-			set {
-				coordenadaY = value;
-			}
-		}
+		public Word CoordenadaX { get; set; }
+
+		public Word CoordenadaY { get; set; }
 		protected override System.Collections.Generic.IList<object> GetParams()
 		{
 			return new Object[]{ Bank, Map, Exit, CoordenadaX, CoordenadaY };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
-			bank = ptrRom[offsetComando++];
-			map = ptrRom[offsetComando++];
-			exit = ptrRom[offsetComando++];
-			coordenadaX = new Word(ptrRom, offsetComando);
+			Bank = ptrRom[offsetComando++];
+			Map = ptrRom[offsetComando++];
+			Exit = ptrRom[offsetComando++];
+			CoordenadaX = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			coordenadaY = new Word(ptrRom, offsetComando);
+			CoordenadaY = new Word(ptrRom, offsetComando);
 		}
 		public override byte[] GetBytesTemp()
 		{
 			byte[] data=new byte[Size];
-			 data[0]=IdComando;
-			*ptrRomPosicionado = bank;
-			 data[0]=IdComando;
-			*ptrRomPosicionado = map;
-			 data[0]=IdComando;
-			*ptrRomPosicionado = exit;
-			 data[0]=IdComando;
-			Word.SetData(data, , coordenadaX);
- 
-			Word.SetData(data, , coordenadaY);
+			
+			data[0]=IdComando;
+			data[1] = Bank;
+			data[2] = Map;
+			data[3]= Exit;
+			Word.SetData(data,4, CoordenadaX);
+			Word.SetData(data,6, CoordenadaY);
+
+			return data;
 		}
 	}
 	public class WarpWalk:Warp
 	{
-		public const byte ID = 0x3B;
+		public new const byte ID = 0x3B;
+		public new const string NOMBRE = "WarpWalk";
+		public new const string DESCRIPCION = "Mueve al player a otro mapa con el sonido de anadar";
 
+		public WarpWalk() { }
 		public WarpWalk(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
@@ -169,7 +133,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "WarpWalk";
+				return NOMBRE;
+				
 			}
 		}
 
@@ -181,14 +146,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa con el sonido de anadar";
+				return DESCRIPCION;
 			}
 		}
 	}
 	public class WarpTeleport:Warp
 	{
-		public const byte ID = 0x3D;
-
+		public new const byte ID = 0x3D;
+		public new const string NOMBRE = "WarpTeleport";
+		public new const string DESCRIPCION = "Mueve al player a otro mapa con el efecto teletransportación";
+		public WarpTeleport() { }
 		public WarpTeleport(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
@@ -211,7 +178,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "WarpTeleport";
+				return NOMBRE;
 			}
 		}
 
@@ -223,14 +190,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa con el efecto teletransportación";
+				return DESCRIPCION;
 			}
 		}
 	}
 	public class Warp3:Warp
 	{
-		public const byte ID = 0x3E;
-
+		public new const byte ID = 0x3E;
+		public new const string NOMBRE = "Warp3";
+		public new const string DESCRIPCION = "Mueve al player a otro mapa";
+		public Warp3() { }
 		public Warp3(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
@@ -253,7 +222,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Warp3";
+				return NOMBRE;
+					
 			}
 		}
 
@@ -265,14 +235,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa";
+				return DESCRIPCION;
 			}
 		}
 	}
 	public class Warp4:Warp
 	{
-		public const byte ID = 0x40;
-
+		public new const byte ID = 0x40;
+		public new const string NOMBRE = "Warp4";
+		public new const string DESCRIPCION = "Mueve al player a otro mapa";
+		public Warp4() { }
 		public Warp4(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
@@ -295,7 +267,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Warp4";
+				return NOMBRE;
 			}
 		}
 
@@ -307,13 +279,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa";
+				return DESCRIPCION;
 			}
 		}
 	}
 	public class Warp5:Warp
 	{
-		public const byte ID = 0x41;
+		public new const byte ID = 0x41;
+		public new const string NOMBRE = "Warp5";
+		public new const string DESCRIPCION = "Mueve al player a otro mapa";
+		public Warp5() { }
 		public Warp5(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
@@ -336,7 +311,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "Warp5";
+				return NOMBRE;
 			}
 		}
 
@@ -348,14 +323,16 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa";
+				return DESCRIPCION;
 			}
 		}
 	}
 	public class WarpMuted:Warp
 	{
-		public const byte ID = 0x3A;
-
+		public new const byte ID = 0x3A;
+		public new const string NOMBRE = "WarpMuted";
+		public new const string DESCRIPCION = "Mueve al player a otro mapa sin hacer el sonar el efecto";
+		public WarpMuted() { }
 		public WarpMuted(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
@@ -378,7 +355,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Nombre {
 			get {
-				return "WarpMuted";
+				return NOMBRE;
 			}
 		}
 
@@ -390,37 +367,39 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "Mueve al player a otro mapa sin hacer el sonar el efecto";
+				return DESCRIPCION;
 			}
 		}
 	}
-	public class SetWarpplace:Warp
+	public class SetWarpPlace:Warp
 	{
-		public const byte ID = 0x3F;
-
-		public SetWarpplace(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
+		public new const byte ID = 0x3F;
+		public new const string NOMBRE = "SetWarpplace";
+		public new const string DESCRIPCION = "sets the place a warp that lead to warp 127 of map 127.127 warps the player";
+		public SetWarpPlace() { }
+		public SetWarpPlace(byte bank, byte map, byte exit, Word coordenadaX, Word coordenadaY)
 			: base(bank, map, exit, coordenadaX, coordenadaY)
 		{
 
 		}
-		public SetWarpplace(ScriptAndASMManager scriptManager,RomGba rom, int offset)
+		public SetWarpPlace(ScriptAndASMManager scriptManager,RomGba rom, int offset)
 			 : base(scriptManager,rom, offset)
 		{
 		}
 
-		public SetWarpplace(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
+		public SetWarpPlace(ScriptAndASMManager scriptManager,byte[] bytesScript, int offset)
 			: base(scriptManager,bytesScript, offset)
 		{
 		}
 
-		public unsafe SetWarpplace(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
+		public unsafe SetWarpPlace(ScriptAndASMManager scriptManager,byte* ptRom, int offset)
 			: base(scriptManager,ptRom, offset)
 		{
 		}
 
 		public override string Nombre {
 			get {
-				return "SetWarpplace";
+				return NOMBRE;
 			}
 		}
 
@@ -432,7 +411,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public override string Descripcion {
 			get {
-				return "sets the place a warp that lead to warp 127 of map 127.127 warps the player";
+				return DESCRIPCION;
 			}
 		}
 	}
