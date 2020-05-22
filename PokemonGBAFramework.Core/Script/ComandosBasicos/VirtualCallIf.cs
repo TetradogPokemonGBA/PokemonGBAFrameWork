@@ -2,6 +2,7 @@
  * Usuario: Pikachu240
  * Licencia GNU GPL V3
  */
+using Gabriel.Cat.S.Extension;
 using System;
 
 namespace PokemonGBAFramework.Core.ComandosScript
@@ -51,9 +52,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
+			OffsetRom offset;
 			Condicion = ptrRom[offsetComando];
 			offsetComando++;
-			Script =scriptManager.GetScript(ptrRom, new OffsetRom(ptrRom, offsetComando));
+			offset = new OffsetRom(ptrRom, offsetComando);
+			offset.BytesPointer.Invertir();//podria ser que por optimizar en la GBA se lean así los pointers desde los comandos...
+			Script = scriptManager.GetScript(ptrRom,offset);
  
 		}
 		public override byte[] GetBytesTemp()

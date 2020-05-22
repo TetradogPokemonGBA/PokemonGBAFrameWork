@@ -286,5 +286,6 @@ namespace PokemonGBAFramework.Core
 
 
         }
+
     }
 }

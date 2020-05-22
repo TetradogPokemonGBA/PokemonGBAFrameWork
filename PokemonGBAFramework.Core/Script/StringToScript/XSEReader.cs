@@ -10,24 +10,25 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core.StringToScript
 {
+    public class BloqueOrg
+    {
+        public enum TipoOrg
+        {
+            String,Braille, Movement, Script, Tienda//#raw word 0xFFFF acaba en #raw word 0x0
+        }
+        public TipoOrg Tipo { get; set; }
+        public string Id { get; set; }
+        public Script Script { get; set; }
+        public BloqueString Texto { get; set; }
+        public BloqueMovimiento Movimiento { get; set; }
+        public BloqueTienda Tienda { get; set; }
+    }
     public static class XSEReader
     {
         public static readonly string[] ComentariosUnaLinea = { "//", "#" };
 
  
-        class BloqueOrg
-        {
-            public enum TipoOrg
-            {
-                String, Movement, Script,Tienda//#raw word 0xFFFF acaba en #raw word 0x0
-            }
-            public TipoOrg Tipo { get; set; }
-            public string Id { get; set; }
-            public Script Script { get; set; }
-            public BloqueString Texto { get; set; }
-            public BloqueMovimiento Movimiento { get; set; }
-            public BloqueTienda Tienda { get; set; }
-        }
+  
         static Comando GetCommand(TwoKeysList<string, int, BloqueOrg> dicScripts,params string[] camposComando)
         {
             Comando comando;
@@ -94,6 +95,9 @@ namespace PokemonGBAFramework.Core.StringToScript
                                 break;
                             case nameof(BloqueString):
                                 obj = dicScripts[aux].Texto;
+                                break;
+                            case nameof(BloqueBraille):
+                                obj =new BloqueBraille() { Texto = dicScripts[aux].Texto };
                                 break;
                             case nameof(Word):
                                 obj = new Word(ushort.Parse(aux));
@@ -260,10 +264,15 @@ namespace PokemonGBAFramework.Core.StringToScript
 
     public static class XSEWriter
     {
-        public static string ToXSE(this Script script,bool addFinishEndOrReturn=true)
+        public static string ToXSEOrdenadoPorBloques(this Script script)
         {
+            return String.Join("\n\r", script.ToXSE(true).Ordena().Select((b) => b.Value));
+        }
+        public static List<KeyValuePair<BloqueOrg.TipoOrg, string>> ToXSE(this Script script,bool todosLosBloquesAnidados=false,bool addFinishEndOrReturn=true)
+        {
+            List<KeyValuePair<BloqueOrg.TipoOrg, string>> bloques = new List<KeyValuePair<BloqueOrg.TipoOrg, string>>();
             StringBuilder str = new StringBuilder();
-            str.AppendLine($"org @Scritp{(Hex)script.IdUnicoTemp}");
+            str.AppendLine($"#org @Scritp{(Hex)script.IdUnicoTemp}");
             for (int i = 0; i < script.Comandos.Count; i++)
                 str.AppendLine(script.Comandos[i].ToXSE());
 
@@ -273,9 +282,80 @@ namespace PokemonGBAFramework.Core.StringToScript
                     str.AppendLine("End");
                 else str.AppendLine("Return");
             }
+            bloques.Add(new KeyValuePair<BloqueOrg.TipoOrg, string>(BloqueOrg.TipoOrg.Script, str.ToString()));
+            if (todosLosBloquesAnidados)
+            {
+                foreach (Script scriptAnidado in script.GetScritps())
+                {
+                    bloques.AddRange(scriptAnidado.ToXSE(todosLosBloquesAnidados, addFinishEndOrReturn));
+                }
+                foreach (BloqueString textos in script.GetStrings())
+                {
+                    bloques.Add(new KeyValuePair<BloqueOrg.TipoOrg, string>(BloqueOrg.TipoOrg.String, textos.ToXSE()));
+                }
+                foreach (BloqueTienda tiendas in script.GetTiendas())
+                {
+                    bloques.Add(new KeyValuePair<BloqueOrg.TipoOrg, string>(BloqueOrg.TipoOrg.Tienda, tiendas.ToXSE()));
+                }
+                foreach (BloqueMovimiento movimientos in script.GetMovimientos())
+                {
+                    bloques.Add(new KeyValuePair<BloqueOrg.TipoOrg, string>(BloqueOrg.TipoOrg.Movement, movimientos.ToXSE()));
+                }
+                foreach (BloqueBraille braille in script.GetBrailles())
+                {
+                    bloques.Add(new KeyValuePair<BloqueOrg.TipoOrg, string>(BloqueOrg.TipoOrg.Braille, braille.ToXSE()));
+                }
+                
+            }
+            return bloques;
+
+        }
+        public static List<KeyValuePair<BloqueOrg.TipoOrg, string>> Ordena(this IList<KeyValuePair<BloqueOrg.TipoOrg,string>> listaBloques)
+        {
+            List<KeyValuePair<BloqueOrg.TipoOrg, string>> lst = new List<KeyValuePair<BloqueOrg.TipoOrg, string>>();
+            foreach(BloqueOrg.TipoOrg org in Enum.GetValues(typeof(BloqueOrg.TipoOrg)))
+            {
+                for (int i = 0; i < listaBloques.Count; i++)
+                    if (listaBloques[i].Key.Equals(org))
+                        lst.Add(listaBloques[i]);
+            }
+            return lst;
+        }
+        public static string ToXSE(this BloqueString texto)
+        {
+            StringBuilder str = new StringBuilder();
+            str.AppendLine($"#org @Texto{(Hex)texto.IdUnicoTemp}");
+            str.Append($"= {texto.Texto}");
+            return str.ToString();
+        }
+        public static string ToXSE(this BloqueBraille braille)
+        {
+            StringBuilder str = new StringBuilder();
+            str.AppendLine($"#org @Braille{(Hex)braille.IdUnicoTemp}");
+            str.Append($"= {braille.Texto}");
+            return str.ToString();
+        }
+        public static string ToXSE(this BloqueTienda tienda)
+        {
+            StringBuilder str = new StringBuilder();
+
+            tienda.PonerFin();
+            str.AppendLine($"#org @Shop{(Hex)tienda.IdUnicoTemp}");
+            for(int i=0;i<tienda.Objetos.Count;i++)
+            str.AppendLine($"#raw word 0x{(Hex)tienda.Objetos[i]}");
 
             return str.ToString();
+        }
+        public static string ToXSE(this BloqueMovimiento move)
+        {
+            StringBuilder str = new StringBuilder();
 
+            move.PonMarcaFin();
+            str.AppendLine($"#org @Shop{(Hex)move.IdUnicoTemp}");
+            for (int i = 0; i < move.List.Count; i++)
+                str.AppendLine($"#raw 0x{(Hex)move.List[i]}");
+
+            return str.ToString();
         }
         public static string ToXSE(this Comando comando)
         {
@@ -306,7 +386,40 @@ namespace PokemonGBAFramework.Core.StringToScript
                     str.Append(comando.Nombre);
                     foreach(object obj in comando.GetParams())
                     {
-
+                        str.Append(" ");
+                        switch (obj.GetType().Name)
+                        {
+                            case nameof(OffsetRom):
+                                str.Append(((Hex)((OffsetRom)obj).Offset).ByteString);
+                                break;
+                            case nameof(DWord):
+                                str.Append(((Hex)(uint)obj).ByteString);
+                                break;
+                            case nameof(Word):
+                                str.Append(((Hex)(uint)ushort.Parse(obj.ToString())).ByteString);
+                                break;
+                            case "byte":
+                            case nameof(Byte):
+                                str.Append(((Hex)int.Parse(obj.ToString())).ByteString);
+                                break;
+                            case nameof(Script):
+                                str.Append("@Script");
+                                str.Append((string)(Hex)((Script)obj).IdUnicoTemp);
+                                break;
+                            case nameof(BloqueMovimiento):
+                                str.Append("@Move");
+                                str.Append((string)(Hex)((BloqueMovimiento)obj).IdUnicoTemp);
+                                break;
+                            case nameof(BloqueTienda):
+                                str.Append("@Shop");
+                                str.Append((string)(Hex)((BloqueTienda)obj).IdUnicoTemp);
+                                break;
+                            case nameof(BloqueString):
+                                str.Append("@Texto");
+                                str.Append((string)(Hex)((BloqueString)obj).IdUnicoTemp);
+                                break;
+                          
+                        }
                     }
                     break;
             }
