@@ -12,7 +12,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class Multichoice2:Comando
 	{
 		public const byte ID = 0x70;
-		public new const int SIZE = Comando.SIZE+Multichoice.SIZE+1;
+		public new const int SIZE = Multichoice.SIZE+1;
         public const string NOMBRE = "Multichoice2";
         public const string DESCRIPCION = "Pone una lista de opciones para que el jugador haga, con opción por defecto";
 

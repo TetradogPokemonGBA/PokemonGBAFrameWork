@@ -12,13 +12,13 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SpriteFace:Comando
 	{
 		public const byte ID = 0x5B;
-		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
+		public new const int SIZE = Comando.SIZE + Word.LENGTH + 1;
 		public const string NOMBRE = "SpriteFace";
 		public const string DESCRIPCION = "Cambia donde mira el sprite";
 
 
 		public SpriteFace() { }
-		public SpriteFace(Word personaje, Word mirandoA)
+		public SpriteFace(Word personaje, byte mirandoA)
 		{
 			Personaje = personaje;
 			MirandoA = mirandoA;
@@ -59,7 +59,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			}
 		}
 		public Word Personaje { get; set; }
-		public Word MirandoA { get; set; }
+		public byte MirandoA { get; set; }
 
 		public override System.Collections.Generic.IList<object> GetParams()
 		{
@@ -69,7 +69,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			MirandoA = new Word(ptrRom, offsetComando);
+			MirandoA = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
@@ -77,7 +77,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			 
 			data[0]=IdComando;
 			Word.SetData(data,1, Personaje);
-			Word.SetData(data,3, MirandoA);
+			data[3] = MirandoA;
 
 			return data;
 		}

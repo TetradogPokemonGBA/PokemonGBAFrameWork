@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferTrainerName";
 		public const string DESCRIPCION="Guarda en el buffer el nombre del entrenador.";
 
+		public BufferTrainerName() { }
         public BufferTrainerName(Byte buffer, Word entrenador)
 		{
 			Buffer = buffer;

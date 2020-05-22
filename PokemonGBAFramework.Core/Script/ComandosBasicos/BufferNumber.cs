@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferNumber";
 		public const string DESCRIPCION="Variable version on buffernumber.";
 
+		public BufferNumber() { }
         public BufferNumber(Byte buffer,Word variableToStore)
 		{
 			Buffer=buffer;

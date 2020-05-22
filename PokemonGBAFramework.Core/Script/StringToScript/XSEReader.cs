@@ -54,7 +54,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                     break;
                 default:
 
-                    commandType = Comando.DicTypes[camposComando[0]];
+                    commandType = Comando.DicTypes[camposComando[0]].GetType();
                     comando = (Comando)Activator.CreateInstance(commandType);
                     EndLoadCommand(comando, dicScripts, camposComando);
                     break;
@@ -272,7 +272,7 @@ namespace PokemonGBAFramework.Core.StringToScript
         {
             List<KeyValuePair<BloqueOrg.TipoOrg, string>> bloques = new List<KeyValuePair<BloqueOrg.TipoOrg, string>>();
             StringBuilder str = new StringBuilder();
-            str.AppendLine($"#org @Scritp{(Hex)script.IdUnicoTemp}");
+            str.AppendLine($"#org @Script{(Hex)script.IdUnicoTemp}");
             for (int i = 0; i < script.Comandos.Count; i++)
                 str.AppendLine(script.Comandos[i].ToXSE());
 
@@ -390,7 +390,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                         switch (obj.GetType().Name)
                         {
                             case nameof(OffsetRom):
-                                str.Append(((Hex)((OffsetRom)obj).Offset).ByteString);
+                                str.Append("0x"+obj.ToString());
                                 break;
                             case nameof(DWord):
                                 str.Append(((Hex)(uint)obj).ByteString);

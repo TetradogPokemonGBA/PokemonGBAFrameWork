@@ -23,22 +23,26 @@ namespace PokemonGBAFramework.Core
 	public abstract class Comando
 	{
 		public const int SIZE = 1;
-        public static readonly LlistaOrdenada<string, Type> DicTypes;
+        public static readonly LlistaOrdenada<string, Comando> DicTypes;
 
         static Comando()
         {
             Assembly assembly = Assembly.Load("PokemonGBAFramework.Core");
             Type[] types = assembly.GetTypes();
-            DicTypes = new LlistaOrdenada<string, Type>();
+			Comando aux;
+			DicTypes = new LlistaOrdenada<string, Comando>();
 
 
             for (int i = 0; i < types.Length; i++)
             {
 				if (types[i].FullName.Contains("ComandosScript"))
-					DicTypes.Add(types[i].Name.ToLower(), types[i]);
+				{
+					aux = Activator.CreateInstance(types[i]) as Comando;
+					if(aux!=default)
+					DicTypes.Add(types[i].Name.ToLower(), aux);
+				}
             }
-			//DicTypes.Add("msgbox", typeof(LoadPointer));
-			DicTypes.Add("if", typeof(If1));
+			DicTypes.Add("if", new If1());
         }
         internal Comando()
 		{

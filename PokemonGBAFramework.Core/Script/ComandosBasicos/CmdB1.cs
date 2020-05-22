@@ -3,7 +3,7 @@
  * Licencia GNU GPL V3
  */
 using System;
-
+//en el XSE esta mal en verdad no tiene parametros source:http://www.sphericalice.com/romhacking/documents/script/index.html#c-B1
 namespace PokemonGBAFramework.Core.ComandosScript
 {
 	/// <summary>

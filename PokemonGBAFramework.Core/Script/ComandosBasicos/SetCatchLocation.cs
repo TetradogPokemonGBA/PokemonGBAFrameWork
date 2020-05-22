@@ -12,12 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SetCatchLocation:Comando
 	{
 		public const byte ID = 0xD2;
-		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH;
+		public new const int SIZE = Comando.SIZE + Word.LENGTH + 1;
 		public const string NOMBRE= "SetCatchLocation";
 		public const string DESCRIPCION = "Cambia el lugar donde se ha capturado un pokemon del equipo.";
 		public SetCatchLocation() { }
 
-		public SetCatchLocation(Word pokemon, Word catchLocation)
+		public SetCatchLocation(Word pokemon, byte catchLocation)
 		{
 			Pokemon = pokemon;
 			CatchLocation = catchLocation;
@@ -42,7 +42,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override string Nombre => NOMBRE;
 		public override int Size => SIZE;
 		public Word Pokemon { get; set; }
-		public Word CatchLocation { get; set; }
+		public byte CatchLocation { get; set; }
 
 		public override System.Collections.Generic.IList<object> GetParams()
 		{
@@ -52,7 +52,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Pokemon = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			CatchLocation = new Word(ptrRom, offsetComando);
+			CatchLocation = ptrRom[offsetComando];
 		}
 		public override byte[] GetBytesTemp()
 		{
@@ -60,7 +60,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 			data[0]=IdComando;
 			Word.SetData(data,1, Pokemon);
-			Word.SetData(data,3, CatchLocation);
+			data[3] = CatchLocation;
 
 			return data;
 		}

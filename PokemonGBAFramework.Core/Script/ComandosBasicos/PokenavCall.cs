@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string DESCRIPCION= "Muestra una llamada del Pokenav.";
 		public const string NOMBRE= "PokenavCall";
 
+		public PokenavCall() { }
 
 		public PokenavCall(BloqueString text)
 		{

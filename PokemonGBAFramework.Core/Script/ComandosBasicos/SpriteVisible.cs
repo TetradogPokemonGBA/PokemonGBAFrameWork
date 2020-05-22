@@ -12,12 +12,12 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	public class SpriteVisible:Comando
 	{
 		public const byte ID = 0x58;
-		public new const int SIZE = Comando.SIZE+Word.LENGTH+Word.LENGTH+Word.LENGTH;
+		public new const int SIZE = Comando.SIZE+Word.LENGTH+1+1;
 		public const string NOMBRE = "SpriteVisible";
 		public const string DESCRIPCION = "Hace visible un sprite del mapa y bank seleccionado";
 
 		public SpriteVisible() { }
-		public SpriteVisible(Word personaje, Word bank, Word mapa)
+		public SpriteVisible(Word personaje, byte bank, byte mapa)
 		{
 			Personaje = personaje;
 			Bank = bank;
@@ -59,8 +59,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			}
 		}
 		public Word Personaje { get; set; }
-		public Word Bank { get; set; }
-		public Word Mapa { get; set; }
+		public byte Bank { get; set; }
+		public byte Mapa { get; set; }
 
 		public override System.Collections.Generic.IList<object> GetParams()
 		{
@@ -70,9 +70,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Personaje = new Word(ptrRom, offsetComando);
 			offsetComando += Word.LENGTH;
-			Bank = new Word(ptrRom, offsetComando);
-			offsetComando += Word.LENGTH;
-			Mapa = new Word(ptrRom, offsetComando);
+			Bank = ptrRom[offsetComando++];
+			Mapa = ptrRom[offsetComando++];
 		}
 		public override byte[] GetBytesTemp()
 		{
@@ -80,8 +79,8 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			 
 			data[0]=IdComando;
 			Word.SetData(data,1, Personaje);
-			Word.SetData(data,3, Bank);
-			Word.SetData(data,5, Mapa);
+			data[3] = Bank;
+			data[4] = Mapa;
 
 			return data;
 		}

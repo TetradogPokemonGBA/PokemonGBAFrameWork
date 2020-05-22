@@ -16,6 +16,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public const string NOMBRE="BufferString";
 		public const string DESCRIPCION="Guarda una string en el Buffer especificado";
 
+		public BufferString() { }
         public BufferString(Byte buffer,BloqueString texto)
 		{
 			Buffer=buffer;
