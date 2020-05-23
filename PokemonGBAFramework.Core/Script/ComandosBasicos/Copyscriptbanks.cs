@@ -60,9 +60,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte BankDestination { get; set; }
 
         public byte BankSource { get; set; }
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{BankDestination,BankSource};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(BankDestination)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(BankSource))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

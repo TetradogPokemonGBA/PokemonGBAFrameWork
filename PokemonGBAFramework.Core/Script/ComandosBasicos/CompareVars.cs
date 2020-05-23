@@ -47,9 +47,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word VariableA { get; set; }
 
         public Word VariableB { get; set; }
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{VariableA,VariableB};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(VariableA)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(VariableB))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

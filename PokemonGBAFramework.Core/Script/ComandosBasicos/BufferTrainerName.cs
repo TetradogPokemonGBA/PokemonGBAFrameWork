@@ -63,9 +63,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return Edicion.Pokemon.Esmeralda;
 		}
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{ Buffer, Entrenador };
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Buffer)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Entrenador)) };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

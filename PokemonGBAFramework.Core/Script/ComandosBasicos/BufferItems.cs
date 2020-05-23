@@ -63,9 +63,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			return Edicion.Pokemon.VerdeHoja|Edicion.Pokemon.RojoFuego;
 		}
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return base.GetParams().AfegirValor(Cantidad) ;
+			return base.GetParams().AfegirValor(new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Cantidad))) ;
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

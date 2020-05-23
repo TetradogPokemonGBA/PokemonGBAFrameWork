@@ -64,9 +64,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word Tile { get; set; }
 		public Word AtributoTile { get; set; }
 
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{ CoordenadaX, CoordenadaY, Tile, AtributoTile };
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CoordenadaX)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CoordenadaY)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Tile)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(AtributoTile)) };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

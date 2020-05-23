@@ -79,14 +79,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		
 
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[] {
-				KindOfBattle,
-				BattleToStart,
-				Reserved,
-				ChallengeText,
-				DefeatText
+			return new Gabriel.Cat.S.Utilitats.Propiedad[] {
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(KindOfBattle)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(BattleToStart)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Reserved)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(ChallengeText)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(DefeatText))
 			};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)

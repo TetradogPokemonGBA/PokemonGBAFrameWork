@@ -58,9 +58,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public override IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return base.GetParams().AfegirValor(Condicion);
+			return base.GetParams().AfegirValor(new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Condicion)));
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

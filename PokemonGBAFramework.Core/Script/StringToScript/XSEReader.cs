@@ -12,11 +12,25 @@ namespace PokemonGBAFramework.Core.StringToScript
 {
     public class BloqueOrg
     {
+        private TipoOrg tipo;
+
         public enum TipoOrg
         {
-            String,Braille, Movement, Script, Tienda//#raw word 0xFFFF acaba en #raw word 0x0
+            String, Braille, Movement, Script, Tienda//#raw word 0xFFFF acaba en #raw word 0x0
         }
-        public TipoOrg Tipo { get; set; }
+        public TipoOrg Tipo {
+            get => tipo; 
+            set { 
+                tipo = value;
+                switch (tipo)
+                {
+                    case BloqueOrg.TipoOrg.Script: Script = new Script(); break;
+                    case BloqueOrg.TipoOrg.Movement: Movimiento = new BloqueMovimiento(); break;
+                    case BloqueOrg.TipoOrg.String: Texto = new BloqueString(); break;
+                    case BloqueOrg.TipoOrg.Tienda: Tienda = new BloqueTienda(); break;
+                }
+
+            } }
         public string Id { get; set; }
         public Script Script { get; set; }
         public BloqueString Texto { get; set; }
@@ -29,7 +43,7 @@ namespace PokemonGBAFramework.Core.StringToScript
 
  
   
-        static Comando GetCommand(TwoKeysList<string, int, BloqueOrg> dicScripts,params string[] camposComando)
+        static Comando GetCommand(SortedList<string, BloqueOrg> dicScripts,params string[] camposComando)
         {
             Comando comando;
             If1 if1;
@@ -49,7 +63,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                     //msgbox etiqueta/offset 0xTipo
                     msgbox = new MsgBox();
                     msgbox.Texto = dicScripts[camposComando[1]].Texto;
-                    msgbox.Tipo=(MsgBox.MsgBoxTipo) byte.Parse(camposComando[1].Contains('x') ? ((int)(Hex)camposComando[1].Split('x')[1]).ToString() : camposComando[1]);
+                    msgbox.Tipo=(MsgBox.MsgBoxTipo) byte.Parse(camposComando[2].Contains("0x") ? ((int)(Hex)camposComando[2].Split('x')[1]).ToString() : camposComando[2]);
                     comando = msgbox;
                     break;
                 default:
@@ -64,57 +78,56 @@ namespace PokemonGBAFramework.Core.StringToScript
             return comando;
 
         }
-         static void EndLoadCommand(Comando comando, TwoKeysList<string, int, BloqueOrg> dicScripts,string[] camposComandoConId)
+         static void EndLoadCommand(Comando comando, SortedList<string, BloqueOrg> dicScripts,string[] camposComandoConId)
         {
             //falta testing			
             
             object obj;
             string aux = "";
             int pos = 1;
-            List<Propiedad> propiedades = comando.GetPropiedades();
+            IList<Propiedad> propiedades = comando.GetParams();
             try
             {
                 for (int j = 0; j < propiedades.Count; j++)
-                    if (propiedades[j].Info.Uso.HasFlag(UsoPropiedad.Set)) //uso las propiedades con SET 
+                {
+                    aux = camposComandoConId[pos].Contains("x") ? ((int)(Hex)camposComandoConId[pos].Split('x')[1]).ToString() : camposComandoConId[pos];
+                    switch (propiedades[j].Info.Tipo.Name)
                     {
-                        aux = camposComandoConId[pos].Contains("x") ? ((int)(Hex)camposComandoConId[pos].Split('x')[1]).ToString() : camposComandoConId[pos];
-                        switch (propiedades[j].Info.Tipo.Name)
-                        {
-                            case "byte":
-                            case nameof(Byte):
-                                obj = byte.Parse(aux);
-                                break;
-                            case nameof(Script):
-                                obj = dicScripts[aux].Script;
-                                break;
-                            case nameof(BloqueMovimiento):
-                                obj = dicScripts[aux].Movimiento;
-                                break;
-                            case nameof(BloqueTienda):
-                                obj = dicScripts[aux].Tienda ;
-                                break;
-                            case nameof(BloqueString):
-                                obj = dicScripts[aux].Texto;
-                                break;
-                            case nameof(BloqueBraille):
-                                obj =new BloqueBraille() { Texto = dicScripts[aux].Texto };
-                                break;
-                            case nameof(Word):
-                                obj = new Word(ushort.Parse(aux));
-                                break;
-                            case nameof(DWord):
-                                obj = new DWord(uint.Parse(aux));
-                                break;
-                            case nameof(OffsetRom):
-                                obj = new OffsetRom(int.Parse(aux));
-                                break;
-                            default:
-                                obj = default;
-                                break;
-                        }
-                        comando.SetProperty(propiedades[j].Info.Nombre, obj);
-                        pos++;
+                        case "byte":
+                        case nameof(Byte):
+                            obj = byte.Parse(aux);
+                            break;
+                        case nameof(Script):
+                            obj = dicScripts[aux].Script;
+                            break;
+                        case nameof(BloqueMovimiento):
+                            obj = dicScripts[aux].Movimiento;
+                            break;
+                        case nameof(BloqueTienda):
+                            obj = dicScripts[aux].Tienda;
+                            break;
+                        case nameof(BloqueString):
+                            obj = dicScripts[aux].Texto;
+                            break;
+                        case nameof(BloqueBraille):
+                            obj = new BloqueBraille() { Texto = dicScripts[aux].Texto };
+                            break;
+                        case nameof(Word):
+                            obj = new Word(ushort.Parse(aux));
+                            break;
+                        case nameof(DWord):
+                            obj = new DWord(uint.Parse(aux));
+                            break;
+                        case nameof(OffsetRom):
+                            obj = new OffsetRom(int.Parse(aux));
+                            break;
+                        default:
+                            obj = default;
+                            break;
                     }
+                    propiedades[j].Value = obj;
+                    pos++;
+                }
             }
             catch
             {
@@ -150,7 +163,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                     }
                 }
             }
-            return comando;
+            return comando.ToLower();
         }
 
         public static IList<Script> GetFromXSE(this string comandosConEnter)
@@ -161,9 +174,8 @@ namespace PokemonGBAFramework.Core.StringToScript
         {
             string[] camposComando;
             string comandoActual;
-            TwoKeysList<string,int,BloqueOrg> scripts = new TwoKeysList<string, int, BloqueOrg>();
+            SortedList<string, BloqueOrg> scripts = new SortedList<string, BloqueOrg>();
             BloqueOrg org=default;
-            SortedList<string, BloqueOrg> dicBloques = new SortedList<string, BloqueOrg>();
 
             //cargo todas las etiquetas de los scripts
             for(int i = 0; i < comandos.Count; i++)
@@ -177,10 +189,10 @@ namespace PokemonGBAFramework.Core.StringToScript
 
                     if (camposComando[0] == "#org")
                     {
-                        if(!dicBloques.ContainsKey(camposComando[1]))
+                        if(!scripts.ContainsKey(camposComando[1]))
                         {//script,texto,movimientos,tienda?,
                             org = new BloqueOrg() { Id = camposComando[1] };
-                            dicBloques.Add(camposComando[1], org);
+                            scripts.Add(camposComando[1], org);
                         }
                     }else if (!Equals(org, default))
                     {
@@ -229,7 +241,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                                 }
                                 break;
                             case BloqueOrg.TipoOrg.Movement://#raw 0xMOVE
-                                org.Movimiento.List.Add(byte.Parse(camposComando[1].Contains('x') ? camposComando[1].Split('x')[1] : camposComando[1]));
+                                org.Movimiento.List.Add(byte.Parse(camposComando[1].Contains('x') ? ((int)(Hex)camposComando[1].Split('x')[1]).ToString() : camposComando[1]));
 
                                 break;
                             case BloqueOrg.TipoOrg.String://= Texto
@@ -243,13 +255,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                     }
                     else { 
                         org = scripts[camposComando[1]];
-                        switch(org.Tipo)
-                        {
-                            case BloqueOrg.TipoOrg.Script:org.Script = new Script();break;
-                            case BloqueOrg.TipoOrg.Movement:org.Movimiento = new BloqueMovimiento();break;
-                            case BloqueOrg.TipoOrg.String: org.Texto = new BloqueString();break;
-                            case BloqueOrg.TipoOrg.Tienda:org.Tienda = new BloqueTienda();break;
-                        }
+                       
                     }
                     
                 }

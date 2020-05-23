@@ -44,9 +44,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Word Pokemon { get; set; }
 		public byte CatchLocation { get; set; }
 
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{ Pokemon, CatchLocation };
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Pokemon)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CatchLocation)) };
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

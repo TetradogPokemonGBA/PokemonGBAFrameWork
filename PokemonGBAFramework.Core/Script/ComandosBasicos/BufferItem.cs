@@ -55,9 +55,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte Buffer { get; set; }
         public Word ItemToStore { get; set; }
 
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{Buffer,ItemToStore};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Buffer)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(ItemToStore))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

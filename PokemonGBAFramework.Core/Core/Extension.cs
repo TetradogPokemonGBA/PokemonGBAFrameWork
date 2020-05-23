@@ -54,18 +54,7 @@ namespace PokemonGBAFramework.Core.Extension
             dimg.RotateFlip(RotateFlipType.RotateNoneFlipXY);//mirar que sea asi
             return dimg;
         }
-        public static T[] GetFila<T>(this T[,] matriz,int fila)
-        {
-            T[] tFila = new T[matriz.GetDimensiones()[0]];
-            for (int i = 0; i < tFila.Length; i++)
-                tFila[i] = matriz[i, fila];
-            return tFila;
-        }
-        public static void SetFila<T>(this T[,] matriz, int fila,T[] tFila)
-        {
-            for (int i = 0; i < tFila.Length; i++)
-                matriz[i, fila] = tFila[i];
-        }
+
         public static Color[] GetColoresPaleta(this Bitmap bmp)
         {
             int[] paletaInt = GetPaletaInt(bmp);
@@ -161,13 +150,7 @@ namespace PokemonGBAFramework.Core.Extension
 
 
         }
-        public static bool StartsWith(this string str, params string[] toFindAny)
-        {
-            bool starts = false;
-            for (int i = 0; i < toFindAny.Length && !starts; i++)
-                starts = str.StartsWith(toFindAny[i]);
-            return starts;
-        }
+
         public static Color ToGBAColor(this Color color)
         {
             return BasePaleta.ToGBAColor(color.R, color.G, color.B);

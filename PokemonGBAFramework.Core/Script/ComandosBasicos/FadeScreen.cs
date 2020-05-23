@@ -63,9 +63,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 			set{EfectoDeDesvanecimiento=(byte)value;}
 			
 		}
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{EfectoDeDesvanecimiento};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(EfectoDeDesvanecimiento))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

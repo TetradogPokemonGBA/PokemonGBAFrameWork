@@ -74,9 +74,9 @@ namespace PokemonGBAFramework.Core
 		public virtual int Size => SIZE;
 		public int ParamsSize=> Size - Comando.SIZE;
 
-		public virtual IList<object> GetParams()
+		public virtual System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new object[]{ };
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ };
 		}
 
 		protected virtual unsafe  void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)

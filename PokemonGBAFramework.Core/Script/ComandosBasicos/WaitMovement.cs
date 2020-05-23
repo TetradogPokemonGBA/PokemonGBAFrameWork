@@ -45,9 +45,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		{
 			Persona = new Word(ptrRom, offsetComando);
 		}
-		public override IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new object[] { Persona };
+			return new Gabriel.Cat.S.Utilitats.Propiedad[] {new Gabriel.Cat.S.Utilitats.Propiedad(this,nameof(Persona)) };
 		}
 		public override byte[] GetBytesTemp() 
 		{

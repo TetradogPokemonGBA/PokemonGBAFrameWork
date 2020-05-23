@@ -14,7 +14,7 @@ namespace PokemonGBAFramework.Core.ComandosScript
 	/// <summary>
 	/// Description of If.
 	/// </summary>
-	public class If1:Comando,IDeclaracion
+	public class If1:Comando,IDeclaracion,IScript
 	{
 		public const byte ID=0x6;
 		public new const int SIZE=Comando.SIZE+1+OffsetRom.LENGTH;
@@ -68,9 +68,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte Condicion { get; set; }
 
         public Script Script { get; set; }
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{Condicion,Script};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Condicion)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Script))};
 		}
 
 		

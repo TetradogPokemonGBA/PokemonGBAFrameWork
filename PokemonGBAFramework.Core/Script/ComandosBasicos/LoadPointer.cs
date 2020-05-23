@@ -57,9 +57,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{MemoryBankToUse,Script};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(MemoryBankToUse)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Script))};
 		}
 		#region implemented abstract members of Comando
 
@@ -155,9 +155,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 				return SIZE;
 			}
 		}
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[] { Tipo, Texto };
+			return new Gabriel.Cat.S.Utilitats.Propiedad[] { new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Tipo)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Texto)) };
 		}
 		#region implemented abstract members of Comando
 

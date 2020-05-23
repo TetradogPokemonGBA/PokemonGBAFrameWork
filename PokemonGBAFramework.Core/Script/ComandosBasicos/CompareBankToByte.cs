@@ -56,9 +56,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public byte Bank { get; set; }
 
         public byte ValueToCompare { get; set; }
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{Bank,ValueToCompare};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Bank)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(ValueToCompare))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{		

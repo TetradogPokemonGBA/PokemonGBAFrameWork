@@ -66,14 +66,14 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Byte NumeroDeOpcionesPorFila { get; set; }
         public Byte BotonBCancela { get; set; }
 
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[] {
-				CoordenadaX,
-				CoordenadaY,
-				IdLista,
-				NumeroDeOpcionesPorFila,
-				BotonBCancela
+			return new Gabriel.Cat.S.Utilitats.Propiedad[] {
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CoordenadaX)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CoordenadaY)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(IdLista)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(NumeroDeOpcionesPorFila)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(BotonBCancela))
 			};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)

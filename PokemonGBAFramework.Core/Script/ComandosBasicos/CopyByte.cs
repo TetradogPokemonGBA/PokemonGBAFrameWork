@@ -88,9 +88,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
                 offsetSource = value;
             } 
         }
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
         {
-            return new Object[] { OffsetDestination.Offset, OffsetSource.Offset };
+            return new Gabriel.Cat.S.Utilitats.Propiedad[] { new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(OffsetDestination)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(OffsetSource)) };
         }
         protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
         {

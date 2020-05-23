@@ -57,9 +57,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public Byte SlotAtaque { get; set; }
 		public Word PPAPoner { get; set; }
 
-		public override System.Collections.Generic.IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{Pokemon,SlotAtaque,PPAPoner};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Pokemon)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(SlotAtaque)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(PPAPoner))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

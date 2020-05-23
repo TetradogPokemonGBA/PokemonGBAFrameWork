@@ -62,9 +62,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         /// Es la variable donde se guardará el resultado del evento
         /// </summary>
         public Word Variable { get; set; }
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{Variable,EventoALlamar};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Variable)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(EventoALlamar))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{

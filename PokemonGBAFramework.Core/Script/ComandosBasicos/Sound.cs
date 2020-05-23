@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 
@@ -41,9 +42,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
 
 		public Word Sonido { get; set; }
 		public override int Size => SIZE;
-		public override IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{Sonido};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Sonido))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
@@ -148,9 +149,10 @@ namespace PokemonGBAFramework.Core.ComandosScript
 		public override int Size => SIZE;
 		public byte Desconocido { get; set; }
 
-		public override IList<object> GetParams()
+		public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new object[] { Sonido, Desconocido };
+		
+			return new Gabriel.Cat.S.Utilitats.Propiedad[] { new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Sonido)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Desconocido)) };
 		}
 		protected unsafe  override void CargarCamando(ScriptAndASMManager scriptAndASM,byte* ptrRom, int offsetComando)
 		{

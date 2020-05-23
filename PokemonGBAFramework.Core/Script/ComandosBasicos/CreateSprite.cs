@@ -68,15 +68,15 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public Byte Comportamiento { get; set; }
         public Byte Orientacion { get; set; }
 
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[] {
-				SpriteAUsar,
-				PersonajeVirtual,
-				CoordenadaX,
-				CoordenadaY,
-				Comportamiento,
-				Orientacion
+			return new Gabriel.Cat.S.Utilitats.Propiedad[] {
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(SpriteAUsar)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(PersonajeVirtual)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CoordenadaX)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(CoordenadaY)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Comportamiento)),
+				new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(Orientacion))
 			};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)

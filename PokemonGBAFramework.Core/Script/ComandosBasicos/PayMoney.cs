@@ -54,9 +54,9 @@ namespace PokemonGBAFramework.Core.ComandosScript
         public DWord DineroACoger { get; set; }
         public Byte ComprobarEjecucionComando { get; set; }
 
-        public override System.Collections.Generic.IList<object> GetParams()
+        public override System.Collections.Generic.IList<Gabriel.Cat.S.Utilitats.Propiedad> GetParams()
 		{
-			return new Object[]{DineroACoger,ComprobarEjecucionComando};
+			return new Gabriel.Cat.S.Utilitats.Propiedad[]{ new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(DineroACoger)), new Gabriel.Cat.S.Utilitats.Propiedad(this, nameof(ComprobarEjecucionComando))};
 		}
 		protected unsafe override void CargarCamando(ScriptAndASMManager scriptManager,byte* ptrRom, int offsetComando)
 		{
