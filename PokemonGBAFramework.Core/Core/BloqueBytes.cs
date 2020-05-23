@@ -121,15 +121,18 @@ namespace PokemonGBAFramework.Core
            /* const int MINIMO = 150;*///asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
             int offsetEncontrado = inicio;
             int lengthFinal = length;
-            bool continuarBuscando;
+            bool continuarBuscando=true;
             //if (length < MINIMO)
             //    lengthFinal = MINIMO;
             do
             {
                 offsetEncontrado = datos.SearchBlock(offsetEncontrado, lengthFinal, byteEmpty);
-                continuarBuscando = offsetEncontrado % 4 != 0;
-                if (continuarBuscando)
-                    offsetEncontrado = offsetEncontrado.NextOffsetValido();
+                if (offsetEncontrado >= 0)
+                {
+                    continuarBuscando = offsetEncontrado % 4 != 0;
+                    if (continuarBuscando)
+                        offsetEncontrado = offsetEncontrado.NextOffsetValido();
+                }
             }
             while (continuarBuscando && offsetEncontrado > -1);
 

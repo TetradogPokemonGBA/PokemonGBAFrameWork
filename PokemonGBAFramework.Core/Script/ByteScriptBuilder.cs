@@ -17,8 +17,10 @@ namespace PokemonGBAFramework.Core.BuildScript
         public void Add(Script script)
         {
             if (!DicScripts.ContainsKey(script.IdUnicoTemp))
+            {
                 DicScripts.Add(script.IdUnicoTemp, script);
-            AddRange(script.GetScripts().ToArray());
+                AddRange(script.GetScripts().ToArray());
+            }
         }
         public void AddRange(IList<Script> scripts)
         {
@@ -36,33 +38,40 @@ namespace PokemonGBAFramework.Core.BuildScript
         public IList<KeyValuePair<int,Script>> Set(BloqueBytes data)
         {//pongo en los bytes los offsets temporales
          //luego sustituye esos Offsets temporales por los que tendrán en el bloque teniendo en cuenta que los scripts empiezan en una posicion especial
+            Script script;
+            KeyValuePair<int, Script> aux;
             List<KeyValuePair<int, Script>> offsetsScript = new List<KeyValuePair<int, Script>>();
             List<KeyValuePair<int, int>> lstOffsets = new List<KeyValuePair<int, int>>();
+            int inicio = data.Length < OffsetRom.DIECISEISMEGAS/2 ? 0 : 0x800000;
+            Script[] scripts = DicScripts.Values.ToArray();
+
             //faltan los bloques string,movement,shop?
-            foreach(var script in DicScripts)
+            for(int i=scripts.Length-1;i>=0;i--)
             {
-                offsetsScript.Add(new KeyValuePair<int, Script>(data.SearchEmptySpaceAndSetArray(script.Value.GetBytesTemp()),script.Value));
-                lstOffsets.Add(new KeyValuePair<int, int>(offsetsScript[offsetsScript.Count-1].Key, offsetsScript[offsetsScript.Count - 1].Value.IdUnicoTemp));
-                foreach(var texto in script.Value.GetStrings())
+                script = scripts[i];
+                aux = new KeyValuePair<int, Script>(data.SearchEmptySpaceAndSetArray(script.GetBytesTemp(), inicio), script);
+                offsetsScript.Add(aux);
+                lstOffsets.Add(new KeyValuePair<int, int>(aux.Key, aux.Value.IdUnicoTemp));
+                foreach(var texto in script.GetStrings())
                 {
-                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(BloqueString.ToByteArray(texto.Texto)), texto.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(BloqueString.ToByteArray(texto.Texto), inicio), texto.IdUnicoTemp));
                 }
-                foreach (var move in script.Value.GetMovimientos())
+                foreach (var move in script.GetMovimientos())
                 {
-                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(move.GetBytes()), move.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(move.GetBytes(), inicio), move.IdUnicoTemp));
                 }
-                foreach (var braille in script.Value.GetBrailles())
+                foreach (var braille in script.GetBrailles())
                 {
-                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(braille.GetBytes()), braille.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(braille.GetBytes(), inicio), braille.IdUnicoTemp));
                 }
-                foreach (var tienda in script.Value.GetTiendas())
+                foreach (var tienda in script.GetTiendas())
                 {
-                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(tienda.GetBytes()), tienda.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(tienda.GetBytes(), inicio), tienda.IdUnicoTemp));
                 }
-                foreach (var trainerbattle in script.Value.GetTrainerBattles())
+                foreach (var trainerbattle in script.GetTrainerBattles())
                 {
-                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(trainerbattle.ChallengeText.GetBytes()), trainerbattle.ChallengeText.IdUnicoTemp));
-                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(trainerbattle.DefeatText.GetBytes()), trainerbattle.DefeatText.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(trainerbattle.ChallengeText.GetBytes(), inicio), trainerbattle.ChallengeText.IdUnicoTemp));
+                    lstOffsets.Add(new KeyValuePair<int, int>(data.SearchEmptySpaceAndSetArray(trainerbattle.DefeatText.GetBytes(), inicio), trainerbattle.DefeatText.IdUnicoTemp));
                 }
                 //falta  otros
             }
