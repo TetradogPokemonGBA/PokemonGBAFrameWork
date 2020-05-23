@@ -391,39 +391,39 @@ namespace PokemonGBAFramework.Core.StringToScript
                     break;
                 default:
                     str.Append(comando.Nombre);
-                    foreach(object obj in comando.GetParams())
+                    foreach(Propiedad obj in comando.GetParams())
                     {
                         str.Append(" ");
-                        switch (obj.GetType().Name)
+                        switch (obj.Info.Tipo.Name)
                         {
                             case nameof(OffsetRom):
-                                str.Append("0x"+obj.ToString());
+                                str.Append("0x"+obj.Value.ToString());
                                 break;
                             case nameof(DWord):
-                                str.Append(((Hex)(uint)obj).ByteString);
+                                str.Append(((Hex)(uint)obj.Value).ByteString);
                                 break;
                             case nameof(Word):
-                                str.Append(((Hex)(uint)ushort.Parse(obj.ToString())).ByteString);
+                                str.Append(((Hex)(uint)ushort.Parse(obj.Value.ToString())).ByteString);
                                 break;
                             case "byte":
                             case nameof(Byte):
-                                str.Append(((Hex)int.Parse(obj.ToString())).ByteString);
+                                str.Append(((Hex)int.Parse(obj.Value.ToString())).ByteString);
                                 break;
                             case nameof(Script):
                                 str.Append("@Script");
-                                str.Append((string)(Hex)((Script)obj).IdUnicoTemp);
+                                str.Append((string)(Hex)((Script)obj.Value).IdUnicoTemp);
                                 break;
                             case nameof(BloqueMovimiento):
                                 str.Append("@Move");
-                                str.Append((string)(Hex)((BloqueMovimiento)obj).IdUnicoTemp);
+                                str.Append((string)(Hex)((BloqueMovimiento)obj.Value).IdUnicoTemp);
                                 break;
                             case nameof(BloqueTienda):
                                 str.Append("@Shop");
-                                str.Append((string)(Hex)((BloqueTienda)obj).IdUnicoTemp);
+                                str.Append((string)(Hex)((BloqueTienda)obj.Value).IdUnicoTemp);
                                 break;
                             case nameof(BloqueString):
                                 str.Append("@Texto");
-                                str.Append((string)(Hex)((BloqueString)obj).IdUnicoTemp);
+                                str.Append((string)(Hex)((BloqueString)obj.Value).IdUnicoTemp);
                                 break;
                           
                         }
