@@ -798,7 +798,7 @@ namespace PokemonGBAFramework.Core
                     offsetScript += comandoActual.ParamsSize;
                 }
 
-            } while(codigoError==SINERROR &&!(byteComandoActual == END || byteComandoActual == RETURN || endScriptComando != null && !endScriptComando.IsEnd));
+            } while(codigoError==SINERROR &&!(byteComandoActual == END || byteComandoActual == RETURN || (endScriptComando != null && endScriptComando.IsEnd) ) );
             //tiene que ser un campo calculado...que lea el script y luego devuelva el valor...
             IsEndFinished = endScriptComando == null ? (byteComandoActual == END) : new Nullable<bool>();//si acaba con un goto/call/comandoIEndScript será null si acaba en end será true y si es return pues false
             return codigoError;
