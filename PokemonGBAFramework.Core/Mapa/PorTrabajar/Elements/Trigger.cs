@@ -31,8 +31,8 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 		public override byte[] GetBytes()
 		{
-			byte[] data = { X, B2, Y, B4, };
-			return data.AddArray(H3.Data, FlagCheck.Data, H6.Data,Equals(OffsetScript,default)?OffsetScript.BytesPointer:new byte[OffsetRom.LENGTH]);
+			byte[] data = { X, B2, Y, B4 };
+			return data.AddArray(H3.Data, FlagCheck.Data, H6.Data,!Equals(OffsetScript,default)?OffsetScript.BytesPointer:new byte[OffsetRom.LENGTH]);
 
 		}
 		public static Trigger Get(RomGba rom, int offset)
