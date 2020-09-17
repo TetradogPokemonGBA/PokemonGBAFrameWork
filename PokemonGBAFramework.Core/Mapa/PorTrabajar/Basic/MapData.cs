@@ -85,7 +85,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 mapData.LocalTileset = default;
             }
 
-            if (rom.Edicion.EsRubiOZafiro)
+            if (rom.Edicion.EsHoenn)
             {
                 mapData.SecondarySize = new Word((ushort)(mapData.BorderWidth + 0xA0));
                 mapData.BorderWidth = 2;
