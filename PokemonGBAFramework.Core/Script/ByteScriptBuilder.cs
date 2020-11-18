@@ -31,11 +31,11 @@ namespace PokemonGBAFramework.Core.BuildScript
         {
             return Set(romGba.Data);
         }
-        public IList<KeyValuePair<int, Script>> Set(byte[] data)
+        public List<KeyValuePair<int, Script>> Set(byte[] data)
         {
             return Set(new BloqueBytes(data));
         }
-        public IList<KeyValuePair<int,Script>> Set(BloqueBytes data)
+        public List<KeyValuePair<int,Script>> Set(BloqueBytes data)
         {//pongo en los bytes los offsets temporales
          //luego sustituye esos Offsets temporales por los que tendrán en el bloque teniendo en cuenta que los scripts empiezan en una posicion especial
             Script script;
