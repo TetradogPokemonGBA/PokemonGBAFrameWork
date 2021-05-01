@@ -13,9 +13,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 
         //mas adelante comprobar que cada offset sea de un mapa así puedo prescindir de esto
-        static int[] banksSizeRubi = { 53, 4, 4, 5, 6, 6, 7, 6, 6, 12, 7, 16, 9, 23, 12, 12, 13, 1, 1, 1, 2, 0, 0, 0, 85, 43, 11, 1, 0, 12, 0, 0, 2, 0 };
-        static int[] banksSizeKanto = { 5, 123, 60, 66, 4, 6, 8, 10, 6, 8, 20, 10, 8, 2, 10, 4, 2, 2, 2, 1, 1, 2, 2, 3, 2, 3, 2, 1, 1, 1, 1, 7, 5, 5, 8, 8, 5, 5, 1, 1, 1, 2, 1 };
-        static int[] banksSizeEsmeralda = { 57, 5, 5, 6, 7, 8, 9, 7, 7, 14, 8, 17, 10, 23, 13, 15, 15, 2, 2, 2, 3, 1, 1, 1, 108, 61, 89, 2, 1, 13, 1, 1, 2, 1 };
+        static int[] BanksSizeRubi { get; set; } = { 53, 4, 4, 5, 6, 6, 7, 6, 6, 12, 7, 16, 9, 23, 12, 12, 13, 1, 1, 1, 2, 0, 0, 0, 85, 43, 11, 1, 0, 12, 0, 0, 2, 0 };
+        static int[] BanksSizeKanto { get; set; } = { 5, 123, 60, 66, 4, 6, 8, 10, 6, 8, 20, 10, 8, 2, 10, 4, 2, 2, 2, 1, 1, 2, 2, 3, 2, 3, 2, 1, 1, 1, 1, 7, 5, 5, 8, 8, 5, 5, 1, 1, 1, 2, 1 };
+        static int[] BanksSizeEsmeralda { get; set; } = { 57, 5, 5, 6, 7, 8, 9, 7, 7, 14, 8, 17, 10, 23, 13, 15, 15, 2, 2, 2, 3, 1, 1, 1, 108, 61, 89, 2, 1, 13, 1, 1, 2, 1 };
 
 
 
@@ -39,15 +39,15 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             if (rom.Edicion.EsEsmeralda)
             {
-                banksSize = banksSizeEsmeralda;
+                banksSize = BanksSizeEsmeralda;
             }
             else if (rom.Edicion.EsKanto)
             {
-                banksSize = banksSizeKanto;
+                banksSize = BanksSizeKanto;
             }
             else
             {
-                banksSize = banksSizeRubi;
+                banksSize = BanksSizeRubi;
             }
 
             bank.Maps =new MapHeader[banksSize[bankIndex]];
@@ -113,18 +113,18 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
         public class MapTreeNode
         {
-            public int Map;
-            public int MiniMap;
-            public string name;
+            public int Map { get; set; }
+            public int MiniMap { get; set; }
+            public string Name { get; set; }
             public MapTreeNode(string name, int mapNum, int miniMapNum)
             {
-                this.name = name;
+                Name = name;
                 Map = mapNum;
                 MiniMap = miniMapNum;
             }
             public override string ToString()
             {
-                return name + " (" + Map + "." + MiniMap + ")";
+                return $"{Name}  ({Map}.{MiniMap})";
             }
         }
     }

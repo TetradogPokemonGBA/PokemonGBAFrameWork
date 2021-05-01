@@ -1,0 +1,9 @@
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.0\PokemonGBAFramework.Core.deps.json
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.0\PokemonGBAFramework.Core.dll
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.0\PokemonGBAFramework.Core.pdb
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.0\PokemonGBAFramework.Core.csprojAssemblyReference.cache
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.0\PokemonGBAFramework.Core.AssemblyInfoInputs.cache
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.0\PokemonGBAFramework.Core.AssemblyInfo.cs
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.0\PokemonGBAFramework.Core.csproj.CoreCompileInputs.cache
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.0\PokemonGBAFramework.Core.dll
+C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.0\PokemonGBAFramework.Core.pdb

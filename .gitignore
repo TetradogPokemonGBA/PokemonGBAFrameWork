@@ -1,2 +1,7 @@
 
 *.gba
+*.dll
+*.nupkg
+*.cache
+*.pdb
+*.resources
