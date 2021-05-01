@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonGBAFramework.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonGBAFramework.Core.Test", "PokemonGBAFramework.Core.Test\PokemonGBAFramework.Core.Test.csproj", "{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrafico", "TestGrafico\TestGrafico.csproj", "{C961F5C0-2B0A-426C-9436-0AE85D2A52FC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C961F5C0-2B0A-426C-9436-0AE85D2A52FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C961F5C0-2B0A-426C-9436-0AE85D2A52FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C961F5C0-2B0A-426C-9436-0AE85D2A52FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C961F5C0-2B0A-426C-9436-0AE85D2A52FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
