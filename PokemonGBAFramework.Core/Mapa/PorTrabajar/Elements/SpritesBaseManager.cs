@@ -12,7 +12,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			for (int i = 0; i < count; i++)
 			{
 				Items.Add(IGet(rom, offset));
-				offset += SpriteSign.LENGTH;
+				offset += LengthSingelItem;
 			}
 		}
 		

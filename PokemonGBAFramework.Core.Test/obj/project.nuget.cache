@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JrQ73RMBpsPBi+aMrJnfSe1ELETS+6W/xj5kPltvHCyR/GzEhJiBEx1FCcu7HltEyVvlEjxiYjqB27rzfevqvA==",
+  "dgSpecHash": "Q1IZu5vNugOR4OBDd6VLYp+iy12xdhi0PIlRJ2tlCkQYvCb8sVtmHP6iKF/u7c2ycEdPEYY51Y0LgT1TCnfUcA==",
   "success": true,
   "projectFilePath": "C:\\Users\\tetra\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core.Test\\PokemonGBAFramework.Core.Test.csproj",
   "expectedPackageFiles": [
@@ -112,8 +112,7 @@
     "C:\\Users\\tetra\\.nuget\\packages\\system.xml.xmldocument\\4.0.1\\system.xml.xmldocument.4.0.1.nupkg.sha512",
     "C:\\Users\\tetra\\.nuget\\packages\\system.xml.xmlserializer\\4.0.11\\system.xml.xmlserializer.4.0.11.nupkg.sha512",
     "C:\\Users\\tetra\\.nuget\\packages\\system.xml.xpath\\4.0.1\\system.xml.xpath.4.0.1.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.0.1\\system.xml.xpath.xmldocument.4.0.1.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\pokemongbaframework\\1.5.3\\pokemongbaframework.1.5.3.nupkg.sha512"
+    "C:\\Users\\tetra\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.0.1\\system.xml.xpath.xmldocument.4.0.1.nupkg.sha512"
   ],
   "logs": []
 }
