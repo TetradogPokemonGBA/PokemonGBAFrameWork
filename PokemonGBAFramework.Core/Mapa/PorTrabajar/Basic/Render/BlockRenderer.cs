@@ -192,13 +192,13 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
 
             tripleTile = false;
 
-            if ((b.backgroundMetaData >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x30) == 0x30)
+            if ((b.BackgroundMetaData >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x30) == 0x30)
             {
                 tripleTile = true;
                 if (System.Diagnostics.Debugger.IsAttached)
                     Console.WriteLine("Rendering triple tile block!");
             }
-            else if ((b.backgroundMetaData >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x40) == 0x40)
+            else if ((b.BackgroundMetaData >> (!rom.Edicion.EsRubiOZafiro ? 24 : 8) & 0x40) == 0x40)
             {
 
                 tripleTile = true;
@@ -216,7 +216,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                  yFlip = (orig & 0x800) > 0;
 
                 //			if(i < 16)
-                b.setTile(x + (layerNumber * 2), y, new Tile(tileNum, palette, xFlip, yFlip));
+                b.SetTile(x + (layerNumber * 2), y, new Tile(tileNum, palette, xFlip, yFlip));
                 x++;
                 if (x > 1)
                 {

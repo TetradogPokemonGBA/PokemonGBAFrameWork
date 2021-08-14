@@ -12,16 +12,43 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 	public class MapTileData
 	{
 
-		private MapTile[,] mapTiles;
+		private MapTile[,] MapTiles { get; set; }
 
-		public int Columnas =>mapTiles.GetLength(DimensionMatriz.Columna);
+		private byte[] DataToLoad { get; set; }
+		public int Columnas =>MapTiles.GetLength(DimensionMatriz.Columna);
 			
-		public int Filas  =>mapTiles.GetLength(DimensionMatriz.Fila);
+		public int Filas  =>MapTiles.GetLength(DimensionMatriz.Fila);
 		public int Size =>Columnas * Filas * MapTile.LENGTH;
-		public Bitmap GetBitmap(Tileset tileset,GranPaleta paleta=default)
+
+		public void EndLoad()
+		{
+			int index;
+			int raw;
+			MapTile m;
+
+			if (!ReferenceEquals(DataToLoad, default))
+            {
+				for (int x = 0,xF=Columnas,yF=Filas; x < xF; x++)
+				{
+					for (int y = 0; y < yF; y++)
+					{
+
+						index = (int)((y * yF) + x);
+						raw = new Word(DataToLoad, index * Word.LENGTH);
+						m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
+						MapTiles[x, y] = m;
+
+					}
+				}
+				DataToLoad = default;
+            }
+        }
+		public Collage GetCollage(Tileset tileset,GranPaleta paleta=default)
 		{
 			Collage collage = new Collage();
-			
+
+			EndLoad();
+
 			if (Equals(paleta, default))
 				paleta = tileset.Paletas.FirstOrDefault();
 			if (Equals(paleta, default))
@@ -31,25 +58,30 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				for (int x = 0; x < xF; x++)
 					collage.Add(tileset.Get(Get(x,y).ID).Get(paleta), x*Tile.LADO, y * Tile.LADO);
 
-			return collage.CrearCollage();
+			return collage;
 
 		}
+		public Bitmap GetBitmap(Tileset tileset, GranPaleta paleta = default)=> GetCollage(tileset, paleta).CrearCollage();
+
 		public MapTile Get(int x, int y)
 		{
 			MapTile tile;
+
+			EndLoad();
+
 			if (x < 0 && y < 0)
-				tile = mapTiles[0, 0];
+				tile = MapTiles[0, 0];
 			else if (x < 0)
-				tile = mapTiles[0, y];
+				tile = MapTiles[0, y];
 			else if (y < 0)
-				tile = mapTiles[x, 0];
+				tile = MapTiles[x, 0];
 			else if (x >=Columnas && y >= Filas)
-				tile = mapTiles[Columnas-1, Filas-1];
+				tile = MapTiles[Columnas-1, Filas-1];
 			else if (x >= Columnas)
-				tile = mapTiles[Columnas-1, y];
+				tile = MapTiles[Columnas-1, y];
 			else if (y >= Filas)
-				tile = mapTiles[x, Filas-1];
-			else tile = mapTiles[x, y];
+				tile = MapTiles[x, Filas-1];
+			else tile = MapTiles[x, y];
 
 			return tile;
 		}
@@ -57,6 +89,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public MapTile[,] Get(int x, int y, int width, int height)
 		{
 			MapTile[,] mapTiles = new MapTile[width, height];
+			EndLoad();
 			for (int i = x,xF= x + width, yF= y + height; i < xF; i++)
 			{
 				for (int j = y; j < yF; j++)
@@ -73,43 +106,30 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public void Resize(int xSize, int ySize)
 		{
 			MapTile[,] newMapTiles = new MapTile[xSize, ySize];
-
-			for (int x = 0, xOld = mapTiles.GetLength(DimensionMatriz.X), yOld = mapTiles.GetLength(DimensionMatriz.Y); x < xSize; x++)
+			EndLoad();
+			for (int x = 0, xOld = Columnas, yOld = Filas; x < xSize; x++)
 				for (int y = 0; y < ySize; y++)
 				{
 					if (x < xOld && y < yOld)
-						newMapTiles[x, y] = mapTiles[x, y];
+						newMapTiles[x, y] = MapTiles[x, y];
 					else
 						newMapTiles[x, y] = new MapTile();
 
 				}
 
-			mapTiles = newMapTiles;
+			MapTiles = newMapTiles;
 		}
 		public static MapTileData Get(RomGba rom, MapData mData,int offsetMapTiles)
 		{
-			int index;
-			int raw;
-			MapTile m;
 
 			MapTileData mapTileData = new MapTileData();
-			mapTileData.mapTiles = new MapTile[(uint)mData.Width, (uint)mData.Height];
+			mapTileData.MapTiles = new MapTile[mData.Width,mData.Height];
 
 			if (!Equals(offsetMapTiles, default))
 			{
-				for (int x = 0; x < mapTileData.Columnas; x++)
-				{
-					for (int y = 0; y < mapTileData.Filas; y++)
-					{
-
-						index = (int)((y * mData.Width) + x);
-						raw = new Word(rom,offsetMapTiles + index * 2);
-						m = new MapTile((raw & 0x3FF), (raw & 0xFC00) >> 10);
-						mapTileData.mapTiles[x, y] = m;
-
-					}
-				}
+				mapTileData.DataToLoad = rom.Data.SubArray(offsetMapTiles, (int)(mData.Width * mData.Height * Word.LENGTH));
 			}
+			else throw new ArgumentException("se requiere el offset para cargar!",nameof(offsetMapTiles));
 			return mapTileData;
 		}
 	}

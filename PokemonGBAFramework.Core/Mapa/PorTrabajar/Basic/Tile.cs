@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PokemonGBAFramework.Core.Mapa.Basic
 {
-	public class Tile
+	public class Tile:ICloneable
 	{
 		public const int MaxIndexTile = 0x3FF;
 		public const int MaxIndexPaleta = 12;
@@ -28,9 +28,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			set
 			{
 				if (value > MaxIndexTile)
-					value = MaxIndexTile;
-
-				indexTile = value;
+					indexTile = MaxIndexTile;
+				else if (value < 0)
+					indexTile = 0;
+				else
+					indexTile = value;
 			}
 		}
 		public int IndexPaleta
@@ -39,18 +41,25 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			set
 			{
 				if (value > MaxIndexPaleta)
-					value = MaxIndexPaleta;
-
-				indexPaleta = value;
+					indexPaleta = MaxIndexPaleta;
+				else if (value < 0)
+					indexPaleta = 0;
+				else
+					indexPaleta = value;
 			}
 		}
 
 		public bool XFlip { get; set; }
 		public bool YFlip { get; set; }
 
-		public Tile getNewInstance()
+		public Tile Clon()
 		{
-			return new Tile(indexTile, indexPaleta, XFlip, YFlip);
+			return new Tile(IndexTile, IndexPaleta, XFlip, YFlip);
 		}
-	}
+
+        object ICloneable.Clone()
+        {
+			return Clon();
+        }
+    }
 }

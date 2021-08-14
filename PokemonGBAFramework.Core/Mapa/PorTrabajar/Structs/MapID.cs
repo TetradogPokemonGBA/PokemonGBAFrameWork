@@ -8,17 +8,17 @@ namespace PokemonGBAFramework.Core.Mapa.Structs
 	{
 		public MapID(int bank, int map)
 		{
-			this.Bank = bank;
-			this.Map = map;
+			Bank = bank;
+			Map = map;
 		}
 
 		public int Bank { get; set; }
 		public int Map { get; set; }
 
-		public override bool Equals(Object b)
+		public override bool Equals(object b)
 		{
 			MapID other = b as MapID;
-			return other != null&& other.Bank == this.Bank&& other.Map == this.Map;
+			return !ReferenceEquals(other, default) && other.Bank == Bank && other.Map == Map;
 			
 		}
 		public override int GetHashCode()

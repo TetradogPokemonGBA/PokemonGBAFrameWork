@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PokemonGBAFramework.Core.Mapa.Elements
-{
+{//si los bytes que no se sabe que hace al final resulta que son dummy los quito :) osea los salto al leer y al escribir pongo 0x0 o el que tengan por defecto
     public class SpriteNPC:SpriteBase
     {
         public const int LENGTH = 24;
@@ -65,7 +65,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
             data[13] = B14;
             data[14] = TrainerLOS;
             data[15] = B16;
-            OffsetRom.Set(data, 16,new OffsetRom(OffsetScript + (OffsetScript == 0 ? 0 : 0x08000000)));
+            OffsetRom.Set(data, 16,ReferenceEquals(OffsetScript,default) || !OffsetScript.IsAPointer?new OffsetRom(0):OffsetScript);//new OffsetRom(OffsetScript + (OffsetScript == 0 ? 0 : 0x08000000))
             Word.SetData(data, 20, Flag);
             data[22] = B23;
             data[23] = B24;

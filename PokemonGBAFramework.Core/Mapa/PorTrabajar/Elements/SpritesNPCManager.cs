@@ -1,6 +1,7 @@
 ﻿using PokemonGBAFramework.Core.Mapa.Basic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFramework.Core.Mapa.Elements
@@ -15,33 +16,21 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
         protected override int LengthSingelItem => SpriteNPC.LENGTH;
 
        
-        public int[] GetIndices()
+        public IEnumerable<Word> GetIndices()
         {
-            int[] indices = new int[Items.Count];
-            for (int i = 0; i < Items.Count; i++)
-            {
-                indices[i] = Items[i].SpriteSet;
-            }
-            return indices;
+            return Items.Select(i => i.SpriteSet);
         }
 
         protected override SpriteNPC IGet(RomGba rom, int offset)
         {
-            return Get(rom, offset);
+            return SpriteNPC.Get(rom, offset);
         }
 
         protected override SpriteNPC IGetNew(int x, int y)
         {
-            return GetNew((byte)x,(byte) y);
-        }
-        public static SpriteNPC Get(RomGba rom, int offset)
-        {
-            return SpriteNPC.Get(rom, offset);
-        }
-        public static SpriteNPC GetNew(int x, int y)
-        {
             return new SpriteNPC((byte)x, (byte)y);
         }
+
     }
 
 }

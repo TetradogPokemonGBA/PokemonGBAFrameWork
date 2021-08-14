@@ -75,12 +75,12 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			imageDataPtr = tileset.TilesetHeader.OffsetImagen;
 
 			uncompressedData = LZ77.Descomprimir(rom.Data.Bytes, imageDataPtr, false);
-			if (uncompressedData == default) //Attempt to repair the LZ77 data
+			if (ReferenceEquals(uncompressedData, default)) //Attempt to repair the LZ77 data
 			{
 				oldHeader = rom.Data.SubArray(imageDataPtr, TilesetHeader.HeaderFix.Length);
 				rom.Data.SetArray(imageDataPtr, TilesetHeader.HeaderFix);//mirar si se puede poner en la clase LZ77 así se arregla cualquier header o es un header para los Tileset...
 				uncompressedData = LZ77.Descomprimir(rom.Data.Bytes, imageDataPtr, false);
-				if (uncompressedData == default)//If repairs didn't go well, revert ROM and pull uncompressed data
+				if (ReferenceEquals(uncompressedData, default))//If repairs didn't go well, revert ROM and pull uncompressed data
 				{
 					rom.Data.SetArray(imageDataPtr, oldHeader);//lo pongo como estaba
 					uncompressedData = rom.Data.SubArray(imageDataPtr, (tileset.TilesetHeader.IsPrimary ? Tileset.MAXFILA*Tile.LADO * TilesetHeader.GetMainHeight(rom) : Tileset.MAXFILA * Tile.LADO * TilesetHeader.GetLocalHeight(rom)) / 2); //TODO: Hardcoded to FR tileset sizes

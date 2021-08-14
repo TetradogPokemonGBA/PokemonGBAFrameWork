@@ -9,8 +9,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
     public class MapData
     {
         public MapData() { }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public DWord Width { get; set; }
+        public DWord Height { get; set; }
         public BorderTileData BorderTileData { get; set; }
         public MapTileData MapTiles { get; set; }
         public Tileset GlobalTileset { get; set; }
@@ -34,10 +34,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             MapData mapData = new MapData();
             int offsetMap = offsetMapData;
 
-            mapData.Width = new OffsetRom(rom, offsetMap).Integer;
-            offsetMap += OffsetRom.LENGTH;
-            mapData.Height = new OffsetRom(rom, offsetMap).Integer;
-            offsetMap += OffsetRom.LENGTH;
+            mapData.Width = new DWord(rom, offsetMap);
+            offsetMap += DWord.LENGTH;
+            mapData.Height = new DWord(rom, offsetMap);
+            offsetMap += DWord.LENGTH;
+            
             offsetBorderTile = new OffsetRom(rom, offsetMap);
             offsetMap += OffsetRom.LENGTH;
             offsetMapTiles = new OffsetRom(rom, offsetMap);
@@ -46,6 +47,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offsetMap += OffsetRom.LENGTH;
             offsetLocalTileset = new OffsetRom(rom, offsetMap);
             offsetMap += OffsetRom.LENGTH;
+           
             mapData.BorderWidth = new Word(rom,offsetMap);
             offsetMap += Word.LENGTH;
             mapData.BorderHeight = new Word(rom,offsetMap);

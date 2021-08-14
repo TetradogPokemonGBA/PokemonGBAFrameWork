@@ -1,45 +1,44 @@
 ﻿using PokemonGBAFramework.Core.Mapa.Basic.Render;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PokemonGBAFramework.Core.Mapa.Basic
 {
-	public class Block
+    public class Block
 	{
-		public Tile[,] tilesThirdLayer;
-		public Tile[,] tilesForeground;
-		public Tile[,] tilesBackground;
-		public int blockID;
-		public long backgroundMetaData;
+		public int LADO = 2;
+		public Tile[,] ThirdLayer { get; set; }
+		public Tile[,] Foreground { get; set; }
+		public Tile[,] Background { get; set; }
+		public int BlockID { get; set; }
+		public long BackgroundMetaData { get; set; }
 
-    	public Block(int blockID, long bgBytes)
+		public Block(int blockID, long bgBytes)
 		{
-			this.blockID = blockID;
-			this.backgroundMetaData = bgBytes;
+			BlockID = blockID;
+			BackgroundMetaData = bgBytes;
 
 
-			tilesThirdLayer = new Tile[2, 2];
-			tilesForeground = new Tile[2, 2];
-			tilesBackground = new Tile[2, 2];
-			for (int i = 0; i < 2; i++)
+			ThirdLayer = new Tile[LADO, LADO];
+			Foreground = new Tile[LADO, LADO];
+			Background = new Tile[LADO, LADO];
+			for (int i = 0; i < LADO; i++)
 			{
-				for (int j = 0; j < 2; j++)
+				for (int j = 0; j < LADO; j++)
 				{
-					tilesForeground[i, j] = new Tile(0, 0, false, false);
-					tilesBackground[i, j] = new Tile(0, 0, false, false);
+					Foreground[i, j] = new Tile(0, 0, false, false);
+					Background[i, j] = new Tile(0, 0, false, false);
 				}
 			}
 		}
 
-		public void setTile(int x, int y, Tile t)
+		public void SetTile(int x, int y, Tile t)
 		{
 			try
 			{
-				if (x < 2)
-					tilesBackground[x, y] = t.getNewInstance();
+				if (x < LADO)
+					Background[x, y] = t.Clon();
 				else
-					tilesForeground[x - 2, y] = t.getNewInstance();
+					Foreground[x - LADO, y] = t.Clon();
 			}
 			catch (Exception e) { Console.WriteLine(e.Message); }
 		}
@@ -49,10 +48,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			Tile tile;
 			try
 			{
-				if (x < 2)
-					tile= tilesBackground[x, y].getNewInstance();
+				if (x < LADO)
+					tile= Background[x, y].Clon();
 				else
-					tile= tilesForeground[x - 2, y].getNewInstance();
+					tile= Foreground[x - LADO, y].Clon();
 			}
 			catch (Exception e)
 			{
@@ -60,11 +59,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 				tile= new Tile(0, 0, false, false);
 			}
 			return tile;
-		}
-
-		public void setMetaData(int bytes)
-		{
-			backgroundMetaData = bytes;
 		}
 		public static Block Get(RomGba rom, BlockRenderer render, int blockID)
 		{

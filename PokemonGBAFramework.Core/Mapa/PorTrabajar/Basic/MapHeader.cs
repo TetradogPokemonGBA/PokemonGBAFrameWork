@@ -101,7 +101,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         {
             return Nombre.ToString();
         }
-        public static MapHeader Get(RomGba rom,TilesetCache tilesetCache, OffsetRom offsetMapHeader = default,OffsetRom offsetNombreMapa=default)
+        public static MapHeader Get(RomGba rom,TilesetCache tilesetCache, OffsetRom offsetMapHeader,OffsetRom offsetNombreMapa=default)
         {
 
 
@@ -166,9 +166,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public static bool Check(RomGba rom,int offsetMapHeader)
         {
             bool isOK = MapData.Check(rom, offsetMapHeader);
-
-
-
             return isOK;
         }
 

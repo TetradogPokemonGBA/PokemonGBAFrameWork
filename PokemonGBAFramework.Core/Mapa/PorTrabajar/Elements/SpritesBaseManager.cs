@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Gabriel.Cat.S.Extension;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PokemonGBAFramework.Core.Mapa.Elements
 {
     public abstract class BaseManager<T> where T: SpriteBase,new()
 	{
-		public List<T> Items;
+		public List<T> Items { get; set; }
 
 		public BaseManager(RomGba rom, int offset, int count)
 		{
@@ -19,9 +21,11 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	    protected abstract int LengthSingelItem { get; }
 		public int Size => Items.Count * LengthSingelItem;
 
-		public void Add(int x, int y)
+		public T AddNew(int x, int y)
 		{
-			Items.Add(IGetNew(x,y));
+			T newItem = IGetNew(x, y);
+			Items.Add(newItem);
+			return newItem;
 		}
 		protected abstract T IGetNew(int x, int y);
 		protected abstract T IGet(RomGba rom, int offset);
@@ -46,6 +50,7 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			return pos;
 
 		}
+		public byte[] GetBytes() =>new byte[0].AddArray(Items.Select(item => item.GetBytes()).ToArray());
 
 	}
 

@@ -8,14 +8,15 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	{
 
 		public int NumNPC { get; set; }
-		public int NumExits { get; set; }
-		public int NumTraps { get; set; }
+		public int NumWarps { get; set; }
+		public int NumTriggers { get; set; }//traps o triggers?
 		public int NumSigns { get; set; }
 
 		public SpritesNPCManager MapNPCManager { get; set; }
-		public SpritesSignManager MapSignManager { get; set; }
 		public SpritesExitManager MapExitManager { get; set; }
 		public TriggerManager MapTriggerManager { get; set; }
+		public SpritesSignManager MapSignManager { get; set; }
+		
 
 		public static HeaderSprites Get(RomGba rom, int offsetData)
 		{
@@ -27,8 +28,8 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			HeaderSprites headerSprites = new HeaderSprites();
 
 			headerSprites.NumNPC = rom.Data[offsetData++];
-			headerSprites.NumExits = rom.Data[offsetData++];
-			headerSprites.NumTraps = rom.Data[offsetData++];
+			headerSprites.NumWarps = rom.Data[offsetData++];
+			headerSprites.NumTriggers = rom.Data[offsetData++];
 			headerSprites.NumSigns = rom.Data[offsetData++];
 
 			offsetNPC = new OffsetRom(rom, offsetData);
@@ -46,11 +47,11 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 			if (!offsetExits.IsEmpty)
 			{
-				headerSprites.MapExitManager = new SpritesExitManager(rom, offsetExits.Integer, headerSprites.NumExits);
+				headerSprites.MapExitManager = new SpritesExitManager(rom, offsetExits.Integer, headerSprites.NumWarps);
 			}
 			if (!offsetTraps.IsEmpty)
 			{
-				headerSprites.MapTriggerManager = new TriggerManager(rom, offsetTraps.Integer, headerSprites.NumTraps);
+				headerSprites.MapTriggerManager = new TriggerManager(rom, offsetTraps.Integer, headerSprites.NumTriggers);
 			}
 			if (!offsetSigns.IsEmpty)
 			{

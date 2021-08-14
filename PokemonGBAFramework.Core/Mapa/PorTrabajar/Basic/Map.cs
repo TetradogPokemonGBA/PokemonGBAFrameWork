@@ -22,11 +22,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 
 		public MapHeader MapHeader { get; set; }
-		
-		public OverworldSpritesManager OverworldSpritesManager { get; set; }
-		public OverworldSprites[] EventSprites { get; set; }
-
-
 
 		public static OffsetRom GetOffset(RomGba rom)
 		{
