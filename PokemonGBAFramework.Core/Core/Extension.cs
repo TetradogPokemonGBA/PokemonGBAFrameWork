@@ -21,7 +21,7 @@ namespace PokemonGBAFramework.Core.Extension
         public const int G = R - 1;
         public const int B = G - 1;
 
-        public static Bitmap Flip(this Bitmap bmp,bool flipX,bool flipY)
+        public static Bitmap Flip(this Bitmap bmp, bool flipX, bool flipY)
         {
             Bitmap bmpFlip;
 
@@ -150,7 +150,26 @@ namespace PokemonGBAFramework.Core.Extension
 
 
         }
+        public static Bitmap SetColor(this Bitmap bmp, Color color)
+        {
+            Gabriel.Cat.S.Utilitats.V2.Color colorToSet = color;
+            unsafe
+            {
+                Gabriel.Cat.S.Utilitats.V2.Color* ptBmp;
 
+                bmp.TrataBytes((MetodoTratarBytePointer)((ptrBmp) =>
+                {
+                    ptBmp = (Gabriel.Cat.S.Utilitats.V2.Color*)ptrBmp;
+                    for (int i = 0, f = bmp.Width * bmp.Height; i < f; i++)
+                    {
+                        *ptBmp = colorToSet;
+                        ptBmp++;
+                    }
+                }));
+            }
+
+            return bmp;
+        }
         public static Color ToGBAColor(this Color color)
         {
             return BasePaleta.ToGBAColor(color.R, color.G, color.B);

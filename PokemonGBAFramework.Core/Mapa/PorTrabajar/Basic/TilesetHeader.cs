@@ -55,7 +55,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             tilesetHeader.PBlocks = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
 
-            if (!rom.Edicion.EsRubiOZafiro)
+            if (!rom.Edicion.EsRubiOZafiro)//mirar si falla leyendo Esmeralda
             {
                 tilesetHeader.PAnimation = new OffsetRom(rom, offset);
                 offset += OffsetRom.LENGTH;

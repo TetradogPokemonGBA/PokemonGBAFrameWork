@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		}
 		public static Block Get(RomGba rom, BlockRenderer render, int blockID)
 		{
-			return new Block(blockID, render.getBehaviorByte(rom, blockID));
+			return new Block(blockID, render.GetBehaviorByte(rom, blockID));
 		}
 		
 	}

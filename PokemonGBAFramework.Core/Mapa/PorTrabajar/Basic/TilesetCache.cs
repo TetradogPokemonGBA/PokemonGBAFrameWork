@@ -21,12 +21,13 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public Tileset Get(RomGba rom, int offset)
         {
             Tileset tile;
-            if (cache.ContainsKey(offset))
+            if (Contains(offset))
             {
                 tile = cache[offset];
                 if (tile.Modified)
                 {
                     tile = Tileset.Get(rom, tile.TilesetHeader);
+                    cache[offset] = tile;
                 }
 
             }
@@ -34,7 +35,6 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             {
                 tile = Tileset.Get(rom, offset);
                 cache.Add(offset, tile);
-
             }
             return tile;
         }
