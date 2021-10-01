@@ -19,7 +19,15 @@
             paleta.Paleta = Paleta.Get(rom, offsetPaletaNormalPokemon);
             return paleta;
         }
-
+        protected static void Set<T>(RomGba rom, int posicion, OffsetRom offsetPaletaNormal, byte[] muestraAlgoritmo, int index,T paletaNueva) where T:BasePaletaSpritePokemon,new()
+        {
+            if (Equals(offsetPaletaNormal, default))
+                offsetPaletaNormal = GetOffset(rom,muestraAlgoritmo,index);
+                
+            int offsetPaletaNormalPokemon = offsetPaletaNormal + Paleta.LENGTHHEADERCOMPLETO * posicion;
+            Paleta.Set(rom, offsetPaletaNormalPokemon,paletaNueva.Paleta);
+     
+        }
         protected static OffsetRom GetOffset(RomGba rom, byte[] muestraAlgoritmo, int index)
         {
             return new OffsetRom(rom, GetZona(rom,muestraAlgoritmo,index));

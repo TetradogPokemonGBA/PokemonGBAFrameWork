@@ -1,4 +1,5 @@
 ﻿using Gabriel.Cat.S.Extension;
+using PokemonGBAFramework.Core.Extension;
 using System;
 using System.Collections.Generic;
 using System.Text;

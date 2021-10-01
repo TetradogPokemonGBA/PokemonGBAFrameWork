@@ -61,9 +61,15 @@ namespace PokemonGBAFramework.Core
         }
         #endregion
         public static explicit operator Bitmap(Frontales frontales)=>frontales.Sprites[0];
+
         public static Frontales Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
         {
             return BaseSprite.Get<Frontales>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
+        }
+
+        public static void Set(RomGba rom, int posicion,Frontales frontales, OffsetRom offsetImgFrontal = default)
+        {
+             BaseSprite.Set<Frontales>(rom, posicion, offsetImgFrontal, GetMuestra(rom), GetIndex(rom),frontales);
         }
 
         public static Frontales[] Get(RomGba rom, OffsetRom offsetImgFrontal = default)

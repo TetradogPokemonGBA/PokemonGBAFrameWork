@@ -160,15 +160,16 @@ namespace PokemonGBAFramework.Core
             int offset = SearchArray(oldData);
             offsetOld = new OffsetRom(offset);
 
-                Remove(offset, oldData.Length);
-                offsetNew =new OffsetRom(SearchEmptySpaceAndSetArray(newData, offset));
-                do
-                {
-                    offsetOffset = SearchArray(offsetOld.BytesPointer);
-                    if (offsetOffset > 0)
-                        SetArray(offsetOffset, offsetNew.BytesPointer);
-                } while (offsetOffset > 0);
-                
+            Remove(offset, oldData.Length);
+            offsetNew =new OffsetRom(SearchEmptySpaceAndSetArray(newData, offset));
+            //actualizo los punteros que hicieran referencia por el nuevo
+            do
+            {
+                offsetOffset = SearchArray(offsetOld.BytesPointer);
+                if (offsetOffset > 0)
+                    SetArray(offsetOffset, offsetNew.BytesPointer);
+            } while (offsetOffset > 0);
+            
 
             
         }

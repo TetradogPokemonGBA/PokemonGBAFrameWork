@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Company>PokemonGBAFramework</Company>
     <Authors>PokemonGBAFramework</Authors>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Es una versión del framework de pokemon que busca las zonas a partir de partes del algoritmo que son unicas y estan en todas las roms de la misma edición.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.5.3</Version>
+    <Version>1.5.4</Version>
     <PackageId>PokemonGBAFramework</PackageId>
     <Product>PokemonGBAFramework</Product>
     <PackageProjectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</PackageProjectUrl>
@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gabriel.Cat.S.Drawing" Version="1.1.2" />
-    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.1.4" />
+    <PackageReference Include="Gabriel.Cat.S.Drawing" Version="1.1.3-Preview1" />
+    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.2.6" />
   </ItemGroup>
 
 </Project>

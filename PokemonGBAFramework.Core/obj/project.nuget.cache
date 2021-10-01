@@ -1,15 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "IGy7ZJQWoN3ZZmAFHRKv3w2FKrGL4kWcp17PjY3ouKi1cuAyuQAcDdwXY4UgXXiNaD2V91iAr3d84pkTWN7aOA==",
+  "dgSpecHash": "/1m/QLX9H77izxtofXDjR/KwIBnseDV5422KaMPOrCuWpIMw0nH2Q4Ky0mcG2nOkwLSjduv+XdgUDc7YdBy2xw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tetra\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
+  "projectFilePath": "C:\\Users\\Gabriel\\Documents\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\tetra\\.nuget\\packages\\gabriel.cat.s.drawing\\1.1.2\\gabriel.cat.s.drawing.1.1.2.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\gabriel.cat.s.utilitats\\1.1.4\\gabriel.cat.s.utilitats.1.1.4.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\tetra\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512"
+    "C:\\Users\\Gabriel\\.nuget\\packages\\gabriel.cat.s.drawing\\1.1.3-preview1\\gabriel.cat.s.drawing.1.1.3-preview1.nupkg.sha512",
+    "C:\\Users\\Gabriel\\.nuget\\packages\\gabriel.cat.s.utilitats\\1.2.6\\gabriel.cat.s.utilitats.1.2.6.nupkg.sha512",
+    "C:\\Users\\Gabriel\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Gabriel\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

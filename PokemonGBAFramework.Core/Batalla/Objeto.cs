@@ -25,15 +25,15 @@ namespace PokemonGBAFramework.Core
 
             return objeto;
         }
-        public static Objeto[] Get(RomGba rom, OffsetRom[] offsetsObjetos = default,int totalObjetos=-1)
+        public static IEnumerable<Objeto> Get(RomGba rom, OffsetRom[] offsetsObjetos = default,int totalObjetos=-1)
         {
             if (Equals(offsetsObjetos, default))
                 offsetsObjetos = GetOffsets(rom);
 
-            Objeto[] objetos = new Objeto[totalObjetos < 0 ? DatosObjeto.GetTotal(rom, offsetsObjetos[0]) : totalObjetos];
-            for (int i = 0; i < objetos.Length; i++)
-                objetos[i] = Get(rom, i, offsetsObjetos);
-            return objetos;
+
+            for (int i = 0,f= totalObjetos < 0 ? DatosObjeto.GetTotal(rom, offsetsObjetos[0]) : totalObjetos; i < f; i++)
+                yield return Get(rom, i, offsetsObjetos);
+
           
         }
     }

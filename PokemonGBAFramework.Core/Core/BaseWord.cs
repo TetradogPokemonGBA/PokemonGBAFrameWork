@@ -36,7 +36,7 @@ namespace PokemonGBAFramework.Core
         }
         public BaseWord(byte[] data)
         {
-            this.Data = data;
+            Data = data;
         }
 
         public byte[] Data { get; set; }
@@ -62,7 +62,7 @@ namespace PokemonGBAFramework.Core
 
         public override string ToString()
         {
-            return ((Hex)(byte[])this) + "";
+            return (Hex)this;
         }
         public override bool Equals(object obj)
         {
@@ -70,7 +70,7 @@ namespace PokemonGBAFramework.Core
             bool isEquals;
             if (other == null)
                 isEquals = false;
-            else isEquals = this.Data.ArrayEqual(other.Data);
+            else isEquals = Data.ArrayEqual(other.Data);
             return isEquals;
         }
 

@@ -18,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.0\PokemonGBAFramework.Core.dll" target="lib\netstandard2.0\PokemonGBAFramework.Core.dll" />
-    <file src="C:\Users\tetra\Documents\GitHub\PokemonGBAFrameWork\LICENSE.txt" target="LICENSE.txt" />
+    <file src="C:\Users\Gabriel\Documents\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.0\PokemonGBAFramework.Core.dll" target="lib\netstandard2.0\PokemonGBAFramework.Core.dll" />
+    <file src="C:\Users\Gabriel\Documents\PokemonGBAFrameWork\LICENSE.txt" target="LICENSE.txt" />
   </files>
 </package>

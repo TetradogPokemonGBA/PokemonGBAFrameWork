@@ -3,6 +3,7 @@ using Gabriel.Cat.S.Utilitats;
 using PokemonGBAFramework.Core.Extension;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Text;
 
@@ -24,13 +25,12 @@ namespace PokemonGBAFramework.Core
         {
             Offset = -1;
         }
-        public Paleta(params Color[] coloresPaleta) : this()
+        public Paleta([NotNull] Color[] coloresPaleta,bool includeBack=true) : this()
         {
-            if (coloresPaleta == default)
-                throw new ArgumentNullException();
-
-            for (int i = 0; i < LENGTH && i < coloresPaleta.Length; i++)
-                this.Colores[i] = coloresPaleta[i];
+            for (int i = includeBack ? 0:1; i < LENGTH && i < coloresPaleta.Length; i++)
+                Colores[i] = coloresPaleta[i];
+            if(!includeBack)
+                Colores[0]=BackgroundColorDefault;
 
         }
 
@@ -135,7 +135,21 @@ namespace PokemonGBAFramework.Core
             return paletaCargada;
         }
 
-
+        public static void Set(RomGba rom, int offsetPointerPaleta,Paleta paleta)
+        {//falta mirar que funcione
+            int offsetPaletaData = new OffsetRom(rom, offsetPointerPaleta).Offset;
+            if (LZ77.CheckCompresionLZ77(rom.Data.Bytes, offsetPaletaData))
+            {
+                //borro los datos anteriores
+                rom.Data.Remove(offsetPaletaData,LZ77.Longitud(rom.Data.Bytes,offsetPaletaData));
+                //pongo los datos nuevos
+                offsetPaletaData=rom.Data.SearchEmptySpaceAndSetArray(LZ77.Comprimir(paleta.GetBytes()),offsetPaletaData);
+                //actualizo el pointer
+                OffsetRom.Set(rom, offsetPointerPaleta, new OffsetRom(offsetPaletaData));
+            }
+            else
+                rom.Data.SetArray(offsetPaletaData,paleta.GetBytes());
+        }
         public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
         {
             return new OffsetRom(gbaRom, offsetToCheck).IsAPointer && gbaRom.Data.Bytes.ArrayEqual(DefaultHeader, offsetToCheck + OffsetRom.LENGTH + 2);

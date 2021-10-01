@@ -17,11 +17,14 @@ namespace PokemonGBAFramework.Core
         public static readonly int IndexRelativoEsmeralda = -MuestraAlgoritmoEsmeralda.Length - 32;
 
         public static explicit operator Bitmap(Traseros traseros) => traseros.Sprites[0];
-        public static Traseros Get(RomGba rom, int posicion, OffsetRom offsetImgFrontal = default)
+        public static Traseros Get(RomGba rom, int posicion, OffsetRom offsetImgTresero = default)
         {
-            return BaseSprite.Get<Traseros>(rom,posicion,offsetImgFrontal, GetMuestra(rom), GetIndex(rom));
+            return BaseSprite.Get<Traseros>(rom,posicion,offsetImgTresero, GetMuestra(rom), GetIndex(rom));
         }
-
+        public static void Set(RomGba rom, int posicion,Traseros traseros, OffsetRom offsetImgTresero = default)
+        {
+             BaseSprite.Set<Traseros>(rom, posicion, offsetImgTresero, GetMuestra(rom), GetIndex(rom),traseros);
+        }
         public static Traseros[] Get(RomGba rom, OffsetRom offsetTraseros = default)
         {
             return BaseSprite.Get<Traseros>(rom, GetMuestra(rom), GetIndex(rom),offsetTraseros);

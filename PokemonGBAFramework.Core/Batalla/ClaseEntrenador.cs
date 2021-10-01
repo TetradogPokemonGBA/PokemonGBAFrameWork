@@ -34,15 +34,17 @@ namespace PokemonGBAFramework.Core
 
             return claseEntrenador;
         }
-        public static ClaseEntrenador[] Get(RomGba rom, OffsetRom[] offsetsClaseEntrenador = default, int totalObjetos = -1)
+        public static IEnumerable<ClaseEntrenador> Get(RomGba rom, OffsetRom[] offsetsClaseEntrenador = default, int totalClasesEntrenador = -1)
         {
             if (Equals(offsetsClaseEntrenador, default))
                 offsetsClaseEntrenador = GetOffsets(rom);
+            if (totalClasesEntrenador < 0)
+                totalClasesEntrenador = SpriteClaseEntrenador.GetTotal(rom, offsetsClaseEntrenador[1], offsetsClaseEntrenador[2]);
 
-            ClaseEntrenador[] claseEntrenadorList = new ClaseEntrenador[totalObjetos < 0 ? SpriteClaseEntrenador.GetTotal(rom, offsetsClaseEntrenador[1], offsetsClaseEntrenador[2]) : totalObjetos];
-            for (int i = 0; i < claseEntrenadorList.Length; i++)
-                claseEntrenadorList[i] = Get(rom, i, offsetsClaseEntrenador);
-            return claseEntrenadorList;
+
+            for (int i = 0; i < totalClasesEntrenador; i++)
+                yield return Get(rom, i, offsetsClaseEntrenador);
+
 
         }
     }

@@ -14,7 +14,10 @@ namespace PokemonGBAFramework.Core
         {
             return Get<PaletaNormal>(rom, posicion, offsetImgFrontal, MuestraAlgoritmo, IndexRelativo);
         }
-
+        public static void Set(RomGba rom, int posicion,PaletaNormal paleta, OffsetRom offsetImgFrontal = default)
+        {
+            Set<PaletaNormal>(rom, posicion, offsetImgFrontal, MuestraAlgoritmo, IndexRelativo,paleta);
+        }
         public static PaletaNormal[] Get(RomGba rom, OffsetRom offsetPaletaNormal = default)
         {
             return Get<PaletaNormal>(rom, MuestraAlgoritmo, IndexRelativo, offsetPaletaNormal);

@@ -1,5 +1,6 @@
 ﻿using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;

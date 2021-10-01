@@ -22,10 +22,7 @@ namespace PokemonGBAFramework.Core
 		public BloqueSprite()
 		{
 		}
-		public BloqueSprite(Bitmap bmp)
-		{
-			SetBitmapData(bmp);
-		}
+
 
         public byte[] ImgData { get; set; }
         public int Height { get; set; }
@@ -34,31 +31,7 @@ namespace PokemonGBAFramework.Core
 
         public Paleta Paleta { get; set; }
 
-		public void SetBitmapData(Bitmap bmp, Paleta paleta = null)
-		{
-			int heghtF = -1, widthF = -1;
-			Medidas[] medidas = (Medidas[])Enum.GetValues(typeof(Medidas));
 
-			//pongo las medidas standar
-			for (int i = bmp.Height / 8; i < medidas.Length && heghtF < 0; i++)
-				if ((int)medidas[i] >= bmp.Height)
-					heghtF = (int)medidas[i];
-			for (int i = bmp.Width / 8; i < medidas.Length && widthF < 0; i++)
-				if ((int)medidas[i] >= bmp.Width)
-					widthF = (int)medidas[i];
-
-			if (heghtF < 0)
-				heghtF = (int)Medidas.MuyGrande;
-			if (widthF < 0)
-				widthF = (int)Medidas.MuyGrande;
-
-			bmp = bmp.Clone(new Rectangle(0, 0, widthF, heghtF), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-			Height = bmp.Height;
-			Width = bmp.Width;
-
-			ImgData = BloqueImagen.GetDatosDescomprimidos(bmp, paleta);
-		}
 
 
 		public Bitmap GetBitmap(Paleta paleta = null)

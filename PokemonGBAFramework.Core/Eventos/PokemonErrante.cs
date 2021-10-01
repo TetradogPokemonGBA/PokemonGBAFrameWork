@@ -1,5 +1,6 @@
 ﻿using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using PokemonGBAFramework.Core.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace PokemonGBAFramework.Core
                 {
                     get
                     {
-                        int index = Rutas.IndexByte(MARCAFIN);
+                        int index = Rutas.IndexByte(0,MARCAFIN);
                         return index > MINSALTOS - 1||index==-1;
                     }
                 }

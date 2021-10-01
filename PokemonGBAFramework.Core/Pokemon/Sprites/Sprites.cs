@@ -39,6 +39,17 @@ namespace PokemonGBAFramework.Core
 
             return sprites;
         }
+        public static void Set(RomGba rom, int ordenGameFreak,Sprites sprites, OffsetRom[] offsetsSprites=default)
+        {
+            if (Equals(offsetsSprites, default))
+                offsetsSprites = GetOffsets(rom);
+
+            Frontales.Set(rom, ordenGameFreak,sprites.Frontales, offsetsSprites[0]);
+            Traseros.Set(rom, ordenGameFreak,sprites.Traseros, offsetsSprites[1]);
+            PaletaNormal.Set(rom, ordenGameFreak,sprites.PaletaNomal, offsetsSprites[2]);
+            PaletaShiny.Set(rom, ordenGameFreak,sprites.PaletaShiny, offsetsSprites[3]);
+            
+        }
         public static Sprites[] Get(RomGba rom,OffsetRom[] offsetsSprites = default)
         {
             if (Equals(offsetsSprites, default))

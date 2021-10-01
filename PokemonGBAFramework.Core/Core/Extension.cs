@@ -55,82 +55,7 @@ namespace PokemonGBAFramework.Core.Extension
             return dimg;
         }
 
-        public static Color[] GetColoresPaleta(this Bitmap bmp)
-        {
-            int[] paletaInt = GetPaletaInt(bmp);
-            Color[] paleta = new Color[paletaInt.Length];
-            for (int i = 0; i < paletaInt.Length; i++)
-                paleta[i] = Color.FromArgb(paletaInt[i]);
-
-            return paleta;
-
-        }
-        public static int[] GetPaletaInt(this Bitmap bmp)
-        {
-            const int ARGB = 4;
-            LlistaOrdenada<int, int> dicColors = new LlistaOrdenada<int, int>();
-            int pos = 0;
-            int aux;
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe
-            {
-
-                int* ptrColorBmp;
-
-                ptrColorBmp = (int*)bmpData.Scan0;
-
-                for (int i = 0, f = bmp.Width * bmp.Height; i < f; i++)
-                {
-                    aux = *ptrColorBmp;
-                    ptrColorBmp++;
-                    if (!dicColors.ContainsKey(aux))
-                        dicColors.Add(aux, pos++);
-                }
-
-
-            }
-            bmp.UnlockBits(bmpData);
-            return (int[])dicColors.Keys;
-        }
-
-        /// <summary>
-        /// Lo estandariza para poder trabajar de forma homogenia,los colores son los que se verian en la GBA
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-        public static byte[] GetBytesColorGBA(this Bitmap bmp)
-        {
-            byte[] bytesImg;
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe
-            {
-                byte* ptrBytesImg = (byte*)bmpData.Scan0;
-                byte* ptrBytes;
-                bytesImg = new byte[bmp.Width * bmp.Height * BYTESPORCOLOR];
-                fixed (byte* ptBytes = bytesImg)
-                {
-                    ptrBytes = ptBytes;
-                    for (int i = 0; i < bytesImg.Length; i++)
-                    {
-                        *ptrBytes = *ptrBytesImg;
-                        ptrBytes++;
-                        ptrBytesImg++;
-                    }
-
-                    ToGbaColor(ptBytes, bytesImg.Length);
-                }
-            }
-            bmp.UnlockBits(bmpData);
-            return bytesImg;
-        }
-        public static Bitmap ToGbaBitmap(this Bitmap bmp)
-        {
-            Bitmap bmpNew = new Bitmap(bmp.Width, bmp.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            bmpNew.SetBytes(bmp.GetBytesColorGBA());
-            return bmpNew;
-        }
-
-        static unsafe void ToGbaColor(byte* ptrBytesBmp, int total)
+       static unsafe void ToGbaColor(byte* ptrBytesBmp, int total)
         {
             const byte SINTRANSPARENCIA = 0xFF;
             const int ARGB = 4;
@@ -157,7 +82,7 @@ namespace PokemonGBAFramework.Core.Extension
             {
                 Gabriel.Cat.S.Utilitats.V2.Color* ptBmp;
 
-                bmp.TrataBytes((MetodoTratarBytePointer)((ptrBmp) =>
+                bmp.TrataBytes((MetodoTratarUnmanagedTypePointer<byte>)((ptrBmp) =>
                 {
                     ptBmp = (Gabriel.Cat.S.Utilitats.V2.Color*)ptrBmp;
                     for (int i = 0, f = bmp.Width * bmp.Height; i < f; i++)
@@ -170,14 +95,34 @@ namespace PokemonGBAFramework.Core.Extension
 
             return bmp;
         }
+        public static int IndexByte(this byte[] bytes,int inicio,byte toFind)
+        {
+            if (inicio < 0 || inicio > bytes.Length - 1)
+                throw new ArgumentOutOfRangeException();
+            int index=-1;
+            unsafe
+            {
+                byte* ptBytes;
+                fixed(byte* ptrBytes = bytes)
+                {
+                    ptBytes = ptrBytes+inicio;
+
+                    for(int i = inicio; i < bytes.Length && index<0; i++)
+                    {
+                        if (Equals(toFind, *ptBytes))
+                            index = i;
+                        ptBytes++;
+                    }
+
+                }
+            }
+            return index;
+        }
         public static Color ToGBAColor(this Color color)
         {
             return BasePaleta.ToGBAColor(color.R, color.G, color.B);
         }
-        public static Paleta GetPaleta(this Bitmap img)
-        {
-            return new Paleta(img.GetColoresPaleta());
-        }
+
         public static int NextOffsetValido(this int offset)
         {
             return offset + (4 - (offset % 4));//mirar que sea así

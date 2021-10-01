@@ -1,5 +1,6 @@
 ﻿using Gabriel.Cat.S.Extension;
 using Gabriel.Cat.S.Utilitats;
+using System.Linq;
 
 namespace PokemonGBAFramework.Core
 {
@@ -25,6 +26,21 @@ namespace PokemonGBAFramework.Core
             }
 
             return traseros;
+
+        }
+        protected static void Set<T>(RomGba rom, int posicion, OffsetRom offsetImgTrasera, byte[] muestraAlgoritmo, int index,T sprites) where T : BaseSprite, new()
+        {
+            if (Equals(offsetImgTrasera, default))
+                offsetImgTrasera = GetOffset(rom, muestraAlgoritmo, index);
+
+            byte[] datosOri,datosAPonerSinComprimir;
+            int offsetImgTraseraPokemon = offsetImgTrasera + BloqueImagen.LENGTHHEADERCOMPLETO * posicion;
+            BloqueImagen bloqueImgTrasera = BloqueImagen.GetBloqueImagen(rom, offsetImgTraseraPokemon);
+            datosOri = bloqueImgTrasera.DatosComprimidos();
+            datosAPonerSinComprimir=new byte[0].AddArray(sprites.Sprites.Select(s=>s.DatosDescomprimidos.Bytes).ToArray());
+
+            rom.Data.Replace(datosOri, LZ77.Comprimir(datosAPonerSinComprimir));
+           
 
         }
         protected static OffsetRom GetOffset(RomGba rom, byte[] muestraAlgoritmo, int index)

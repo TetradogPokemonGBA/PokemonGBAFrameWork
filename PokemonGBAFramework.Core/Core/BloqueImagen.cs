@@ -29,15 +29,7 @@ namespace PokemonGBAFramework.Core
             Formato = -1;
 
         }
-        public BloqueImagen(int longitudLado) : this(new Bitmap(longitudLado, longitudLado), true)
-        {
 
-        }
-        public BloqueImagen(Bitmap img, bool estaConvertidaAGba = false) : this()
-        {
-            DatosDescomprimidos = new BloqueBytes(GetDatosDescomprimidos(img, null, estaConvertidaAGba));
-            Paletas.Add(img.GetPaleta());
-        }
         public BloqueImagen(byte[] datosImg, Paleta[] paletas, bool estaComprimido=false):this(new BloqueBytes(estaComprimido?LZ77.Descomprimir(datosImg):datosImg),paletas)
         {
 
@@ -187,7 +179,7 @@ namespace PokemonGBAFramework.Core
             unsafe
             {
 
-                bmpTiles.TrataBytes((MetodoTratarBytePointer)((bytesBmp) =>
+                bmpTiles.TrataBytes((MetodoTratarUnmanagedTypePointer<byte>)((bytesBmp) =>
                 {
 
                     for (int y1 = 0; y1 < height; y1 += NUM)
@@ -227,70 +219,8 @@ namespace PokemonGBAFramework.Core
 
             return bmpTiles;
         }
-        public static byte[] GetDatosDescomprimidos(Bitmap bmp, Paleta paleta = null, bool estaConvertidaAGba = false)
-        {//falta probar
-            const int PIXELSPERBYTE = 2;
 
-            byte[] bytesBmpGBADescomprimido;
-            SortedList<Gabriel.Cat.S.Utilitats.V2.Color, int> dicPosColors;
-            Gabriel.Cat.S.Utilitats.V2.Color aux;
 
-            if (bmp == null)
-                throw new ArgumentNullException("bmp");
-
-            if (!estaConvertidaAGba)
-                bmp = bmp.ToGbaBitmap();
-
-            if (paleta == null)
-                paleta = bmp.GetPaleta();
-
-            bytesBmpGBADescomprimido = new byte[bmp.Width * bmp.Height / PIXELSPERBYTE];
-            dicPosColors = new SortedList<Gabriel.Cat.S.Utilitats.V2.Color, int>();
-
-            for (int i = 0; i < paleta.Colores.Length; i++)
-            {
-                aux = new Gabriel.Cat.S.Utilitats.V2.Color(paleta.Colores[i].ToArgb());
-                if (!dicPosColors.ContainsKey(aux))
-                    dicPosColors.Add(aux, i);
-            }
-            unsafe
-            {
-                Gabriel.Cat.S.Utilitats.V2.Color* ptrColor;
-                byte* ptrBmpGBADescomprimido;
-                fixed (byte* ptBmpGBADescomprimido = bytesBmpGBADescomprimido)
-                {
-                    fixed (byte* ptBytesColorsBmp = bmp.GetBytes())
-                    {
-                        ptrColor = (Gabriel.Cat.S.Utilitats.V2.Color*)ptBytesColorsBmp;
-                        ptrBmpGBADescomprimido = ptBmpGBADescomprimido;
-
-                        for (int i = 0, f = bytesBmpGBADescomprimido.Length; i < f; i++)
-                        {
-                            *ptrBmpGBADescomprimido = (byte)(dicPosColors[*ptrColor] * 16);
-                            //hago un color
-                            ptrColor++;
-                            //hago el otro
-                            *ptrBmpGBADescomprimido += (byte)(dicPosColors[*ptrColor]);
-                            ptrBmpGBADescomprimido++;
-                        }
-
-                    }
-                }
-
-            }
-
-            return bytesBmpGBADescomprimido;
-        }
-        /// <summary>
-        /// Convert Bitmap To 4BPP Byte Array
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        static BloqueBytes GetDatosComprimidos(Bitmap img, bool estaConvertidaAGba = false)
-        {
-
-            return new BloqueBytes(LZ77.Comprimir(GetDatosDescomprimidos(img, null, estaConvertidaAGba)));
-        }
         #endregion
         public static bool IsHeaderOk(RomGba gbaRom, int offsetToCheck)
         {

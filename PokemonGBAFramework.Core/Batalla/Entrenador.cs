@@ -135,12 +135,12 @@ namespace PokemonGBAFramework.Core
             return BloqueBytes.GetBytes(rom.Data, poscionEntrenador, TAMAÑOENTRENADOR);
         }
 
-        public static Entrenador[] Get(RomGba rom, OffsetRom offsetEntrenador = default,int totalEntrenadores=-1)
+        public static IEnumerable<Entrenador> Get(RomGba rom, OffsetRom offsetEntrenador = default,int totalEntrenadores=-1)
         {
-            Entrenador[] entrenadores = new Entrenador[totalEntrenadores<0?GetTotal(rom,offsetEntrenador):totalEntrenadores];
-            for (int i = 0; i < entrenadores.Length; i++)
-                entrenadores[i] = Get(rom, i,offsetEntrenador);
-            return entrenadores;
+     
+            for (int i = 0,f= totalEntrenadores < 0 ? GetTotal(rom, offsetEntrenador) : totalEntrenadores; i < f; i++)
+                yield return Get(rom, i,offsetEntrenador);
+
         }
 
 
