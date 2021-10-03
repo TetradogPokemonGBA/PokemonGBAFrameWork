@@ -152,24 +152,27 @@ namespace PokemonGBAFramework.Core
             return Bytes.SearchArray(inicio, fin, datos);
         }
 
-        public void Replace(byte[] oldData, byte[] newData)
+        public OffsetRom Replace(byte[] oldData, byte[] newData,bool updateOffsets=true)
         {//por mirar...
             int offsetOffset;
             OffsetRom offsetNew;
             OffsetRom offsetOld;
             int offset = SearchArray(oldData);
+            if (offset < 0)
+                throw new Exception($"No se ha encontrado {nameof(oldData)} para poderla reemplazar...");
             offsetOld = new OffsetRom(offset);
 
             Remove(offset, oldData.Length);
             offsetNew =new OffsetRom(SearchEmptySpaceAndSetArray(newData, offset));
             //actualizo los punteros que hicieran referencia por el nuevo
+            if(updateOffsets)
             do
             {
                 offsetOffset = SearchArray(offsetOld.BytesPointer);
                 if (offsetOffset > 0)
                     SetArray(offsetOffset, offsetNew.BytesPointer);
             } while (offsetOffset > 0);
-            
+            return offsetNew;
 
             
         }

@@ -3,6 +3,7 @@ using Gabriel.Cat.S.Utilitats;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFramework.Core
@@ -35,17 +36,13 @@ namespace PokemonGBAFramework.Core
         public static byte[] GetBytes(Color color)
         {
             return new byte[] { (byte)((byte)(color.R / 8) + ((byte)((color.G / 8) & 0x7) << 5)),
-                                (byte)(((((byte)color.B / 8)) << 2) + ((byte)(color.G / 8) >> 3))
+                                (byte)((((byte)(color.B / 8)) << 2) + ((byte)(color.G / 8) >> 3))
                                };
         }
         public static byte[] GetBytes(Color[] colores)
         {
-            byte[] data = new byte[colores.Length * LENGTHCOLOR];
-            for (int i = 0; i < colores.Length; i++)
-            {
-                data.SetArray(i * LENGTHCOLOR, GetBytes(colores[i]));
-            }
-            return data;
+
+            return new byte[0].AddArray(colores.Select(c => GetBytes(c)).ToArray());
         }
         public static byte[] GetBytesGBA(BasePaleta paleta, bool comprimirLz77 = true)
         {

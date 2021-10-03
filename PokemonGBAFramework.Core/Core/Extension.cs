@@ -20,7 +20,14 @@ namespace PokemonGBAFramework.Core.Extension
         public const int R = A - 1;
         public const int G = R - 1;
         public const int B = G - 1;
-
+        public static byte FlipByte(this byte Byte)
+        {
+            return (byte)((Byte >> 4) + ((Byte << 4) & 0xF0));
+        }
+        public static BloqueImagen ToBloqueImagen(this Bitmap bmp)
+        {
+            return new BloqueImagen(bmp);
+        }
         public static Bitmap Flip(this Bitmap bmp, bool flipX, bool flipY)
         {
             Bitmap bmpFlip;

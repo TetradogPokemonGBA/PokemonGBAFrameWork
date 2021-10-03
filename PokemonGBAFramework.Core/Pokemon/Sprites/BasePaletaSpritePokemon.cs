@@ -10,21 +10,21 @@
         public Paleta Paleta { get; set; }
 
 
-        protected static T Get<T>(RomGba rom, int posicion, OffsetRom offsetPaletaNormal, byte[] muestraAlgoritmo, int index) where T:BasePaletaSpritePokemon,new()
+        protected static T Get<T>(RomGba rom, int posicion, OffsetRom offsetPaleta, byte[] muestraAlgoritmo, int index) where T:BasePaletaSpritePokemon,new()
         {
-            if (Equals(offsetPaletaNormal, default))
-                offsetPaletaNormal = GetOffset(rom,muestraAlgoritmo,index);
+            if (Equals(offsetPaleta, default))
+                offsetPaleta = GetOffset(rom,muestraAlgoritmo,index);
             T paleta = new T();
-            int offsetPaletaNormalPokemon = offsetPaletaNormal + Paleta.LENGTHHEADERCOMPLETO * posicion;
+            int offsetPaletaNormalPokemon = offsetPaleta + Paleta.LENGTHHEADERCOMPLETO * posicion;
             paleta.Paleta = Paleta.Get(rom, offsetPaletaNormalPokemon);
             return paleta;
         }
-        protected static void Set<T>(RomGba rom, int posicion, OffsetRom offsetPaletaNormal, byte[] muestraAlgoritmo, int index,T paletaNueva) where T:BasePaletaSpritePokemon,new()
+        protected static void Set<T>(RomGba rom, int posicion, OffsetRom offsetPaleta, byte[] muestraAlgoritmo, int index,T paletaNueva) where T:BasePaletaSpritePokemon,new()
         {
-            if (Equals(offsetPaletaNormal, default))
-                offsetPaletaNormal = GetOffset(rom,muestraAlgoritmo,index);
+            if (Equals(offsetPaleta, default))
+                offsetPaleta = GetOffset(rom,muestraAlgoritmo,index);
                 
-            int offsetPaletaNormalPokemon = offsetPaletaNormal + Paleta.LENGTHHEADERCOMPLETO * posicion;
+            int offsetPaletaNormalPokemon = offsetPaleta + Paleta.LENGTHHEADERCOMPLETO * posicion;
             Paleta.Set(rom, offsetPaletaNormalPokemon,paletaNueva.Paleta);
      
         }

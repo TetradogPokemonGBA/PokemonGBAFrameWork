@@ -69,6 +69,15 @@ namespace PokemonGBAFramework.Core
             return new OffsetRom(pointerData).BytesPointer.AddArray(Header);
         }
         public GranPaleta ToGranPaleta() => new GranPaleta(Colores);
+        public int IndexOf(Color color)
+        {
+            const int NOENCONTRADO = -1;
+            int index = NOENCONTRADO;
+            for (int i = 0; i < Colores.Length && index == NOENCONTRADO; i++)
+                if (Colores[i].Equals(color))
+                    index = i;
+            return index;
+        }
         public override BasePaleta Clon()
         {
             return new Paleta(Colores);
@@ -136,14 +145,14 @@ namespace PokemonGBAFramework.Core
         }
 
         public static void Set(RomGba rom, int offsetPointerPaleta,Paleta paleta)
-        {//falta mirar que funcione
+        {//algo falla
             int offsetPaletaData = new OffsetRom(rom, offsetPointerPaleta).Offset;
             if (LZ77.CheckCompresionLZ77(rom.Data.Bytes, offsetPaletaData))
-            {
+            {//algo hace mal por aqui
                 //borro los datos anteriores
-                rom.Data.Remove(offsetPaletaData,LZ77.Longitud(rom.Data.Bytes,offsetPaletaData));
+                    //no tengo opción de saberlos si no los guardo...pero luego hay problemas si se importa desde otra rom...
                 //pongo los datos nuevos
-                offsetPaletaData=rom.Data.SearchEmptySpaceAndSetArray(LZ77.Comprimir(paleta.GetBytes()),offsetPaletaData);
+                offsetPaletaData=rom.Data.SearchEmptySpaceAndSetArray(GetBytesGBA(paleta),offsetPaletaData);
                 //actualizo el pointer
                 OffsetRom.Set(rom, offsetPointerPaleta, new OffsetRom(offsetPaletaData));
             }
