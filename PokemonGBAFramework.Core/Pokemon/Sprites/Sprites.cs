@@ -8,17 +8,17 @@ namespace PokemonGBAFramework.Core
     {
         public const int LONGITUDLADO = 64;
         public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
-        
+
         public Frontales Frontales { get; set; }
         public Traseros Traseros { get; set; }
         public PaletaNormal PaletaNomal { get; set; }
         public PaletaShiny PaletaShiny { get; set; }
         public static OffsetRom[] GetOffsets(RomGba rom)
         {
-            return new OffsetRom[] { Frontales.GetOffset(rom), Traseros.GetOffset(rom),PaletaNormal.GetOffset(rom), PaletaShiny.GetOffset(rom) };
+            return new OffsetRom[] { Frontales.GetOffset(rom), Traseros.GetOffset(rom), PaletaNormal.GetOffset(rom), PaletaShiny.GetOffset(rom) };
         }
 
-        public static Sprites Get(RomGba rom, int ordenGameFreak, OffsetRom[] offsetsSprites=default)
+        public static Sprites Get(RomGba rom, int ordenGameFreak, OffsetRom[] offsetsSprites = default)
         {
             Paleta[] paletas;
             Sprites sprites = new Sprites();
@@ -39,18 +39,22 @@ namespace PokemonGBAFramework.Core
 
             return sprites;
         }
-        public static void Set(RomGba rom, int ordenGameFreak,Sprites sprites, OffsetRom[] offsetsSprites=default)
+        public static void Set(RomGba rom, Pokemon pokemon, OffsetRom[] offsetsSprites = default)
+        {
+            Set(rom, pokemon.OrdenGameFreak, pokemon.Sprites, offsetsSprites);
+        }
+        public static void Set(RomGba rom, int ordenGameFreak, Sprites sprites, OffsetRom[] offsetsSprites = default)
         {
             if (Equals(offsetsSprites, default))
                 offsetsSprites = GetOffsets(rom);
 
-            Frontales.Set(rom, ordenGameFreak,sprites.Frontales, offsetsSprites[0]);
-            Traseros.Set(rom, ordenGameFreak,sprites.Traseros, offsetsSprites[1]);
-            PaletaNormal.Set(rom, ordenGameFreak,sprites.PaletaNomal, offsetsSprites[2]);
-            PaletaShiny.Set(rom, ordenGameFreak,sprites.PaletaShiny, offsetsSprites[3]);
-            
+            Frontales.Set(rom, ordenGameFreak, sprites.Frontales, offsetsSprites[0]);
+            Traseros.Set(rom, ordenGameFreak, sprites.Traseros, offsetsSprites[1]);
+            PaletaNormal.Set(rom, ordenGameFreak, sprites.PaletaNomal, offsetsSprites[2]);
+            PaletaShiny.Set(rom, ordenGameFreak, sprites.PaletaShiny, offsetsSprites[3]);
+
         }
-        public static Sprites[] Get(RomGba rom,OffsetRom[] offsetsSprites = default)
+        public static Sprites[] Get(RomGba rom, OffsetRom[] offsetsSprites = default)
         {
             if (Equals(offsetsSprites, default))
                 offsetsSprites = GetOffsets(rom);
@@ -59,7 +63,7 @@ namespace PokemonGBAFramework.Core
         }
         public static Sprites[] GetOrdenLocal(RomGba rom, OffsetRom[] offsetsSprites = default, OffsetRom offsetOrdenLocal = default)
         {
-            Sprites[] pokemon = Get(rom,offsetsSprites);
+            Sprites[] pokemon = Get(rom, offsetsSprites);
             Sprites[] ordenados = new Sprites[pokemon.Length];
 
             if (Equals(offsetOrdenLocal, default))
@@ -71,9 +75,9 @@ namespace PokemonGBAFramework.Core
                 ordenados[(int)(Word)OrdenLocal.Get(rom, i, offsetOrdenLocal)] = pokemon[i];
             return ordenados;
         }
-        public static Sprites[] GetOrdenNacional(RomGba rom, OffsetRom[] offsetsSprites = default,OffsetRom offsetOrdenNacional=default)
+        public static Sprites[] GetOrdenNacional(RomGba rom, OffsetRom[] offsetsSprites = default, OffsetRom offsetOrdenNacional = default)
         {
-            Sprites[] pokemon = Get(rom,offsetsSprites);
+            Sprites[] pokemon = Get(rom, offsetsSprites);
             Sprites[] ordenados = new Sprites[pokemon.Length];
 
             if (Equals(offsetOrdenNacional, default))
@@ -82,7 +86,7 @@ namespace PokemonGBAFramework.Core
             ordenados[0] = pokemon[0];
 
             for (int i = 1; i < pokemon.Length; i++)
-                ordenados[(int)(Word)OrdenNacional.Get(rom,i,offsetOrdenNacional)] = pokemon[i];
+                ordenados[(int)(Word)OrdenNacional.Get(rom, i, offsetOrdenNacional)] = pokemon[i];
             return ordenados;
         }
     }

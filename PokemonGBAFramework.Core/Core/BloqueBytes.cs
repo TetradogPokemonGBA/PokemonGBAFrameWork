@@ -120,7 +120,7 @@ namespace PokemonGBAFramework.Core
             //tiene que acabar en 0,4,8,C
            /* const int MINIMO = 150;*///asi si hay un bloque que tiene que ser 0x0 o 0xFF por algo pues lo respeta :D mirar de ajustarlo
             int offsetEncontrado = inicio;
-            int lengthFinal = length;
+            int lengthFinal = length+10;
             bool continuarBuscando=true;
             //if (length < MINIMO)
             //    lengthFinal = MINIMO;

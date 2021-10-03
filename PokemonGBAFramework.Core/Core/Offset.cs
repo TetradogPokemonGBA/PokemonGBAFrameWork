@@ -56,7 +56,8 @@ namespace PokemonGBAFramework.Core
         {
             if (bytesPointer.Length < LENGTH)
                 throw new ArgumentOutOfRangeException();
-            this.BytesPointer = bytesPointer.SubArray(0, LENGTH);
+            
+            BytesPointer = bytesPointer.Length>LENGTH? bytesPointer.SubArray(0, LENGTH):bytesPointer;
         }
         public unsafe OffsetRom(byte* ptrRom, int offset) : this(ptrRom + offset)
         { }
@@ -279,10 +280,10 @@ namespace PokemonGBAFramework.Core
             {
                 offset = new OffsetRom(rom, offsetTabla);
                 offsetTabla += LENGTH;
-                if (offset.IsAPointer)
-                    total++;
+                total++;
 
             } while (offset.IsAPointer);
+            total--;//le resto el último que se ha contado uno que no era :D ahora es más optimo :)
             return total;
 
 

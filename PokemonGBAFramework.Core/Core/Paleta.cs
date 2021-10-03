@@ -152,7 +152,9 @@ namespace PokemonGBAFramework.Core
                 //borro los datos anteriores
                     //no tengo opción de saberlos si no los guardo...pero luego hay problemas si se importa desde otra rom...
                 //pongo los datos nuevos
-                offsetPaletaData=rom.Data.SearchEmptySpaceAndSetArray(GetBytesGBA(paleta),offsetPaletaData);
+
+                //creo que los pongo mal en la rom osea de una forma diferente a como la leo... porque no es de la compresión/descompresión
+                offsetPaletaData=rom.Data.SearchEmptySpaceAndSetArray(LZ77.Comprimir(paleta.GetBytes()),offsetPaletaData);
                 //actualizo el pointer
                 OffsetRom.Set(rom, offsetPointerPaleta, new OffsetRom(offsetPaletaData));
             }
