@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace PokemonGBAFramework.Core
 {
     public class Sprites
     {
+        [Flags]
+        public enum Sprite
+        {
+            Trasero=2,Frontal=4,Shiny=8
+        }
         public const int LONGITUDLADO = 64;
         public const int TAMAÑOIMAGENDESCOMPRIMIDA = 2048;
 
@@ -13,6 +19,23 @@ namespace PokemonGBAFramework.Core
         public Traseros Traseros { get; set; }
         public PaletaNormal PaletaNomal { get; set; }
         public PaletaShiny PaletaShiny { get; set; }
+
+        public Bitmap Get(Sprite sprite, int frame = 0)
+        {
+            IList<BloqueImagen> sprites;
+
+
+            if (sprite.HasFlag(Sprite.Frontal))
+                sprites = Frontales.Sprites;
+            else if (sprite.HasFlag(Sprite.Trasero))
+                sprites = Traseros.Sprites;
+            else throw new Exception("Se tiene que especificar si se quiere Frontal o Trasero");
+
+            if (frame < 0)
+                frame = sprites.Count - (frame * -1 % sprites.Count);//mirar que sea lo mismo que ir marcha atrás
+
+            return sprites[frame % sprites.Count] + (sprite.HasFlag(Sprite.Shiny) ? PaletaShiny.Paleta : PaletaNomal.Paleta);
+        }
         public static OffsetRom[] GetOffsets(RomGba rom)
         {
             return new OffsetRom[] { Frontales.GetOffset(rom), Traseros.GetOffset(rom), PaletaNormal.GetOffset(rom), PaletaShiny.GetOffset(rom) };
