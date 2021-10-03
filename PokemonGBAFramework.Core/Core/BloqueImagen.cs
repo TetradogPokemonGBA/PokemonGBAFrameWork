@@ -164,19 +164,44 @@ namespace PokemonGBAFramework.Core
         }
         public void ExportToBMP([NotNull] string fileName, int indexPaleta = 0)
         {
+
+            Stream stream = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            BinaryWriter bw = new BinaryWriter(stream);
+            bool correct = false;
+            try
+            {
+                bw.Write(ToBMP(indexPaleta));
+                correct = true;
+            }
+            finally
+            {
+                bw.Close();
+                stream.Close();
+                if (!correct)
+                    File.Delete(fileName);
+            }
+
+        }
+        public byte[] ToBMP(int indexPaleta = 0)
+        {
+            if (Paletas.Count == 0)
+                throw new Exception("No se ha añadido ninguna paleta!!");
             //source NSE
             if (indexPaleta >= Paletas.Count)
                 indexPaleta = Paletas.Count - 1;
+            else if (indexPaleta < 0)
+                indexPaleta = 0;
+
             //4bb bitmap http://en.wikipedia.org/wiki/BMP_file_format
             //header creation
             byte[] data; //= new byte[54 + 4 * Sprite.Palette.Colors.Length + (32 * (Sprite.Width * Sprite.Height))];
-            Stream stream;
+       
             byte[] ilength;
             byte[] flength;
-            BinaryWriter bw;
+            
             int lado = GetLadoBmp(DatosDescomprimidos.Bytes);
 
-            data = new byte[118 + (4* (lado * lado))];
+            data = new byte[118 + (4* lado * lado)];
 
             //1
             //0xF at offset 0x9 will mean 16 colors (this is not part of the bitmap format)
@@ -185,7 +210,7 @@ namespace PokemonGBAFramework.Core
 
             //2
             data[0x1C] = 4;
-            ilength = BitConverter.GetBytes(4 * (lado * lado));
+            ilength = BitConverter.GetBytes(4 * lado * lado);
 
 
             data[0] = 0x42;
@@ -233,17 +258,7 @@ namespace PokemonGBAFramework.Core
                 }
             }
 
-
-
-
-
-
-            stream = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
-            bw = new BinaryWriter(stream);
-
-            bw.Write(data);
-            bw.Close();
-            stream.Close();
+            return data;
 
         }
 
@@ -253,8 +268,8 @@ namespace PokemonGBAFramework.Core
 
             int r = (Position.Y - (Position.Y % 8)) / 2 * Size.Width;
             r += (Position.X - (Position.X % 8)) * 4;
-            r += (Position.Y % 8) * 4;
-            r += (Position.X % 8) / 2;
+            r += Position.Y % 8 * 4;
+            r += Position.X % 8 / 2;
 
             return r;
         }
