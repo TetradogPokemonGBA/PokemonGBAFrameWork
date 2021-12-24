@@ -7,10 +7,10 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 	public class HeaderSprites
 	{
 
-		public int NumNPC { get; set; }
-		public int NumWarps { get; set; }
-		public int NumTriggers { get; set; }//traps o triggers?
-		public int NumSigns { get; set; }
+		public int NumNPC=>MapNPCManager.Items.Count;
+		public int NumWarps =>MapExitManager.Items.Count;
+		public int NumTriggers=>MapTriggerManager.Items.Count;//traps o triggers?
+		public int NumSigns =>MapSignManager.Items.Count;
 
 		public SpritesNPCManager MapNPCManager { get; set; }
 		public SpritesExitManager MapExitManager { get; set; }
@@ -25,12 +25,17 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 			OffsetRom offsetTraps;
 			OffsetRom offsetSigns;
 
+			int numNPC;
+			int numExits;
+			int numTraps;
+			int numSigns;
+			
 			HeaderSprites headerSprites = new HeaderSprites();
 
-			headerSprites.NumNPC = rom.Data[offsetData++];
-			headerSprites.NumWarps = rom.Data[offsetData++];
-			headerSprites.NumTriggers = rom.Data[offsetData++];
-			headerSprites.NumSigns = rom.Data[offsetData++];
+			numNPC= rom.Data[offsetData++];
+			numExits = rom.Data[offsetData++];
+			numTraps = rom.Data[offsetData++];
+			numSigns = rom.Data[offsetData++];
 
 			offsetNPC = new OffsetRom(rom, offsetData);
 			offsetData += OffsetRom.LENGTH;
@@ -42,20 +47,20 @@ namespace PokemonGBAFramework.Core.Mapa.Elements
 
 			if (!offsetNPC.IsEmpty)
 			{
-				headerSprites.MapNPCManager = new SpritesNPCManager(rom, offsetNPC.Integer, headerSprites.NumNPC);
+				headerSprites.MapNPCManager = new SpritesNPCManager(rom, offsetNPC.Integer, numNPC);
 			}
 
 			if (!offsetExits.IsEmpty)
 			{
-				headerSprites.MapExitManager = new SpritesExitManager(rom, offsetExits.Integer, headerSprites.NumWarps);
+				headerSprites.MapExitManager = new SpritesExitManager(rom, offsetExits.Integer, numExits);
 			}
 			if (!offsetTraps.IsEmpty)
 			{
-				headerSprites.MapTriggerManager = new TriggerManager(rom, offsetTraps.Integer, headerSprites.NumTriggers);
+				headerSprites.MapTriggerManager = new TriggerManager(rom, offsetTraps.Integer, numTraps);
 			}
 			if (!offsetSigns.IsEmpty)
 			{
-				headerSprites.MapSignManager = new SpritesSignManager(rom, offsetSigns.Integer, headerSprites.NumSigns);
+				headerSprites.MapSignManager = new SpritesSignManager(rom, offsetSigns.Integer, numSigns);
 			}
 
 
