@@ -1,0 +1,10 @@
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.deps.json
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.dll
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.pdb
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.csproj.AssemblyReference.cache
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.AssemblyInfoInputs.cache
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.AssemblyInfo.cs
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.csproj.CoreCompileInputs.cache
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.dll
+C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.pdb

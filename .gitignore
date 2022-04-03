@@ -5,3 +5,5 @@
 *.cache
 *.pdb
 *.resources
+PokemonGBAFramework.Core.Test/Pokemon-Resources-Test.rar
+*.testlog

@@ -25,11 +25,11 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			int offsetData;
 			ConnectionData connectionData = new ConnectionData();
 			int offset = offsetMapHeaderConnect;
-			uint numConnections = new DWord(rom, offset);
+			int numConnections = new DWord(rom, offset);
 			offset += DWord.LENGTH;
 			offsetData = new OffsetRom(rom, offset);
 
-			for (uint i = 0; i < numConnections; i++)
+			for (int i = 0; i < numConnections; i++)
 			{
 				connectionData.Connections.Add(Connection.Get(rom, offsetData));
 				offsetData += Connection.LENGTH;

@@ -35,14 +35,18 @@ namespace PokemonGBAFramework.Core
 
         #endregion
         #region Conversiones
-        public static implicit operator uint(DWord word)
+        public static implicit operator int(DWord word)
         {
-            return Serializar.ToUInt(word.Data.InvertirClone());
+            return (int)Serializar.ToUInt((byte[])word.Data.Clone());
         }
-
+ 
         public static implicit operator DWord(uint word)
         {
             return new DWord(word);
+        }
+        public static implicit operator DWord(int word)
+        {
+            return new DWord((uint)word);
         }
         public static explicit operator DWord(Hex word)
         {

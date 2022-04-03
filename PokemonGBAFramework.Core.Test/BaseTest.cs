@@ -1,12 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PokemonGBAFramework.Core.Test.Batalla
 {
     public delegate T GetIndividual<T>(RomGba rom, int pos);
-    public delegate T[] GetAll<T>(RomGba rom);
+    public delegate IEnumerable<T> GetAll<T>(RomGba rom);
 
     [TestClass]
     public abstract class BaseTestIndividual
@@ -78,7 +79,7 @@ namespace PokemonGBAFramework.Core.Test.Batalla
         protected void TestGetTodos<T>(byte[] romData, GetAll<T> metodo)
         {
             RomGba rom = new RomGba(romData);
-            Assert.IsTrue(metodo(rom).Length>0);
+            Assert.IsTrue(metodo(rom).Count()>0);
         }
     }
 }

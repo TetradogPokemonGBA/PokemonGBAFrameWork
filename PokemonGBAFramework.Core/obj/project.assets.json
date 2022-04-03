@@ -196,11 +196,11 @@
   "project": {
     "version": "1.5.4",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gabriel\\Documents\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
+      "projectUniqueName": "C:\\Users\\Gabriel\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
       "projectName": "PokemonGBAFramework",
-      "projectPath": "C:\\Users\\Gabriel\\Documents\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
+      "projectPath": "C:\\Users\\Gabriel\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
       "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gabriel\\Documents\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\obj\\",
+      "outputPath": "C:\\Users\\Gabriel\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -253,7 +253,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
