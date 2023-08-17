@@ -28,6 +28,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
         public static List<List<Map>> GetBankSize(RomGba rom,OffsetRom offsetTabla=default)
         {
+            //source:https://github.com/fancycoconut/PokemonMapEditor
+
             if (Equals(offsetTabla, default))
                 offsetTabla = GetOffset(rom);
 
