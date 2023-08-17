@@ -81,6 +81,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         }
 
 
+        public OffsetRom Offset { get; set; }
+
         public MapData MapData { get; set; }
         public ConnectionData MapConnections { get; set; }
         public HeaderSprites MapSprites { get; set; }
@@ -93,9 +95,14 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public Tiempo Weather { get; set; }
         public TipoMapa Tipo { get; set; }
         public Lucha Fight { get; set; }
-        public byte SinUso2 { get; set; }
+
+        /// <summary>
+        /// Always 0x1
+        /// </summary>
+        public byte UnknownFiller { get; set; }
         public DisplayNameStyle DisplayName { get; set; }
-        public byte SinUso3 { get; set; }
+        public sbyte FloorLevel { get; set; }
+        public Word Filler { get; set; }
 
         public override string ToString()
         {
@@ -114,30 +121,42 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             
             MapHeader mapHeader = new MapHeader();
             int offset = offsetMapHeader;
+            mapHeader.Offset = offsetMapHeader;
 
-            offsetMap = new OffsetRom(rom, offset);
+            offsetMap = new OffsetRom(rom, offset);//layoutData
             offset += OffsetRom.LENGTH;
-            offsetSprites = new OffsetRom(rom, offset);
+            offsetSprites = new OffsetRom(rom, offset);//eventData
             offset += OffsetRom.LENGTH;
-            offsetScript = new OffsetRom(rom, offset);
+            offsetScript = new OffsetRom(rom, offset);//MapScripts
             offset += OffsetRom.LENGTH;
-            offsetConnect = new OffsetRom(rom, offset);
+            offsetConnect = new OffsetRom(rom, offset);//ConnectionData
             offset += OffsetRom.LENGTH;
 
-            mapHeader.Song = new Word(rom,offset);
+            mapHeader.Song = new Word(rom,offset);//MapSong
             offset += Word.LENGTH;
-            mapHeader.Map = new Word(rom,offset);
+            mapHeader.Map = new Word(rom,offset);//MapIndex
             offset += Word.LENGTH;
 
-            labelID = rom.Data[offset++];
+            labelID = rom.Data[offset++];//MapNameIndex
 
-            mapHeader.Flash = (Destello)rom.Data[offset++];
-            mapHeader.Weather = (Tiempo)rom.Data[offset++];
-            mapHeader.Tipo = (TipoMapa)rom.Data[offset++];
+            mapHeader.Flash = (Destello)rom.Data[offset++];//CaveBehavior
+            mapHeader.Weather = (Tiempo)rom.Data[offset++];//Weather
+            mapHeader.Tipo = (TipoMapa)rom.Data[offset++];//MapType
+            if (rom.Edicion.EsKanto)
+            {
+                mapHeader.UnknownFiller = rom.Data[offset++];//allways 0x1
+                mapHeader.DisplayName = (DisplayNameStyle)rom.Data[offset++];
+                mapHeader.FloorLevel =(sbyte) rom.Data[offset++];
+            }
+            else
+            {
+                mapHeader.Filler =new Word(rom,offset);
+                offset += Word.LENGTH;
+                mapHeader.DisplayName = (DisplayNameStyle)rom.Data[offset++];
+         
+            }
             mapHeader.Fight = (Lucha)rom.Data[offset++];
-            mapHeader.SinUso2 = rom.Data[offset++];
-            mapHeader.DisplayName = (DisplayNameStyle)rom.Data[offset++];
-            mapHeader.SinUso3 = rom.Data[offset++];
+           
 
             mapHeader.Nombre = NombreMapa.Get(rom,labelID, offsetNombreMapa );
             if (!offsetMap.IsEmpty)

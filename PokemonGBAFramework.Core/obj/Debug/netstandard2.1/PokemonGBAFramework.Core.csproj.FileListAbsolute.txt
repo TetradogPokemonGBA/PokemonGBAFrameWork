@@ -8,3 +8,13 @@ C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\o
 C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.csproj.CoreCompileInputs.cache
 C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.dll
 C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.pdb
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.csproj.AssemblyReference.cache
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.AssemblyInfoInputs.cache
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.AssemblyInfo.cs
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.csproj.CoreCompileInputs.cache
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.deps.json
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.dll
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.pdb
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.dll
+C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\obj\Debug\netstandard2.1\PokemonGBAFramework.Core.pdb

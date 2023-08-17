@@ -9,14 +9,17 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
     public class MapData
     {
         public MapData() { }
+
+
+        public OffsetRom Offset { get; set;}
         public DWord Width { get; set; }
         public DWord Height { get; set; }
         public BorderTileData BorderTileData { get; set; }
         public MapTileData MapTiles { get; set; }
         public Tileset GlobalTileset { get; set; }
         public Tileset LocalTileset { get; set; }
-        public Word BorderWidth { get; set; }
-        public Word BorderHeight { get; set; }
+        public byte BorderWidth { get; set; }
+        public byte BorderHeight { get; set; }
         public Word SecondarySize { get; set; }
         public Bitmap GetBitmap(Tileset tileset = default)
         {
@@ -33,24 +36,34 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             MapData mapData = new MapData();
             int offsetMap = offsetMapData;
+            mapData.Offset =new OffsetRom(offsetMapData);
 
             mapData.Width = new DWord(rom, offsetMap);
             offsetMap += DWord.LENGTH;
             mapData.Height = new DWord(rom, offsetMap);
             offsetMap += DWord.LENGTH;
             
-            offsetBorderTile = new OffsetRom(rom, offsetMap);
+            offsetBorderTile = new OffsetRom(rom, offsetMap);//border
             offsetMap += OffsetRom.LENGTH;
-            offsetMapTiles = new OffsetRom(rom, offsetMap);
+            offsetMapTiles = new OffsetRom(rom, offsetMap);//mapData
             offsetMap += OffsetRom.LENGTH;
-            offsetGlobalTileset = new OffsetRom(rom, offsetMap);
+            offsetGlobalTileset = new OffsetRom(rom, offsetMap);//majorTileset
             offsetMap += OffsetRom.LENGTH;
-            offsetLocalTileset = new OffsetRom(rom, offsetMap);
+            offsetLocalTileset = new OffsetRom(rom, offsetMap);//minorTileset
             offsetMap += OffsetRom.LENGTH;
-           
-            mapData.BorderWidth = new Word(rom,offsetMap);
-            offsetMap += Word.LENGTH;
-            mapData.BorderHeight = new Word(rom,offsetMap);
+            if (rom.Edicion.EsKanto)
+            {
+                mapData.BorderWidth = rom.Data[offsetMap++];
+             
+                mapData.BorderHeight = rom.Data[offsetMap++];
+
+            }
+            else
+            {
+                mapData.BorderWidth = 0x2;
+                mapData.BorderHeight = 0x2;
+            }
+       
 
             if (!offsetBorderTile.IsEmpty)
             {

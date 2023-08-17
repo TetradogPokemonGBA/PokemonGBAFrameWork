@@ -31,10 +31,14 @@
       "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/Microsoft.CSharp.dll": {}
+          "ref/netstandard2.0/Microsoft.CSharp.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.CSharp.dll": {}
+          "lib/netstandard2.0/Microsoft.CSharp.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.Drawing.Common/4.7.0": {
@@ -191,19 +195,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gabriel\\.nuget\\packages\\": {}
+    "C:\\Users\\gabri\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.5.4",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gabriel\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
+      "projectUniqueName": "C:\\Users\\gabri\\source\\repos\\TetradogPokemonGBA\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
       "projectName": "PokemonGBAFramework",
-      "projectPath": "C:\\Users\\Gabriel\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
-      "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gabriel\\Documents\\GitHub\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\obj\\",
+      "projectPath": "C:\\Users\\gabri\\source\\repos\\TetradogPokemonGBA\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\PokemonGBAFramework.Core.csproj",
+      "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\gabri\\source\\repos\\TetradogPokemonGBA\\PokemonGBAFrameWork\\PokemonGBAFramework.Core\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -211,6 +220,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -244,7 +254,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -253,7 +264,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -7,21 +7,114 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
     public class Bank
     {
+        public class Map
+        {
+            public uint Offset { get; set; }
+            public int? Index { get; set; }
+            public bool IsReserved { get; set; }
+        }
 
         public static byte[] MuestraAlgoritmo = { 0x03, 0x4A, 0x80, 0x0B, 0x80, 0x18, 0x00, 0x68 };
         public static int IndexRelativo = 16 - MuestraAlgoritmo.Length;
 
 
-        //mas adelante comprobar que cada offset sea de un mapa así puedo prescindir de esto
-        static int[] BanksSizeRubi { get; set; } = { 53, 4, 4, 5, 6, 6, 7, 6, 6, 12, 7, 16, 9, 23, 12, 12, 13, 1, 1, 1, 2, 0, 0, 0, 85, 43, 11, 1, 0, 12, 0, 0, 2, 0 };
-        static int[] BanksSizeKanto { get; set; } = { 5, 123, 60, 66, 4, 6, 8, 10, 6, 8, 20, 10, 8, 2, 10, 4, 2, 2, 2, 1, 1, 2, 2, 3, 2, 3, 2, 1, 1, 1, 1, 7, 5, 5, 8, 8, 5, 5, 1, 1, 1, 2, 1 };
-        static int[] BanksSizeEsmeralda { get; set; } = { 57, 5, 5, 6, 7, 8, 9, 7, 7, 14, 8, 17, 10, 23, 13, 15, 15, 2, 2, 2, 3, 1, 1, 1, 108, 61, 89, 2, 1, 13, 1, 1, 2, 1 };
+
 
 
 
 
         public MapHeader[] Maps { get; set; }
-        public static Bank Get(RomGba rom,int bankIndex,TilesetCache tilesetCache=default,OffsetRom offsetTabla=default,OffsetRom offsetTablaNombreMapa=default)
+
+
+        public static List<List<Map>> GetBankSize(RomGba rom,OffsetRom offsetTabla=default)
+        {
+            if (Equals(offsetTabla, default))
+                offsetTabla = GetOffset(rom);
+
+            const uint andOffset=0xFF000000;
+            const uint greaterOffset= 0x8000000;
+            const uint offsetsDistinct1 =0xFFFFFFFF;
+            const uint offsetsDistinct2 = 0xF7F7F7F7;
+            const uint offsetReserved = 0x77777777;
+            const int kantoFixMapIndex=0x58;
+
+
+           List<List<Map>> lstBanksSize = new List<List<Map>>();
+           List<Map> lstSizeAct;
+     
+            uint NextMapBank;
+            bool acabado;
+            int offset;
+            uint CurrentMapBank;
+            int  mapIndex;
+            uint mapOffset;
+            Map mapAct;
+            bool isLastMap=false;
+
+       
+            do
+            {
+
+                offset = offsetTabla + lstBanksSize.Count * OffsetRom.LENGTH;
+                CurrentMapBank = (uint)new OffsetRom(rom, offset).Offset;
+                offset += OffsetRom.LENGTH;
+                try
+                {
+                    NextMapBank = (uint)new OffsetRom(rom, offset).Offset;
+                }
+                catch
+                {
+                    NextMapBank = CurrentMapBank;
+                    isLastMap = true;
+                }
+                acabado = ((CurrentMapBank & andOffset) >= greaterOffset && CurrentMapBank != offsetsDistinct1 && CurrentMapBank != offsetsDistinct2);
+
+                if (!acabado)
+                {
+                    lstSizeAct = new List<Map>();
+                    do
+                    {
+                        offset = (int)CurrentMapBank;
+                        mapOffset = (uint)new OffsetRom(rom, offset).Offset;
+                        acabado = ((CurrentMapBank & andOffset) >= greaterOffset && CurrentMapBank != offsetsDistinct1 && CurrentMapBank != offsetsDistinct2);
+                        if (!acabado)
+                        {
+                            mapAct = new Map
+                            {
+                                Offset = mapOffset,
+                                Index = null,
+                                IsReserved = mapOffset == offsetReserved
+
+                            };
+                            if (!mapAct.IsReserved)
+                            {
+                                mapIndex = rom.Data[(int)mapOffset + 20];
+                                if (rom.Edicion.EsKanto)
+                                {
+                                    mapIndex -= kantoFixMapIndex;
+                                }
+                                mapAct.Index = mapIndex;
+                            }
+                            lstSizeAct.Add(mapAct);
+                            CurrentMapBank += OffsetRom.LENGTH;
+                        }
+                    } while (CurrentMapBank < NextMapBank);
+
+
+
+                    lstBanksSize.Add(lstSizeAct);
+
+                }
+
+            } while (!isLastMap);
+      
+          
+
+
+            return lstBanksSize;
+
+        }
+        public static Bank Get(RomGba rom,int bankIndex,List<List<Map>> lstBaksSize=default,TilesetCache tilesetCache=default,OffsetRom offsetTabla=default,OffsetRom offsetTablaNombreMapa=default)
         {
             if (Equals(offsetTabla, default))
                 offsetTabla = GetOffset(rom);
@@ -32,25 +125,17 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             if (Equals(tilesetCache, default))
                 tilesetCache = new TilesetCache();
 
+            if (Equals(lstBaksSize, default))
+                lstBaksSize = GetBankSize(rom,offsetTabla);
+
             int offset = new OffsetRom(rom, offsetTabla + bankIndex * OffsetRom.LENGTH);
             Bank bank = new Bank();
 
-            int[] banksSize;
+            List<Map> banksSize = lstBaksSize[bankIndex];
 
-            if (rom.Edicion.EsEsmeralda)
-            {
-                banksSize = BanksSizeEsmeralda;
-            }
-            else if (rom.Edicion.EsKanto)
-            {
-                banksSize = BanksSizeKanto;
-            }
-            else
-            {
-                banksSize = BanksSizeRubi;
-            }
 
-            bank.Maps =new MapHeader[banksSize[bankIndex]];
+
+            bank.Maps =new MapHeader[banksSize.Count];
 
             for (int j = 0; j < bank.Maps.Length; j++)
             {
@@ -74,9 +159,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 
             Bank[] banks = new Bank[GetTotal(rom,offsetTablaBank)];
-
+            List<List<Map>> lstBaksSize = GetBankSize(rom,offsetTablaBank);
             for (int i = 0; i < banks.Length; i++)
-                banks[i] = Get(rom, i,tilesetCache, offsetTablaBank,offsetTablaNombreMapa);
+                banks[i] = Get(rom, i,lstBaksSize,tilesetCache, offsetTablaBank,offsetTablaNombreMapa);
 
 
             return banks;
@@ -92,6 +177,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public static int GetZona(RomGba rom)
         {
             return Zona.Search(rom, MuestraAlgoritmo, IndexRelativo);
+    
         }
 
 
