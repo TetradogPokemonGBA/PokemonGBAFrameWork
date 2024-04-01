@@ -27,7 +27,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 tileset = GlobalTileset;
             return MapTiles.GetBitmap(tileset);
         }
-        public static MapData Get(RomGba rom, int offsetMapData,TilesetCache tilesetCache)
+        public static MapData Get(RomGba rom, int offsetMapData,TilesetCache tilesetCache, OffsetRom offsetTilesets =default)
         {
             OffsetRom offsetLocalTileset;
             OffsetRom offsetBorderTile;
@@ -46,6 +46,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offsetBorderTile = new OffsetRom(rom, offsetMap);//border
             offsetMap += OffsetRom.LENGTH;
             offsetMapTiles = new OffsetRom(rom, offsetMap);//mapData
+           
             offsetMap += OffsetRom.LENGTH;
             offsetGlobalTileset = new OffsetRom(rom, offsetMap);//majorTileset
             offsetMap += OffsetRom.LENGTH;
@@ -84,7 +85,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             if (!offsetGlobalTileset.IsEmpty)
             {
-                mapData.GlobalTileset = tilesetCache.Get(rom, offsetGlobalTileset);
+                mapData.GlobalTileset = tilesetCache.Get(rom, offsetGlobalTileset, offsetTilesets);
             }
             else
             {
@@ -93,7 +94,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             if (!offsetLocalTileset.IsEmpty)
             {
-                mapData.LocalTileset = tilesetCache.Get(rom, offsetLocalTileset);
+                mapData.LocalTileset = tilesetCache.Get(rom, offsetLocalTileset, offsetTilesets);
             }
             else
             {

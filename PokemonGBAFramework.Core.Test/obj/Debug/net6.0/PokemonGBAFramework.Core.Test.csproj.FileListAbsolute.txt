@@ -105,3 +105,5 @@ C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core.T
 C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core.Test\obj\Debug\net6.0\PokemonGBAFramework.Core.Test.pdb
 C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core.Test\obj\Debug\net6.0\PokemonGBAFramework.Core.Test.genruntimeconfig.cache
 C:\Users\Gabriel\Documents\GitHub\PokemonGBAFrameWork\PokemonGBAFramework.Core.Test\obj\Debug\net6.0\ref\PokemonGBAFramework.Core.Test.dll
+C:\Users\gabri\Desktop\Framework\PokemonGBAFrameWork\PokemonGBAFramework.Core.Test\obj\Debug\net6.0\PokemonGBAFramework.Core.Test.csproj.AssemblyReference.cache
+C:\Users\gabri\Desktop\Framework\PokemonGBAFrameWork\PokemonGBAFramework.Core.Test\obj\Debug\net6.0\PokemonGBAFramework.Core.Test.csproj.GenerateResource.cache

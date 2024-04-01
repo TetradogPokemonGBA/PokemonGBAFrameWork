@@ -261,7 +261,7 @@ namespace PokemonGBAFramework.Core.StringToScript
                 }
 
             }
-            return scripts.Values.Filtra((o)=>o.Tipo== BloqueOrg.TipoOrg.Script).Select((o)=>o.Script).ToArray();
+            return scripts.Values.Where((o)=>o.Tipo== BloqueOrg.TipoOrg.Script).Select((o)=>o.Script).ToArray();
         }
   
 

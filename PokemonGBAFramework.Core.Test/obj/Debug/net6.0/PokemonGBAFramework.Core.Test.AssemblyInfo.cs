@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PokemonGBAFramework.Core.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b135335c6ddc45974be8176f339fc9494af48978")]
 [assembly: System.Reflection.AssemblyProductAttribute("PokemonGBAFramework.Core.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PokemonGBAFramework.Core.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

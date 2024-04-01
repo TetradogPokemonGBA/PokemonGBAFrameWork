@@ -32,8 +32,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gabriel.Cat.S.Drawing" Version="1.1.3-Preview1" />
-    <PackageReference Include="Gabriel.Cat.S.Utilitats" Version="1.2.6" />
+    <Folder Include="Mapa\PorTrabajar\NEW\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Gabriel.Cat.S.Drawing\Gabriel.Cat.S.Drawing\Gabriel.Cat.S.Drawing.csproj" />
+    <ProjectReference Include="..\..\Gabriel.Cat.S.Utilitats\Gabriel.Cat.S.Utilitats\Gabriel.Cat.S.Utilitats.csproj" />
   </ItemGroup>
 
 </Project>

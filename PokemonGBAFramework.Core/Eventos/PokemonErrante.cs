@@ -449,7 +449,7 @@ namespace PokemonGBAFramework.Core
                 get
                 {
                     bool[] fix = { false, false, false, false, false };
-                    byte bTurnos = fix.AfegirValors(Stats.ToBits().SubArray(0, 3)).ToArray().ToByte();
+                    byte bTurnos = fix.AddArray(Stats.ToBits().SubArray(0, 3)).ToByte();
                     return (Dormido)bTurnos;
 
                 }

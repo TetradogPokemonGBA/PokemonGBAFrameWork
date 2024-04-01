@@ -60,9 +60,9 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 		public Bitmap Get(int x,int y, GranPaleta paleta) => this[x, y].Get(paleta);
 
 
-		public static Tileset Get(RomGba rom,int offsetTilesetHeader)
+		public static Tileset Get(RomGba rom,int offsetTilesetHeader, OffsetRom offsetTilesets= default)
 		{
-			return Get(rom,TilesetHeader.Get(rom, offsetTilesetHeader));
+			return Get(rom,TilesetHeader.Get(rom, offsetTilesetHeader,offsetTilesets));
 		}
 		public static Tileset Get(RomGba rom,TilesetHeader tilesetHeader)
 		{

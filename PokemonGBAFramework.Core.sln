@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonGBAFramework.Core", "PokemonGBAFramework.Core\PokemonGBAFramework.Core.csproj", "{E2182DC7-F73D-4E66-B37E-47816566D4F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonGBAFramework.Core.Test", "PokemonGBAFramework.Core.Test\PokemonGBAFramework.Core.Test.csproj", "{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUI", "TestUI\TestUI.csproj", "{25F31A0A-C4C0-48FA-B714-8C12B187B219}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gabriel.Cat.S.Utilitats", "..\Gabriel.Cat.S.Utilitats\Gabriel.Cat.S.Utilitats\Gabriel.Cat.S.Utilitats.csproj", "{06D7B874-9F36-4F72-9C1C-CFCC8E8F7BC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gabriel.Cat.S.Drawing", "..\Gabriel.Cat.S.Drawing\Gabriel.Cat.S.Drawing\Gabriel.Cat.S.Drawing.csproj", "{E091F7E4-00DB-41AC-A2B4-9335AA904E7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18D9B27-2F1D-43AC-A5B9-A315D2B9641A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25F31A0A-C4C0-48FA-B714-8C12B187B219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25F31A0A-C4C0-48FA-B714-8C12B187B219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25F31A0A-C4C0-48FA-B714-8C12B187B219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25F31A0A-C4C0-48FA-B714-8C12B187B219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06D7B874-9F36-4F72-9C1C-CFCC8E8F7BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06D7B874-9F36-4F72-9C1C-CFCC8E8F7BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06D7B874-9F36-4F72-9C1C-CFCC8E8F7BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06D7B874-9F36-4F72-9C1C-CFCC8E8F7BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E091F7E4-00DB-41AC-A2B4-9335AA904E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E091F7E4-00DB-41AC-A2B4-9335AA904E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E091F7E4-00DB-41AC-A2B4-9335AA904E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E091F7E4-00DB-41AC-A2B4-9335AA904E7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

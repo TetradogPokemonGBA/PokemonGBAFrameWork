@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Es una versión del framework de pokemon que busca las zonas a partir de partes de" +
     "l algoritmo que son unicas y estan en todas las roms de la misma edición.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.5.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.5.4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.5.4+b135335c6ddc45974be8176f339fc9494af48978")]
 [assembly: System.Reflection.AssemblyProductAttribute("PokemonGBAFramework")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PokemonGBAFramework.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.5.4.0")]

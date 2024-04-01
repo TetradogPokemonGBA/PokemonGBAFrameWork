@@ -116,7 +116,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             return lstBanksSize;
 
         }
-        public static Bank Get(RomGba rom,int bankIndex,List<List<Map>> lstBaksSize=default,TilesetCache tilesetCache=default,OffsetRom offsetTabla=default,OffsetRom offsetTablaNombreMapa=default)
+        public static Bank Get(RomGba rom,int bankIndex,List<List<Map>> lstBaksSize=default,TilesetCache tilesetCache=default,OffsetRom offsetTabla=default,OffsetRom offsetTablaNombreMapa=default,OffsetRom offsetTilesets=default)
         {
             if (Equals(offsetTabla, default))
                 offsetTabla = GetOffset(rom);
@@ -129,6 +129,10 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             if (Equals(lstBaksSize, default))
                 lstBaksSize = GetBankSize(rom,offsetTabla);
+            if(Equals(offsetTilesets, default))
+            {
+                offsetTilesets=TilesetHeader.GetOffset(rom);
+            }
 
             int offset = new OffsetRom(rom, offsetTabla + bankIndex * OffsetRom.LENGTH);
             Bank bank = new Bank();
@@ -141,7 +145,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             for (int j = 0; j < bank.Maps.Length; j++)
             {
-                bank.Maps[j] = MapHeader.Get(rom, tilesetCache, new OffsetRom(rom, offset), offsetTablaNombreMapa);
+                bank.Maps[j] = MapHeader.Get(rom, tilesetCache, new OffsetRom(rom, offset), offsetTablaNombreMapa, offsetTilesets);
 
                 offset += OffsetRom.LENGTH;
             }
@@ -149,7 +153,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
             return bank;
         }
-        public static Bank[] Get(RomGba rom,TilesetCache tilesetCache=default,OffsetRom offsetTablaBank=default, OffsetRom offsetTablaNombreMapa = default)
+        public static Bank[] Get(RomGba rom,TilesetCache tilesetCache=default,OffsetRom offsetTablaBank=default, OffsetRom offsetTablaNombreMapa = default, OffsetRom offsetTilesets = default)
         {
             if(Equals(offsetTablaBank,default))
                offsetTablaBank = GetOffset(rom);
@@ -159,11 +163,14 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             if (Equals(tilesetCache, default))
                 tilesetCache = new TilesetCache();
 
+            if(Equals(offsetTilesets,default))
+                offsetTilesets=TilesetHeader.GetOffset(rom);
+
 
             Bank[] banks = new Bank[GetTotal(rom,offsetTablaBank)];
             List<List<Map>> lstBaksSize = GetBankSize(rom,offsetTablaBank);
             for (int i = 0; i < banks.Length; i++)
-                banks[i] = Get(rom, i,lstBaksSize,tilesetCache, offsetTablaBank,offsetTablaNombreMapa);
+                banks[i] = Get(rom, i,lstBaksSize,tilesetCache, offsetTablaBank,offsetTablaNombreMapa,offsetTilesets);
 
 
             return banks;

@@ -11,7 +11,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
 	public class MapTileData
 	{
-
+		public OffsetRom Offset { get; set; }
 		private MapTile[,] MapTiles { get; set; }
 
 		private byte[] DataToLoad { get; set; }
@@ -124,6 +124,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 
 			MapTileData mapTileData = new MapTileData();
 			mapTileData.MapTiles = new MapTile[mData.Width,mData.Height];
+			mapTileData.Offset =new OffsetRom( offsetMapTiles);
 
 			if (!Equals(offsetMapTiles, default))
 			{

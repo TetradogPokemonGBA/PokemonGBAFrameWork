@@ -10,15 +10,16 @@
     <projectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</projectUrl>
     <description>Es una versión del framework de pokemon que busca las zonas a partir de partes del algoritmo que son unicas y estan en todas las roms de la misma edición.</description>
     <copyright>GNUV3 no comercial</copyright>
+    <repository type="git" commit="b135335c6ddc45974be8176f339fc9494af48978" />
     <dependencies>
       <group targetFramework=".NETStandard2.1">
         <dependency id="Gabriel.Cat.S.Drawing" version="1.1.3-Preview1" exclude="Build,Analyzers" />
-        <dependency id="Gabriel.Cat.S.Utilitats" version="1.2.6" exclude="Build,Analyzers" />
+        <dependency id="Gabriel.Cat.S.Utilitats" version="1.2.7" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.dll" target="lib\netstandard2.1\PokemonGBAFramework.Core.dll" />
-    <file src="C:\Users\gabri\source\repos\TetradogPokemonGBA\PokemonGBAFrameWork\LICENSE.txt" target="LICENSE.txt" />
+    <file src="C:\Users\gabri\Desktop\Framework\PokemonGBAFrameWork\PokemonGBAFramework.Core\bin\Debug\netstandard2.1\PokemonGBAFramework.Core.dll" target="lib\netstandard2.1\PokemonGBAFramework.Core.dll" />
+    <file src="C:\Users\gabri\Desktop\Framework\PokemonGBAFrameWork\LICENSE.txt" target="LICENSE.txt" />
   </files>
 </package>

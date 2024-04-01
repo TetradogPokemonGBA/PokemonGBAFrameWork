@@ -829,12 +829,12 @@ namespace PokemonGBAFramework.Core
                 return total+aSumar;//le sumo el End/Return
             }
         }
-        public IEnumerable<Script> GetScripts() => Comandos.Filtra((c) => c is IScript).Select((c) => (c as IScript).Script);
-        public IEnumerable<BloqueString> GetStrings() => Comandos.Filtra((c) => c is IString).Select((c) => (c as IString).Texto);
-        public IEnumerable<BloqueMovimiento> GetMovimientos() => Comandos.Filtra((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
-        public IEnumerable<BloqueBraille> GetBrailles() => Comandos.Filtra((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
-        public IEnumerable<BloqueTienda> GetTiendas() => Comandos.Filtra((c) => c is ITienda).Select((c) => (c as ITienda).ListaObjetos);
-        public IEnumerable<Trainerbattle> GetTrainerBattles() => Comandos.Filtra((c) => c is Trainerbattle).Select((c) => (c as Trainerbattle));
+        public IEnumerable<Script> GetScripts() => Comandos.Where((c) => c is IScript).Select((c) => (c as IScript).Script);
+        public IEnumerable<BloqueString> GetStrings() => Comandos.Where((c) => c is IString).Select((c) => (c as IString).Texto);
+        public IEnumerable<BloqueMovimiento> GetMovimientos() => Comandos.Where((c) => c is IMovement).Select((c) => (c as IMovement).Movimiento);
+        public IEnumerable<BloqueBraille> GetBrailles() => Comandos.Where((c) => c is IBraille).Select((c) => (c as IBraille).BrailleData);
+        public IEnumerable<BloqueTienda> GetTiendas() => Comandos.Where((c) => c is ITienda).Select((c) => (c as ITienda).ListaObjetos);
+        public IEnumerable<Trainerbattle> GetTrainerBattles() => Comandos.Where((c) => c is Trainerbattle).Select((c) => (c as Trainerbattle));
 
         #region Interficies
         #region ILastResult implementation

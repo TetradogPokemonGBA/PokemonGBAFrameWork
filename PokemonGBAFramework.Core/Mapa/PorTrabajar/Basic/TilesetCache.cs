@@ -18,7 +18,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             return cache.ContainsKey(offset);
         }
 
-        public Tileset Get(RomGba rom, int offset)
+        public Tileset Get(RomGba rom, int offset,OffsetRom offsetTilesets = default)
         {
             Tileset tile;
             if (Contains(offset))
@@ -33,7 +33,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             }
             else
             {
-                tile = Tileset.Get(rom, offset);
+                tile = Tileset.Get(rom, offset, offsetTilesets);
                 cache.Add(offset, tile);
             }
             return tile;

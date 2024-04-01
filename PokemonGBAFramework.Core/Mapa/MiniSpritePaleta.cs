@@ -2,6 +2,7 @@
 using Gabriel.Cat.S.Utilitats;
 
 using Gabriel.Cat.S.Extension;
+using System.Linq;
 
 
 namespace PokemonGBAFramework.Core
@@ -26,7 +27,7 @@ namespace PokemonGBAFramework.Core
 		{
 			get
 			{
-				return PaletasMinis.Filtra((p) => p.SortID == idPaleta)[0];
+				return PaletasMinis.Where((p) => p.SortID == idPaleta).First();
 			}
 		}
 

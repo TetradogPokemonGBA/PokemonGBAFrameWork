@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gabriel.Cat.S.Extension;
+using Gabriel.Cat.S.Utilitats;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +8,21 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
     public class TilesetHeader
     {
+
+        static readonly byte[] ParteAlgoritmoCommon =  {
+                            0x00, 0x3C, 0x00, 0x00, 0xF0, 0x01, 0xF0, 0x01, 0xF0,
+                            0x01, 0x50, 0x01, 0xDD
+        };
+
+        static readonly byte[] PrincipioKanto = { 0x10, 0x00, 0x50 };
+        static readonly byte[] PrincipioHoenn = { 0x10, 0x00, 0x40 };
+
+        static readonly byte[] MuestraAlgoritmoHoenn = PrincipioHoenn.AddArray(ParteAlgoritmoCommon);
+        static readonly byte[] MuestraAlgoritmoKanto = PrincipioKanto.AddArray(ParteAlgoritmoCommon);
+
+
+        const int IndexRelativo = -4;
+
         const int MainHeightRubiYZafiro = 0x100;
         const int LocalHeightRubiYZafiro = 0x100;
         const int MainHeightGeneral = 0x140;
@@ -39,10 +56,16 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public OffsetRom PBehavior { get; set; }
         public OffsetRom PAnimation { get; set; }
 
-        public static TilesetHeader Get(RomGba rom, int offsetTilesetHeader)
+        //por mirar
+        public int Number {  get; set; }
+
+        public static TilesetHeader Get(RomGba rom, int offsetTilesetHeader, OffsetRom offsetTilesets=default)
         {
+          
             int offset = offsetTilesetHeader;
             TilesetHeader tilesetHeader = new TilesetHeader();
+
+
             tilesetHeader.IsCompressed = rom.Data[offset++]==IsCompressedByte;
             tilesetHeader.IsPrimary = (rom.Data[offset++] == IsPrimaryByte);
             tilesetHeader.B2 = rom.Data[offset++];
@@ -67,6 +90,21 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 offset += OffsetRom.LENGTH;
                 tilesetHeader.PAnimation = new OffsetRom(rom, offset);
             }
+            if (Equals(offsetTilesets,default))
+            {
+                offsetTilesets = GetOffset(rom);
+            }
+
+            if (rom.Edicion.EsEsmeralda)
+            {
+                tilesetHeader.Number= (offset - offsetTilesets + 8) / 0x18;
+                tilesetHeader.Number--;
+            }
+            else
+            {
+                tilesetHeader.Number = (offset - offsetTilesets) / 0x18;
+            }
+            
 
             if (tilesetHeader.OffsetImagen.IsEmpty)
                 tilesetHeader.OffsetImagen = default;
@@ -84,6 +122,42 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
                 tilesetHeader.PBehavior = default;
 
             return tilesetHeader;
+        }
+
+
+
+        public static OffsetRom GetOffset(RomGba rom)
+        {
+            OffsetRom offset,offset2;
+            int position;
+            byte[] muestraAlgoritmo = rom.Edicion.EsHoenn ? MuestraAlgoritmoHoenn : MuestraAlgoritmoKanto;
+
+            //funciona en ruby USA 1.2 pero no en esmeralda usa
+            position = rom.Data.SearchArray(muestraAlgoritmo);
+            if (position < 0)
+            {
+                throw new RomNoValidaException();
+            }
+
+            offset =new OffsetRom(position);
+            position = rom.Data.SearchArray(offset.BytesPointer);
+            if (position < 0)
+            {
+                /* System.Diagnostics.Debugger.Break();
+                 for(int i = 0;i<4;i++)
+                 Console.WriteLine(((Hex)rom.Data[4074852+i]).ToString());
+                */
+                OffsetRom of =new OffsetRom( BloqueBytes.GetBytes(rom.Data, 4074852, 4).Bytes);
+                int p=offset.BytesPointer.SearchArray(of.BytesPointer);
+                position = 4074852;
+            }
+            offset2 =new OffsetRom(position + IndexRelativo);
+          
+
+            
+
+
+            return offset2;
         }
 
         public static int GetLocalHeight(RomGba rom)

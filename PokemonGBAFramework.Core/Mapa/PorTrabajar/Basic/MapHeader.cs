@@ -108,7 +108,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         {
             return Nombre.ToString();
         }
-        public static MapHeader Get(RomGba rom,TilesetCache tilesetCache, OffsetRom offsetMapHeader,OffsetRom offsetNombreMapa=default)
+        public static MapHeader Get(RomGba rom,TilesetCache tilesetCache, OffsetRom offsetMapHeader,OffsetRom offsetNombreMapa=default,OffsetRom offsetTilesets=default)
         {
 
 
@@ -161,7 +161,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             mapHeader.Nombre = NombreMapa.Get(rom,labelID, offsetNombreMapa );
             if (!offsetMap.IsEmpty)
             {
-                mapHeader.MapData = MapData.Get(rom, offsetMap,tilesetCache);
+                mapHeader.MapData = MapData.Get(rom, offsetMap,tilesetCache,offsetTilesets);
             }
             if (!offsetSprites.IsEmpty)
             {
