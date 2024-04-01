@@ -143,13 +143,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             position = rom.Data.SearchArray(offset.BytesPointer);
             if (position < 0)
             {
-                /* System.Diagnostics.Debugger.Break();
-                 for(int i = 0;i<4;i++)
-                 Console.WriteLine(((Hex)rom.Data[4074852+i]).ToString());
-                */
-                OffsetRom of =new OffsetRom( BloqueBytes.GetBytes(rom.Data, 4074852, 4).Bytes);
-                int p=offset.BytesPointer.SearchArray(of.BytesPointer);
-                position = 4074852;
+                position = 4074852;//solo pasa en Esmeralda ESP...en los otros idiomas si encuentra el BytesPointer...pero en ESP aunque existen no los encuentra...
             }
             offset2 =new OffsetRom(position + IndexRelativo);
           
