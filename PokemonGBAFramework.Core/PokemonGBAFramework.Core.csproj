@@ -13,6 +13,7 @@
     <Product>PokemonGBAFramework</Product>
     <PackageProjectUrl>https://github.com/TetradogPokemonGBA/PokemonGBAFrameWork</PackageProjectUrl>
     <Copyright>GNUV3 no comercial</Copyright>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

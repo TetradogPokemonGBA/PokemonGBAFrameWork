@@ -54,7 +54,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                 blockNum -= mainTsBlcks;
             }
 
-            blockPointer = (int)((isSecondaryBlock ? LocalTileset.TilesetHeader.PBlocks : GlobalTileset.TilesetHeader.PBlocks) + (blockNum * 16));
+            blockPointer = (int)((isSecondaryBlock ? LocalTileset.TilesetHeader.OffsetBlockData : GlobalTileset.TilesetHeader.OffsetBlockData) + (blockNum * 16));
             block = new Bitmap(16, 16);
             collage = new Collage();
              type = TripleType.NONE;
@@ -85,7 +85,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                         tripNum -= mainTsBlcks;
                     }
 
-                    blockPointer = (int)((second ? LocalTileset.TilesetHeader.PBlocks : GlobalTileset.TilesetHeader.PBlocks) + (tripNum * 16)) + 8;
+                    blockPointer = (int)((second ? LocalTileset.TilesetHeader.OffsetBlockData : GlobalTileset.TilesetHeader.OffsetBlockData) + (tripNum * 16)) + 8;
                     blockPointer -= i;
                 }
                  orig = new Word(rom,blockPointer + i);
@@ -103,16 +103,16 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                     //{
 
                     //}
-                   collage.Add(new Bitmap(Tile.LADO, Tile.LADO).SetColor(GlobalTileset.Paletas[palette][0]),x * Tile.LADO, y * Tile.LADO);
+                   collage.Add(new Bitmap(Tile.LADO, Tile.LADO).SetColor(GlobalTileset.Paleta[0]),x * Tile.LADO, y * Tile.LADO);
                 }
 
                 if (tileNum < mainTSSize)
                 {
-                   collage.Add(GlobalTileset.Get(tileNum,palette).Flip(xFlip, yFlip), x * Tile.LADO, y * Tile.LADO);
+                //   collage.Add(GlobalTileset.Get(tileNum).Flip(xFlip, yFlip), x * Tile.LADO, y * Tile.LADO);
                 }
                 else
                 {
-                    collage.Add(LocalTileset.Get(tileNum - mainTSSize,palette).Flip(xFlip, yFlip), x * Tile.LADO, y * Tile.LADO);
+               //     collage.Add(LocalTileset.Get(tileNum - mainTSSize).Flip(xFlip, yFlip), x * Tile.LADO, y * Tile.LADO);
                 }
                 x++;
                 if (x > 1)
@@ -154,7 +154,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic.Render
                 blockNum -= mainTsBlocks;
             }
 
-             blockPointer = (int)((isSecondaryBlock ? LocalTileset.TilesetHeader.PBlocks : GlobalTileset.TilesetHeader.PBlocks) + (blockNum * 16));
+             blockPointer = (int)((isSecondaryBlock ? LocalTileset.TilesetHeader.OffsetBlockData : GlobalTileset.TilesetHeader.OffsetBlockData) + (blockNum * 16));
     
           
             bloqueRenderizado = Block.Get(rom,renderer,realBlockNum);

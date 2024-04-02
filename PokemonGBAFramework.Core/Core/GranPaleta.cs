@@ -23,17 +23,9 @@ namespace PokemonGBAFramework.Core
         {
             return new GranPaleta(GetColors(datosDescomprimidos, LENGTH, offset));
         }
-        public static GranPaleta[] Get(RomGba rom, int offsetTablaPaletas,int total)
+        public static GranPaleta Get(RomGba rom, OffsetRom offsetTablaPaleta)
         {
-            int offset = offsetTablaPaletas;
-            GranPaleta[] paletas = new GranPaleta[total];
-
-            for (int x = 0; x < total; x++)
-            {
-                paletas[x] = GranPaleta.Get(rom.Data.SubArray(new OffsetRom(rom, offset).Integer, GranPaleta.LENGTH*BasePaleta.LENGTHCOLOR));
-                offset += OffsetRom.LENGTH;
-            }
-            return paletas;
+            return Get(rom.Data.SubArray(offsetTablaPaleta, LENGTH * LENGTHCOLOR)); 
         }
         public static GranPaleta[] GetClone(params GranPaleta[] paletasOriginales)
         {

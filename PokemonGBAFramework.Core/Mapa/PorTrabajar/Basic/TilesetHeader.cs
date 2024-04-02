@@ -52,7 +52,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
         public byte B3 { get; set; }
         public OffsetRom OffsetImagen { get; set; }
         public OffsetRom OffsetPaletas { get; set; }
-        public OffsetRom PBlocks { get; set; }
+        public OffsetRom OffsetBlockData { get; set; }
         public OffsetRom PBehavior { get; set; }
         public OffsetRom PAnimation { get; set; }
 
@@ -75,7 +75,7 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             offset += OffsetRom.LENGTH;
             tilesetHeader.OffsetPaletas = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
-            tilesetHeader.PBlocks = new OffsetRom(rom, offset);
+            tilesetHeader.OffsetBlockData = new OffsetRom(rom, offset);
             offset += OffsetRom.LENGTH;
 
             if (!rom.Edicion.EsRubiOZafiro)//mirar si falla leyendo Esmeralda
@@ -115,8 +115,8 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
             if (tilesetHeader.PAnimation.IsEmpty)
                 tilesetHeader.PAnimation = default;
 
-            if (tilesetHeader.PBlocks.IsEmpty)
-                tilesetHeader.PBlocks = default;
+            if (tilesetHeader.OffsetBlockData.IsEmpty)
+                tilesetHeader.OffsetBlockData = default;
 
             if (tilesetHeader.PBehavior.IsEmpty)
                 tilesetHeader.PBehavior = default;

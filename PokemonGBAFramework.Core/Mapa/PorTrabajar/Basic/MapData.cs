@@ -8,19 +8,33 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 {
     public class MapData
     {
+        const int ToPx = 16;
         public MapData() { }
 
 
         public OffsetRom Offset { get; set;}
+        public int WidthPx => Width * ToPx;
         public DWord Width { get; set; }
+        public int HeightPx => Height * ToPx;
         public DWord Height { get; set; }
         public BorderTileData BorderTileData { get; set; }
         public MapTileData MapTiles { get; set; }
         public Tileset GlobalTileset { get; set; }
         public Tileset LocalTileset { get; set; }
+        public int BorderWidthPx => BorderWidth * ToPx;
         public byte BorderWidth { get; set; }
+        public int BorderHeightPx=>BorderHeight * ToPx;
         public byte BorderHeight { get; set; }
         public Word SecondarySize { get; set; }
+
+        public Bitmap GetMapEmpty()
+        {
+            return new Bitmap(WidthPx,HeightPx);
+        }
+        public Bitmap GetBorderEmpty()
+        {
+            return new Bitmap(BorderWidthPx,BorderHeightPx);
+        }
         public Bitmap GetBitmap(Tileset tileset = default)
         {
             if (Equals(tileset, default))

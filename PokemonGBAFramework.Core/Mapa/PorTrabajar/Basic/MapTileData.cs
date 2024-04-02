@@ -50,13 +50,15 @@ namespace PokemonGBAFramework.Core.Mapa.Basic
 			EndLoad();
 
 			if (Equals(paleta, default))
-				paleta = tileset.Paletas.FirstOrDefault();
+				paleta = tileset.Paleta;
 			if (Equals(paleta, default))
 				throw new ArgumentNullException(nameof(paleta));
 
 			for (int y = 0, xF = Columnas, yF = Filas; y < yF; y++)
 				for (int x = 0; x < xF; x++)
-					collage.Add(tileset.Get(Get(x,y).ID).Get(paleta), x*Tile.LADO, y * Tile.LADO);
+				{
+					//collage.Add(tileset.Get(Get(x,y).ID).Get(paleta), x*Tile.LADO, y * Tile.LADO
+				}
 
 			return collage;
 

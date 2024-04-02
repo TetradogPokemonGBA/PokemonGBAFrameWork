@@ -39,6 +39,19 @@ namespace PokemonGBAFramework.Core
                                 (byte)((((byte)(color.B / 8)) << 2) + ((byte)(color.G / 8) >> 3))
                                };
         }
+        public static ushort ToUshort(Color color)
+        {
+            return Serializar.ToUShort(GetBytes(color));
+        }
+        public static Color ToColor(ushort color)
+        {
+   
+            byte r = (byte)((color & 31) << 3);
+            byte g = (byte)(((color >> 5) & 31) << 3);
+            byte b = (byte)(((color >> 10) & 31) << 3);
+
+            return Color.FromArgb(r, g, b);
+        }
         public static byte[] GetBytes(Color[] colores)
         {
 
@@ -57,12 +70,7 @@ namespace PokemonGBAFramework.Core
         public static Color GetColor(byte[] data, int offset = 0)
         {
             ushort tempValue = Serializar.ToUShort(data.SubArray(offset, LENGTHCOLOR));
-
-            byte r = (byte)((tempValue & 0x1f) << 3);
-            byte g = (byte)(((tempValue >> 5) & 0x1f) << 3);
-            byte b = (byte)(((tempValue >> 10) & 0x1f) << 3);
-
-            return Color.FromArgb(0xFF, r, g, b);
+            return ToColor(tempValue);
         }
         public static Color[] GetColors(byte[] data, int offset = 0) => GetColors(data, (data.Length - offset) / LENGTHCOLOR, offset);
         public static Color[] GetColors(byte[] data, int numColors, int offset = 0)
